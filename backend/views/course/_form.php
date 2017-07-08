@@ -14,17 +14,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'course_name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'category_name')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'teacher_id')->textInput() ?>
+
+    <?= $form->field($model, 'head_teacher')->textInput() ?>
+
     <?= $form->field($model, 'list_pic')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'home_pic')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'teacher_id')->textInput() ?>
-
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'discount')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'category_name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'des')->textarea(['rows' => 6]) ?>
 
@@ -39,8 +41,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'onuse')->textInput() ?>
 
     <?= $form->field($model, 'create_time')->textInput() ?>
-
-    <?= $form->field($model, 'head_teacher')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
