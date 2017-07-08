@@ -1,24 +1,198 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+a, a:focus, a:hover {
+    text-decoration: none;
+}
 html,
 body {
     height: 100%;
+}
+p {
+    margin: 0;
+    padding: 0;
+}
+.icon {
+    font-size: 20px;
+}
+a.btn-default {
+    display: inline-block;
+    color: #666;
+    background: #e4e7ea;
+    padding: 6px 15px;
+    border: 1px solid #ddd;
 }
 
 .wrap {
     min-height: 100%;
     height: auto;
     margin: 0 auto -60px;
-    padding: 0 0 60px;
+    padding: 0 0 50px;
+}
+.wrap .left-logo {
+    display: block;
+    width: 22%;
+    height: 50px;
+    background-color: #008d4c;
+    color: #fff;
+    border-bottom: 0 solid transparent;
+    text-align: center;
+    float: left;
+}
+.wrap .left-logo .logo-more {
+    font-size: 20px;
+    line-height: 50px;
+    text-align: center;
+}
+.wrap .header-menu {
+    width: 78%;
+    margin-left: 22%;
+    height: 50px;
+    background: #00a65a;
+}
+.wrap .header-menu a {
+    color: #fff;
+}
+.wrap .menu-icon {
+    float: left;
+    padding: 0 20px;
+}
+.wrap .menu-icon:hover,
+.wrap .account-con li:hover,
+.wrap .account.active {
+    background: #008d4c;
+}
+.wrap .menu-icon .ion-navicon:before {
+    font-size: 25px;
+    line-height: 50px;
+}
+.wrap .account-con {
+    float: right;
+    margin: 0;
+}
+.wrap .account-con li {
+    display: inline-block;
+    width: auto;
+    float: right;
+    height: 50px;
+}
+.wrap .account-con li.notice-con a {
+    padding: 0 10px;
+    line-height: 50px;
+}
+.wrap .account {
+    position: relative;
+}
+.wrap .account .user-info {
+    padding: 0 20px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.wrap .account .user-img {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 7px;
+}
+.wrap .account .user-name {
+    line-height: 50px;
+}
+.wrap .account .account-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    width: 280px;
+    margin-top: 1px;
+    box-shadow: 0 2px 10px #ccc;
+}
+.wrap .account .user-header {
+    height: 200px;
+    background: #00a65a;
+    text-align: center;
+    color: #fff;
+}
+.wrap .account .user-header img {
+    border-radius: 50%;
+    width: 100px;
+    margin-top: 20px;
+    border: 4px solid rgba(255,255,255,0.2);
+}
+.wrap .account .user-manage {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 17px;
+}
+.wrap .btn-wrapper {
+    height: 60px;
+    background: #f9f9f9;
+}
+.wrap a.btn-modify {
+    margin: 13px 0 0 10px;
+    float: left;
+    color: #666;
+}
+.wrap a.btn-logout {
+    float: right;
+    margin: 13px 10px 0 0;
+    color: #666;
+}
+.treeview .list-group-item {
+    background: #222d32;
+    border: 0;
+    color: #b8c7ce;
+    border-radius: 0;
+}
+.treeview .list-group-item.node-tree:hover {
+    background: #1e282c;
+    color: #fff;
+}
+.list-group {
+    width: 22%;
+    float: left;
+    border: 0;
+    padding-bottom: 60px;
+    background: #222d32;
+    margin-bottom: 0;
+}
+.list-group .icon {
+    font-size: 17px;
+    margin-right: 5px;
+}
+.list-group .ion-home {
+    font-size: 20px;
+    margin-right: 10px;
+}
+.list-group li:first-child .glyphicon {
+    display: none;
 }
 
+.container {
+    width: 78% !important;
+}
 .wrap > .container {
-    padding: 70px 15px 20px;
+    padding: 0;
+    margin-left: 22%;
+    background-color: #ecf0f5;
+}
+.wrap > .container:after {
+    display: none;
 }
 
 .footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
+    background: #fff;
+    padding: 15px;
+    color: #444;
+    border-top: 1px solid #d2d6de;
+    height: 50px;
+    width: 78%;
+    float: left;
+    margin-left: 22%;
 }
 
 .jumbotron {
