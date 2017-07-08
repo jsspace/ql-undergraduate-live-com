@@ -12,22 +12,29 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-        'user' => [
-                'class' => 'dektrium\user\Module',
-                'enableConfirmation' => false,//注册时不进行邮箱认证
-                'emailChangeStrategy' => 'STRATEGY_INSECURE',//当用户的邮箱改变时，不进行认证
-                'admins' => ['admin'],//有权限操作用户
-            ],
+        // 'user' => [
+        //     'class' => 'dektrium\user\Module',
+        //     'enableConfirmation' => false,//注册时不进行邮箱认证
+        //     'emailChangeStrategy' => 'STRATEGY_INSECURE',//当用户的邮箱改变时，不进行认证
+        //     'admins' => ['admin'],//有权限操作用户
+        // ],
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+             'layout' => 'left-menu',//yii2-admin的导航菜单
+        ]
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // 使用数据库管理配置文件
+        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
-        // 'user' => [
-        //     'identityClass' => 'common\models\User',
-        //     'enableAutoLogin' => true,
-        //     'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-        // ],
+        'user' => [
+            'identityClass' => 'common\models\User',
+            'enableAutoLogin' => true,
+            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+        ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
@@ -52,6 +59,17 @@ return [
             ],
         ],
         */
+    ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'site/*',//允许访问的节点，可自行添加
+            'admin/*',//允许所有人访问admin节点及其子节点
+            'gii/*',
+            'course/*',
+            'debug/*',
+            'user/*',
+        ]
     ],
     'params' => $params,
 ];

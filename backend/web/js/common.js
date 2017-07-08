@@ -81,22 +81,12 @@ var commonFunc = {
               },
               nodes: [
                   {
-                      text: "网课管理"
+                      text: "课程管理",
+                      href: "/course/index"
                   },
                   {
-                      text: "网课分类管理"
-                  },
-                  {
-                      text: "直播课管理"
-                  },
-                  {
-                      text: "直播课分类管理"
-                  },
-                  {
-                      text: "面授课管理"
-                  },
-                  {
-                      text: "面授课分类管理"
+                      text: "课程分类管理",
+                      href: "/course-category/index"
                   },
                   {
                       text: "教师答疑"

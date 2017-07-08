@@ -31,6 +31,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'm' => 
+        array (
+            'mdm\\admin\\' => 10,
+        ),
         'd' => 
         array (
             'dektrium\\user\\' => 14,
@@ -123,6 +127,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'mdm\\admin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mdmsoft/yii2-admin',
         ),
         'dektrium\\user\\' => 
         array (
