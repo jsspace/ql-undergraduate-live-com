@@ -13,15 +13,35 @@ return [
     'bootstrap' => ['log'],
     'modules' => [
         'user' => [
-                'class' => 'dektrium\user\Module',
-                'enableConfirmation' => false,//注册时不进行邮箱认证
-                'emailChangeStrategy' => 'STRATEGY_INSECURE',//当用户的邮箱改变时，不进行认证
-                'admins' => ['admin'],//有权限操作用户
+            'class' => 'dektrium\user\Module',
+            'enableConfirmation' => false,//注册时不进行邮箱认证
+            'emailChangeStrategy' => 'STRATEGY_INSECURE',//当用户的邮箱改变时，不进行认证
+            'admins' => ['admin'],//有权限操作用户
+        ],
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu', // avaliable value 'left-menu', 'right-menu' and 'top-menu'
+            'controllerMap' => [
+                 'assignment' => [
+                    'class' => 'mdm\admin\controllers\AssignmentController',
+                    'userClassName' => 'app\models\User',
+                    'idField' => 'user_id'
+                ]
             ],
+            'menus' => [
+                'assignment' => [
+                    'label' => 'Grand Access' // change label
+                ],
+                'route' => null, // disable menu
+            ],
+        ]
     ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // 使用数据库管理配置文件
         ],
         // 'user' => [
         //     'identityClass' => 'common\models\User',
@@ -52,6 +72,12 @@ return [
             ],
         ],
         */
+    ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'admin/*', // add or remove allowed actions to this list
+        ]
     ],
     'params' => $params,
 ];
