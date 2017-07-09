@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = '查看课程';
 ?>
-<div class="course-view">
+<div class="section course-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?= DetailView::widget([

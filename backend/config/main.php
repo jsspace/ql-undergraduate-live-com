@@ -69,6 +69,7 @@ return [
             'course/*',
             'debug/*',
             'user/*',
+            'course-category/*'
         ]
     ],
     'params' => $params,

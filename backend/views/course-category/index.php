@@ -10,13 +10,13 @@ use yii\widgets\Pjax;
 $this->title = Yii::t('app', 'Course Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="course-category-index">
+<div class="section course-category-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Course Category'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Course Category'), ['create'], ['class' => 'btn btn-default create-class']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,

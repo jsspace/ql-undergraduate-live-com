@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('app', '编辑课程');
 ?>
-<div class="course-update">
+<div class="section course-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

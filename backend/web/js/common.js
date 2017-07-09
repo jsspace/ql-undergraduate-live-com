@@ -3,11 +3,6 @@ var commonFunc = {
         var self = this;
         self.menuAnimate();
         self.getMenuTree();
-        self.eleHeight();
-    },
-    eleHeight: function() {
-        var leftHeight = $(".side-nav ul").height();
-        $(".wrap .container").height(leftHeight + 60 - 50);
     },
     menuAnimate: function() {
         $(".wrap .account .user-info").on("click", function() {
@@ -29,6 +24,7 @@ var commonFunc = {
         });
     },
     getMenuTree: function() {
+        var self = this;
         var tree = [
           {
               text: "控制台",
@@ -82,11 +78,11 @@ var commonFunc = {
               nodes: [
                   {
                       text: "课程管理",
-                      href: "/course/index"
+                      href: "http://admin.ql.com/index.php?r=course%2Findex"
                   },
                   {
                       text: "课程分类管理",
-                      href: "/course-category/index"
+                      href: "http://admin.ql.com/index.php?r=course-category%2Findex"
                   },
                   {
                       text: "教师答疑"

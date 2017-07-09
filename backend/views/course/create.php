@@ -10,7 +10,7 @@ $this->title = Yii::t('app', 'Create Course');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="course-create">
+<div class="section course-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
