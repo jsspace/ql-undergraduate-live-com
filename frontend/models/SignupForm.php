@@ -11,6 +11,7 @@ class SignupForm extends Model
 {
     public $username;
     public $email;
+    public $phone;
     public $password;
 
 
@@ -31,6 +32,14 @@ class SignupForm extends Model
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
 
+            
+            
+            
+            ['phone', 'trim'],
+            ['phone', 'required'],
+            ['phone','match','pattern'=>'/^1[0-9]{10}$/','message'=>'{attribute}必须为1开头的11位纯数字'],
+            ['phone', 'unique', 'targetClass' => '\common\models\User', 'message' => '{attribute}已经被占用了'],
+            
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
         ];
@@ -50,6 +59,7 @@ class SignupForm extends Model
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
+        $user->phone = $this->phone;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         
