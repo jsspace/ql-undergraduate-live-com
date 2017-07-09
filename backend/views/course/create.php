@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('app', '新建课程');
 ?>
-<div class="course-create">
+<div class="section course-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

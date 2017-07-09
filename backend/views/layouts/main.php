@@ -5,6 +5,7 @@
 
 use backend\assets\AppAsset;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -25,56 +26,55 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+    <div class="wrap">
+        <div class="header">
+            <a class="left-logo" href="/">
+                <span class="logo-more">媒体淘课</span>
+            </a>
+            <nav class="header-menu">
+                <a href="javascript:void(0)" class="menu-icon">
+                    <i class="icon ion-navicon"></i>
+                </a>
+                <ul class="account-con">
+                    <li class="account">
+                        <a class="user-info">
+                            <img src="/img/user.jpg" class="user-img" />
+                            <span class="user-name">admin</span>
+                        </a>
+                        <div class="account-dropdown">
+                            <div class="user-header">
+                                <img src="/img/user.jpg"/>
+                                <span class="user-manage">超级管理员</span>
+                                <span class="user-login-time">上次登录 2017-06-23 15:25:34</span>
+                            </div>
+                            <div class="btn-wrapper">
+                                <a href="" class="btn-default btn-modify">修改密码</a>
+                                <a href="<?= Url::to(['site/logout']) ?>" class="btn-default btn-logout">退出登录</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="notice-con">
+                        <a href="">
+                            <i class="icon ion-android-notifications-none"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="side-nav" id="tree">
+        </div>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => '课程管理', 'url' => ['/course/index']],
-        ['label' => '课程分类管理', 'url' => ['/course-category/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
-
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+        <div class="container">
+            <?= $content ?>
+        </div>
     </div>
-</div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">Copyright &copy; <?= date('Y') ?></p>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+            <p class="pull-right"><?= Yii::powered() ?></p>
+        </div>
+    </footer>
 
 <?php $this->endBody() ?>
 </body>
