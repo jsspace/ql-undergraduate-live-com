@@ -1,3 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+ul, li {
+    list-style: none;
+}
 html,
 body {
     height: 100%;
@@ -8,6 +15,58 @@ body {
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
+}
+.wrap .top-ads {
+    width: 1080px;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 auto;
+    color: #949494;
+}
+.wrap .top-ads .ads {
+    width: 70%;
+    float: left;
+}
+.wrap .top-ads .log-sec {
+    width: 30%;
+    margin-left: 70%;
+    height: 100%;
+    margin-bottom: 0;
+}
+.wrap .top-ads li {
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.wrap .top-ads .has-login {
+    display: none;
+}
+.wrap .icon:before {
+    font-size: 22px;
+    color: #949494;
+    vertical-align: middle;
+}
+.wrap .icon.ion-ios-cart-outline:before {
+    font-size: 25px;
+}
+.wrap .top-ads li.cart {
+    position: relative;
+    margin-right: 35px;
+}
+.wrap .top-ads li.cart .cart-count {
+    font-size: 12px;
+    font-style: normal;
+    width: 18px;
+    height: 18px;
+    background: #949494;
+    padding: 0;
+    color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    right: -12px;
+    line-height: 18px;
+    text-align: center;
 }
 
 .wrap > .container {
