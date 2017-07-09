@@ -42,7 +42,7 @@ class CourseCategory extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', '分类名称'),
+            'name' => Yii::t('app', '课程分类名称'),
             'parent_id' => Yii::t('app', '父级分类'),
             'des' => Yii::t('app', '分类描述'),
         ];
