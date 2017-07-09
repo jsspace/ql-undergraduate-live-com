@@ -51,20 +51,24 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
+            //'enablePrettyUrl' => true,
+            //'showScriptName' => false,
+            //'rules' => [
+            //],
         ],
-        */
+        
     ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
             'site/*',//允许访问的节点，可自行添加
             'admin/*',//允许所有人访问admin节点及其子节点
+            'gii/*',
+            'debug/*',
+            'user/*',
+            'course/*',
+            'course-category/*'
         ]
     ],
     'params' => $params,
