@@ -286,7 +286,10 @@ var commonFunc = {
               ]
           }
         ];
-        $('#tree').treeview({data: tree});
+        $('#tree').treeview({
+            enableLinks: true,
+            data: tree
+        });
     }
 }
 commonFunc.init();

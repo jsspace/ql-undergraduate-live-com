@@ -26,9 +26,6 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<?php if (Yii::$app->user->isGuest) {
-    echo $this->render('site/login');
-} else { ?>
     <div class="wrap">
         <div class="header">
             <a class="left-logo" href="/">
@@ -78,7 +75,6 @@ AppAsset::register($this);
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
-<?php } ?>
 
 <?php $this->endBody() ?>
 </body>

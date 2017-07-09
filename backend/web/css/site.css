@@ -33,7 +33,7 @@ a.btn-default {
 }
 .wrap .left-logo {
     display: block;
-    width: 22%;
+    width: 20%;
     height: 50px;
     background-color: #008d4c;
     color: #fff;
@@ -47,8 +47,8 @@ a.btn-default {
     text-align: center;
 }
 .wrap .header-menu {
-    width: 78%;
-    margin-left: 22%;
+    width: 80%;
+    margin-left: 20%;
     height: 50px;
     background: #00a65a;
 }
@@ -147,13 +147,14 @@ a.btn-default {
     border: 0;
     color: #b8c7ce;
     border-radius: 0;
+    padding: 10px 20px;
 }
 .treeview .list-group-item.node-tree:hover {
     background: #1e282c;
     color: #fff;
 }
 .list-group {
-    width: 22%;
+    width: 20%;
     float: left;
     border: 0;
     padding-bottom: 60px;
@@ -173,11 +174,11 @@ a.btn-default {
 }
 
 .container {
-    width: 78% !important;
+    width: 80% !important;
 }
 .wrap > .container {
     padding: 0;
-    margin-left: 22%;
+    margin-left: 20%;
     background-color: #ecf0f5;
 }
 .wrap > .container:after {
@@ -190,9 +191,9 @@ a.btn-default {
     color: #444;
     border-top: 1px solid #d2d6de;
     height: 50px;
-    width: 78%;
+    width: 80%;
     float: left;
-    margin-left: 22%;
+    margin-left: 20%;
 }
 
 .jumbotron {
