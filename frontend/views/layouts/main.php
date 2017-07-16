@@ -63,7 +63,7 @@ AppAsset::register($this);
         </div>
         <div class="menu-wrapper">
             <div class="logo">
-                <img src=""/>
+                <img src="/img/website-logo.jpg"/>
             </div>
             <ul class="nav-menu">
                 <li>
@@ -81,19 +81,21 @@ AppAsset::register($this);
                 <li>
                     <a href="">资料</a>
                 </li>
+                <li>
+                    <div class="search-section">
+                        <input type="text" placeholder="输入课程名或讲师名进行搜索" />
+                        <a href="javascript:void(0)" class="search-btn">搜索</a>
+                    </div>
+                </li>
             </ul>
-            <div class="search-section">
-                <input type="text" />
-                <a href="javascript:void(0)" class="search-btn">搜索</a>
-            </div>
             <div class="website-qrcode">
                 <div class="qrcode">
                     <span class="label">官方微信</span>
-                    <img src="" class="code-img"/>
+                    <img src="/img/website-qrcode.jpg" class="code-img"/>
                 </div>
                 <div class="qrcode">
                     <span class="label">手机官网</span>
-                    <img src="" class="code-img"/>
+                    <img src="/img/mobile-qrcode.jpg" class="code-img"/>
                 </div>
             </div>
         </div>
@@ -108,11 +110,41 @@ AppAsset::register($this);
     </div>
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+<footer>
+    <div class="footer">
+        <div class="footer-inner">
+            <dl>
+                <dt>常见问题</dt>
+                <dd><a href="">帮助一</a></dd>
+                <dd><a href="">帮助二</a></dd>
+                <dd><a href="">测试一下</a></dd>
+                <dd><a href="">更多帮助</a></dd>
+            </dl>
+            <dl>
+                <dt>合作共赢</dt>
+                <dd><a href="">关于我们</a></dd>
+                <dd><a href="">企业申请使用</a></dd>
+                <dd><a href="">讲师合作等级</a></dd>
+            </dl>
+            <dl>
+                <dt>联系我们</dt>
+                <dd>咨询电话：400-888-3456</dd>
+                <dd>全国加盟热线：010-88448888</dd>
+                <dd>投诉电话：010-51608888</dd>
+                <dd>校长邮箱：president@juren.com</dd>
+            </dl>
+            <dl class="qrcode-section">
+                <dt>官方微信</dt>
+                <dd><img src="/img/website-qrcode-large.jpg"/></dd>
+            </dl>
+            <dl class="qrcode-section">
+                <dt>手机微信</dt>
+                <dd><img src="/img/mobile-qrcode-large.jpg"/></dd>
+            </dl>
+        </div>
+    </div>
+    <div class="copyright">
+        <p class="pull-left">&copy; 2015-<?= date('Y') ?>  企源力---京ICP备13020285号</p>
     </div>
 </footer>
 
