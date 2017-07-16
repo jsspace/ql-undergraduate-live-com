@@ -87,7 +87,8 @@ return [
             'debug/*',
             'user/*',
             'course/*',
-            'course-category/*'
+            'course-category/*',
+            'friendly-links/*'
         ]
     ],
     'params' => $params,
