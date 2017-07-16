@@ -29,17 +29,18 @@ AppAsset::register($this);
     <div class="wrap">
         <div class="header">
             <a class="left-logo" href="/">
-                <span class="logo-more">媒体淘课</span>
+                <span class="logo-more">权限管理</span>
             </a>
             <nav class="header-menu">
                 <a href="javascript:void(0)" class="menu-icon">
                     <i class="icon ion-navicon"></i>
                 </a>
                 <ul class="account-con">
+                <?php if(!Yii::$app->user->isGuest){?>
                     <li class="account">
                         <a class="user-info">
                             <img src="/img/user.jpg" class="user-img" />
-                            <span class="user-name">admin</span>
+                            <span class="user-name"><?= Yii::$app->user->identity->username ?></span>
                         </a>
                         <div class="account-dropdown">
                             <div class="user-header">
@@ -53,6 +54,7 @@ AppAsset::register($this);
                             </div>
                         </div>
                     </li>
+                    <?php }?>
                     <li class="notice-con">
                         <a href="">
                             <i class="icon ion-android-notifications-none"></i>

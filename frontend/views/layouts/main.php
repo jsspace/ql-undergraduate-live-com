@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -32,10 +33,20 @@ AppAsset::register($this);
             <div class="ads">
                 热烈祝贺***以全市最优异的成绩考上清华大学计算机专业
             </div>
+            <?php if(Yii::$app->user->isGuest) {?>
             <ul class="log-sec no-login">
-                <li class="register">注册</li>
-                <li class="login">登录</li>
+                <li class="register"><a href="<?= Url::to(['site/signup']) ?>">注册</a></li>
+                <li class="login"><a href="<?= Url::to(['site/login']) ?>">登录</a></li>
             </ul>
+            <?php } else {
+                echo '<ul class="log-sec login"><li>'
+                    . Html::beginForm(['/site/logout'], 'post')
+                    . Html::submitButton(
+                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['class' => 'btn btn-link']
+                    )
+                    . Html::endForm(). '</li></ul>';
+            }?>
             <ul class="log-sec has-login">
                 <li class="logout">
                     <i class="icon ion-log-out"></i>
