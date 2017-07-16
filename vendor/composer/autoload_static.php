@@ -27,6 +27,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
             'yii\\authclient\\' => 15,
             'yii\\' => 4,
         ),
+        'r' => 
+        array (
+            'rmrevin\\yii\\fontawesome\\' => 24,
+        ),
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
@@ -37,6 +41,7 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         ),
         'd' => 
         array (
+            'dmstr\\' => 6,
             'dektrium\\user\\' => 14,
         ),
         'c' => 
@@ -122,6 +127,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
         ),
+        'rmrevin\\yii\\fontawesome\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
+        ),
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
@@ -131,6 +140,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'mdm\\admin\\' => 
         array (
             0 => __DIR__ . '/..' . '/mdmsoft/yii2-admin',
+        ),
+        'dmstr\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dmstr/yii2-adminlte-asset',
         ),
         'dektrium\\user\\' => 
         array (
@@ -219,6 +232,13 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
     );
 
     public static $prefixesPsr0 = array (
+        'c' => 
+        array (
+            'cebe\\gravatar\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/cebe/yii2-gravatar',
+            ),
+        ),
         'P' => 
         array (
             'Prophecy\\' => 
@@ -329,6 +349,7 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'PHPUnit_Framework_IncompleteTest' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/IncompleteTest.php',
         'PHPUnit_Framework_IncompleteTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/IncompleteTestCase.php',
         'PHPUnit_Framework_IncompleteTestError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/IncompleteTestError.php',
+        'PHPUnit_Framework_InvalidCoversTargetError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/InvalidCoversTargetError.php',
         'PHPUnit_Framework_InvalidCoversTargetException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/InvalidCoversTargetException.php',
         'PHPUnit_Framework_MissingCoversAnnotationException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MissingCoversAnnotationException.php',
         'PHPUnit_Framework_MockObject_BadMethodCallException' => __DIR__ . '/..' . '/phpunit/phpunit-mock-objects/src/Framework/MockObject/Exception/BadMethodCallException.php',
@@ -435,6 +456,40 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'PHPUnit_Util_TestSuiteIterator' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/TestSuiteIterator.php',
         'PHPUnit_Util_Type' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Type.php',
         'PHPUnit_Util_XML' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/XML.php',
+        'PHP_CodeCoverage_Driver' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Driver.php',
+        'PHP_CodeCoverage_Driver_HHVM' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Driver/HHVM.php',
+        'PHP_CodeCoverage_Driver_PHPDBG' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Driver/PHPDBG.php',
+        'PHP_CodeCoverage_Driver_Xdebug' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Driver/Xdebug.php',
+        'PHP_CodeCoverage_Exception' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Exception.php',
+        'PHP_CodeCoverage_Exception_UnintentionallyCoveredCode' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Exception/UnintentionallyCoveredCode.php',
+        'PHP_CodeCoverage_Filter' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Filter.php',
+        'PHP_CodeCoverage_Report_Clover' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/Clover.php',
+        'PHP_CodeCoverage_Report_Crap4j' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/Crap4j.php',
+        'PHP_CodeCoverage_Report_Factory' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/Factory.php',
+        'PHP_CodeCoverage_Report_HTML' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/HTML.php',
+        'PHP_CodeCoverage_Report_HTML_Renderer' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/HTML/Renderer.php',
+        'PHP_CodeCoverage_Report_HTML_Renderer_Dashboard' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/HTML/Renderer/Dashboard.php',
+        'PHP_CodeCoverage_Report_HTML_Renderer_Directory' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/HTML/Renderer/Directory.php',
+        'PHP_CodeCoverage_Report_HTML_Renderer_File' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/HTML/Renderer/File.php',
+        'PHP_CodeCoverage_Report_Node' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/Node.php',
+        'PHP_CodeCoverage_Report_Node_Directory' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/Node/Directory.php',
+        'PHP_CodeCoverage_Report_Node_File' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/Node/File.php',
+        'PHP_CodeCoverage_Report_Node_Iterator' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/Node/Iterator.php',
+        'PHP_CodeCoverage_Report_PHP' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/PHP.php',
+        'PHP_CodeCoverage_Report_Text' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/Text.php',
+        'PHP_CodeCoverage_Report_XML' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML.php',
+        'PHP_CodeCoverage_Report_XML_Directory' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Directory.php',
+        'PHP_CodeCoverage_Report_XML_File' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/File.php',
+        'PHP_CodeCoverage_Report_XML_File_Coverage' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/File/Coverage.php',
+        'PHP_CodeCoverage_Report_XML_File_Method' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/File/Method.php',
+        'PHP_CodeCoverage_Report_XML_File_Report' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/File/Report.php',
+        'PHP_CodeCoverage_Report_XML_File_Unit' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/File/Unit.php',
+        'PHP_CodeCoverage_Report_XML_Node' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Node.php',
+        'PHP_CodeCoverage_Report_XML_Project' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Project.php',
+        'PHP_CodeCoverage_Report_XML_Tests' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Tests.php',
+        'PHP_CodeCoverage_Report_XML_Totals' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Totals.php',
+        'PHP_CodeCoverage_Util' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Util.php',
+        'PHP_CodeCoverage_Util_InvalidArgumentHelper' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Util/InvalidArgumentHelper.php',
         'PHP_Timer' => __DIR__ . '/..' . '/phpunit/php-timer/src/Timer.php',
         'PHP_Token' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_TokenWithScope' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',

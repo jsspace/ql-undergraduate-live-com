@@ -1,5 +1,4 @@
 $('i.glyphicon-refresh-animate').hide();
-var csrf = $("meta[name='csrf-token']").attr("content");
 function updateRoutes(r) {
     _opts.routes.avaliable = r.avaliable;
     _opts.routes.assigned = r.assigned;
@@ -12,7 +11,7 @@ $('#btn-new').click(function () {
     var route = $('#inp-route').val().trim();
     if (route != '') {
         $this.children('i.glyphicon-refresh-animate').show();
-        $.post($this.attr('href'), {_csrf:csrf,route: route}, function (r) {
+        $.post($this.attr('href'), {route: route}, function (r) {
             $('#inp-route').val('').focus();
             updateRoutes(r);
         }).always(function () {
@@ -29,7 +28,7 @@ $('.btn-assign').click(function () {
 
     if (routes && routes.length) {
         $this.children('i.glyphicon-refresh-animate').show();
-        $.post($this.attr('href'), {_csrf:csrf,routes: routes}, function (r) {
+        $.post($this.attr('href'), {routes: routes}, function (r) {
             updateRoutes(r);
         }).always(function () {
             $this.children('i.glyphicon-refresh-animate').hide();
