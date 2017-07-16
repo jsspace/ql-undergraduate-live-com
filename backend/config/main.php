@@ -17,7 +17,7 @@ return [
     'modules' => [
 //         'user' => [
 //             'class' => 'dektrium\user\Module',
-//             'enableConfirmation' => false,//注册时不进行邮箱认证
+//             'enableConfirmation' => fase,//注册时不进行邮箱认证
 //             'emailChangeStrategy' => 'STRATEGY_INSECURE',//当用户的邮箱改变时，不进行认证
 //             'admins' => ['admin'],//有权限操作用户
 //         ],

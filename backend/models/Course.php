@@ -5,7 +5,7 @@ namespace backend\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%tbl_course}}".
+ * This is the model class for table "{{%course}}".
  *
  * @property string $id
  * @property string $course_name
@@ -24,7 +24,9 @@ use Yii;
  * @property integer $create_time
  * @property integer $head_teacher
  *
- * @property TblCourseChapter[] $tblCourseChapters
+ * @property User $teacher
+ * @property User $headTeacher
+ * @property CourseChapter[] $courseChapters
  */
 class Course extends \yii\db\ActiveRecord
 {
@@ -47,6 +49,8 @@ class Course extends \yii\db\ActiveRecord
             [['price', 'discount'], 'number'],
             [['des'], 'string'],
             [['course_name', 'list_pic', 'home_pic', 'category_name'], 'string', 'max' => 255],
+            [['teacher_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],
+            [['head_teacher'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['head_teacher' => 'id']],
         ];
     }
 
@@ -57,7 +61,7 @@ class Course extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'course_name' => Yii::t('app', '名称'),
+            'course_name' => Yii::t('app', '课程名字'),
             'list_pic' => Yii::t('app', '列表图片'),
             'home_pic' => Yii::t('app', '封面图片'),
             'teacher_id' => Yii::t('app', '授课教师'),
@@ -78,9 +82,25 @@ class Course extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTblCourseChapters()
+    public function getTeacher()
     {
-        return $this->hasMany(TblCourseChapter::className(), ['course_id' => 'id']);
+        return $this->hasOne(User::className(), ['id' => 'teacher_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHeadTeacher()
+    {
+        return $this->hasOne(User::className(), ['id' => 'head_teacher']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCourseChapters()
+    {
+        return $this->hasMany(CourseChapter::className(), ['course_id' => 'id']);
     }
 
     /**
