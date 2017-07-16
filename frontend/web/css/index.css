@@ -503,6 +503,7 @@
 }
 .cooperation-section .user-comment {
     overflow: hidden;
+    height: 200px;
 }
 .cooperation-section .user-comment li {
     width: 33.33%;
@@ -531,6 +532,7 @@
 .cooperation-section .link-section {
     padding: 30px 0;
     overflow: hidden;
+    height: 200px;
 }
 .cooperation-section .link-section li {
     float: left;
