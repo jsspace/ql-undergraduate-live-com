@@ -28,6 +28,9 @@ a:focus, a:hover, input, input:focus {
     margin: 0 auto;
     color: #949494;
 }
+.wrap .log-sec a {
+    color: #949494;
+}
 .wrap .top-ads .ads {
     width: 70%;
     float: left;
