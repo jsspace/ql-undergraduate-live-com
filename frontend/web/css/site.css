@@ -28,6 +28,9 @@ a:focus, a:hover, input, input:focus {
     margin: 0 auto;
     color: #949494;
 }
+.wrap .log-sec a {
+    color: #949494;
+}
 .wrap .top-ads .ads {
     width: 70%;
     float: left;
@@ -192,6 +195,7 @@ a:focus, a:hover, input, input:focus {
     color: rgba(255,255,255,0.6);
     font-size: 14px;
     text-align: center;
+    margin: 0;
 }
 
 .jumbotron {
