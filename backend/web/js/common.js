@@ -37,22 +37,40 @@ var commonFunc = {
               },
               nodes: [
                   {
-                      text: "用户管理"
+                      text: "用户列表",
+                      href: "http://admin.ql.com/admin/user"
                   },
                   {
-                      text: "权限管理"
+                      text: "分配",
+                      href: "http://admin.ql.com/admin/assignment"
                   },
                   {
-                      text: "角色管理"
+                      text: "角色列表",
+                      href: "http://admin.ql.com/admin/role"
                   },
                   {
-                      text: "数据字典"
+                      text: "权限列表",
+                      href: "http://admin.ql.com/admin/permission"
                   },
                   {
-                      text: "区域管理"
+                      text: "路由列表",
+                      href: "http://admin.ql.com/admin/route"
                   },
                   {
-                      text: "通知管理"
+                      text: "规则列表",
+                      href: "http://admin.ql.com/admin/rule"
+                  },
+                  {
+                      text: "数据字典",
+                      
+                  },
+                  {
+                      text: "区域管理",
+                      
+                  },
+                  {
+                      text: "通知管理",
+                      
                   }
                 ]
           },
