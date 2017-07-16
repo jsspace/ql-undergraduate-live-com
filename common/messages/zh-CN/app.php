@@ -23,6 +23,8 @@ return [
     'Delete' => '',
     'ID' => '',
     'Update' => '保存',
+    'Search' => '查询',
+    'Reset' => '重置',
     'Update {modelClass}: ' => '',
     '价格' => '',
     '优惠价格' => '',

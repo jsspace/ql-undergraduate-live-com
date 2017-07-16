@@ -36,6 +36,7 @@ return [
         ],
         'request' => [
             'csrfParam' => '_csrf-backend',
+            "enableCsrfValidation"=>false,
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -87,7 +88,8 @@ return [
             'debug/*',
             'user/*',
             'course/*',
-            'course-category/*'
+            'course-category/*',
+            'friendly-links/*'
         ]
     ],
     'params' => $params,

@@ -299,7 +299,8 @@ var commonFunc = {
               },
               nodes: [
                   {
-                      text: "友情链接"
+                      text: "友情链接",
+                      href: "http://admin.ql.com/friendly-links/index"
                   }
               ]
           }
