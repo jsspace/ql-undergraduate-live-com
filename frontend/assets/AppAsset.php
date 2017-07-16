@@ -14,8 +14,11 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/ionicons.min.css',
         'css/site.css',
+        'css/index.css'
     ];
     public $js = [
+        'js/lib/jquery.min.js',
+        'js/index.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

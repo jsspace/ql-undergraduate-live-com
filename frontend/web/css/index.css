@@ -1,0 +1,548 @@
+.container-course {
+    width: 1180px;
+    margin: 0 auto;
+    padding: 0;
+}
+.hot-section {
+    padding-bottom: 50px;
+    background: #fff;
+    width: 100%;
+}
+.hot-section .list {
+    overflow: hidden;
+    margin: 0;
+    text-align: center;
+    clear: both;
+}
+.hot-section .list li {
+    width: 154px;
+    height: 180px;
+    float: left;
+    margin-right: 17px;
+    position: relative;
+}
+.hot-section .list li a {
+    color: #fff;
+}
+.hot-section .list li:last-child {
+    margin-right: 0;
+}
+.hot-section .list .item-1 {
+    background-color: #f6ce00;
+}
+.hot-section .list .item-2 {
+    background-color: #4caafc;
+}
+.hot-section .list .item-3 {
+    background-color: #e994dc;
+}
+.hot-section .list .item-4 {
+    background-color: #54cea9;
+}
+.hot-section .list .item-5 {
+    background-color: #9985cc;
+}
+.hot-section .list .item-6 {
+    background-color: #e3b47b;
+}
+.hot-section .list .item-7 {
+    background-color: #848d99;
+}
+.hot-section .list li .icon {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    background-image: url(../img/subject-list.png);
+    background-repeat: no-repeat;
+    margin-top: 35px;
+    margin-bottom: 25px;
+}
+.hot-section .list .item-1 .icon {
+    background-position: 0 0;
+}
+.hot-section .list .item-2 .icon {
+    background-position: 0 -64px;
+}
+.hot-section .list .item-3 .icon {
+    background-position: 0 -128px;
+}
+.hot-section .list .item-4 .icon {
+    background-position: 0 -192px;
+}
+.hot-section .list .item-5 .icon {
+    background-position: 0 -256px;
+}
+.hot-section .list .item-6 .icon {
+    background-position: 0 -320px;
+}
+.hot-section .list .item-7 .icon {
+    background-position: 0 -384px;
+}
+.hot-section .list h3 {
+    font-size: 18px;
+    margin: 0;
+}
+.hot-section .list .into {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+.hot-section .list .btn-into {
+    width: 80px;
+    height: 30px;
+    border: 1px solid #fff;
+    display: inline-block;
+    border-radius: 5px;
+    line-height: 30px;
+    top: 50%;
+    position: absolute;
+    left: 50%;
+    margin-left: -40px;
+    margin-top: -15px;
+}
+.hot-section .list .btn-into:hover {
+    background: #fff;
+    color: #6b6868;
+}
+.hot-section .course-hd {
+    height: 60px;
+    line-height: 60px;
+}
+.hot-section .course-hd .title {
+    float: left;
+}
+.hot-section .side a.link {
+    float: right;
+    color: #333;
+}
+.course-title {
+    margin: 60px auto 25px;
+    text-align: center;
+}
+.container fieldset {
+    width: 240px;
+    margin: 0 auto;
+    border-top: 1px dashed #ccc;
+}
+.container legend {
+    margin: 0;
+    text-align: center;
+    border: 0;
+    width: 60px;
+}
+.course-tab {
+    overflow: hidden;
+}
+.course-tab li {
+    width: 110px;
+    height: 40px;
+    line-height: 40px;
+    float: left;
+    color: #a7a7a9;
+    margin-right: 40px;
+    text-align: center;
+    cursor: pointer;
+}
+.course-tab li.active {
+    border: 1px solid #b4746b;
+    color: #b4746b;
+    border-radius: 18px;
+}
+.course-content {
+    clear: both;
+    margin-top: 20px;
+    overflow: hidden;
+}
+.course-content .list {
+    display: none;
+}
+.course-content .list.active {
+    display: block;
+}
+.course-content .list li {
+    width: 280px;
+    float: left;
+    margin-right: 20px;
+}
+.course-content .list li .course-img {
+    width: 280px;
+    height: 210px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.course-content .list li .course-img img {
+    transform: scale(1.0);
+    transition: transform 1.5s;
+    -webkit-transition: transform 1.5s;
+}
+.course-content .list li .course-img.active img{
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+}
+.course-content .list>li:last-child {
+    margin-right: 0;
+}
+.course-content .content-title {
+    font-size: 15px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 10px 0;
+    color: #777779;
+    text-align: left
+}
+.course-content .course-statistic {
+    font-size: 13px;
+    color: #b8b8b8;
+    text-align: left;
+}
+.course-content .course-statistic .icon:before {
+    font-size: 18px;
+    vertical-align: middle;
+}
+.course-content .course-statistic .ion-android-person:before {
+    color: #b8b8b8;
+}
+.course-content .course-statistic .ion-heart:before {
+    color: #e43542;
+    margin-left: 15px;
+}
+.container-course .view-more {
+    width: 190px;
+    height: 40px;
+    display: block;
+    overflow: hidden;
+    font-size: 13px;
+    color: #fff;
+    background: #ff686d;
+    line-height: 40px;
+    text-align: center;
+    margin: 50px auto 0;
+    border-radius: 18px;
+    box-shadow: 0px 0px 5px #ff686d;
+}
+.container-course .view-more:hover {
+    box-shadow: 0 0 15px #ff686d;
+}
+.course-content .teacher-section {
+    margin-top: 10px;
+}
+.course-content .teacher-section img {
+    width: 23px;
+    margin-right: 15px;
+}
+.course-content .teacher-section .teacher-name {
+    font-size: 13px;
+    color: #777779;
+}
+.ads-section {
+    margin: 55px 0 0;
+}
+.ads-section .ads-bar {
+    background: #e6393f;
+    padding: 30px 0;
+    color: #fff;
+    overflow: hidden;
+}
+.ads-section .md-bar-tit {
+    float: left;
+    overflow: hidden;
+    padding-top: 30px;
+}
+.ads-section .md-bar-tit .t1 {
+    font-size: 24px;
+    color: #fae1e2;
+    float: left;
+}
+.ads-section .md-bar-tit .t2 {
+    float: left;
+    margin-left: -15px;
+    font-size: 30px;
+    line-height: 60px;
+    padding-left: 32px;
+    background: url(../img/xiexian.png) no-repeat left center;
+}
+.ads-section .bar-box {
+    margin-left: 180px;
+    float: left;
+    position: relative;
+    padding-right: 50px;
+    height: 100px;
+}
+.ads-section .bar-box .bar-number {
+    font-size: 50px;
+    line-height: 60px;
+    position: relative;
+    z-index: 11;
+}
+.ads-section .bar-box .bar-text {
+    font-size: 20px;
+    position: relative;
+    z-index: 11;
+}
+.ads-section .bar-box .bar-postion {
+    font-size: 104px;
+    color: #ea6468;
+    position: absolute;
+    right: 0;
+    top: -25px;
+}
+.teacher-section .teach-list {
+    margin-top: 80px;
+    text-align: center;
+}
+.teacher-section .teach-list li {
+    width: 370px;
+    height: 270px;
+    background: #fff;
+    display: inline-block;
+    margin-right: 30px;
+}
+.teacher-section .teach-list li:last-child {
+    margin-right: 0;
+}
+.teacher-section .people-img {
+    margin: -60px auto 0;
+    text-align: center;
+    width: 120px;
+}
+.teacher-section .intro {
+    color: #333;
+    padding-left: 35px;
+    margin-top: 20px;
+    text-align: left;
+}
+.teacher-section .name {
+    font-size: 16px;
+}
+.teacher-section .work {
+    background: #38b29b;
+    color: #fff;
+    font-size: 12px;
+    display: inline-block;
+    padding: 5px 20px;
+    border-radius: 18px;
+    margin-left: 10px;
+}
+.teacher-section .te-label,
+.teacher-section .te-text {
+    font-size: 14px;
+}
+.teacher-section .te-text {
+    color: #888;
+}
+.course-data {
+    overflow: hidden;
+}
+.course-data .course-content {
+    width: 840px;
+    float: left;
+}
+.course-data .course-content li {
+    float: none;
+    height: 160px;
+    width: auto;
+    overflow: hidden;
+    padding: 20px 0;
+    border-bottom: 1px solid #ccc;
+    margin: 0;
+}
+.course-data .course-content .course-data-img{
+    float: left;
+    width: 160px;
+    margin-right: 20px;
+}
+.course-data .data-label {
+    font-size: 12px;
+    display: inline-block;
+    padding: 3px 5px;
+    background: #fecccf;
+    border-radius: 4px;
+    color: #9c5457;
+}
+.course-data .right-con {
+    width: 660px;
+    margin-left: 180px;
+}
+.course-data .data-title {
+    font-size: 16px;
+    color: #333;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5px;
+}
+.course-data .data-intro {
+    color: #868688;
+    font-size: 14px;
+}
+.course-data .people {
+    color: #b1b1b1;
+    font-size: 12px;
+}
+.course-data .ion-android-person:before {
+    font-size: 15px;
+    margin-left: 10px;
+}
+.course-data .ion-heart:before {
+    color: #c64b50;
+    font-size: 15px;
+    margin-left: 10px;
+}
+.course-data .course-referral {
+    width: 300px;
+    float: right;
+    margin-top: -10px;
+}
+.course-data .referral-list {
+    border: 2px solid #ab5f63;
+    border-top: 0;
+}
+.course-data .referral-list li {
+    padding: 15px 10px 0;
+}
+.course-data .announce-title {
+    font-size: 15px;
+    color: #636363;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.course-data .announce-title i {
+    width: 7px;
+    height: 7px;
+    background: #c04852;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 3px;
+}
+.course-data .announce-time {
+    font-size: 13px;
+    color: #989898;
+    margin-left: 10px;
+}
+.course-data .more-link {
+    color: #333;
+    font-size: 13px;
+    display: block;
+    background: #ddd;
+    margin: 10px 0 0;
+    line-height: 30px;
+    padding-left: 20px;
+}
+.cooperation-section {
+    width: 100%;
+    background: #fff;
+    clear: both;
+    margin-top: 50px;
+}
+.cooperation-section .course-title {
+    padding-top: 50px;
+}
+.cooperation-section .cooperation-list {
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+.cooperation-section .cooperation-list li {
+    float: left;
+    width: 236px;
+    height: 180px;
+    padding: 0 20px;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+.cooperation-section .cooperation-list li:nth-child(5n) {
+    border-right: 0;
+}
+.cooperation-section .cooperation-list li:nth-child(6),
+.cooperation-section .cooperation-list li:nth-child(7),
+.cooperation-section .cooperation-list li:nth-child(8),
+.cooperation-section .cooperation-list li:nth-child(9),
+.cooperation-section .cooperation-list li:nth-child(10) {
+    border-bottom: 0;
+}
+.cooperation-section .cctv img {
+    margin-top: 67px;
+}
+.cooperation-section .kindon img {
+    margin-top: 55px;
+}
+.cooperation-section .anming img {
+    margin-top: 70px;
+}
+.cooperation-section .xingye img {
+    margin-top: 75px;
+}
+.cooperation-section .juice img {
+    margin-top: 50px;
+}
+.cooperation-section .ali img {
+    margin-top: 42px;
+}
+.cooperation-section .china img {
+    margin-top: 57px;
+}
+.cooperation-section .construction img {
+    margin-top: 40px;
+}
+.cooperation-section .jd img {
+    margin-top: 57px;
+}
+.cooperation-section .vivo img {
+    margin-top: 67px;
+}
+.cooperation-section .user-comment {
+    overflow: hidden;
+}
+.cooperation-section .user-comment li {
+    width: 33.33%;
+    float: left;
+    margin-right: 0;
+    margin-bottom: 40px;
+}
+.cooperation-section .user-comment .user-img {
+    width: 55px;
+    float: left;
+    margin-right: 10px;
+}
+.cooperation-section .user-comment .user-name {
+    font-size: 16px;
+    color: #333;
+}
+.cooperation-section .user-comment .right-txt {
+    padding-right: 20px;
+}
+.cooperation-section .user-comment .user-txt {
+    font-size: 12px;
+    color: #a9a6a6;
+    height: 32px;
+    margin: 0;
+}
+.cooperation-section .link-section {
+    padding: 30px 0;
+    overflow: hidden;
+}
+.cooperation-section .link-section li {
+    float: left;
+    margin-right: 50px;
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 20px;
+    width: auto;
+}
+.cooperation-section .link-section li a {
+    color: #333;
+}
+.cooperation-section .link-section li a:hover {
+    color: red;
+}
