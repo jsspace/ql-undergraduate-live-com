@@ -61,6 +61,10 @@ var commonFunc = {
                       href: "http://admin.ql.com/admin/rule"
                   },
                   {
+                      text: "菜单",
+                      href: "http://admin.ql.com/admin/menu"
+                  },
+                  {
                       text: "数据字典",
                       
                   },
@@ -96,11 +100,11 @@ var commonFunc = {
               nodes: [
                   {
                       text: "课程管理",
-                      href: "http://admin.ql.com/index.php?r=course%2Findex"
+                      href: "http://admin.ql.com/course/index"
                   },
                   {
                       text: "课程分类管理",
-                      href: "http://admin.ql.com/index.php?r=course-category%2Findex"
+                      href: "http://admin.ql.com/course-category/index"
                   },
                   {
                       text: "教师答疑"
