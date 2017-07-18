@@ -93,16 +93,16 @@
     <li class="treeview<?php if(stristr(Yii::$app->controller->id,'course')){?> active<?php }?>">               
         <a href="#">                    
             <i class="fa fa-gears"></i> <span>课程管理</span>                    
-            <i class="fa fa-angle-left pull-right"></i>               
-        </a>               
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
         <ul class="treeview-menu<?php if(stristr(Yii::$app->controller->id,'course')){?> menu-open<?php }?>"
-        <?php if(stristr(Yii::$app->controller->id,'course')){?>style="display: block;"<?php }?>>                   
-            <li class="treeview">                        
+        <?php if(stristr(Yii::$app->controller->id,'course')){?>style="display: block;"<?php }?>>
+            <li class="treeview">
                 <a href="/course/index">课程管理</a>
                 <a href="/course-category/index">课程分类管理</a>
-            </li>                
-        </ul>            
-    </li>        
+            </li>
+        </ul>
+    </li>
 </ul>
     </section>
 

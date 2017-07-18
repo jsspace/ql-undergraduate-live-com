@@ -32,8 +32,6 @@ $this->title = Yii::t('app', '课程列表');
             // 'onuse',
             // 'create_time:datetime',
             'head_teacher',
-
-            
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
