@@ -1,5 +1,6 @@
 <?php
 
+use backend\models\CourseCategory;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -16,7 +17,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'name',
-            'parent_id',
+            [
+                'attribute' => 'parent_id',
+                'value' => function ($model){
+                    if ($model->parent_id==0) {
+                        return '顶级分类';
+                    } else {
+                        return CourseCategory::item($model->parent_id);
+                    }
+                }
+            ],
             'des:ntext',
         ],
     ]) ?>

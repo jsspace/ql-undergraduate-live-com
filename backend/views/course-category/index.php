@@ -1,7 +1,8 @@
 <?php
 
-use yii\helpers\Html;
+use backend\models\CourseCategory;
 use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CourseCategorySearch */
@@ -21,7 +22,16 @@ $this->title = Yii::t('app', '课程分类列表');
         'columns' => [
             ['class' => 'yii\grid\ActionColumn'],
             'name',
-            'parent_id',
+            [
+                'attribute' => 'parent_id',
+                'value' => function ($model){
+                    if ($model->parent_id==0) {
+                        return '';
+                    } else {
+                        return CourseCategory::item($model->parent_id);
+                    }
+                }
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
