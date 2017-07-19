@@ -26,7 +26,7 @@ return [
     'Search' => '查询',
     'Reset' => '重置',
     'Update {modelClass}: ' => '',
-    'Course Categories' => '课程列表',
+    'Course Categories' => '课程分类列表',
     '价格' => '',
     '优惠价格' => '',
     '保存' => '',

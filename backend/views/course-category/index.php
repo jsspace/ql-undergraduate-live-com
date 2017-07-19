@@ -11,8 +11,6 @@ use yii\widgets\Pjax;
 $this->title = Yii::t('app', '课程分类列表');
 ?>
 <div class="section course-category-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
         <?= Html::a(Yii::t('app', '新建课程分类'), ['create'], ['class' => 'btn btn-default create-class']) ?>
