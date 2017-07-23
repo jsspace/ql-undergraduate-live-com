@@ -15,6 +15,17 @@ a:focus, a:hover, input, input:focus {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
+.container-course {
+    width: 1180px;
+    margin: 0 auto;
+    padding: 0;
+}
+.menu-position {
+    font-size: 12px;
+    color: #888;
+    line-height: 55px;
+}
+
 .wrap {
     min-height: 100%;
     height: auto;
