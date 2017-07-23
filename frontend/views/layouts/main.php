@@ -76,7 +76,7 @@ AppAsset::register($this);
                     <a href="">套餐</a>
                 </li>
                 <li>
-                    <a href="">讲师团</a>
+                    <a href="/teacher/list">讲师团</a>
                 </li>
                 <li>
                     <a href="">资料</a>
