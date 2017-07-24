@@ -1,8 +1,3 @@
-.container-course {
-    width: 1180px;
-    margin: 0 auto;
-    padding: 0;
-}
 .live-course {
     width: 100%;
     height: 400px;
@@ -415,9 +410,13 @@
     background: #fff;
     display: inline-block;
     margin-right: 30px;
+    border-radius: 10px;
 }
 .teacher-section .teach-list li:last-child {
     margin-right: 0;
+}
+.teacher-section .teach-list li:hover {
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
 }
 .teacher-section .people-img {
     margin: -60px auto 0;

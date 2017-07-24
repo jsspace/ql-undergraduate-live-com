@@ -2,6 +2,9 @@
 
 /* @var $this yii\web\View */
 use yii\helpers\Url;
+use frontend\assets\AppAsset;
+
+AppAsset::addCss($this,'@web/css/index.css');
 
 $this->title = 'My Yii Application';
 ?>
@@ -810,3 +813,5 @@ $this->title = 'My Yii Application';
         </div>
     </div>
 </div>
+<script src="<?php echo Url::to('@web/js/lib/jquery.min.js');?>"></script>
+<script src="<?php echo Url::to('@web/js/index.js');?>"></script>
