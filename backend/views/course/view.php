@@ -7,10 +7,11 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Course */
 
 $this->title = '查看课程';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="section course-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

@@ -6,10 +6,11 @@ use yii\helpers\Html;
 /* @var $model backend\models\Course */
 
 $this->title = Yii::t('app', '编辑课程');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->course_name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="section course-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

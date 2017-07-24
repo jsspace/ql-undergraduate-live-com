@@ -85,4 +85,27 @@ class User extends \yii\db\ActiveRecord
     {
         return new UserQuery(get_called_class());
     }
+
+    private static $_items=array();
+    
+    public static function items($role)
+    {
+        // if(!isset(self::$_items[$role])) {
+        //     self::loadItems($role);
+        // }
+        // return self::$_items[$role];
+    }
+    
+    
+    private static function loadItems($role)
+    {
+        // self::$_items[$role]=array();
+        // $uids=mdm\admin\models\User::getUserIdsByRole($role);
+        // foreach($uids as $uid) {
+        //     $umodel= User::find()
+        //     ->where(['=', 'id', $uid])
+        //     ->one();
+        //     self::$_items[$role][$umodel->id]=$umodel->username;
+        // }
+    }
 }

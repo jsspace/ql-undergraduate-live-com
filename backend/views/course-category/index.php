@@ -8,12 +8,12 @@ use yii\widgets\Pjax;
 /* @var $searchModel backend\models\CourseCategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', '课程分类列表');
+$this->title = Yii::t('app', 'Course Categories');
 ?>
 <div class="section course-category-index">
     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
-        <?= Html::a(Yii::t('app', '新建课程分类'), ['create'], ['class' => 'btn btn-default create-class']) ?>
+        <?= Html::a(Yii::t('app', 'Create Course Category'), ['create'], ['class' => 'btn btn-default create-class']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
