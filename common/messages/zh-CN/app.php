@@ -30,6 +30,7 @@ return [
     'Create Course' => '新建课程',
     'Course Categories' => '课程分类列表',
     'Create Course Category' => '新建课程分类',
+    'Course Chapters' => '课程章节',
     '价格' => '',
     '优惠价格' => '',
     '保存' => '',
