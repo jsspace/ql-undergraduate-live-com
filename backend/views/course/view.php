@@ -1,5 +1,6 @@
 <?php
 
+use backend\models\User;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -17,18 +18,39 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'course_name',
             'category_name',
-            'list_pic',
-            'home_pic',
-            'teacher_id',
-            'head_teacher',
+            //'list_pic',
+            //'home_pic',
+            [
+                'attribute' => 'list_pic',
+                'label' => '列表图片',
+                'format' => ['image',['width'=>'40']]
+            ],
+            [
+                'attribute' => 'home_pic',
+                'label' => '封面图片',
+                'format' => ['image',['width'=>'40']]
+            ],
+            [
+                'attribute' => 'teacher_id',
+                'value' => User::item($model->teacher_id),
+            ],
+            //'teacher_id',
+            [
+                'attribute' => 'head_teacher',
+                'value' => User::item($model->head_teacher),
+            ],
+            //'head_teacher',
             'price',
             'discount',
-            'des:ntext',
+            'des:html',
             'view',
             'collection',
             'share',
             'online',
-            'onuse',
+            [
+                'attribute' => 'onuse',
+                'value'=> $model->onuse == 1 ? '可用' : '不可用',
+            ],
             'create_time:datetime',
         ],
     ]) ?>

@@ -26,8 +26,7 @@
         "source": "https://github.com/2amigos/yii2-ckeditor-widget"
     },
     "require": {
-        "yiisoft/yii2": "^2.0",
-        "ckeditor/ckeditor": "~4.7.0+full"
+        "yiisoft/yii2": "~2.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*"
@@ -37,16 +36,12 @@
             "dosamigos\\ckeditor\\": "src"
         }
     },
-    "config": {
-        "fxp-asset": {
-            "installer-paths": {
-                "npm-asset-library": "vendor/npm"
-            }
-        }
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
+        },
+        "asset-installer-paths": {
+            "bower-asset-library": "vendor/bower"
         }
     }
 }

@@ -6,6 +6,7 @@ use dosamigos\ckeditor\CKEditor;
 use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Course */
@@ -40,8 +41,11 @@ AppAsset::addCss($this, '@web/css/course.css');
                 'showPreview' => true,
                 'showCaption' => true,
                 'showRemove' => true,
-                'showUpload' => false
-            ]
+                'showUpload' => false,
+                'initialPreview' => [
+                    $model->list_pic ? Html::img($model->list_pic, $options = ['width' => '170px']) : null,
+                ]
+            ],
         ]) ?>
 
     <?= $form->field($model, 'home_pic')->widget(FileInput::classname(),
@@ -51,7 +55,10 @@ AppAsset::addCss($this, '@web/css/course.css');
                     'showPreview' => true,
                     'showCaption' => true,
                     'showRemove' => true,
-                    'showUpload' => false
+                    'showUpload' => false,
+                    'initialPreview' => [
+                        $model->home_pic ? Html::img($model->home_pic, $options = ['width' => '170px']) : null,
+                    ],
                 ]
         ]) ?>
 
@@ -61,6 +68,10 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <?= $form->field($model, 'des')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],
+        'preset' => 'full',
+        'clientOptions' => [
+            'filebrowserUploadUrl' => Url::to(['course/uploadimg'], true)
+        ],
     ]) ?>
 
     <!-- <?//= $form->field($model, 'view')->textInput() ?>
