@@ -175,6 +175,7 @@ function addFolder() {
 
 function addFile() {
     var cns = $('#chapter_tree').jstree('get_selected', true);
+    console.log(cns);
     if (cns != null && cns.length > 0) {
         var cn = cns[0];
         var pid = '0';

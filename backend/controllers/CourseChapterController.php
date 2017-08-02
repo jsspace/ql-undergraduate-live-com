@@ -35,9 +35,21 @@ class CourseChapterController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new CourseChapterSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $request = Yii::$app->request->queryParams;
+        $course_id = $request['course_id'];
+        $coursechapters = CourseChapter::find()
+        ->where(['course_id' => $course_id])
+        ->with('courseSections')
+        ->all();
+        //{'chapter_id':'9','parent_id':'0','name':'电视新闻节目创优','chapter_type':'folder'}
+        //chapters.push({'chapter_id':'187','parent_id':'9','name':'第4讲','chapter_type':'file'});
+        $chapters=array();
+        foreach ($coursechapters as $key => $coursechapter) {
+            $sections = $coursechapter->courseSections;
+            foreach ($sections as $section) {
+                
+            }
+        }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
