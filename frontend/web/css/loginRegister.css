@@ -1,0 +1,57 @@
+.site-login-register {
+    width: 100%;
+    min-width: 1200px;
+    background: url(../img/bg.jpg) center;
+    height: 600px;
+}
+.site-login-register .login-kuang {
+    width: 1200px;
+    margin: 0 auto;
+}
+.site-login-register .login-bg {
+    width: 490px;
+    font-size: 14px;
+    padding: 50px 30px;
+    margin-top: 100px;
+    float: right;
+    background: #f8f8f8;
+}
+.site-login-register .forget-section {
+    float: right;
+    margin-top: 9px;
+}
+.site-login-register .forget-section a {
+    color: #333;
+    font-size: 14px;
+}
+.site-login .field-loginform-rememberme {
+    float: left;
+}
+.site-login .login-section {
+    clear: both;
+}
+.site-login-register .login-section button,
+.site-login .login-section a {
+    background: #E6393F;
+    width: 140px;
+    line-height: 40px;
+    border-radius: 3px;
+    font-size: 14px;
+    margin: 30px 50px 0 60px;
+    text-align: center;
+    color: #fff;
+    display: block;
+    border: 0px;
+    cursor: pointer;
+    padding: 0;
+    float: left;
+}
+.site-login .login-section a {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+}
+.site-signup .login-section button {
+    float: right;
+    margin-right: 0;
+}
