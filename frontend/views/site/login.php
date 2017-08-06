@@ -6,17 +6,15 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use frontend\assets\AppAsset;
+
+AppAsset::addCss($this,'@web/css/loginRegister.css');
 
 $this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
+<div class="site-login-register site-login">
+    <div class="login-kuang">
+        <div class="login-bg">
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
                 <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
@@ -25,12 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
+                <div class="forget-section">
+                    <?= Html::a('忘记密码', ['site/request-password-reset']) ?>.
                 </div>
 
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <div class="form-group login-section">
+                    <?= Html::submitButton('登录', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    <a href="/site/signup">注册</a>
                 </div>
 
             <?php ActiveForm::end(); ?>

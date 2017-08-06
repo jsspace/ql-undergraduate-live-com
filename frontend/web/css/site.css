@@ -52,6 +52,16 @@ a:focus, a:hover, input, input:focus {
     height: 100%;
     margin-bottom: 0;
 }
+.wrap .user-li i {
+    margin-right: 6px;
+}
+.wrap .logout-li button.btn-link {
+    color: #949494;
+}
+.wrap .logout-li button.btn-link:focus,
+.wrap .logout-li button.btn-link:hover {
+    text-decoration: none;
+}
 .wrap .top-ads li {
     float: right;
     margin-right: 20px;
