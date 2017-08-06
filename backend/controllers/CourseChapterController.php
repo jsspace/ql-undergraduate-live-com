@@ -3,11 +3,12 @@
 namespace backend\controllers;
 
 use Yii;
+use backend\models\Course;
 use backend\models\CourseChapter;
 use backend\models\CourseChapterSearch;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * CourseChapterController implements the CRUD actions for CourseChapter model.
@@ -41,18 +42,32 @@ class CourseChapterController extends Controller
         ->where(['course_id' => $course_id])
         ->with('courseSections')
         ->all();
-        //{'chapter_id':'9','parent_id':'0','name':'电视新闻节目创优','chapter_type':'folder'}
-        //chapters.push({'chapter_id':'187','parent_id':'9','name':'第4讲','chapter_type':'file'});
-        $chapters=array();
+        $course = Course::find()
+        ->where(['id' => $course_id])
+        ->one();
+        $chapters_arr = array();
+        $sections_arr = array();
+        $chapters = array();
         foreach ($coursechapters as $key => $coursechapter) {
+            $chapters_arr[$key]=array();
+            $chapters_arr[$key]['chapter_id'] = $coursechapter->id;
+            $chapters_arr[$key]['parent_id'] = '0';
+            $chapters_arr[$key]['name'] = $course->course_name;
+            $chapters_arr[$key]['chapter_type'] = 'folder';
+            $chapters[] = json_encode($chapters_arr[$key]);
             $sections = $coursechapter->courseSections;
-            foreach ($sections as $section) {
-                
+            foreach ($sections as $sectionkey => $section) {
+                $sections_arr[$sectionkey]=array();
+                $sections_arr[$sectionkey]['chapter_id'] = $section->id;
+                $sections_arr[$sectionkey]['parent_id'] = $coursechapter->id;
+                $sections_arr[$sectionkey]['name'] = $section->name;
+                $sections_arr[$sectionkey]['chapter_type'] = 'file';
+                $chapters[] = json_encode($sections_arr[$sectionkey]);
             }
         }
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'chapters' => $chapters,
+            'course' => $course,
         ]);
     }
 

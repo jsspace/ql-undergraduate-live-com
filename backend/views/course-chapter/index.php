@@ -28,19 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script type="text/javascript">
   var chapters = new Array();
-  chapters.push({'chapter_id':'9','parent_id':'0','name':'电视新闻节目创优','chapter_type':'folder'});
-  chapters.push({'chapter_id':'339','parent_id':'0','name':'1','chapter_type':'file'});
-  chapters.push({'chapter_id':'184','parent_id':'9','name':'第1讲','chapter_type':'file'});
-  chapters.push({'chapter_id':'340','parent_id':'0','name':'2','chapter_type':'folder'});
-  chapters.push({'chapter_id':'185','parent_id':'9','name':'第2讲','chapter_type':'file'});
-  chapters.push({'chapter_id':'186','parent_id':'9','name':'第3讲','chapter_type':'file'});
-  chapters.push({'chapter_id':'187','parent_id':'9','name':'第4讲','chapter_type':'file'});
-  chapters.push({'chapter_id':'188','parent_id':'9','name':'第5讲','chapter_type':'file'});
-  chapters.push({'chapter_id':'189','parent_id':'9','name':'第6讲','chapter_type':'file'});
-  chapters.push({'chapter_id':'190','parent_id':'9','name':'第7讲','chapter_type':'file'});
-  chapters.push({'chapter_id':'191','parent_id':'9','name':'第8讲','chapter_type':'file'});
-
-
+  <?php foreach ($chapters as $key => $value) { ?>
+    chapters.push(<?= $value; ?>);
+  <?php } ?>
 function parseChapters(chapters, parent) {
   var chapterArr = new Array();
   for(var c=0;c<chapters.length;c++) {
@@ -81,14 +71,6 @@ $('#chapter_tree').jstree({
                   "icon" : "fa fa-folder-o",
                   "action": function (data) {
                     addFolder();
-                  }
-              };
-
-              cxtmenus['add_file'] = {
-                  "label" : "新建节",
-                  "icon" : "fa fa-file-o",
-                  "action": function (data) {
-                      addFile();
                   }
               };
           } else if (type == "folder") {
@@ -139,7 +121,7 @@ $('#chapter_tree').jstree({
   },
   'core': {
       'data': [{
-          "text": "电视新闻节目创优",
+          "text": "<?= $course->course_name; ?>",
           "type": "#",
           "state": {
             "opened": true,
@@ -168,14 +150,13 @@ function addFolder() {
           shade: [0.5, '#000'],
           maxmin: false,
           area: ['600px', '420px'],
-          content: 'http://admin.ql.com/course-chapter/create'
+          content: '/course-chapter/create'
       });
   }
 }
 
 function addFile() {
     var cns = $('#chapter_tree').jstree('get_selected', true);
-    console.log(cns);
     if (cns != null && cns.length > 0) {
         var cn = cns[0];
         var pid = '0';
@@ -190,7 +171,7 @@ function addFile() {
             shade: [0.5, '#000'],
             maxmin: false,
             area: ['600px', '450px'],
-            content: 'http://www.mediatalk.cn/admin/coursechapters/edit'+'?chapter_type=1&parent_id='+pid+'&course_id=17'
+            content: '/course-section/create'+'?chapter_type=1&parent_id='+pid+'&course_id=17',
         });
     }
 }
