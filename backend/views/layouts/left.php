@@ -73,7 +73,7 @@
         <ul class="treeview-menu<?php if(Yii::$app->controller->module->id == 'admin'){?> menu-open<?php }?>" 
         <?php if(Yii::$app->controller->module->id == 'admin'){?>style="display: block;"<?php }?>>
             <li class="treeview<?php if(Yii::$app->controller->module->id == 'admin'){?> active<?php }?>">                        
-                <a href="/admin">管理员</a>                        
+                <a href="/admin">管理员<?php  print_r(Yii::$app->authManager->getRolesByUser(4));?></a>                        
                 <ul class="treeview-menu<?php if(Yii::$app->controller->module->id == 'admin'){?> menu-open<?php }?>" 
                 <?php if(Yii::$app->controller->module->id == 'admin'){?>style="display: block;"<?php }?>>                            
                     <li><a href="/admin/user"><i class="fa fa-circle-o"></i> 后台用户</a></li>                            
