@@ -19,11 +19,15 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'category_name') ?>
 
+    <!-- <?//= $form->field($model, 'teacher_id')->dropDownList(User::items('教师'), ['prompt'=>'1']) ?>
+
+    <?//= $form->field($model, 'head_teacher')->dropDownList(User::items('班主任'), ['prompt'=>'1']) ?> -->
+
     <?= $form->field($model, 'teacher_id') ?>
 
     <?php echo $form->field($model, 'head_teacher') ?>
 
-    <?php echo $form->field($model, 'onuse') ?>
+    <?= $form->field($model, 'onuse')->dropDownList(['prompt'=>'', '1'=>'可用', '0'=>'不可用']) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', '查询'), ['class' => 'btn btn-primary']) ?>

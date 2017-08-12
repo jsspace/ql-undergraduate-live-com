@@ -44,13 +44,14 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_name', 'list_pic', 'home_pic', 'teacher_id', 'price', 'discount', 'category_name', 'des', 'head_teacher'], 'required'],
-            [['teacher_id', 'view', 'collection', 'share', 'online', 'onuse', 'create_time', 'head_teacher'], 'integer'],
+            [['course_name', 'teacher_id', 'price', 'discount', 'category_name', 'des', 'head_teacher'], 'required'],
+            [['list_pic', 'home_pic'], 'required', 'on'=> 'create'],
+            [['view', 'collection', 'share', 'online', 'onuse', 'create_time'], 'integer'],
             [['price', 'discount'], 'number'],
             [['des'], 'string'],
             [['course_name', 'list_pic', 'home_pic', 'category_name'], 'string', 'max' => 255],
-            [['teacher_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],
-            [['head_teacher'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['head_teacher' => 'id']],
+            // [['teacher_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],
+            // [['head_teacher'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['head_teacher' => 'id']],
         ];
     }
 
@@ -110,5 +111,17 @@ class Course extends \yii\db\ActiveRecord
     public static function find()
     {
         return new CourseQuery(get_called_class());
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->create_time = time();
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

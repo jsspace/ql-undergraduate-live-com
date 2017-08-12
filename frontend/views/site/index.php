@@ -2,11 +2,69 @@
 
 /* @var $this yii\web\View */
 use yii\helpers\Url;
+use frontend\assets\AppAsset;
+
+AppAsset::addCss($this,'@web/css/index.css');
 
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
-    <div class="">
+    <div class="live-course">
+        <div class="live-course-container">
+            <div class="left-video">
+                <img src="/img/no-video.jpg" class="no-video"/>
+                <a href="" class="enter-video-btn">进入教室</a>
+            </div>
+            <div class="right-list">
+                <div class="data-title">
+                    <span class="time">7月16号&nbsp;&nbsp;星期天</span>
+                </div>
+                <ul class="video-title-list">
+                    <li class="active">
+                        <i class="icon-circle"></i>
+                        <a href="">
+                            <span class="top">22:00-23:00</span>
+                            <span class="bottom">前端设计精选课程</span>
+                        </a>
+                    </li>
+                    <li>
+                        <i class="icon-circle"></i>
+                        <a href="">
+                            <span class="top">22:00-23:00</span>
+                            <span class="bottom">前端设计精选课程</span>
+                        </a>
+                    </li>
+                    <li>
+                        <i class="icon-circle"></i>
+                        <a href="">
+                            <span class="top">22:00-23:00</span>
+                            <span class="bottom">前端设计精选课程</span>
+                        </a>
+                    </li>
+                    <li>
+                        <i class="icon-circle"></i>
+                        <a href="">
+                            <span class="top">22:00-23:00</span>
+                            <span class="bottom">前端设计精选课程</span>
+                        </a>
+                    </li>
+                    <li>
+                        <i class="icon-circle"></i>
+                        <a href="">
+                            <span class="top">22:00-23:00</span>
+                            <span class="bottom">前端设计精选课程</span>
+                        </a>
+                    </li>
+                    <li>
+                        <i class="icon-circle"></i>
+                        <a href="">
+                            <span class="top">22:00-23:00</span>
+                            <span class="bottom">前端设计精选课程</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="hot-section">
         <div class="container-course">
@@ -755,3 +813,5 @@ $this->title = 'My Yii Application';
         </div>
     </div>
 </div>
+<script src="<?php echo Url::to('@web/js/lib/jquery.min.js');?>"></script>
+<script src="<?php echo Url::to('@web/js/index.js');?>"></script>

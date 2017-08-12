@@ -39,13 +39,14 @@ AppAsset::register($this);
                 <li class="login"><a href="<?= Url::to(['site/login']) ?>">登录</a></li>
             </ul>
             <?php } else {
-                echo '<ul class="log-sec login"><li>'
+                echo '<ul class="log-sec login"><li class="logout-li">'
                     . Html::beginForm(['/site/logout'], 'post')
                     . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        '注销',
                         ['class' => 'btn btn-link']
                     )
-                    . Html::endForm(). '</li></ul>';
+                    . Html::endForm(). '</li><li class="user-li"><a href="/user/index"><i class="icon ion-android-person"></i>'
+                    . Yii::$app->user->identity->username . '</a></li></ul>';
             }?>
             <ul class="log-sec has-login">
                 <li class="logout">
@@ -76,7 +77,7 @@ AppAsset::register($this);
                     <a href="">套餐</a>
                 </li>
                 <li>
-                    <a href="">讲师团</a>
+                    <a href="/teacher/list">讲师团</a>
                 </li>
                 <li>
                     <a href="">资料</a>

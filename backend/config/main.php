@@ -89,6 +89,8 @@ return [
             'user/*',
             'course/*',
             'course-category/*',
+            'course-chapter/*',
+            'course-section/*',
             'friendly-links/*'
         ]
     ],

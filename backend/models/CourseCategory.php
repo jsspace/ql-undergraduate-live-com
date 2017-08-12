@@ -33,9 +33,9 @@ class CourseCategory extends \yii\db\ActiveRecord
         return [
             [['name', 'parent_id'], 'required'],
             [['parent_id'], 'integer'],
+            [['des'], 'string'],
             [['name'], 'string', 'max' => 255],
-            [['des'], 'string', 'max' => 600],
-            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => CourseCategory::className(), 'targetAttribute' => ['parent_id' => 'id']],
+            //[['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => CourseCategory::className(), 'targetAttribute' => ['parent_id' => 'id']],
         ];
     }
 
@@ -75,5 +75,31 @@ class CourseCategory extends \yii\db\ActiveRecord
     public static function find()
     {
         return new CourseCategoryQuery(get_called_class());
+    }
+
+    private static $_items = array();
+    public static function items(){
+        if(count(self::$_items)==0){
+            self::loadItems();
+        }
+        return self::$_items;
+    }
+
+    public static function item($id)
+    {
+        if(!isset(self::$_items[$id]))
+            self::loadItems();
+            return isset(self::$_items[$id]) ? self::$_items[$id] : false;
+    }
+
+    private static function loadItems()
+    {
+        $models=self::find()
+        ->where(['parent_id'=>0])
+        ->all();
+        self::$_items[0] = '顶级分类';
+        foreach ($models as $model) {
+            self::$_items[$model->id] = $model->name;
+        }
     }
 }
