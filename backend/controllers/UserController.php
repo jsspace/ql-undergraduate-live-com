@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
 use backend\models\User;
@@ -8,27 +8,18 @@ use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
 class UserController extends Controller
 {
-    
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
         return [
-//             'cache' => [
-//                 'class' => 'yii\filters\PageCache',
-//                 'duration' => 60,
-//                 'variations' => [
-//                     \Yii::$app->language,
-//                 ],
-//             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -128,40 +119,6 @@ class UserController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-    
-    public function actionInfo()
-    {
-        return $this->render('info');
-    }
-    
-    public function actionEdit()
-    {
-        $id = Yii::$app->user->id;
-        $model = $this->findModel($id);
-        
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
-            $file = UploadedFile::getInstance($model, 'picture');
-             
-            if ($file) {
-                $ext = $file->getExtension();
-                $randName = time() . rand(1000, 9999) . '.' . $ext;
-                $img_rootPath .= 'head_img/';
-                if (!file_exists($img_rootPath)) {
-                    mkdir($img_rootPath, 0777, true);
-                }
-                $file->saveAs($img_rootPath . $randName);
-                $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
-            }
-            if ($model->save()) {
-                return $this->redirect(['info']);
-            }
-        } else {
-            return $this->render('edit', [
-                'model' => $model,
-            ]);
         }
     }
 }

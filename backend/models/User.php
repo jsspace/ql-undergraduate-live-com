@@ -16,9 +16,15 @@ use Yii;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
- *
- * @property Course[] $courses
- * @property Course[] $courses0
+ * @property string $phone
+ * @property integer $gender
+ * @property string $description
+ * @property string $unit
+ * @property string $office
+ * @property string $goodat
+ * @property string $picture
+ * @property string $intro
+ * @property integer $code
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -36,10 +42,13 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
-            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at', 'phone'], 'required'],
+            [['status', 'created_at', 'updated_at', 'gender', 'code'], 'integer'],
+            [['intro'], 'string'],
             [['username', 'auth_key'], 'string', 'max' => 32],
-            [['password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['password_hash', 'password_reset_token', 'email', 'phone', 'picture'], 'string', 'max' => 255],
+            [['description'], 'string', 'max' => 2000],
+            [['unit', 'office', 'goodat'], 'string', 'max' => 300],
         ];
     }
 
@@ -50,31 +59,24 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'username' => Yii::t('app', 'Username'),
+            'username' => Yii::t('app', '姓名'),
             'auth_key' => Yii::t('app', 'Auth Key'),
             'password_hash' => Yii::t('app', 'Password Hash'),
             'password_reset_token' => Yii::t('app', 'Password Reset Token'),
-            'email' => Yii::t('app', 'Email'),
-            'status' => Yii::t('app', 'Status'),
+            'email' => Yii::t('app', '邮箱'),
+            'status' => Yii::t('app', '状态'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'phone' => Yii::t('app', '电话'),
+            'gender' => Yii::t('app', '性别（男：0，女：1）'),
+            'description' => Yii::t('app', '简短描述'),
+            'unit' => Yii::t('app', '单位'),
+            'office' => Yii::t('app', '职务'),
+            'goodat' => Yii::t('app', '擅长'),
+            'picture' => Yii::t('app', '照片'),
+            'intro' => Yii::t('app', '介绍'),
+            'code' => Yii::t('app', '会员码'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCourses()
-    {
-        return $this->hasMany(Course::className(), ['teacher_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCourses0()
-    {
-        return $this->hasMany(Course::className(), ['head_teacher' => 'id']);
     }
 
     /**
@@ -85,7 +87,23 @@ class User extends \yii\db\ActiveRecord
     {
         return new UserQuery(get_called_class());
     }
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCourses()
+    {
+        return $this->hasMany(Course::className(), ['teacher_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCourses0()
+    {
+        return $this->hasMany(Course::className(), ['head_teacher' => 'id']);
+    }
+    
+    
     private static $_items=array();
     private static $_item=array();
     
@@ -103,7 +121,7 @@ class User extends \yii\db\ActiveRecord
             self::loadItem();
             return isset(self::$_item[$id]) ? self::$_item[$id] : false;
     }
-
+    
     private static function loadItems($role)
     {
         // self::$_items[$role]=array();
@@ -115,7 +133,7 @@ class User extends \yii\db\ActiveRecord
         //     self::$_items[$role][$umodel->id]=$umodel->username;
         // }
     }
-
+    
     private static function loadItem()
     {
         $umodels= User::find()
