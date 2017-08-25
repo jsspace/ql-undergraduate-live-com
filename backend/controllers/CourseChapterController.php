@@ -41,6 +41,7 @@ class CourseChapterController extends Controller
         $coursechapters = CourseChapter::find()
         ->where(['course_id' => $course_id])
         ->with('courseSections')
+        ->orderBy('position DESC')
         ->all();
         $course = Course::find()
         ->where(['id' => $course_id])
@@ -52,7 +53,7 @@ class CourseChapterController extends Controller
             $chapters_arr[$key]=array();
             $chapters_arr[$key]['chapter_id'] = $coursechapter->id;
             $chapters_arr[$key]['parent_id'] = '0';
-            $chapters_arr[$key]['name'] = $course->course_name;
+            $chapters_arr[$key]['name'] = $coursechapter->name;
             $chapters_arr[$key]['chapter_type'] = 'folder';
             $chapters[] = json_encode($chapters_arr[$key]);
             $sections = $coursechapter->courseSections;
@@ -91,9 +92,11 @@ class CourseChapterController extends Controller
     public function actionCreate()
     {
         $model = new CourseChapter();
-
+        $request = Yii::$app->request->queryParams;
+        $course_id = $request['course_id'];
+        $model->course_id = $course_id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->render('index', ['course_id' => $model->course_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,

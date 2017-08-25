@@ -150,7 +150,7 @@ function addFolder() {
           shade: [0.5, '#000'],
           maxmin: false,
           area: ['600px', '420px'],
-          content: '/course-chapter/create'
+          content: '/course-chapter/create?course_id='+<?= $course->id; ?>
       });
   }
 }
@@ -188,7 +188,7 @@ function editChapter() {
             shade: [0.5, '#000'],
             maxmin: false,
             area: ['600px', '450px'],
-            content: 'http://www.mediatalk.cn/admin/coursechapters/edit?modify='+cn.state.cid+'&chapter_type='+(cn.type=='folder'?'0':'1')
+            content: '/course-chapter/update?chapter_id='+cn.state.cid+'&chapter_type='+(cn.type=='folder'?'0':'1')
         });
     }
 }
@@ -204,7 +204,7 @@ function deleteChapter() {
           shade: [0.5, '#000'],
           maxmin: false,
           area: ['400px', '200px'],
-          content: 'http://www.mediatalk.cn/admin/coursechapters/edit'+'?delete='+cn.state.cid,
+          content: '/course-chapter/delete'+'?delete='+cn.state.cid,
           end: function() {
             location.reload();
           }

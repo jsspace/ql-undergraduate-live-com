@@ -6,13 +6,12 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseChapter */
 /* @var $form yii\widgets\ActiveForm */
+$this->context->layout = false;
 ?>
 
 <div class="course-chapter-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'course_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
