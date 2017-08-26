@@ -4,11 +4,11 @@ use backend\models\CourseChapter;
 use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseSection */
 
 AppAsset::addCss($this,'@web/css/chapter_section.css');
+
 ?>
 <div class="course-section-view">
     <?= DetailView::widget([

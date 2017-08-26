@@ -186,12 +186,11 @@ function editChapter() {
     var cns = $('#chapter_tree').jstree('get_selected', true);
     if (cns != null && cns.length > 0) {
         var cn = cns[0];
-        console.log(cn);
         var content = '';
         if (cn.type == 'folder') {
-            content = '/course-chapter/update?chapter_id='+cn.state.cid;
+            content = '/course-chapter/update?id='+cn.state.cid;
         } else {
-            content = '/course-section/update?chapter_id='+cn.state.cid;
+            content = '/course-section/update?id='+cn.state.cid;
         }
         layer.open({
             type: 2,
@@ -200,7 +199,7 @@ function editChapter() {
             shade: [0.5, '#000'],
             maxmin: false,
             area: ['600px', '450px'],
-            content: '/course-chapter/update?chapter_id='+cn.state.cid+'&chapter_type='+(cn.type=='folder'?'0':'1'),
+            content: content,
             end: function() {
                 location.reload();
             }
@@ -212,17 +211,28 @@ function deleteChapter() {
   var cns = $('#chapter_tree').jstree('get_selected', true);
   if (cns != null && cns.length > 0) {
       var cn = cns[0];
-      layer.open({
-          type: 2,
-          title: '删除',
-          shadeClose: false,
-          shade: [0.5, '#000'],
-          maxmin: false,
-          area: ['400px', '200px'],
-          content: '/course-chapter/delete'+'?delete='+cn.state.cid,
-          end: function() {
-            location.reload();
-          }
+      if (cn.type == 'folder') {
+          content = '/course-chapter/delete';
+      } else {
+          content = '/course-section/delete';
+      }
+      //询问框
+      layer.confirm('确定要删除吗？', {
+          btn: ['确定','取消'] //按钮
+      }, function(){
+          $.ajax({
+              url: content,
+              type: 'get',
+              data: {
+                  id: cn.state.cid
+              },
+              success: function(data) {
+                  layer.msg('删除成功', {icon: 1});
+                  window.location.reload();
+              }
+          });
+      }, function(){
+          layer.close();
       });
   }
 }

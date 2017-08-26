@@ -24,7 +24,7 @@ class CourseChapterController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['POST','GET'],
                 ],
             ],
         ];
@@ -41,7 +41,7 @@ class CourseChapterController extends Controller
         $coursechapters = CourseChapter::find()
         ->where(['course_id' => $course_id])
         ->with('courseSections')
-        ->orderBy('position DESC')
+        ->orderBy('position ASC')
         ->all();
         $course = Course::find()
         ->where(['id' => $course_id])
@@ -133,7 +133,7 @@ class CourseChapterController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return 'success';
     }
 
     /**
