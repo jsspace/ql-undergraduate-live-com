@@ -22,9 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
-<script src="<?php echo Url::to('@web/js/lib/jquery.min.js');?>"></script>
-<script src="<?php echo Url::to('@web/js/lib/jstree.min.js');?>"></script>
-<script src="<?php echo Url::to('@web/skin/layer.js');?>"></script>
+<script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
+<script src="<?= Url::to('@web/js/lib/jstree.min.js');?>"></script>
+<script src="<?= Url::to('@web/skin/layer.js');?>"></script>
 
 <script type="text/javascript">
   var chapters = new Array();
@@ -150,7 +150,10 @@ function addFolder() {
           shade: [0.5, '#000'],
           maxmin: false,
           area: ['600px', '420px'],
-          content: '/course-chapter/create?course_id='+<?= $course->id; ?>
+          content: '/course-chapter/create?course_id='+<?= $course->id; ?>,
+          end: function() {
+            location.reload();
+          }
       });
   }
 }
@@ -163,7 +166,6 @@ function addFile() {
         if (cn.type == 'folder') {
             pid = cn.state.cid;
         }
-
         layer.open({
             type: 2,
             title: '新建节',
@@ -171,7 +173,11 @@ function addFile() {
             shade: [0.5, '#000'],
             maxmin: false,
             area: ['600px', '450px'],
-            content: '/course-section/create'+'?chapter_type=1&parent_id='+pid+'&course_id=17',
+            content: '/course-section/create'+'?chapter_id='+pid,
+            end: function() {
+                location.reload();
+            }
+            /*content: '/course-section/create'+'?chapter_type=1&chapter_id='+pid+'&course_id=17',*/
         });
     }
 }
@@ -180,7 +186,13 @@ function editChapter() {
     var cns = $('#chapter_tree').jstree('get_selected', true);
     if (cns != null && cns.length > 0) {
         var cn = cns[0];
-        
+        console.log(cn);
+        var content = '';
+        if (cn.type == 'folder') {
+            content = '/course-chapter/update?chapter_id='+cn.state.cid;
+        } else {
+            content = '/course-section/update?chapter_id='+cn.state.cid;
+        }
         layer.open({
             type: 2,
             title: '编辑',
@@ -188,7 +200,10 @@ function editChapter() {
             shade: [0.5, '#000'],
             maxmin: false,
             area: ['600px', '450px'],
-            content: '/course-chapter/update?chapter_id='+cn.state.cid+'&chapter_type='+(cn.type=='folder'?'0':'1')
+            content: '/course-chapter/update?chapter_id='+cn.state.cid+'&chapter_type='+(cn.type=='folder'?'0':'1'),
+            end: function() {
+                location.reload();
+            }
         });
     }
 }

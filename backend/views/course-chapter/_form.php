@@ -2,13 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseChapter */
 /* @var $form yii\widgets\ActiveForm */
-$this->context->layout = false;
+AppAsset::addCss($this,'@web/css/chapter_section.css');
 ?>
-
 <div class="course-chapter-form">
 
     <?php $form = ActiveForm::begin(); ?>

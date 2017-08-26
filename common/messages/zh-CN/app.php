@@ -32,6 +32,7 @@ return [
     'Create Course Category' => '新建课程分类',
     'Course Chapters' => '课程章节',
     'Create Course Chapter' => '新建章',
+    'Create Section Chapter' => '新建节',
     '价格' => '',
     '优惠价格' => '',
     '保存' => '',

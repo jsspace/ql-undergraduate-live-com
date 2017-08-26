@@ -1,41 +1,37 @@
 <?php
 
+use backend\models\CourseChapter;
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseSection */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Course Sections'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+AppAsset::addCss($this,'@web/css/chapter_section.css');
 ?>
 <div class="course-section-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'chapter_id',
+            [
+                'attribute' => 'chapter_id',
+                'value' => CourseChapter::item($model->chapter_id),
+            ],
             'name',
-            'position',
-            'type',
-            'start_time:datetime',
             'video_url:url',
+            'playback_url:url',
+            [
+                'attribute' => 'paid_free',
+                'value'=> $model->paid_free == 1 ? '付费' : '免费',
+            ],
+            [
+                'attribute' => 'type',
+                'value'=> $model->type == 1 ? '网课' : '直播课',
+            ],
             'duration',
+            'start_time:datetime',
+            'position',
         ],
     ]) ?>
 

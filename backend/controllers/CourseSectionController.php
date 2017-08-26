@@ -64,7 +64,9 @@ class CourseSectionController extends Controller
     public function actionCreate()
     {
         $model = new CourseSection();
-
+        $request = Yii::$app->request->queryParams;
+        $chapter_id = $request['chapter_id'];
+        $model->chapter_id = $chapter_id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

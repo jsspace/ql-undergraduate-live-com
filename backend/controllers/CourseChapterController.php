@@ -96,7 +96,7 @@ class CourseChapterController extends Controller
         $course_id = $request['course_id'];
         $model->course_id = $course_id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->render('index', ['course_id' => $model->course_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,

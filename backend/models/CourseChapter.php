@@ -75,4 +75,20 @@ class CourseChapter extends \yii\db\ActiveRecord
     {
         return new CourseChapterQuery(get_called_class());
     }
+
+    private static $_item = array();
+    public static function item($id)
+    {
+        if(!isset(self::$_item[$id]))
+            self::loadItem();
+            return isset(self::$_item[$id]) ? self::$_item[$id] : false;
+    }
+    private static function loadItem()
+    {
+        $models=self::find()
+        ->all();
+        foreach ($models as $model) {
+            self::$_item[$model->id] = $model->name;
+        }
+    }
 }

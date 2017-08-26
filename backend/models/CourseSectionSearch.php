@@ -18,8 +18,8 @@ class CourseSectionSearch extends CourseSection
     public function rules()
     {
         return [
-            [['id', 'chapter_id', 'position', 'type', 'start_time'], 'integer'],
-            [['name', 'video_url', 'duration'], 'safe'],
+           [['id', 'chapter_id', 'position', 'type', 'paid_free'], 'integer'],
+          [['name', 'start_time', 'video_url', 'duration', 'playback_url'], 'safe'],
         ];
     }
 
@@ -64,11 +64,13 @@ class CourseSectionSearch extends CourseSection
             'position' => $this->position,
             'type' => $this->type,
             'start_time' => $this->start_time,
+            'paid_free' => $this->paid_free, 
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'video_url', $this->video_url])
-            ->andFilterWhere(['like', 'duration', $this->duration]);
+            ->andFilterWhere(['like', 'duration', $this->duration])
+            ->andFilterWhere(['like', 'playback_url', $this->playback_url]);
 
         return $dataProvider;
     }
