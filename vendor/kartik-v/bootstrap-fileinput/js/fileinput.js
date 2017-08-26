@@ -279,11 +279,8 @@
         setOrientation: function (buffer, callback) {
             var scanner = new DataView(buffer), idx = 0, value = 1, // Non-rotated is the default
                 maxBytes, uInt16, exifLength;
-            if (scanner.getUint16(idx) !== 0xFFD8 || buffer.length < 2) { // not a proper JPEG                
-                if (callback) {
-                    callback();
-                }
-                return;
+            if (scanner.getUint16(idx) !== 0xFFD8 || buffer.length < 2) {
+                return; // not a proper JPEG
             }
             idx += 2;
             maxBytes = scanner.byteLength;
@@ -1030,7 +1027,7 @@
         },
         _parseError: function (operation, jqXHR, errorThrown, fileName) {
             /** @namespace jqXHR.responseJSON */
-            var self = this, errMsg = $.trim(errorThrown + ''), textPre, 
+            var self = this, errMsg = $.trim(errorThrown + ''), dot = errMsg.slice(-1) === '.' ? '' : '.',
                 text = jqXHR.responseJSON !== undefined && jqXHR.responseJSON.error !== undefined ?
                     jqXHR.responseJSON.error : jqXHR.responseText;
             if (self.cancelling && self.msgUploadAborted) {
@@ -1038,10 +1035,12 @@
             }
             if (self.showAjaxErrorDetails && text) {
                 text = $.trim(text.replace(/\n\s*\n/g, '\n'));
-                textPre = text.length ? '<pre>' + text + '</pre>' : '';
-                errMsg += errMsg ? textPre : text;
-            } 
-            if (!errMsg) {
+                text = text.length > 0 ? '<pre>' + text + '</pre>' : '';
+                errMsg += dot + text;
+            } else {
+                errMsg += dot;
+            }
+            if (errMsg === dot) {
                 errMsg = self.msgAjaxError.replace('{operation}', operation);
             }
             self.cancelling = false;
@@ -1912,7 +1911,7 @@
                 self.formdata.append(key, value);
             });
         },
-        _uploadSingle: function (i, allFiles) {
+        _uploadSingle: function (i, files, allFiles) {
             var self = this, total = self.getFileStack().length, formdata = new FormData(), outData,
                 previewId = self.previewInitId + "-" + i, $thumb, chkComplete, $btnUpload, $btnDelete,
                 hasPostData = self.filestack.length > 0 || !$.isEmptyObject(self.uploadExtraData),
@@ -2059,7 +2058,7 @@
             };
             fnError = function (jqXHR, textStatus, errorThrown) {
                 var op = self.ajaxOperations.uploadThumb,
-                    errMsg = self._parseError(op, jqXHR, errorThrown, (allFiles && self.filestack[i].name ? self.filestack[i].name : null));
+                    errMsg = self._parseError(op, jqXHR, errorThrown, (allFiles ? files[i].name : null));
                 uploadFailed = true;
                 setTimeout(function () {
                     if (allFiles) {
@@ -2072,7 +2071,7 @@
                     self._showUploadError(errMsg, params);
                 }, 100);
             };
-            formdata.append(self.uploadFileAttr, self.filestack[i], self.filenames[i]);
+            formdata.append(self.uploadFileAttr, files[i], self.filenames[i]);
             formdata.append('file_id', i);
             self._ajaxSubmit(fnBefore, fnSuccess, fnComplete, fnError, previewId, i);
         },
@@ -2304,7 +2303,7 @@
                 self._handler($el, 'click', function () {
                     var $frame = $el.closest($h.FRAMES), ind = $frame.attr('data-fileindex');
                     if (!$frame.hasClass('file-preview-error')) {
-                        self._uploadSingle(ind, false);
+                        self._uploadSingle(ind, self.filestack, false);
                     }
                 });
             });
@@ -2342,7 +2341,7 @@
                     beforeSend: function (jqXHR) {
                         self.ajaxAborted = false;
                         self._raise('filepredelete', [vKey, jqXHR, extraData]);
-                        if (self._abort()) {
+                        if (self.ajaxAborted) {
                             jqXHR.abort();
                         } else {
                             $h.addCss($frame, 'file-uploading');
@@ -2393,19 +2392,7 @@
                     if (!self._validateMinCount()) {
                         return false;
                     }
-                    self.ajaxAborted = false;
-                    self._raise('filebeforedelete', [vKey, extraData]);
-                    if (self.ajaxAborted instanceof Promise) {
-                        self.ajaxAborted.then(function(result) {
-                            if (result === false) {
-                                $.ajax(settings);
-                            }
-                        });
-                    } else {
-                        if (self.ajaxAborted === false) {
-                            $.ajax(settings);
-                        }
-                    }
+                    $.ajax(settings);
                 });
             });
         },
@@ -2524,17 +2511,15 @@
                 var $img = $preview.find('#' + previewId + ' img');
                 if ($img.length && self.autoOrientImage) {
                     $h.validateOrientation(file, function (value) {
-                        if (!value) {
-                            self._validateImage(previewId, caption, ftype, fsize, iData);
-                            return;
+                        if (value) {
+                            var $zoomImg = $preview.find('#zoom-' + previewId + ' img'), css = 'rotate-' + value;
+                            if (value > 4) {
+                                css += ($img.width() > $img.height() ? ' is-portrait-gt4' : ' is-landscape-gt4');
+                            }
+                            $h.addCss($img, css);
+                            $h.addCss($zoomImg, css);
+                            self._raise('fileimageoriented', {'$img': $img, 'file': file});
                         }
-                        var $zoomImg = $preview.find('#zoom-' + previewId + ' img'), css = 'rotate-' + value;
-                        if (value > 4) {
-                            css += ($img.width() > $img.height() ? ' is-portrait-gt4' : ' is-landscape-gt4');
-                        }
-                        $h.addCss($img, css);
-                        $h.addCss($zoomImg, css);
-                        self._raise('fileimageoriented', {'$img': $img, 'file': file});
                         self._validateImage(previewId, caption, ftype, fsize, iData);
                         $h.adjustOrientedImage($img);
                     });
@@ -3568,9 +3553,9 @@
             if (self.getFrames().length || self.isUploadable && self.dropZoneEnabled) {
                 self.$container.removeClass('file-input-new');
             }
+            self._setFileDropZoneTitle();
             self.clearStack();
             self.formdata = {};
-            self._setFileDropZoneTitle();
             return self.$element;
         },
         disable: function () {
@@ -3634,8 +3619,8 @@
                 self.cacheInitialPreview = self.getPreview();
 
                 for (i = 0; i < len; i++) {
-                    if (self.filestack[i]) {
-                        self._uploadSingle(i, true);
+                    if (self.filestack[i] !== undefined) {
+                        self._uploadSingle(i, self.filestack, true);
                     }
                 }
                 return;
