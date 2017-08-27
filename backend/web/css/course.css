@@ -1,7 +1,9 @@
-.course_category_wrap {
+.course_category_wrap,
+.package_category_wrap {
     position: relative;
 }
-.category-result {
+.category-result,
+.package-category-result {
     position: absolute;
     top: 0;
     left: 0;
@@ -10,7 +12,8 @@
     border: 1px solid #d2d6de;
     border-top: 0;
 }
-.category-result span {
+.category-result span,
+.package-category-result span {
     display: block;
     padding: 6px 88px 6px 12px;
     background-color: palevioletred;

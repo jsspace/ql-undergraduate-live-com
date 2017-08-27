@@ -91,6 +91,8 @@ return [
             'course-category/*',
             'course-chapter/*',
             'course-section/*',
+            'course-package-category/*',
+            'course-package/*',
             'friendly-links/*'
         ]
     ],

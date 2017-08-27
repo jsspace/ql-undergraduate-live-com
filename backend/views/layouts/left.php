@@ -1,3 +1,8 @@
+<?php 
+use mdm\admin\components\MenuHelper;
+
+
+?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -8,7 +13,7 @@
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p><?= Yii::$app->user->identity->username ?></p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -62,7 +67,13 @@
                     ],
                 ],
             ]
-        ) ?>
+        ) ;
+        echo dmstr\widgets\Menu::widget([
+            'options' => ['class' => 'sidebar-menu'], 
+            'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id), 
+        ]);
+        
+        ?>
     
     <ul class="sidebar-menu">            
     <li class="treeview">               
@@ -100,6 +111,8 @@
             <li class="treeview">
                 <a href="/course/index">课程管理</a>
                 <a href="/course-category/index">课程分类管理</a>
+                <a href="/course-package/index">套餐管理</a>
+                <a href="/course-package-category/index">套餐分类管理</a>
             </li>
         </ul>
     </li>
