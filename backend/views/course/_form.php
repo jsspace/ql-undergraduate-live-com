@@ -30,9 +30,9 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <?//= $form->field($model, 'head_teacher')->dropDownList(User::items('班主任'), ['prompt'=>'1']) ?> -->
 
-    <?= $form->field($model, 'teacher_id')->dropDownList(['prompt'=>1]) ?>
+    <?= $form->field($model, 'teacher_id')->dropDownList($teachers) ?>
 
-    <?= $form->field($model, 'head_teacher')->dropDownList(['prompt'=>1]) ?>
+    <?= $form->field($model, 'head_teacher')->dropDownList($head_teachers) ?>
 
     <?= $form->field($model, 'list_pic')->widget(FileInput::classname(),
         [

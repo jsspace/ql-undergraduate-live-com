@@ -6,6 +6,7 @@ use Yii;
 use backend\models\Course;
 use backend\models\CourseCategory;
 use backend\models\CourseSearch;
+use backend\models\User;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -67,6 +68,9 @@ class CourseController extends Controller
     {
         $model = new Course();
         $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
+        
+        $teachers = User::users('teacher');
+        $head_teachers = User::users('head_teacher');
 
         if ($model->load(Yii::$app->request->post())) {
             $image_list = UploadedFile::getInstance($model, 'list_pic');
@@ -93,11 +97,15 @@ class CourseController extends Controller
                 @unlink($rootPath . $homerandName);
                 return $this->render('create', [
                     'model' => $model,
+                    'teachers' => $teachers,
+                    'head_teachers' => $head_teachers,
                 ]);
             }
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'teachers' => $teachers,
+                'head_teachers' => $head_teachers,
             ]);
         }
     }
@@ -148,6 +156,8 @@ class CourseController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $teachers = User::users('teacher');
+        $head_teachers = User::users('head_teacher');
 
         $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
         $oldlist_path = $model->list_pic;
@@ -189,11 +199,15 @@ class CourseController extends Controller
                 @unlink($rootPath . $homerandName);
                 return $this->render('create', [
                     'model' => $model,
+                    'teachers' => $teachers,
+                    'head_teachers' => $head_teachers,
                 ]);
             }
         } else {
-            return $this->render('create', [
+            return $this->render('update', [
                 'model' => $model,
+                'teachers' => $teachers,
+                'head_teachers' => $head_teachers,
             ]);
         }
     }
