@@ -26,7 +26,7 @@ $this->title = 'My Yii Application';
                 </div>
             </div>
             <div class="right-package">
-                <p class="package-name">前端框架介绍<i><img src="/img/qrcode.png"/></i></p>
+                <p class="package-name">前端框架介绍<i><img src="/img/qrcode-img.png"/></i></p>
                 <p class="package-icon-list">
                     <span><i class="icon ion-clock"></i> 30分钟</span>
                     <span><i class="icon ion-android-person"></i> 121人</span>
