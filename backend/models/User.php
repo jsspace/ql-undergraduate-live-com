@@ -103,6 +103,33 @@ class User extends \yii\db\ActiveRecord
         return $this->hasMany(Course::className(), ['head_teacher' => 'id']);
     }
     
+    private static $_users=array();
+    
+    public static function users($roleName)
+    {
+        if(!isset(self::$_users[$roleName]))
+            self::loadUsers($roleName);
+            return self::$_users[$roleName];
+    }
+    
+    public static function user($roleName,$id)
+    {
+        if(!isset(self::$_users[$roleName]))
+            self::loadItems($roleName);
+            return isset(self::$_users[$roleName][$$id]) ? self::$_users[$roleName][$id] : false;
+    }
+    
+    private static function loadUsers($roleName)
+    {
+        self::$_users[$roleName]=array();
+        $userIds = Yii::$app->authManager->getUserIdsByRole($roleName);
+        $models=self::find()
+        ->where(['in', 'id', $userIds])
+        ->orderBy('id desc')
+        ->all();
+        foreach($models as $model)
+            self::$_users[$roleName][$model->id]=$model->username;
+    }
     
     private static $_items=array();
     private static $_item=array();
