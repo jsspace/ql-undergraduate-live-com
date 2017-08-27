@@ -100,6 +100,8 @@
             <li class="treeview">
                 <a href="/course/index">课程管理</a>
                 <a href="/course-category/index">课程分类管理</a>
+                <a href="/course-package/index">套餐管理</a>
+                <a href="/course-package-category/index">套餐分类管理</a>
             </li>
         </ul>
     </li>
