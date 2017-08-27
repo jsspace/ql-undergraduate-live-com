@@ -12,7 +12,7 @@ $this->title = 'My Yii Application';
     <span>您的位置：</span>
     <span><a href="/">首页</a></span>
     <span>&gt;</span>
-    <span>课程列表</span>
+    <span>套餐列表</span>
 </div>
 <div class="container-course course-section">
     <div class="course-category">
@@ -59,10 +59,54 @@ $this->title = 'My Yii Application';
             </li>
         </ul>
     </div>
+    <div class="course-category">
+        <div class="category-title">子分类&gt;&gt;</div>
+        <ul class="category-li">
+            <li>
+                <a href="">全部</a>
+            </li>
+            <li>
+                <a href="">文学类</a>
+            </li>
+            <li>
+                <a href="">商务英语</a>
+            </li>
+            <li>
+                <a href="">前端开发</a>
+            </li>
+            <li>
+                <a href="">后端开发</a>
+            </li>
+            <li>
+                <a href="">电视媒体</a>
+            </li>
+            <li>
+                <a href="">天文地理</a>
+            </li>
+            <li>
+                <a href="">化学生物</a>
+            </li>
+            <li>
+                <a href="">前端开发</a>
+            </li>
+            <li>
+                <a href="">后端开发</a>
+            </li>
+            <li>
+                <a href="">电视媒体</a>
+            </li>
+            <li>
+                <a href="">天文地理</a>
+            </li>
+            <li>
+                <a href="">化学生物</a>
+            </li>
+        </ul>
+    </div>
     <div class="course-content">
         <ul class="list active">
             <li>
-                <a href="/course/detail">
+                <a href="/package/detail">
                     <div class="course-img">
                         <img class="course-pic" src="/img/course-list-img.jpg"/>
                     </div>
@@ -80,7 +124,7 @@ $this->title = 'My Yii Application';
                 </a>
             </li>
             <li>
-                <a href="/course/detail">
+                <a href="/package/detail">
                     <div class="course-img">
                         <img class="course-pic" src="/img/course-list-img.jpg"/>
                     </div>
@@ -98,7 +142,7 @@ $this->title = 'My Yii Application';
                 </a>
             </li>
             <li>
-                <a href="/course/detail">
+                <a href="/package/detail">
                     <div class="course-img">
                         <img class="course-pic" src="/img/course-list-img.jpg"/>
                     </div>

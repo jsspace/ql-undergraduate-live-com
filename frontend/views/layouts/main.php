@@ -71,10 +71,10 @@ AppAsset::register($this);
                     <a href="">首页</a>
                 </li>
                 <li>
-                    <a href="">课程</a>
+                    <a href="/course/list">课程</a>
                 </li>
                 <li>
-                    <a href="">套餐</a>
+                    <a href="/coursePackage/list">套餐</a>
                 </li>
                 <li>
                     <a href="/teacher/list">讲师团</a>

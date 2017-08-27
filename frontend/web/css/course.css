@@ -1,3 +1,9 @@
+* {
+    box-sizing: content-box;
+}
+.course-section {
+    padding-bottom: 100px;
+}
 .course-category {
     width: 100%;
     background: #fff;
@@ -119,4 +125,275 @@
 .course-content .teacher-section .teacher-name {
     font-size: 13px;
     color: #777779;
+}
+
+
+/* course detail */
+.course-detail-section {
+    width: 100%;
+    background: #f2f3f5;
+}
+.course-detail-section img {
+    max-width: 100%;
+}
+.course-detail-section .main-section {
+    width: 1180px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 0 auto 30px;
+    overflow: hidden;
+}
+.course-detail-section .course-detail-left {
+    width: 620px;
+    float: left;
+}
+.course-detail-section .course-detail-left img {
+    width: 100%;
+}
+.course-detail-section .course-detail-right {
+    width: 450px;
+    margin-left: 50px;
+    float: left;
+}
+.course-detail-section .course-detail-title {
+    font-size: 24px;
+    text-align: left;
+    line-height: 60px;
+}
+.course-detail-section .course-sub-title {
+    font-size: 14px;
+    text-align: left;
+    color: #ff9933;
+}
+.course-detail-section .course-info {
+    padding-top: 130px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: left;
+    color: #666;
+}
+.course-detail-section .info-list {
+    overflow: hidden;
+}
+.course-detail-section .info-list li {
+    width: 150px;
+    float: left;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: left;
+}
+.course-detail-section .share-like {
+    margin-top: 30px;
+}
+.course-detail-section .share-like .share-list {
+    margin-right: 30px;
+    float: left;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #32b7fa;
+    text-align: left;
+    cursor: pointer;
+}
+.course-detail-section .share-like .share-list a {
+    color: #32b7fa;
+}
+.course-detail-section .kc-left {
+    width: 855px;
+    float: left;
+}
+.course-detail-section .kc-left .course-tag {
+    width: 100%;
+    height: 50px;
+    background: #F4F4F4;
+    border-left: 1px solid #F4F4F4;
+    padding-left: 1px;
+}
+.course-detail-section .kc-left .course-tag li {
+    height: 48px;
+    float: left;
+    font-size: 14px;
+    line-height: 48px;
+    padding: 0 40px;
+    cursor: pointer;
+    color: #555;
+    border-right: 1px solid #dbdbdb;
+}
+.course-detail-section .kc-left .course-tag li.active {
+    color: #FF2A2A;
+    border-top: 2px solid #D83F2A;
+}
+.course-detail-section .course-tag-content {
+    margin-top: 20px;
+    width: 100%;
+}
+.course-detail-section .course-tag-content .tag-content {
+    display: none;
+}
+.course-detail-section .course-tag-content .tag-content.active {
+    display: block;
+}
+.course-detail-section .chapter-title li {
+    margin-bottom: 15px;
+}
+.course-detail-section .chapter-title-name {
+    height: 50px;
+    border-left: 4px solid #ff686d;
+    padding-left: 25px;
+    padding-right: 20px;
+    font-size: 16px;
+    color: #444444;
+    line-height: 50px;
+    background: #f2f3f5;
+    cursor: pointer;
+}
+.course-detail-section .chapter-title li .chapter-title-name:after {
+    display: block;
+    content: "";
+    background: url(../img/course-plus-icon.png) no-repeat center;
+    width: 21px;
+    height: 21px;
+    display: block;
+    float: right;
+    margin-top: 15px;
+}
+.course-detail-section .chapter-title li.active .chapter-title-name:after {
+    background: url(../img/course-minus-icon.png) no-repeat center;
+}
+.course-detail-section .chapter-title li .chapter-con {
+    padding: 10px 35px 0 20px;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 5px;
+    display: none;
+}
+.course-detail-section .chapter-title li.active .chapter-con {
+    display: block;
+}
+.course-detail-section .chapter-con li {
+    height: 35px;
+    line-height: 35px;
+    padding-left: 40px;
+    margin-bottom: 0;
+}
+.course-detail-section .chapter-con li a {
+    display: inline-block;
+    font-size: 14px;
+    color: #444444;
+}
+.course-detail-section .chapter-con li a:hover {
+    color: #e3383e;
+}
+.course-detail-section .chapter-list-time {
+    font-size: 14px;
+    color: #e3383e;
+    float: right;
+}
+.course-detail-section .chapter-list-time .time-tag {
+    font-size: 12px;
+    color: #0099ff;
+    display: inline-block;
+    border: 1px solid #0099ff;
+    border-radius: 12px;
+    padding: 0px 10px;
+    height: 22px;
+    line-height: 22px;
+    margin-right: 10px;
+}
+.course-detail-section .kc-right {
+    width: 270px;
+    margin-left: 10px;
+    float: right;
+    border: 1px solid #E6E6E6;
+    border-radius: 5px;
+    padding: 15px;
+}
+.course-detail-section .teacher-show {
+    overflow: hidden;
+}
+.course-detail-section .teacher-img {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    float: left;
+}
+.course-detail-section .teacher-detail {
+    width: 140px;
+    padding-top: 15px;
+    margin-left: 10px;
+    text-align: left;
+    font-size: 16px;
+    float: left;
+}
+.course-detail-section .teacher-detail .view-btn {
+    border-radius: 5px;
+    text-align: center;
+    background: #FF686D;
+    width: 90px;
+    line-height: 28px;
+    color: #fff;
+    margin-top: 5px;
+    display: block;
+    font-size: 14px;
+}
+.course-detail-section .teacher-tag {
+    padding: 5px 10px;
+    text-align: center;
+    color: #fff;
+    background: #ff893b;
+    border-radius: 30px;
+    clear: both;
+    float: left;
+    margin-top: 15px;
+    font-size: 12px;
+}
+.course-detail-section .teacher-info {
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
+    color: #888;
+    margin-top: 15px;
+    clear: both;
+}
+.course-detail-section .evaluate-list li {
+    width: 100%;
+    text-align: left;
+    font-size: 12px;
+    line-height: 25px;
+    padding-bottom: 10px;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #E6E6E6;
+    overflow: hidden;
+}
+.course-detail-section .evaluate-list .user-info {
+    width: 100px;
+    float: left;
+    text-align: center;
+}
+.course-detail-section .evaluate-list .user-img {
+    width: 55px;
+    height: 55px;
+    padding: 0;
+    margin: 0 auto 8px;
+}
+.course-detail-section .evaluate-list .user-evaluate {
+    width: 750px;
+    float: left;
+    text-align: left;
+}
+.course-detail-section .evaluate-list .evaluate-info {
+    color: #666;
+    width: 100%;
+    display: block;
+    font-size: 14px;
+}
+.course-detail-section .evaluate-list .evaluate-time {
+    width: 100%;
+    height: 20px;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #999;
 }
