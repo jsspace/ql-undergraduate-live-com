@@ -1,3 +1,8 @@
+<?php 
+use mdm\admin\components\MenuHelper;
+
+
+?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -62,7 +67,13 @@
                     ],
                 ],
             ]
-        ) ?>
+        ) ;
+        echo dmstr\widgets\Menu::widget([
+            'options' => ['class' => 'sidebar-menu'], 
+            'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id), 
+        ]);
+        
+        ?>
     
     <ul class="sidebar-menu">            
     <li class="treeview">               
