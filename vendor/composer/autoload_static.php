@@ -43,6 +43,7 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         array (
             'kartik\\plugins\\fileinput\\' => 25,
             'kartik\\file\\' => 12,
+            'kartik\\datetime\\' => 16,
             'kartik\\base\\' => 12,
         ),
         'd' => 
@@ -155,6 +156,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'kartik\\file\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-fileinput',
+        ),
+        'kartik\\datetime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datetimepicker',
         ),
         'kartik\\base\\' => 
         array (

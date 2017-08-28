@@ -40,7 +40,8 @@ class CoursePackage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'list_pic', 'home_pic', 'price', 'discount', 'category_name', 'des', 'head_teacher'], 'required'],
+            [['name', 'price', 'discount', 'category_name', 'des', 'head_teacher'], 'required'],
+            [['list_pic', 'home_pic'], 'required', 'on'=> 'create'],
             [['price', 'discount'], 'number'],
             [['des'], 'string'],
             [['view', 'collection', 'share', 'online', 'onuse', 'create_time'], 'integer'],

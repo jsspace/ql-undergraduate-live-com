@@ -1,9 +1,11 @@
 .course_category_wrap,
-.package_category_wrap {
+.package_category_wrap,
+.course_wrap {
     position: relative;
 }
 .category-result,
-.package-category-result {
+.package-category-result,
+.course-result {
     position: absolute;
     top: 0;
     left: 0;
@@ -13,7 +15,8 @@
     border-top: 0;
 }
 .category-result span,
-.package-category-result span {
+.package-category-result span,
+.course-result span {
     display: block;
     padding: 6px 88px 6px 12px;
     background-color: palevioletred;

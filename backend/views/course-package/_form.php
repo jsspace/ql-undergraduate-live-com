@@ -1,11 +1,13 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use backend\assets\AppAsset;
+use backend\models\Course;
 use dosamigos\ckeditor\CKEditor;
 use kartik\file\FileInput;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\helpers\Url;
-use backend\assets\AppAsset;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CoursePackage */
@@ -22,6 +24,11 @@ AppAsset::addCss($this, '@web/css/course.css');
     <div class="package_category_wrap">
         <?= $form->field($model, 'category_name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
         <div class="package-category-result"></div>
+    </div>
+
+    <div class="course_wrap">
+        <?= $form->field($model, 'course')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
+        <div class="course-result"></div>
     </div>
 
     <?= $form->field($model, 'list_pic')->widget(FileInput::classname(),

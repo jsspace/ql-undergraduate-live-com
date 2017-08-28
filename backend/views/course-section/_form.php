@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\assets\AppAsset;
-//use kartik\datetime\DateTimePicker; 
+use kartik\datetime\DateTimePicker; 
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseSection */
