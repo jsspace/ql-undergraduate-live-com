@@ -21,13 +21,19 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <div class="package_category_wrap">
+    <div class="package-category-wrap">
         <?= $form->field($model, 'category_name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
         <div class="package-category-result"></div>
     </div>
 
-    <div class="course_wrap">
-        <?= $form->field($model, 'course')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
+    <div class="package-course-wrap">
+        <div class="form-group field-coursepackage-course has-success">
+            <label class="control-label" for="coursepackage-course">课程</label>
+            <div class="course_wrap form-control">
+                <div class="pcourse-course"></div>
+                <input type="text" id="coursepackage-course" name="CoursePackage[course]" value="媒体" maxlength="255" autocomplete="off" aria-invalid="false">
+            </div>
+        </div>
         <div class="course-result"></div>
     </div>
 

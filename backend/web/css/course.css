@@ -1,6 +1,6 @@
-.course_category_wrap,
-.package_category_wrap,
-.course_wrap {
+.course-category-wrap,
+.package-category-wrap,
+.package-course-wrap {
     position: relative;
 }
 .category-result,
@@ -22,4 +22,17 @@
     background-color: palevioletred;
     cursor: pointer;
     color: white;
+}
+/* 套餐课程 */
+.field-coursepackage-course .form-control {
+    padding: 0;
+    height: auto;
+    min-height: 34px;
+}
+.field-coursepackage-course .course_wrap input {
+    height: 32px;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding-left: 12px;
 }

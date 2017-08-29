@@ -73,8 +73,7 @@ var course = {
     },
     fillCourse: function () {
         $('.course-result').on('click', 'span', function() {
-            var course = $('#coursepackage-course').val();
-            $('#coursepackage-course').val(course+$(this).html());
+            $('.pcourse-course').append($(this));
             $('.course-result').css('display', 'none');
         });
     },
