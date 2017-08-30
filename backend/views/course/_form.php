@@ -23,7 +23,7 @@ AppAsset::addCss($this, '@web/css/course.css');
     
     <div class="course-category-wrap">
         <?= $form->field($model, 'category-name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
-        <div class="category-result"></div>
+        <div class="category-result -category-result"></div>
     </div>
 
     <!-- <?//= $form->field($model, 'teacher_id')->dropDownList(User::items('教师'), ['prompt'=>'1']) ?>

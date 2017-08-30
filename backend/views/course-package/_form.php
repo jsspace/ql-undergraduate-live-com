@@ -23,18 +23,18 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <div class="package-category-wrap">
         <?= $form->field($model, 'category_name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
-        <div class="package-category-result"></div>
+        <div class="package-category-result _package-category-result"></div>
     </div>
 
     <div class="package-course-wrap">
         <div class="form-group field-coursepackage-course has-success">
             <label class="control-label" for="coursepackage-course">课程</label>
-            <div class="course_wrap form-control">
-                <div class="pcourse-course"></div>
+            <div class="course-wrap _course-wrap form-control">
+                <div class="pcourse-course _pcourse-course"></div>
                 <input type="text" id="coursepackage-course" name="CoursePackage[course]" value="媒体" maxlength="255" autocomplete="off" aria-invalid="false">
             </div>
         </div>
-        <div class="course-result"></div>
+        <div class="course-result _course-result"></div>
     </div>
 
     <?= $form->field($model, 'list_pic')->widget(FileInput::classname(),

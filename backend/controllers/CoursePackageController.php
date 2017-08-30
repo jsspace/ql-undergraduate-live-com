@@ -250,7 +250,7 @@ class CoursePackageController extends Controller
         ->all();
         $data = '';
         foreach ($courses as $course) {
-            $data.='<span data-value='.$course->id.'>'.$course->course_name.'</span>';
+            $data.='<span class="tag" data-value='.$course->id.'>'.$course->course_name.'<span class="remove"></span></span>';
         }
         return $data;
     }

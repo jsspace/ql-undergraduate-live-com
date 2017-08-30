@@ -1,14 +1,10 @@
 var course = {
     init : function () {
         var that = this;
-        that.showCategory();
-        that.showPackageCategory();
-        that.fillCategory();
-        that.fillPackageCategory();
-        that.showCourses();
-        that.fillCourse();
+        that.courseEvent();
+        that.coursePackageEvent();
     },
-    showCategory: function () {
+    courseEvent: function () {
         $('#course-category_name').bind('input propertychange', function() { 
             var keywords = $(this).val();
             $.ajax({
@@ -19,12 +15,20 @@ var course = {
                     '_csrf': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
-                    $('.category-result').css('display','block').html(data);
+                    $('._category-result').css('display','block').html(data);
                 }
             });
         });
+        $('._category-result').on('click', 'span', function() {
+            $('#course-category_name').val($(this).html());
+            $('._category-result').css('display', 'none');
+        });
     },
-    showPackageCategory: function () {
+    coursePackageEvent: function () {
+        $('._package-category-result').on('click', 'span', function() {
+            $('#coursepackage-category_name').val($(this).html());
+            $('._package-category-result').css('display', 'none');
+        });
         $('#coursepackage-category_name').bind('input propertychange', function() { 
             var keywords = $(this).val();
             $.ajax({
@@ -35,24 +39,10 @@ var course = {
                     '_csrf': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
-                    $('.package-category-result').css('display','block').html(data);
+                    $('._package-category-result').css('display','block').html(data);
                 }
             });
         });
-    },
-    fillCategory: function () {
-        $('.category-result').on('click', 'span', function() {
-            $('#course-category_name').val($(this).html());
-            $('.category-result').css('display', 'none');
-        });
-    },
-    fillPackageCategory: function () {
-        $('.package-category-result').on('click', 'span', function() {
-            $('#coursepackage-category_name').val($(this).html());
-            $('.package-category-result').css('display', 'none');
-        });
-    },
-    showCourses: function () {
         $('#coursepackage-course').bind('input propertychange', function() { 
             var keywords = $(this).val();
             var keywords_arr = new Array();
@@ -66,16 +56,21 @@ var course = {
                     '_csrf': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
-                    $('.course-result').css('display','block').html(data);
+                    $('._course-result').css('display','block').html(data);
                 }
             });
         });
-    },
-    fillCourse: function () {
-        $('.course-result').on('click', 'span', function() {
-            $('.pcourse-course').append($(this));
-            $('.course-result').css('display', 'none');
+        $('._course-result').on('click', 'span', function() {
+            $('._pcourse-course').append($(this));
+            $('._course-wrap input').val('');
+            $('._course-result').css('display', 'none');
         });
-    },
+        $('._course-wrap').on('click', function() {
+            $(this).find("input").focus();
+        });
+        $('._pcourse-course').on('click', 'span.remove', function() {
+            $(this).parent().remove();
+        });
+    }
 };
 course.init();

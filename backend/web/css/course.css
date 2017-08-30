@@ -9,30 +9,48 @@
     position: absolute;
     top: 0;
     left: 0;
-    top: 59px;
+    top: 60px;
     background-color: #fff;
     border: 1px solid #d2d6de;
     border-top: 0;
+    z-index: 10;
 }
 .category-result span,
 .package-category-result span,
-.course-result span {
+.course-result span.tag {
     display: block;
-    padding: 6px 88px 6px 12px;
-    background-color: palevioletred;
+    padding: 6px 88px 6px 6px;
     cursor: pointer;
-    color: white;
 }
 /* 套餐课程 */
 .field-coursepackage-course .form-control {
     padding: 0;
     height: auto;
     min-height: 34px;
+    padding-left: 6px;
 }
-.field-coursepackage-course .course_wrap input {
+.pcourse-course span.tag {
+    border: 1px solid #ccc;
+    margin-bottom: 2px;
+    padding: 0px 8px;
+    background-color: #00c0ef;
+    display: inline-block;
+    color: #fff;
+    border-radius: 3px;
+    margin-top: 4px;
+    margin-right: 4px;
+}
+.pcourse-course span.remove {
+    margin-left: 8px;
+    cursor: pointer;
+}
+.pcourse-course span.remove:after {
+    content: "x";
+    padding: 0px 2px;
+}
+.field-coursepackage-course .course-wrap input {
     height: 32px;
     border: none;
     outline: none;
     width: 100%;
-    padding-left: 12px;
 }
