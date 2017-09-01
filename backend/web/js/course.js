@@ -61,14 +61,33 @@ var course = {
             });
         });
         $('._course-result').on('click', 'span', function() {
-            $('._pcourse-course').append($(this));
-            $('._course-wrap input').val('');
-            $('._course-result').css('display', 'none');
+            var courseid = $('._hidden-course-id').val();
+            var couseidarr = courseid.split(',');
+            var current_id = $(this).attr('data-value');
+            var index = $.inArray(current_id, couseidarr);
+            if (index>-1) {
+                alert('已选');
+                return;
+            } else {
+                if (courseid!='') {
+                    $('._hidden-course-id').val(courseid+','+current_id);
+                } else {
+                    $('._hidden-course-id').val(current_id);
+                }
+                $('._pcourse-course').append($(this));
+                $('._course-wrap input').val('');
+                $('._course-result').css('display', 'none');
+            }
         });
         $('._course-wrap').on('click', function() {
             $(this).find("input").focus();
         });
         $('._pcourse-course').on('click', 'span.remove', function() {
+            var courseid = $('._hidden-course-id').val();
+            var couseidarr = courseid.split(',');
+            couseidarr.pop();
+            courseid = couseidarr.join(',');
+            $('._hidden-course-id').val(courseid);
             $(this).parent().remove();
         });
     }

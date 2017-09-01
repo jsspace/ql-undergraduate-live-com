@@ -54,3 +54,6 @@
     outline: none;
     width: 100%;
 }
+.package-course-wrap .hidden-course-id {
+    display: none;
+}

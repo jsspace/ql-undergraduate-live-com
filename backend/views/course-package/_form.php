@@ -29,9 +29,19 @@ AppAsset::addCss($this, '@web/css/course.css');
     <div class="package-course-wrap">
         <div class="form-group field-coursepackage-course has-success">
             <label class="control-label" for="coursepackage-course">课程</label>
+            <input type="text" name="CoursePackage[course]" class="hidden-course-id _hidden-course-id form-group" value="<?= $model->course; ?>">
             <div class="course-wrap _course-wrap form-control">
-                <div class="pcourse-course _pcourse-course"></div>
-                <input type="text" id="coursepackage-course" name="CoursePackage[course]" value="媒体" maxlength="255" autocomplete="off" aria-invalid="false">
+                <div class="pcourse-course _pcourse-course">
+                    <?php
+                        $courses = explode(',',$model->course);
+                        $data = '';
+                        foreach ($courses as $course) {
+                             $data.='<span class="tag" data-value='.$course.'>'.Course::item($course).'<span class="remove"></span></span>';
+                        }
+                        echo $data;
+                    ?>
+                </div>
+                <input type="text" id="coursepackage-course" value="" maxlength="255" autocomplete="off" aria-invalid="false">
             </div>
         </div>
         <div class="course-result _course-result"></div>
