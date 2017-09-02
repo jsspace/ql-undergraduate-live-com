@@ -507,7 +507,7 @@ $this->title = 'My Yii Application';
         </div>
         <a href="" class="view-more">查看更多</a>
     </div>
-    <div class="ads-section">
+    <!-- <div class="ads-section">
         <div class="ads-bar">
             <div class="container-course">
                 <div class="md-bar-tit">
@@ -525,7 +525,7 @@ $this->title = 'My Yii Application';
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="container-course teacher-section">
         <h3 class="course-title">讲师团队</h3>
         <fieldset>
@@ -708,8 +708,8 @@ $this->title = 'My Yii Application';
     </div>
     <div class="cooperation-section">
         <div class="container-course">
-            <h3 class="course-title">合作伙伴</h3>
-            <fieldset>
+            <!-- <h3 class="course-title">合作伙伴</h3> -->
+            <!-- <fieldset>
                 <legend>
                     <img src="/img/arrow-icon.jpg"/>
                 </legend>
@@ -745,7 +745,7 @@ $this->title = 'My Yii Application';
                 <li class="vivo">
                     <img src="/img/cooperation-vivo.jpg"/>
                 </li>
-            </ul>
+            </ul> -->
             <ul class="course-tab">
                 <li class="active">用户评说</li>
                 <li>友情链接</li>

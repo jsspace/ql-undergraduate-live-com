@@ -1,3 +1,6 @@
+a {
+    color: #000;
+}
 .package-detail-section .top-package {
     padding: 35px 0;
     background-color: #2e2e2e;
@@ -60,4 +63,287 @@
 }
 .package-detail-section .pack-con {
     margin: 0;
+}
+.package-detail-section .right-package {
+    background: none;
+    width: 30%;
+    padding: 12px 20px;
+    margin-left: 70%;
+    box-sizing: border-box;
+}
+.package-detail-section .right-package .package-name {
+    font-size: 21px;
+}
+.package-detail-section .right-package .package-name i {
+    margin-left: 10px;
+}
+.package-detail-section .right-package .package-name i img {
+    vertical-align: top;
+}
+.package-detail-section .right-package .package-icon-list {
+    border-bottom: none;
+    text-align: center;
+    padding: 20px 0px;
+    list-style-type: none;
+    font-size: 14px;
+    color: #E1604C;
+}
+.package-detail-section .right-package .package-icon-list span {
+    display: block;
+    width: 33.3%;
+    float: left;
+    text-align: left;
+}
+.package-detail-section .right-package .package-icon-list i:before {
+    color: #E1604C;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.package-detail-section .right-package .package-price {
+    padding-left: 20px;
+    margin-bottom: 0;
+    padding: 10px 0;
+    color: #919191;
+    font-size: 14px;
+}
+.package-detail-section .right-package .price-tag {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+.package-detail-section .right-package .price-highlight {
+    font-size: 24px;
+    color: #E1604C;
+}
+.package-detail-section .right-package .package-btn {
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #fff;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.package-detail-section .right-package .btn-red {
+    background-color: #fd7863;
+}
+.package-detail-section .right-package .btn-green {
+    background-color: #46c37b;
+}
+.package-detail-section .bottom-package {
+    padding-bottom: 20px;
+}
+.package-detail-section .bottom-package .package-inner {
+    background: none;
+}
+.package-detail-section .bottom-package .left-section {
+    width: 75%;
+    float: left;
+    background: #fff;
+    margin: 20px 2% 0 0;
+    box-shadow: 0 2px 5px #ccc;
+    padding: 15px 15px 30px 15px;
+}
+.package-detail-section .bottom-package .title-list {
+    overflow: hidden;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+.package-detail-section .bottom-package .title-list li {
+    padding: 15px;
+    float: left;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.package-detail-section .bottom-package .title-list li.active {
+    color: #f29700;
+    border-bottom: 1px solid #f29700;
+}
+.package-detail-section .bottom-package .con-list .con-detail {
+    display: none;
+}
+.package-detail-section .bottom-package .con-list .con-detail.active {
+    display: block;
+}
+.package-detail-section .bottom-package .course-list li {
+    margin-top: 30px;
+    background-color: #f5f5f5;
+    border: 1px solid #e1e1e1;
+    border-radius: 2px;
+    padding: 10px 0 0 0;
+    position: relative;
+    margin-bottom: 20px;
+}
+.package-detail-section .bottom-package .show-section {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+.package-detail-section .bottom-package .course-list .course-img {
+    display: inline-block;
+    width: 195px;
+    margin-right: 35px;
+}
+.package-detail-section .bottom-package .course-list .course-img img {
+    width: 100%;
+}
+.package-detail-section .bottom-package .course-list .course-title {
+    font-size: 18px;
+    display: inline-block;
+}
+.package-detail-section .bottom-package .course-list .course-title .title {
+    display: block;
+}
+.package-detail-section .bottom-package .star i:before {
+    font-size: 15px;
+    color: #f29700;
+}
+.package-detail-section .bottom-package .price {
+    position: absolute;
+    top: 25px;
+    right: 80px;
+    font-size: 18px;
+}
+.package-detail-section .bottom-package .price:after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+    transform: rotate(-45deg);
+    position: absolute;
+    right: -30px;
+    top: 4px;
+    cursor: pointer;
+}
+.package-detail-section .bottom-package .hide-section {
+    width: 100%;
+    padding: 20px 10px;
+    background: #fff;
+    font-size: 15px;
+}
+.package-detail-section .bottom-package .hide-section .name {
+    color: #000;
+}
+.package-detail-section .bottom-package .hide-section i:before {
+    font-size: 18px;
+    color: #000;
+    margin-left: 10px;
+    margin-top: -4px;
+}
+.package-detail-section .bottom-package .hide-section .time {
+    float: right;
+    margin-right: 35px;
+}
+.package-detail-section .bottom-package .teacher-section {
+    overflow: hidden;
+}
+.package-detail-section .bottom-package .teacher-section li {
+    float: left;
+    width: 32%;
+    margin-right: 2%;
+    text-align: center;
+    position: relative;
+    margin-bottom: 20px;
+}
+.package-detail-section .bottom-package .teacher-section li:nth-child(3n) {
+    margin-right: 0;
+}
+.package-detail-section .bottom-package .teacher-section .top {
+    background-color: #f5f5f5;
+    padding: 10px;
+}
+.package-detail-section .bottom-package .teacher-img {
+    width: 35%;
+    margin: 0 auto 10px;
+    padding-top: 15px;
+}
+.package-detail-section .bottom-package .teacher-img img {
+    width: 100%;
+}
+.package-detail-section .bottom-package .teacher-tag {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #bbb;
+    font-size: 12px;
+}
+.package-detail-section .bottom-package .teacher-info {
+    height: 70px;
+    background: #fff;
+    padding: 10px;
+    color: #909090;
+    font-size: 13px;
+    line-height: 20px;
+}
+.package-detail-section .bottom-package .teacher-info.second-info {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+}
+.package-detail-section .bottom-package .teacher-info .btn {
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 10px;
+}
+.package-detail-section .bottom-package .teacher-info .btn:first-child {
+    color: #fff;
+    background-color: orange;
+    margin-right: 20px;
+}
+.package-detail-section .bottom-package .teacher-info .btn:last-child {
+    color: #000;
+    background-color: #f5f5f5;
+}
+.package-detail-section .bottom-package .teacher-section li:hover {
+    box-shadow: 0 2px 5px #ccc;
+}
+.package-detail-section .bottom-package .teacher-section li:hover .teacher-info.second-info {
+    display: block;
+}
+.package-detail-section .bottom-package .right-section {
+    width: 23%;
+    margin-left: 77%;
+    margin-top: 20px;
+}
+.package-detail-section .bottom-package .right-section .section {
+    padding: 15px;
+    background-color: #fff;
+    margin-bottom: 15px;
+    text-align: left;
+}
+.package-detail-section .bottom-package .right-section .section h3 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+.package-detail-section .bottom-package .right-section .section .txt {
+    color: #bbb;
+}
+.package-detail-section .bottom-package .right-section .user-img {
+    overflow: hidden;
+}
+.package-detail-section .bottom-package .right-section .user-img li {
+    width: 20%;
+    float: left;
+    margin-bottom: 10px;
+}
+.package-detail-section .bottom-package .right-section .user-img img {
+    width: 85%;
+}
+.package-detail-section .bottom-package .right-section .news-list a {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    margin-bottom: 5px;
 }

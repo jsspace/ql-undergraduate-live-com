@@ -244,6 +244,7 @@
 }
 .course-tab {
     overflow: hidden;
+    padding-top: 30px;
 }
 .course-tab li {
     width: 110px;
