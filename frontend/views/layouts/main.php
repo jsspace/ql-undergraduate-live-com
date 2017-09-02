@@ -68,7 +68,7 @@ AppAsset::register($this);
             </div>
             <ul class="nav-menu">
                 <li>
-                    <a href="">首页</a>
+                    <a href="/">首页</a>
                 </li>
                 <li>
                     <a href="/course/list">课程</a>
@@ -80,7 +80,7 @@ AppAsset::register($this);
                     <a href="/teacher/list">讲师团</a>
                 </li>
                 <li>
-                    <a href="">资料</a>
+                    <a href="/material/index">资料</a>
                 </li>
                 <li>
                     <div class="search-section">
