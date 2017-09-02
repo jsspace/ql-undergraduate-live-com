@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\assets\AppAsset;
-//use kartik\datetime\DateTimePicker; 
+use kartik\datetime\DateTimePicker; 
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseSection */
@@ -25,7 +25,13 @@ AppAsset::addCss($this,'@web/css/chapter_section.css');
 
     <?= $form->field($model, 'playback_url')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'start_time')->textInput() ?>
+    <?= $form->field($model, 'start_time')->widget(DateTimePicker::classname(), [
+            'options' => ['placeholder' => ''],
+            'pluginOptions' => [
+                'autoclose' => true
+            ]
+        ]);
+    ?>
 
     <?= $form->field($model, 'duration')->textInput(['maxlength' => true]) ?>
 

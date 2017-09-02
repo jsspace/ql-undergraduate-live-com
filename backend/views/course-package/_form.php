@@ -1,11 +1,13 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use backend\assets\AppAsset;
+use backend\models\Course;
 use dosamigos\ckeditor\CKEditor;
 use kartik\file\FileInput;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\helpers\Url;
-use backend\assets\AppAsset;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CoursePackage */
@@ -19,9 +21,30 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <div class="package_category_wrap">
+    <div class="package-category-wrap">
         <?= $form->field($model, 'category_name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
-        <div class="package-category-result"></div>
+        <div class="package-category-result _package-category-result"></div>
+    </div>
+
+    <div class="package-course-wrap">
+        <div class="form-group field-coursepackage-course has-success">
+            <label class="control-label" for="coursepackage-course">课程</label>
+            <input type="text" name="CoursePackage[course]" class="hidden-course-id _hidden-course-id form-group" value="<?= $model->course; ?>">
+            <div class="course-wrap _course-wrap form-control">
+                <div class="pcourse-course _pcourse-course">
+                    <?php
+                        $courses = explode(',',$model->course);
+                        $data = '';
+                        foreach ($courses as $course) {
+                             $data.='<span class="tag" data-value='.$course.'>'.Course::item($course).'<span class="remove"></span></span>';
+                        }
+                        echo $data;
+                    ?>
+                </div>
+                <input type="text" id="coursepackage-course" value="" maxlength="255" autocomplete="off" aria-invalid="false">
+            </div>
+        </div>
+        <div class="course-result _course-result"></div>
     </div>
 
     <?= $form->field($model, 'list_pic')->widget(FileInput::classname(),

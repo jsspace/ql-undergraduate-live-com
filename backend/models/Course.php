@@ -124,4 +124,11 @@ class Course extends \yii\db\ActiveRecord
             return false;
         }
     }
+    public static function item($id)
+    {
+        $model = self::find()
+        ->where(['id' => $id])
+        ->one();
+        return $model->course_name;
+    }
 }

@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use backend\models\Course;
 use backend\models\CoursePackage;
 use backend\models\CoursePackageCategory;
 use backend\models\CoursePackageSearch;
@@ -240,4 +241,17 @@ class CoursePackageController extends Controller
         }
         return $data;
     }
-}
+    public function actionGetcourse()
+    {
+        $request = Yii::$app->request->post();
+        $keywords = $request['keywords'];
+        $courses= Course::find()
+        ->where(['like', 'course_name', $keywords])
+        ->all();
+        $data = '';
+        foreach ($courses as $course) {
+            $data.='<span class="tag" data-value='.$course->id.'>'.$course->course_name.'<span class="remove"></span></span>';
+        }
+        return $data;
+    }
+ }
