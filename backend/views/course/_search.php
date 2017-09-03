@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use backend\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseSearch */
@@ -17,17 +18,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'course_name') ?>
 
-    <?php echo $form->field($model, 'category_name') ?>
+    <?= $form->field($model, 'category_name') ?>
 
-    <!-- <?//= $form->field($model, 'teacher_id')->dropDownList(User::items('教师'), ['prompt'=>'1']) ?>
+    <?= $form->field($model, 'teacher_id')->dropDownList(User::users('teacher'), ['prompt' => '请选择']); ?>
 
-    <?//= $form->field($model, 'head_teacher')->dropDownList(User::items('班主任'), ['prompt'=>'1']) ?> -->
 
-    <?= $form->field($model, 'teacher_id') ?>
+    <?= $form->field($model, 'head_teacher')->dropDownList(User::users('head_teacher'), ['prompt' => '请选择']); ?>
 
-    <?php echo $form->field($model, 'head_teacher') ?>
-
-    <?= $form->field($model, 'onuse')->dropDownList(['prompt'=>'', '1'=>'可用', '0'=>'不可用']) ?>
+    <?= $form->field($model, 'onuse')->dropDownList(['1'=>'可用', '0'=>'不可用'],['prompt' => '请选择']) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', '查询'), ['class' => 'btn btn-primary']) ?>

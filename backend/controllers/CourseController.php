@@ -89,7 +89,7 @@ class CourseController extends Controller
                 $model->list_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course/' . $listrandName;
                 $model->home_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course/' . $homerandName;
             }
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 //没有保存成功，删除图片
@@ -191,7 +191,7 @@ class CourseController extends Controller
             }  else {
                 $model->home_pic = $oldhome_path;
             }
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 //没有保存成功，删除图片

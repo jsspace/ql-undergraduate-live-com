@@ -124,11 +124,31 @@ class Course extends \yii\db\ActiveRecord
             return false;
         }
     }
+    private static $_items = array();
     public static function item($id)
     {
-        $model = self::find()
-        ->where(['id' => $id])
-        ->one();
-        return $model->course_name;
+        if(!isset(self::$_items[$id]))
+            self::loadItems();
+            return isset(self::$_items[$id]) ? self::$_items[$id] : false;
+    }
+    public static function items($ids)
+    {
+        $course = '';
+        $idarrs = explode(',', $ids);
+        foreach ($idarrs as $idarr) {
+            if (!isset(self::$_items[$idarr])) {
+                self::loadItems();
+            }
+            $course.=self::$_items[$idarr].',';
+        }
+        $new_course = substr($course,0,strlen($course)-1);
+        return $new_course;
+    }
+    public static function loadItems() {
+        $models = self::find()
+        ->all();
+        foreach ($models as $model) {
+            self::$_items[$model->id] = $model->course_name;
+        }
     }
 }

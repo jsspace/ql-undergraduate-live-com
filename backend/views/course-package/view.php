@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use backend\models\User;
+use backend\models\Course;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CoursePackage */
@@ -17,7 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'name',
             'category_name',
-            'course',
+            [
+                'attribute' => 'course',
+                'value' => Course::items($model->course),
+            ],
             [
                 'attribute' => 'list_pic',
                 'label' => '列表图片',
@@ -39,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'onuse',
                 'value'=> $model->onuse == 1 ? '可用' : '不可用',
             ],
-            'create_time:datetime',
+            'create_time: datetime',
             [
                 'attribute' => 'head_teacher',
                 'value' => User::item($model->head_teacher),

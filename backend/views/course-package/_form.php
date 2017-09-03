@@ -8,6 +8,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use backend\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CoursePackage */
@@ -29,14 +30,14 @@ AppAsset::addCss($this, '@web/css/course.css');
     <div class="package-course-wrap">
         <div class="form-group field-coursepackage-course has-success">
             <label class="control-label" for="coursepackage-course">课程</label>
-            <input type="text" name="CoursePackage[course]" class="hidden-course-id _hidden-course-id form-group" value="<?= $model->course; ?>">
+            <input type="text" name="CoursePackage[course]" class="hidden-course-id _hidden-course-id" value="<?= $model->course; ?>">
             <div class="course-wrap _course-wrap form-control">
                 <div class="pcourse-course _pcourse-course">
                     <?php
                         $courses = explode(',',$model->course);
                         $data = '';
                         foreach ($courses as $course) {
-                             $data.='<span class="tag" data-value='.$course.'>'.Course::item($course).'<span class="remove"></span></span>';
+                            $data.='<span class="tag" data-value='.$course.'>'.Course::item($course).'<span class="remove"></span></span>';
                         }
                         echo $data;
                     ?>
@@ -96,11 +97,7 @@ AppAsset::addCss($this, '@web/css/course.css');
     <?//= $form->field($model, 'online')->textInput() ?>-->
     <?= $form->field($model, 'onuse')->dropDownList(['1'=>'可用', '0'=>'不可用']) ?>
 
-    <!--<?//= $form->field($model, 'create_time')->textInput() ?>
-
-    <?//= $form->field($model, 'head_teacher')->dropDownList(User::items('班主任'), ['prompt'=>'1']) ?>-->
-
-    <?= $form->field($model, 'head_teacher')->dropDownList(['1'=>1]) ?>
+    <?= $form->field($model, 'head_teacher')->dropDownList(User::users('head_teacher')) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
