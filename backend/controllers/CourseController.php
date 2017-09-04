@@ -250,7 +250,7 @@ class CourseController extends Controller
         ->all();
         $data = '';
         foreach ($categorys as $category) {
-            $data.='<span>'.$category->name.'</span>';
+            $data.='<span class="tag" data-value='.$category->name.'>'.$category->name.'<span class="remove"></span></span>';
         }
         return $data;
     }

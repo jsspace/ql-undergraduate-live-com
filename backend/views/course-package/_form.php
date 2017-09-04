@@ -23,8 +23,24 @@ AppAsset::addCss($this, '@web/css/course.css');
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <div class="package-category-wrap">
-        <?= $form->field($model, 'category_name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
-        <div class="package-category-result _package-category-result"></div>
+        <div class="form-group field-coursepackage-category_name required">
+            <label class="control-label" for="coursepackage-category_name">课程分类</label>
+            <input type="text" name="CoursePackage[category_name]" class="hidden-package-category-name _hidden-package-category-name" value="<?= $model->category_name; ?>">
+            <div class="pcategory-wrap _pcategory-wrap form-control">
+                <div class="package-category _package-category">
+                    <?php
+                        $categorys = explode(',',$model->category_name);
+                        $data = '';
+                        foreach ($categorys as $category) {
+                            $data.='<span class="tag" data-value='.$category.'>'.$category.'<span class="remove"></span></span>';
+                        }
+                        echo $data;
+                    ?>
+                </div>
+                <input type="text" id="coursepackage-category_name" value="" maxlength="255" autocomplete="off" aria-invalid="false">
+            </div>
+        </div>
+        <div class="pcategory-result _pcategory-result"></div>
     </div>
 
     <div class="package-course-wrap">

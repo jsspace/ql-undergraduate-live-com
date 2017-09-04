@@ -3,8 +3,8 @@
 .package-course-wrap {
     position: relative;
 }
-.category-result,
-.package-category-result,
+.ccategory-result,
+.pcategory-result,
 .course-result {
     position: absolute;
     top: 0;
@@ -15,20 +15,24 @@
     border-top: 0;
     z-index: 10;
 }
-.category-result span,
-.package-category-result span,
+.ccategory-result span.tag,
+.pcategory-result span.tag,
 .course-result span.tag {
     display: block;
     padding: 6px 88px 6px 6px;
     cursor: pointer;
 }
 /* 套餐课程 */
-.field-coursepackage-course .form-control {
+.package-category-wrap .pcategory-wrap,
+.course-category-wrap .ccategory-wrap,
+.package-course-wrap .course-wrap {
     padding: 0;
     height: auto;
     min-height: 34px;
     padding-left: 6px;
 }
+.package-category span.tag,
+.course-category span.tag,
 .pcourse-course span.tag {
     border: 1px solid #ccc;
     margin-bottom: 2px;
@@ -40,20 +44,28 @@
     margin-top: 4px;
     margin-right: 4px;
 }
+.package-category span.remove,
+.course-category span.remove,
 .pcourse-course span.remove {
     margin-left: 8px;
     cursor: pointer;
 }
+.package-category span.remove:after,
+.course-category span.remove:after,
 .pcourse-course span.remove:after {
     content: "x";
     padding: 0px 2px;
 }
-.field-coursepackage-course .course-wrap input {
+.pcategory-wrap input,
+.ccategory-wrap input,
+.package-course-wrap .course-wrap input {
     height: 32px;
     border: none;
     outline: none;
     width: 100%;
 }
+.package-category-wrap ._hidden-package-category-name,
+.course-category-wrap ._hidden-course-category-name,
 .package-course-wrap .hidden-course-id {
     display: none;
 }

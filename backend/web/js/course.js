@@ -15,19 +15,71 @@ var course = {
                     '_csrf': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
-                    $('._category-result').css('display','block').html(data);
+                    $('._ccategory-result').css('display','block').html(data);
                 }
             });
         });
-        $('._category-result').on('click', 'span', function() {
-            $('#course-category_name').val($(this).html());
-            $('._category-result').css('display', 'none');
+        $('._ccategory-result').on('click', 'span', function() {
+            var catname = $('._hidden-course-category-name').val();
+            var catnamearr = catname.split(',');
+            var current_name = $(this).attr('data-value');
+            var index = $.inArray(current_name, catnamearr);
+            if (index>-1) {
+                alert('已选');
+                return;
+            } else {
+                if (catname!='') {
+                    $('._hidden-course-category-name').val(catname+','+current_name);
+                } else {
+                    $('._hidden-course-category-name').val(current_name);
+                }
+                $('._course-category').append($(this));
+                $('._ccategory-wrap input').val('');
+                $('._ccategory-result').css('display', 'none');
+            }
+        });
+        $('._ccategory-wrap').on('click', function() {
+            $(this).find("input").focus();
+        });
+        $('._course-category').on('click', 'span.remove', function() {
+            var catename = $('._hidden-course-category-name').val();
+            var catenamearr = catename.split(',');
+            catenamearr.pop();
+            catename = catenamearr.join(',');
+            $('._hidden-course-category-name').val(catename);
+            $(this).parent().remove();
         });
     },
     coursePackageEvent: function () {
-        $('._package-category-result').on('click', 'span', function() {
-            $('#coursepackage-category_name').val($(this).html());
-            $('._package-category-result').css('display', 'none');
+        $('._pcategory-result').on('click', 'span', function() {
+            var catname = $('._hidden-package-category-name').val();
+            var catnamearr = catname.split(',');
+            var current_name = $(this).attr('data-value');
+            var index = $.inArray(current_name, catnamearr);
+            if (index>-1) {
+                alert('已选');
+                return;
+            } else {
+                if (catname!='') {
+                    $('._hidden-package-category-name').val(catname+','+current_name);
+                } else {
+                    $('._hidden-package-category-name').val(current_name);
+                }
+                $('._package-category').append($(this));
+                $('._pcategory-wrap input').val('');
+                $('._pcategory-result').css('display', 'none');
+            }
+        });
+        $('._pcategory-wrap').on('click', function() {
+            $(this).find("input").focus();
+        });
+        $('._package-category').on('click', 'span.remove', function() {
+            var catename = $('._hidden-package-category-name').val();
+            var catenamearr = catename.split(',');
+            catenamearr.pop();
+            catename = catenamearr.join(',');
+            $('._hidden-package-category-name').val(catename);
+            $(this).parent().remove();
         });
         $('#coursepackage-category_name').bind('input propertychange', function() { 
             var keywords = $(this).val();
@@ -39,15 +91,12 @@ var course = {
                     '_csrf': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
-                    $('._package-category-result').css('display','block').html(data);
+                    $('._pcategory-result').css('display','block').html(data);
                 }
             });
         });
         $('#coursepackage-course').bind('input propertychange', function() { 
             var keywords = $(this).val();
-            var keywords_arr = new Array();
-            keywords_arr = keywords.split(",");
-            keywords = keywords_arr[keywords_arr.length-1];
             $.ajax({
                 url: '/course-package/getcourse',
                 type: 'post',

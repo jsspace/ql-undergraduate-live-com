@@ -20,15 +20,27 @@ AppAsset::addCss($this, '@web/css/course.css');
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'course_name')->textInput(['maxlength' => true]) ?>
-    
+
     <div class="course-category-wrap">
-        <?= $form->field($model, 'category_name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
-        <div class="category-result -category-result"></div>
+        <div class="form-group field-course-category_name required">
+            <label class="control-label" for="course-category_name">课程分类</label>
+            <input type="text" name="Course[category_name]" class="hidden-course-category-name _hidden-course-category-name" value="<?= $model->category_name; ?>">
+            <div class="ccategory-wrap _ccategory-wrap form-control">
+                <div class="course-category _course-category">
+                    <?php
+                        $categorys = explode(',',$model->category_name);
+                        $data = '';
+                        foreach ($categorys as $category) {
+                            $data.='<span class="tag" data-value='.$category.'>'.$category.'<span class="remove"></span></span>';
+                        }
+                        echo $data;
+                    ?>
+                </div>
+                <input type="text" id="course-category_name" value="" maxlength="255" autocomplete="off" aria-invalid="false">
+            </div>
+        </div>
+        <div class="ccategory-result _ccategory-result"></div>
     </div>
-
-    <!-- <?//= $form->field($model, 'teacher_id')->dropDownList(User::items('教师'), ['prompt'=>'1']) ?>
-
-    <?//= $form->field($model, 'head_teacher')->dropDownList(User::items('班主任'), ['prompt'=>'1']) ?> -->
 
     <?= $form->field($model, 'teacher_id')->dropDownList($teachers) ?>
 
