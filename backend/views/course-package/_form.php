@@ -24,7 +24,7 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <div class="package-category-wrap">
         <div class="form-group field-coursepackage-category_name required">
-            <label class="control-label" for="coursepackage-category_name">课程分类</label>
+            <label class="control-label" for="coursepackage-category_name">套餐分类</label>
             <input type="text" name="CoursePackage[category_name]" class="hidden-package-category-name _hidden-package-category-name" value="<?= $model->category_name; ?>">
             <div class="pcategory-wrap _pcategory-wrap form-control">
                 <div class="package-category _package-category">

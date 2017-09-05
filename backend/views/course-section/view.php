@@ -30,7 +30,7 @@ AppAsset::addCss($this,'@web/css/chapter_section.css');
                 'value'=> $model->type == 1 ? '网课' : '直播课',
             ],
             'duration',
-            'start_time:datetime',
+            'start_time',
             'position',
         ],
     ]) ?>

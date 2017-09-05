@@ -42,7 +42,13 @@ $this->title = Yii::t('app', '课程列表');
             'collection',
             'share',
             'online',
-            // 'onuse',
+            [
+                'attribute' => 'onuse',
+                'value'=> function ($model) {
+                    return $model->onuse == 1 ? '可用':'不可用';
+                },
+                'filter' => [1=>'可用',0=>'不可用' ],
+            ],
             // 'create_time:datetime',
             [
                 'attribute' => 'head_teacher',

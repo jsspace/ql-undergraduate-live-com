@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'onuse',
                 'value'=> $model->onuse == 1 ? '可用' : '不可用',
             ],
-            'create_time: datetime',
+            'create_time:datetime',
             [
                 'attribute' => 'head_teacher',
                 'value' => User::item($model->head_teacher),
