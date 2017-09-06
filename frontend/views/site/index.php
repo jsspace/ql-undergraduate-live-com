@@ -110,7 +110,7 @@ $this->title = 'My Yii Application';
                         <div class="into"><span class="btn-into">进入科目</span></div>
                     </a>
                 </li>
-                        <li class="item-6">
+                <li class="item-6">
                     <a href="/course/default/category?depth=2&amp;cid=8&amp;type=L" target="_blank">
                         <i class="icon"></i>
                         <h3>影视后期</h3>
