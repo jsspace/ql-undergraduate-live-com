@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'backgroundcolor',
             'title',
+            'position',
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

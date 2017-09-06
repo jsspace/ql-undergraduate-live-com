@@ -32,7 +32,7 @@ class HotCategory extends \yii\db\ActiveRecord
     {
         return [
             [['categoryid'], 'required'],
-            [['categoryid'], 'integer'],
+            [['categoryid','position'], 'integer'],
             [['backgroundcolor', 'icon', 'title'], 'string', 'max' => 255],
             [['categoryid'], 'exist', 'skipOnError' => true, 'targetClass' => CourseCategory::className(), 'targetAttribute' => ['categoryid' => 'id']],
         ];
@@ -49,6 +49,7 @@ class HotCategory extends \yii\db\ActiveRecord
             'backgroundcolor' => Yii::t('app', '背景色'),
             'icon' => Yii::t('app', '图标'),
             'title' => Yii::t('app', '标题'),
+            'position' => Yii::t('app', '显示顺序'),
         ];
     }
 

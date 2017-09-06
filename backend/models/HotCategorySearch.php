@@ -18,7 +18,7 @@ class HotCategorySearch extends HotCategory
     public function rules()
     {
         return [
-            [['id', 'categoryid'], 'integer'],
+            [['id', 'categoryid', 'position'], 'integer'],
             [['backgroundcolor', 'icon', 'title'], 'safe'],
         ];
     }
@@ -61,6 +61,7 @@ class HotCategorySearch extends HotCategory
         $query->andFilterWhere([
             'id' => $this->id,
             'categoryid' => $this->categoryid,
+            'position' => $this->position,
         ]);
 
         $query->andFilterWhere(['like', 'backgroundcolor', $this->backgroundcolor])
