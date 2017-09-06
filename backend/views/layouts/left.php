@@ -113,6 +113,7 @@ use mdm\admin\components\MenuHelper;
                 <a href="/course-category/index">课程分类管理</a>
                 <a href="/course-package/index">套餐管理</a>
                 <a href="/course-package-category/index">套餐分类管理</a>
+                <a href="/hot-category/index">热门分类</a>
             </li>
         </ul>
     </li>

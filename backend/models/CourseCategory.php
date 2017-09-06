@@ -102,4 +102,15 @@ class CourseCategory extends \yii\db\ActiveRecord
             self::$_items[$model->id] = $model->name;
         }
     }
+
+    public static function hotitems(){
+        $models=self::find()
+        ->where(['parent_id'=>0])
+        ->all();
+        $data = array();
+        foreach ($models as $model) {
+            $data[$model->id] = $model->name;
+        }
+        return $data;
+    }
 }

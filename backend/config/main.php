@@ -93,7 +93,8 @@ return [
             'course-section/*',
             'course-package-category/*',
             'course-package/*',
-            'friendly-links/*'
+            'friendly-links/*',
+            'hot-category/*',
         ]
     ],
     'params' => $params,

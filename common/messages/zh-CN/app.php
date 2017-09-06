@@ -63,4 +63,6 @@ return [
     '课程创建时间' => '',
     '课程详情' => '',
     '重置' => '',
+    'Hot Categories' => '热门分类',
+    'Create Hot Category' => '创建热门分类',
 ];
