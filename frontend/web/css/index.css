@@ -134,56 +134,12 @@
 .hot-section .list li:last-child {
     margin-right: 0;
 }
-.hot-section .list .item-1 {
-    background-color: #f6ce00;
-}
-.hot-section .list .item-2 {
-    background-color: #4caafc;
-}
-.hot-section .list .item-3 {
-    background-color: #e994dc;
-}
-.hot-section .list .item-4 {
-    background-color: #54cea9;
-}
-.hot-section .list .item-5 {
-    background-color: #9985cc;
-}
-.hot-section .list .item-6 {
-    background-color: #e3b47b;
-}
-.hot-section .list .item-7 {
-    background-color: #848d99;
-}
 .hot-section .list li .icon {
     display: inline-block;
     width: 64px;
     height: 64px;
-    background-image: url(../img/subject-list.png);
-    background-repeat: no-repeat;
     margin-top: 35px;
     margin-bottom: 25px;
-}
-.hot-section .list .item-1 .icon {
-    background-position: 0 0;
-}
-.hot-section .list .item-2 .icon {
-    background-position: 0 -64px;
-}
-.hot-section .list .item-3 .icon {
-    background-position: 0 -128px;
-}
-.hot-section .list .item-4 .icon {
-    background-position: 0 -192px;
-}
-.hot-section .list .item-5 .icon {
-    background-position: 0 -256px;
-}
-.hot-section .list .item-6 .icon {
-    background-position: 0 -320px;
-}
-.hot-section .list .item-7 .icon {
-    background-position: 0 -384px;
 }
 .hot-section .list h3 {
     font-size: 18px;

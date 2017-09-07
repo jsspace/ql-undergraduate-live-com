@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
+use backend\models\User;
 
 AppAsset::addCss($this,'@web/css/index.css');
 
@@ -111,7 +112,7 @@ $this->title = 'My Yii Application';
                             <i class="icon ion-android-person"></i>
                             <span class="people"><?= $hotpcourse->online; ?>人在学</span>
                             <i class="icon ion-heart"></i>
-                            <span class="people">2345人</span>
+                            <span class="people"><?= $hotpcourse->collection; ?>人</span>
                         </div>
                     </li>
                 <?php } ?>
@@ -127,7 +128,7 @@ $this->title = 'My Yii Application';
                             <i class="icon ion-android-person"></i>
                             <span class="people"><?= $newpcourse->online; ?>人在学</span>
                             <i class="icon ion-heart"></i>
-                            <span class="people">2345人</span>
+                            <span class="people"><?= $hotpcourse->collection; ?>人</span>
                         </div>
                     </li>
                 <?php } ?>
@@ -143,7 +144,7 @@ $this->title = 'My Yii Application';
                             <i class="icon ion-android-person"></i>
                             <span class="people"><?= $rankpcourse->online; ?>人在学</span>
                             <i class="icon ion-heart"></i>
-                            <span class="people">2345人</span>
+                            <span class="people"><?= $hotpcourse->collection; ?>人</span>
                         </div>
                     </li>
                 <?php } ?>
@@ -165,202 +166,64 @@ $this->title = 'My Yii Application';
         </ul>
         <div class="course-content">
             <ul class="list active">
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
+                <?php foreach ($hotcourses as $hotcourse) { ?>
+                    <li>
+                        <div class="course-img">
+                            <img class="course-pic" src="<?= $hotcourse->list_pic; ?>"/>
+                        </div>
+                        <p class="content-title"><?= $hotcourse->course_name; ?></p>
+                        <div class="course-statistic">
+                            <i class="icon ion-android-person"></i>
+                            <span class="people"><?= $hotcourse->online; ?>人在学</span>
+                            <i class="icon ion-heart"></i>
+                            <span class="people"><?= $hotcourse->collection; ?>人</span>
+                        </div>
+                        <div class="teacher-section">
+                            <img src="/img/teacher-icon.jpg"/>
+                            <span class="teacher-name"><?= User::item($hotcourse->teacher_id); ?></span>
+                        </div>
+                    </li>
+                <?php } ?>
             </ul>
             <ul class="list">
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称b</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
+                <?php foreach ($newcourses as $newcourse) { ?>
+                    <li>
+                        <div class="course-img">
+                            <img class="course-pic" src="<?= $newcourse->list_pic; ?>"/>
+                        </div>
+                        <p class="content-title"><?= $newcourse->course_name; ?></p>
+                        <div class="course-statistic">
+                            <i class="icon ion-android-person"></i>
+                            <span class="people"><?= $newcourse->online; ?>人在学</span>
+                            <i class="icon ion-heart"></i>
+                            <span class="people"><?= $newcourse->collection; ?>人</span>
+                        </div>
+                        <div class="teacher-section">
+                            <img src="/img/teacher-icon.jpg"/>
+                            <span class="teacher-name"><?= User::item($newcourse->teacher_id); ?></span>
+                        </div>
+                    </li>
+                <?php } ?>
             </ul>
             <ul class="list">
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称c</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="course-img">
-                        <img class="course-pic" src="/img/course-list-img.jpg"/>
-                    </div>
-                    <p class="content-title">课程名称课程名称课程名称课程名称</p>
-                    <div class="course-statistic">
-                        <i class="icon ion-android-person"></i>
-                        <span class="people">11101人在学</span>
-                        <i class="icon ion-heart"></i>
-                        <span class="people">2345人</span>
-                    </div>
-                    <div class="teacher-section">
-                        <img src="/img/teacher-icon.jpg"/>
-                        <span class="teacher-name">张老师</span>
-                    </div>
-                </li>
+                <?php foreach ($rankcourses as $rankcourse) { ?>
+                    <li>
+                        <div class="course-img">
+                            <img class="course-pic" src="<?= $rankcourse->list_pic; ?>"/>
+                        </div>
+                        <p class="content-title"><?= $rankcourse->course_name; ?></p>
+                        <div class="course-statistic">
+                            <i class="icon ion-android-person"></i>
+                            <span class="people"><?= $rankcourse->online; ?>人在学</span>
+                            <i class="icon ion-heart"></i>
+                            <span class="people"><?= $rankcourse->collection; ?>人</span>
+                        </div>
+                        <div class="teacher-section">
+                            <img src="/img/teacher-icon.jpg"/>
+                            <span class="teacher-name"><?= User::item($rankcourse->teacher_id); ?></span>
+                        </div>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
         <a href="" class="view-more">查看更多</a>

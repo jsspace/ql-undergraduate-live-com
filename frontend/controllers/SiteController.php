@@ -78,45 +78,38 @@ class SiteController extends Controller
         /*热门分类*/
         $hotcats = HotCategory::find()
         ->orderBy('position asc')
-        ->offset(1)
         ->limit(7)
         ->all();
         /*套餐->最新课程*/
         $courseps = CoursePackage::find();
         $newpcourses = $courseps
         ->orderBy('create_time desc')
-        ->offset(1)
         ->limit(8)
         ->all();
         /*套餐->热门推荐*/
         $hotpcourses = $courseps
         ->orderBy('view desc')
-        ->offset(1)
         ->limit(8)
         ->all();
         /*套餐->课程排行*/
         $rankpcourses = $courseps
         ->orderBy('online desc')
-        ->offset(1)
         ->limit(8)
         ->all();
         /*课程->最新课程*/
         $courses = Course::find();
         $newcourses = $courses
         ->orderBy('create_time desc')
-        ->offset(1)
         ->limit(8)
         ->all();
         /*课程->热门推荐*/
         $hotcourses = $courses
         ->orderBy('view desc')
-        ->offset(1)
         ->limit(8)
         ->all();
         /*课程->课程排行*/
         $rankcourses = $courses
         ->orderBy('online desc')
-        ->offset(1)
         ->limit(8)
         ->all();
         return $this->render('index', ['hotcats' => $hotcats, 'newpcourses' => $newpcourses, 'hotpcourses' => $hotpcourses, 'rankpcourses' => $rankpcourses, 'newcourses' => $newcourses, 'hotcourses' => $hotcourses, 'rankcourses' => $rankcourses]);
