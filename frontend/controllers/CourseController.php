@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use yii\web\Controller;
 use backend\models\CourseCategory;
+use backend\models\Course;
 
 class CourseController extends Controller
 {
@@ -28,6 +29,9 @@ class CourseController extends Controller
     {
         $catModels = CourseCategory::find()
         ->all();
+        
+        $coursemodels = Course::find()
+        ->all();
 
         $firArr = array();
 
@@ -38,14 +42,20 @@ class CourseController extends Controller
                 $firArr[$catModelKey]['child'] = array();
                 foreach ($catModels as $subModelKey => $subModel) {
                     if ($subModel->parent_id == $catModel->id) {
-                        $firArr[$catModelKey]['child'][$subModelKey] = $subModel;
+                        $firArr[$catModelKey]['child'][$subModelKey] = array();
+                        $firArr[$catModelKey]['child'][$subModelKey]['submodel'] = $subModel;
+                        $firArr[$catModelKey]['child'][$subModelKey]['course'] = array();
+                        foreach ($coursemodels as $coursekey => $coursemodel) {
+                            if(strstr($coursemodel->category_name, $subModel->name) != false)
+                            {
+                                $firArr[$catModelKey]['child'][$subModelKey]['course'][$coursekey] = $coursemodel;
+                            }
+                        }
                     }
                 }
             }
         }
-        print_r(json_encode($firArr));
-        die();
-        return $this->render('list');
+        return $this->render('list', ['courseList' => $firArr]);
     }
     
     public function actionDetail()
