@@ -18,7 +18,7 @@ class MarketSearch extends User
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'updated_at', 'gender', 'code'], 'integer'],
+            [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
             [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro'], 'safe'],
         ];
     }
@@ -66,7 +66,7 @@ class MarketSearch extends User
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'gender' => $this->gender,
-            'code' => $this->code,
+            'invite' => $this->invite,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])

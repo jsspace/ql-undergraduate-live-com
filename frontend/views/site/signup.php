@@ -25,6 +25,8 @@ $this->title = 'Signup';
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
+                <?= Html::activeHiddenInput($model,'invite',array('value'=>$uid)) ?>
+
                 <div class="form-group login-section">
                     <?= Html::submitButton('注册', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>

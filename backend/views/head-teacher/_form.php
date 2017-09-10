@@ -44,7 +44,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'intro')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'code')->textInput() ?>
+    <?= $form->field($model, 'invite')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
