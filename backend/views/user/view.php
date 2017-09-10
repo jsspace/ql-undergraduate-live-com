@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'goodat',
             'picture',
             'intro:ntext',
-            'code',
+            'invite',
         ],
     ]) ?>
 

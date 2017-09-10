@@ -24,7 +24,7 @@ use Yii;
  * @property string $goodat
  * @property string $picture
  * @property string $intro
- * @property integer $code
+ * @property integer $invite
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -42,8 +42,8 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at', 'phone'], 'required'],
-            [['status', 'created_at', 'updated_at', 'gender', 'code'], 'integer'],
+            [['username', 'auth_key', 'password_hash', 'email', 'phone'], 'required'],
+            [['status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
             [['intro'], 'string'],
             [['username', 'auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password_reset_token', 'email', 'phone', 'picture'], 'string', 'max' => 255],
@@ -75,7 +75,7 @@ class User extends \yii\db\ActiveRecord
             'goodat' => Yii::t('app', '擅长'),
             'picture' => Yii::t('app', '照片'),
             'intro' => Yii::t('app', '介绍'),
-            'code' => Yii::t('app', '会员码'),
+            'invite' => Yii::t('app', '邀请人'),
         ];
     }
 
@@ -148,10 +148,35 @@ class User extends \yii\db\ActiveRecord
             self::$_item[$umodel->id]=$umodel->username;
         }
     }
+
     public static function getUserModel($id) {
         $userModel = self::find()
         ->where(['id' => $id])
         ->one();
         return $userModel;
+    }
+    
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->created_at = time();
+            } else {
+                $this->updated_at = time();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+    
+        if ($insert) {
+            $this->password_hash = Yii::$app->security->generatePasswordHash($this->password_hash);
+            $this->save(false, ['password_hash']);
+        }
     }
 }

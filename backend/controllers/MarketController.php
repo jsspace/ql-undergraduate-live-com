@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\controllers\ApiController;
+use backend\models\AuthAssignment;
 
 /**
  * MarketController implements the CRUD actions for User model.
@@ -64,10 +65,13 @@ class MarketController extends Controller
     public function actionCreate()
     {
         $model = new User();
-
+        
+        $model->auth_key = Yii::$app->security->generateRandomString();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $url = Url::to(['']);
-            ApiController::http_post_data($url, $data_string);
+            $role = new AuthAssignment();
+            $role->item_name = 'marketer';
+            $role->user_id = $model->id;
+            $role->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -104,7 +108,7 @@ class MarketController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        $role = AuthAssignment::deleteAll(['user_id' => $id]);
         return $this->redirect(['index']);
     }
 
