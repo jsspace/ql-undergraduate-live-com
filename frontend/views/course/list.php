@@ -21,42 +21,29 @@ $this->title = 'My Yii Application';
             <li>
                 <a href="">全部</a>
             </li>
+            <?php
+                foreach ($courseLists as $firCat) { ?>
+                    <li>
+                        <a href=""><?= $firCat['firModel']->name; ?></a>
+                    </li>
+            <?php } ?>
+        </ul>
+    </div>
+    <div class="course-category">
+        <div class="category-title">子分类&gt;&gt;</div>
+        <ul class="category-li">
             <li>
-                <a href="">文学类</a>
+                <a href="">全部</a>
             </li>
-            <li>
-                <a href="">商务英语</a>
-            </li>
-            <li>
-                <a href="">前端开发</a>
-            </li>
-            <li>
-                <a href="">后端开发</a>
-            </li>
-            <li>
-                <a href="">电视媒体</a>
-            </li>
-            <li>
-                <a href="">天文地理</a>
-            </li>
-            <li>
-                <a href="">化学生物</a>
-            </li>
-            <li>
-                <a href="">前端开发</a>
-            </li>
-            <li>
-                <a href="">后端开发</a>
-            </li>
-            <li>
-                <a href="">电视媒体</a>
-            </li>
-            <li>
-                <a href="">天文地理</a>
-            </li>
-            <li>
-                <a href="">化学生物</a>
-            </li>
+            <?php
+                foreach ($courseLists as $firCat) {
+                    foreach ($firCat['child'] as $secCat) {
+            ?>
+                        <li>
+                            <a href=""><?= $secCat['submodel']->name; ?></a>
+                        </li>
+            <?php   } ?>
+         <?php } ?>
         </ul>
     </div>
     <div class="course-content">

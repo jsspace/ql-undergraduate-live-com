@@ -11,7 +11,7 @@ class CourseController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    /*public function behaviors()
     {
         return [
             'cache' => [
@@ -22,7 +22,7 @@ class CourseController extends Controller
                 ],
             ],
         ];
-    }
+    }*/
     
     
     public function actionList()
@@ -55,7 +55,7 @@ class CourseController extends Controller
                 }
             }
         }
-        return $this->render('list', ['courseList' => $firArr]);
+        return $this->render('list', ['courseLists' => $firArr]);
     }
     
     public function actionDetail()
