@@ -24,16 +24,21 @@
 }
 .category-li li {
     display: inline-block;
-    padding: 8px 20px;
     margin-right: 20px;
     margin-bottom: 10px;
 }
-.category-li li:hover {
+.category-li li:hover,
+.category-li li.active {
     background-color: #f2494e;
     border-radius: 5px;
 }
+.category-li li.active a {
+    color: #fff;
+}
 .category-li li a {
     color: #333;
+    padding: 8px 20px;
+    display: inline-block;
 }
 .category-li li:hover a {
     color: #fff;
@@ -42,12 +47,6 @@
     clear: both;
     margin-top: 20px;
     overflow: hidden;
-}
-.course-content .list {
-    display: none;
-}
-.course-content .list.active {
-    display: block;
 }
 .course-content .list li {
     width: 280px;

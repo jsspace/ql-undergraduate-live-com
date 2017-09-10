@@ -179,7 +179,7 @@ $this->title = 'My Yii Application';
                             <span class="people"><?= $hotcourse->collection; ?>人</span>
                         </div>
                         <div class="teacher-section">
-                            <img src="/img/teacher-icon.jpg"/>
+                            <img src="<?= User::getUserModel($hotcourse->teacher_id)->picture; ?>"/>
                             <span class="teacher-name"><?= User::item($hotcourse->teacher_id); ?></span>
                         </div>
                     </li>
@@ -199,7 +199,7 @@ $this->title = 'My Yii Application';
                             <span class="people"><?= $newcourse->collection; ?>人</span>
                         </div>
                         <div class="teacher-section">
-                            <img src="/img/teacher-icon.jpg"/>
+                            <img src="<?= User::getUserModel($newcourse->teacher_id)->picture; ?>"/>
                             <span class="teacher-name"><?= User::item($newcourse->teacher_id); ?></span>
                         </div>
                     </li>
@@ -219,14 +219,14 @@ $this->title = 'My Yii Application';
                             <span class="people"><?= $rankcourse->collection; ?>人</span>
                         </div>
                         <div class="teacher-section">
-                            <img src="/img/teacher-icon.jpg"/>
+                            <img src="<?= User::getUserModel($rankcourse->teacher_id)->picture; ?>"/>
                             <span class="teacher-name"><?= User::item($rankcourse->teacher_id); ?></span>
                         </div>
                     </li>
                 <?php } ?>
             </ul>
         </div>
-        <a href="" class="view-more">查看更多</a>
+        <a href="<?= Url::to(['course/list']) ?>" class="view-more">查看更多</a>
     </div>
     <!-- <div class="ads-section">
         <div class="ads-bar">

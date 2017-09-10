@@ -115,7 +115,7 @@ class User extends \yii\db\ActiveRecord
     public static function user($roleName,$id)
     {
         if(!isset(self::$_users[$roleName]))
-            self::loadItems($roleName);
+            self::loadUsers($roleName);
             return isset(self::$_users[$roleName][$$id]) ? self::$_users[$roleName][$id] : false;
     }
     
@@ -131,34 +131,13 @@ class User extends \yii\db\ActiveRecord
             self::$_users[$roleName][$model->id]=$model->username;
     }
     
-    private static $_items=array();
     private static $_item=array();
-    
-    public static function items($role)
-    {
-        // if(!isset(self::$_items[$role])) {
-        //     self::loadItems($role);
-        // }
-        // return self::$_items[$role];
-    }
     
     public static function item($id)
     {
         if(!isset(self::$_item[$id]))
             self::loadItem();
             return isset(self::$_item[$id]) ? self::$_item[$id] : false;
-    }
-    
-    private static function loadItems($role)
-    {
-        // self::$_items[$role]=array();
-        // $uids=mdm\admin\models\User::getUserIdsByRole($role);
-        // foreach($uids as $uid) {
-        //     $umodel= User::find()
-        //     ->where(['=', 'id', $uid])
-        //     ->one();
-        //     self::$_items[$role][$umodel->id]=$umodel->username;
-        // }
     }
     
     private static function loadItem()
@@ -168,5 +147,11 @@ class User extends \yii\db\ActiveRecord
         foreach ($umodels as $umodel) {
             self::$_item[$umodel->id]=$umodel->username;
         }
+    }
+    public static function getUserModel($id) {
+        $userModel = self::find()
+        ->where(['id' => $id])
+        ->one();
+        return $userModel;
     }
 }
