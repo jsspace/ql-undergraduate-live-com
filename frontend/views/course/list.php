@@ -64,8 +64,9 @@ $this->title = 'My Yii Application';
     <div class="course-content">
         <ul class="list">
             <?php foreach ($courseLists as $firCat) {
+                    if ($cat == $firCat['firModel']->id || $cat == 0) {
                         foreach ($firCat['child'] as $secCat) {
-                            if ($secCat['submodel']->id == $subcat || $cat == 0) {
+                            if ($secCat['submodel']->id == $subcat || $subcat == '') {
                                 foreach ($secCat['course'] as $course) { ?>
                                 <li>
                                     <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">
@@ -86,7 +87,7 @@ $this->title = 'My Yii Application';
                                     </a>
                                 </li>
                     <?php   } } ?>
-                <?php   } ?>
+                <?php } } ?>
             <?php } ?>
         </ul>
     </div>

@@ -105,7 +105,9 @@ $this->title = 'My Yii Application';
                 <?php foreach ($hotpcourses as $hotpcourse) { ?>
                     <li>
                         <div class="course-img">
-                            <img src="<?= $hotpcourse->list_pic; ?>"/>
+                            <a href="<?= Url::to(['package/detail', 'pid' => $hotpcourse->id]) ?>">
+                                <img src="<?= $hotpcourse->list_pic; ?>"/>
+                            </a>
                         </div>
                         <p class="content-title"><?= $hotpcourse->name; ?></p>
                         <div class="course-statistic">
@@ -121,7 +123,9 @@ $this->title = 'My Yii Application';
                 <?php foreach ($newpcourses as $newpcourse) { ?>
                     <li>
                         <div class="course-img">
-                            <img src="<?= $newpcourse->list_pic; ?>"/>
+                            <a href="<?= Url::to(['package/detail', 'pid' => $newpcourse->id]) ?>">
+                                <img src="<?= $newpcourse->list_pic; ?>"/>
+                            </a>
                         </div>
                         <p class="content-title"><?= $newpcourse->name; ?></p>
                         <div class="course-statistic">
@@ -137,7 +141,9 @@ $this->title = 'My Yii Application';
                 <?php foreach ($rankpcourses as $rankpcourse) { ?>
                     <li>
                         <div class="course-img">
-                            <img src="<?= $rankpcourse->list_pic; ?>"/>
+                            <a href="<?= Url::to(['package/detail', 'pid' => $rankpcourse->id]) ?>">
+                                <img src="<?= $rankpcourse->list_pic; ?>"/>
+                            </a>
                         </div>
                         <p class="content-title"><?= $rankpcourse->name; ?></p>
                         <div class="course-statistic">
@@ -150,7 +156,7 @@ $this->title = 'My Yii Application';
                 <?php } ?>
             </ul>
         </div>
-        <a href="" class="view-more">查看更多</a>
+        <a href="<?= Url::to(['package/list']) ?>" class="view-more">查看更多</a>
     </div>
     <div class="container-course course-online">
         <h3 class="course-title">在线课程</h3>
@@ -169,7 +175,9 @@ $this->title = 'My Yii Application';
                 <?php foreach ($hotcourses as $hotcourse) { ?>
                     <li>
                         <div class="course-img">
-                            <img class="course-pic" src="<?= $hotcourse->list_pic; ?>"/>
+                            <a href="<?= Url::to(['course/detail', 'courseid' => $hotcourse->id]) ?>">
+                                <img class="course-pic" src="<?= $hotcourse->list_pic; ?>"/>
+                            </a>
                         </div>
                         <p class="content-title"><?= $hotcourse->course_name; ?></p>
                         <div class="course-statistic">
@@ -189,7 +197,9 @@ $this->title = 'My Yii Application';
                 <?php foreach ($newcourses as $newcourse) { ?>
                     <li>
                         <div class="course-img">
-                            <img class="course-pic" src="<?= $newcourse->list_pic; ?>"/>
+                            <a href="<?= Url::to(['course/detail', 'courseid' => $newcourse->id]) ?>">
+                                <img class="course-pic" src="<?= $newcourse->list_pic; ?>"/>
+                            </a>
                         </div>
                         <p class="content-title"><?= $newcourse->course_name; ?></p>
                         <div class="course-statistic">
@@ -209,7 +219,9 @@ $this->title = 'My Yii Application';
                 <?php foreach ($rankcourses as $rankcourse) { ?>
                     <li>
                         <div class="course-img">
-                            <img class="course-pic" src="<?= $rankcourse->list_pic; ?>"/>
+                            <a href="<?= Url::to(['course/detail', 'courseid' => $rankcourse->id]) ?>">
+                                <img class="course-pic" src="<?= $rankcourse->list_pic; ?>"/>
+                            </a>
                         </div>
                         <p class="content-title"><?= $rankcourse->course_name; ?></p>
                         <div class="course-statistic">
