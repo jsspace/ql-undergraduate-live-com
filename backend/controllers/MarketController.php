@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use common\controllers\ApiController;
 use backend\models\AuthAssignment;
 use yii\web\UploadedFile;
+use Da\QrCode\QrCode;
 
 /**
  * MarketController implements the CRUD actions for User model.
@@ -161,5 +162,22 @@ class MarketController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    
+    public function actionQrcode($url, $name)
+    {
+        $qrCode = (new QrCode($url))
+        ->setSize(250)
+        ->setMargin(5)
+        ->useForegroundColor(51, 153, 255);
+    
+        // now we can display the qrcode in many ways
+        // saving the result to a file:
+        $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'] . 'qrcode_img/';
+        $qrCode->writeFile($img_rootPath . $name); // writer defaults to PNG when none is specified
+        
+        // display directly to the browser 
+        header('Content-Type: '.$qrCode->getContentType());
+        echo $qrCode->writeString();
     }
 }

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
@@ -9,6 +10,7 @@ use yii\widgets\DetailView;
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $model->id]);
 ?>
 <div class="user-view">
 
@@ -62,5 +64,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]) ?>
-
+<div>
+<span>推广注册链接：<?= $invite_url ?></span><br>
+<span>推广注册二维码图片：<img src="<?= Url::to(['market/qrcode','url' => $invite_url, 'name' => $model->id.'.png'])?>" /></span>
+</div>
 </div>
