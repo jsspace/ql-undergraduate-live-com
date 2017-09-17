@@ -23,9 +23,9 @@ $this->title = 'My Yii Application';
 <div class="container-course course-section">
     <div class="course-category">
         <div class="category-title">分类&gt;&gt;</div>
-        <ul class="category-li _category-li">
-            <li class="<?php if($cat == 0 || $cat == '') echo 'active'; ?>">
-                <a href="<?= Url::to(['course/list','cat' => 0]) ?>">全部</a>
+        <ul class="category-li">
+            <li class="<?php if($cat == '') echo 'active'; ?>">
+                <a href="<?= Url::to(['course/list']) ?>">全部</a>
             </li>
             <?php
                 foreach ($courseLists as $firCat) {
@@ -42,14 +42,14 @@ $this->title = 'My Yii Application';
         </ul>
     </div>
     <?php
-        if ($cat!='' && $cat!=0) {
+        if ($cat!='') {
     ?>
     <div class="course-category _course-category">
         <div class="category-title">子分类&gt;&gt;</div>
             <?php
                 foreach ($courseLists as $firCat) { ?>
                 <?php if($cat == $firCat['firModel']->id) { ?>
-                <ul class="category-li _category-li">
+                <ul class="category-li">
             <?php
                     foreach ($firCat['child'] as $secCat) {
             ?>
@@ -64,7 +64,7 @@ $this->title = 'My Yii Application';
     <div class="course-content">
         <ul class="list">
             <?php foreach ($courseLists as $firCat) {
-                    if ($cat == $firCat['firModel']->id || $cat == 0) {
+                    if ($cat == $firCat['firModel']->id || $cat == '') {
                         foreach ($firCat['child'] as $secCat) {
                             if ($secCat['submodel']->id == $subcat || $subcat == '') {
                                 foreach ($secCat['course'] as $course) { ?>
@@ -74,6 +74,7 @@ $this->title = 'My Yii Application';
                                             <img class="course-pic" src="<?= $course->list_pic ?>"/>
                                         </div>
                                         <p class="content-title"><?= $course->course_name ?></p>
+                                    </a>
                                         <div class="course-statistic">
                                             <i class="icon ion-android-person"></i>
                                             <span class="people"><?= $course->online ?>人在学</span>
@@ -84,7 +85,6 @@ $this->title = 'My Yii Application';
                                             <img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/>
                                             <span class="teacher-name"><?= User::item($course->teacher_id); ?></span>
                                         </div>
-                                    </a>
                                 </li>
                     <?php   } } ?>
                 <?php } } ?>

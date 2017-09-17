@@ -206,7 +206,7 @@ a {
     right: 80px;
     font-size: 18px;
 }
-.package-detail-section .bottom-package .price:after {
+/* .package-detail-section .bottom-package .price:after {
     content: "";
     width: 10px;
     height: 10px;
@@ -217,7 +217,7 @@ a {
     right: -30px;
     top: 4px;
     cursor: pointer;
-}
+} */
 .package-detail-section .bottom-package .hide-section {
     width: 100%;
     padding: 20px 10px;

@@ -104,12 +104,12 @@ $this->title = 'My Yii Application';
             <ul class="list active">
                 <?php foreach ($hotpcourses as $hotpcourse) { ?>
                     <li>
-                        <div class="course-img">
-                            <a href="<?= Url::to(['package/detail', 'pid' => $hotpcourse->id]) ?>">
-                                <img src="<?= $hotpcourse->list_pic; ?>"/>
-                            </a>
-                        </div>
-                        <p class="content-title"><?= $hotpcourse->name; ?></p>
+                        <a href="<?= Url::to(['package/detail', 'pid' => $hotpcourse->id]) ?>">
+                            <div class="course-img">
+                                    <img src="<?= $hotpcourse->list_pic; ?>"/>
+                            </div>
+                            <p class="content-title"><?= $hotpcourse->name; ?></p>
+                        </a>
                         <div class="course-statistic">
                             <i class="icon ion-android-person"></i>
                             <span class="people"><?= $hotpcourse->online; ?>人在学</span>
@@ -122,12 +122,12 @@ $this->title = 'My Yii Application';
             <ul class="list">
                 <?php foreach ($newpcourses as $newpcourse) { ?>
                     <li>
-                        <div class="course-img">
-                            <a href="<?= Url::to(['package/detail', 'pid' => $newpcourse->id]) ?>">
+                        <a href="<?= Url::to(['package/detail', 'pid' => $newpcourse->id]) ?>">
+                            <div class="course-img">
                                 <img src="<?= $newpcourse->list_pic; ?>"/>
-                            </a>
-                        </div>
-                        <p class="content-title"><?= $newpcourse->name; ?></p>
+                            </div>
+                            <p class="content-title"><?= $newpcourse->name; ?></p>
+                        </a>
                         <div class="course-statistic">
                             <i class="icon ion-android-person"></i>
                             <span class="people"><?= $newpcourse->online; ?>人在学</span>
@@ -140,12 +140,12 @@ $this->title = 'My Yii Application';
             <ul class="list">
                 <?php foreach ($rankpcourses as $rankpcourse) { ?>
                     <li>
-                        <div class="course-img">
-                            <a href="<?= Url::to(['package/detail', 'pid' => $rankpcourse->id]) ?>">
+                        <a href="<?= Url::to(['package/detail', 'pid' => $rankpcourse->id]) ?>">
+                            <div class="course-img">
                                 <img src="<?= $rankpcourse->list_pic; ?>"/>
-                            </a>
-                        </div>
-                        <p class="content-title"><?= $rankpcourse->name; ?></p>
+                            </div>
+                            <p class="content-title"><?= $rankpcourse->name; ?></p>
+                        </a>
                         <div class="course-statistic">
                             <i class="icon ion-android-person"></i>
                             <span class="people"><?= $rankpcourse->online; ?>人在学</span>
@@ -174,12 +174,12 @@ $this->title = 'My Yii Application';
             <ul class="list active">
                 <?php foreach ($hotcourses as $hotcourse) { ?>
                     <li>
-                        <div class="course-img">
-                            <a href="<?= Url::to(['course/detail', 'courseid' => $hotcourse->id]) ?>">
+                        <a href="<?= Url::to(['course/detail', 'courseid' => $hotcourse->id]) ?>">
+                            <div class="course-img">
                                 <img class="course-pic" src="<?= $hotcourse->list_pic; ?>"/>
-                            </a>
-                        </div>
-                        <p class="content-title"><?= $hotcourse->course_name; ?></p>
+                            </div>
+                            <p class="content-title"><?= $hotcourse->course_name; ?></p>
+                        </a>
                         <div class="course-statistic">
                             <i class="icon ion-android-person"></i>
                             <span class="people"><?= $hotcourse->online; ?>人在学</span>
@@ -196,12 +196,12 @@ $this->title = 'My Yii Application';
             <ul class="list">
                 <?php foreach ($newcourses as $newcourse) { ?>
                     <li>
-                        <div class="course-img">
-                            <a href="<?= Url::to(['course/detail', 'courseid' => $newcourse->id]) ?>">
+                        <a href="<?= Url::to(['course/detail', 'courseid' => $newcourse->id]) ?>">
+                            <div class="course-img">
                                 <img class="course-pic" src="<?= $newcourse->list_pic; ?>"/>
-                            </a>
-                        </div>
-                        <p class="content-title"><?= $newcourse->course_name; ?></p>
+                            </div>
+                            <p class="content-title"><?= $newcourse->course_name; ?></p>
+                        </a>
                         <div class="course-statistic">
                             <i class="icon ion-android-person"></i>
                             <span class="people"><?= $newcourse->online; ?>人在学</span>
@@ -218,12 +218,12 @@ $this->title = 'My Yii Application';
             <ul class="list">
                 <?php foreach ($rankcourses as $rankcourse) { ?>
                     <li>
-                        <div class="course-img">
-                            <a href="<?= Url::to(['course/detail', 'courseid' => $rankcourse->id]) ?>">
+                        <a href="<?= Url::to(['course/detail', 'courseid' => $rankcourse->id]) ?>">
+                            <div class="course-img">
                                 <img class="course-pic" src="<?= $rankcourse->list_pic; ?>"/>
-                            </a>
-                        </div>
-                        <p class="content-title"><?= $rankcourse->course_name; ?></p>
+                            </div>
+                            <p class="content-title"><?= $rankcourse->course_name; ?></p>
+                        </a>
                         <div class="course-statistic">
                             <i class="icon ion-android-person"></i>
                             <span class="people"><?= $rankcourse->online; ?>人在学</span>

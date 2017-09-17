@@ -96,6 +96,8 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <?= $form->field($model, 'discount')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'intro')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'des')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],
         'preset' => 'full',

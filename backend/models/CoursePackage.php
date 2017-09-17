@@ -15,6 +15,7 @@ use Yii;
  * @property string $price
  * @property string $discount
  * @property string $category_name
+ * @property string $intro
  * @property string $des
  * @property integer $view
  * @property integer $collection
@@ -40,10 +41,10 @@ class CoursePackage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price', 'discount', 'category_name', 'des', 'head_teacher'], 'required'],
+            [['name', 'price', 'discount', 'category_name', 'des', 'intro', 'head_teacher'], 'required'],
             [['list_pic', 'home_pic'], 'required', 'on'=> 'create'],
             [['price', 'discount'], 'number'],
-            [['des'], 'string'],
+            [['des','intro'], 'string'],
             [['view', 'collection', 'share', 'online', 'onuse', 'create_time'], 'integer'],
             [['name', 'course', 'list_pic', 'home_pic', 'category_name'], 'string', 'max' => 255],
         ];
@@ -64,6 +65,7 @@ class CoursePackage extends \yii\db\ActiveRecord
             'discount' => Yii::t('app', '优惠价格'),
             'category_name' => Yii::t('app', '套餐分类'),
             'des' => Yii::t('app', '套餐详情'),
+            'intro' => Yii::t('app', '套餐简介'),
             'view' => Yii::t('app', '浏览次数'),
             'collection' => Yii::t('app', '收藏次数'),
             'share' => Yii::t('app', '分享次数'),

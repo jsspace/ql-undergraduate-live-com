@@ -5,6 +5,9 @@ namespace frontend\controllers;
 use yii\web\Controller;
 use backend\models\CourseCategory;
 use backend\models\Course;
+use backend\models\CourseChapter;
+use backend\models\CourseSection;
+use Yii;
 
 class CourseController extends Controller
 {
@@ -60,7 +63,30 @@ class CourseController extends Controller
     
     public function actionDetail()
     {
-        return $this->render('detail');
+        $courseid = Yii::$app->request->get('courseid');
+        $courseModel = Course::find()
+        ->where(['id' => $courseid])
+        ->one();
+        $courseDetail = array();
+        $courseDetail['course'] = $courseModel;
+        $courseDetail['coursechild'] = array();
+        $chapters = CourseChapter::find()
+        ->where(['course_id' => $courseid])
+        ->all();
+        $sections = CourseSection::find()
+        ->all();
+        $duration = 0;
+        foreach ($chapters as $chapterKey => $chapter) {
+            $courseDetail['coursechild'][$chapterKey]['chapter'] = $chapter;
+            $courseDetail['coursechild'][$chapterKey]['chapterchild'] = array();
+            foreach ($sections as $sectionsKey => $section) {
+                if ($section->chapter_id == $chapter->id) {
+                    $courseDetail['coursechild'][$chapterKey]['chapterchild'][$sectionsKey] = $section;
+                }
+                $duration = $duration+$section->duration;
+            }
+        }
+        return $this->render('detail', ['courseDetail' => $courseDetail, 'duration' => $duration]);
     }
 
 }

@@ -3,10 +3,15 @@
 /* @var $this yii\web\View */
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
+use backend\models\User;
 
 AppAsset::addCss($this,'@web/css/course.css');
 
 $this->title = 'My Yii Application';
+?>
+<?php
+    $course = $courseDetail['course'];
+    $cousechild = $courseDetail['coursechild'];
 ?>
 <div class="container-course menu-position">
     <span>您的位置：</span>
@@ -14,41 +19,41 @@ $this->title = 'My Yii Application';
     <span>&gt;</span>
     <span><a href="/course/list">课程列表</a></span>
     <span>&gt;</span>
-    <span>影视作品声音艺术的讲解与分析</span>
+    <span><?= $course->course_name; ?></span>
 </div>
 <div class="container-course course-detail-section">
     <div class="main-section">
         <div class="course-detail-left">
-            <img src="/img/course-list-img.jpg"/>
+            <img src="<?= $course->home_pic; ?>"/>
         </div>
         <div class="course-detail-right">
-            <div class="course-detail-title">影视作品声音艺术的讲解与分析</div>
-            <div class="course-sub-title">影视作品声音艺术的讲解与分析</div>
+            <div class="course-detail-title"><?= $course->course_name; ?></div>
+            <div class="course-sub-title"><?= $course->course_name; ?></div>
             <div class="course-info">课程信息</div>
             <ul class="info-list">
                 <li>
                     <img src="/img/tb_01.jpg"/>
-                    <span>主讲&nbsp;&nbsp;张老师</span>
+                    <span>主讲&nbsp;&nbsp;<?= User::item($course->teacher_id); ?></span>
                 </li>
                 <li>
                     <img src="/img/tb_02.jpg"/>
-                    <span>时长&nbsp;&nbsp;00:00:00</span>
+                    <span>时长&nbsp;&nbsp;<?= $duration ?>分钟</span>
                 </li>
                 <li>
                     <img src="/img/tb_03.jpg"/>
-                    <span>课时&nbsp;&nbsp;0</span>
+                    <span>课时&nbsp;&nbsp;<?= ceil($duration/60) ?></span>
                 </li>
                 <li>
                     <img src="/img/tb_04.jpg"/>
-                    <span>浏览&nbsp;&nbsp;55</span>
+                    <span>浏览&nbsp;&nbsp;<?= $course->view ?></span>
                 </li>
                 <li>
                     <img src="/img/tb_05.jpg"/>
-                    <span>分享&nbsp;&nbsp;123</span>
+                    <span>分享&nbsp;&nbsp;<?= $course->share ?></span>
                 </li>
                 <li>
                     <img src="/img/tb_06.jpg"/>
-                    <span>收藏&nbsp;&nbsp;444</span>
+                    <span>收藏&nbsp;&nbsp;<?= $course->collection ?></span>
                 </li>
             </ul>
             <div class="share-like">
@@ -77,52 +82,27 @@ $this->title = 'My Yii Application';
             <div class="course-tag-content">
                 <div class="tag-content active">
                     <ul class="chapter-title">
-                        <li class="active">
-                            <div class="chapter-title-name">创新时代</div>
-                            <ul class="chapter-con">
-                                <li>
-                                    <img src="/img/chapter-play-icon.png"/>
-                                    <a href="" class="chapter-list-name">第一讲  突发性新闻事件</a>
-                                    <div class="chapter-list-time">
-                                        <span class="time-tag">直播回放</span>
-                                        <span class="time-con">01:12:13</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="/img/chapter-play-icon.png"/>
-                                    <a href="" class="chapter-list-name">第一讲  突发性新闻事件</a>
-                                    <div class="chapter-list-time">
-                                        <span class="time-tag">直播回放</span>
-                                        <span class="time-con">01:12:13</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <div class="chapter-title-name">创新时代</div>
-                            <ul class="chapter-con">
-                                <li>
-                                    <img src="/img/chapter-play-icon.png"/>
-                                    <a href="" class="chapter-list-name">第一讲  突发性新闻事件</a>
-                                    <div class="chapter-list-time">
-                                        <span class="time-tag">直播回放</span>
-                                        <span class="time-con">01:12:13</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="/img/chapter-play-icon.png"/>
-                                    <a href="" class="chapter-list-name">第一讲  突发性新闻事件</a>
-                                    <div class="chapter-list-time">
-                                        <span class="time-tag">直播回放</span>
-                                        <span class="time-con">01:12:13</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
+                        <?php foreach ($cousechild as $key => $chapter) { ?>
+                            <li class="active">
+                                <div class="chapter-title-name"><?= $chapter['chapter']->name ?></div>
+                                <ul class="chapter-con">
+                                    <?php foreach ($chapter['chapterchild'] as $key => $section) { ?>
+                                    <li>
+                                        <img src="/img/chapter-play-icon.png"/>
+                                        <a href="" class="chapter-list-name"><?= $section->name ?></a>
+                                        <div class="chapter-list-time">
+                                            <span class="time-tag">直播回放</span>
+                                            <span class="time-con">01:12:13</span>
+                                        </div>
+                                    </li>
+                                    <?php } ?>
+                                </ul>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
                 <div class="tag-content">
-                    课程详情内容
+                    <?= $course->des; ?>
                 </div>
                 <div class="tag-content">
                     <ul class="evaluate-list">
@@ -148,14 +128,14 @@ $this->title = 'My Yii Application';
         </div>
         <div class="kc-right">
             <div class="teacher-show">
-                <div class="teacher-img"><img src="/img/teacher-people.png"/></div>
+                <div class="teacher-img"><img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/></div>
                 <div class="teacher-detail">
-                    <span class="name">教师： 张老师</span>
+                    <span class="name">教师： <?= User::item($course->teacher_id); ?></span>
                     <a href="" class="view-btn">查看教师</a>
                 </div>
-                <div class="teacher-tag">中国人民大学教授</div>
+                <div class="teacher-tag"><?= User::getUserModel($course->teacher_id)->description; ?></div>
             </div>
-            <div class="teacher-info">郭艳民，中国传媒大学教授、硕士研究生导师。1997年毕业后留校任教至今，现任中国传媒大学新闻传播学部电视学院电视系摄影教研室主任。主要作品有大型专题片《让生命永存》、人物传纪片《吴冠中》、《黄文》、《蔡国强》等。主要著作有《摄影构图》、《电视新闻摄影理论及应用》、《新闻摄影》等。 </div>
+            <div class="teacher-info"><?= User::getUserModel($course->teacher_id)->intro; ?></div>
         </div>
     </div>
 </div>

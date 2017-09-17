@@ -19,7 +19,7 @@ class CoursePackageSearch extends CoursePackage
     {
         return [
             [['id', 'view', 'collection', 'share', 'online', 'onuse', 'create_time', 'head_teacher'], 'integer'],
-            [['name', 'course', 'list_pic', 'home_pic', 'category_name', 'des'], 'safe'],
+            [['name', 'course', 'list_pic', 'home_pic', 'category_name', 'des', 'intro'], 'safe'],
             [['price', 'discount'], 'number'],
         ];
     }
@@ -77,7 +77,8 @@ class CoursePackageSearch extends CoursePackage
             ->andFilterWhere(['like', 'list_pic', $this->list_pic])
             ->andFilterWhere(['like', 'home_pic', $this->home_pic])
             ->andFilterWhere(['like', 'category_name', $this->category_name])
-            ->andFilterWhere(['like', 'des', $this->des]);
+            ->andFilterWhere(['like', 'des', $this->des])
+            ->andFilterWhere(['like', 'intro', $this->intro]);
 
         return $dataProvider;
     }

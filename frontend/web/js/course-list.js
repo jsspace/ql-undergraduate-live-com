@@ -14,13 +14,6 @@ var list = {
                 });
             });
 	    });
-	    $('._category-li').each(function () {
-	    	var self = $(this);
-	    	$(this).find('li').on('click', function () {
-	    		$(this).addClass('active');
-	    		self.find('li').removeClass('active');
-	    	});
-	    });
 	}
 };
 list.init();
