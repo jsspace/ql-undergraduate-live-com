@@ -13,6 +13,12 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
     <?php // $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
 
@@ -20,31 +26,21 @@ use yii\widgets\ActiveForm;
 
     <?php // $form->field($model, 'password_reset_token')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+    
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?php // $form->field($model, 'status')->textInput() ?>
 
     <?php // $form->field($model, 'created_at')->textInput() ?>
 
     <?php // $form->field($model, 'updated_at')->textInput() ?>
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+    
 
-    <?= $form->field($model, 'gender')->textInput() ?>
-
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'unit')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'office')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'goodat')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'picture')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'intro')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'invite')->textInput() ?>
+    <?= $form->field($model, 'gender')->dropDownList([0 => '男', 1 => '女']) ?>
+    
+	<?= $form->field($model, 'picture')->fileInput(['accept' => "image/png,image/jpeg"]) ?>
+	<p class="hint">（请上传470x250尺寸的图片）</p>
+    
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

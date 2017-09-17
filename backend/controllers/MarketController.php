@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\controllers\ApiController;
 use backend\models\AuthAssignment;
+use yii\web\UploadedFile;
+use Da\QrCode\QrCode;
 
 /**
  * MarketController implements the CRUD actions for User model.
@@ -65,14 +67,33 @@ class MarketController extends Controller
     public function actionCreate()
     {
         $model = new User();
-        
+        $model->status = 10;
         $model->auth_key = Yii::$app->security->generateRandomString();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $role = new AuthAssignment();
             $role->item_name = 'marketer';
             $role->user_id = $model->id;
             $role->save(false);
-            return $this->redirect(['view', 'id' => $model->id]);
+            
+            $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
+            $file = UploadedFile::getInstance($model, 'picture');
+             
+            if ($file) {
+                $ext = $file->getExtension();
+                $randName = time() . rand(1000, 9999) . '.' . $ext;
+                $img_rootPath .= 'head_img/';
+                if (!file_exists($img_rootPath)) {
+                    mkdir($img_rootPath, 0777, true);
+                }
+                $file->saveAs($img_rootPath . $randName);
+                $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
+            }
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            
+            
+            
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -91,7 +112,22 @@ class MarketController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
+            $file = UploadedFile::getInstance($model, 'picture');
+             
+            if ($file) {
+                $ext = $file->getExtension();
+                $randName = time() . rand(1000, 9999) . '.' . $ext;
+                $img_rootPath .= 'head_img/';
+                if (!file_exists($img_rootPath)) {
+                    mkdir($img_rootPath, 0777, true);
+                }
+                $file->saveAs($img_rootPath . $randName);
+                $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
+            }
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -126,5 +162,22 @@ class MarketController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    
+    public function actionQrcode($url, $name)
+    {
+        $qrCode = (new QrCode($url))
+        ->setSize(250)
+        ->setMargin(5)
+        ->useForegroundColor(51, 153, 255);
+    
+        // now we can display the qrcode in many ways
+        // saving the result to a file:
+        $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'] . 'qrcode_img/';
+        $qrCode->writeFile($img_rootPath . $name); // writer defaults to PNG when none is specified
+        
+        // display directly to the browser 
+        header('Content-Type: '.$qrCode->getContentType());
+        echo $qrCode->writeString();
     }
 }
