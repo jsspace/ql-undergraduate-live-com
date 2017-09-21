@@ -65,4 +65,9 @@ return [
     '重置' => '',
     'Hot Categories' => '热门分类',
     'Create Hot Category' => '创建热门分类',
+    'Course News' => '新闻列表',
+    'Create Course News' => '新建新闻',
+    'Friendly Links' => '友情链接',
+    'Course Coments' => '课程评价',
+    'Create Course Coment' => '新建课程评价',
 ];

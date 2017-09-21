@@ -3,11 +3,11 @@
 namespace backend\models;
 
 /**
- * This is the ActiveQuery class for [[Recommend]].
+ * This is the ActiveQuery class for [[CourseNews]].
  *
- * @see Recommend
+ * @see CourseNews
  */
-class RecommendQuery extends \yii\db\ActiveQuery
+class CourseNewsQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class RecommendQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return Recommend[]|array
+     * @return CourseNews[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class RecommendQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return Recommend|array|null
+     * @return CourseNews|array|null
      */
     public function one($db = null)
     {

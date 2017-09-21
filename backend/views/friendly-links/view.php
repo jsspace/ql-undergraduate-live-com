@@ -12,12 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="friendly-links-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-          //  'id',
             'title',
             'src',
             'position',

@@ -95,6 +95,8 @@ return [
             'course-package/*',
             'friendly-links/*',
             'hot-category/*',
+            'course-news/*',
+            'course-coment/*',
         ]
     ],
     'params' => $params,

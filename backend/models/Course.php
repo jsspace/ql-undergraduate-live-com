@@ -144,6 +144,10 @@ class Course extends \yii\db\ActiveRecord
         $new_course = substr($course,0,strlen($course)-1);
         return $new_course;
     }
+    public static function allItems() {
+        self::loadItems();
+        return self::$_items;
+    }
     public static function loadItems() {
         $models = self::find()
         ->all();

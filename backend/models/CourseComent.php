@@ -7,12 +7,13 @@ use Yii;
 /**
  * This is the model class for table "{{%course_coment}}".
  *
- * @property integer $id
+ * @property string $id
  * @property integer $course_id
  * @property integer $user_id
  * @property string $content
  * @property integer $check
  * @property integer $create_time
+ * @property integer $star
  */
 class CourseComent extends \yii\db\ActiveRecord
 {
@@ -30,8 +31,8 @@ class CourseComent extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_id', 'user_id', 'content', 'check'], 'required'],
-            [['course_id', 'user_id', 'check', 'create_time'], 'integer'],
+            [['course_id', 'user_id', 'content'], 'required'],
+            [['course_id', 'user_id', 'check', 'create_time', 'star'], 'integer'],
             [['content'], 'string'],
         ];
     }
@@ -43,11 +44,12 @@ class CourseComent extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'course_id' => Yii::t('app', '对应课程的id'),
-            'user_id' => Yii::t('app', '评论用户的id'),
+            'course_id' => Yii::t('app', '评价课程'),
+            'user_id' => Yii::t('app', '评价学员'),
             'content' => Yii::t('app', '评价内容'),
-            'check' => Yii::t('app', '审查是否通过'),
-            'create_time' => Yii::t('app', '评论时间'),
+            'check' => Yii::t('app', '评价状态'),
+            'create_time' => Yii::t('app', '时间'),
+            'star' => Yii::t('app', '星级'),
         ];
     }
 
@@ -58,5 +60,17 @@ class CourseComent extends \yii\db\ActiveRecord
     public static function find()
     {
         return new CourseComentQuery(get_called_class());
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->create_time = time();
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }
