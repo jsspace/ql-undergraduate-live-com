@@ -123,7 +123,7 @@ class User extends \yii\db\ActiveRecord
     {
         self::$_users[$roleName]=array();
         $userIds = Yii::$app->authManager->getUserIdsByRole($roleName);
-        $models=self::find()
+        $models = self::find()
         ->where(['in', 'id', $userIds])
         ->orderBy('id desc')
         ->all();
@@ -142,7 +142,7 @@ class User extends \yii\db\ActiveRecord
     
     private static function loadItem()
     {
-        $umodels= User::find()
+        $umodels = User::find()
         ->all();
         foreach ($umodels as $umodel) {
             self::$_item[$umodel->id]=$umodel->username;
@@ -154,6 +154,15 @@ class User extends \yii\db\ActiveRecord
         ->where(['id' => $id])
         ->one();
         return $userModel;
+    }
+
+    public static function getUserByrole($roleName) {
+        $userIds = Yii::$app->authManager->getUserIdsByRole($roleName);
+        $models = self::find()
+        ->where(['in', 'id', $userIds])
+        ->orderBy('id desc')
+        ->all();
+        return $models;
     }
     
     public function beforeSave($insert)

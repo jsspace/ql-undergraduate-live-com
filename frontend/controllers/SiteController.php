@@ -15,6 +15,9 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use backend\models\CourseNews;
+use backend\models\CourseComent;
+use backend\models\FriendlyLinks;
 
 /**
  * Site controller
@@ -112,7 +115,21 @@ class SiteController extends Controller
         ->orderBy('online desc')
         ->limit(8)
         ->all();
-        return $this->render('index', ['hotcats' => $hotcats, 'newpcourses' => $newpcourses, 'hotpcourses' => $hotpcourses, 'rankpcourses' => $rankpcourses, 'newcourses' => $newcourses, 'hotcourses' => $hotcourses, 'rankcourses' => $rankcourses]);
+        /*软文推荐*/
+        $tjcourses = CourseNews::find()
+        ->orderBy('position asc')
+        ->limit(6)
+        ->all();
+        /*用户评说*/
+        $coments = CourseComent::find()
+        ->where(['check' => 1])
+        ->orderBy('star desc')
+        ->limit(6)
+        ->all();
+        $flinks = FriendlyLinks::find()
+        ->orderBy('position asc')
+        ->all();
+        return $this->render('index', ['hotcats' => $hotcats, 'newpcourses' => $newpcourses, 'hotpcourses' => $hotpcourses, 'rankpcourses' => $rankpcourses, 'newcourses' => $newcourses, 'hotcourses' => $hotcourses, 'rankcourses' => $rankcourses, 'tjcourses' => $tjcourses, 'coments' => $coments, 'flinks' => $flinks]);
     }
 
     /**

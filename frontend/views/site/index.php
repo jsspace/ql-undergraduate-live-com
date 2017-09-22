@@ -267,6 +267,11 @@ $this->title = 'My Yii Application';
             </legend>
         </fieldset>
         <ul class="teach-list">
+            <?php 
+                /*$users = User::getUserByrole('student');
+                print_r($users);
+                die();*/
+            ?>
             <li>
                 <img class="people-img" src="/img/teacher-people.png"/>
                 <p class="intro">
@@ -410,30 +415,13 @@ $this->title = 'My Yii Application';
                     <img src="/img/referral-top.jpg"/>
                 </div>
                 <ul class="referral-list">
-                    <li>
-                        <span class="announce-title"><i></i>公告标题公告标题公告标题</span>
-                        <span class="announce-time">2017-10-20</span>
-                    </li>
-                    <li>
-                        <span class="announce-title"><i></i>公告标题公告标题公告标题</span>
-                        <span class="announce-time">2017-10-20</span>
-                    </li>
-                    <li>
-                        <span class="announce-title"><i></i>公告标题公告标题公告标题</span>
-                        <span class="announce-time">2017-10-20</span>
-                    </li>
-                    <li>
-                        <span class="announce-title"><i></i>公告标题公告标题公告标题</span>
-                        <span class="announce-time">2017-10-20</span>
-                    </li>
-                    <li>
-                        <span class="announce-title"><i></i>公告标题公告标题公告标题</span>
-                        <span class="announce-time">2017-10-20</span>
-                    </li>
-                    <li>
-                        <span class="announce-title"><i></i>公告标题公告标题公告标题</span>
-                        <span class="announce-time">2017-10-20</span>
-                    </li>
+                    <?php 
+                        foreach ($tjcourses as $key => $tjcourse) { ?>
+                             <li>
+                                <span class="announce-title"><i></i><?= $tjcourse->title; ?></span>
+                                <span class="announce-time"><?= date('Y-m-d', $tjcourse->create_time); ?></span>
+                            </li>
+                    <?php } ?>
                     <a href="" class="more-link">更多&gt;&gt;</a>
                 </ul>
             </div>
@@ -485,62 +473,22 @@ $this->title = 'My Yii Application';
             </ul>
             <div class="course-content">
                 <ul class="list user-comment active">
-                    <li>
-                        <img src="/img/user-icon.jpg" class="user-img"/>
-                        <div class="right-txt">
-                            <span class="user-name">用户001</span>
-                            <p class="user-txt">这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/img/user-icon.jpg" class="user-img"/>
-                        <div class="right-txt">
-                            <span class="user-name">用户001</span>
-                            <p class="user-txt">这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/img/user-icon.jpg" class="user-img"/>
-                        <div class="right-txt">
-                            <span class="user-name">用户001</span>
-                            <p class="user-txt">这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/img/user-icon.jpg" class="user-img"/>
-                        <div class="right-txt">
-                            <span class="user-name">用户001</span>
-                            <p class="user-txt">这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/img/user-icon.jpg" class="user-img"/>
-                        <div class="right-txt">
-                            <span class="user-name">用户001</span>
-                            <p class="user-txt">这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/img/user-icon.jpg" class="user-img"/>
-                        <div class="right-txt">
-                            <span class="user-name">用户001</span>
-                            <p class="user-txt">这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错这个课程不错</p>
-                        </div>
-                    </li>
+                    <?php 
+                        foreach ($coments as $key => $coment) { ?>
+                            <li>
+                                <img src="<?= User::getUserModel($coment->user_id)->picture; ?>" class="user-img"/>
+                                <div class="right-txt">
+                                    <span class="user-name"><?= User::item($coment->user_id); ?></span>
+                                    <p class="user-txt"><?= $coment->content; ?></p>
+                                </div>
+                            </li>
+                    <?php } ?>
                 </ul>
                 <ul class="list link-section">
-                    <li><a href="">中国人民大学</a></li>
-                    <li><a href="">中国航空航天大学</a></li>
-                    <li><a href="">北京理工大学</a></li>
-                    <li><a href="">中央名族大学</a></li>
-                    <li><a href="">中国人民大学</a></li>
-                    <li><a href="">中国人民大学</a></li>
-                    <li><a href="">中国人民大学</a></li>
-                    <li><a href="">中国航空航天大学</a></li>
-                    <li><a href="">北京理工大学</a></li>
-                    <li><a href="">中央名族大学</a></li>
-                    <li><a href="">中国人民大学</a></li>
-                    <li><a href="">中国人民大学</a></li>
+                    <?php 
+                        foreach ($flinks as $key => $flink) { ?>
+                            <li><a target="_blank" href="<?= $flink->src; ?>"><?= $flink->title; ?></a></li>
+                    <?php } ?>
                 </ul>
             </div>
         </div>
