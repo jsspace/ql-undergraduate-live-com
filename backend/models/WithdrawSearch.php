@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Coupon;
+use backend\models\Withdraw;
 
 /**
- * CouponSearch represents the model behind the search form about `backend\models\Coupon`.
+ * WithdrawSearch represents the model behind the search form about `backend\models\Withdraw`.
  */
-class CouponSearch extends Coupon
+class WithdrawSearch extends Withdraw
 {
     /**
      * @inheritdoc
@@ -18,8 +18,9 @@ class CouponSearch extends Coupon
     public function rules()
     {
         return [
-            [['coupon_id', 'user_id', 'fee', 'isuse'], 'integer'],
-            [['start_time', 'end_time'], 'safe'],
+            [['withdraw_id', 'user_id'], 'integer'],
+            [['fee'], 'number'],
+            [['info', 'create_time'], 'safe'],
         ];
     }
 
@@ -41,7 +42,7 @@ class CouponSearch extends Coupon
      */
     public function search($params)
     {
-        $query = Coupon::find();
+        $query = Withdraw::find();
 
         // add conditions that should always apply here
 
@@ -59,13 +60,13 @@ class CouponSearch extends Coupon
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'coupon_id' => $this->coupon_id,
+            'withdraw_id' => $this->withdraw_id,
             'user_id' => $this->user_id,
             'fee' => $this->fee,
-            'isuse' => $this->isuse,
-            'start_time' => $this->start_time,
-            'end_time' => $this->end_time,
+            'create_time' => $this->create_time,
         ]);
+
+        $query->andFilterWhere(['like', 'info', $this->info]);
 
         return $dataProvider;
     }

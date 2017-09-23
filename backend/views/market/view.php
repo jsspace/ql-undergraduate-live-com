@@ -65,6 +65,7 @@ $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $model-
         ],
     ]) ?>
 <div>
+<span>钱包：<?= $fee ?></span><br>
 <span>推广注册链接：<?= $invite_url ?></span><br>
 <span>推广注册二维码图片：<img src="<?= Url::to(['market/qrcode','url' => $invite_url, 'name' => $model->id.'.png'])?>" /></span>
 </div>

@@ -218,6 +218,7 @@ class SiteController extends Controller
                 $coupon = new Coupon();
                 $coupon->fee = 50;
                 $coupon->user_id = $user->id;
+                $coupon->isuse = 0;
                 $coupon->start_time = date('Y-m-d H:i:s', time());
                 $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
                 $coupon->save();
@@ -227,6 +228,7 @@ class SiteController extends Controller
                     $coupon = new Coupon();
                     $coupon->fee = 50;
                     $coupon->user_id = $user->id;
+                    $coupon->isuse = 0;
                     $coupon->start_time = date('Y-m-d H:i:s', time());
                     $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
                     $coupon->save();

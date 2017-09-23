@@ -12,6 +12,7 @@ use common\controllers\ApiController;
 use backend\models\AuthAssignment;
 use yii\web\UploadedFile;
 use Da\QrCode\QrCode;
+use backend\models\OrderInfo;
 
 /**
  * MarketController implements the CRUD actions for User model.
@@ -54,7 +55,25 @@ class MarketController extends Controller
      */
     public function actionView($id)
     {
+        $invite_users = User::find()
+        ->where(['invite' => $id])
+        ->all();
+        $invite_users_id = [];
+        foreach($invite_users as $user) {
+            $invite_users_id[] = $user->id;
+        }
+        //计算订单抽成
+        $orders = OrderInfo::find()
+        ->where(['order_status' => 1])
+        ->andWhere(['pay_status' => 1])
+        ->all();
+        $fee = 0.00;
+        foreach($orders as $order) {
+            $fee += $order->order_amount * 0.1;
+        }
+        
         return $this->render('view', [
+            'fee' => $fee,
             'model' => $this->findModel($id),
         ]);
     }
