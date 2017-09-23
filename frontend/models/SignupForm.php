@@ -3,6 +3,7 @@ namespace frontend\models;
 
 use yii\base\Model;
 use common\models\User;
+use backend\models\AuthAssignment;
 
 /**
  * Signup form
@@ -67,6 +68,10 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         
+        $role = new AuthAssignment();
+        $role->item_name = 'student';
+        $role->user_id = $model->id;
+        $role->save(false);
         return $user->save() ? $user : null;
     }
 }
