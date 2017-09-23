@@ -96,7 +96,7 @@ $this->title = 'My Yii Application';
             </legend>
         </fieldset>
         <ul class="course-tab">
-            <li class="active">热门推荐</li>
+            <li class="active">热门课程</li>
             <li>最新课程</li>
             <li>课程排行</li>
         </ul>
@@ -166,7 +166,7 @@ $this->title = 'My Yii Application';
             </legend>
         </fieldset>
         <ul class="course-tab">
-            <li class="active">热门推荐</li>
+            <li class="active">热门课程</li>
             <li>最新课程</li>
             <li>课程排行</li>
         </ul>
