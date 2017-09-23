@@ -80,7 +80,7 @@ $this->title = '个人中心';
             </p>
             <p class="info-email">
                 <span class="info-label">会员码：</span>
-                <span class="info-txt"><?= Yii::$app->user->identity->code; ?></span>
+                <span class="info-txt"><?= Yii::$app->user->id; ?></span>
             </p>
             <p class="info-email">
                 <span class="info-label">创建时间：</span>

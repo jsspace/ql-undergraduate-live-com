@@ -46,7 +46,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'intro')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'code')->textInput() ?>
+    <?= $form->field($model, 'invite')->textInput() ?>
+
+   	<?= $form->field($model, 'wechat')->textInput(['maxlength' => true]) ?>
+
+	<?= $form->field($model, 'wechat_img')->fileInput(['accept' => "image/png,image/jpeg"]) ?>
+	<p class="hint">（请上传470x250尺寸的图片）</p>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
