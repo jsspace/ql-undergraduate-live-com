@@ -16,131 +16,29 @@ $this->title = 'My Yii Application';
 </div>
 <div class="container-course teacher-section">
     <ul class="teach-list">
-        <li>
-            <a href="">
-                <img class="people-img" src="/img/teacher-people.png"/>
-                <p class="intro">
-                    <span class="name">韩大牛</span>
-                    <span class="work">产品经理</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                    <span class="te-text">百度</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">职称职务:&nbsp;&nbsp;</span>
-                    <span class="te-text">教授</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                    <span class="te-text">产品经理</span>
-                </p>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img class="people-img" src="/img/teacher-people.png"/>
-                <p class="intro">
-                    <span class="name">韩大牛</span>
-                    <span class="work">产品经理</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                    <span class="te-text">百度</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">职称职务:&nbsp;&nbsp;</span>
-                    <span class="te-text">教授</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                    <span class="te-text">产品经理</span>
-                </p>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img class="people-img" src="/img/teacher-people.png"/>
-                <p class="intro">
-                    <span class="name">韩大牛</span>
-                    <span class="work">产品经理</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                    <span class="te-text">百度</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">职称职务:&nbsp;&nbsp;</span>
-                    <span class="te-text">教授</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                    <span class="te-text">产品经理</span>
-                </p>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img class="people-img" src="/img/teacher-people.png"/>
-                <p class="intro">
-                    <span class="name">韩大牛</span>
-                    <span class="work">产品经理</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                    <span class="te-text">百度</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">职称职务:&nbsp;&nbsp;</span>
-                    <span class="te-text">教授</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                    <span class="te-text">产品经理</span>
-                </p>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img class="people-img" src="/img/teacher-people.png"/>
-                <p class="intro">
-                    <span class="name">韩大牛</span>
-                    <span class="work">产品经理</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                    <span class="te-text">百度</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">职称职务:&nbsp;&nbsp;</span>
-                    <span class="te-text">教授</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                    <span class="te-text">产品经理</span>
-                </p>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img class="people-img" src="/img/teacher-people.png"/>
-                <p class="intro">
-                    <span class="name">韩大牛</span>
-                    <span class="work">产品经理</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                    <span class="te-text">百度</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">职称职务:&nbsp;&nbsp;</span>
-                    <span class="te-text">教授</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                    <span class="te-text">产品经理</span>
-                </p>
-            </a>
-        </li>
+        <?php 
+            foreach ($teachers as $key => $teacher) { ?>
+                <li>
+                    <a href="<?= Url::to(['teacher/detail', 'userid' => $teacher->id]) ?>">
+                        <img class="people-img" src="<?= $teacher->picture; ?>"/>
+                        <p class="intro">
+                            <span class="name"><?= $teacher->username; ?></span>
+                            <span class="work"><?= $teacher->description; ?></span>
+                        </p>
+                        <p class="intro">
+                            <span class="te-label">任职单位:&nbsp;&nbsp;</span>
+                            <span class="te-text"><?= $teacher->unit; ?></span>
+                        </p>
+                        <p class="intro">
+                            <span class="te-label">职称职务:&nbsp;&nbsp;</span>
+                            <span class="te-text"><?= $teacher->office; ?></span>
+                        </p>
+                        <p class="intro">
+                            <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
+                            <span class="te-text"><?= $teacher->goodat; ?></span>
+                        </p>
+                    </a>
+                </li>
+        <?php } ?>
     </ul>
 </div>

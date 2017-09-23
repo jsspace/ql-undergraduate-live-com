@@ -3,6 +3,8 @@
 /* @var $this yii\web\View */
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
+use backend\models\Course;
+use backend\models\User;
 
 AppAsset::addCss($this,'@web/css/teacher.css');
 
@@ -14,14 +16,14 @@ $this->title = 'My Yii Application';
     <span>&gt;</span>
     <span><a href="/teacher/list">讲师列表</a></span>
     <span>&gt;</span>
-    <span>韩大牛</span>
+    <span><?= $teacher->username ?></span>
 </div>
 <div class="container-course teacher-detail">
     <div class="left-introduce">
-        <p class="teacher-img"><img src="/img/teacher-people.png"/></p>
+        <p class="teacher-img"><img src="<?= $teacher->picture ?>"/></p>
         <div class="teacher-name">
-            <span class="name">韩大牛</span>
-            <span class="school">中国传媒大学计算机科技</span>
+            <span class="name"><?= $teacher->username ?></span>
+            <span class="school"><?= $teacher->description ?></span>
         </div>
         <div class="star">
             <img src="/img/star-on.png"/>
@@ -40,90 +42,44 @@ $this->title = 'My Yii Application';
         </p>
     </div>
     <div class="right-introduce">
-        <h4>方毅华  中国传媒大学教授博士生导师</h4>
+        <h4><?= $teacher->username ?>  <?= $teacher->description ?></h4>
         <div class="txt">
             <h5>资历介绍</h5>
-            <p></p><p>方毅华，中国传媒大学新闻传播学院教授，新闻业务教研室主任，博士生导师。先后在新疆人民广播电台、山西人民广播电台任记者、编辑。期间发表大量新闻作品并多次获得省级、中央级奖励。发表若干学术论文并参与主编《中国优秀广播作品文选》一书。</p>
+            <p></p><p><?= $teacher->intro ?></p>
             <h5>主讲课程</h5>
-            <p>《节目构思与编排》&nbsp;《节目构思与分析》&nbsp;</p>
+            <p>
+            <?php
+                $coursename = '';
+                foreach ($courses as $key => $course) {
+                    $coursename.= "《".$course->course_name."》&nbsp;";
+                }
+                echo $coursename;
+            ?>
+            </p>
         </div>
     </div>
 </div>
 <ul class="container-course course-tab">
-    <li class="active">网课</li>
-    <li>面授课</li>
-    <li>直播课</li>
+    <li class="active">主讲课程</li>
 </ul>
 <div class="container-course course-content">
     <ul class="list active">
+    <?php foreach ($courses as $course) { ?>
         <li>
-            <div class="course-img">
-                <img src="/img/course-list-img.jpg"/>
-            </div>
-            <p class="content-title">课程名称课程名称课程名称课程名称</p>
+            <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">
+                <div class="course-img">
+                    <img class="course-pic" src="<?= $course->list_pic; ?>"/>
+                </div>
+                <p class="content-title"><?= $course->course_name; ?></p>
+            </a>
             <div class="course-statistic">
                 <i class="icon ion-android-person"></i>
-                <span class="people">11101人在学</span>
+                <span class="people"><?= $course->online; ?>人在学</span>
                 <i class="icon ion-heart"></i>
-                <span class="people">2345人</span>
-            </div>
-            <div class="teacher-section">
-                <img src="/img/teacher-icon.jpg"/>
-                <span class="teacher-name">张老师</span>
+                <span class="people"><?= $course->collection; ?>人</span>
             </div>
         </li>
-        <li>
-            <div class="course-img">
-                <img src="/img/course-list-img.jpg"/>
-            </div>
-            <p class="content-title">课程名称课程名称课程名称课程名称</p>
-            <div class="course-statistic">
-                <i class="icon ion-android-person"></i>
-                <span class="people">11101人在学</span>
-                <i class="icon ion-heart"></i>
-                <span class="people">2345人</span>
-            </div>
-            <div class="teacher-section">
-                <img src="/img/teacher-icon.jpg"/>
-                <span class="teacher-name">张老师</span>
-            </div>
-        </li>
-        <li>
-            <div class="course-img">
-                <img src="/img/course-list-img.jpg"/>
-            </div>
-            <p class="content-title">课程名称课程名称课程名称课程名称</p>
-            <div class="course-statistic">
-                <i class="icon ion-android-person"></i>
-                <span class="people">11101人在学</span>
-                <i class="icon ion-heart"></i>
-                <span class="people">2345人</span>
-            </div>
-            <div class="teacher-section">
-                <img src="/img/teacher-icon.jpg"/>
-                <span class="teacher-name">张老师</span>
-            </div>
-        </li>
-        <li>
-            <div class="course-img">
-                <img src="/img/course-list-img.jpg"/>
-            </div>
-            <p class="content-title">课程名称课程名称课程名称课程名称</p>
-            <div class="course-statistic">
-                <i class="icon ion-android-person"></i>
-                <span class="people">11101人在学</span>
-                <i class="icon ion-heart"></i>
-                <span class="people">2345人</span>
-            </div>
-            <div class="teacher-section">
-                <img src="/img/teacher-icon.jpg"/>
-                <span class="teacher-name">张老师</span>
-            </div>
-        </li>
-    </ul>
-    <ul class="list">
-    </ul>
-    <ul class="list">
+    <?php } ?>
     </ul>
 </div>
 <script src="<?php echo Url::to('@web/js/lib/jquery.min.js');?>"></script>

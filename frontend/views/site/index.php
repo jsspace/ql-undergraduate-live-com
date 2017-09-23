@@ -268,57 +268,25 @@ $this->title = 'My Yii Application';
         </fieldset>
         <ul class="teach-list">
             <?php 
-                /*$users = User::getUserByrole('student');
-                print_r($users);
-                die();*/
-            ?>
-            <li>
-                <img class="people-img" src="/img/teacher-people.png"/>
-                <p class="intro">
-                    <span class="name">韩大牛</span>
-                    <span class="work">产品经理</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                    <span class="te-text">百度</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                    <span class="te-text">产品经理</span>
-                </p>
-            </li>
-            <li>
-                <img class="people-img" src="/img/teacher-people.png"/>
-                <p class="intro">
-                    <span class="name">韩大牛</span>
-                    <span class="work">产品经理</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                    <span class="te-text">百度</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                    <span class="te-text">产品经理</span>
-                </p>
-            </li>
-            <li>
-                <img class="people-img" src="/img/teacher-people.png"/>
-                <p class="intro">
-                    <span class="name">韩大牛</span>
-                    <span class="work">产品经理</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                    <span class="te-text">百度</span>
-                </p>
-                <p class="intro">
-                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                    <span class="te-text">产品经理</span>
-                </p>
-            </li>
+                foreach ($teachers as $key => $teacher) { ?>
+                    <li>
+                        <img class="people-img" src="<?= $teacher->picture; ?>"/>
+                        <p class="intro">
+                            <span class="name"><?= $teacher->username; ?></span>
+                            <span class="work"><?= $teacher->office; ?></span>
+                        </p>
+                        <p class="intro">
+                            <span class="te-label">任职单位:&nbsp;&nbsp;</span>
+                            <span class="te-text"><?= $teacher->unit; ?></span>
+                        </p>
+                        <p class="intro">
+                            <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
+                            <span class="te-text"><?= $teacher->goodat; ?></span>
+                        </p>
+                    </li>
+            <?php } ?>
         </ul>
-        <a href="" class="view-more">查看更多</a>
+        <a href="<?= Url::to(['teacher/list']) ?>" class="view-more">查看更多</a>
     </div>
     <div class="container-course course-data">
         <h3 class="course-title">考本资料</h3>

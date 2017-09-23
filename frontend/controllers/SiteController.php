@@ -18,6 +18,7 @@ use yii\web\Controller;
 use backend\models\CourseNews;
 use backend\models\CourseComent;
 use backend\models\FriendlyLinks;
+use backend\models\User;
 
 /**
  * Site controller
@@ -126,10 +127,13 @@ class SiteController extends Controller
         ->orderBy('star desc')
         ->limit(6)
         ->all();
+        /*友情链接*/
         $flinks = FriendlyLinks::find()
         ->orderBy('position asc')
         ->all();
-        return $this->render('index', ['hotcats' => $hotcats, 'newpcourses' => $newpcourses, 'hotpcourses' => $hotpcourses, 'rankpcourses' => $rankpcourses, 'newcourses' => $newcourses, 'hotcourses' => $hotcourses, 'rankcourses' => $rankcourses, 'tjcourses' => $tjcourses, 'coments' => $coments, 'flinks' => $flinks]);
+        /*教师列表*/
+        $teachers = User::getUserByrole('teacher');
+        return $this->render('index', ['hotcats' => $hotcats, 'newpcourses' => $newpcourses, 'hotpcourses' => $hotpcourses, 'rankpcourses' => $rankpcourses, 'newcourses' => $newcourses, 'hotcourses' => $hotcourses, 'rankcourses' => $rankcourses, 'tjcourses' => $tjcourses, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers]);
     }
 
     /**

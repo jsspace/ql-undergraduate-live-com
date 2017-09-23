@@ -3,14 +3,16 @@
 namespace frontend\controllers;
 
 use yii\web\Controller;
-
+use backend\models\User;
+use backend\models\Course;
+use Yii;
 
 class TeacherController extends Controller
 {
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    /*public function behaviors()
     {
         return [
             'cache' => [
@@ -21,17 +23,23 @@ class TeacherController extends Controller
                 ],
             ],
         ];
-    }
-    
+    }*/
     
     public function actionList()
     {
-        return $this->render('list');
+        /*教师列表*/
+        $teachers = User::getUserByrole('teacher');
+        return $this->render('list',['teachers' => $teachers]);
     }
     
     public function actionDetail()
     {
-        return $this->render('detail');
+        $userid = Yii::$app->request->get('userid');
+        $teacher = User::getUserModel($userid);
+        $courses = Course::find()
+        ->where(['teacher_id' => $userid])
+        ->all();
+        return $this->render('detail',['teacher' => $teacher, 'courses' => $courses]);
     }
 
 }
