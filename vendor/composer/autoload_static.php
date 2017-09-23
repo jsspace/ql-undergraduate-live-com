@@ -78,6 +78,7 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Payment\\' => 8,
         ),
         'G' => 
         array (
@@ -234,6 +235,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Payment\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/riverslei/payment/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (

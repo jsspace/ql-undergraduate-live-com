@@ -14,6 +14,10 @@ return [
     'language' => 'zh-CN',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // 使用数据库管理配置文件
+            'defaultRoles' => ["guest"],
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
