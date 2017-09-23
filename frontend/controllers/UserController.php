@@ -140,6 +140,8 @@ class UserController extends Controller
     {
         $id = Yii::$app->user->id;
         $model = $this->findModel($id);
+        $old_picture = $model->picture;
+        $old_wechat_img = $model->wechat_img;
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
@@ -154,6 +156,23 @@ class UserController extends Controller
                 }
                 $file->saveAs($img_rootPath . $randName);
                 $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
+            } else {
+                $model->picture = $old_picture;
+            }
+            $file = '';
+            $file = UploadedFile::getInstance($model, 'wechat_img');
+             
+            if ($file) {
+                $ext = $file->getExtension();
+                $randName = time() . rand(1000, 9999) . '.' . $ext;
+                $img_rootPath .= 'wechat_img/';
+                if (!file_exists($img_rootPath)) {
+                    mkdir($img_rootPath, 0777, true);
+                }
+                $file->saveAs($img_rootPath . $randName);
+                $model->wechat_img = Yii::$app->params['upload_img_dir'] . 'wechat_img/' . $randName;
+            } else {
+                $model->wechat_img = $old_wechat_img;
             }
             if ($model->save()) {
                 return $this->redirect(['info']);
