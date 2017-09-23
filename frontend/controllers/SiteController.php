@@ -19,6 +19,7 @@ use backend\models\CourseNews;
 use backend\models\CourseComent;
 use backend\models\FriendlyLinks;
 use backend\models\User;
+use backend\models\Coupon;
 
 /**
  * Site controller
@@ -213,6 +214,25 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
+                //给注册学员发优惠券
+                $coupon = new Coupon();
+                $coupon->fee = 50;
+                $coupon->user_id = $user->id;
+                $coupon->isuse = 0;
+                $coupon->start_time = date('Y-m-d H:i:s', time());
+                $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
+                $coupon->save();
+                //如果邀请人是学员，给邀请人添加优惠券
+                $roles_model = Yii::$app->authManager->getAssignments($uid);
+                if (isset($roles_model['student'])) {
+                    $coupon = new Coupon();
+                    $coupon->fee = 50;
+                    $coupon->user_id = $user->id;
+                    $coupon->isuse = 0;
+                    $coupon->start_time = date('Y-m-d H:i:s', time());
+                    $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
+                    $coupon->save();
+                }
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
                 }

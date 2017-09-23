@@ -45,7 +45,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'goodat',
             'picture',
             'intro:ntext',
-            'code',
+            'invite',
+            'wechat',
+            'wechat_img',
         ],
     ]) ?>
 

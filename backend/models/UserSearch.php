@@ -19,7 +19,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro'], 'safe'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'wechat', 'wechat_img'], 'safe'],
         ];
     }
 
@@ -78,7 +78,9 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'office', $this->office])
             ->andFilterWhere(['like', 'goodat', $this->goodat])
             ->andFilterWhere(['like', 'picture', $this->picture])
-            ->andFilterWhere(['like', 'intro', $this->intro]);
+            ->andFilterWhere(['like', 'intro', $this->intro])
+            ->andFilterWhere(['like', 'wechat', $this->wechat])
+            ->andFilterWhere(['like', 'wechat_img', $this->wechat_img]);
 
         return $dataProvider;
     }

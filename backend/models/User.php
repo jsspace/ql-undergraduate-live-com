@@ -25,6 +25,8 @@ use Yii;
  * @property string $picture
  * @property string $intro
  * @property integer $invite
+ * @property string $wechat
+ * @property string $wechat_img
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -48,7 +50,8 @@ class User extends \yii\db\ActiveRecord
             [['username', 'auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password_reset_token', 'email', 'phone', 'picture'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 2000],
-            [['unit', 'office', 'goodat'], 'string', 'max' => 300],
+            [['unit', 'office', 'goodat', 'wechat_img'], 'string', 'max' => 300],
+            [['wechat'], 'string', 'max' => 200],
         ];
     }
 
@@ -76,6 +79,8 @@ class User extends \yii\db\ActiveRecord
             'picture' => Yii::t('app', '照片'),
             'intro' => Yii::t('app', '介绍'),
             'invite' => Yii::t('app', '邀请人'),
+            'wechat' => Yii::t('app', '微信号'),
+            'wechat_img' => Yii::t('app', '微信二维码'),
         ];
     }
 
