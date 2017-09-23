@@ -42,6 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'picture',
             // 'intro:ntext',
             // 'invite',
+            // 'wechat',
+            // 'wechat_img',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
