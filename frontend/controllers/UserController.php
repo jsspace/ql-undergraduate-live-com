@@ -140,6 +140,7 @@ class UserController extends Controller
     {
         $id = Yii::$app->user->id;
         $model = $this->findModel($id);
+        $old_picture = $model->picture;
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
@@ -154,7 +155,10 @@ class UserController extends Controller
                 }
                 $file->saveAs($img_rootPath . $randName);
                 $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
+            } else {
+                $model->picture = $old_picture;
             }
+            
             if ($model->save()) {
                 return $this->redirect(['info']);
             }
