@@ -20,6 +20,7 @@ class UserSearch extends User
         return [
             [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
             [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'wechat', 'wechat_img'], 'safe'],
+            [['percentage'], 'number'],
         ];
     }
 
@@ -65,6 +66,7 @@ class UserSearch extends User
             'updated_at' => $this->updated_at,
             'gender' => $this->gender,
             'invite' => $this->invite,
+            'percentage' => $this->percentage,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
