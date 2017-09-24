@@ -23,6 +23,12 @@ use yii\widgets\ActiveForm;
     <?php // $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
+    <?php 
+    $roles = Yii::$app->authManager->getAssignments(Yii::$app->user->id);
+    if (isset($roles['admin'])) {
+        echo $form->field($model, 'percentage')->textInput();
+    }
+    ?>
 
     <?php // $form->field($model, 'password_reset_token')->textInput(['maxlength' => true]) ?>
 
