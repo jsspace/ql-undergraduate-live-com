@@ -27,6 +27,7 @@ use Yii;
  * @property integer $invite
  * @property string $wechat
  * @property string $wechat_img
+ * @property double $percentage
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -47,6 +48,7 @@ class User extends \yii\db\ActiveRecord
             [['username', 'auth_key', 'password_hash', 'email', 'phone'], 'required'],
             [['status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
             [['intro'], 'string'],
+            [['percentage'], 'number'],
             [['username', 'auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password_reset_token', 'email', 'phone', 'picture'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 2000],
@@ -66,7 +68,7 @@ class User extends \yii\db\ActiveRecord
             'auth_key' => Yii::t('app', 'Auth Key'),
             'password_hash' => Yii::t('app', 'Password'),
             'password_reset_token' => Yii::t('app', 'Password Reset Token'),
-            'email' => Yii::t('app', '电子邮箱'),
+            'email' => Yii::t('app', '邮箱'),
             'status' => Yii::t('app', '状态'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
@@ -81,6 +83,7 @@ class User extends \yii\db\ActiveRecord
             'invite' => Yii::t('app', '邀请人'),
             'wechat' => Yii::t('app', '微信号'),
             'wechat_img' => Yii::t('app', '微信二维码'),
+            'percentage' => Yii::t('app', '提成比例'),
         ];
     }
 
