@@ -13,6 +13,7 @@ use backend\models\AuthAssignment;
 use yii\web\UploadedFile;
 use Da\QrCode\QrCode;
 use backend\models\OrderInfo;
+use yii\data\Pagination;
 
 /**
  * MarketController implements the CRUD actions for User model.
@@ -64,7 +65,8 @@ class MarketController extends Controller
         }
         //计算订单抽成
         $orders = OrderInfo::find()
-        ->where(['order_status' => 1])
+        ->where(['user_id' => $invite_users_id])
+        ->andWhere(['order_status' => 1])
         ->andWhere(['pay_status' => 1])
         ->all();
         $fee = 0.00;
@@ -78,6 +80,33 @@ class MarketController extends Controller
         ]);
     }
 
+    /**
+     * Displays a single User model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionOrder()
+    {
+        $invite_users = User::find()
+        ->where(['invite' => Yii::$app->user->id])
+        ->all();
+        $invite_users_id = [];
+        foreach($invite_users as $user) {
+            $invite_users_id[] = $user->id;
+        }
+        //邀请的用户所下的订单
+        $data = OrderInfo::find()
+        ->where(['user_id' => $invite_users_id])
+        ->andWhere(['order_status' => 1])
+        ->andWhere(['pay_status' => 1]);
+        $pages = new Pagination(['totalCount' =>$data->count(), 'pageSize' => '10']);
+        $model = $data->offset($pages->offset)->limit($pages->limit)->all();
+         
+        return $this->render('order',[
+            'model' => $model,
+            'pages' => $pages,
+        ]);
+    }
     /**
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
