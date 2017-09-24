@@ -26,14 +26,12 @@ $this->title = '个人中心';
             </div>
         </div>
         <div class="menu">
-            <a href="<?= Url::to(['user']) ?>" class="a1 "><i class="icon ion-ios-book-outline"></i>在线课程</a>
-            <a href="<?= Url::to(['user/lives']) ?>" class="a3 "><i class="icon ion-ios-book-outline"></i>直播课程</a>
+            <a href="<?= Url::to(['user']) ?>" class="a1 "><i class="icon ion-ios-book-outline"></i>我的课程</a>
+            <a href="<?= Url::to(['user/orders']) ?>" class="a4 "><i class="icon ion-clipboard"></i>我的收藏</a>
             <a href="<?= Url::to(['user/orders']) ?>" class="a4 "><i class="icon ion-clipboard"></i>我的订单</a>
-            <a href="<?= Url::to(['user/qnas']) ?>"><i class="icon ion-ios-help-outline"></i>我的问题</a>
-            <a href="<?= Url::to(['user/coursereviews']) ?>"><i class="icon ion-ios-star-outline"></i>课程评价</a>
             <a href="<?= Url::to(['user/teacherreviews']) ?>"><i class="icon ion-ios-star-outline"></i>教师评价</a>
-            <a href="<?= Url::to(['user/favorites']) ?>"><i class="icon ion-ios-heart-outline"></i>我的收藏</a>
-            <a href="<?= Url::to(['user/rules']) ?>"><i class="icon ion-gear-b"></i>管理规定</a>
+            <a href="<?= Url::to(['user/qnas']) ?>"><i class="icon ion-ios-help-outline"></i>我的提问</a>
+            <a href="<?= Url::to(['user/coursereviews']) ?>"><i class="icon ion-ios-star-outline"></i>课程评价</a>
         </div>
     </div>
     <div class="right-content">
