@@ -48,6 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'invite',
             'wechat',
             'wechat_img',
+            'percentage',
         ],
     ]) ?>
 
