@@ -210,7 +210,7 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
-        $uid = Yii::$app->request->get('id') ? Yii::$app->request->get('id') : -1;
+        $invite = Yii::$app->request->get('id') ? Yii::$app->request->get('id') : 0;
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
@@ -241,7 +241,7 @@ class SiteController extends Controller
 
         return $this->render('signup', [
             'model' => $model,
-            'uid' => $uid,
+            'invite' => $invite,
         ]);
     }
 
