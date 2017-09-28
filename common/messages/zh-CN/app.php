@@ -70,4 +70,6 @@ return [
     'Friendly Links' => '友情链接',
     'Course Coments' => '课程评价',
     'Create Course Coment' => '新建课程评价',
+    'Datas' => '资料列表',
+    'Create Data' => '创建资料'
 ];
