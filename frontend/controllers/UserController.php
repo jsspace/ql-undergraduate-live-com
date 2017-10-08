@@ -168,4 +168,17 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function actionLmenu()
+    {
+        return $this->render('lmenu');
+    }
+    public function actionPasswordReset()
+    {
+        $id = Yii::$app->user->id;
+        $model = $this->findModel($id);
+        return $this->render('password-reset', [
+            'model' => $model,
+        ]);
+    }
 }

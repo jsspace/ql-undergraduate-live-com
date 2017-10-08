@@ -45,7 +45,7 @@ AppAsset::register($this);
                         '注销',
                         ['class' => 'btn btn-link']
                     )
-                    . Html::endForm(). '</li><li class="user-li"><a href="/user/index"><i class="icon ion-android-person"></i>'
+                    . Html::endForm(). '</li><li class="user-li"><a href="/user/info"><i class="icon ion-android-person"></i>'
                     . Yii::$app->user->identity->username . '</a></li></ul>';
             }?>
             <ul class="log-sec has-login">

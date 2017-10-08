@@ -73,7 +73,7 @@ class User extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'phone' => Yii::t('app', '电话'),
-            'gender' => Yii::t('app', '性别（男：0，女：1）'),
+            'gender' => Yii::t('app', '性别'),
             'description' => Yii::t('app', '简短描述'),
             'unit' => Yii::t('app', '单位'),
             'office' => Yii::t('app', '职务'),
