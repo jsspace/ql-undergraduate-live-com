@@ -3,11 +3,14 @@
 namespace frontend\controllers;
 
 use Yii;
+use backend\models\Course;
+use backend\models\OrderGoods;
+use backend\models\OrderInfo;
 use backend\models\User;
 use backend\models\UserSearch;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
@@ -15,7 +18,7 @@ use yii\web\UploadedFile;
  */
 class UserController extends Controller
 {
-    
+    $userid = Yii::$app->user->id;
     /**
      * @inheritdoc
      */
@@ -138,8 +141,7 @@ class UserController extends Controller
     
     public function actionEdit()
     {
-        $id = Yii::$app->user->id;
-        $model = $this->findModel($id);
+        $model = $this->findModel($this->$userid);
         $old_picture = $model->picture;
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -175,10 +177,58 @@ class UserController extends Controller
     }
     public function actionPasswordReset()
     {
-        $id = Yii::$app->user->id;
-        $model = $this->findModel($id);
+        $model = $this->findModel($this->$userid);
         return $this->render('password-reset', [
             'model' => $model,
+        ]);
+    }
+    public function actionCourse()
+    {
+        $orderids = OrderInfo::find()
+        ->select('id')
+        ->where(['user_id' => $this->$userid])
+        ->asArray()
+        ->all();
+        $goodsids = OrderGoods::find()
+        ->select('goods_id')
+        ->where(['in', 'order_id', $orderids])
+        ->asArray()
+        ->all();
+        $clist = Course::find()
+        ->where(['in', 'id', $goodsids])
+        ->all();
+        return $this->render('course', [
+            'clist' => $clist,
+        ]);
+    }
+    public function actionFavorite()
+    {
+        return $this->render('favorite', [
+            'flist' => $flist,
+        ]);
+    }
+    public function actionRrders()
+    {
+        return $this->render('orders', [
+            'olist' => $olist,
+        ]);
+    }
+    public function actionQnas()
+    {
+        return $this->render('qnas', [
+            'qlist' => $qlist,
+        ]);
+    }
+    public function actionCourseReviews()
+    {
+        return $this->render('course-reviews', [
+            'rlist' => $rlist,
+        ]);
+    }
+    public function actionCoupon()
+    {
+        return $this->render('coupon', [
+            'coupons' => $coupons,
         ]);
     }
 }
