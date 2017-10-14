@@ -102,10 +102,10 @@ a:focus, a:hover, input, input:focus {
     width: 1200px;
     margin: 0 auto;
     height: 80px;
+    overflow: hidden;
 }
 .wrap .menu-wrapper .logo {
     float: left;
-    margin-left: -20px;
     margin-right: 40px;
     margin-top: 15px;
 }
@@ -318,19 +318,20 @@ a.desc:after {
     outline: none;
 }
 .menu-wrapper .menu-search-group{
-    padding: 20px 0;
+    padding: 25px 0;
 }
 .menu-wrapper .menu-search-group .btn-default:hover {
     background-color: transparent;
     border-color: transparent;
 }
 .menu-wrapper .menu-search-group .form-control{
-    width: 130px;
-    height: 20px;
     border: 1px solid #ccc;
     border-radius: 20px;
     display: inline-block;
-    padding: 6px 15px 6px 30px;
+    padding: 6px 12px 6px 30px;
+    width: 150px;
+    height: 30px;
+    text-indent: 0;
 }
 .menu-wrapper .menu-search-group .search-button {
     left: 30px;
