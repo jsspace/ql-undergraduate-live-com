@@ -2,10 +2,38 @@
 
 namespace frontend\controllers;
 
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use backend\models\Cart;
 
 class CartController extends \yii\web\Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'add', 'remove'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'add', 'remove'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'add' => ['post'],
+                    'remove' => ['post'],
+                ],
+            ],
+        ];
+    }
     public function actionIndex()
     {
         $sql = 'select cart_id, id, course_name, list_pic, price, discount ';
@@ -50,9 +78,9 @@ class CartController extends \yii\web\Controller
         return json_encode($data);
     }
     
-    protected function findModel($id)
+    protected function findModel($cart_id)
     {
-        $model = Cart::find(['cart_id' => $id])
+        $model = Cart::find(['cart_id' => $cart_id])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->one();
         if (($model) !== null) {
