@@ -168,21 +168,29 @@
     color: #ff9933;
 }
 .course-detail-right .btn-course {
-    width: 240px;
+    width: 100%;
     margin-top: 50px;
 }
 .course-detail-right .btn-course a {
-    display: block;
+    display: inline-block;
     font-size: 22px;
     padding: 0;
     margin-bottom: 10px;
+    margin-right: 10px;
     line-height: 48px;
-    background-color: #fd7863;
-    border: 1px solid #fd7863;
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
+    width: 210px;
+}
+.course-detail-right .btn-course .quick-buy {
+    background-color: #46c37b;
+    border: 1px solid #46c37b;
+}
+.course-detail-right .btn-course .add-cart {
+    background-color: #fd7863;
+    border: 1px solid #fd7863;
 }
 .course-detail-section .course-info {
     padding-top: 50px;

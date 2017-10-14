@@ -23,6 +23,7 @@ $this->title = 'My Yii Application';
 </div>
 <div class="container-course course-detail-section">
     <div class="main-section">
+        <input class="course-id _course-id" type="hidden" value="<?= $course->id; ?>"/>
         <div class="course-detail-left">
             <img src="<?= $course->home_pic; ?>"/>
         </div>
@@ -69,7 +70,8 @@ $this->title = 'My Yii Application';
                 </p>
             </div>
             <div class="btn-course">
-                <a class="add-cart" href="<?= Url::to(['order-info/cart']) ?>">我要报名</a>
+                <a class="quick-buy" href="<?= Url::to(['order-info/cart']) ?>">立即购买</a>
+                <a class="add-cart _add-cart" href="javascript: void(0)">加入购物车</a>
             </div>
         </div>
     </div>
@@ -142,34 +144,7 @@ $this->title = 'My Yii Application';
         </div>
     </div>
 </div>
-<script src="<?php echo Url::to('@web/js/lib/jquery.min.js');?>"></script>
+<script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
+<script src="<?= Url::to('@web/skin/layer.js');?>"></script>
 <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
-<script>
-    var jiathis_config={
-        url: window.location.href,
-        summary:"课程",
-        title:"课程",
-        shortUrl:false,
-        hideMore:false
-    };
-    function tagTab() {
-      var self = this;
-      $(".course-tag li").each(function(index) {
-          $(this).on("click", function() {
-              $(this).addClass("active").siblings("li").removeClass("active");
-              $(".course-tag-content .tag-content").eq(index).addClass("active").siblings(".tag-content").removeClass("active");
-          });
-      });
-      $(".chapter-title li").each(function() {
-          var $parentEle = $(this);
-          $(this).find(".chapter-title-name").on("click", function() {
-              if (!$parentEle.hasClass("active")) {
-                  $parentEle.addClass("active");
-              } else {
-                  $parentEle.removeClass("active");
-              }
-          });
-      });
-    }
-    tagTab();
-</script>
+<script src="<?= Url::to('@web/js/course-detail.js');?>"></script>
