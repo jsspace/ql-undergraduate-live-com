@@ -82,22 +82,11 @@ AppAsset::register($this);
                 <li>
                     <a href="/material/index">资料</a>
                 </li>
-                <li>
-                    <div class="search-section">
-                        <input type="text" placeholder="输入课程名或讲师名进行搜索" />
-                        <a href="javascript:void(0)" class="search-btn">搜索</a>
-                    </div>
-                </li>
+                
             </ul>
-            <div class="website-qrcode">
-                <div class="qrcode">
-                    <span class="label">官方微信</span>
-                    <img src="/img/website-qrcode.jpg" class="code-img"/>
-                </div>
-                <div class="qrcode">
-                    <span class="label">手机官网</span>
-                    <img src="/img/mobile-qrcode.jpg" class="code-img"/>
-                </div>
+            <div class="menu-search-group">
+                <span class="glyphicon glyphicon-search search-button _search-button"></span>
+                <input type="text" class="form-control" placeholder="搜索课程或讲师">
             </div>
         </div>
     </div>
