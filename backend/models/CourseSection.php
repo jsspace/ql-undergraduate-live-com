@@ -57,7 +57,7 @@ class CourseSection extends \yii\db\ActiveRecord
             'type' => Yii::t('app', '网课/直播课'),
             'start_time' => Yii::t('app', '开始时间'),
             'video_url' => Yii::t('app', '视频地址'),
-            'duration' => Yii::t('app', '时长'),
+            'duration' => Yii::t('app', '时长（分钟）'),
             'playback_url' => Yii::t('app', '回放地址'), 
             'paid_free' => Yii::t('app', '付费/免费'), 
         ];

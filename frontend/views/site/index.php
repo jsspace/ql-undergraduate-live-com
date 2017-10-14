@@ -8,6 +8,9 @@ use backend\models\User;
 AppAsset::addCss($this,'@web/css/index.css');
 
 $this->title = 'My Yii Application';
+
+$weekarray=array("日","一","二","三","四","五","六"); 
+
 ?>
 <div class="site-index">
     <div class="live-course">
@@ -18,7 +21,7 @@ $this->title = 'My Yii Application';
             </div>
             <div class="right-list">
                 <div class="data-title">
-                    <span class="time">7月16号&nbsp;&nbsp;星期天</span>
+                    <span class="time"><?= date("m").'月'.date("d").'日' ?>&nbsp;&nbsp;<?= '星期'.$weekarray[date("w")] ?></span>
                 </div>
                 <ul class="video-title-list">
                     <li class="active">
