@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use Yii;
-use yii\helpers\html;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use backend\models\Cart;
