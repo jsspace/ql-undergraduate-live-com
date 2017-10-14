@@ -33,21 +33,6 @@ AppAsset::register($this);
             <div class="ads">
                 热烈祝贺***以全市最优异的成绩考上清华大学计算机专业
             </div>
-            <?php if(Yii::$app->user->isGuest) {?>
-            <ul class="log-sec no-login">
-                <li class="register"><a href="<?= Url::to(['site/signup']) ?>">注册</a></li>
-                <li class="login"><a href="<?= Url::to(['site/login']) ?>">登录</a></li>
-            </ul>
-            <?php } else {
-                echo '<ul class="log-sec login"><li class="logout-li">'
-                    . Html::beginForm(['/site/logout'], 'post')
-                    . Html::submitButton(
-                        '注销',
-                        ['class' => 'btn btn-link']
-                    )
-                    . Html::endForm(). '</li><li class="user-li"><a href="/user/info"><i class="icon ion-android-person"></i>'
-                    . Yii::$app->user->identity->username . '</a></li></ul>';
-            }?>
             <ul class="log-sec has-login">
                 <li class="logout">
                     <i class="icon ion-log-out"></i>
@@ -87,6 +72,23 @@ AppAsset::register($this);
             <div class="menu-search-group">
                 <span class="glyphicon glyphicon-search search-button _search-button"></span>
                 <input type="text" class="form-control" placeholder="搜索课程或讲师">
+            </div>
+            <div class="nav-right">
+                <?php if(Yii::$app->user->isGuest) {?>
+                <ul class="log-sec no-login">
+                    <li class="register"><a href="<?= Url::to(['site/signup']) ?>">注册</a></li>
+                    <li class="login"><a href="<?= Url::to(['site/login']) ?>">登录</a></li>
+                </ul>
+                <?php } else {
+                    echo '<a href="'.Url::to(["order-info/cart"]).'" class="cart-link"></a><ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="/'
+                        . Yii::$app->user->identity->picture . '"/></a></li><li class="logout-li">'
+                        . Html::beginForm(['/site/logout'], 'post')
+                        . Html::submitButton(
+                            '注销',
+                            ['class' => 'logout-link']
+                        )
+                        . Html::endForm(). '</li></ul>';
+                }?>
             </div>
         </div>
     </div>
