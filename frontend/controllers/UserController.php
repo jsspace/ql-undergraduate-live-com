@@ -18,7 +18,6 @@ use yii\web\UploadedFile;
  */
 class UserController extends Controller
 {
-    $userid = Yii::$app->user->id;
     /**
      * @inheritdoc
      */
@@ -141,7 +140,7 @@ class UserController extends Controller
     
     public function actionEdit()
     {
-        $model = $this->findModel($this->$userid);
+        $model = $this->findModel(Yii::$app->user->id);
         $old_picture = $model->picture;
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -177,7 +176,7 @@ class UserController extends Controller
     }
     public function actionPasswordReset()
     {
-        $model = $this->findModel($this->$userid);
+        $model = $this->findModel(Yii::$app->user->id);
         return $this->render('password-reset', [
             'model' => $model,
         ]);
@@ -186,7 +185,7 @@ class UserController extends Controller
     {
         $orderids = OrderInfo::find()
         ->select('id')
-        ->where(['user_id' => $this->$userid])
+        ->where(['user_id' => Yii::$app->user->id])
         ->asArray()
         ->all();
         $goodsids = OrderGoods::find()

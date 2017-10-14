@@ -68,6 +68,9 @@ $this->title = 'My Yii Application';
                     <span>收藏</span>
                 </p>
             </div>
+            <div class="btn-course">
+                <a class="add-cart" href="<?= Url::to(['order-info/cart']) ?>">我要报名</a>
+            </div>
         </div>
     </div>
     <div class="main-section">
