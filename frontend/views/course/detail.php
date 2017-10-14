@@ -92,7 +92,7 @@ $this->title = 'My Yii Application';
                                     <?php foreach ($chapter['chapterchild'] as $key => $section) { ?>
                                     <li>
                                         <img src="/img/chapter-play-icon.png"/>
-                                        <a href="" class="chapter-list-name"><?= $section->name ?></a>
+                                        <a href="https://view.csslcloud.net/api/view/index?roomid=8EFA264F77A57E209C33DC5901307461&userid=C33E4EBC5FB186CF" class="chapter-list-name"><?= $section->name ?></a>
                                         <div class="chapter-list-time">
                                             <span class="time-tag">直播回放</span>
                                             <span class="time-con">01:12:13</span>
