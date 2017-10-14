@@ -90,7 +90,7 @@ class CartController extends \yii\web\Controller
             return json_encode($data);
         }
         $post = Yii::$app->request->Post();
-        $course_id = $post['course_id'];
+        $course_id = explode(',', $post['course_id']);
         $this->findModel($course_id)->delete();
         
         $data['status'] = 'success';
