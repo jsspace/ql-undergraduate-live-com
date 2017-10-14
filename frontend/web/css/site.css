@@ -317,3 +317,25 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+.menu-wrapper .menu-search-group{
+    padding: 20px 0;
+}
+.menu-wrapper .menu-search-group .btn-default:hover {
+    background-color: transparent;
+    border-color: transparent;
+}
+.menu-wrapper .menu-search-group .form-control{
+    width: 130px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    display: inline-block;
+    padding: 6px 15px 6px 30px;
+}
+.menu-wrapper .menu-search-group .search-button {
+    left: 30px;
+    top: 5px;
+    color: #848e99;
+    cursor: pointer;
+    font-size: 17px;
+}

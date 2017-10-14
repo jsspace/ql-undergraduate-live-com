@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use backend\models\Cart;
@@ -16,10 +17,10 @@ class CartController extends \yii\web\Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'add', 'remove'],
+                'only' => ['index'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'add', 'remove'],
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -46,8 +47,22 @@ class CartController extends \yii\web\Controller
     
     public function actionAdd()
     {
-        $post = Yii::$app->request->Get();
-        $course_id = $post['course_id'];
+        if(Yii::$app->user->isGuest) {
+            $data['status'] = 'error';
+            $data['code'] = 2;
+            $data['message'] = '请登录后再操作';
+            return json_encode($data);
+        }
+        $data = Yii::$app->request->Post();
+        $course_id = $data['course_id'];
+        
+        $is_exist = $this->findModel($course_id);
+        if (!empty($is_exist)) {
+            $data['status'] = 'error';
+            $data['code'] = 3;
+            $data['message'] = '购物车中已经有此课程';
+            return json_encode($data);
+        }
         
         $cart = new Cart();
         $cart->user_id = Yii::$app->user->id;
@@ -68,8 +83,14 @@ class CartController extends \yii\web\Controller
 
     public function actionRemove()
     {
+        if(Yii::$app->user->isGuest) {
+            $data['status'] = 'error';
+            $data['code'] = 2;
+            $data['message'] = '请登录后再操作';
+            return json_encode($data);
+        }
         $post = Yii::$app->request->Post();
-        $course_id = $post['cart_id'];
+        $course_id = explode(',', $post['course_id']);
         $this->findModel($course_id)->delete();
         
         $data['status'] = 'success';
@@ -78,9 +99,9 @@ class CartController extends \yii\web\Controller
         return json_encode($data);
     }
     
-    protected function findModel($cart_id)
+    protected function findModel($course_id)
     {
-        $model = Cart::find(['cart_id' => $cart_id])
+        $model = Cart::find(['course_id' => $course_id])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->one();
         if (($model) !== null) {

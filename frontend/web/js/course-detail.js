@@ -33,12 +33,16 @@ var courseDetail = {
             $.ajax({
                 url: '/cart/add',
                 type: 'post',
+                dataType:"json",
                 data: {
                     course_id: course_id,
-                    '_csrf': $('meta[name=csrf-token]').attr('content')
+                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
-                    layer.msg('添加购物车成功');
+                    layer.msg(data.message);
+                    if (data.code == 2) {
+                    	location.href = '/site/login';
+                    }
                 }
             });
             
