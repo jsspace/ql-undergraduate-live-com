@@ -46,7 +46,7 @@ class CartController extends \yii\web\Controller
     
     public function actionAdd()
     {
-        $post = Yii::$app->request->Post();
+        $post = Yii::$app->request->Get();
         $course_id = $post['course_id'];
         
         $cart = new Cart();
