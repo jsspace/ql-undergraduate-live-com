@@ -27,8 +27,8 @@ $this->title = '购物车';
     </div>
     <div class="order-cart">
         <div class="cart-thead">
-            <span class="select"><input type="checkbox"/>&nbsp;&nbsp;全选</span>
-            <span class="delete-all">删除</span>
+            <span class="select"><input class="checkbox-selected" type="checkbox"/>&nbsp;&nbsp;全选</span>
+            <span class="delete-all _delete-all">删除</span>
             <span class="pro-name">课程/商品名称2</span>
             <span class="quantity">数量</span>
             <span class="price">价格</span>
@@ -41,7 +41,7 @@ $this->title = '购物车';
             <div class="cart-course-list">
                 <ul>
                     <li>
-                        <div class="select"><input type="checkbox"/></div>
+                        <div class="select"><input class="checkbox-selected" type="checkbox"/></div>
                         <div class="cart-course-detail">
                             <p class="cart-img">
                                 <img src="/img/course-list-img.jpg"/>
@@ -53,7 +53,7 @@ $this->title = '购物车';
                         </div>
                         <div class="cart-quantity">1</div>
                         <div class="cart-price">￥180.00</div>
-                        <a href="javascript:void(0)" class="delete-operation">删除</a>
+                        <a href="javascript:void(0)" class="delete-operation _delete-operation">删除</a>
                     </li>
                 </ul>
             </div>
@@ -71,3 +71,6 @@ $this->title = '购物车';
         </div>
     </div>
 </div>
+<script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
+<script src="<?= Url::to('@web/skin/layer.js');?>"></script>
+<script src="<?= Url::to('@web/js/cart.js');?>"></script>
