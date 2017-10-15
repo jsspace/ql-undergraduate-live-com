@@ -27,7 +27,7 @@ $this->title = '购物车';
     </div>
     <div class="order-cart">
         <div class="cart-thead">
-            <span class="select"><input class="checkbox-selected" type="checkbox"/>&nbsp;&nbsp;全选</span>
+            <span class="select"><input class="checkbox-selectAll _checkbox-selectAll" type="checkbox"/>&nbsp;&nbsp;全选</span>
             <span class="delete-all _delete-all">删除</span>
             <span class="pro-name">课程/商品名称</span>
             <span class="quantity">数量</span>
@@ -44,6 +44,7 @@ $this->title = '购物车';
                     $str = '';
                     foreach($models as $model) {
                         $str .= '<li>';
+                        $str .= '<input type="hidden" value="'.$model['course_id'].'" />';
                         $str .= '<div class="select"><input type="checkbox"/></div>';
                         $str .= '<div class="cart-course-detail">';
                         $str .= "<p class='cart-img'><a href='". Url::to(['course/detail', 'courseid' => $model['course_id']])."' target='_blank'><img src='".$model['list_pic']."'/></a></p>";
@@ -53,8 +54,8 @@ $this->title = '购物车';
                         $str .= '</p>';
                         $str .= '</div>';
                         $str .= '<div class="cart-quantity">1</div>';
-                        $str .= "<div class='cart-price'>￥".$model['price'] * $model['discount']."</div>";
-                        $str .= '<a href="javascript:void(0)" class="delete-operation">删除</a>';
+                        $str .= "<div class='cart-price'>￥<span>".$model['price'] * $model['discount']."</span></div>";
+                        $str .= '<a href="javascript:void(0)" class="delete-operation _delete-operation">删除</a>';
                         $str .= '</li>';
                     }
                     echo $str;
@@ -68,8 +69,8 @@ $this->title = '购物车';
                 <span>我已同意<a href="">《网站协议》</a></span>
             </div>
             <div class="foot-right">
-                <p class="pro-count"><span class="price-high">0</span>件商品</p>
-                <p class="pro-count">订单总额<span class="price-high">￥0.00</span></p>
+                <p class="pro-count"><span class="price-high course-num">0</span>件商品</p>
+                <p class="pro-count">订单总额:￥<span class="price-high course-price">0.00</span></p>
                 <a href="javascript:void(0)" class="btn disabled">去结算</a>
             </div>
         </div>
