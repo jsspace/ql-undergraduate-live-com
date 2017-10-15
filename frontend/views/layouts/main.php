@@ -80,7 +80,7 @@ AppAsset::register($this);
                     <li class="login"><a href="<?= Url::to(['site/login']) ?>">登录</a></li>
                 </ul>
                 <?php } else {
-                    echo '<a href="'.Url::to(["order-info/cart"]).'" class="cart-link"><img src="/img/cart-icon.png" /></a><ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="/'
+                    echo '<a href="'.Url::to(["cart/index"]).'" class="cart-link"><img src="/img/cart-icon.png" /></a><ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="/'
                         . Yii::$app->user->identity->picture . '"/></a></li><li class="logout-li">'
                         . Html::beginForm(['/site/logout'], 'post')
                         . Html::submitButton(
