@@ -195,6 +195,16 @@
     width: 15%;
     text-align: center;
 }
+.order-cart .cart-thead .delete-all {
+    cursor: not-allowed;
+    color: #b7b9c7;
+    text-decoration: none;
+}
+.order-cart .cart-thead .delete-all-active {
+    cursor: pointer;
+    color: #337ab7;
+    text-decoration: none;
+}
 .order-cart .empty-tbody {
     line-height: 300px;
     text-align: center;

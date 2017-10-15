@@ -8,6 +8,7 @@ var courseDetail = {
         var self = this;
         self.tagTab();
         self.addCart();
+        self.quickBuy();
     },
     tagTab: function() {
       $(".course-tag li").each(function(index) {
@@ -39,9 +40,33 @@ var courseDetail = {
                     '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
-                    layer.msg(data.message);
+                    if (data.status == "success") {
+                        layer.msg(data.message);
+                    }
                     if (data.code == 2) {
-                    	location.href = '/site/login';
+                        location.href = '/site/login';
+                    }
+                }
+            });
+            
+        });
+    },
+    quickBuy: function() {
+        $("._quick-buy").on('click',function(){
+            var course_id = $("._course-id").val();
+            $.ajax({
+                url: '/cart/add',
+                type: 'post',
+                dataType:"json",
+                data: {
+                    course_id: course_id,
+                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                },
+                success: function (data) {
+                    if (data.code == 2) {
+                        location.href = '/site/login';
+                    } else if (data.code == 0 || data.code == 3) {
+                        location.href = '/cart/index';
                     }
                 }
             });

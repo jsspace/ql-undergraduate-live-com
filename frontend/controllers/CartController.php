@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use backend\models\Cart;
@@ -37,9 +38,10 @@ class CartController extends \yii\web\Controller
     }
     public function actionIndex()
     {
-        $sql = 'select cart_id, id, course_name, list_pic, price, discount ';
-        $sql .= 'from {{%cart}} inner join {{%course}} ';
+        $sql = 'select cart_id, {{%course}}.id as course_id, course_name, list_pic, price, discount, username as teacher_name ';
+        $sql .= 'from {{%cart}} inner join {{%course}} inner join  {{%user}}';
         $sql .= 'on {{%cart}}.course_id = {{%course}}.id and {{%cart}}.user_id = '.Yii::$app->user->id;
+        $sql .= ' and {{%course}}.teacher_id = {{%user}}.id order by {{%cart}}.created_at desc';
         $models = Yii::$app->db->createCommand($sql)
         ->queryAll();
         return $this->render('index', ['models' => $models]);
@@ -56,7 +58,10 @@ class CartController extends \yii\web\Controller
         $data = Yii::$app->request->Post();
         $course_id = $data['course_id'];
         
-        $is_exist = $this->findModel($course_id);
+        $is_exist = Cart::find()
+        ->where(['course_id' => $course_id])
+        ->andWhere(['user_id' => Yii::$app->user->id])
+        ->one();
         if (!empty($is_exist)) {
             $data['status'] = 'error';
             $data['code'] = 3;
@@ -101,7 +106,8 @@ class CartController extends \yii\web\Controller
     
     protected function findModel($course_id)
     {
-        $model = Cart::find(['course_id' => $course_id])
+        $model = Cart::find()
+        ->where(['course_id' => $course_id])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->one();
         if (($model) !== null) {

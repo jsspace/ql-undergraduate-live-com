@@ -70,7 +70,7 @@ $this->title = 'My Yii Application';
                 </p>
             </div>
             <div class="btn-course">
-                <a class="quick-buy" href="<?= Url::to(['order-info/cart']) ?>">立即购买</a>
+                <a class="quick-buy _quick-buy" href="javascript: void(0)">立即购买</a>
                 <a class="add-cart _add-cart" href="javascript: void(0)">加入购物车</a>
             </div>
         </div>
