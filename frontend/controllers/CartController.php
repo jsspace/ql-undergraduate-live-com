@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use backend\models\Cart;
@@ -57,7 +58,10 @@ class CartController extends \yii\web\Controller
         $data = Yii::$app->request->Post();
         $course_id = $data['course_id'];
         
-        $is_exist = $this->findModel($course_id);
+        $is_exist = Cart::find()
+        ->where(['course_id' => $course_id])
+        ->andWhere(['user_id' => Yii::$app->user->id])
+        ->one();
         if (!empty($is_exist)) {
             $data['status'] = 'error';
             $data['code'] = 3;
@@ -102,7 +106,8 @@ class CartController extends \yii\web\Controller
     
     protected function findModel($course_id)
     {
-        $model = Cart::find(['course_id' => $course_id])
+        $model = Cart::find()
+        ->where(['course_id' => $course_id])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->one();
         if (($model) !== null) {
