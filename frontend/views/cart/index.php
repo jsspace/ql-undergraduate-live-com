@@ -29,7 +29,7 @@ $this->title = '购物车';
         <div class="cart-thead">
             <span class="select"><input class="checkbox-selected" type="checkbox"/>&nbsp;&nbsp;全选</span>
             <span class="delete-all _delete-all">删除</span>
-            <span class="pro-name">课程/商品名称2</span>
+            <span class="pro-name">课程/商品名称</span>
             <span class="quantity">数量</span>
             <span class="price">价格</span>
             <span class="operation">操作</span>
@@ -40,21 +40,25 @@ $this->title = '购物车';
             </div>
             <div class="cart-course-list">
                 <ul>
-                    <li>
-                        <div class="select"><input class="checkbox-selected" type="checkbox"/></div>
-                        <div class="cart-course-detail">
-                            <p class="cart-img">
-                                <img src="/img/course-list-img.jpg"/>
-                            </p>
-                            <p class="cart-txt">
-                                <a href="" class="name">前端课程设计</a>
-                                <span class="teacher">主讲老师：张老师</span>
-                            </p>
-                        </div>
-                        <div class="cart-quantity">1</div>
-                        <div class="cart-price">￥180.00</div>
-                        <a href="javascript:void(0)" class="delete-operation _delete-operation">删除</a>
-                    </li>
+                <?php 
+                    $str = '';
+                    foreach($models as $model) {
+                        $str .= '<li>';
+                        $str .= '<div class="select"><input type="checkbox"/></div>';
+                        $str .= '<div class="cart-course-detail">';
+                        $str .= "<p class='cart-img'><a href='". Url::to(['course/detail', 'courseid' => $model['course_id']])."' target='_blank'><img src='".$model['list_pic']."'/></a></p>";
+                        $str .= '<p class="cart-txt">';
+                        $str .= "<a href='". Url::to(['course/detail', 'courseid' => $model['course_id']])."' target='_blank' class='name'>".$model['course_name']."</a>";
+                        $str .= "<span class='teacher'>主讲老师：".$model['teacher_name']."</span>";
+                        $str .= '</p>';
+                        $str .= '</div>';
+                        $str .= '<div class="cart-quantity">1</div>';
+                        $str .= "<div class='cart-price'>￥".$model['price'] * $model['discount']."</div>";
+                        $str .= '<a href="javascript:void(0)" class="delete-operation">删除</a>';
+                        $str .= '</li>';
+                    }
+                    echo $str;
+                ?>
                 </ul>
             </div>
         </div>

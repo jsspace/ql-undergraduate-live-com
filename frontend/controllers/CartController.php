@@ -37,9 +37,10 @@ class CartController extends \yii\web\Controller
     }
     public function actionIndex()
     {
-        $sql = 'select cart_id, id, course_name, list_pic, price, discount ';
-        $sql .= 'from {{%cart}} inner join {{%course}} ';
+        $sql = 'select cart_id, {{%course}}.id as course_id, course_name, list_pic, price, discount, username as teacher_name ';
+        $sql .= 'from {{%cart}} inner join {{%course}} inner join  {{%user}}';
         $sql .= 'on {{%cart}}.course_id = {{%course}}.id and {{%cart}}.user_id = '.Yii::$app->user->id;
+        $sql .= ' and {{%course}}.teacher_id = {{%user}}.id order by {{%cart}}.created_at desc';
         $models = Yii::$app->db->createCommand($sql)
         ->queryAll();
         return $this->render('index', ['models' => $models]);
