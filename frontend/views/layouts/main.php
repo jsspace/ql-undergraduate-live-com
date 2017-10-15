@@ -75,12 +75,12 @@ AppAsset::register($this);
             </div>
             <div class="nav-right">
                 <?php if(Yii::$app->user->isGuest) {?>
-                <ul class="log-sec no-login">
+                <ul class="log-sec no-login unlogin">
                     <li class="register"><a href="<?= Url::to(['site/signup']) ?>">注册</a></li>
                     <li class="login"><a href="<?= Url::to(['site/login']) ?>">登录</a></li>
                 </ul>
                 <?php } else {
-                    echo '<a href="'.Url::to(["order-info/cart"]).'" class="cart-link"></a><ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="/'
+                    echo '<a href="'.Url::to(["order-info/cart"]).'" class="cart-link"><img src="/img/cart-icon.png" /></a><ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="/'
                         . Yii::$app->user->identity->picture . '"/></a></li><li class="logout-li">'
                         . Html::beginForm(['/site/logout'], 'post')
                         . Html::submitButton(
