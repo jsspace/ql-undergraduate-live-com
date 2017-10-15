@@ -54,7 +54,7 @@ $this->title = '购物车';
                         $str .= '</p>';
                         $str .= '</div>';
                         $str .= '<div class="cart-quantity">1</div>';
-                        $str .= "<div class='cart-price'>￥<span>".$model['price'] * $model['discount']."</span></div>";
+                        $str .= "<div class='cart-price'>￥<span>".$model['discount']."</span></div>";
                         $str .= '<a href="javascript:void(0)" class="delete-operation _delete-operation">删除</a>';
                         $str .= '</li>';
                     }

@@ -70,6 +70,18 @@ var cart = {
     checkboxClick: function() {
         $(".order-cart .cart-course-list .select input").on('click',function() {
             var checkedInput = $(".order-cart .cart-course-list .select input:checked");
+            var priceSum = parseInt($(".course-num").text())*100;
+            if ($(this).is(':checked') ) {
+                alert(1);
+                var priceSum = parseInt($(".course-num").text())*100;
+                priceSum += $(this).parent().parent().find(".cart-price span").text()*100;
+            }
+            else {
+                alert(2);
+                var priceSum = parseInt($(".course-num").text())*100;
+                priceSum -= $(this).parent().parent().find(".cart-price span").text()*100;
+            }
+            $(".cart-tfoot .foot-right .course-price").text(priceSum/100);
             if (checkedInput != null && checkedInput.length>0) {
                 $(".cart-tfoot .foot-right .course-num").text(checkedInput.length);
                 $("._delete-all").addClass("delete-all-active");
@@ -84,7 +96,6 @@ var cart = {
         
     },
     selectAll: function() {
-       
         $("._checkbox-selectAll").on('click',function(){
             if ($(".checkbox-selectAll").is(':checked') ) {
                 
