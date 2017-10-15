@@ -108,11 +108,13 @@ class SiteController extends Controller
                                 $live_will[$section['id']]['live_url'] = $section['video_url'];
                                 $live_will[$section['id']]['start_time'] = $start_simple;
                                 $live_will[$section['id']]['end_time'] = $end_simple;
+                                $live_will[$section['id']]['course_id'] = $course->id;
                             } else if ($current_time >= $section['start_time'] && $current_time < $end_time) {
                                 $live_ing[$section['id']]['course_name'] = $course->course_name;
                                 $live_ing[$section['id']]['live_url'] = $section['video_url'];
                                 $live_ing[$section['id']]['start_time'] = $start_simple;
                                 $live_ing[$section['id']]['end_time'] = $end_simple;
+                                $live_ing[$section['id']]['course_id'] = $course->id;
                             }
                         }
                     }
