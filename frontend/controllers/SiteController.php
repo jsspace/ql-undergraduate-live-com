@@ -20,6 +20,8 @@ use backend\models\CourseComent;
 use backend\models\FriendlyLinks;
 use backend\models\User;
 use backend\models\Coupon;
+use backend\models\CourseChapter;
+use backend\models\CourseSection;
 
 /**
  * Site controller
@@ -80,6 +82,43 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        /*正在直播列表*/
+        $course_list = Course::find()
+        ->select('id, course_name')
+        ->all();
+        $chapter_list = CourseChapter::find()
+        ->select('id, course_id')
+        ->all();
+        $sql = 'select * from {{%course_section}} where to_days(start_time) = to_days(now()) and type = 0 ORDER BY start_time ASC';
+        $section_list = Yii::$app->db->createCommand($sql)
+        ->queryAll();
+        $live_ing = array();
+        $live_will = array();
+        foreach ($course_list as $course) {
+            foreach ($chapter_list as $key => $chapter) {
+                if ($chapter->course_id == $course->id) {
+                    foreach ($section_list as $key => $section) {
+                        if ($chapter->id == $section['chapter_id']) {
+                            $end_time = date('Y-m-d H:i:s',strtotime($section['start_time']."+".$section['duration']." minute"));
+                            $end_simple = date('H:i', strtotime($section['start_time']."+".$section['duration']." minute"));
+                            $start_simple = date('H:i', strtotime($section['start_time']));
+                            $current_time = date('Y-m-d H:i:s');
+                            if ($current_time < $section['start_time']) {
+                                $live_will[$section['id']]['course_name'] = $course->course_name;
+                                $live_will[$section['id']]['live_url'] = $section['video_url'];
+                                $live_will[$section['id']]['start_time'] = $start_simple;
+                                $live_will[$section['id']]['end_time'] = $end_simple;
+                            } else if ($current_time >= $section['start_time'] && $current_time < $end_time) {
+                                $live_ing[$section['id']]['course_name'] = $course->course_name;
+                                $live_ing[$section['id']]['live_url'] = $section['video_url'];
+                                $live_ing[$section['id']]['start_time'] = $start_simple;
+                                $live_ing[$section['id']]['end_time'] = $end_simple;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         /*热门分类*/
         $hotcats = HotCategory::find()
         ->orderBy('position asc')
@@ -134,9 +173,8 @@ class SiteController extends Controller
         ->all();
         /*教师列表*/
         $teachers = User::getUserByrole('teacher');
-        return $this->render('index', ['hotcats' => $hotcats, 'newpcourses' => $newpcourses, 'hotpcourses' => $hotpcourses, 'rankpcourses' => $rankpcourses, 'newcourses' => $newcourses, 'hotcourses' => $hotcourses, 'rankcourses' => $rankcourses, 'tjcourses' => $tjcourses, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers]);
+        return $this->render('index', ['hotcats' => $hotcats, 'newpcourses' => $newpcourses, 'hotpcourses' => $hotpcourses, 'rankpcourses' => $rankpcourses, 'newcourses' => $newcourses, 'hotcourses' => $hotcourses, 'rankcourses' => $rankcourses, 'tjcourses' => $tjcourses, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers, 'live_ing' => $live_ing, 'live_will' => $live_will]);
     }
-
     /**
      * Logs in a user.
      *

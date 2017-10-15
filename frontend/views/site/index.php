@@ -24,48 +24,32 @@ $weekarray=array("日","一","二","三","四","五","六");
                     <span class="time"><?= date("m").'月'.date("d").'日' ?>&nbsp;&nbsp;<?= '星期'.$weekarray[date("w")] ?></span>
                 </div>
                 <ul class="video-title-list">
-                    <li class="active">
-                        <i class="icon-circle"></i>
-                        <a href="">
-                            <span class="top">22:00-23:00</span>
-                            <span class="bottom">前端设计精选课程</span>
-                        </a>
-                    </li>
-                    <li>
-                        <i class="icon-circle"></i>
-                        <a href="">
-                            <span class="top">22:00-23:00</span>
-                            <span class="bottom">前端设计精选课程</span>
-                        </a>
-                    </li>
-                    <li>
-                        <i class="icon-circle"></i>
-                        <a href="">
-                            <span class="top">22:00-23:00</span>
-                            <span class="bottom">前端设计精选课程</span>
-                        </a>
-                    </li>
-                    <li>
-                        <i class="icon-circle"></i>
-                        <a href="">
-                            <span class="top">22:00-23:00</span>
-                            <span class="bottom">前端设计精选课程</span>
-                        </a>
-                    </li>
-                    <li>
-                        <i class="icon-circle"></i>
-                        <a href="">
-                            <span class="top">22:00-23:00</span>
-                            <span class="bottom">前端设计精选课程</span>
-                        </a>
-                    </li>
-                    <li>
-                        <i class="icon-circle"></i>
-                        <a href="">
-                            <span class="top">22:00-23:00</span>
-                            <span class="bottom">前端设计精选课程</span>
-                        </a>
-                    </li>
+                    <?php
+                        foreach ($live_ing as $key => $live) {
+                    ?>
+                        <li class="active">
+                            <i class="icon-circle"></i>
+                            <a href="<?= $live['live_url'] ?>">
+                                <span class="top"><?= $live['start_time'] ?>-<?= $live['end_time'] ?></span>
+                                <span class="bottom"><?= $live['course_name'] ?></span>
+                            </a>
+                        </li>
+                    <?php
+                        }
+                    ?>
+                    <?php
+                        foreach ($live_will as $will_key => $will) {
+                    ?>
+                        <li>
+                            <i class="icon-circle"></i>
+                            <a href="<?= $will['live_url'] ?>">
+                                <span class="top"><?= $will['start_time'] ?>-<?= $will['end_time'] ?></span>
+                                <span class="bottom"><?= $will['course_name'] ?></span>
+                            </a>
+                        </li>
+                    <?php
+                        }
+                    ?>
                 </ul>
             </div>
         </div>
