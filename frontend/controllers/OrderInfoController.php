@@ -72,7 +72,7 @@ class OrderInfoController extends \yii\web\Controller
         
         $_POST['WIDout_trade_no'] = '123';
         $_POST['WIDsubject'] = 'wuli';
-        $_POST['WIDtotal_amount'] = '109';
+        $_POST['WIDtotal_amount'] = '0.01';
         $_POST['WIDbody'] = 'wuli';
         //商户订单号，商户网站订单系统中唯一订单号，必填
         $out_trade_no = trim($_POST['WIDout_trade_no']);
