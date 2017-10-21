@@ -1,9 +1,10 @@
 <?php
 
 namespace frontend\controllers;
-use yii;
+use Yii;
 use backend\models\OrderInfo;
 use backend\models\OrderGoods;
+use backend\models\CoursePackage;
 require "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
 require "../../common/alipay/pagepay/service/AlipayTradeService.php";
 
@@ -19,52 +20,60 @@ class OrderInfoController extends \yii\web\Controller
         return $this->render('cart');
     }
 
-    public function actionConfirm_order()
+    public function actionConfirm_course_order()
     {
-        //生成24位唯一订单号码，格式：YYYY-MMDD-HHII-SS-NNNN,NNNN-CC，其中：YYYY=年份，MM=月份，DD=日期，HH=24格式小时，II=分，SS=秒，NNNNNNNN=随机数，CC=检查码
+        //唯一订单号码（KB-YYYYMMDDHHIISSNNNNNNNNCC）
+        $order_sn = $this->createOrderid();
+        $data = Yii::$app->request->Post();
         
-        //订购日期
-        $order_date = date('Y-m-d');
-        //订单号码主体（YYYYMMDDHHIISSNNNNNNNN）
-        $order_id_main = date('YmdHis') . rand(10000000,99999999);
-        //订单号码主体长度
-        $order_id_len = strlen($order_id_main);
-        $order_id_sum = 0;
-        for($i=0; $i<$order_id_len; $i++){
-            $order_id_sum += (int)(substr($order_id_main,$i,1));
+        $course_type = $post['course_type'];
+        $course_ids = explode(',', $post['course_ids']);
+        if (strcmp('course', $course_type)) {
+            $models = Course::find()
+            ->where(['id' => $course_ids])
+            ->andWhere(['onuse' => 1])
+            ->all();
+        } elseif (strcmp('course_group', $course_type)) {
+            $course_packages = CoursePackage::find()
+            ->where(['id' => $course_ids])
+            ->all();
+            $courseids = '';
+            foreach($course_packages as $model) {
+                $courseids .= $model->course . ',';
+            }
+            $models = Course::find()
+            ->where(['id' => $courseids])
+            ->andWhere(['onuse' => 1])
+            ->all();
         }
-        //唯一订单号码（YYYYMMDDHHIISSNNNNNNNNCC）
-        $order_sn = $order_id_main . str_pad((100 - $order_id_sum % 100) % 100,2,'0',STR_PAD_LEFT);
         
-        $data = Yii::$app->request->post;
+        
         //添加订单商品
-        $course_infos = json_decode($post['course_infos']);
-        foreach($course_ids as $course) {
+        foreach($models as $model) {
             $order_goods = new OrderGoods();
             $order_goods->order_sn = $order_sn;
-            $order_goods->goods_id = $course['id'];
-            $order_goods->goods_name = $course['name'];
-            
-            
+            $order_goods->goods_id = $model->id;
+            $order_goods->goods_name = $model->course_name;
+            $order_goods->goods_number = 1;
+            $order_goods->market_price = $model->price;
+            $order_goods->goods_price = $model->discount;
         }
         
-        
-        
         $order_info = new OrderInfo();
-        $order_info->order_sn = $order_id;
+        $order_info->order_sn = $order_sn;
         $order_info->user_id = Yii::$app->user->id;
         $order_info->order_status = 1;
         $order_info->pay_status = 0;
         $order_info->consignee = Yii::$app->user->username;
         $order_info->mobile = Yii::$app->user->phone;
         $order_info->email = Yii::$app->user->email;
-        //0 支付宝 1 微信
+        //0 1支付宝 2 微信
         $order_info->pay_id = 0;
         $order_info->goods_amount = $data['goods_amount'];
         $order_info->bonus = $data['bonus'];
         $order_info->order_amount = 'alipay';
         $order_info->pay_name = 'alipay';
-        
+        return $this->render('payok', ['order_sn' => $order_sn]);
     }
     
     public function actionPay()
@@ -108,11 +117,28 @@ class OrderInfoController extends \yii\web\Controller
         
         //输出表单
         var_dump($response);
-        return $this->render('pay');
     }
 
     public function actionPayway()
     {
         return $this->render('payway');
+    }
+    
+    private function createOrderid()
+    {
+        //生成24位唯一订单号码，格式：YYYY-MMDD-HHII-SS-NNNN,NNNN-CC，其中：YYYY=年份，MM=月份，DD=日期，HH=24格式小时，II=分，SS=秒，NNNNNNNN=随机数，CC=检查码
+        //订购日期
+        $order_date = date('Y-m-d');
+        //订单号码主体（YYYYMMDDHHIISSNNNNNNNN）
+        $order_id_main = date('YmdHis') . rand(10000000,99999999);
+        //订单号码主体长度
+        $order_id_len = strlen($order_id_main);
+        $order_id_sum = 0;
+        for($i=0; $i<$order_id_len; $i++){
+            $order_id_sum += (int)(substr($order_id_main,$i,1));
+        }
+        //唯一订单号码（YYYYMMDDHHIISSNNNNNNNNCC）
+        $order_sn = 'KB-' . $order_id_main . str_pad((100 - $order_id_sum % 100) % 100,2,'0',STR_PAD_LEFT);
+        return $order_sn;
     }
 }

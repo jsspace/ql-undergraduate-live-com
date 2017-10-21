@@ -5,6 +5,8 @@ var cart = {
         self.removeSelectedCart();
         self.checkboxClick();
         self.selectAll();
+        self.accessAgreement();
+        self.gotoOrder();
     },
     removeCart: function() {
         $("._delete-operation").on('click',function(){
@@ -105,5 +107,33 @@ var cart = {
             }
         });
     },
+    accessAgreement: function() {
+    	if ($("#access_website_agreement").is(':checked')) {
+        	$(".btn-buy").removeClass("disabled");
+        } else {
+        	$(".btn-buy").addClass("disabled");
+        }
+    	$("#access_website_agreement").on('click',function() {
+            if ($("#access_website_agreement").is(':checked')) {
+            	$(".btn-buy").removeClass("disabled");
+            } else {
+            	$(".btn-buy").addClass("disabled");
+            }
+    	});
+    },
+    gotoOrder: function() {
+    	$(".btn-buy").on('click',function() {
+    		var course_ids = '';
+    		$(".select-course input:checked").each(function(){
+    			course_ids += $(this).attr('data-courseid') + ',';
+    			$('#course_ids').val(course_ids);
+    		});
+    		if (course_ids.length == 0) {
+    			layer.msg('请先选择课程！');
+    			return false;
+    		}
+    	});
+    }
+    
 };
 cart.init();

@@ -23,6 +23,8 @@ class AppAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
     ];
 
+    public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
+    
     //定义按需加载JS方法，注意加载顺序在最后
     public static function addScript($view, $jsfile) {
         $view->registerJsFile($jsfile, [AppAsset::className(), 'depends' => 'frontend\assets\AppAsset']);

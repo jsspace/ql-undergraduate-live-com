@@ -2,11 +2,15 @@
 
 /* @var $this yii\web\View */
 use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
 use frontend\assets\AppAsset;
 
 AppAsset::addCss($this,'@web/css/order.css');
 
 $this->title = '购物车';
+AppAsset::addScript($this,'@web/skin/layer.js');
+AppAsset::addScript($this,'@web/js/cart.js');
 ?>
 <div class="order-wrapper">
     <div class="step-wrapper">
@@ -44,8 +48,7 @@ $this->title = '购物车';
                     $str = '';
                     foreach($models as $model) {
                         $str .= '<li>';
-                        $str .= '<input type="hidden" value="'.$model['course_id'].'" />';
-                        $str .= '<div class="select"><input type="checkbox"/></div>';
+                        $str .= '<div class="select select-course"><input data-courseid="'.$model['course_id'].'" type="checkbox"/></div>';
                         $str .= '<div class="cart-course-detail">';
                         $str .= "<p class='cart-img'><a href='". Url::to(['course/detail', 'courseid' => $model['course_id']])."' target='_blank'><img src='".$model['list_pic']."'/></a></p>";
                         $str .= '<p class="cart-txt">';
@@ -54,7 +57,7 @@ $this->title = '购物车';
                         $str .= '</p>';
                         $str .= '</div>';
                         $str .= '<div class="cart-quantity">1</div>';
-                        $str .= "<div class='cart-price'>￥<span>".$model['discount']."</span></div>";
+                        $str .= "<div classuse yii\bootstrap\ActiveForm;='cart-price'>￥<span>".$model['discount']."</span></div>";
                         $str .= '<a href="javascript:void(0)" class="delete-operation _delete-operation">删除</a>';
                         $str .= '</li>';
                     }
@@ -65,17 +68,17 @@ $this->title = '购物车';
         </div>
         <div class="cart-tfoot">
             <div class="foot-left">
-                <input type="checkbox"/>
+                <input id="access_website_agreement" type="checkbox"/>
                 <span>我已同意<a href="">《网站协议》</a></span>
             </div>
             <div class="foot-right">
+                <?php $form = ActiveForm::begin(['id' => 'gotobuy-form', 'action' => Url::to(['cart/shopping'])]); ?>
                 <p class="pro-count"><span class="price-high course-num">0</span>件商品</p>
                 <p class="pro-count">订单总额:￥<span class="price-high course-price">0.00</span></p>
-                <a href="javascript:void(0)" class="btn disabled">去结算</a>
+                <?= Html::HiddenInput('course_ids', '', ['id' => 'course_ids']) ?>
+                <?= Html::submitButton('去结算', ['class' => 'btn btn-buy disabled']) ?>
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>
 </div>
-<script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
-<script src="<?= Url::to('@web/skin/layer.js');?>"></script>
-<script src="<?= Url::to('@web/js/cart.js');?>"></script>

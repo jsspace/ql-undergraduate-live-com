@@ -7,6 +7,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use backend\models\Cart;
+use backend\models\Course;
+use backend\models\Coupon;
 
 class CartController extends \yii\web\Controller
 {
@@ -21,7 +23,7 @@ class CartController extends \yii\web\Controller
                 'only' => ['index'],
                 'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'shopping'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -102,6 +104,27 @@ class CartController extends \yii\web\Controller
         $data['code'] = 0;
         $data['message'] = '删除成功';
         return json_encode($data);
+    }
+    
+    public function actionShopping()
+    {
+        $post = Yii::$app->request->Post();
+        $course_type = $post['course_type'];
+        $course_ids = explode(',', $post['course_ids']);
+        $models = Course::find()
+        ->where(['id' => $course_ids])
+        ->andWhere(['onuse' => 1])
+        ->all();
+        $courseids = '';
+        foreach($models as $model) {
+            $courseids .= $model->id . ',';
+        }
+        $coupons = Coupon::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['isuse' => 0])
+        ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
+        ->all();        
+        return $this->render('shopping', ['models' => $models, 'course_type' => $course_type, 'course_ids' => $courseids, 'coupons' => $coupons]);
     }
     
     protected function findModel($course_id)

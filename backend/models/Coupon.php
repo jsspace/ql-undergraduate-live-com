@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $coupon_id
  * @property integer $user_id
+ * @property string $name
  * @property integer $fee
  * @property integer $isuse
  * @property string $start_time
@@ -30,9 +31,10 @@ class Coupon extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'fee', 'start_time', 'end_time'], 'required'],
+            [['user_id', 'name', 'fee', 'start_time', 'end_time'], 'required'],
             [['user_id', 'fee', 'isuse'], 'integer'],
             [['start_time', 'end_time'], 'safe'],
+            [['name'], 'string', 'max' => 200],
         ];
     }
 
@@ -44,6 +46,7 @@ class Coupon extends \yii\db\ActiveRecord
         return [
             'coupon_id' => Yii::t('app', 'Coupon ID'),
             'user_id' => Yii::t('app', '用户'),
+            'name' => Yii::t('app', '优惠券名字'),
             'fee' => Yii::t('app', '金额'),
             'isuse' => Yii::t('app', '是否使用'),
             'start_time' => Yii::t('app', '开始时间'),

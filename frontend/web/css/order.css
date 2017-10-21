@@ -240,8 +240,8 @@
     font-size: 23px;
     padding: 0 2px;
 }
-.order-cart a.btn,
-.payway-method a.btn {
+.order-cart button.btn,
+.payway-method button.btn {
     width: auto;
     margin-left: 18px;
     font-size: 18px;
@@ -249,7 +249,7 @@
     padding: 10px 20px;
     background-color: #009aff;
 }
-.order-cart a.disabled {
+.order-cart button.disabled {
     background-color: #b7b9c7;
 }
 .order-cart .cart-course-list .select {
