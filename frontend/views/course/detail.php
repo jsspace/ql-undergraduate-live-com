@@ -128,16 +128,18 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class="tag-content">
                     <ul class="evaluate-list">
-                        <li>
-                            <div class="user-info">
-                                <p class="user-img"><img src="/img/teacher-people.png"/></p>
-                                <p class="user-name">孤独的背影</p>
-                            </div>
-                            <div class="user-evaluate">
-                                <p class="evaluate-info">总结到位，讲解清楚</p>
-                                <p class="evaluate-time">2017-05-24 10:09:23</p>
-                            </div>
-                        </li>
+                        <?php foreach ($course_comments as $course_comment) { ?>
+                            <li>
+                                <div class="user-info">
+                                    <p class="user-img"><img src="<?= User::getUserModel($course_comment->user_id)->picture; ?>"/></p>
+                                    <p class="user-name"><?= User::item($course->teacher_id); ?></p>
+                                </div>
+                                <div class="user-evaluate">
+                                    <p class="evaluate-info"><?= $course_comment->content ?></p>
+                                    <p class="evaluate-time"><?= date('Y-m-d H:i:s', $course_comment->create_time) ?></p>
+                                </div>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
                 <div class="tag-content">

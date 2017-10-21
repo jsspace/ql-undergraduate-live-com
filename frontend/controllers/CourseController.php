@@ -7,6 +7,7 @@ use backend\models\CourseCategory;
 use backend\models\Course;
 use backend\models\CourseChapter;
 use backend\models\CourseSection;
+use backend\models\CourseComent;
 use Yii;
 
 class CourseController extends Controller
@@ -86,7 +87,12 @@ class CourseController extends Controller
                 $duration = $duration+$section->duration;
             }
         }
-        return $this->render('detail', ['courseDetail' => $courseDetail, 'duration' => $duration]);
+        // 课程评价
+        $course_comments = CourseComent::find()
+        ->where(['course_id' => $courseid])
+        ->andWhere(['check' => 1])
+        ->all();
+        return $this->render('detail', ['courseDetail' => $courseDetail, 'duration' => $duration, 'course_comments' => $course_comments]);
     }
 
 }
