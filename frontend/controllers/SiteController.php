@@ -341,12 +341,22 @@ class SiteController extends Controller
         $roomid = $_GET['roomid'];
         $courseid = CourseSection::getCourse($roomid);
         $order = OrderInfo::find()
-        ->where(['and', ['user_id' => Yii::$app->user->id], ['in', $courseid, 'course_id']])
-        ->one();
+        ->select('course_ids')
+        ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['pay_status' => 2])
+        ->all();
+        //->createCommand()->getRawSql();
+        $course_ids = '';
+        if (!empty($order)) {
+            foreach($order as $item) {
+                $course_ids .= $item->course_ids . ',';
+            }
+        }
+        $course_ids_arr = explode(',', $course_ids);
         if (Yii::$app->user->isGuest) {
             $result['result'] = 'false';
             $result['message'] = '请先登录';
-        } else if (empty($order) || $order->pay_status != 1) {
+        } else if (in_array($courseid, $course_ids_arr)) {
             $result['result'] = 'false';
             $result['message'] = '请先购买';
         } else {
