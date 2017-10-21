@@ -22,6 +22,7 @@ use backend\models\User;
 use backend\models\Coupon;
 use backend\models\CourseChapter;
 use backend\models\CourseSection;
+use backend\models\OrderInfo;
 
 /**
  * Site controller
@@ -337,9 +338,17 @@ class SiteController extends Controller
     public function actionVideoAuth(){
         $result = array();
         $user = User::getUserModel(Yii::$app->user->id);
+        $roomid = $_GET['roomid'];
+        $courseid = CourseSection::getCourse($roomid);
+        $order = OrderInfo::find()
+        ->where(['and', ['user_id' => Yii::$app->user->id], ['in', $courseid, 'course_id']])
+        ->one();
         if (Yii::$app->user->isGuest) {
             $result['result'] = 'false';
             $result['message'] = '请先登录';
+        } else if (empty($order) || $order->pay_status != 1) {
+            $result['result'] = 'false';
+            $result['message'] = '请先购买';
         } else {
             $result['result'] = 'ok';
             $result['message'] = '认证成功';
@@ -366,7 +375,6 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
         }
         $result = json_encode($result);
-        print_r($result);
-        die();
+        return $result;
     }
 }

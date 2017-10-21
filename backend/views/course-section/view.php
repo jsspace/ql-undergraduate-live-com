@@ -20,6 +20,7 @@ AppAsset::addCss($this,'@web/css/chapter_section.css');
             ],
             'name',
             'video_url:url',
+            'roomid',
             'playback_url:url',
             [
                 'attribute' => 'paid_free',
