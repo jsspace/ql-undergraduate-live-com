@@ -40,9 +40,7 @@ var courseDetail = {
                     '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
-                    if (data.status == "success") {
-                        layer.msg(data.message);
-                    }
+                    layer.msg(data.message);
                     if (data.code == 2) {
                         location.href = '/site/login';
                     }

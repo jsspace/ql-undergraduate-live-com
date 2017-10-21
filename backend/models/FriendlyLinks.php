@@ -7,10 +7,10 @@ use Yii;
 /**
  * This is the model class for table "{{%friendly_links}}".
  *
- * @property string $id
+ * @property integer $id
  * @property string $title
  * @property string $src
- * @property string $position
+ * @property integer $position
  */
 class FriendlyLinks extends \yii\db\ActiveRecord
 {

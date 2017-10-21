@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "{{%order_goods}}".
  *
  * @property integer $rec_id
- * @property integer $order_id
+ * @property string $order_sn
  * @property integer $goods_id
  * @property string $goods_name
  * @property string $goods_sn
@@ -38,10 +38,11 @@ class OrderGoods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['order_id', 'goods_id', 'goods_number', 'send_number', 'is_real', 'parent_id', 'is_gift'], 'integer'],
-            [['goods_name', 'goods_sn', 'goods_attr', 'extension_code'], 'required'],
+            [['order_sn', 'goods_name', 'goods_sn', 'goods_attr', 'extension_code'], 'required'],
+            [['goods_id', 'goods_number', 'send_number', 'is_real', 'parent_id', 'is_gift'], 'integer'],
             [['market_price', 'goods_price'], 'number'],
             [['goods_attr'], 'string'],
+            [['order_sn'], 'string', 'max' => 200],
             [['goods_name'], 'string', 'max' => 120],
             [['goods_sn'], 'string', 'max' => 60],
             [['extension_code'], 'string', 'max' => 30],
@@ -55,7 +56,7 @@ class OrderGoods extends \yii\db\ActiveRecord
     {
         return [
             'rec_id' => Yii::t('app', '订单商品信息自增id'),
-            'order_id' => Yii::t('app', '订单商品信息对应的详细信息id，取值order_info的order_id'),
+            'order_sn' => Yii::t('app', '订单商品信息对应的详细信息id，取值order_info的order_sn'),
             'goods_id' => Yii::t('app', '商品的的id，取值表ecs_goods 的goods_id'),
             'goods_name' => Yii::t('app', '商品的名称，取值表ecs_goods '),
             'goods_sn' => Yii::t('app', '商品的唯一货号，取值ecs_goods '),

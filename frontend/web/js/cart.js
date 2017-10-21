@@ -72,12 +72,12 @@ var cart = {
             var checkedInput = $(".order-cart .cart-course-list .select input:checked");
             var priceSum = parseInt($(".course-num").text())*100;
             if ($(this).is(':checked') ) {
-                alert(1);
+//                alert(1);
                 var priceSum = parseInt($(".course-num").text())*100;
                 priceSum += $(this).parent().parent().find(".cart-price span").text()*100;
             }
             else {
-                alert(2);
+//                alert(2);
                 var priceSum = parseInt($(".course-num").text())*100;
                 priceSum -= $(this).parent().parent().find(".cart-price span").text()*100;
             }
