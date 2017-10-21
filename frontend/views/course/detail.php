@@ -94,10 +94,27 @@ $this->title = 'My Yii Application';
                                     <?php foreach ($chapter['chapterchild'] as $key => $section) { ?>
                                     <li>
                                         <img src="/img/chapter-play-icon.png"/>
-                                        <a href="https://view.csslcloud.net/api/view/index?roomid=8EFA264F77A57E209C33DC5901307461&userid=C33E4EBC5FB186CF" class="chapter-list-name"><?= $section->name ?></a>
+                                        <a target="_blank" href="<?= $section->video_url ?>" class="chapter-list-name"><?= $section->name ?></a>
                                         <div class="chapter-list-time">
-                                            <span class="time-tag">直播回放</span>
-                                            <span class="time-con">01:12:13</span>
+                                            <?php
+                                                $text = '';
+                                                $current_time = date('Y-m-d H:i:s');
+                                                $end_time = date('Y-m-d H:i:s',strtotime($section->start_time."+".$section->duration." minute"));
+                                                //0 直播
+                                                if ($section->type == 0) {
+                                                    if ($current_time < $section->start_time) {
+                                                        $text = '最近直播：'.$section->start_time;
+                                                    } else if ($current_time >= $section->start_time && $current_time < $end_time) {
+                                                         $text = '直播中';
+                                                    } else if ($current_time > $end_time) {
+                                                        $text = '直播回放';
+                                                    }
+                                                } else {
+                                                    $text = '点播课程';
+                                                }
+                                            ?>
+                                            <span class="time-tag"><?= $text ?></span>
+                                            <span class="time-con"><?= $section->duration.'分钟' ?></span>
                                         </div>
                                     </li>
                                     <?php } ?>

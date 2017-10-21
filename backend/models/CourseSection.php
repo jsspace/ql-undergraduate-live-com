@@ -36,7 +36,7 @@ class CourseSection extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['chapter_id', 'name', 'start_time', 'video_url', 'duration', 'paid_free', 'roomid'], 'required'],
+            [['chapter_id', 'name', 'video_url', 'duration', 'paid_free', 'roomid'], 'required'],
             [['chapter_id', 'position', 'type', 'paid_free'], 'integer'],
             [['start_time'], 'safe'],
             [['name', 'video_url', 'playback_url'], 'string', 'max' => 255],
