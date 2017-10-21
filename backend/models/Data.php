@@ -10,6 +10,7 @@ use Yii;
  * @property string $id
  * @property string $name
  * @property string $list_pic
+ * @property integer $url_type
  * @property string $summary
  * @property string $content
  * @property string $course_id
@@ -31,9 +32,9 @@ class Data extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'list_pic', 'summary', 'content'], 'required'],
+            [['name', 'list_pic', 'summary'], 'required'],
+            [['url_type', 'course_id'], 'integer'], 
             [['summary', 'content'], 'string'],
-            [['course_id'], 'integer'],
             [['name', 'list_pic', 'ctime'], 'string', 'max' => 255],
         ];
     }
@@ -47,6 +48,7 @@ class Data extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', '资料名称'),
             'list_pic' => Yii::t('app', '列表图片'),
+            'url_type' => Yii::t('app', '内链接/外链接'),
             'summary' => Yii::t('app', '概述'),
             'content' => Yii::t('app', '资料详情'),
             'course_id' => Yii::t('app', '相关课程'),

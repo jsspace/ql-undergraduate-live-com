@@ -18,7 +18,7 @@ class DataSearch extends Data
     public function rules()
     {
         return [
-            [['id', 'course_id'], 'integer'],
+            [['id', 'url_type', 'course_id'], 'integer'],
             [['name', 'list_pic', 'summary', 'content', 'ctime'], 'safe'],
         ];
     }

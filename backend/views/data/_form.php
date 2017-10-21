@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
 use kartik\file\FileInput;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Data */
@@ -16,6 +17,8 @@ use kartik\file\FileInput;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'url_type')->dropDownList(['1'=>'内链接', '0'=>'外链接']) ?>
 
     <?= $form->field($model, 'list_pic')->widget(FileInput::classname(),
         [

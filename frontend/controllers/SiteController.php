@@ -23,6 +23,7 @@ use backend\models\Coupon;
 use backend\models\CourseChapter;
 use backend\models\CourseSection;
 use backend\models\OrderInfo;
+use backend\models\Data;
 
 /**
  * Site controller
@@ -176,7 +177,12 @@ class SiteController extends Controller
         ->all();
         /*教师列表*/
         $teachers = User::getUserByrole('teacher');
-        return $this->render('index', ['hotcats' => $hotcats, 'newpcourses' => $newpcourses, 'hotpcourses' => $hotpcourses, 'rankpcourses' => $rankpcourses, 'newcourses' => $newcourses, 'hotcourses' => $hotcourses, 'rankcourses' => $rankcourses, 'tjcourses' => $tjcourses, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers, 'live_ing' => $live_ing, 'live_will' => $live_will]);
+        /*资料*/
+        $course_datas = Data::find()
+        ->orderBy('ctime desc')
+        ->limit(6)
+        ->all();
+        return $this->render('index', ['hotcats' => $hotcats, 'newpcourses' => $newpcourses, 'hotpcourses' => $hotpcourses, 'rankpcourses' => $rankpcourses, 'newcourses' => $newcourses, 'hotcourses' => $hotcourses, 'rankcourses' => $rankcourses, 'tjcourses' => $tjcourses, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers, 'live_ing' => $live_ing, 'live_will' => $live_will, 'course_datas' => $course_datas]);
     }
     /**
      * Logs in a user.

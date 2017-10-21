@@ -282,85 +282,27 @@ $weekarray=array("日","一","二","三","四","五","六");
                 <img src="/img/arrow-icon.jpg"/>
             </legend>
         </fieldset>
-        <ul class="course-tab">
-            <li class="active">类别一</li>
-            <li>类别二</li>
-            <li>类别三</li>
-        </ul>
         <div class="course-content">
             <ul class="list active">
-                <li>
-                    <img class="course-data-img" src="/img/course-data-img.jpg"/>
-                    <div class="right-con">
-                        <p class="data-title">
-                            <span class="data-label">职场必读</span>
-                            <span>咨询课程咨询课程咨询课程咨询课程</span>
-                        </p>
-                        <p class="data-intro">做数据分析是同事我们㤇了解还有什么东西还来老外链外链了大家老师来了历史记录就辣椒酱蓝色框的看来离开时</p>
-                        <p class="data-icon">
-                            <img class="teach-img" src="/img/teacher-icon.jpg"/>
-                            <span class="teach-name">张老师</span>
-                            <i class="icon ion-android-person"></i>
-                            <span class="people">11101人在学</span>
-                            <i class="icon ion-heart"></i>
-                            <span class="people">2345人</span>
-                        </p>
-                    </div>
-                </li>
-                <li>
-                    <img class="course-data-img" src="/img/course-data-img.jpg"/>
-                    <div class="right-con">
-                        <p class="data-title">
-                            <span class="data-label">职场必读</span>
-                            <span>咨询课程咨询课程咨询课程咨询课程</span>
-                        </p>
-                        <p class="data-intro">做数据分析是同事我们㤇了解还有什么东西还来老外链外链了大家老师来了历史记录就辣椒酱蓝色框的看来离开时</p>
-                        <p class="data-icon">
-                            <img class="teach-img" src="/img/teacher-icon.jpg"/>
-                            <span class="teach-name">张老师</span>
-                            <i class="icon ion-android-person"></i>
-                            <span class="people">11101人在学</span>
-                            <i class="icon ion-heart"></i>
-                            <span class="people">2345人</span>
-                        </p>
-                    </div>
-                </li>
-                <li>
-                    <img class="course-data-img" src="/img/course-data-img.jpg"/>
-                    <div class="right-con">
-                        <p class="data-title">
-                            <span class="data-label">职场必读</span>
-                            <span>咨询课程咨询课程咨询课程咨询课程</span>
-                        </p>
-                        <p class="data-intro">做数据分析是同事我们㤇了解还有什么东西还来老外链外链了大家老师来了历史记录就辣椒酱蓝色框的看来离开时</p>
-                        <p class="data-icon">
-                            <img class="teach-img" src="/img/teacher-icon.jpg"/>
-                            <span class="teach-name">张老师</span>
-                            <i class="icon ion-android-person"></i>
-                            <span class="people">11101人在学</span>
-                            <i class="icon ion-heart"></i>
-                            <span class="people">2345人</span>
-                        </p>
-                    </div>
-                </li>
-                <li>
-                    <img class="course-data-img" src="/img/course-data-img.jpg"/>
-                    <div class="right-con">
-                        <p class="data-title">
-                            <span class="data-label">职场必读</span>
-                            <span>咨询课程咨询课程咨询课程咨询课程</span>
-                        </p>
-                        <p class="data-intro">做数据分析是同事我们㤇了解还有什么东西还来老外链外链了大家老师来了历史记录就辣椒酱蓝色框的看来离开时</p>
-                        <p class="data-icon">
-                            <img class="teach-img" src="/img/teacher-icon.jpg"/>
-                            <span class="teach-name">张老师</span>
-                            <i class="icon ion-android-person"></i>
-                            <span class="people">11101人在学</span>
-                            <i class="icon ion-heart"></i>
-                            <span class="people">2345人</span>
-                        </p>
-                    </div>
-                </li>
+                <?php foreach ($course_datas as $key => $course_data) { ?>
+                    <li>
+                        <img class="course-data-img" src="<?= $course_data->list_pic ?>"/>
+                        <div class="right-con">
+                            <p class="data-title">
+                                <span class="data-label">考本必读</span>
+                                <?php if ($course_data->url_type == 1) {
+                                    $url = Url::to(['data/list']);
+                                    $target = '_self';
+                                } else { 
+                                    $url = strip_tags($course_data->content);
+                                    $target = '_blank';
+                                } ?>
+                                <span><a target="<?= $target ?>" href="<?= $url ?>"><?= $course_data->name ?></a></span>
+                            </p>
+                            <p class="data-intro"><?= $course_data->summary ?></p>
+                        </div>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
         <div class="course-referral">

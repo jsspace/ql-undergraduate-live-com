@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use backend\models\Course;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\DataSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -23,12 +24,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             ['class' => 'yii\grid\ActionColumn'],
-            //'id',
             'name',
-            //'list_pic',
-            'summary:ntext',
-            //'content:ntext',
-            //'course_id',
+            [
+                'attribute' => 'url_type',
+                'value'=> function ($model) {
+                    return $model->url_type == 1 ? '内链接':'外链接';
+                },
+                'filter' => [1=>'内链接',0=>'外链接' ],
+            ],
+            [
+                'attribute' => 'course_id',
+                'value'=> function ($model) {
+                    return Course::item($model->course_id);
+                },
+                'filter' => Course::allItems(),
+            ],
+            //'summary:ntext',
             'ctime:datetime',
         ],
     ]); ?>

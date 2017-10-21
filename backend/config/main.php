@@ -97,6 +97,7 @@ return [
             'hot-category/*',
             'course-news/*',
             'course-coment/*',
+            'data/*',
         ]
     ],
     'params' => $params,
