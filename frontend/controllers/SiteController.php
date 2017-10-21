@@ -338,7 +338,7 @@ class SiteController extends Controller
     public function actionVideoAuth(){
         $result = array();
         $user = User::getUserModel(Yii::$app->user->id);
-        $roomid = $_GET['roomid'];
+        $roomid = $_POST['roomid'];
         $courseid = CourseSection::getCourse($roomid);
         $order = OrderInfo::find()
         ->select('course_ids')
