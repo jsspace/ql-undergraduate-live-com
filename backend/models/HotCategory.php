@@ -7,11 +7,12 @@ use Yii;
 /**
  * This is the model class for table "{{%hot_category}}".
  *
- * @property string $id
- * @property string $categoryid
+ * @property integer $id
+ * @property integer $categoryid
  * @property string $backgroundcolor
  * @property string $icon
  * @property string $title
+ * @property integer $position
  *
  * @property CourseCategory $category
  */
@@ -32,7 +33,7 @@ class HotCategory extends \yii\db\ActiveRecord
     {
         return [
             [['categoryid'], 'required'],
-            [['categoryid','position'], 'integer'],
+            [['categoryid', 'position'], 'integer'],
             [['backgroundcolor', 'icon', 'title'], 'string', 'max' => 255],
             [['categoryid'], 'exist', 'skipOnError' => true, 'targetClass' => CourseCategory::className(), 'targetAttribute' => ['categoryid' => 'id']],
         ];

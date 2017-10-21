@@ -7,9 +7,9 @@ use Yii;
 /**
  * This is the model class for table "{{%order_info}}".
  *
- * @property string $order_id
+ * @property integer $order_id
  * @property string $order_sn
- * @property string $user_id
+ * @property integer $user_id
  * @property integer $order_status
  * @property integer $pay_status
  * @property string $consignee
@@ -20,7 +20,7 @@ use Yii;
  * @property string $goods_amount
  * @property string $pay_fee
  * @property string $money_paid
- * @property string $integral
+ * @property integer $integral
  * @property string $integral_money
  * @property string $bonus
  * @property string $order_amount
@@ -29,9 +29,10 @@ use Yii;
  * @property string $pay_time
  * @property integer $bonus_id
  * @property integer $is_separate
- * @property string $parent_id
+ * @property integer $parent_id
  * @property string $discount
  * @property string $invalid_time
+ * @property string $course_ids
  */
 class OrderInfo extends \yii\db\ActiveRecord
 {
@@ -49,12 +50,13 @@ class OrderInfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['order_sn', 'consignee', 'mobile', 'email', 'pay_name', 'discount', 'invalid_time'], 'required'],
-            [['user_id', 'order_status', 'pay_status', 'pay_id', 'integral', 'add_time', 'confirm_time', 'pay_time', 'bonus_id', 'is_separate', 'parent_id', 'invalid_time'], 'integer'],
+            [['order_sn', 'consignee', 'mobile', 'email', 'pay_name', 'add_time', 'course_ids'], 'required'],
+            [['user_id', 'order_status', 'pay_status', 'pay_id', 'integral', 'bonus_id', 'is_separate', 'parent_id'], 'integer'],
             [['goods_amount', 'pay_fee', 'money_paid', 'integral_money', 'bonus', 'order_amount', 'discount'], 'number'],
-            [['order_sn'], 'string', 'max' => 20],
+            [['order_sn', 'course_ids'], 'string', 'max' => 200],
             [['consignee', 'mobile', 'email'], 'string', 'max' => 60],
             [['pay_name'], 'string', 'max' => 120],
+            [['add_time', 'confirm_time', 'pay_time', 'invalid_time'], 'string', 'max' => 50],
             [['order_sn'], 'unique'],
         ];
     }
@@ -90,6 +92,7 @@ class OrderInfo extends \yii\db\ActiveRecord
             'parent_id' => Yii::t('app', '能获得推荐分成的用户id，id取值于表ecs_users'),
             'discount' => Yii::t('app', '折扣金额'),
             'invalid_time' => Yii::t('app', '失效时间'),
+            'course_ids' => Yii::t('app', '课程id'),
         ];
     }
 
