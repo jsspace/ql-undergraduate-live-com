@@ -26,28 +26,27 @@ class OrderInfoController extends \yii\web\Controller
         $order_sn = $this->createOrderid();
         $data = Yii::$app->request->Post();
         
-        $course_type = $post['course_type'];
+        $type = $post['type'];
         $course_ids = explode(',', $post['course_ids']);
-        if (strcmp('course', $course_type)) {
+        if (strcmp('course', $type) == 0) {
             $models = Course::find()
             ->where(['id' => $course_ids])
             ->andWhere(['onuse' => 1])
-            ->all();
-        } elseif (strcmp('course_group', $course_type)) {
-            $course_packages = CoursePackage::find()
-            ->where(['id' => $course_ids])
             ->all();
             $courseids = '';
-            foreach($course_packages as $model) {
+            foreach($models as $model) {
                 $courseids .= $model->course . ',';
             }
-            $models = Course::find()
-            ->where(['id' => $courseids])
+        } elseif (strcmp('course_package', $type) == 0) {
+            $models = CoursePackage::find()
+            ->where(['id' => $course_ids])
             ->andWhere(['onuse' => 1])
             ->all();
+            $courseids = '';
+            foreach($models as $model) {
+                $courseids .= $model->course . ',';
+            }
         }
-        
-        
         //添加订单商品
         foreach($models as $model) {
             $order_goods = new OrderGoods();
@@ -72,7 +71,8 @@ class OrderInfoController extends \yii\web\Controller
         $order_info->goods_amount = $data['goods_amount'];
         $order_info->bonus = $data['bonus'];
         $order_info->order_amount = 'alipay';
-        $order_info->pay_name = 'alipay';
+        $order_info->course_ids = $add_time;
+        $order_info->course_ids = $courseids;
         return $this->render('payok', ['order_sn' => $order_sn]);
     }
     
