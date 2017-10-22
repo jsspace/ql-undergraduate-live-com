@@ -65,9 +65,9 @@ AppAsset::addScript($this,'@web/js/cart.js');
                         $str .= '<li class="course_package" data-course-package-id=' . $model['course_package_id'] . '>';
                         $str .= '<div class="select select-course"><input data-cart-id="'.$model['cart_id'].'" type="checkbox"/></div>';
                         $str .= '<div class="cart-course-detail">';
-                        $str .= "<p class='cart-img'><a href='". Url::to(['course/detail', 'courseid' => $model['course_id']])."' target='_blank'><img src='".$model['list_pic']."'/></a></p>";
+                        $str .= "<p class='cart-img'><a href='". Url::to(['package/detail', 'pid' => $model['course_package_id']])."' target='_blank'><img src='".$model['list_pic']."'/></a></p>";
                         $str .= '<p class="cart-txt">';
-                        $str .= "<a href='". Url::to(['package/detail', 'pid' => $model['course_id']])."' target='_blank' class='name'>".$model['course_name']."</a>";
+                        $str .= "<a href='". Url::to(['package/detail', 'pid' => $model['course_package_id']])."' target='_blank' class='name'>".$model['course_name']."</a>";
                         $str .= "<span class='teacher'>班主任：".$model['teacher_name']."</span>";
                         $str .= '</p>';
                         $str .= '</div>';
@@ -91,6 +91,7 @@ AppAsset::addScript($this,'@web/js/cart.js');
                 <p class="pro-count"><span class="price-high course-num">0</span>件商品</p>
                 <p class="pro-count">订单总额:￥<span class="price-high course-price">0.00</span></p>
                 <?= Html::HiddenInput('course_ids', '', ['id' => 'course_ids']) ?>
+                <?= Html::HiddenInput('course_package_ids', '', ['id' => 'course_package_ids']) ?>
                 <?= Html::submitButton('去结算', ['class' => 'btn btn-buy disabled']) ?>
                 <?php ActiveForm::end(); ?>
             </div>
