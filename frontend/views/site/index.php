@@ -291,7 +291,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                             <p class="data-title">
                                 <span class="data-label">考本必读</span>
                                 <?php if ($course_data->url_type == 1) {
-                                    $url = Url::to(['data/list']);
+                                    $url = Url::to(['data/detail']);
                                     $target = '_self';
                                 } else { 
                                     $url = strip_tags($course_data->content);
@@ -304,6 +304,9 @@ $weekarray=array("日","一","二","三","四","五","六");
                     </li>
                 <?php } ?>
             </ul>
+            <div class="course-content-more">
+                <a href="<?= Url::to(['data/list']) ?>" class="data-more-link">更多&gt;&gt;</a>
+            </div>
         </div>
         <div class="course-referral">
             <h4 class="referral-title">课程推荐</h4>

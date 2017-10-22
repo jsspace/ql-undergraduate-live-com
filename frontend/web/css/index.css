@@ -414,16 +414,16 @@
 }
 .course-data .course-content li {
     float: none;
-    height: 160px;
+    height: 110px;
     width: auto;
     overflow: hidden;
-    padding: 20px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #ccc;
     margin: 0;
 }
 .course-data .course-content .course-data-img{
     float: left;
-    width: 160px;
+    width: 125px;
     margin-right: 20px;
 }
 .course-data .data-label {
@@ -437,6 +437,7 @@
 .course-data .right-con {
     width: 660px;
     margin-left: 180px;
+    padding: 20px 0;
 }
 .course-data .data-title {
     font-size: 16px;
@@ -505,6 +506,9 @@
     margin: 10px 0 0;
     line-height: 30px;
     padding-left: 20px;
+}
+.course-data .course-content-more .data-more-link {
+    float: right;
 }
 .cooperation-section {
     width: 100%;
