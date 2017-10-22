@@ -54,7 +54,7 @@ $this->title = 'My Yii Application';
                 </li>
                 <li>
                     <img src="/img/tb_06.jpg"/>
-                    <span>收藏&nbsp;&nbsp;<?= $course->collection ?></span>
+                    <span>收藏&nbsp;&nbsp;<label class="collection-num _collection-num"><?= $course->collection ?></label></span>
                 </li>
             </ul>
             <div class="share-like">
@@ -64,7 +64,7 @@ $this->title = 'My Yii Application';
                         <span>分享</span>
                     </a>
                 </p>
-                <p class="share-list">
+                <p class="share-list collection-btn _collection-btn">
                     <img src="/img/tb_08.jpg"/>
                     <span>收藏</span>
                 </p>
