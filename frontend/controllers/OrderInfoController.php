@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 use Yii;
+use backend\models\Coupon;
+use backend\models\Course;
 use backend\models\OrderInfo;
 use backend\models\OrderGoods;
 use backend\models\CoursePackage;
@@ -28,21 +30,21 @@ class OrderInfoController extends \yii\web\Controller
         $data = Yii::$app->request->Post();
         
         $goods_amount = 0.00;
-        $coupon_ids = explode(',', $post['coupon_ids']);
+        $coupon_ids = explode(',', $data['coupon_ids']);
         $coupon_money = 0.00;
         $coupons = Coupon::find()
         ->where(['user_id' => Yii::$app->user->id])
-        ->andWhere(['coupon_ids' => $coupon_ids])
+        ->andWhere(['coupon_id' => $coupon_ids])
         ->andWhere(['isuse' => 0])
         ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
         ->all();
         $coupon_ids_str = '';
         foreach($coupons as $model) {
-            $coupon_ids_str .= $model->id;
+            $coupon_ids_str .= $model->coupon_id;
             $coupon_money += $model->fee;
         }
         
-        $course_ids = explode(',', $post['course_ids']);
+        $course_ids = explode(',', $data['course_ids']);
         //删除购物车中对应的条目
         Cart::deleteAll([
             'product_id' => $course_ids, 
@@ -65,10 +67,11 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->goods_number = 1;
             $order_goods->market_price = $model->price;
             $order_goods->goods_price = $model->discount;
+            $order_goods->save(false);
             $goods_amount += $model->discount;
         }
         
-        $course_package_ids = explode(',', $post['course_package_ids']);
+        $course_package_ids = explode(',', $data['course_package_ids']);
         //删除购物车中对应的条目
         Cart::deleteAll([
             'product_id' => $course_package_ids,
@@ -90,6 +93,7 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->goods_number = 1;
             $order_goods->market_price = $model->price;
             $order_goods->goods_price = $model->discount;
+            $order_goods->save(false);
             $goods_amount += $model->discount;
         }
         
@@ -102,17 +106,17 @@ class OrderInfoController extends \yii\web\Controller
         $order_info->user_id = Yii::$app->user->id;
         $order_info->order_status = 1;
         $order_info->pay_status = 0;
-        $order_info->consignee = Yii::$app->user->username;
-        $order_info->mobile = Yii::$app->user->phone;
-        $order_info->email = Yii::$app->user->email;
+        $order_info->consignee = Yii::$app->user->identity->username;
+        $order_info->mobile = Yii::$app->user->identity->phone;
+        $order_info->email = Yii::$app->user->identity->email;
         //0 1支付宝 2 微信
         $order_info->pay_id = 0;
         $order_info->goods_amount = $goods_amount;
-        $order_info->bonus = $data['bonus'];
         $order_info->order_amount = $order_amount;
         $order_info->coupon_ids = $coupon_ids_str;
         $order_info->coupon_money = $coupon_money;
         $order_info->course_ids = $course_ids_str;
+        $order_info->save(false);
         return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount]);
     }
     
