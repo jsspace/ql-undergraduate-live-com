@@ -5,6 +5,7 @@ use Yii;
 use backend\models\OrderInfo;
 use backend\models\OrderGoods;
 use backend\models\CoursePackage;
+use backend\models\Cart;
 require "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
 require "../../common/alipay/pagepay/service/AlipayTradeService.php";
 
@@ -42,6 +43,11 @@ class OrderInfoController extends \yii\web\Controller
         }
         
         $course_ids = explode(',', $post['course_ids']);
+        //删除购物车中对应的条目
+        Cart::deleteAll([
+            'product_id' => $course_ids, 
+            'user_id' => Yii::$app->user->id,
+        ]);
         $course_models = Course::find()
         ->where(['id' => $course_ids])
         ->andWhere(['onuse' => 1])
@@ -63,6 +69,11 @@ class OrderInfoController extends \yii\web\Controller
         }
         
         $course_package_ids = explode(',', $post['course_package_ids']);
+        //删除购物车中对应的条目
+        Cart::deleteAll([
+            'product_id' => $course_package_ids,
+            'user_id' => Yii::$app->user->id,
+        ]);
         $course_package_models = CoursePackage::find()
         ->where(['id' => $course_package_ids])
         ->andWhere(['onuse' => 1])
