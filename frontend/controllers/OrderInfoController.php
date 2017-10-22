@@ -5,6 +5,7 @@ use Yii;
 use backend\models\OrderInfo;
 use backend\models\OrderGoods;
 use backend\models\CoursePackage;
+use backend\models\Cart;
 require "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
 require "../../common/alipay/pagepay/service/AlipayTradeService.php";
 
@@ -26,8 +27,27 @@ class OrderInfoController extends \yii\web\Controller
         $order_sn = $this->createOrderid();
         $data = Yii::$app->request->Post();
         
+        $goods_amount = 0.00;
+        $coupon_ids = explode(',', $post['coupon_ids']);
+        $coupon_money = 0.00;
+        $coupons = Coupon::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['coupon_ids' => $coupon_ids])
+        ->andWhere(['isuse' => 0])
+        ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
+        ->all();
+        $coupon_ids_str = '';
+        foreach($coupons as $model) {
+            $coupon_ids_str .= $model->id;
+            $coupon_money += $model->fee;
+        }
         
         $course_ids = explode(',', $post['course_ids']);
+        //删除购物车中对应的条目
+        Cart::deleteAll([
+            'product_id' => $course_ids, 
+            'user_id' => Yii::$app->user->id,
+        ]);
         $course_models = Course::find()
         ->where(['id' => $course_ids])
         ->andWhere(['onuse' => 1])
@@ -45,9 +65,15 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->goods_number = 1;
             $order_goods->market_price = $model->price;
             $order_goods->goods_price = $model->discount;
+            $goods_amount += $model->discount;
         }
         
         $course_package_ids = explode(',', $post['course_package_ids']);
+        //删除购物车中对应的条目
+        Cart::deleteAll([
+            'product_id' => $course_package_ids,
+            'user_id' => Yii::$app->user->id,
+        ]);
         $course_package_models = CoursePackage::find()
         ->where(['id' => $course_package_ids])
         ->andWhere(['onuse' => 1])
@@ -64,10 +90,12 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->goods_number = 1;
             $order_goods->market_price = $model->price;
             $order_goods->goods_price = $model->discount;
+            $goods_amount += $model->discount;
         }
         
         $course_ids_arr = explode(',', $courseids);
         $course_ids_str = implode(',', array_unique($course_ids_arr));
+        $order_amount = $goods_amount - $coupon_money;
         
         $order_info = new OrderInfo();
         $order_info->order_sn = $order_sn;
@@ -79,12 +107,13 @@ class OrderInfoController extends \yii\web\Controller
         $order_info->email = Yii::$app->user->email;
         //0 1支付宝 2 微信
         $order_info->pay_id = 0;
-        $order_info->goods_amount = $data['goods_amount'];
+        $order_info->goods_amount = $goods_amount;
         $order_info->bonus = $data['bonus'];
-        $order_info->order_amount = 'alipay';
-        $order_info->course_ids = $add_time;
+        $order_info->order_amount = $order_amount;
+        $order_info->coupon_ids = $coupon_ids_str;
+        $order_info->coupon_money = $coupon_money;
         $order_info->course_ids = $course_ids_str;
-        return $this->render('payok', ['order_sn' => $order_sn]);
+        return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount]);
     }
     
     public function actionPay()
