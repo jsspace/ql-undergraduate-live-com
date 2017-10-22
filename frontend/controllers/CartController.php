@@ -41,13 +41,21 @@ class CartController extends \yii\web\Controller
     }
     public function actionIndex()
     {
-        $sql = 'select cart_id, {{%course}}.id as course_id, course_name, list_pic, price, discount, username as teacher_name ';
-        $sql .= 'from {{%cart}} inner join {{%course}} inner join  {{%user}}';
-        $sql .= 'on {{%cart}}.product_id = {{%course}}.id and {{%cart}}.user_id = '.Yii::$app->user->id;
+        $sql = 'select cart_id, {{%course}}.id as course_id, course_name, list_pic, price, discount, username as teacher_name';
+        $sql .= ' from {{%cart}} inner join {{%course}} inner join  {{%user}}';
+        $sql .= ' on {{%cart}}.product_id = {{%course}}.id and {{%cart}}.user_id = '.Yii::$app->user->id;
+        $sql .= ' on {{%cart}}.type = "course"';
         $sql .= ' and {{%course}}.teacher_id = {{%user}}.id order by {{%cart}}.created_at desc';
-        $models = Yii::$app->db->createCommand($sql)
+        $course_models = Yii::$app->db->createCommand($sql)
         ->queryAll();
-        return $this->render('index', ['models' => $models]);
+        $sql = 'select cart_id, {{%course_package}}.id as course_package_id, course_name, list_pic, price, discount, username as teacher_name';
+        $sql .= ' from {{%cart}} inner join {{%course}} inner join  {{%user}}';
+        $sql .= ' on {{%cart}}.product_id = {{%course}}.id and {{%cart}}.user_id = '.Yii::$app->user->id;
+        $sql .= ' on {{%cart}}.type = "course_package"';
+        $sql .= ' and {{%course}}.teacher_id = {{%user}}.id order by {{%cart}}.created_at desc';
+        $course_package_models = Yii::$app->db->createCommand($sql)
+        ->queryAll();
+        return $this->render('index', ['course_models' => $course_models, 'course_package_models' => $course_package_models,]);
     }
     
     public function actionAdd()
