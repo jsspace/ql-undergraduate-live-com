@@ -13,7 +13,7 @@ $package = $packageDetail['package'];
 $courses = $packageDetail['course'];
 
 ?>
-
+<input class="package-id _package-id" type="hidden" value="<?= $package->id; ?>"/>
 <div class="package-detail-section">
     <div class="top-package">
         <div class="package-inner">
@@ -43,8 +43,8 @@ $courses = $packageDetail['course'];
                     <span class="price-highlight"><?= $package->discount ?>元</span>
                     <span class="price-tag">原价</span> <?= $package->price ?>元
                 </p>
-                <a href="" class="package-btn btn-red">我要报名</a>
-                <a href="" class="package-btn btn-green">开通会员</a>
+                <a href="javascript:void(0)" class="package-btn btn-green quick-buy _quick-buy">立即购买</a>
+                <a href="javascript:void(0)" class="package-btn btn-red add-cart _add-cart">加入购物车</a>
                 <p class="tips-detail">加入会员免费学（已有<?= $package->online ?>名会员加入）</p>
             </div>
         </div>
@@ -156,13 +156,5 @@ $courses = $packageDetail['course'];
 </div>
 
 <script src="<?php echo Url::to('@web/js/lib/jquery.min.js');?>"></script>
-<script>
-    $(function() {
-        $(".title-list li").each(function(index) {
-            $(this).on("click", function() {
-                $(this).addClass("active").siblings("li").removeClass("active");
-                $(".con-list").find(".con-detail").eq(index).addClass("active").siblings(".con-detail").removeClass("active");
-            });
-        });
-    });
-</script>
+<script src="<?= Url::to('@web/skin/layer.js');?>"></script>
+<script src="<?= Url::to('@web/js/package-detail.js');?>"></script>

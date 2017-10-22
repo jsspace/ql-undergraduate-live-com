@@ -1,9 +1,4 @@
-var courseDetail = {
-    url: window.location.href,
-    summary:"课程",
-    title:"课程",
-    shortUrl:false,
-    hideMore:false,
+var packageDetail = {
     init: function() {
         var self = this;
         self.tagTab();
@@ -11,33 +6,23 @@ var courseDetail = {
         self.quickBuy();
     },
     tagTab: function() {
-      $(".course-tag li").each(function(index) {
-          $(this).on("click", function() {
-              $(this).addClass("active").siblings("li").removeClass("active");
-              $(".course-tag-content .tag-content").eq(index).addClass("active").siblings(".tag-content").removeClass("active");
-          });
-      });
-      $(".chapter-title li").each(function() {
-          var $parentEle = $(this);
-          $(this).find(".chapter-title-name").on("click", function() {
-              if (!$parentEle.hasClass("active")) {
-                  $parentEle.addClass("active");
-              } else {
-                  $parentEle.removeClass("active");
-              }
-          });
-      });
+      $(".title-list li").each(function(index) {
+            $(this).on("click", function() {
+                $(this).addClass("active").siblings("li").removeClass("active");
+                $(".con-list").find(".con-detail").eq(index).addClass("active").siblings(".con-detail").removeClass("active");
+            });
+        });
     },
     addCart: function() {
         $("._add-cart").on('click',function(){
-            var course_id = $("._course-id").val();
+            var package_id = $("._package-id").val();
             $.ajax({
                 url: '/cart/add',
                 type: 'post',
                 dataType:"json",
                 data: {
-                    product_id: course_id,
-                    type: "course",
+                    product_id: package_id,
+                    type: "course_package",
                     '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
@@ -52,14 +37,14 @@ var courseDetail = {
     },
     quickBuy: function() {
         $("._quick-buy").on('click',function(){
-            var course_id = $("._course-id").val();
+            var package_id = $("._package-id").val();
             $.ajax({
                 url: '/cart/add',
                 type: 'post',
                 dataType:"json",
                 data: {
-                    product_id: course_id,
-                    type: "course",
+                    product_id: package_id,
+                    type: "course_package",
                     '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
@@ -74,4 +59,4 @@ var courseDetail = {
         });
     },
 };
-courseDetail.init();
+packageDetail.init();
