@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use backend\models\Cart;
 use backend\models\Course;
 use backend\models\Coupon;
+use backend\models\CoursePackage;
 
 class CartController extends \yii\web\Controller
 {
@@ -58,10 +59,12 @@ class CartController extends \yii\web\Controller
             return json_encode($data);
         }
         $data = Yii::$app->request->Post();
+        $type = $data['type'];
         $product_id = $data['product_id'];
         
         $is_exist = Cart::find()
-        ->where(['product_id' => $product_id])
+        ->where(['type' => $type])
+        ->andWhere(['product_id' => $product_id])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->one();
         if (!empty($is_exist)) {
@@ -73,6 +76,7 @@ class CartController extends \yii\web\Controller
         
         $cart = new Cart();
         $cart->user_id = Yii::$app->user->id;
+        $cart->type = $type;
         $cart->product_id = $product_id;
         $cart->created_at = time();
         $result = $cart->save();
@@ -97,7 +101,7 @@ class CartController extends \yii\web\Controller
             return json_encode($data);
         }
         $post = Yii::$app->request->Post();
-        $product_id = explode(',', $post['product_id']);
+        $product_id = explode(',', $post['cart_id']);
         $this->findModel($product_id)->delete();
         
         $data['status'] = 'success';
@@ -109,28 +113,35 @@ class CartController extends \yii\web\Controller
     public function actionShopping()
     {
         $post = Yii::$app->request->Post();
-        $course_type = $post['course_type'];
+        $course_package_ids = explode(',', $post['course_package_ids']);
         $course_ids = explode(',', $post['course_ids']);
-        $models = Course::find()
+        $course_models = Course::find()
         ->where(['id' => $course_ids])
         ->andWhere(['onuse' => 1])
         ->all();
         $courseids = '';
-        foreach($models as $model) {
+        foreach($course_models as $model) {
             $courseids .= $model->id . ',';
         }
+        $course_package_models = CoursePackage::find()
+        ->where(['id' => $course_package_ids])
+        ->andWhere(['onuse' => 1])
+        ->all();
         $coupons = Coupon::find()
         ->where(['user_id' => Yii::$app->user->id])
         ->andWhere(['isuse' => 0])
         ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
         ->all();        
-        return $this->render('shopping', ['models' => $models, 'course_type' => $course_type, 'course_ids' => $courseids, 'coupons' => $coupons]);
+        return $this->render('shopping', [
+            'course_models' => $course_models,
+            'course_package_models' => $course_package_models,
+            'coupons' => $coupons]);
     }
     
-    protected function findModel($product_id)
+    protected function findModel($cart_id)
     {
         $model = Cart::find()
-        ->where(['product_id' => $product_id])
+        ->where(['cart_id' => $cart_id])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->one();
         if (($model) !== null) {
