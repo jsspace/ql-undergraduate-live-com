@@ -68,7 +68,7 @@ AppAsset::addScript($this,'@web/js/cart.js');
                         $str .= "<p class='cart-img'><a href='". Url::to(['course/detail', 'courseid' => $model['course_id']])."' target='_blank'><img src='".$model['list_pic']."'/></a></p>";
                         $str .= '<p class="cart-txt">';
                         $str .= "<a href='". Url::to(['package/detail', 'pid' => $model['course_id']])."' target='_blank' class='name'>".$model['course_name']."</a>";
-                        $str .= "<span class='teacher'>主讲老师：".$model['teacher_name']."</span>";
+                        $str .= "<span class='teacher'>班主任：".$model['teacher_name']."</span>";
                         $str .= '</p>';
                         $str .= '</div>';
                         $str .= '<div class="cart-quantity">1</div>';
