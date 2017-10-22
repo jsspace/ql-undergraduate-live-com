@@ -12,7 +12,7 @@ return [
         //异步通知地址
         'notify_url' => "http://www.kaoben.top/alipay.trade.page.pay-PHP-UTF-8/notify_url.php",
         //同步跳转
-        'return_url' => "http://www.kaoben.top/alipay.trade.page.pay-PHP-UTF-8/return_url.php",
+        'return_url' => "http://www.kaoben.top/user/info",
         //编码格式
         'charset' => "UTF-8",
         //签名方式

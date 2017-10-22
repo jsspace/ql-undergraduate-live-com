@@ -20,35 +20,24 @@ class OrderInfoController extends \yii\web\Controller
         return $this->render('cart');
     }
 
-    public function actionConfirm_course_order()
+    public function actionConfirm_order()
     {
         //唯一订单号码（KB-YYYYMMDDHHIISSNNNNNNNNCC）
         $order_sn = $this->createOrderid();
         $data = Yii::$app->request->Post();
         
-        $type = $post['type'];
+        
         $course_ids = explode(',', $post['course_ids']);
-        if (strcmp('course', $type) == 0) {
-            $models = Course::find()
-            ->where(['id' => $course_ids])
-            ->andWhere(['onuse' => 1])
-            ->all();
-            $courseids = '';
-            foreach($models as $model) {
-                $courseids .= $model->course . ',';
-            }
-        } elseif (strcmp('course_package', $type) == 0) {
-            $models = CoursePackage::find()
-            ->where(['id' => $course_ids])
-            ->andWhere(['onuse' => 1])
-            ->all();
-            $courseids = '';
-            foreach($models as $model) {
-                $courseids .= $model->course . ',';
-            }
+        $course_models = Course::find()
+        ->where(['id' => $course_ids])
+        ->andWhere(['onuse' => 1])
+        ->all();
+        $courseids = '';
+        foreach($course_models as $model) {
+            $courseids .= $model->id . ',';
         }
         //添加订单商品
-        foreach($models as $model) {
+        foreach($course_models as $model) {
             $order_goods = new OrderGoods();
             $order_goods->order_sn = $order_sn;
             $order_goods->goods_id = $model->id;
@@ -57,6 +46,28 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->market_price = $model->price;
             $order_goods->goods_price = $model->discount;
         }
+        
+        $course_package_ids = explode(',', $post['course_package_ids']);
+        $course_package_models = CoursePackage::find()
+        ->where(['id' => $course_package_ids])
+        ->andWhere(['onuse' => 1])
+        ->all();
+        foreach($course_package_models as $model) {
+            $courseids .= $model->course . ',';
+        }
+        //添加订单商品
+        foreach($course_package_models as $model) {
+            $order_goods = new OrderGoods();
+            $order_goods->order_sn = $order_sn;
+            $order_goods->goods_id = $model->id;
+            $order_goods->goods_name = $model->name;
+            $order_goods->goods_number = 1;
+            $order_goods->market_price = $model->price;
+            $order_goods->goods_price = $model->discount;
+        }
+        
+        $course_ids_arr = explode(',', $courseids);
+        $course_ids_str = implode(',', array_unique($course_ids_arr));
         
         $order_info = new OrderInfo();
         $order_info->order_sn = $order_sn;
@@ -72,7 +83,7 @@ class OrderInfoController extends \yii\web\Controller
         $order_info->bonus = $data['bonus'];
         $order_info->order_amount = 'alipay';
         $order_info->course_ids = $add_time;
-        $order_info->course_ids = $courseids;
+        $order_info->course_ids = $course_ids_str;
         return $this->render('payok', ['order_sn' => $order_sn]);
     }
     
