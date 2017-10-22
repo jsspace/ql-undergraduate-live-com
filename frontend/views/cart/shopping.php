@@ -85,7 +85,7 @@ AppAsset::addScript($this,'@web/js/shopping.js');
             <div class="inner-order">
                 <h3>可使用优惠券</h3>
                 <?php if (empty($coupons)) {?>
-                <div class="no-discount" style="display: none">暂无可使用优惠券</div>
+                <div class="no-discount">暂无可使用优惠券</div>
                 <?php } else {?>
                 <ul class="discount-list">
                 	<?php foreach ($coupons as $coupon) {?>
