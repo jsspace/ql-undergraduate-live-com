@@ -61,7 +61,7 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                                 <img src="<?= $model->list_pic; ?>"/>
                             </div>
                             <div class="cart-txt">
-                                <span class="name"><?= $model->course_name ?></span>
+                                <span class="name"><?= $model->name ?></span>
                                 <span class="price">价格：￥<?= $model->discount ?></span>
                             </div>
                         </div>

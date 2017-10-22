@@ -112,7 +112,6 @@ var cart = {
                     totalPrice += Number($(this).find(".cart-price span").text());
                     proQuantity += Number($(this).find(".cart-quantity").text());
                 });
-                
             } else {
                 $liListEle.each(function() {
                     $(this).find("input[type='checkbox']").prop("checked", false);
@@ -145,12 +144,14 @@ var cart = {
                 var package_ids = "";
                 var $liListEle = $(".cart-course-list li");
                 $liListEle.find("input:checked").each(function() {
-                    var cartId = $(this).attr("data-cart-id");
+                    
                     if ($(this).parents("li").hasClass("course")) {
-                        course_ids = cartId + ",";
+                        var proId = $(this).parents("li").attr("data-course-id");
+                        course_ids = proId + ",";
                     }
                     if ($(this).parents("li").hasClass("course_package")) {
-                        package_ids = cartId + ",";
+                        var proId = $(this).parents("li").attr("data-course-package-id");
+                        package_ids = proId + ",";
                     }
                 });
                 if (course_ids == "" && package_ids == "") {
