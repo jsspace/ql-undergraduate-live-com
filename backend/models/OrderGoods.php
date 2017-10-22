@@ -38,7 +38,7 @@ class OrderGoods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['order_sn', 'goods_name', 'goods_sn', 'goods_attr', 'extension_code'], 'required'],
+            [['order_sn'], 'required'],
             [['goods_id', 'goods_number', 'send_number', 'is_real', 'parent_id', 'is_gift'], 'integer'],
             [['market_price', 'goods_price'], 'number'],
             [['goods_attr'], 'string'],

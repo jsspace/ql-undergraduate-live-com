@@ -113,6 +113,7 @@ class OrderInfoController extends \yii\web\Controller
         $order_info->pay_id = 0;
         $order_info->goods_amount = $goods_amount;
         $order_info->order_amount = $order_amount;
+        $order_info->add_time = time();
         $order_info->coupon_ids = $coupon_ids_str;
         $order_info->coupon_money = $coupon_money;
         $order_info->course_ids = $course_ids_str;
