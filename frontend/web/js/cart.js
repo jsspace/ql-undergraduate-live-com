@@ -147,11 +147,11 @@ var cart = {
                     
                     if ($(this).parents("li").hasClass("course")) {
                         var proId = $(this).parents("li").attr("data-course-id");
-                        course_ids = proId + ",";
+                        course_ids += proId + ",";
                     }
                     if ($(this).parents("li").hasClass("course_package")) {
                         var proId = $(this).parents("li").attr("data-course-package-id");
-                        package_ids = proId + ",";
+                        package_ids += proId + ",";
                     }
                 });
                 if (course_ids == "" && package_ids == "") {
