@@ -35,6 +35,7 @@ class CourseController extends Controller
         ->all();
         
         $coursemodels = Course::find()
+        ->where(['onuse' => 1])
         ->all();
 
         $firArr = array();

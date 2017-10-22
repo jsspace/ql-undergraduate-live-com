@@ -34,6 +34,7 @@ class PackageController extends Controller
         ->all();
         
         $packagemodels = CoursePackage::find()
+        ->where(['onuse' => 1])
         ->all();
 
         $firArr = array();
