@@ -322,7 +322,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                                 <span class="announce-time"><?= date('Y-m-d', $tjcourse->create_time); ?></span>
                             </li>
                     <?php } ?>
-                    <a href="" class="more-link">更多&gt;&gt;</a>
+                    <a href="<?= Url::to(['course-news/list']) ?>" class="more-link">更多&gt;&gt;</a>
                 </ul>
             </div>
         </div>
