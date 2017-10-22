@@ -143,7 +143,7 @@ class CartController extends \yii\web\Controller
         ->where(['user_id' => Yii::$app->user->id])
         ->andWhere(['isuse' => 0])
         ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
-        ->all();        
+        ->all();
         return $this->render('shopping', [
             'course_models' => $course_models,
             'course_ids' => $course_ids,

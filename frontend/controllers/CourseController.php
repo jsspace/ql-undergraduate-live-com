@@ -35,6 +35,7 @@ class CourseController extends Controller
         ->all();
         
         $coursemodels = Course::find()
+        ->where(['onuse' => 1])
         ->all();
 
         $firArr = array();
@@ -68,6 +69,9 @@ class CourseController extends Controller
         $courseModel = Course::find()
         ->where(['id' => $courseid])
         ->one();
+        //浏览次数加1
+        $courseModel->view = $courseModel->view+1;
+        $courseModel->save();
         $courseDetail = array();
         $courseDetail['course'] = $courseModel;
         $courseDetail['coursechild'] = array();

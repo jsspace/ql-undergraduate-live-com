@@ -33,6 +33,8 @@ use Yii;
  * @property string $discount
  * @property string $invalid_time
  * @property string $course_ids
+ * @property string $coupon_ids
+ * @property string $coupon_money
  */
 class OrderInfo extends \yii\db\ActiveRecord
 {
@@ -50,13 +52,14 @@ class OrderInfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['order_sn', 'consignee', 'mobile', 'email', 'pay_name', 'add_time', 'course_ids'], 'required'],
+            [['order_sn', 'add_time', 'course_ids'], 'required'],
             [['user_id', 'order_status', 'pay_status', 'pay_id', 'integral', 'bonus_id', 'is_separate', 'parent_id'], 'integer'],
-            [['goods_amount', 'pay_fee', 'money_paid', 'integral_money', 'bonus', 'order_amount', 'discount'], 'number'],
+            [['goods_amount', 'pay_fee', 'money_paid', 'integral_money', 'bonus', 'order_amount', 'discount', 'coupon_money'], 'number'],
             [['order_sn', 'course_ids'], 'string', 'max' => 200],
             [['consignee', 'mobile', 'email'], 'string', 'max' => 60],
             [['pay_name'], 'string', 'max' => 120],
             [['add_time', 'confirm_time', 'pay_time', 'invalid_time'], 'string', 'max' => 50],
+            [['coupon_ids'], 'string', 'max' => 100],
             [['order_sn'], 'unique'],
         ];
     }
@@ -93,6 +96,8 @@ class OrderInfo extends \yii\db\ActiveRecord
             'discount' => Yii::t('app', '折扣金额'),
             'invalid_time' => Yii::t('app', '失效时间'),
             'course_ids' => Yii::t('app', '课程id'),
+            'coupon_ids' => Yii::t('app', '优惠券id'),
+            'coupon_money' => Yii::t('app', '优惠券金额'),
         ];
     }
 

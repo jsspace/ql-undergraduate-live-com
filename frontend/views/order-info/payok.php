@@ -33,7 +33,7 @@ $this->title = '付款方式';
                 <h2>订单提交成功，请您尽快付款</h2>
                 <div class="first">
                     订单编号：<span class="blue-light"><?= $order_sn ?></span>
-                    应付金额：<span class="orange">￥1800.00</span>
+                    应付金额：<span class="orange">￥<?= $order_amount ?></span>
                 </div>
                 <div class="grey">
                     请您在提交订单后 <span class="orange">24小时内</span> 完成支付，否则订单将会自动取消

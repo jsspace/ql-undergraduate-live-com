@@ -9,6 +9,7 @@ var courseDetail = {
         self.tagTab();
         self.addCart();
         self.quickBuy();
+        self.collect();
     },
     tagTab: function() {
       $(".course-tag li").each(function(index) {
@@ -73,5 +74,30 @@ var courseDetail = {
             
         });
     },
+    collect: function() {
+      $('._collection-btn').on('click', function(){
+           var course_id = $("._course-id").val();
+            $.ajax({
+                url: '/collection/add',
+                type: 'post',
+                dataType:'json',
+                data: {
+                    course_id: course_id,
+                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                      $('._collection-num').html(Number($('._collection-num').html())+1);
+                      layer.msg(data.message, {icon: 6});
+                    } else if (data.status == 2) {
+                      layer.msg(data.message, {icon: 6});
+                    } else { //0 或 4
+                      layer.msg(data.message, {icon: 5});
+                    }
+                }
+            });
+      });
+    }
+
 };
 courseDetail.init();
