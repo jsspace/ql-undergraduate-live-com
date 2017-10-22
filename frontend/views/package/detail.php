@@ -11,7 +11,6 @@ $this->title = $packageDetail['package']->name;
 
 $package = $packageDetail['package'];
 $courses = $packageDetail['course'];
-
 ?>
 <input class="package-id _package-id" type="hidden" value="<?= $package->id; ?>"/>
 <div class="package-detail-section">
@@ -113,10 +112,10 @@ $courses = $packageDetail['course'];
                                         <p class="teacher-tag"><?= User::getUserModel($course->teacher_id)->office; ?></p>
                                     </div>
                                     <div class="teacher-info"><?= User::getUserModel($course->teacher_id)->description; ?></div>
-                                    <div class="teacher-info second-info">
+                                    <!-- <div class="teacher-info second-info">
                                         <a href="" class="btn">关注</a>
                                         <a href="" class="btn">私信</a>
-                                    </div>
+                                    </div> -->
                                 </li>
                             <?php } 
                                 $tids[$key] = $course->teacher_id;
@@ -127,8 +126,8 @@ $courses = $packageDetail['course'];
             </div>
             <div class="right-section">
                 <div class="section">
-                    <h3>班主任(<?= User::item($course->teacher_id); ?>)</h3>
-                    <p class="txt">该套餐尚未设置班主任</p>
+                    <h3>班主任(<?= User::item($package->head_teacher); ?>)</h3>
+                    <p class="txt"><img src="<?= User::getUserModel($package->head_teacher)->wechat_img; ?>"></p>
                 </div>
                 <div class="section">
                     <h3>新加学员</h3>

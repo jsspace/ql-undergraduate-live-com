@@ -98,4 +98,23 @@ class CourseController extends Controller
         return $this->render('detail', ['courseDetail' => $courseDetail, 'duration' => $duration, 'course_comments' => $course_comments]);
     }
 
+    public function actionEvaluate()
+    {
+        $data = Yii::$app->request->Post();
+        $courseid = $data['course_id'];
+        $content = $data['content'];
+        $course_comment = new CourseComent();
+        $course_comment->course_id = $courseid;
+        $course_comment->content = $content;
+        $course_comment->user_id = Yii::$app->user->id;
+        $result = $course_comment->save();
+        if ($result) {
+            $data['status'] = 'success';
+            $data['message'] = '提交成功,等待审核！';
+        } else {
+            $data['status'] = 'error';
+            $data['message'] = '提交失败';
+        }
+        return json_encode($data);
+    }
 }

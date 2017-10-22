@@ -260,6 +260,33 @@
 .course-detail-section .course-tag-content .tag-content.active {
     display: block;
 }
+.course-evaluate textarea {
+    width: 100%;
+    height: 100px;
+    display: block;
+    margin: 22px auto 0;
+    border: 1px solid #ececec;
+    border-radius: 5px;
+    padding: 10px;
+}
+.course-evaluate button {
+    float: right;
+    display: inline-block;
+    font-size: 22px;
+    padding: 0;
+    margin-bottom: 10px;
+    line-height: 30px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 70px;
+    font-size: 14px;
+    outline: none;
+    background-color: #fd7863;
+    border: 1px solid #fd7863;
+    margin-top: 20px;
+}
 .course-detail-section .chapter-title li {
     margin-bottom: 15px;
 }

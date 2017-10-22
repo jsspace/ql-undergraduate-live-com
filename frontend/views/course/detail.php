@@ -8,6 +8,7 @@ use backend\models\User;
 AppAsset::addCss($this,'@web/css/course.css');
 
 $this->title = 'My Yii Application';
+$userid = Yii::$app->user->id;
 ?>
 <?php
     $course = $courseDetail['course'];
@@ -48,10 +49,10 @@ $this->title = 'My Yii Application';
                     <img src="/img/tb_04.jpg"/>
                     <span>浏览&nbsp;&nbsp;<?= $course->view ?></span>
                 </li>
-                <li>
+                <!-- <li>
                     <img src="/img/tb_05.jpg"/>
                     <span>分享&nbsp;&nbsp;<?= $course->share ?></span>
-                </li>
+                </li> -->
                 <li>
                     <img src="/img/tb_06.jpg"/>
                     <span>收藏&nbsp;&nbsp;<label class="collection-num _collection-num"><?= $course->collection ?></label></span>
@@ -127,7 +128,11 @@ $this->title = 'My Yii Application';
                     <?= $course->des; ?>
                 </div>
                 <div class="tag-content">
-                    <ul class="evaluate-list">
+                    <div class="course-evaluate">
+                        <textarea class="_course-evaluate-content"></textarea>
+                        <button class="_course-evaluate-btn">提交</button>
+                    </div>
+                    <ul class="evaluate-list _evaluate-list">
                         <?php foreach ($course_comments as $course_comment) { ?>
                             <li>
                                 <div class="user-info">
