@@ -144,7 +144,6 @@ var cart = {
                 var package_ids = "";
                 var $liListEle = $(".cart-course-list li");
                 $liListEle.find("input:checked").each(function() {
-                    
                     if ($(this).parents("li").hasClass("course")) {
                         var proId = $(this).parents("li").attr("data-course-id");
                         course_ids += proId + ",";
