@@ -20,7 +20,7 @@ var cart = {
                       type: 'post',
                       dataType:"json",
                       data: {
-                          course_id: course_id,
+                          'cart_id': course_id,
                           '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
                       },
                       success: function(data) {
