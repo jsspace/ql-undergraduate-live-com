@@ -42,7 +42,7 @@ class CartController extends \yii\web\Controller
     {
         $sql = 'select cart_id, {{%course}}.id as course_id, course_name, list_pic, price, discount, username as teacher_name ';
         $sql .= 'from {{%cart}} inner join {{%course}} inner join  {{%user}}';
-        $sql .= 'on {{%cart}}.course_id = {{%course}}.id and {{%cart}}.user_id = '.Yii::$app->user->id;
+        $sql .= 'on {{%cart}}.product_id = {{%course}}.id and {{%cart}}.user_id = '.Yii::$app->user->id;
         $sql .= ' and {{%course}}.teacher_id = {{%user}}.id order by {{%cart}}.created_at desc';
         $models = Yii::$app->db->createCommand($sql)
         ->queryAll();
@@ -58,10 +58,10 @@ class CartController extends \yii\web\Controller
             return json_encode($data);
         }
         $data = Yii::$app->request->Post();
-        $course_id = $data['course_id'];
+        $product_id = $data['product_id'];
         
         $is_exist = Cart::find()
-        ->where(['course_id' => $course_id])
+        ->where(['product_id' => $product_id])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->one();
         if (!empty($is_exist)) {
@@ -73,7 +73,7 @@ class CartController extends \yii\web\Controller
         
         $cart = new Cart();
         $cart->user_id = Yii::$app->user->id;
-        $cart->course_id = $course_id;
+        $cart->product_id = $product_id;
         $cart->created_at = time();
         $result = $cart->save();
         if ($result) {
@@ -97,8 +97,8 @@ class CartController extends \yii\web\Controller
             return json_encode($data);
         }
         $post = Yii::$app->request->Post();
-        $course_id = explode(',', $post['course_id']);
-        $this->findModel($course_id)->delete();
+        $product_id = explode(',', $post['product_id']);
+        $this->findModel($product_id)->delete();
         
         $data['status'] = 'success';
         $data['code'] = 0;
@@ -127,10 +127,10 @@ class CartController extends \yii\web\Controller
         return $this->render('shopping', ['models' => $models, 'course_type' => $course_type, 'course_ids' => $courseids, 'coupons' => $coupons]);
     }
     
-    protected function findModel($course_id)
+    protected function findModel($product_id)
     {
         $model = Cart::find()
-        ->where(['course_id' => $course_id])
+        ->where(['product_id' => $product_id])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->one();
         if (($model) !== null) {
