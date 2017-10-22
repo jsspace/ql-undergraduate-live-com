@@ -37,7 +37,8 @@ var courseDetail = {
                 type: 'post',
                 dataType:"json",
                 data: {
-                    course_id: course_id,
+                    product_id: course_id,
+                    type: "course",
                     '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
@@ -58,7 +59,8 @@ var courseDetail = {
                 type: 'post',
                 dataType:"json",
                 data: {
-                    course_id: course_id,
+                    product_id: course_id,
+                    type: "course",
                     '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
