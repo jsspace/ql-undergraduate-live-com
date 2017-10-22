@@ -61,7 +61,7 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                                 <img src="<?= $model->list_pic; ?>"/>
                             </div>
                             <div class="cart-txt">
-                                <span class="name"><?= $model->course_name ?></span>
+                                <span class="name"><?= $model->name ?></span>
                                 <span class="price">价格：￥<?= $model->discount ?></span>
                             </div>
                         </div>
@@ -85,13 +85,13 @@ AppAsset::addScript($this,'@web/js/shopping.js');
             <div class="inner-order">
                 <h3>可使用优惠券</h3>
                 <?php if (empty($coupons)) {?>
-                <div class="no-discount" style="display: none">暂无可使用优惠券</div>
+                <div class="no-discount">暂无可使用优惠券</div>
                 <?php } else {?>
                 <ul class="discount-list">
                 	<?php foreach ($coupons as $coupon) {?>
                     <li>
                         <input type="radio" data-couponid="<?= $coupon->coupon_id ?>" name="discount"/>
-                        <span class="discount-img"><img src="/img/discount_<?= $coupon->fee ?>.jpg"/></span>
+                        <span class="discount-bg _discount-fee" discount-fee="<?= $coupon->fee ?>">￥<?= $coupon->fee ?></span>
                         <span class="discount-desc"><?= $coupon->name ?></span>
                     </li>
                     <?php }?>
@@ -103,11 +103,11 @@ AppAsset::addScript($this,'@web/js/shopping.js');
             <div class="inner-order">
                 <div class="left">
                     <span>订单总额： ￥<?= $total_price ?></span>
-                    <span>已优惠：<i>￥0.0011</i></span>
+                    <span class="discount-price _discount-price">已优惠：<i></i></span>
                 </div>
                 <div class="right">
                     <?php $form = ActiveForm::begin(['id' => 'order-confirm-form', 'action' => Url::to(['order-info/confirm_order'])]); ?>
-                    应付总额：<span class="price-high">￥<?= $total_price ?></span>
+                    应付总额：<span class="price-high">￥<span class="_total-price"><?= $total_price ?></span></span>
                     <?= Html::HiddenInput('course_package_ids', $course_package_ids, ['id' => 'course_package_ids']) ?>
                     <?= Html::HiddenInput('course_ids', $course_ids, ['id' => 'course_ids']) ?>
                     <?= Html::HiddenInput('coupon_ids', '', ['id' => 'coupon_ids']) ?>

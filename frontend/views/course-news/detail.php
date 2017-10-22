@@ -4,7 +4,7 @@
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
 
-AppAsset::addCss($this,'@web/css/material.css');
+AppAsset::addCss($this,'@web/css/data.css');
 
 $this->title = 'My Yii Application';
 ?>
@@ -14,16 +14,8 @@ $this->title = 'My Yii Application';
     <span>&gt;</span>
     <span>资料下载</span>
 </div>
-<div class="material-wrapper">
-    <ul class="material-inner">
-        <li>
-            <a href="">前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载前端课程资料下载</a>
-        </li>
-        <li>
-            <a href="">前端课程资料下载</a>
-        </li>
-        <li>
-            <a href="">前端课程资料下载</a>
-        </li>
-    </ul>
+<div class="container-course data-detail-wrapper">
+    <div class="detail-title">教你如何玩转摄影构图</div>
+    <div class="detail-date">2017-06-05 13:26:46</div> 
+    <div class="detail-content">内容</div>
 </div>
