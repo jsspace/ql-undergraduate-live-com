@@ -37,10 +37,25 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                 <ul class="order-list">
                 <?php 
                     $total_price = 0.00;
-                    foreach($models as $model) { 
+                    foreach($course_models as $model) { 
                         $total_price += $model->discount;
                 ?>
-                    <li>
+                    <li class="course">
+                        <div class="cart-course-detail">
+                            <div class="cart-img">
+                                <img src="<?= $model->list_pic; ?>"/>
+                            </div>
+                            <div class="cart-txt">
+                                <span class="name"><?= $model->course_name ?></span>
+                                <span class="price">价格：￥<?= $model->discount ?></span>
+                            </div>
+                        </div>
+                    </li>
+                 <?php }
+                    foreach($course_package_models as $model) { 
+                        $total_price += $model->discount;
+                ?>
+                    <li class="course">
                         <div class="cart-course-detail">
                             <div class="cart-img">
                                 <img src="<?= $model->list_pic; ?>"/>
@@ -93,8 +108,8 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                 <div class="right">
                     <?php $form = ActiveForm::begin(['id' => 'order-confirm-form', 'action' => Url::to(['order-info/confirm_order'])]); ?>
                     应付总额：<span class="price-high">￥<?= $total_price ?></span>
-                    <?= Html::HiddenInput('course_type', $course_type, ['id' => 'course_type']) ?>
-                    <?= Html::HiddenInput('course_infos', $course_ids, ['id' => 'course_ids']) ?>
+                    <?= Html::HiddenInput('course_package_ids', $course_package_ids, ['id' => 'course_package_ids']) ?>
+                    <?= Html::HiddenInput('course_ids', $course_ids, ['id' => 'course_ids']) ?>
                     <?= Html::HiddenInput('coupon_ids', '', ['id' => 'coupon_ids']) ?>
                     <?= Html::submitButton('提交订单', ['class' => 'btn btn-confirm']) ?>
                     <?php ActiveForm::end(); ?>

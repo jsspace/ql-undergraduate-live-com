@@ -101,8 +101,8 @@ class CartController extends \yii\web\Controller
             return json_encode($data);
         }
         $post = Yii::$app->request->Post();
-        $product_id = explode(',', $post['cart_id']);
-        $this->findModel($product_id)->delete();
+        $cart_id = explode(',', $post['cart_id']);
+        $this->findModel($cart_id)->delete();
         
         $data['status'] = 'success';
         $data['code'] = 0;
@@ -119,14 +119,18 @@ class CartController extends \yii\web\Controller
         ->where(['id' => $course_ids])
         ->andWhere(['onuse' => 1])
         ->all();
-        $courseids = '';
+        $course_ids = '';
         foreach($course_models as $model) {
-            $courseids .= $model->id . ',';
+            $course_ids .= $model->id . ',';
         }
         $course_package_models = CoursePackage::find()
         ->where(['id' => $course_package_ids])
         ->andWhere(['onuse' => 1])
         ->all();
+        $course_package_ids = '';
+        foreach($course_package_models as $model) {
+            $course_package_ids .= $model->id . ',';
+        }
         $coupons = Coupon::find()
         ->where(['user_id' => Yii::$app->user->id])
         ->andWhere(['isuse' => 0])
@@ -134,7 +138,9 @@ class CartController extends \yii\web\Controller
         ->all();        
         return $this->render('shopping', [
             'course_models' => $course_models,
+            'course_ids' => $course_ids,
             'course_package_models' => $course_package_models,
+            'course_package_ids' => $course_package_ids,
             'coupons' => $coupons]);
     }
     
