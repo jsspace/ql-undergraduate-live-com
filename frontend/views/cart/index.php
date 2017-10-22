@@ -72,7 +72,7 @@ AppAsset::addScript($this,'@web/js/cart.js');
                         $str .= '</p>';
                         $str .= '</div>';
                         $str .= '<div class="cart-quantity">1</div>';
-                        $str .= "<div classuse yii\bootstrap\ActiveForm;='cart-price'>￥<span>".$model['discount']."</span></div>";
+                        $str .= "<div class='cart-price'>￥<span>".$model['discount']."</span></div>";
                         $str .= '<a href="javascript:void(0)" class="delete-operation _delete-operation">删除</a>';
                         $str .= '</li>';
                     }
