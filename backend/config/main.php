@@ -98,6 +98,7 @@ return [
             'course-news/*',
             'course-coment/*',
             'data/*',
+            'collection/*',
         ]
     ],
     'params' => $params,

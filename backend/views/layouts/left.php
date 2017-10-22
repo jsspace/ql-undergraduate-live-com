@@ -116,6 +116,7 @@ use mdm\admin\components\MenuHelper;
                         <a href="/hot-category/index">热门分类</a>
                         <a href="/course-news/index">课程推荐</a>
                         <a href="/course-coment/index">课程评价</a>
+                        <a href="/collection/index">课程收藏</a>
                     </li>
                 </ul>
             </li>
