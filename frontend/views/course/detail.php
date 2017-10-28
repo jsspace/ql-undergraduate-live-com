@@ -151,7 +151,26 @@ $userid = Yii::$app->user->id;
                 教师答疑
                 </div>
                 <div class="tag-content">
-                课程资料
+                    <ul class="list active">
+                        <?php foreach ($datas as $key => $course_data) { ?>
+                            <li>
+                                <div class="right-con">
+                                    <p class="data-title">
+                                        <span class="data-label">考本必读</span>
+                                        <?php if ($course_data->url_type == 1) {
+                                            $url = Url::to(['data/detail', 'dataid' => $course_data->id]);
+                                            $target = '_self';
+                                        } else { 
+                                            $url = strip_tags($course_data->content);
+                                            $target = '_blank';
+                                        } ?>
+                                        <span><a target="<?= $target ?>" href="<?= $url ?>"><?= $course_data->name ?></a></span>
+                                    </p>
+                                    <p class="data-intro"><?= $course_data->summary ?></p>
+                                </div>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -160,7 +179,7 @@ $userid = Yii::$app->user->id;
                 <div class="teacher-img"><img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/></div>
                 <div class="teacher-detail">
                     <span class="name">教师： <?= User::item($course->teacher_id); ?></span>
-                    <a href="" class="view-btn">查看教师</a>
+                    <a href="<?= Url::to(['teacher/detail', 'userid' => $course->teacher_id]) ?>" class="view-btn">查看教师</a>
                 </div>
                 <div class="teacher-tag"><?= User::getUserModel($course->teacher_id)->description; ?></div>
             </div>

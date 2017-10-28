@@ -65,7 +65,7 @@ AppAsset::register($this);
                     <a href="/teacher/list">讲师团</a>
                 </li>
                 <li>
-                    <a href="/material/index">资料</a>
+                    <a href="/data/list">资料</a>
                 </li>
                 
             </ul>

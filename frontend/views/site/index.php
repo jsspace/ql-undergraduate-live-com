@@ -291,7 +291,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                             <p class="data-title">
                                 <span class="data-label">考本必读</span>
                                 <?php if ($course_data->url_type == 1) {
-                                    $url = Url::to(['data/detail']);
+                                    $url = Url::to(['data/detail', 'dataid' => $course_data->id]);
                                     $target = '_self';
                                 } else { 
                                     $url = strip_tags($course_data->content);

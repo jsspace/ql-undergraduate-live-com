@@ -163,6 +163,7 @@ class SiteController extends Controller
         /*软文推荐*/
         $tjcourses = CourseNews::find()
         ->orderBy('position asc')
+        ->where(['onuse' => 1])
         ->limit(6)
         ->all();
         /*用户评说*/
