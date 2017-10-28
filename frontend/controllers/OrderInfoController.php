@@ -37,7 +37,6 @@ class OrderInfoController extends \yii\web\Controller
         ->where(['order_sn' => $order_sn])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->andWhere(['pay_status' => 0])
-        ->andWhere(['>', 'invalid_time', time()])
         ->one();
         if (!empty($orderInfo)) {
             return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $orderInfo->order_amount]);
@@ -153,7 +152,6 @@ class OrderInfoController extends \yii\web\Controller
         ->where(['order_sn' => $order_sn])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->andWhere(['pay_status' => 0])
-        ->andWhere(['>', 'invalid_time', time()])
         ->one();
         if (!empty($orderInfo)) {
             
@@ -210,8 +208,8 @@ class OrderInfoController extends \yii\web\Controller
         $arr=$data;
         //获取配置信息
         $config = Yii::$app->params['alipay'];
-        $alipaySevice = new AlipayTradeService($config);
-        $alipaySevice->writeLog(var_export($_POST,true));
+        $alipaySevice = new \AlipayTradeService($config);
+        $alipaySevice->writeLog(var_export($data,true));
         $result = $alipaySevice->check($arr);
         
         /* 实际验证过程建议商户添加以下校验。
