@@ -187,9 +187,12 @@ label {
 .user-course-details a.btn {
     padding: 6px 20px;
 }
+.user-course-details .btns {
+    text-align: center;
+}
 .user-course-details a.btn-primary {
     color: #fff;
-    margin: 0 20px;
+    margin-right: 20px;
 }
 
 @-webkit-keyframes shadowFadeIn {

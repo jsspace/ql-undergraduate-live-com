@@ -27,7 +27,6 @@ $this->title = '个人中心';
                     <div class="row">
                         <div class="btns">
                             <a class="btn btn-primary" target="_blank" href="http://gkk.xsteach.com/course/view?gid=38">进入学习</a>
-                            <a class="btn btn-default unfavorite" href="javascript:;" data-id="38" data-favor="1">取消收藏</a>
                         </div>
                     </div>
                 </div>
@@ -40,7 +39,6 @@ $this->title = '个人中心';
                     <div class="row">
                         <div class="btns">
                             <a class="btn btn-primary" target="_blank" href="http://gkk.xsteach.com/course/view?gid=38">进入学习</a>
-                            <a class="btn btn-default unfavorite" href="javascript:;" data-id="38" data-favor="1">取消收藏</a>
                         </div>
                     </div>
                 </div>
@@ -53,7 +51,6 @@ $this->title = '个人中心';
                     <div class="row">
                         <div class="btns">
                             <a class="btn btn-primary" target="_blank" href="http://gkk.xsteach.com/course/view?gid=38">进入学习</a>
-                            <a class="btn btn-default unfavorite" href="javascript:;" data-id="38" data-favor="1">取消收藏</a>
                         </div>
                     </div>
                 </div>
@@ -66,7 +63,6 @@ $this->title = '个人中心';
                     <div class="row">
                         <div class="btns">
                             <a class="btn btn-primary" target="_blank" href="http://gkk.xsteach.com/course/view?gid=38">进入学习</a>
-                            <a class="btn btn-default unfavorite" href="javascript:;" data-id="38" data-favor="1">取消收藏</a>
                         </div>
                     </div>
                 </div>
