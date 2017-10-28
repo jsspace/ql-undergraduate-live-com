@@ -247,7 +247,7 @@ class OrderInfoController extends \yii\web\Controller
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     if ($order_info->pay_status == 0) {
                         $order_info->money_paid = $total_amount;
-                        $order_info->pay_status = 1;
+                        $order_info->pay_status = 2;
                         $order_info->pay_time = time();
                         $order_info->save(false);
                         //标记优惠券已使用
@@ -274,7 +274,7 @@ class OrderInfoController extends \yii\web\Controller
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     $order_info->money_paid = $total_amount;
-                    $order_info->pay_status = 1;
+                    $order_info->pay_status = 2;
                     $order_info->pay_time = time();
                     $order_info->save(false);
                     //标记优惠券已使用
