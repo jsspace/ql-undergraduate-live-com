@@ -183,51 +183,51 @@ class UserController extends Controller
     }
     public function actionCourse()
     {
-        $orderids = OrderInfo::find()
-        ->select('id')
+        /*$orderids = OrderInfo::find()
+        ->select('order_id')
         ->where(['user_id' => Yii::$app->user->id])
         ->asArray()
         ->all();
         $goodsids = OrderGoods::find()
         ->select('goods_id')
-        ->where(['in', 'order_id', $orderids])
+        ->where(['in', 'order_sn', $orderids])
         ->asArray()
         ->all();
         $clist = Course::find()
         ->where(['in', 'id', $goodsids])
-        ->all();
+        ->all();*/
         return $this->render('course', [
-            'clist' => $clist,
+            //'clist' => $clist,
         ]);
     }
     public function actionFavorite()
     {
         return $this->render('favorite', [
-            'flist' => $flist,
+            //'flist' => $flist,
         ]);
     }
-    public function actionRrders()
+    public function actionOrders()
     {
         return $this->render('orders', [
-            'olist' => $olist,
+            //'olist' => $olist,
         ]);
     }
     public function actionQnas()
     {
         return $this->render('qnas', [
-            'qlist' => $qlist,
+            //'qlist' => $qlist,
         ]);
     }
     public function actionCourseReviews()
     {
         return $this->render('course-reviews', [
-            'rlist' => $rlist,
+            //'rlist' => $rlist,
         ]);
     }
     public function actionCoupon()
     {
         return $this->render('coupon', [
-            'coupons' => $coupons,
+            //'coupons' => $coupons,
         ]);
     }
 }
