@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
+use backend\models\User;
 
 AppAsset::addCss($this,'@web/css/user.css');
 
@@ -19,54 +20,20 @@ $this->title = '个人中心';
     <div class="right-content">
         <p class="user-right-title">我的课程</p>
         <ul class="user-course-list">
-            <li>
-                <a href="" class="user-course-img"><img src="/img/course-list-img.jpg"/></a>
-                <div class="user-course-details">
-                    <h3><a href="http://gkk.xsteach.com/course/view?gid=38" title="玩转PS" target="_blank">玩转PS</a></h3>
-                    <div class="row">主讲老师: 孙峰</div>
-                    <div class="row">
-                        <div class="btns">
-                            <a class="btn btn-primary" target="_blank" href="http://gkk.xsteach.com/course/view?gid=38">进入学习</a>
+            <?php foreach ($clist as $key => $course) { ?>
+                <li>
+                    <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>" class="user-course-img"><img src="<?= $course->list_pic ?>"/></a>
+                    <div class="user-course-details">
+                        <h3><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>" title="<?= $course->course_name ?>" target="_blank"><?= $course->course_name ?></a></h3>
+                        <div class="row">主讲老师: <?= User::item($course->teacher_id); ?></div>
+                        <div class="row">
+                            <div class="btns">
+                                <a class="btn btn-primary" target="_blank" href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">进入学习</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="user-course-img"><img src="/img/course-list-img.jpg"/></a>
-                <div class="user-course-details">
-                    <h3><a href="http://gkk.xsteach.com/course/view?gid=38" title="玩转PS" target="_blank">玩转PS</a></h3>
-                    <div class="row">主讲老师: 孙峰</div>
-                    <div class="row">
-                        <div class="btns">
-                            <a class="btn btn-primary" target="_blank" href="http://gkk.xsteach.com/course/view?gid=38">进入学习</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="user-course-img"><img src="/img/course-list-img.jpg"/></a>
-                <div class="user-course-details">
-                    <h3><a href="http://gkk.xsteach.com/course/view?gid=38" title="玩转PS" target="_blank">玩转PS你说我说大家说说啥好呢不知道</a></h3>
-                    <div class="row">主讲老师: 孙峰</div>
-                    <div class="row">
-                        <div class="btns">
-                            <a class="btn btn-primary" target="_blank" href="http://gkk.xsteach.com/course/view?gid=38">进入学习</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="user-course-img"><img src="/img/course-list-img.jpg"/></a>
-                <div class="user-course-details">
-                    <h3><a href="http://gkk.xsteach.com/course/view?gid=38" title="玩转PS" target="_blank">玩转PS你说我说大家说说啥好呢不知道</a></h3>
-                    <div class="row">主讲老师: 孙峰</div>
-                    <div class="row">
-                        <div class="btns">
-                            <a class="btn btn-primary" target="_blank" href="http://gkk.xsteach.com/course/view?gid=38">进入学习</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
+                </li>
+            <?php } ?>
         </ul>
     </div>
 </div>

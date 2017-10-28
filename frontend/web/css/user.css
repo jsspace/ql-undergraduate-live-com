@@ -1,3 +1,14 @@
+.btn-default:active:hover,
+.btn-default.active:hover,
+.open > .dropdown-toggle.btn-default:hover,
+.btn-default:active:focus, .btn-default.active:focus,
+.open > .dropdown-toggle.btn-default:focus,
+.btn-default:active.focus,
+.btn-default.active.focus, .open > .dropdown-toggle.btn-default.focus {
+    background-color: #008ae6;
+    border-color: #008ae6;
+    color: white;
+}
 .user-wrapper {
     width: 1180px;
     margin: 0 auto;
@@ -134,6 +145,7 @@ label {
 }
 .user-course-list li img {
     width: 100%;
+    max-height: 178px;
 }
 .user-course-list li:hover {
     border-color: #dfdfdf;
@@ -158,6 +170,7 @@ label {
 }
 .user-course-details a {
     color: #444;
+    font-size: 16px;
 }
 .user-course-details h3 {
     line-height: 22px;
@@ -194,7 +207,21 @@ label {
     color: #fff;
     margin-right: 20px;
 }
-
+.user-course-details .btn-primary:hover {
+    background-color: #40b3ff;
+    border-color: #40b3ff;
+    color: white;
+}
+.user-course-details .btn-primary {
+    background-color: #009aff;
+    border: 1px solid #009aff;
+    color: white;
+}
+.user-course-details .btn-default {
+    background-color: white;
+    border: 1px solid #009aff;
+    color: #009aff;
+}
 @-webkit-keyframes shadowFadeIn {
   from {
     box-shadow: 0 0 0px 0px transparent;
