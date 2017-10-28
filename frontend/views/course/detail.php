@@ -161,7 +161,6 @@ $userid = Yii::$app->user->id;
                             <li>
                                 <div class="right-con">
                                     <p class="data-title">
-                                        <span class="data-label">考本必读</span>
                                         <?php if ($course_data->url_type == 1) {
                                             $url = Url::to(['data/detail', 'dataid' => $course_data->id]);
                                             $target = '_self';
