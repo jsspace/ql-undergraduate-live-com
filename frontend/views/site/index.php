@@ -29,7 +29,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                     ?>
                         <li class="active">
                             <i class="icon-circle"></i>
-                            <a href="<?= $live['live_url'] ?>">
+                            <a target="_blank" href="<?= $live['live_url'] ?>">
                                 <span class="top"><?= $live['start_time'] ?>-<?= $live['end_time'] ?></span>
                                 <span class="bottom"><?= $live['course_name'] ?></span>
                             </a>
@@ -42,7 +42,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                     ?>
                         <li>
                             <i class="icon-circle"></i>
-                            <a href="<?= $will['live_url'] ?>">
+                            <a target="_blank" href="<?= $will['live_url'] ?>">
                                 <span class="top"><?= $will['start_time'] ?>-<?= $will['end_time'] ?></span>
                                 <span class="bottom"><?= $will['course_name'] ?></span>
                             </a>
