@@ -39,9 +39,11 @@ AppAsset::addScript($this,'@web/js/cart.js');
             <span class="operation">操作</span>
         </div>
         <div class="cart-tbody">
+        	<?php if (empty($course_models)) {?>
             <div class="empty-tbody">
                 您的购物车空空如也，想提升自己的技能，赶紧去<a href="/course/list" class="go-link">挑选课程&gt;&gt;</a>
             </div>
+            <?php } else {?>
             <div class="cart-course-list">
                 <ul>
                 <?php 
@@ -80,6 +82,7 @@ AppAsset::addScript($this,'@web/js/cart.js');
                 ?>
                 </ul>
             </div>
+            <?php }?>
         </div>
         <div class="cart-tfoot">
             <div class="foot-left">

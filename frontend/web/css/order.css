@@ -14,7 +14,7 @@
 }
 .order-wrapper li {
     clear: both;
-    padding: 10px 0;
+    padding: 0;
     overflow: hidden;
 }
 .order-wrapper img {
@@ -439,6 +439,11 @@
     text-align: center;
     line-height: 48px;
     box-sizing: border-box;
+}
+.payway-method .method-list li a {
+	width: 100%;
+    height: 100%;
+    display: block;
 }
 .payway-method .method-list li.active {
     border-color: #48e;

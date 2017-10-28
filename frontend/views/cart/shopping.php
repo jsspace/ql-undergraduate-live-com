@@ -32,7 +32,7 @@ AppAsset::addScript($this,'@web/js/shopping.js');
         <div class="order-top">
             <div class="inner-order">
                 <h3>订单详情</h3>
-<!--                 <p class="order-txt">订单编号：&nbsp;&nbsp;&nbsp;&nbsp;XHSOP90234</p> -->
+                <p class="order-txt">订单编号：&nbsp;&nbsp;&nbsp;&nbsp;<?= $order_sn ?></p>
                 <p class="order-txt">订单内容：</p>
                 <ul class="order-list">
                 <?php 
@@ -106,7 +106,7 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                     <span class="discount-price _discount-price">已优惠：<i></i></span>
                 </div>
                 <div class="right">
-                    <?php $form = ActiveForm::begin(['id' => 'order-confirm-form', 'action' => Url::to(['order-info/confirm_order'])]); ?>
+                    <?php $form = ActiveForm::begin(['id' => 'order-confirm-form', 'action' => Url::to(['order-info/confirm_order','order_sn' => $order_sn])]); ?>
                     应付总额：<span class="price-high">￥<span class="_total-price"><?= $total_price ?></span></span>
                     <?= Html::HiddenInput('course_package_ids', $course_package_ids, ['id' => 'course_package_ids']) ?>
                     <?= Html::HiddenInput('course_ids', $course_ids, ['id' => 'course_ids']) ?>

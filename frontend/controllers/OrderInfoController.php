@@ -2,33 +2,53 @@
 
 namespace frontend\controllers;
 use Yii;
+use yii\web\NotFoundHttpException;
 use backend\models\Coupon;
 use backend\models\Course;
 use backend\models\OrderInfo;
 use backend\models\OrderGoods;
 use backend\models\CoursePackage;
 use backend\models\Cart;
+
 require "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
 require "../../common/alipay/pagepay/service/AlipayTradeService.php";
 
 class OrderInfoController extends \yii\web\Controller
 {
+    public function beforeAction($action)
+    {
+        $currentaction = $action->id;
+        $novalidactions = ['alinotify'];
+        if(in_array($currentaction,$novalidactions)) {
+            $action->controller->enableCsrfValidation = false;
+        }
+        parent::beforeAction($action);
+        return true;
+    }
+    
     public function actionSlcourse()
     {
         return $this->render('slcourse');
     }
 
-    public function actionCart()
+    public function actionConfirm_order($order_sn)
     {
-        return $this->render('cart');
-    }
-
-    public function actionConfirm_order()
-    {
-        //唯一订单号码（KB-YYYYMMDDHHIISSNNNNNNNNCC）
-        $order_sn = $this->createOrderid();
+        $orderInfo = OrderInfo::find()
+        ->where(['order_sn' => $order_sn])
+        ->andWhere(['user_id' => Yii::$app->user->id])
+        ->andWhere(['pay_status' => 0])
+        ->andWhere(['>', 'invalid_time', time()])
+        ->one();
+        if (!empty($orderInfo)) {
+            return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $orderInfo->order_amount]);
+        }
         $data = Yii::$app->request->Post();
-        
+        if (!isset($data['coupon_ids']) || !isset($data['course_ids']) || !isset($data['course_package_ids'])) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        if (empty($data['course_ids']) && empty($data['course_package_ids'])) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
         $goods_amount = 0.00;
         $coupon_ids = explode(',', $data['coupon_ids']);
         $coupon_money = 0.00;
@@ -42,6 +62,9 @@ class OrderInfoController extends \yii\web\Controller
         foreach($coupons as $model) {
             $coupon_ids_str .= $model->coupon_id;
             $coupon_money += $model->fee;
+            //标记优惠券正在使用中
+            $model->isuse = 1;
+            $model->save(false);
         }
         
         $course_ids = explode(',', $data['course_ids']);
@@ -67,6 +90,7 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->goods_number = 1;
             $order_goods->market_price = $model->price;
             $order_goods->goods_price = $model->discount;
+            $order_goods->type = 'course';
             $order_goods->save(false);
             $goods_amount += $model->discount;
         }
@@ -93,6 +117,7 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->goods_number = 1;
             $order_goods->market_price = $model->price;
             $order_goods->goods_price = $model->discount;
+            $order_goods->type = 'course_package';
             $order_goods->save(false);
             $goods_amount += $model->discount;
         }
@@ -101,6 +126,7 @@ class OrderInfoController extends \yii\web\Controller
         $course_ids_str = implode(',', array_unique($course_ids_arr));
         $order_amount = $goods_amount - $coupon_money;
         
+        //添加订单信息
         $order_info = new OrderInfo();
         $order_info->order_sn = $order_sn;
         $order_info->user_id = Yii::$app->user->id;
@@ -114,54 +140,63 @@ class OrderInfoController extends \yii\web\Controller
         $order_info->goods_amount = $goods_amount;
         $order_info->order_amount = $order_amount;
         $order_info->add_time = time();
+        $order_info->course_ids = $course_ids_str;
         $order_info->coupon_ids = $coupon_ids_str;
         $order_info->coupon_money = $coupon_money;
-        $order_info->course_ids = $course_ids_str;
         $order_info->save(false);
         return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount]);
     }
     
-    public function actionPay()
+    public function actionAlipay($order_sn)
     {
+        $orderInfo = OrderInfo::find()
+        ->where(['order_sn' => $order_sn])
+        ->andWhere(['user_id' => Yii::$app->user->id])
+        ->andWhere(['pay_status' => 0])
+        ->andWhere(['>', 'invalid_time', time()])
+        ->one();
+        if (!empty($orderInfo)) {
+            
+            //商户订单号，商户网站订单系统中唯一订单号，必填
+            $out_trade_no = trim($orderInfo->order_sn);
+            
+            //订单名称，必填
+            $subject = trim('课程购买订单：'.$orderInfo->order_sn);
+            
+            //付款金额，必填
+            $total_amount = trim($orderInfo->order_amount);
+            
+            //商品描述，可空
+            $body = 'course_ids:'.$orderInfo->course_ids;
+            $body .= ' course_package_ids:'.$orderInfo->course_ids;
+            $body = trim($body);
+            
+            //构造参数
+            $payRequestBuilder = new \AlipayTradePagePayContentBuilder();
+            $payRequestBuilder->setBody($body);
+            $payRequestBuilder->setSubject($subject);
+            $payRequestBuilder->setTotalAmount($total_amount);
+            $payRequestBuilder->setOutTradeNo($out_trade_no);
+            
+            //获取配置信息
+            $config = Yii::$app->params['alipay'];
+            $aop = new \AlipayTradeService($config);
+            
+            /**
+             * pagePay 电脑网站支付请求
+             * @param $builder 业务参数，使用buildmodel中的对象生成。
+             * @param $return_url 同步跳转地址，公网可以访问
+             * @param $notify_url 异步通知地址，公网可以访问
+             * @return $response 支付宝返回的信息
+             */
+            $response = $aop->pagePay($payRequestBuilder,$config['return_url'],$config['notify_url']);
+            
+            //输出表单
+            var_dump($response);
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
         
-        $_POST['WIDout_trade_no'] = '123';
-        $_POST['WIDsubject'] = 'wuli';
-        $_POST['WIDtotal_amount'] = '0.01';
-        $_POST['WIDbody'] = 'wuli';
-        //商户订单号，商户网站订单系统中唯一订单号，必填
-        $out_trade_no = trim($_POST['WIDout_trade_no']);
-        
-        //订单名称，必填
-        $subject = trim($_POST['WIDsubject']);
-        
-        //付款金额，必填
-        $total_amount = trim($_POST['WIDtotal_amount']);
-        
-        //商品描述，可空
-        $body = trim($_POST['WIDbody']);
-        
-        //构造参数
-        $payRequestBuilder = new \AlipayTradePagePayContentBuilder();
-        $payRequestBuilder->setBody($body);
-        $payRequestBuilder->setSubject($subject);
-        $payRequestBuilder->setTotalAmount($total_amount);
-        $payRequestBuilder->setOutTradeNo($out_trade_no);
-        
-        //获取配置信息
-        $config = Yii::$app->params['alipay'];
-        $aop = new \AlipayTradeService($config);
-        
-        /**
-         * pagePay 电脑网站支付请求
-         * @param $builder 业务参数，使用buildmodel中的对象生成。
-         * @param $return_url 同步跳转地址，公网可以访问
-         * @param $notify_url 异步通知地址，公网可以访问
-         * @return $response 支付宝返回的信息
-         */
-        $response = $aop->pagePay($payRequestBuilder,$config['return_url'],$config['notify_url']);
-        
-        //输出表单
-        var_dump($response);
     }
 
     public function actionPayway()
@@ -169,21 +204,118 @@ class OrderInfoController extends \yii\web\Controller
         return $this->render('payway');
     }
     
-    private function createOrderid()
+    public function actionAlinotify()
     {
-        //生成24位唯一订单号码，格式：YYYY-MMDD-HHII-SS-NNNN,NNNN-CC，其中：YYYY=年份，MM=月份，DD=日期，HH=24格式小时，II=分，SS=秒，NNNNNNNN=随机数，CC=检查码
-        //订购日期
-        $order_date = date('Y-m-d');
-        //订单号码主体（YYYYMMDDHHIISSNNNNNNNN）
-        $order_id_main = date('YmdHis') . rand(10000000,99999999);
-        //订单号码主体长度
-        $order_id_len = strlen($order_id_main);
-        $order_id_sum = 0;
-        for($i=0; $i<$order_id_len; $i++){
-            $order_id_sum += (int)(substr($order_id_main,$i,1));
+        $data = Yii::$app->request->Post();
+        $arr=$data;
+        //获取配置信息
+        $config = Yii::$app->params['alipay'];
+        $alipaySevice = new AlipayTradeService($config);
+        $alipaySevice->writeLog(var_export($_POST,true));
+        $result = $alipaySevice->check($arr);
+        
+        /* 实际验证过程建议商户添加以下校验。
+         1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+         2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+         3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
+         4、验证app_id是否为该商户本身。
+         */
+        if($result) {//验证成功
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //请在这里加上商户的业务逻辑程序代
+        
+            //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
+            //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
+            //商户订单号
+            $out_trade_no = $data['out_trade_no'];
+            //支付宝交易号
+            $trade_no = $data['trade_no'];
+            //交易状态
+            $trade_status = $data['trade_status'];
+            //支付金额
+            $trade_fee = $data['total_fee'];
+        
+            if ($data['trade_status'] == 'TRADE_FINISHED') {
+                //判断该笔订单是否在商户网站中已经做过处理
+                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                //请务必判断请求时的total_amount与通知时获取的total_fee为一致的
+                //如果有做过处理，不执行商户的业务程序
+                //注意：
+                //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+                $order_info = OrderInfo::find()
+                ->where(['order_sn' => $out_trade_no])
+                ->andWhere(['order_status' => 1])
+                ->one();
+                if (!empty($order_info) && $order_info->order_amount == $trade_fee) {
+                    if ($order_info->pay_status == 0) {
+                        $order_info->money_paid = $trade_fee;
+                        $order_info->pay_status = 1;
+                        $order_info->pay_time = time();
+                        $order_info->save(false);
+                        //标记优惠券已使用
+                        Coupon::updateAll(
+                            ['isuse' => 2],
+                            [
+                                'user_id' => $order_info->user_id,
+                                'coupon_id' => explode(',', $order_info->coupon_ids),
+                            ]
+                            );
+                    }
+                }
+            } else if ($data['trade_status'] == 'TRADE_SUCCESS') {
+                //判断该笔订单是否在商户网站中已经做过处理
+                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                //请务必判断请求时的total_amount与通知时获取的total_fee为一致的
+                //如果有做过处理，不执行商户的业务程序
+                //注意：
+                //付款完成后，支付宝系统发送该交易状态通知
+                $order_info = OrderInfo::find()
+                ->where(['order_sn' => $out_trade_no])
+                ->andWhere(['pay_status' => 0])
+                ->andWhere(['order_status' => 1])
+                ->one();
+                if (!empty($order_info) && $order_info->order_amount == $trade_fee) {
+                    $order_info->money_paid = $trade_fee;
+                    $order_info->pay_status = 1;
+                    $order_info->pay_time = time();
+                    $order_info->save(false);
+                    //标记优惠券已使用
+                    Coupon::updateAll(
+                        ['isuse' => 2],
+                        [
+                            'user_id' => $order_info->user_id,
+                            'coupon_id' => explode(',', $order_info->coupon_ids),
+                        ]
+                        );
+                }
+                
+            } else if ($data['trade_status'] == 'TRADE_CLOSED') {
+                $order_info = OrderInfo::find()
+                ->where(['order_sn' => $out_trade_no])
+                ->andWhere(['order_status' => 1])
+                ->one();
+                if (!empty($order_info) && $order_info->order_amount == $trade_fee) {
+                    //取消订单
+                    $order_info->order_status = 2;
+                    $order_info->pay_status = 0;
+                    $order_info->invalid_time = time();
+                    $order_info->save(false);
+                    //返回优惠券
+                    Coupon::updateAll(
+                        ['isuse' => 0],
+                        [
+                            'user_id' => $order_info->user_id,
+                            'coupon_id' => explode(',', $order_info->coupon_ids),
+                        ]
+                        );
+                }
+            }
+            //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
+            echo "success";	//请不要修改或删除
+        }else {
+            echo "fail";
         }
-        //唯一订单号码（YYYYMMDDHHIISSNNNNNNNNCC）
-        $order_sn = 'KB-' . $order_id_main . str_pad((100 - $order_id_sum % 100) % 100,2,'0',STR_PAD_LEFT);
-        return $order_sn;
+        
     }
+
 }

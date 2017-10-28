@@ -168,9 +168,25 @@
     text-align: left;
     color: #ff9933;
 }
+.course-detail-section .course-detail-right .course-price {
+    padding-left: 20px;
+    margin-bottom: 0;
+    padding: 10px 0;
+    color: #919191;
+    font-size: 14px;
+}
+.course-detail-section .course-detail-right .price-tag {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+.course-detail-section .course-detail-right .price-highlight {
+    font-size: 24px;
+    color: #E1604C;
+}
 .course-detail-right .btn-course {
     width: 100%;
-    margin-top: 50px;
 }
 .course-detail-right .btn-course a {
     display: inline-block;

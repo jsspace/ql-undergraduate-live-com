@@ -31,6 +31,11 @@ $userid = Yii::$app->user->id;
         <div class="course-detail-right">
             <div class="course-detail-title"><?= $course->course_name; ?></div>
             <div class="course-sub-title"><?= $course->course_name; ?></div>
+            <p class="course-price">
+                <span class="price-tag">现价</span>
+                <span class="price-highlight"><?= $course->discount ?>元</span>
+                <span class="price-tag">原价</span> <?= $course->price ?>元
+            </p>
             <div class="course-info">课程信息</div>
             <ul class="info-list">
                 <li>
@@ -156,7 +161,6 @@ $userid = Yii::$app->user->id;
                             <li>
                                 <div class="right-con">
                                     <p class="data-title">
-                                        <span class="data-label">考本必读</span>
                                         <?php if ($course_data->url_type == 1) {
                                             $url = Url::to(['data/detail', 'dataid' => $course_data->id]);
                                             $target = '_self';
