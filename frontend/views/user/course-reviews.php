@@ -36,6 +36,23 @@ $this->title = '个人中心';
                     <div class="evaluate-date">2017-10-20</div>
                 </div>
             </li>
+            <li>
+                <div class="evaluate-left">
+                    <p class="evaluate-img"><a href=""><img src="/img/course-list-img.jpg"/></a></p>
+                    <p class="evaluate-course-name"><a href="">前端课程前端课程</a></p>
+                </div>
+                <div class="evaluate-right">
+                    <div class="star">
+                        <img src="/img/star-on.png">
+                        <img src="/img/star-on.png">
+                        <img src="/img/star-on.png">
+                        <img src="/img/star-on.png">
+                        <img src="/img/star-off.png">
+                    </div>
+                    <div class="evaluate-content">这个课程不错，老师讲的很清晰，老师讲的很清晰</div>
+                    <div class="evaluate-date">2017-10-20</div>
+                </div>
+            </li>
         </ul>
     </div>
 </div>

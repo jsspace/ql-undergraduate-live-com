@@ -446,6 +446,11 @@ label {
     color: #009aff;
 }
 /* course evaluate */
+.user-evaluate li {
+    overflow: hidden;
+    border-bottom: 1px solid #dfdfdf;
+    padding: 15px 0 10px;
+}
 .evaluate-left {
     width: 120px;
     text-align: center;
@@ -461,8 +466,20 @@ label {
 }
 .evaluate-course-name {
     font-size: 12px;
+    margin-bottom: 0;
 }
 .evaluate-course-name a {
+    color: #777;
+}
+.evaluate-right {
+    padding: 10px 0;
+}
+.evaluate-right .star,
+.evaluate-right .evaluate-content {
+    margin-bottom: 10px;
+}
+.evaluate-right .evaluate-date {
+    font-size: 13px;
     color: #777;
 }
 
