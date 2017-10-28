@@ -68,5 +68,6 @@ $this->title = '个人中心';
                 </div>
             </li>
         </ul>
+        <div class="empty-content">您还没有选择任何课程哦~赶紧去<a href="/course/list" class="go-link">挑选课程&gt;&gt;</a></div>
     </div>
 </div>

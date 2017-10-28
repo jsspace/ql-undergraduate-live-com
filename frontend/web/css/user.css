@@ -195,6 +195,229 @@ label {
     margin-right: 20px;
 }
 
+/* user order */
+.status-select-wrapper {
+    width: 120px;
+    padding: 0 10px;
+    font-size: 13px;
+    color: #777;
+    position: absolute;
+    background: #fff;
+}
+.status-select-wrapper:hover {
+    box-shadow: 0 0 3px rgba(0,0,0,0.15);
+}
+.status-select-wrapper .current-status,
+.status-select-wrapper ul,
+.status-select-wrapper li {
+    line-height: 25px;
+    margin-bottom: 0;
+    cursor: pointer;
+    position: relative;
+}
+.status-select-wrapper .status-list {
+    display: none;
+    font-size: 12px;
+}
+.status-select-wrapper:hover .status-list {
+    display: block;
+}
+.status-select-wrapper .current-status,
+.status-select-wrapper li {
+    margin-left: 7px;
+}
+.status-select-wrapper .current-status:after {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-left: 1px solid #777;
+    border-bottom: 1px solid #777;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    vertical-align: middle;
+    position: absolute;
+    right: 5px;
+    top: 8px;
+}
+.status-select-wrapper:hover .current-status:after {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    top: 12px;
+}
+.status-select-wrapper li.active {
+    color: red;
+}
+.status-select-wrapper li.active:before {
+    content: "\2714";
+    display: inline-block;
+    font-size: 13px;
+    color: red;
+    position: absolute;
+    left: -15px;
+}
+.order-list {
+    margin-top: 50px;
+}
+.order-list li {
+    border: 1px solid #dfdfdf;
+    margin-bottom: 20px;
+}
+.order-list li .order-title-line {
+    background: #f6f6f6;
+    font-size: 13px;
+    color: #777;
+    padding: 0 20px;
+    line-height: 30px;
+    border-bottom: 1px solid #dfdfdf;
+}
+.order-list em {
+    font-style: normal;
+    color: #000;
+}
+.order-list .order-time {
+    margin-right: 30px;
+}
+.order-list .order-content {
+    height: 100px;
+    padding: 0 0 0 20px;
+    border-bottom: 1px solid #dfdfdf;
+}
+.order-list .order-content:last-child {
+    border-bottom: 0;
+}
+.order-list .order-content p {
+    float: left;
+    margin-bottom: 0;
+    height: 100%;
+}
+.order-list .course-img {
+    width: 100px;
+}
+.order-list .course-img img {
+    width: 100%;
+    margin-top: 15px;
+}
+.order-list .course-name {
+    padding: 15px 25px;
+    max-width: 400px;
+    font-size: 13px;
+}
+.order-list .course-name a {
+    color: #333;
+}
+.order-list .course-quantity {
+    padding: 40px 30px;
+    color: #777;
+}
+.order-list .order-price {
+    padding: 25px 15px;
+    font-size: 13px;
+    color: #777;
+    text-align: center;
+    border-left: 1px solid #dfdfdf;
+    border-right: 1px solid #dfdfdf;
+}
+.order-list .total-price {
+    display: block;
+    border-bottom: 1px solid #dfdfdf;
+    padding-bottom: 5px;
+}
+.order-list .pay-method {
+    padding-top: 5px;
+    display: block;
+}
+.order-list .order-status {
+    padding: 40px 0;
+    text-align: center;
+    margin-bottom: 0;
+    width: 100px;
+    font-size: 13px;
+    color: #777;
+}
+
+/* user question */
+.user-question-list li {
+    border-bottom: 1px solid #dfdfdf;
+    padding: 15px 0;
+    overflow: hidden;
+}
+.user-question-list li:last-child {
+    border-bottom: 0;
+}
+.user-question-list .course-img {
+    display: inline-block;
+    width: 100px;
+    float: left;
+    margin-right: 20px;
+}
+.user-question-list .course-img img {
+    width: 100%;
+}
+.user-question-list .question-content {
+    display: inline-block;
+    max-width: 530px;
+}
+.user-question-list .question-icon {
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    background: orange;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+}
+.user-question-list .question-date {
+    float: right;
+    font-size: 13px;
+    color: #777;
+}
+/* user coupon */
+.coupon-wrapper {
+    margin-top: 50px;
+}
+.coupon-wrapper .coupon-title-line {
+    font-size: 14px;
+    color: #777;
+    padding: 10px 0;
+    border-bottom: 1px solid #dfdfdf;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+.coupon-wrapper .coupon-title-line li,
+.coupon-wrapper .coupon-content-line p {
+    float: left;
+    width: 25%;
+    text-align: center;
+    margin-bottom: 0;
+}
+.coupon-wrapper .coupon-name {
+    width: 35%;
+}
+.coupon-wrapper .coupon-money {
+    width: 15%;
+}
+.coupon-wrapper .coupon-content-line {
+    background-color: #f6f6f6;
+    text-align: center;
+    margin-bottom: 0;
+}
+.coupon-wrapper .coupon-content-line li {
+    padding: 10px 0;
+    overflow: hidden;
+    border-bottom: 1px solid #dfdfdf;
+}
+.user-wrapper .empty-content {
+    padding: 10px 0;
+    text-align: center;
+}
+
 @-webkit-keyframes shadowFadeIn {
   from {
     box-shadow: 0 0 0px 0px transparent;
