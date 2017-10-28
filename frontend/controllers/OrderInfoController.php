@@ -37,7 +37,6 @@ class OrderInfoController extends \yii\web\Controller
         ->where(['order_sn' => $order_sn])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->andWhere(['pay_status' => 0])
-        ->andWhere(['>', 'invalid_time', time()])
         ->one();
         if (!empty($orderInfo)) {
             return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $orderInfo->order_amount]);
@@ -153,7 +152,6 @@ class OrderInfoController extends \yii\web\Controller
         ->where(['order_sn' => $order_sn])
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->andWhere(['pay_status' => 0])
-        ->andWhere(['>', 'invalid_time', time()])
         ->one();
         if (!empty($orderInfo)) {
             
