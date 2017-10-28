@@ -116,3 +116,103 @@ label {
 .krajee-default.file-preview-frame .file-thumbnail-footer {
     height: auto !important;
 }
+
+.user-right-title {
+    font-size: 20px;
+    padding: 0 0 15px;
+    border-bottom: 1px solid #dfdfdf;
+    color: #777;
+}
+.user-course-list li {
+    padding: 9px 9px 15px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    width: 276px;
+    height: 285px;
+    float: left;
+    margin-bottom: 20px;
+}
+.user-course-list li img {
+    width: 100%;
+}
+.user-course-list li:hover {
+    border-color: #dfdfdf;
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    -webkit-animation-name: shadowFadeIn;
+    -ms-animation-name: shadowFadeIn;
+    animation-name: shadowFadeIn;
+}
+.user-course-details {
+    height: 80px;
+    background: #fff;
+    margin-top: 0;
+    position: absolute;
+    width: 258px;
+    transition: all .3s;
+    overflow: hidden;
+}
+.user-course-list li:hover .user-course-details {
+    margin-top: -55px;
+    height: 120px;
+}
+.user-course-details a {
+    color: #444;
+}
+.user-course-details h3 {
+    line-height: 22px;
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 7px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    max-width: 100%;
+}
+.user-course-details .row {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    max-width: 100%;
+    line-height: 22px;
+    font-size: 13px;
+    color: #848e99;
+    margin-left: 0;
+    padding-bottom: 10px;
+}
+.user-course-details a.btn {
+    padding: 6px 20px;
+}
+.user-course-details a.btn-primary {
+    color: #fff;
+    margin: 0 20px;
+}
+
+@-webkit-keyframes shadowFadeIn {
+  from {
+    box-shadow: 0 0 0px 0px transparent;
+  }
+  to {
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.15);
+  }
+}
+@-ms-keyframes shadowFadeIn {
+  from {
+    box-shadow: 0 0 0px 0px transparent;
+  }
+  to {
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.15);
+  }
+}
+@keyframes shadowFadeIn {
+  from {
+    box-shadow: 0 0 0px 0px transparent;
+  }
+  to {
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.15);
+  }
+}
