@@ -12,7 +12,7 @@ return [
         //异步通知地址
         'notify_url' => "http://www.kaoben.top/order-info/alinotify",
         //同步跳转
-        'return_url' => "http://www.kaoben.top/user/info",
+        'return_url' => "http://www.kaoben.top/user/orders",
         //编码格式
         'charset' => "UTF-8",
         //签名方式
