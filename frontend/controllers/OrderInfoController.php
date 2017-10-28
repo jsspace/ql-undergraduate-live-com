@@ -231,7 +231,7 @@ class OrderInfoController extends \yii\web\Controller
             //交易状态
             $trade_status = $data['trade_status'];
             //支付金额
-            $trade_fee = $data['total_fee'];
+            $total_amount = $data['total_amount'];
         
             if ($data['trade_status'] == 'TRADE_FINISHED') {
                 //判断该笔订单是否在商户网站中已经做过处理
@@ -244,9 +244,9 @@ class OrderInfoController extends \yii\web\Controller
                 ->where(['order_sn' => $out_trade_no])
                 ->andWhere(['order_status' => 1])
                 ->one();
-                if (!empty($order_info) && $order_info->order_amount == $trade_fee) {
+                if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     if ($order_info->pay_status == 0) {
-                        $order_info->money_paid = $trade_fee;
+                        $order_info->money_paid = $total_amount;
                         $order_info->pay_status = 1;
                         $order_info->pay_time = time();
                         $order_info->save(false);
@@ -272,8 +272,8 @@ class OrderInfoController extends \yii\web\Controller
                 ->andWhere(['pay_status' => 0])
                 ->andWhere(['order_status' => 1])
                 ->one();
-                if (!empty($order_info) && $order_info->order_amount == $trade_fee) {
-                    $order_info->money_paid = $trade_fee;
+                if (!empty($order_info) && $order_info->order_amount == $total_amount) {
+                    $order_info->money_paid = $total_amount;
                     $order_info->pay_status = 1;
                     $order_info->pay_time = time();
                     $order_info->save(false);
@@ -292,7 +292,7 @@ class OrderInfoController extends \yii\web\Controller
                 ->where(['order_sn' => $out_trade_no])
                 ->andWhere(['order_status' => 1])
                 ->one();
-                if (!empty($order_info) && $order_info->order_amount == $trade_fee) {
+                if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     //取消订单
                     $order_info->order_status = 2;
                     $order_info->pay_status = 0;
@@ -314,6 +314,35 @@ class OrderInfoController extends \yii\web\Controller
             echo "fail";
         }
         
+    }
+    
+    public function actionRt()
+    {
+        $return = array (
+            'gmt_create' => '2017-10-28 18:34:50',
+            'charset' => 'UTF-8',
+            'gmt_payment' => '2017-10-28 18:34:55',
+            'notify_time' => '2017-10-28 18:40:45',
+            'subject' => '\xe8\xaf\xbe\xe7\xa8\x8b\xe8\xb4\xad\xe4\xb9\xb0\xe8\xae\xa2\xe5\x8d\x95\xef\xbc\x9aKB-201710281834204862628718',
+            'sign' => 'VxV8JCfht2d2NH9000Pia5oQqifIISgyB560fo2Qv4snksGGg02fUfZu6p2F6EOc2553WtFh6cIgW29aPxjKtMYwIDf/zz2WMVriyHDzgjGxPDHeHnh8Exu7OGLYTBI+cilT+yNSz7/tqjF9mX+MUjiHDOnqlTcmty1bE73da7vqUDqV/I3AjpoMYzz9spoj+6tOl26k3Ek/wbkmifKmKdilXf10VSqw4Q8UmmiAxv0FJH99eaf0Adq0r3fFFuXxT4+Uy84kqgiqR0BEqVjq4bnP3djb4mOfTWLMsVMqzTiIP1kf/db0wwf0OsuVW71WGA7tIjOuYHyQZ3lt6PkczQ==',
+            'buyer_id' => '2088202285236569',
+            'body' => 'course_ids:15, course_package_ids:15,',
+            'invoice_amount' => '0.01',
+            'version' => '1.0',
+            'notify_id' => '7c227cfef456cfa11450c4efe7cb223kbm',
+            'fund_bill_list' => '[{"amount":"0.01","fundChannel":"ALIPAYACCOUNT"}]',
+            'notify_type' => 'trade_status_sync',
+            'out_trade_no' => 'KB-201710281834204862628718',
+            'total_amount' => '0.01',
+            'trade_status' => 'TRADE_SUCCESS',
+            'trade_no' => '2017102821001004560272037352',
+            'auth_app_id' => '2017101209266263',
+            'receipt_amount' => '0.01',
+            'point_amount' => '0.00',
+            'app_id' => '2017101209266263',
+            'buyer_pay_amount' => '0.01',
+            'sign_type' => 'RSA2',
+            'seller_id' => '2088721452319097',);
     }
 
 }
