@@ -151,7 +151,7 @@ $userid = Yii::$app->user->id;
                 教师答疑
                 </div>
                 <div class="tag-content">
-                    <ul class="list active">
+                    <ul class="list data-ul active">
                         <?php foreach ($datas as $key => $course_data) { ?>
                             <li>
                                 <div class="right-con">
@@ -164,7 +164,7 @@ $userid = Yii::$app->user->id;
                                             $url = strip_tags($course_data->content);
                                             $target = '_blank';
                                         } ?>
-                                        <span><a target="<?= $target ?>" href="<?= $url ?>"><?= $course_data->name ?></a></span>
+                                        <span><a class="data-title" target="<?= $target ?>" href="<?= $url ?>"><?= $course_data->name ?></a></span>
                                     </p>
                                     <p class="data-intro"><?= $course_data->summary ?></p>
                                 </div>
