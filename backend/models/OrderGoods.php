@@ -21,6 +21,7 @@ use Yii;
  * @property string $extension_code
  * @property integer $parent_id
  * @property integer $is_gift
+ * @property string $type
  */
 class OrderGoods extends \yii\db\ActiveRecord
 {
@@ -38,7 +39,7 @@ class OrderGoods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['order_sn'], 'required'],
+            [['order_sn', 'type'], 'required'],
             [['goods_id', 'goods_number', 'send_number', 'is_real', 'parent_id', 'is_gift'], 'integer'],
             [['market_price', 'goods_price'], 'number'],
             [['goods_attr'], 'string'],
@@ -46,6 +47,7 @@ class OrderGoods extends \yii\db\ActiveRecord
             [['goods_name'], 'string', 'max' => 120],
             [['goods_sn'], 'string', 'max' => 60],
             [['extension_code'], 'string', 'max' => 30],
+            [['type'], 'string', 'max' => 300],
         ];
     }
 
@@ -69,6 +71,7 @@ class OrderGoods extends \yii\db\ActiveRecord
             'extension_code' => Yii::t('app', '商品的扩展属性，比如像虚拟卡。取值ecs_goods '),
             'parent_id' => Yii::t('app', '父商品id，取值于ecs_cart的parent_id；如果有该值则是值多代表的物品的配件'),
             'is_gift' => Yii::t('app', '是否参加优惠活动，0，否；其他，取值于ecs_cart 的is_gift，跟其一样，是参加的优惠活动的id'),
+            'type' => Yii::t('app', '类型'),
         ];
     }
 

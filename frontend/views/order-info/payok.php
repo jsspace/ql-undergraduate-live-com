@@ -46,10 +46,8 @@ $this->title = '付款方式';
             <h3>支付方式</h3>
             <div class="txt">请选择以下支付方式：</div>
             <ul class="method-list">
-                <li class="ipay active">
-                </li>
-                <li class="wechat-pay">
-                </li>
+                <li class="ipay active"><a href="<?= Url::to(['order-info/alipay', 'order_sn' => $order_sn]) ?>"></a></li>
+                <li class="wechat-pay"><a href="<?= Url::to(['order-info/alipay', 'order_sn' => $order_sn]) ?>"></a></li>
             </ul>
         </div>
     </div>

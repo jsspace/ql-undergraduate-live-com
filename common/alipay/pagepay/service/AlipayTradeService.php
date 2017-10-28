@@ -221,7 +221,7 @@ class AlipayTradeService {
 	function writeLog($text) {
 		// $text=iconv("GBK", "UTF-8//IGNORE", $text);
 		//$text = characet ( $text );
-		file_put_contents ( dirname ( __FILE__ ).DIRECTORY_SEPARATOR."./../../log.txt", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND );
+		error_log(date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND );
 	}
 }
 
