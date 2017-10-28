@@ -264,6 +264,21 @@
 .course-detail-section .course-tag-content .tag-content.active {
     display: block;
 }
+.course-detail-section .data-ul li {
+    width: 100%;
+    height: 60px;
+    border-left: 4px solid red;
+    padding: 5px 10px;
+    background: #f6f6f6;
+    margin-bottom: 20px;
+}
+.course-detail-section .data-ul li p,
+.course-detail-section .data-ul li .data-title {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .course-evaluate textarea {
     width: 100%;
     height: 100px;

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use frontend\assets\AppAsset;
 
-AppAsset::addCss($this,'@web/css/order.css');
+AppAsset::addCss($this,'@web/css/order.css?v=1');
 
 $this->title = '购物车';
 AppAsset::addScript($this,'@web/skin/layer.js');
@@ -39,8 +39,8 @@ AppAsset::addScript($this,'@web/js/cart.js');
             <span class="operation">操作</span>
         </div>
         <div class="cart-tbody">
-            <div class="empty-tbody" style="display: none">
-                您的购物车空空如也，想提升自己的技能，赶紧去<a href="/" class="go-link">挑选课程&gt;&gt;</a>
+            <div class="empty-tbody">
+                您的购物车空空如也，想提升自己的技能，赶紧去<a href="/course/list" class="go-link">挑选课程&gt;&gt;</a>
             </div>
             <div class="cart-course-list">
                 <ul>

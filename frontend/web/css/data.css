@@ -47,6 +47,10 @@
 .data-wrapper .data-inner li .right-con .data-intro {
     color: #868688;
     font-size: 14px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .data-detail-wrapper {
     background: #fff;
