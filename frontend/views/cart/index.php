@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use frontend\assets\AppAsset;
 
-AppAsset::addCss($this,'@web/css/order.css?v=1');
+AppAsset::addCss($this,'@web/css/order.css?v=11');
 
 $this->title = '购物车';
 AppAsset::addScript($this,'@web/skin/layer.js');
