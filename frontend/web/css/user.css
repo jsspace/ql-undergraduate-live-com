@@ -445,6 +445,26 @@ label {
     border: 1px solid #009aff;
     color: #009aff;
 }
+/* course evaluate */
+.evaluate-left {
+    width: 120px;
+    text-align: center;
+    float: left;
+    margin-right: 20px;
+}
+.evaluate-img {
+    width: 100%;
+    display: inline-block;
+}
+.evaluate-img img {
+    width: 100%;
+}
+.evaluate-course-name {
+    font-size: 12px;
+}
+.evaluate-course-name a {
+    color: #777;
+}
 
 @-webkit-keyframes shadowFadeIn {
   from {
