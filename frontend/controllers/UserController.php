@@ -8,6 +8,7 @@ use backend\models\OrderGoods;
 use backend\models\OrderInfo;
 use backend\models\User;
 use backend\models\UserSearch;
+use backend\models\Collection;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -183,28 +184,57 @@ class UserController extends Controller
     }
     public function actionCourse()
     {
-        /*$orderids = OrderInfo::find()
-        ->select('order_id')
+        $orderids = OrderInfo::find()
+        ->select('course_ids')
         ->where(['user_id' => Yii::$app->user->id])
         ->asArray()
         ->all();
-        $goodsids = OrderGoods::find()
-        ->select('goods_id')
-        ->where(['in', 'order_sn', $orderids])
-        ->asArray()
-        ->all();
+        $goodsids = '';
+        foreach ($orderids as $key => $orderid) {
+            $goodsids.=$orderid['course_ids'].',';
+        }
+        $goodsid_arr = explode(',', $goodsids);
         $clist = Course::find()
-        ->where(['in', 'id', $goodsids])
-        ->all();*/
+        ->where(['in', 'id', $goodsid_arr])
+        ->all();
         return $this->render('course', [
-            //'clist' => $clist,
+            'clist' => $clist,
         ]);
     }
     public function actionFavorite()
     {
+        $collections = Collection::find()
+        ->where(['userid' => Yii::$app->user->id])
+        ->all();
+        $courseid = '';
+        foreach ($collections as $key => $collection) {
+            $courseid.=$collection->courseid.',';
+        }
+        $courseid_arr = explode(',', $courseid);
+        $flist = Course::find()
+        ->where(['in', 'id', $courseid_arr])
+        ->all();
         return $this->render('favorite', [
-            //'flist' => $flist,
+            'flist' => $flist,
         ]);
+    }
+    public function actionUnfavorite()
+    {
+        $post = Yii::$app->request->post();
+        $course_id = $post['course_id'];
+        $favor = $post['favor'];
+        if ($favor == 1) {
+            Collection::find()
+            ->where(['and',['userid' => Yii::$app->user->id], ['courseid' => $course_id]])
+            ->one()
+            ->delete();
+        } else {
+            $collection = new Collection();
+            $collection->userid = Yii::$app->user->id;
+            $collection->courseid = $course_id;
+            $collection->save();
+        }
+        return 'success';
     }
     public function actionOrders()
     {
