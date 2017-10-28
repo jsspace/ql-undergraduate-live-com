@@ -208,8 +208,8 @@ class OrderInfoController extends \yii\web\Controller
         $arr=$data;
         //获取配置信息
         $config = Yii::$app->params['alipay'];
-        $alipaySevice = new AlipayTradeService($config);
-        $alipaySevice->writeLog(var_export($_POST,true));
+        $alipaySevice = new \AlipayTradeService($config);
+        $alipaySevice->writeLog(var_export($data,true));
         $result = $alipaySevice->check($arr);
         
         /* 实际验证过程建议商户添加以下校验。
