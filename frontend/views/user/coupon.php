@@ -23,7 +23,7 @@ $this->title = '个人中心';
             <div class="coupon-content-line empty-coupon">
                 暂无可用优惠券
             </div>
-        <?php else { ?>
+        <?php } else { ?>
             <div class="status-select-wrapper _coupon-status">
                 <p class="current-status">全部</p>
                 <ul class="status-list">

@@ -21,7 +21,7 @@ $this->title = '个人中心';
         <p class="user-right-title">我的订单</p>
         <?php if (count($all_orders) == 0) { ?>
         <div class="empty-content">您还没有购买任何课程哦~赶紧去<a href="/course/list" class="go-link">挑选课程&gt;&gt;</a></div>
-        <?php else { ?>
+        <?php } else { ?>
             <div class="status-select-wrapper _order-status">
                 <p class="current-status">全部状态</p>
                 <ul class="status-list">
