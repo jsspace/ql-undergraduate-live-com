@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
+use backend\models\Course;
 
 AppAsset::addCss($this,'@web/css/user.css');
 
@@ -19,34 +20,28 @@ $this->title = '个人中心';
     <div class="right-content">
         <p class="user-right-title">我的提问</p>
         <ul class="user-question-list">
-            <li>
-                <span class="course-img"><a href=""><img src="/img/course-list-img.jpg"/></a></span>
-                <div class="question-content">
-                    <p class="question-answer">
-                        <span class="question-icon">问</span>
-                        <span class="question-txt">为什么这个课程老是这么卡，有没有解决方法？</span>
-                    </p>
-                    <p class="question-answer">
-                        <span class="question-icon">答</span>
-                        <span class="question-txt">那是你网不好吧，换个4G网络怎么样</span>
-                    </p>
-                </div>
-                <p class="question-date">2017-09-29 19:32:00</p>
-            </li>
-            <li>
-                <span class="course-img"><img src="/img/course-list-img.jpg"/></span>
-                <div class="question-content">
-                    <p class="question-answer">
-                        <span class="question-icon">问</span>
-                        <span class="question-txt">为什么这个课程老是这么卡，有没有解决方法？为什么这个课程老是这么卡，有没有解决方法？</span>
-                    </p>
-                    <p class="question-answer">
-                        <span class="question-icon">答</span>
-                        <span class="question-txt">那是你网不好吧，换个4G网络怎么样那是你网不好吧，换个4G网络怎么样</span>
-                    </p>
-                </div>
-                <p class="question-date">2017-09-29 19:32:00</p>
-            </li>
+            <?php foreach ($qlist as $key => $qu) {
+                $course = Course::find()
+                ->where(['id' => $qu->course_id])
+                ->one();
+                //$qu->check 0 待审核 1 审核通过 2 审核未通过
+            ?>
+                <li quas-status='<?= $qu->check ?>'>
+                    <span class="course-img"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>"><img src="<?= $course->list_pic ?>"/></a></span>
+                    <div class="question-content">
+                        <p class="question-answer">
+                            <span class="question-icon">问</span>
+                            <span class="question-txt"><?= $qu->question ?></span>
+                            <span class="question-date"><?= date('Y-m-d H:m:s', $qu->question_time) ?></span>
+                        </p>
+                        <p class="question-answer">
+                            <span class="question-icon">答</span>
+                            <span class="question-txt"><?= $qu->answer ?></span>
+                            <span><?= date('Y-m-d H:m:s', $qu->answer_time) ?></span>
+                        </p>
+                    </div>
+                </li>
+            <?php } ?>
         </ul>
     </div>
 </div>

@@ -11,6 +11,7 @@ use backend\models\UserSearch;
 use backend\models\Collection;
 use backend\models\CourseComent;
 use backend\models\Coupon;
+use backend\models\Quas;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -252,8 +253,12 @@ class UserController extends Controller
     }
     public function actionQnas()
     {
+        $all_quas = Quas::find()
+        ->where(['student_id' => Yii::$app->user->id])
+        ->orderBy('question_time desc')
+        ->all();
         return $this->render('qnas', [
-            //'qlist' => $qlist,
+            'qlist' => $all_quas,
         ]);
     }
     public function actionCourseReviews()
