@@ -35,6 +35,8 @@ $this->title = '个人中心';
                 </li>
             <?php } ?>
         </ul>
+        <?php if (count($clist) == 0) { ?>
         <div class="empty-content">您还没有选择任何课程哦~赶紧去<a href="/course/list" class="go-link">挑选课程&gt;&gt;</a></div>
+        <?php } ?>
     </div>
 </div>

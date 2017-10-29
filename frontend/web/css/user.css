@@ -310,6 +310,8 @@ label {
 }
 .order-list .course-img {
     width: 100px;
+    max-height: 80px;
+    overflow: hidden;
 }
 .order-list .course-img img {
     width: 100%;
@@ -317,7 +319,7 @@ label {
 }
 .order-list .course-name {
     padding: 15px 25px;
-    max-width: 400px;
+    width: 400px;
     font-size: 13px;
 }
 .order-list .course-name a {

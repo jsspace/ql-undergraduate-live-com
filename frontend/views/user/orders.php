@@ -3,7 +3,8 @@
 /* @var $this yii\web\View */
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
-
+use backend\models\Course;
+use backend\models\OrderInfo;
 AppAsset::addCss($this,'@web/css/user.css');
 
 $this->title = '个人中心';
@@ -23,62 +24,47 @@ $this->title = '个人中心';
             <ul class="status-list">
                 <li class="active">全部状态</li>
                 <li>等待付款</li>
+                <li>付款中</li>
                 <li>已完成</li>
             </ul>
         </div>
         <ul class="order-list">
-            <li class="order-list-item">
-                <div class="order-title-line">
-                    <span class="order-time">2017-09-20 17:34:23</span>
-                    <span class="order-number">订单号：<em>5049302930</em></span>
-                </div>
-                <div class="order-content">
-                    <p class="course-img"><a href=""><img src="/img/course-list-img.jpg"/></a></p>
-                    <p class="course-name"><a href="">前端课程前端课程前端课程前端课程前端课程前端课程前端课程</a></p>
-                    <p class="course-quantity">&times; 1</p>
-                    <p class="order-price">
-                        <span class="total-price">总额：￥999.00</span>
-                        <span class="pay-method">在线支付</span>
-                    </p>
-                    <p class="order-status">已完成</p>
-                </div>
-                <div class="order-content">
-                    <p class="course-img"><a href=""><img src="/img/course-list-img.jpg"/></a></p>
-                    <p class="course-name"><a href="">前端课程前端课程前端课程前端课程前端课程前端课程前端课程</a></p>
-                    <p class="course-quantity">&times; 1</p>
-                    <p class="order-price">
-                        <span class="total-price">总额：￥999.00</span>
-                        <span class="pay-method">在线支付</span>
-                    </p>
-                    <p class="order-status">已完成</p>
-                </div>
-            </li>
-            <li class="order-list-item">
-                <div class="order-title-line">
-                    <span class="order-time">2017-09-20 17:34:23</span>
-                    <span class="order-number">订单号：<em>5049302930</em></span>
-                </div>
-                <div class="order-content">
-                    <p class="course-img"><a href=""><img src="/img/course-list-img.jpg"/></a></p>
-                    <p class="course-name"><a href="">前端课程前端课程前端课程前端课程前端课程前端课程前端课程</a></p>
-                    <p class="course-quantity">&times; 1</p>
-                    <p class="order-price">
-                        <span class="total-price">总额：￥999.00</span>
-                        <span class="pay-method">在线支付</span>
-                    </p>
-                    <p class="order-status">已完成</p>
-                </div>
-                <div class="order-content">
-                    <p class="course-img"><a href=""><img src="/img/course-list-img.jpg"/></a></p>
-                    <p class="course-name"><a href="">前端课程前端课程前端课程前端课程前端课程前端课程前端课程</a></p>
-                    <p class="course-quantity">&times; 1</p>
-                    <p class="order-price">
-                        <span class="total-price">总额：￥999.00</span>
-                        <span class="pay-method">在线支付</span>
-                    </p>
-                    <p class="order-status">已完成</p>
-                </div>
-            </li>
+            <?php foreach ($all_orders as $key => $order) {
+                if ($order->pay_status == 0) {
+                    $class_tag = 'wait_pay';
+                } else if ($order->pay_status == 1) {
+                    $class_tag = 'ing_pay';
+                } else if ($order->pay_status == 2) {
+                    $class_tag = 'had_pay';
+                }
+            ?>
+                <li class="order-list-item <?= $class_tag ?>">
+                    <div class="order-title-line">
+                        <span class="order-time"><?= date('Y-m-d H:m:s', $order->add_time)  ?></span>
+                        <span class="order-number">订单号：<em><?= $order->order_sn ?></em></span>
+                    </div>
+                    <?php 
+                        $courseids = $order->course_ids;
+                        $courseids_arr = explode(',', $courseids);
+                        foreach ($courseids_arr as $key => $courseid) {
+                            $course = Course::find()
+                            ->where(['id' => $courseid])
+                            ->one();
+                       if ($course) {
+                        ?>
+                        <div class="order-content">
+                            <p class="course-img"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>"><img src="<?= $course->list_pic ?>"/></a></p>
+                            <p class="course-name"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>"><?= $course->course_name ?></a></p>
+                            <p class="course-quantity">&times; 1</p>
+                            <p class="order-price">
+                                <span class="total-price">总额：￥<?= $course->discount ?></span>
+                                <span class="pay-method">在线支付</span>
+                            </p>
+                            <p class="order-status"><?= OrderInfo::item($order->pay_status); ?></p>
+                        </div>
+                    <?php } } ?>
+                </li>
+            <?php } ?>
         </ul>
     </div>
 </div>

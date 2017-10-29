@@ -238,8 +238,14 @@ class UserController extends Controller
     }
     public function actionOrders()
     {
+        //所有订单
+        $all_orders = OrderInfo::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->orderBy('add_time desc')
+        ->all();
+        //等待付款
         return $this->render('orders', [
-            //'olist' => $olist,
+            'all_orders' => $all_orders
         ]);
     }
     public function actionQnas()

@@ -109,4 +109,17 @@ class OrderInfo extends \yii\db\ActiveRecord
     {
         return new OrderInfoQuery(get_called_class());
     }
+
+    private static $_items = array();
+    public static function item($status)
+    {
+        if(!isset(self::$_items[$status]))
+            self::loadItems();
+            return isset(self::$_items[$status]) ? self::$_items[$status] : false;
+    }
+    public static function loadItems() {
+        self::$_items[0] = '未付款';
+        self::$_items[1] = '付款中';
+        self::$_items[2] = '已付款';
+    }
 }
