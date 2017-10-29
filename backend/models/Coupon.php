@@ -62,4 +62,17 @@ class Coupon extends \yii\db\ActiveRecord
     {
         return new CouponQuery(get_called_class());
     }
+
+    private static $_items = array();
+    public static function item($status)
+    {
+        if(!isset(self::$_items[$status]))
+            self::loadItems();
+            return isset(self::$_items[$status]) ? self::$_items[$status] : false;
+    }
+    public static function loadItems() {
+        self::$_items[0] = '未使用';
+        self::$_items[1] = '使用中';
+        self::$_items[2] = '已使用';
+    }
 }

@@ -10,6 +10,7 @@ use backend\models\User;
 use backend\models\UserSearch;
 use backend\models\Collection;
 use backend\models\CourseComent;
+use backend\models\Coupon;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -266,8 +267,11 @@ class UserController extends Controller
     }
     public function actionCoupon()
     {
+        $coupons = Coupon::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->all();
         return $this->render('coupon', [
-            //'coupons' => $coupons,
+            'coupons' => $coupons,
         ]);
     }
 }
