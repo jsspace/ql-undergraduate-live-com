@@ -288,6 +288,9 @@ label {
     line-height: 30px;
     border-bottom: 1px solid #dfdfdf;
 }
+.order-list li .order-title-line .order-total-money {
+    float: right;
+}
 .order-list em {
     font-style: normal;
     color: #000;
@@ -465,6 +468,7 @@ label {
 }
 .evaluate-img img {
     width: 100%;
+    max-height: 90px;
 }
 .evaluate-course-name {
     font-size: 12px;

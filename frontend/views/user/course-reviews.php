@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
+use backend\models\Course;
 
 AppAsset::addCss($this,'@web/css/user.css');
 
@@ -19,40 +20,32 @@ $this->title = '个人中心';
     <div class="right-content">
         <p class="user-right-title">课程评价</p>
         <ul class="user-evaluate">
-            <li>
-                <div class="evaluate-left">
-                    <p class="evaluate-img"><a href=""><img src="/img/course-list-img.jpg"/></a></p>
-                    <p class="evaluate-course-name"><a href="">前端课程前端课程</a></p>
-                </div>
-                <div class="evaluate-right">
-                    <div class="star">
-                        <img src="/img/star-on.png">
-                        <img src="/img/star-on.png">
-                        <img src="/img/star-on.png">
-                        <img src="/img/star-on.png">
-                        <img src="/img/star-off.png">
+            <?php foreach ($coments as $key => $coment) {
+                $course = Course::find()
+                ->where(['id' => $coment->course_id])
+                ->one();
+            ?>
+                <li evaluate-status="<?= $coment->check; ?>">
+                    <div class="evaluate-left">
+                        <p class="evaluate-img"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>"><img src="<?= $course->list_pic ?>"/></a></p>
+                        <p class="evaluate-course-name"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>"><?= $course->course_name ?></a></p>
                     </div>
-                    <div class="evaluate-content">这个课程不错，老师讲的很清晰，老师讲的很清晰</div>
-                    <div class="evaluate-date">2017-10-20</div>
-                </div>
-            </li>
-            <li>
-                <div class="evaluate-left">
-                    <p class="evaluate-img"><a href=""><img src="/img/course-list-img.jpg"/></a></p>
-                    <p class="evaluate-course-name"><a href="">前端课程前端课程</a></p>
-                </div>
-                <div class="evaluate-right">
-                    <div class="star">
-                        <img src="/img/star-on.png">
-                        <img src="/img/star-on.png">
-                        <img src="/img/star-on.png">
-                        <img src="/img/star-on.png">
-                        <img src="/img/star-off.png">
+                    <div class="evaluate-right">
+                        <div class="star">
+                            <?php
+                                for ($i=0; $i < $coment->star; $i++) { ?>
+                                    <img src="/img/star-on.png">
+                            <?php } ?>
+                            <?php
+                                for ($i=0; $i < 5-$coment->star; $i++) { ?>
+                                    <img src="/img/star-off.png">
+                            <?php } ?>
+                        </div>
+                        <div class="evaluate-content"><?= $coment->content ?></div>
+                        <div class="evaluate-date"><?= date('Y-m-d H:m:s', $coment->create_time) ?></div>
                     </div>
-                    <div class="evaluate-content">这个课程不错，老师讲的很清晰，老师讲的很清晰</div>
-                    <div class="evaluate-date">2017-10-20</div>
-                </div>
-            </li>
+                </li>
+            <?php } ?>
         </ul>
     </div>
 </div>

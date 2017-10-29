@@ -9,6 +9,7 @@ use backend\models\OrderInfo;
 use backend\models\User;
 use backend\models\UserSearch;
 use backend\models\Collection;
+use backend\models\CourseComent;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -256,8 +257,11 @@ class UserController extends Controller
     }
     public function actionCourseReviews()
     {
+        $coments = CourseComent::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->all();
         return $this->render('course-reviews', [
-            //'rlist' => $rlist,
+            'coments' => $coments,
         ]);
     }
     public function actionCoupon()
