@@ -55,3 +55,44 @@
     float: right;
     margin-right: 0;
 }
+
+.verify-input {
+    width: 48%;
+    height: 40px;
+    line-height: 26px;
+    padding: 6px 12px;
+    display: inline-block;
+    box-sizing: border-box;
+}
+.verify-btn {
+    width: 45%;
+    height: 40px;
+    color: #3487dc;
+    font-size: 15px;
+    line-height: 40px;
+    padding: 0;
+    margin-left: 6%;
+    margin-top: -2px;
+    border: 1px solid #3487dc;
+    display: inline-block;
+}
+.verify-btn:hover {
+    color: #3487dc;
+}
+.signup-line {
+    margin-bottom: 25px;
+}
+.signup-input {
+    height: 40px;
+}
+.signup-line .submit-btn {
+    width: 25%;
+    height: 40px;
+    color: #fff;
+    font-size: 15px;
+    line-height: 40px;
+    padding: 0;
+    display: inline-block;
+    float: right;
+    background-color: #3487dc;
+}
