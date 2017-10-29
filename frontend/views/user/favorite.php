@@ -37,6 +37,9 @@ $this->title = '个人中心';
                 </li>
             <?php } ?>
         </ul>
+        <?php if (count($flist) == 0) { ?>
+        <div class="empty-content">您还没有收藏任何课程哦~赶紧去<a href="/course/list" class="go-link">挑选课程&gt;&gt;</a></div>
+        <?php } ?>
     </div>
 </div>
 <script src="<?= Url::to('@web/js/course-detail.js');?>"></script>
