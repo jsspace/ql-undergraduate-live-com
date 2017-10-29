@@ -136,6 +136,20 @@ use mdm\admin\components\MenuHelper;
             </li>
         </ul>
         <ul class="sidebar-menu">            
+            <li class="treeview<?php if(stristr(Yii::$app->controller->id,'quas')){?> active<?php }?>">               
+                <a href="#">                    
+                    <i class="fa fa-gears"></i> <span>教师答疑</span>                    
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu<?php if(stristr(Yii::$app->controller->id,'quas')){?> menu-open<?php }?>"
+                <?php if(stristr(Yii::$app->controller->id,'quas')){?>style="display: block;"<?php }?>>
+                    <li class="treeview">
+                        <a href="/quas/index">教师答疑</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="sidebar-menu">            
             <li class="treeview<?php if(stristr(Yii::$app->controller->id,'friendly-links')){?> active<?php }?>">               
                 <a href="#">                    
                     <i class="fa fa-gears"></i> <span>友情链接</span>                    

@@ -99,6 +99,7 @@ return [
             'course-coment/*',
             'data/*',
             'collection/*',
+            'quas/*',
         ]
     ],
     'params' => $params,

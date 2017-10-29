@@ -72,5 +72,6 @@ return [
     'Create Course Coment' => '新建课程评价',
     'Datas' => '资料列表',
     'Create Data' => '创建资料',
-    'Collections' => '收藏列表'
+    'Collections' => '收藏列表',
+    'Quas' => '教师答疑'
 ];
