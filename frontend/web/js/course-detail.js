@@ -11,6 +11,7 @@ var courseDetail = {
         self.quickBuy();
         self.collect();
         self.evaluate();
+        self.questionSubmit();
     },
     tagTab: function() {
       $(".course-tag li").each(function(index) {
@@ -103,6 +104,29 @@ var courseDetail = {
       $('._course-evaluate-btn').on('click', function(){
           var course_id = $('._course-id').val();
           var content = $('._course-evaluate-content').val();
+          $.ajax({
+              url: '/course/evaluate',
+              type: 'post',
+              dataType:'json',
+              data: {
+                  course_id: course_id,
+                  content: content,
+                  '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+              },
+              success: function (data) {
+                  if (data.status == 'success') {
+                    layer.msg(data.message, {icon: 6});
+                  } else if (data.status == 'error') {
+                    layer.msg(data.message, {icon: 5});
+                  }
+              }
+          });
+      });
+    },
+    questionSubmit: function() {
+      $('._course-question-btn').on('click', function(){
+          var course_id = $('._course-id').val();
+          var content = $('._course-question-content').val();
           $.ajax({
               url: '/course/evaluate',
               type: 'post',

@@ -137,6 +137,7 @@ $userid = Yii::$app->user->id;
                         <textarea class="_course-evaluate-content"></textarea>
                         <button class="_course-evaluate-btn">提交</button>
                     </div>
+                    <?php if (count($course_comments) > 0) { ?>
                     <ul class="evaluate-list _evaluate-list">
                         <?php foreach ($course_comments as $course_comment) { ?>
                             <li>
@@ -151,8 +152,14 @@ $userid = Yii::$app->user->id;
                             </li>
                         <?php } ?>
                     </ul>
+                    <?php } ?>
                 </div>
                 <div class="tag-content">
+                    <div class="course-evaluate">
+                        <textarea class="_course-question-content"></textarea>
+                        <button class="_course-question-btn">我要提问</button>
+                    </div>
+                    <?php if (count($quas) > 0) { ?>
                     <ul class="user-question-list">
                         <?php foreach ($quas as $key => $qu) { ?>
                         <li>
@@ -171,27 +178,32 @@ $userid = Yii::$app->user->id;
                         </li>
                          <?php } ?>
                     </ul>
+                    <?php } ?>
                 </div>
                 <div class="tag-content">
-                    <ul class="list data-ul active">
-                        <?php foreach ($datas as $key => $course_data) { ?>
-                            <li>
-                                <div class="right-con">
-                                    <p class="data-title">
-                                        <?php if ($course_data->url_type == 1) {
-                                            $url = Url::to(['data/detail', 'dataid' => $course_data->id]);
-                                            $target = '_self';
-                                        } else { 
-                                            $url = strip_tags($course_data->content);
-                                            $target = '_blank';
-                                        } ?>
-                                        <span><a class="data-title" target="<?= $target ?>" href="<?= $url ?>"><?= $course_data->name ?></a></span>
-                                    </p>
-                                    <p class="data-intro"><?= $course_data->summary ?></p>
-                                </div>
-                            </li>
-                        <?php } ?>
-                    </ul>
+                    <?php if (count($datas) > 0) { ?>
+                        <ul class="list data-ul active">
+                            <?php foreach ($datas as $key => $course_data) { ?>
+                                <li>
+                                    <div class="right-con">
+                                        <p class="data-title">
+                                            <?php if ($course_data->url_type == 1) {
+                                                $url = Url::to(['data/detail', 'dataid' => $course_data->id]);
+                                                $target = '_self';
+                                            } else { 
+                                                $url = strip_tags($course_data->content);
+                                                $target = '_blank';
+                                            } ?>
+                                            <span><a class="data-title" target="<?= $target ?>" href="<?= $url ?>"><?= $course_data->name ?></a></span>
+                                        </p>
+                                        <p class="data-intro"><?= $course_data->summary ?></p>
+                                    </div>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    <?php } else { ?>
+                        <p>暂无</p>
+                    <?php } ?>
                 </div>
             </div>
         </div>
