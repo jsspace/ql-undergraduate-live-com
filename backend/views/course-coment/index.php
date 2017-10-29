@@ -2,6 +2,7 @@
 
 use backend\models\Course;
 use backend\models\User;
+use backend\models\CourseComent;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -43,9 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'check',
                 'value'=> function ($model) {
-                    return $model->check == 1 ? '审核通过':'未审核';
+                    return CourseComent::item($model->check);
                 },
-                'filter' => [1=>'审核通过',0=>'未审核' ],
+                'filter' => CourseComent::items(),
             ],
             'create_time:datetime',
         ],

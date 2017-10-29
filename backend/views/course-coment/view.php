@@ -2,6 +2,7 @@
 
 use backend\models\Course;
 use backend\models\User;
+use backend\models\CourseComent;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -28,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'content',
             [
                 'attribute' => 'check',
-                'value'=> $model->check == 1 ? '审核通过' : '未审核',
+                'value'=> CourseComent::item($model->check),
             ],
             'create_time:datetime',
             'star',

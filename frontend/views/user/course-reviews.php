@@ -24,6 +24,7 @@ $this->title = '个人中心';
                 $course = Course::find()
                 ->where(['id' => $coment->course_id])
                 ->one();
+                //$coment->check 0 待审核 1 审核通过 2 审核未通过
             ?>
                 <li evaluate-status="<?= $coment->check; ?>">
                     <div class="evaluate-left">

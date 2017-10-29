@@ -2,6 +2,7 @@
 
 use backend\models\Course;
 use backend\models\User;
+use backend\models\CourseComent;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -20,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'content')->textArea(['rows' => '3']) ?>
 
-    <?= $form->field($model, 'check')->dropDownList(['1'=>'审核通过', '0'=>'未审核']) ?>
+    <?= $form->field($model, 'check')->dropDownList(CourseComent::items()) ?>
 
     <?= $form->field($model, 'star')->textInput() ?>
 

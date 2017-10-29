@@ -73,4 +73,22 @@ class CourseComent extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    private static $_items = array();
+    public static function item($status)
+    {
+        if(!isset(self::$_items[$status]))
+            self::loadItems();
+            return isset(self::$_items[$status]) ? self::$_items[$status] : false;
+    }
+    public static function items()
+    {
+        self::loadItems();
+        return self::$_items;
+    }
+    public static function loadItems() {
+        self::$_items[0] = '待审核';
+        self::$_items[1] = '审核通过';
+        self::$_items[2] = '审核未通过';
+    }
 }
