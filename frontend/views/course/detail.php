@@ -153,7 +153,24 @@ $userid = Yii::$app->user->id;
                     </ul>
                 </div>
                 <div class="tag-content">
-                教师答疑
+                    <ul class="user-question-list">
+                        <?php foreach ($quas as $key => $qu) { ?>
+                        <li>
+                            <div class="question-content">
+                                <p class="question-answer">
+                                    <span class="question-icon">问</span>
+                                    <span class="question-txt"><?= $qu->question ?></span>
+                                    <span class="question-date"><?= date('Y-m-d H:m:s', $qu->question_time) ?></span>
+                                </p>
+                                <p class="question-answer">
+                                    <span class="question-icon">答</span>
+                                    <span class="question-txt"><?= $qu->answer ?></span>
+                                    <span class="question-date"><?= date('Y-m-d H:m:s', $qu->answer_time) ?></span>
+                                </p>
+                            </div>
+                        </li>
+                         <?php } ?>
+                    </ul>
                 </div>
                 <div class="tag-content">
                     <ul class="list data-ul active">

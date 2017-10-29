@@ -73,5 +73,6 @@ return [
     'Datas' => '资料列表',
     'Create Data' => '创建资料',
     'Collections' => '收藏列表',
-    'Quas' => '教师答疑'
+    'Quas' => '教师答疑',
+    'Create Quas' => '回答问题',
 ];

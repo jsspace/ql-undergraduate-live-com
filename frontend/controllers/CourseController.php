@@ -9,6 +9,7 @@ use backend\models\CourseChapter;
 use backend\models\CourseSection;
 use backend\models\CourseComent;
 use backend\models\Data;
+use backend\models\Quas;
 use Yii;
 
 class CourseController extends Controller
@@ -101,7 +102,12 @@ class CourseController extends Controller
         $datas = Data::find()
         ->where(['course_id' => $courseid])
         ->all();
-        return $this->render('detail', ['courseDetail' => $courseDetail, 'duration' => $duration, 'course_comments' => $course_comments, 'datas' => $datas]);
+        /* 教师答疑 */
+        $quas = Quas::find()
+        ->where(['course_id' => $courseid])
+        ->andWhere(['check' => 1])
+        ->all();
+        return $this->render('detail', ['courseDetail' => $courseDetail, 'duration' => $duration, 'course_comments' => $course_comments, 'datas' => $datas, 'quas' => $quas]);
     }
 
     public function actionEvaluate()
