@@ -19,7 +19,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'user_id') ?>
 
-    <?= $form->field($model, 'course_id') ?>
+    <?= $form->field($model, 'type') ?>
+
+    <?= $form->field($model, 'product_id') ?>
 
     <?= $form->field($model, 'created_at') ?>
 

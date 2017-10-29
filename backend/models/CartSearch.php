@@ -18,7 +18,8 @@ class CartSearch extends Cart
     public function rules()
     {
         return [
-            [['cart_id', 'user_id', 'course_id', 'created_at'], 'integer'],
+            [['cart_id', 'user_id', 'product_id', 'created_at'], 'integer'],
+            [['type'], 'safe'],
         ];
     }
 
@@ -60,9 +61,11 @@ class CartSearch extends Cart
         $query->andFilterWhere([
             'cart_id' => $this->cart_id,
             'user_id' => $this->user_id,
-            'course_id' => $this->course_id,
+            'product_id' => $this->product_id,
             'created_at' => $this->created_at,
         ]);
+
+        $query->andFilterWhere(['like', 'type', $this->type]);
 
         return $dataProvider;
     }
