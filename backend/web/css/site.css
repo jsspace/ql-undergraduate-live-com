@@ -340,3 +340,6 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+.treeview-menu {
+    padding-left: 22px !important;
+}
