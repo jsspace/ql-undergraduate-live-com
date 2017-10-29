@@ -19,16 +19,16 @@ $this->title = '个人中心';
     <?= $this->render('lmenu') ?>
     <div class="right-content">
         <p class="user-right-title">我的订单</p>
-        <div class="status-select-wrapper">
+        <div class="status-select-wrapper _order-status">
             <p class="current-status">全部状态</p>
             <ul class="status-list">
-                <li class="active">全部状态</li>
-                <li>等待付款</li>
-                <li>付款中</li>
-                <li>已完成</li>
+                <li class="active" order-status="all">全部状态</li>
+                <li order-status="wait_pay">未付款</li>
+                <li order-status="ing_pay">付款中</li>
+                <li order-status="had_pay">已付款</li>
             </ul>
         </div>
-        <ul class="order-list">
+        <ul class="order-list _order-list">
             <?php foreach ($all_orders as $key => $order) {
                 if ($order->pay_status == 0) {
                     $class_tag = 'wait_pay';
@@ -38,7 +38,7 @@ $this->title = '个人中心';
                     $class_tag = 'had_pay';
                 }
             ?>
-                <li class="order-list-item <?= $class_tag ?>">
+                <li class="order-list-item" order-status="<?= $class_tag ?>">
                     <div class="order-title-line">
                         <span class="order-time"><?= date('Y-m-d H:m:s', $order->add_time)  ?></span>
                         <span class="order-number">订单号：<em><?= $order->order_sn ?></em></span>
@@ -68,3 +68,21 @@ $this->title = '个人中心';
         </ul>
     </div>
 </div>
+
+<script>
+    $(function() {
+        $("._order-status .status-list li").each(function() {
+            $(this).on("click", function() {
+                var orderStatus = $(this).attr("order-status");
+                $(this).addClass("active").siblings("li").removeClass("active");
+                $(".current-status").text($(this).text());
+                if (orderStatus === "all") {
+                    $("._order-list li").show();
+                } else {
+                    $("._order-list li").hide();
+                    $("._order-list li[order-status='" + orderStatus +"']").show();
+                }
+            });
+        });
+    });
+</script>
