@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 use yii\helpers\Url;
+use backend\models\Coupon;
 use frontend\assets\AppAsset;
 
 AppAsset::addCss($this,'@web/css/user.css');
@@ -19,11 +20,12 @@ $this->title = '个人中心';
     <div class="right-content">
         <p class="user-right-title">我的优惠券</p>
         <div class="status-select-wrapper">
-            <p class="current-status">未使用</p>
+            <p class="current-status">全部</p>
             <ul class="status-list">
-                <li class="active">未使用</li>
+                <li class="active">全部</li>
+                <li>未使用</li>
+                <li>使用中</li>
                 <li>已使用</li>
-                <li>已过期</li>
             </ul>
         </div>
         <div class="coupon-wrapper">
@@ -34,28 +36,22 @@ $this->title = '个人中心';
                 <li class="coupon-daterange">有效期</li>
             </ul>
             <ul class="coupon-content-line">
-                <li>
-                    <p class="coupon-name">用户推荐码专属优惠券</p>
-                    <p class="coupon-money">￥100</p>
-                    <p class="coupon-status">未使用</p>
-                    <p class="coupon-daterange">2017-10-1至永久</p>
+                <?php foreach ($coupons as $key => $coupon) { 
+                    //$coupon->isuse 0:未使用 1 使用中 2 已使用
+                ?>
+                <li coupon-status="<?= $coupon->isuse ?>">
+                    <p class="coupon-name"><?= $coupon->name ?></p>
+                    <p class="coupon-money">￥<?= $coupon->fee ?></p>
+                    <p class="coupon-status"><?= Coupon::item($coupon->isuse) ?></p>
+                    <p class="coupon-daterange"><?= date('Y-m-d', strtotime($coupon->start_time)) ?>至<?= date('Y-m-d', strtotime($coupon->end_time)) ?></p>
                 </li>
-                <li>
-                    <p class="coupon-name">用户推荐码专属优惠券</p>
-                    <p class="coupon-money">￥100</p>
-                    <p class="coupon-status">未使用</p>
-                    <p class="coupon-daterange">2017-10-1至永久</p>
-                </li>
-                <li>
-                    <p class="coupon-name">用户推荐码专属优惠券</p>
-                    <p class="coupon-money">￥100</p>
-                    <p class="coupon-status">未使用</p>
-                    <p class="coupon-daterange">2017-10-1至永久</p>
-                </li>
+                <?php } ?>
             </ul>
-            <div class="coupon-content-line empty-coupon">
-            暂无可用优惠券
-            </div>
+            <?php if (count($coupons) == 0) { ?>
+                <div class="coupon-content-line empty-coupon">
+                    暂无可用优惠券
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>
