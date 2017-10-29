@@ -16,6 +16,7 @@
     clear: both;
     padding: 0;
     overflow: hidden;
+    margin: 10px 0;
 }
 .order-wrapper img {
     width: 100%;
@@ -184,7 +185,7 @@
 }
 .order-cart .cart-thead span {
     display: inline-block;
-    padding: 0 20px;
+    padding: 0 25px;
 }
 .order-cart .cart-thead span.pro-name {
     width: 38%;
