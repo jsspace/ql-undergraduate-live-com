@@ -451,6 +451,9 @@ label {
     color: #009aff;
 }
 /* course evaluate */
+.user-evaluate {
+    margin-top: 50px;
+}
 .user-evaluate li {
     overflow: hidden;
     border-bottom: 1px solid #dfdfdf;
@@ -484,9 +487,17 @@ label {
 .evaluate-right .evaluate-content {
     margin-bottom: 10px;
 }
+.evaluate-right .evaluate-content {
+    max-width: 600px;
+}
 .evaluate-right .evaluate-date {
     font-size: 13px;
     color: #777;
+}
+.evaluate-right .check-status {
+    float: right;
+    color: #777;
+    margin-top: -40px;
 }
 
 @-webkit-keyframes shadowFadeIn {

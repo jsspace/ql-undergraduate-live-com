@@ -19,7 +19,16 @@ $this->title = '个人中心';
     <?= $this->render('lmenu') ?>
     <div class="right-content">
         <p class="user-right-title">课程评价</p>
-        <ul class="user-evaluate">
+        <div class="status-select-wrapper _evaluate-status">
+            <p class="current-status">全部</p>
+            <ul class="status-list">
+                <li class="active" evaluate-status="all">全部</li>
+                <li evaluate-status="0">待审核</li>
+                <li evaluate-status="1">审核通过</li>
+                <li evaluate-status="2">审核未通过</li>
+            </ul>
+        </div>
+        <ul class="user-evaluate _evaluate-list">
             <?php foreach ($coments as $key => $coment) {
                 $course = Course::find()
                 ->where(['id' => $coment->course_id])
@@ -44,9 +53,37 @@ $this->title = '个人中心';
                         </div>
                         <div class="evaluate-content"><?= $coment->content ?></div>
                         <div class="evaluate-date"><?= date('Y-m-d H:m:s', $coment->create_time) ?></div>
+
+                        <div class="check-status">
+                            <?php if ($coment->check == 0) {?>
+                                待审核
+                            <?php } else if ($coment->check == 1) {?>
+                                审核通过
+                            <?php } else if ($coment->check == 2) {?>
+                                审核未通过
+                            <?php } ?>
+                        </div>
                     </div>
                 </li>
             <?php } ?>
         </ul>
     </div>
 </div>
+
+<script>
+    $(function() {
+        $("._evaluate-status .status-list li").each(function() {
+            $(this).on("click", function() {
+                var evaluateStatus = $(this).attr("evaluate-status");
+                $(this).addClass("active").siblings("li").removeClass("active");
+                $(".current-status").text($(this).text());
+                if (evaluateStatus === "all") {
+                    $("._evaluate-list li").show();
+                } else {
+                    $("._evaluate-list li").hide();
+                    $("._evaluate-list li[evaluate-status='" + evaluateStatus +"']").show();
+                }
+            });
+        });
+    });
+</script>
