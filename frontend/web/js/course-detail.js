@@ -128,7 +128,7 @@ var courseDetail = {
           var course_id = $('._course-id').val();
           var content = $('._course-question-content').val();
           $.ajax({
-              url: '/course/evaluate',
+              url: '/course/ques',
               type: 'post',
               dataType:'json',
               data: {

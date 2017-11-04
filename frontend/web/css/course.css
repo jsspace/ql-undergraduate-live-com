@@ -126,7 +126,18 @@
     font-size: 13px;
     color: #777779;
 }
-
+.container-course .no-result {
+    text-align: center;
+    min-height: 320px;
+}
+.container-course .no-result h5 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    padding-top: 50px;
+}
+.container-course .no-result p {
+    font-size: 18px;
+}
 
 /* course detail */
 .course-detail-section {

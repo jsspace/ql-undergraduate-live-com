@@ -16,7 +16,9 @@ a:focus, a:hover, input, input:focus {
     outline: none;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
-
+a {
+    color: #868688;
+}
 .container-course {
     width: 1180px;
     margin: 0 auto;
@@ -398,4 +400,10 @@ a.desc:after {
     color: #848e99;
     cursor: pointer;
     font-size: 17px;
+    outline: none;
+    background-color: #fff;
+    border: 0;
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
 }

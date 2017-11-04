@@ -318,7 +318,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                     <?php 
                         foreach ($tjcourses as $key => $tjcourse) { ?>
                              <li>
-                                <span class="announce-title"><i></i><?= $tjcourse->title; ?></span>
+                                <a href="<?= Url::to(['course-news/detail', 'newsid' => $tjcourse->id]) ?>"><span class="announce-title"><i></i><?= $tjcourse->title; ?></span></a>
                                 <span class="announce-time"><?= date('Y-m-d', $tjcourse->create_time); ?></span>
                             </li>
                     <?php } ?>

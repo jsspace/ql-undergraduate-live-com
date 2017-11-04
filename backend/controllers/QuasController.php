@@ -84,6 +84,7 @@ class QuasController extends Controller
     {
         $model = $this->findModel($id);
         $model->answer_time = time();
+        $model->teacher_id = Yii::$app->user->id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

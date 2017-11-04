@@ -64,6 +64,15 @@ class CourseController extends Controller
         }
         return $this->render('list', ['courseLists' => $firArr]);
     }
+
+    public function actionSearch()
+    {
+        $searchContent = Yii::$app->request->get('searchContent');
+        $coursemodels = Course::find()
+        ->where(['like', 'course_name', $searchContent])
+        ->all();
+        return $this->render('search', ['coursemodels' => $coursemodels]);
+    }
     
     public function actionDetail()
     {
@@ -123,6 +132,28 @@ class CourseController extends Controller
         if ($result) {
             $data['status'] = 'success';
             $data['message'] = '提交成功,等待审核！';
+        } else {
+            $data['status'] = 'error';
+            $data['message'] = '提交失败';
+        }
+        return json_encode($data);
+    }
+
+    public function actionQues()
+    {
+        $data = Yii::$app->request->Post();
+        $courseid = $data['course_id'];
+        $content = $data['content'];
+        $course_quas = new Quas();
+        $course_quas->course_id = $courseid;
+        $course_quas->question = $content;
+        $course_quas->student_id = Yii::$app->user->id;
+        $course_quas->question_time = time();
+        $course_quas->check = 0;
+        $result = $course_quas->save();
+        if ($result) {
+            $data['status'] = 'success';
+            $data['message'] = '问题提交成功,等待审核！';
         } else {
             $data['status'] = 'error';
             $data['message'] = '提交失败';

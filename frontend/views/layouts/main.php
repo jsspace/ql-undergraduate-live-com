@@ -70,8 +70,10 @@ AppAsset::register($this);
                 
             </ul>
             <div class="menu-search-group">
-                <span class="glyphicon glyphicon-search search-button _search-button"></span>
-                <input type="text" class="form-control" placeholder="搜索课程或讲师">
+                <form action="<?= Url::to(['course/search']); ?>" method="get">
+                    <button type="submit" class="glyphicon glyphicon-search search-button _search-button"></button>
+                    <input type="text" class="form-control" placeholder="搜索课程" name="searchContent">
+                </form>
             </div>
             <div class="nav-right">
                 <?php if(Yii::$app->user->isGuest) {?>
