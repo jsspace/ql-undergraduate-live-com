@@ -28,7 +28,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                         foreach ($live_ing as $key => $live) {
                     ?>
                         <li class="active">
-                            <i class="icon-circle"></i>autoLogin=true&viewername=11&viewertoken=11
+                            <i class="icon-circle"></i>
                             <a target="_blank" href="<?= $live['live_url'].'&autoLogin=true&viewername='.User::getUserModel(Yii::$app->user->id)->username.'&viewertoken='.User::getUserModel(Yii::$app->user->id)->password_hash ?>">
                                 <span class="top"><?= $live['start_time'] ?>-<?= $live['end_time'] ?></span>
                                 <span class="bottom"><?= $live['course_name'] ?></span>
