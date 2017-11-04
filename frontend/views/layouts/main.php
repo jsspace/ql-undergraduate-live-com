@@ -122,9 +122,9 @@ AppAsset::register($this);
             </dl>
             <dl>
                 <dt>联系我们</dt>
-                <dd>咨询电话：400-888-3456</dd>
-                <dd>全国加盟热线：010-88448888</dd>
-                <dd>投诉电话：010-51608888</dd>
+                <dd>咨询电话：010-65000965</dd>
+                <dd>全国加盟热线：010-65000965</dd>
+                <dd>投诉电话：010-65000965</dd>
                 <dd>校长邮箱：president@juren.com</dd>
             </dl>
             <dl class="qrcode-section">
@@ -138,7 +138,7 @@ AppAsset::register($this);
         </div>
     </div>
     <div class="copyright">
-        <p class="pull-left">&copy; 2015-<?= date('Y') ?>  企源力---京ICP备13020285号</p>
+        <p class="pull-left">&copy; <?= date('Y') ?>  优师联网络培训平台---京ICP备17055689号-1</p>
     </div>
 </footer>
 
