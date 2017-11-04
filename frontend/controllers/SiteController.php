@@ -344,7 +344,8 @@ class SiteController extends Controller
 
     public function actionVideoAuth(){
         $result = array();
-        $user = User::getUserModel(Yii::$app->user->id);
+        /*$user = User::getUserModel(Yii::$app->user->id);
+        $username = $_POST['roomid'];
         $roomid = $_POST['roomid'];
         $courseid = CourseSection::getCourse($roomid);
         $order = OrderInfo::find()
@@ -372,7 +373,7 @@ class SiteController extends Controller
             $result['user']['id'] = $user->id;
             $result['user']['name'] = $user->username;
             $result['user']['avatar'] = $user->picture;
-            $result['user']['customua'] = '不知道是什么东西';
+            $result['user']['customua'] = 1;
             $result['user']['marquee']['loop'] = -1;
             $result['user']['marquee']['type'] = 'text';
             $result['user']['marquee']['text']['content'] = $user->username;
@@ -390,7 +391,14 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['start']['alpha'] = 0.5;
             $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
             $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
-        }
+        }*/
+        $roomid = $_POST['roomid'];
+        echo $roomid;
+        $result['result'] = 'ok';
+        $result['message'] = '认证成功';
+        $result['user']['id'] = 'E6A232B2DEDF69469C33DC5901307461';
+        $result['user']['name'] = '学员A';
+        $result['user']['avatar'] = '';
         $result = json_encode($result);
         return $result;
     }
