@@ -392,8 +392,15 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
             $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
         }*/
-        $roomid = $_POST['roomid'];
-        echo $roomid;
+        $roomid = '';
+        $viewername = '';
+        if (!empty($_POST['roomid'])) {
+            $roomid = $_POST['roomid'];
+        }
+        if (!empty($_POST['viewername'])) {
+            $viewername = $_POST['viewername'];
+        }
+        error_log('roomid==='.$roomid.'~~~~~~登陆用户名==='.$viewername);
         $result['result'] = 'ok';
         $result['message'] = '认证成功';
         $result['user']['id'] = 'E6A232B2DEDF69469C33DC5901307461';
