@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -11,7 +12,7 @@ use backend\models\Course;
 use backend\models\Coupon;
 use backend\models\CoursePackage;
 
-class CartController extends \yii\web\Controller
+class CartController extends Controller
 {
     /**
      * @inheritdoc

@@ -10,8 +10,8 @@ use backend\models\OrderGoods;
 use backend\models\CoursePackage;
 use backend\models\Cart;
 
-require "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
-require "../../common/alipay/pagepay/service/AlipayTradeService.php";
+require_once "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
+require_once "../../common/alipay/pagepay/service/AlipayTradeService.php";
 
 class OrderInfoController extends \yii\web\Controller
 {

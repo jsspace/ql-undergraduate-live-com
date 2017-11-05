@@ -14,6 +14,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $phone;
+    public $smscode;
     public $password;
     public $invite;
 
@@ -41,10 +42,10 @@ class SignupForm extends Model
             ['phone', 'unique', 'targetClass' => '\common\models\User', 'message' => '{attribute}已经被占用了'],
             ['phone', 'string', 'min'=>11,'max' => 11,'on' => ['default','login_sms_code']],
             
-            ['smsCode', 'required','on' => ['default','login_sms_code']],
-            ['smsCode', 'integer','on' => ['default','login_sms_code']],
-            ['smsCode', 'string', 'min'=>6,'max' => 6,'on' => ['default','login_sms_code']],
-            ['smsCode', 'required','requiredValue'=>$this->getSmsCode(),'on' => ['default','login_sms_code'],'message'=>'手机验证码输入错误'],
+            ['smscode', 'required','on' => ['default','login_sms_code']],
+            ['smscode', 'integer','on' => ['default','login_sms_code']],
+//             ['smscode', 'string', 'min'=>6,'max' => 6,'on' => ['default','login_sms_code']],
+            ['smscode', 'filter', 'filter' => function($value) { return $this->getLoginCode($value);}, 'on' => ['default','login_sms_code'],'message'=>'验证码输入错误或者失效'],
             
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
@@ -69,6 +70,7 @@ class SignupForm extends Model
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'phone' => Yii::t('app', '电话'),
+            'smscode' => Yii::t('app', '验证码'),
             'gender' => Yii::t('app', '性别'),
             'description' => Yii::t('app', '简短描述'),
             'unit' => Yii::t('app', '单位'),
@@ -83,20 +85,25 @@ class SignupForm extends Model
         ];
     }
     
-    public function getSmsCode()
+    public function getLoginCode($value)
     {
         //检查session是否打开
-    
         if(!Yii::$app->session->isActive){
             Yii::$app->session->open();
         }
-        //取得验证码和短信发送时间session
-        $signup_sms_code = intval(Yii::$app->session->get('login_sms_code'));
-        $signup_sms_time = Yii::$app->session->get('login_sms_time');
-        if(time()-$signup_sms_time < 600){
-            return $signup_sms_code;
-        }else{
-            return 888888;
+        $session = Yii::$app->session;
+        if (isset($session['login_sms_code'])) {
+            //取得验证码和短信发送时间session
+            $signup_sms_code = $session['login_sms_code']['code'];
+            $signup_sms_time = $session['login_sms_code']['expire_time'];
+            if (time()-$signup_sms_time < 0) {
+                return $signup_sms_code == $value;
+                error_log('$session[\'login_sms_code\'][\'code\'] =  ' . $session['login_sms_code']['code']);
+            } else {
+                return false;
+            }
+        } else{
+            return false;
         }
     }
     
@@ -119,10 +126,11 @@ class SignupForm extends Model
         $user->invite = $this->invite;
         $user->setPassword($this->password);
         $user->generateAuthKey();
+        $user->save();
         
         $role = new AuthAssignment();
         $role->item_name = 'student';
-        $role->user_id = $model->id;
+        $role->user_id = $user->id;
         $role->save(false);
         return $user->save() ? $user : null;
     }

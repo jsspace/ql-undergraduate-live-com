@@ -1,7 +1,13 @@
 <?php
 namespace frontend\controllers;
 
-require_once dirname(__DIR__) . '/api_sdk/vendor/autoload.php';
+require_once '../../common/aliyun-dysms/api_sdk/vendor/autoload.php';
+
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\BadRequestHttpException;
+use yii\web\Controller;
 
 use Aliyun\Core\Config;
 use Aliyun\Core\Profile\DefaultProfile;
@@ -10,11 +16,8 @@ use Aliyun\Api\Sms\Request\V20170525\SendSmsRequest;
 use Aliyun\Api\Sms\Request\V20170525\QuerySendDetailsRequest;
 
 
-use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\web\BadRequestHttpException;
-use yii\web\Controller;
+// 加载区域结点配置
+Config::load();
 
 /**
  * Site controller
@@ -83,9 +86,9 @@ class SmsController extends Controller
         $domain = "dysmsapi.aliyuncs.com";
     
         // TODO 此处需要替换成开发者自己的AK (https://ak-console.aliyun.com/)
-        $accessKeyId = "yourAccessKeyId"; // AccessKeyId
-    
-        $accessKeySecret = "yourAccessKeySecret"; // AccessKeySecret
+        $accessKeyId = "LTAIdFt6166waxbP"; // AccessKeyId
+
+        $accessKeySecret = "obNmRfmCN7dvl53DH1GJJVPfC6LIIs"; // AccessKeySecret
     
     
         // 暂时不支持多Region

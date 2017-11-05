@@ -25,6 +25,7 @@ use backend\models\CourseSection;
 use backend\models\OrderInfo;
 use backend\models\Data;
 
+
 /**
  * Site controller
  */
@@ -271,7 +272,7 @@ class SiteController extends Controller
                 $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
                 $coupon->save();
                 //如果邀请人是学员，给邀请人添加优惠券
-                $roles_model = Yii::$app->authManager->getAssignments($uid);
+                $roles_model = Yii::$app->authManager->getAssignments($invite);
                 if (isset($roles_model['student'])) {
                     $coupon = new Coupon();
                     $coupon->fee = 50;
@@ -408,5 +409,92 @@ class SiteController extends Controller
         $result['user']['avatar'] = '';
         $result = json_encode($result);
         return $result;
+    }
+    
+    public function actionLogincode()
+    {
+        $phone = Yii::$app->request->Post('phone');
+        //检查session是否打开
+        if(!Yii::$app->session->isActive){
+            Yii::$app->session->open();
+        }
+        $session = Yii::$app->session;
+        print_r($session['login_sms_code']);
+        echo time()-$session['login_sms_code']['expire_time'];
+        die();
+        if (isset($session['login_sms_code']) && $session['login_sms_code']['request_time'] > time()) {
+            $res = [
+                'status' => 'error',
+                'expire_time' => $session['login_sms_code']['expire_time']-time(),
+                'message' => '请等待' . ($session['login_sms_code']['expire_time']-time()) . 's后再试。',
+            ];
+            return json_encode($res);
+        } else {
+//         print_r($session['login_sms_code']); echo time();
+//         die();
+        $code = rand(100000,999999);
+        $time = date('Y m d H:i:s', time());
+        $response = SmsController::sendSms(
+            "优师联考本", // 短信签名
+            "SMS_107160031", // 短信模板编号
+            $phone, // 短信接收者
+            Array(  // 短信模板中字段的值
+                "time" => $time,
+                "code"=>$code,
+                ),
+            'login sms code , phone:' . $phone . ' time:' . $time  // 流水号,选填
+            );
+//         print_r($response);
+        
+        $res = [];
+        if ($response->Code == 'OK') {            
+            $smsdata = [
+                'code' => $code,
+                'expire_time' => time() + 15*3600,
+                'request_time' => time() + 30,
+            ];
+            Yii::$app->session->set('login_sms_code', $smsdata);
+            $res = [
+                'status' => 'success',
+                'code' => 0,
+                'message' => '短信验证码发送成功',
+            ];
+        } elseif ($response->Code == 'isv.BUSINESS_LIMIT_CONTROL') {
+            $res = [
+                'status' => 'error',
+                'code' => 1,
+                'message' => '短信验证码请求太频繁，请稍后再尝试。同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。',
+            ];
+        }
+        return json_encode($res);
+        $err_str = 'login sms code, phone:'. $phone . ' code:' . $code .' ';
+        $err_str .= 'time:' . $time .' response:' . json_encode($response);
+        error_log($err_str);
+      }
+    }
+    
+    
+    public function actionGetlogincode()
+    {
+        //检查session是否打开
+        if(!Yii::$app->session->isActive){
+            Yii::$app->session->open();
+        }
+        $session = Yii::$app->session;
+        if (isset($session['login_sms_code'])) {
+            //取得验证码和短信发送时间session
+            $signup_sms_code = $session['login_sms_code']['code'];
+            $signup_sms_time = $session['login_sms_code']['expire_time'];
+            if (time()-$signup_sms_time < 0) {
+                print_r('line: ' . __LINE__);
+                return intval($signup_sms_code);
+            } else {
+                print_r('line: ' . __LINE__);
+                return 888888;
+            }
+        } else{
+            print_r('line: ' . __LINE__);
+            return 888888;
+        }
     }
 }
