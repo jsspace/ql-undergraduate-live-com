@@ -57,6 +57,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    'video-auth' => ['post'],
                 ],
             ],
         ];
@@ -76,6 +77,18 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+
+        $currentaction = $action->id;
+        $novalidactions = ['video-auth'];
+        if(in_array($currentaction,$novalidactions)) {
+            $action->controller->enableCsrfValidation = false;
+        }
+        parent::beforeAction($action);
+        return true;
     }
 
     /**
@@ -408,7 +421,7 @@ class SiteController extends Controller
         $result['user']['name'] = '学员A';
         $result['user']['avatar'] = '';
         $result = json_encode($result);
-        echo $result;
+        return $result;
     }
     
     public function actionLogincode()
