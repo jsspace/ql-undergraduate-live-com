@@ -358,9 +358,15 @@ class SiteController extends Controller
 
     public function actionVideoAuth(){
         $result = array();
-        /*$user = User::getUserModel(Yii::$app->user->id);
-        $username = $_POST['roomid'];
-        $roomid = $_POST['roomid'];
+        $roomid = '';
+        $viewername = '';
+        if (!empty($_POST['roomid'])) {
+            $roomid = $_POST['roomid'];
+        }
+        if (!empty($_POST['viewername'])) {
+            $viewername = $_POST['viewername'];
+        }
+        $user = User::getUserByName($viewername);
         $courseid = CourseSection::getCourse($roomid);
         $order = OrderInfo::find()
         ->select('course_ids')
@@ -405,21 +411,8 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['start']['alpha'] = 0.5;
             $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
             $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
-        }*/
-        $roomid = '';
-        $viewername = '';
-        if (!empty($_POST['roomid'])) {
-            $roomid = $_POST['roomid'];
         }
-        if (!empty($_POST['viewername'])) {
-            $viewername = $_POST['viewername'];
-        }
-        error_log('roomid==='.$roomid.'~~~~~~登陆用户名==='.$viewername);
-        $result['result'] = 'ok';
-        $result['message'] = '认证成功';
-        $result['user']['id'] = 'E6A232B2DEDF69469C33DC5901307461';
-        $result['user']['name'] = '学员A';
-        $result['user']['avatar'] = '';
+        error_log('~~~~~~roomid=='.$roomid.'~~~~~~');
         $result = json_encode($result);
         return $result;
     }

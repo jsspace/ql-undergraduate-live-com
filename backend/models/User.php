@@ -163,7 +163,12 @@ class User extends \yii\db\ActiveRecord
         ->one();
         return $userModel;
     }
-
+    public static function getUserByName($username) {
+        $userModel = self::find()
+        ->where(['username' => $username])
+        ->one();
+        return $userModel;
+    }
     public static function getUserByrole($roleName) {
         $userIds = Yii::$app->authManager->getUserIdsByRole($roleName);
         $models = self::find()
