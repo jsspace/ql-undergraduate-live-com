@@ -408,7 +408,7 @@ class SiteController extends Controller
         $result['user']['name'] = '学员A';
         $result['user']['avatar'] = '';
         $result = json_encode($result);
-        return $result;
+        echo $result;
     }
     
     public function actionLogincode()
