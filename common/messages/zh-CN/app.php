@@ -75,4 +75,6 @@ return [
     'Collections' => '收藏列表',
     'Quas' => '教师答疑',
     'Create Quas' => '回答问题',
+    'Create User' => '创建用户',
+    'Users' => '用户列表',
 ];

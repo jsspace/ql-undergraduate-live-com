@@ -66,7 +66,7 @@ class User extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'username' => Yii::t('app', '姓名'),
             'auth_key' => Yii::t('app', 'Auth Key'),
-            'password_hash' => Yii::t('app', 'Password'),
+            'password_hash' => Yii::t('app', '密码'),
             'password_reset_token' => Yii::t('app', 'Password Reset Token'),
             'email' => Yii::t('app', '邮箱'),
             'status' => Yii::t('app', '状态'),
