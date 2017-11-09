@@ -9,6 +9,7 @@ use common\models\LoginForm;
 use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
+use frontend\models\ChangePasswordForm;
 use frontend\models\SignupForm;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
@@ -337,25 +338,92 @@ class SiteController extends Controller
      * @return mixed
      * @throws BadRequestHttpException
      */
-    public function actionResetPassword($token)
-    {
-        try {
-            $model = new ResetPasswordForm($token);
-        } catch (InvalidParamException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
+//     public function actionResetPassword($token)
+//     {
+//         try {
+//             $model = new ResetPasswordForm($token);
+//         } catch (InvalidParamException $e) {
+//             throw new BadRequestHttpException($e->getMessage());
+//         }
 
+//         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+//             Yii::$app->session->setFlash('success', 'New password saved.');
+
+//             return $this->goHome();
+//         }
+
+//         return $this->render('resetPassword', [
+//             'model' => $model,
+//         ]);
+//     }
+
+    public function actionChangePassword()
+    {
+        $model = new ChangePasswordForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', 'New password saved.');
-
             return $this->goHome();
         }
-
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
     }
-
+    
+    public function actionChangPasswordCode()
+    {
+        $phone = Yii::$app->request->Post('phone');
+        //检查session是否打开
+        if(!Yii::$app->session->isActive){
+            Yii::$app->session->open();
+        }
+        $session = Yii::$app->session;
+        if (isset($session['change_password_code']) && $session['change_password_code']['request_time'] > time()) {
+            $res = [
+                'status' => 'error',
+                'expire_time' => $session['change_password_code']['expire_time']-time(),
+                'message' => '请等待' . ($session['change_password_code']['expire_time']-time()) . 's后再试。',
+            ];
+            return json_encode($res);
+        } else {
+            $code = rand(100000,999999);
+            $time = date('Y m d H:i:s', time());
+            $response = SmsController::sendSms(
+                "优师联考本", // 短信签名
+                "SMS_107160030", // 短信模板编号
+                $phone, // 短信接收者
+                Array(  // 短信模板中字段的值
+                    "time" => $time,
+                    "code"=>$code,
+                    ),
+                'change password sms code , phone:' . $phone . ' time:' . $time  // 流水号,选填
+                );
+    
+            $res = [];
+            if ($response->Code == 'OK') {
+                $smsdata = [
+                    'code' => $code,
+                    'expire_time' => time() + 15*3600,
+                    'request_time' => time() + 30,
+                ];
+                Yii::$app->session->set('change_password_code', $smsdata);
+                $res = [
+                    'status' => 'success',
+                    'code' => 0,
+                    'message' => '短信验证码发送成功',
+                ];
+            } elseif ($response->Code == 'isv.BUSINESS_LIMIT_CONTROL') {
+                $res = [
+                    'status' => 'error',
+                    'code' => 1,
+                    'message' => '短信验证码请求太频繁，请稍后再尝试。同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。',
+                ];
+            }
+            $err_str = 'change password sms code, phone:'. $phone . ' code:' . $code .' ';
+            $err_str .= 'time:' . $time .' response:' . json_encode($response);
+            error_log($err_str);
+        }
+    }
+    
     public function actionVideoAuth(){
         $result = array();
         $roomid = '';
@@ -430,9 +498,6 @@ class SiteController extends Controller
             Yii::$app->session->open();
         }
         $session = Yii::$app->session;
-        print_r($session['login_sms_code']);
-        echo time()-$session['login_sms_code']['expire_time'];
-        die();
         if (isset($session['login_sms_code']) && $session['login_sms_code']['request_time'] > time()) {
             $res = [
                 'status' => 'error',
@@ -455,7 +520,6 @@ class SiteController extends Controller
                 ),
             'login sms code , phone:' . $phone . ' time:' . $time  // 流水号,选填
             );
-//         print_r($response);
         
         $res = [];
         if ($response->Code == 'OK') {            
@@ -477,7 +541,7 @@ class SiteController extends Controller
                 'message' => '短信验证码请求太频繁，请稍后再尝试。同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。',
             ];
         }
-        return json_encode($res);
+//         return json_encode($res);
         $err_str = 'login sms code, phone:'. $phone . ' code:' . $code .' ';
         $err_str .= 'time:' . $time .' response:' . json_encode($response);
         error_log($err_str);

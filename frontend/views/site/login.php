@@ -17,14 +17,14 @@ $this->title = 'Login';
         <div class="login-bg">
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-                <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'phone')->textInput(['autofocus' => true]) ?>
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
                 <div class="forget-section">
-                    <?= Html::a('忘记密码', ['site/request-password-reset']) ?>.
+                    <?= Html::a('忘记密码', ['site/change-password']) ?>.
                 </div>
 
                 <div class="form-group login-section">

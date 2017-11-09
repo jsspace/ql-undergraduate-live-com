@@ -178,13 +178,18 @@ class UserController extends Controller
     {
         return $this->render('lmenu');
     }
+    
     public function actionPasswordReset()
     {
         $model = $this->findModel(Yii::$app->user->id);
+        
+        //$model->password_hash = Yii::$app->security->generatePasswordHash($password);
+        
         return $this->render('password-reset', [
             'model' => $model,
         ]);
     }
+    
     public function actionCourse()
     {
         $orderids = OrderInfo::find()
