@@ -44,8 +44,9 @@ class SignupForm extends Model
             
             ['smscode', 'required','on' => ['default','login_sms_code']],
             ['smscode', 'integer','on' => ['default','login_sms_code']],
+            [['smscode'], 'getLoginCode', 'skipOnEmpty' => false, 'skipOnError' => false],
 //             ['smscode', 'string', 'min'=>6,'max' => 6,'on' => ['default','login_sms_code']],
-            ['smscode', 'filter', 'filter' => function($value) { return $this->getLoginCode($value);}, 'on' => ['default','login_sms_code'],'message'=>'验证码输入错误或者失效'],
+            //['smscode', 'filter', 'filter' => function($value) { return $this->getLoginCode($value);}, 'on' => ['default','login_sms_code'],'message'=>'验证码输入错误或者失效'],
             
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
@@ -85,7 +86,7 @@ class SignupForm extends Model
         ];
     }
     
-    public function getLoginCode($value)
+    public function getLoginCode($attribute, $params)
     {
         //检查session是否打开
         if(!Yii::$app->session->isActive){
@@ -97,13 +98,15 @@ class SignupForm extends Model
             $signup_sms_code = $session['login_sms_code']['code'];
             $signup_sms_time = $session['login_sms_code']['expire_time'];
             if (time()-$signup_sms_time < 0) {
-                return $signup_sms_code == $value;
-                error_log('$session[\'login_sms_code\'][\'code\'] =  ' . $session['login_sms_code']['code']);
+                if ($this->smscode != $session['login_sms_code']['code']) {
+                    $this->addError('smscode', '验证码的值输入错误！');
+                }
             } else {
-                return false;
+                $session->remove('login_sms_code');
+                $this->addError('smscode', '验证码的值失效！');
             }
         } else{
-            return false;
+            $this->addError('smscode', '请输入验证码的值！');
         }
     }
     
