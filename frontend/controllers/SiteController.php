@@ -360,28 +360,34 @@ class SiteController extends Controller
         $result = array();
         $roomid = '';
         $viewername = '';
+        $viewertoken = '';
         if (!empty($_POST['roomid'])) {
             $roomid = $_POST['roomid'];
         }
         if (!empty($_POST['viewername'])) {
             $viewername = $_POST['viewername'];
         }
-        $user = User::getUserByName($viewername);
-        $courseid = CourseSection::getCourse($roomid);
-        $order = OrderInfo::find()
-        ->select('course_ids')
-        ->where(['user_id' => Yii::$app->user->id])
-        ->andWhere(['pay_status' => 2])
-        ->all();
-        //->createCommand()->getRawSql();
-        $course_ids = '';
-        if (!empty($order)) {
-            foreach($order as $item) {
-                $course_ids .= $item->course_ids . ',';
-            }
+        if (!empty($_POST['viewertoken'])) {
+            $viewertoken = $_POST['viewertoken'];
         }
-        $course_ids_arr = explode(',', $course_ids);
-        if (Yii::$app->user->isGuest) {
+        $user = User::getUserByName($viewername, $viewertoken);
+        $course_ids = '';
+        if (!empty($usermodel)) {
+            $courseid = CourseSection::getCourse($roomid);
+            $order = OrderInfo::find()
+            ->select('course_ids')
+            ->where(['user_id' => $user->id])
+            ->andWhere(['pay_status' => 2])
+            ->all();
+            //->createCommand()->getRawSql();
+            if (!empty($order)) {
+                foreach($order as $item) {
+                    $course_ids .= $item->course_ids . ',';
+                }
+            }
+            $course_ids_arr = explode(',', $course_ids);
+        }
+        if (empty($usermodel)) {
             $result['result'] = 'false';
             $result['message'] = '请先登录';
         } else if (in_array($courseid, $course_ids_arr)) {
@@ -412,7 +418,6 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
             $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
         }
-        error_log('~~~~~~roomid=='.$roomid.'~~~~~~');
         $result = json_encode($result);
         return $result;
     }

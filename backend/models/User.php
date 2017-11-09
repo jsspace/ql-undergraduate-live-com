@@ -163,9 +163,11 @@ class User extends \yii\db\ActiveRecord
         ->one();
         return $userModel;
     }
-    public static function getUserByName($username) {
+    public static function getUserByName($username, $pass) {
+        $pass = Yii::$app->security->generatePasswordHash($pass);
         $userModel = self::find()
         ->where(['username' => $username])
+        ->andWhere(['password_hash' => $pass])
         ->one();
         return $userModel;
     }
