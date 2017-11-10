@@ -26,7 +26,8 @@ $this->title = '个人中心';
                     <div class="col-lg-5">
                         <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
 
-                            <?= $form->field($model, 'password_hash')->passwordInput(['autofocus' => true]) ?>
+							<?= $form->field($model, 'change_code')->textInput(['autofocus' => true]) ?>
+                            <?= $form->field($model, 'password_hash')->passwordInput() ?>
 
                             <div class="form-group">
                                 <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>

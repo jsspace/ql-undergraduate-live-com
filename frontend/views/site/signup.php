@@ -17,8 +17,7 @@ $this->title = 'Signup';
 <div class="site-login-register site-signup">
     <div class="login-kuang">
         <div class="login-bg">
-        <?php Pjax::begin(['id' => 'signup_pjax']) ?>
-            <?php $form = ActiveForm::begin(['id' => 'form-signup', 'method'=>'post', 'enableAjaxValidation' => true, 'options'=>['data-pjax'=>'#signup_pjax']]); ?>
+            <?php $form = ActiveForm::begin(['id' => 'form-signup', 'method'=>'post',]); ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'class' => "form-control signup-input", 'placeholder' => "用户名"]) ?>
 
@@ -42,7 +41,6 @@ $this->title = 'Signup';
                 </div>
 
             <?php ActiveForm::end(); ?>
-        <?php Pjax::end() ?>
         </div>
     </div>
 </div>
