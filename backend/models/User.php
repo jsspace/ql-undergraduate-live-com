@@ -167,7 +167,10 @@ class User extends \yii\db\ActiveRecord
         $userModel = self::find()
         ->where(['username' => $username])
         ->one();
-        $result = Yii::$app->getSecurity()->validatePassword($pass, $userModel->password_hash);
+        $result = false;
+        if ($userModel) {
+            $result = Yii::$app->getSecurity()->validatePassword($pass, $userModel->password_hash);
+        }
         if ($result) {
             return $userModel;
         } else {
