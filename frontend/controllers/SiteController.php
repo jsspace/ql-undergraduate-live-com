@@ -457,7 +457,7 @@ class SiteController extends Controller
         }
         if (empty($usermodel)) {
             $result['result'] = 'false';
-            $result['message'] = '请先登录';
+            $result['message'] = '用户名或密码错误';
         } else if (in_array($courseid, $course_ids_arr)) {
             $result['result'] = 'false';
             $result['message'] = '请先购买';

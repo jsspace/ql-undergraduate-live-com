@@ -164,12 +164,15 @@ class User extends \yii\db\ActiveRecord
         return $userModel;
     }
     public static function getUserByName($username, $pass) {
-        $pass = Yii::$app->security->generatePasswordHash($pass);
         $userModel = self::find()
         ->where(['username' => $username])
-        ->andWhere(['password_hash' => $pass])
         ->one();
-        return $userModel;
+        $result = Yii::$app->getSecurity()->validatePassword($pass, $userModel->password_hash);
+        if ($result) {
+            return $userModel;
+        } else {
+            return '';
+        }
     }
     public static function getUserByrole($roleName) {
         $userIds = Yii::$app->authManager->getUserIdsByRole($roleName);
