@@ -198,9 +198,9 @@ class User extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
     
-        if ($insert) {
+        //if ($insert) {
             $this->password_hash = Yii::$app->security->generatePasswordHash($this->password_hash);
             $this->save(false, ['password_hash']);
-        }
+        //}
     }
 }

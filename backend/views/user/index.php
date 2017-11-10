@@ -12,7 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -23,18 +22,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            ['class' => 'yii\grid\ActionColumn'],
+            //'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            // 'email:email',
-            // 'status',
+            //'auth_key',
+            //'password_hash',
+            //'password_reset_token',
+            'email:email',
+            [
+                'attribute' => 'status',
+                'value'=> function ($model) {
+                    return $model->status == 1 ? '已激活':'未激活';
+                },
+                'filter' => [1=>'已激活',0=>'未激活'],
+            ],
             // 'created_at',
             // 'updated_at',
-            // 'phone',
-            // 'gender',
+            'phone',
+            [
+                'attribute' => 'gender',
+                'value'=> function ($model) {
+                    return $model->gender == 1 ? '女':'男';
+                },
+                'filter' => [1=>'女',0=>'男' ],
+            ],
             // 'description',
             // 'unit',
             // 'office',
@@ -45,8 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'wechat',
             // 'wechat_img',
             // 'percentage',
-
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
