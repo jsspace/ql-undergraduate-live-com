@@ -438,9 +438,11 @@ class SiteController extends Controller
         if (!empty($_POST['viewertoken'])) {
             $viewertoken = $_POST['viewertoken'];
         }
+        error_log('roomid==='.$roomid.'~~~~~~登陆用户名==='.$viewername.'~~~~~~~密码==='.$viewertoken);
         $user = User::getUserByName($viewername, $viewertoken);
+        error_log('user====='.$user);
         $course_ids = '';
-        if (!empty($usermodel)) {
+        if (!empty($user)) {
             $courseid = CourseSection::getCourse($roomid);
             $order = OrderInfo::find()
             ->select('course_ids')
@@ -455,7 +457,7 @@ class SiteController extends Controller
             }
             $course_ids_arr = explode(',', $course_ids);
         }
-        if (empty($usermodel)) {
+        if (empty($user)) {
             $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
         } else if (in_array($courseid, $course_ids_arr)) {
