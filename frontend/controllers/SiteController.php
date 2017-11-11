@@ -456,11 +456,11 @@ class SiteController extends Controller
             }
             $course_ids_arr = explode(',', $course_ids);
         }
-        if (empty($user)) {
+        /*if (empty($user)) {
             $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
             return $result;
-        }
+        }*/
         /*if (in_array($courseid, $course_ids_arr)) {
             $result['result'] = 'ok';
             $result['message'] = '认证成功';
