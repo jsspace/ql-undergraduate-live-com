@@ -124,3 +124,22 @@
     float: right;
     background-color: #3487dc;
 }
+.form-group.field-changepasswordform-change_password_code {
+    width: 55%;
+    display: inline-block;
+    margin-right: 2%;
+    margin-bottom: 6px;
+}
+.site-resetpwd .verify-code {
+    width: 38%;
+    margin: 0;
+}
+.form-control {
+    height: 40px;
+}
+.site-resetpwd button {
+    width: 140px;
+    height: 40px;
+    background-color: #E6393F;
+    border: 0;
+}

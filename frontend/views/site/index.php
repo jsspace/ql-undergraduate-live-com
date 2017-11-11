@@ -17,7 +17,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         <div class="live-course-container">
             <div class="left-video">
                 <img src="/img/no-video.jpg" class="no-video"/>
-                <a href="" class="enter-video-btn">进入教室</a>
+                <a href="javascript:void(0)" class="enter-video-btn _video-btn" target="_blank">进入教室</a>
             </div>
             <div class="right-list">
                 <div class="data-title">
@@ -30,13 +30,13 @@ $weekarray=array("日","一","二","三","四","五","六");
                     $viewername = User::getUserModel(Yii::$app->user->id)->username;
                     $viewertoken = User::getUserModel(Yii::$app->user->id)->password_hash;
                 } ?>
-                <ul class="video-title-list">
+                <ul class="video-title-list _video-list">
                     <?php
                         foreach ($live_ing as $key => $live) {
                     ?>
                         <li class="active">
                             <i class="icon-circle"></i>
-                            <a target="_blank" href="<?= $live['live_url'].'&autoLogin=true&viewername='.$viewername.'&viewertoken='.$viewertoken ?>">
+                            <a class="_video-url" target="_blank" href="javascript:void(0)" video-url="<?= $live['live_url'].'&autoLogin=true&viewername='.$viewername.'&viewertoken='.$viewertoken ?>">
                                 <span class="top"><?= $live['start_time'] ?>-<?= $live['end_time'] ?></span>
                                 <span class="bottom"><?= $live['course_name'] ?></span>
                             </a>

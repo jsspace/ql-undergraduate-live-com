@@ -46,7 +46,7 @@ $this->title = 'Signup';
 </div>
 <script>
 $('.getlogincode').on('click', function() {
-    var seconds = 10;
+    var seconds = 60;
     if (!$(this).hasClass('disabled')) {
         $('.getlogincode').text('重新获取' + seconds +'s后').addClass('disabled');
         var timeout = setInterval(function() {

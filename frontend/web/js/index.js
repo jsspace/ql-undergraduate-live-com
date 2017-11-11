@@ -4,6 +4,13 @@ var indexFunc = {
         self.hotFunc();
         self.courseTab();
         self.imgAnimate();
+        self.videoPlay();
+    },
+    videoPlay: function() {
+        $("._video-list li").on("click", function() {
+            var videoUrl = $(this).find("._video-url").attr("video-url");
+            $("._video-btn").attr("href", videoUrl);
+        });
     },
     hotFunc: function() {
         var self = this;
