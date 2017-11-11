@@ -442,7 +442,6 @@ class SiteController extends Controller
         $course_ids = '';
         if (!empty($user)) {
             $courseid = CourseSection::getCourse($roomid);
-            error_log('courseid==='.$courseid);
             $order = OrderInfo::find()
             ->select('course_ids')
             ->where(['user_id' => $user->id])
@@ -455,12 +454,11 @@ class SiteController extends Controller
                 }
             }
             $course_ids_arr = explode(',', $course_ids);
-            error_log('course_ids_arr==='.$course_ids_arr);
         }
         if (empty($user)) {
             $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
-        } else if (in_array($courseid, $course_ids_arr)) {
+        } else if (!in_array($courseid, $course_ids_arr)) {
             $result['result'] = 'false';
             $result['message'] = '请先购买';
         } else {

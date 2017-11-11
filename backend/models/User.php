@@ -171,7 +171,6 @@ class User extends \yii\db\ActiveRecord
         if ($userModel) {
             $result = Yii::$app->security->validatePassword($pass, $userModel->password_hash);
         }
-        error_log('result=='.$result);
         if ($result == 1) {
             return $userModel;
         } else {
