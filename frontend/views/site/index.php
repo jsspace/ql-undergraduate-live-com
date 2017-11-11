@@ -34,7 +34,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                     <?php
                         foreach ($live_ing as $key => $live) {
                     ?>
-                        <li class="active">
+                        <li>
                             <i class="icon-circle"></i>
                             <a class="_video-url" target="_blank" href="javascript:void(0)" video-url="<?= $live['live_url'].'&autoLogin=true&viewername='.$viewername.'&viewertoken='.$viewertoken ?>">
                                 <span class="top"><?= $live['start_time'] ?>-<?= $live['end_time'] ?></span>

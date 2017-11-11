@@ -35,9 +35,14 @@
     padding: 0 45px;
     height: 50px;
     border-radius: 8px;
+    color: #fff;
+    display: none;
+}
+.live-course .left-video:hover .enter-video-btn {
+    display: block;
 }
 .live-course .left-video .enter-video-btn:hover {
-    background: rgba(80,171,254,1);
+    background: #363e53;
     color: #fff;
 }
 .live-course .right-list {
