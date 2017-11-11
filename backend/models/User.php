@@ -164,20 +164,15 @@ class User extends \yii\db\ActiveRecord
         return $userModel;
     }
     public static function getUserByName($username, $pass) {
-        $username = 'admin';
-        $pass = '123456';
         $userModel = self::find()
         ->where(['username' => $username])
         ->one();
-        print_r($userModel->password_hash);
         $result = 0;
         if ($userModel) {
-            // $result = Yii::$app->getSecurity()->validatePassword($pass, $userModel->password_hash);
             $result = Yii::$app->security->validatePassword($pass, $userModel->password_hash);
         }
-        print_r($result);
-        die();
-        if ($result) {
+        error_log('result=='.$result);
+        if ($result == 1) {
             return $userModel;
         } else {
             return '';

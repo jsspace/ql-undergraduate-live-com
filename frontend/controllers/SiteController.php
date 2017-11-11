@@ -58,7 +58,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
-                    //'video-auth' => ['post'],
+                    'video-auth' => ['post'],
                 ],
             ],
         ];
@@ -440,7 +440,7 @@ class SiteController extends Controller
         }
         $user = User::getUserByName($viewername, $viewertoken);
         $course_ids = '';
-        if (!empty($usermodel)) {
+        if (!empty($user)) {
             $courseid = CourseSection::getCourse($roomid);
             $order = OrderInfo::find()
             ->select('course_ids')
@@ -455,7 +455,7 @@ class SiteController extends Controller
             }
             $course_ids_arr = explode(',', $course_ids);
         }
-        if (empty($usermodel)) {
+        if (empty($user)) {
             $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
         } else if (in_array($courseid, $course_ids_arr)) {
