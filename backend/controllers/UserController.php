@@ -79,6 +79,8 @@ class UserController extends Controller
                 }
                 $user_image->saveAs($user_img_rootPath . $userRandName);
                 $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $userRandName;
+            } else {
+                $model->picture = '';
             }
             if (!empty($wechat_img)) {
                 $wechat_image_ext = $wechat_image->getExtension();
@@ -89,8 +91,10 @@ class UserController extends Controller
                 }
                 $wechat_img->saveAs($wechat_img_rootPath . $wechatRandName);
                 $model->wechat_img = Yii::$app->params['upload_img_dir'] . 'wechat_img/' . $wechatRandName;
+            } else {
+                $model->wechat_img = '';
             }
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

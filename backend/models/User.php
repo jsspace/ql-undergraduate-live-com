@@ -190,8 +190,11 @@ class User extends \yii\db\ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             if ($insert) {
+                $this->auth_key = Yii::$app->security->generateRandomString();
+                $this->password_hash = Yii::$app->security->generatePasswordHash($this->password_hash);
                 $this->created_at = time();
             } else {
+                
                 $this->updated_at = time();
             }
             return true;
@@ -200,13 +203,13 @@ class User extends \yii\db\ActiveRecord
         }
     }
     
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
+//     public function afterSave($insert, $changedAttributes)
+//     {
+//         parent::afterSave($insert, $changedAttributes);
     
-        //if ($insert) {
-            $this->password_hash = Yii::$app->security->generatePasswordHash($this->password_hash);
-            $this->save(false, ['password_hash']);
-        //}
-    }
+//         if ($insert) {
+//             $this->password_hash = Yii::$app->security->generatePasswordHash($this->password_hash);
+// //             $this->save(false, ['password_hash']);
+//         }
+//     }
 }
