@@ -486,8 +486,8 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
             $result['user']['marquee']['action'][1]['end']['ypos'] = 1;*/
         } else {
-            $result['result'] = 'false';
-            $result['message'] = '请先购买该门课程';
+            /*$result['result'] = 'false';
+            $result['message'] = '请先购买该门课程';*/
         }
         $result = json_encode($result);
         return $result;
