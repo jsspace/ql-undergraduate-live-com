@@ -425,7 +425,6 @@ class SiteController extends Controller
     }
     
     public function actionVideoAuth(){
-        error_log('进来了');
         $result = array();
         $roomid = '';
         $viewername = '';
@@ -439,9 +438,7 @@ class SiteController extends Controller
         if (!empty($_POST['viewertoken'])) {
             $viewertoken = $_POST['viewertoken'];
         }
-        error_log('roomid==='.$roomid.'~~~~~~登陆用户名==='.$viewername.'~~~~~~~密码==='.$viewertoken);
         $user = User::getUserByName($viewername, $viewertoken);
-        error_log('user====='.$user);
         $course_ids = '';
         if (!empty($user)) {
             $courseid = CourseSection::getCourse($roomid);
