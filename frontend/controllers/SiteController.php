@@ -438,6 +438,7 @@ class SiteController extends Controller
         if (!empty($_POST['viewertoken'])) {
             $viewertoken = $_POST['viewertoken'];
         }
+        error_log('$roomid=='.$roomid.'$viewername=='.$viewername.'$viewertoken=='.$viewertoken);
         $user = User::getUserByName($viewername, $viewertoken);
         $course_ids = '';
         if (!empty($user)) {
