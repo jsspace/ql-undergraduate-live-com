@@ -58,7 +58,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
-                    //'video-auth' => ['post'],
+                    'video-auth' => ['post'],
                 ],
             ],
         ];
