@@ -7,9 +7,14 @@ var indexFunc = {
         self.videoPlay();
     },
     videoPlay: function() {
+        var $ele = $("._video-list li").eq(0);
+        var originalVideo = $ele.find("._video-url").attr("video-url");
+        $("._video-btn").attr("href", originalVideo);
+        $ele.eq(0).addClass("active");
         $("._video-list li").on("click", function() {
             var videoUrl = $(this).find("._video-url").attr("video-url");
             $("._video-btn").attr("href", videoUrl);
+            $(this).addClass("active").siblings("li").removeClass("active");
         });
     },
     hotFunc: function() {
