@@ -464,7 +464,7 @@ class SiteController extends Controller
             $course_ids_arr = explode(',', $course_ids);
         }
         if (in_array($courseid, $course_ids_arr)) {
-            $result['result'] = 'ok';
+            $result['result'] = "ok";
             $result['message'] = '认证成功';
         } else {
             $result['result'] = 'false';
