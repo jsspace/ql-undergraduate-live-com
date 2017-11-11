@@ -24,19 +24,20 @@ $weekarray=array("日","一","二","三","四","五","六");
                     <span class="time"><?= date("m").'月'.date("d").'日' ?>&nbsp;&nbsp;<?= '星期'.$weekarray[date("w")] ?></span>
                 </div>
                 <?php
-                    $viewername = '';
+                    /*$viewername = '';
                     $viewertoken = '';
                     if (!Yii::$app->user->isGuest) {
                     $viewername = User::getUserModel(Yii::$app->user->id)->username;
-                    $viewertoken = User::getUserModel(Yii::$app->user->id)->password_hash;
-                } ?>
+                    $viewertoken = User::getUserModel(Yii::$app->user->id)->password_hash;*/
+                //} ?>
                 <ul class="video-title-list _video-list">
                     <?php
                         foreach ($live_ing as $key => $live) {
                     ?>
                         <li>
                             <i class="icon-circle"></i>
-                            <a class="_video-url" target="_blank" href="javascript:void(0)" video-url="<?= $live['live_url'].'&autoLogin=true&viewername='.$viewername.'&viewertoken='.$viewertoken ?>">
+                            <!-- <a class="_video-url" target="_blank" href="javascript:void(0)" video-url="<?//= $live['live_url'].'&autoLogin=true&viewername='.$viewername.'&viewertoken='.$viewertoken ?>"> -->
+                            <a class="_video-url" target="_blank" href="javascript:void(0)" video-url="<?= $live['live_url'] ?>">
                                 <span class="top"><?= $live['start_time'] ?>-<?= $live['end_time'] ?></span>
                                 <span class="bottom"><?= $live['course_name'] ?></span>
                             </a>

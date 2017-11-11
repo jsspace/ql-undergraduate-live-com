@@ -442,19 +442,20 @@ class SiteController extends Controller
         $course_ids = '';
         if (!empty($user)) {
             $courseid = CourseSection::getCourse($roomid);
+            error_log('courseid==='.$courseid);
             $order = OrderInfo::find()
             ->select('course_ids')
             ->where(['user_id' => $user->id])
             ->andWhere(['pay_status' => 2])
-            //->all();
-            ->createCommand()->getRawSql();
-            error_log('$order==='.$order);
+            ->all();
+            //->createCommand()->getRawSql();
             if (!empty($order)) {
                 foreach($order as $item) {
                     $course_ids .= $item->course_ids . ',';
                 }
             }
             $course_ids_arr = explode(',', $course_ids);
+            error_log('course_ids_arr==='.$course_ids_arr);
         }
         if (empty($user)) {
             $result['result'] = 'false';
