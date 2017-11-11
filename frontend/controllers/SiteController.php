@@ -426,9 +426,9 @@ class SiteController extends Controller
     
     public function actionVideoAuth(){
         $result = array();
-        $roomid = '';
-        $viewername = '';
-        $viewertoken = '';
+        $roomid = '8EFA264F77A57E209C33DC5901307461';
+        $viewername = 'admin';
+        $viewertoken = '123456';
         if (!empty($_POST['roomid'])) {
             $roomid = $_POST['roomid'];
         }
@@ -459,13 +459,13 @@ class SiteController extends Controller
         if (empty($user)) {
             $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
-        } else if (!in_array($courseid, $course_ids_arr)) {
+        } else if (in_array($courseid, $course_ids_arr)) {
             $result['result'] = 'false';
             $result['message'] = '请先购买';
         } else {
             $result['result'] = 'ok';
             $result['message'] = '认证成功';
-            /*$result['user']['id'] = $user->id;
+            $result['user']['id'] = $user->id;
             $result['user']['name'] = $user->username;
             $result['user']['avatar'] = $user->picture;
             $result['user']['customua'] = 1;
@@ -485,7 +485,7 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['start']['ypos'] = 0;
             $result['user']['marquee']['action'][1]['start']['alpha'] = 0.5;
             $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
-            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;*/
+            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
         }
         $result = json_encode($result);
         return $result;
