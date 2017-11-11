@@ -426,9 +426,9 @@ class SiteController extends Controller
     
     public function actionVideoAuth(){
         $result = array();
-        $roomid = '8EFA264F77A57E209C33DC5901307461';
-        $viewername = 'admin';
-        $viewertoken = '123456';
+        $roomid = '';
+        $viewername = '';
+        $viewertoken = '';
         if (!empty($_POST['roomid'])) {
             $roomid = $_POST['roomid'];
         }
