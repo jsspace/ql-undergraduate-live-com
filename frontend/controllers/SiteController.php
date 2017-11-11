@@ -425,6 +425,7 @@ class SiteController extends Controller
     }
     
     public function actionVideoAuth(){
+        error_log('进来了');
         $result = array();
         $roomid = '';
         $viewername = '';
