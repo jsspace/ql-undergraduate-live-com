@@ -456,7 +456,7 @@ class SiteController extends Controller
             }
             $course_ids_arr = explode(',', $course_ids);
         }
-        if (empty($user)) {
+        /*if (empty($user)) {
             $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
             return $result;
@@ -488,7 +488,7 @@ class SiteController extends Controller
         } else {
             $result['result'] = 'false';
             $result['message'] = '请先购买该门课程';
-        }
+        }*/
         $result = json_encode($result);
         return $result;
     }
