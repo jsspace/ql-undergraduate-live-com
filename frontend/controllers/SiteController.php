@@ -459,10 +459,10 @@ class SiteController extends Controller
         if (empty($user)) {
             $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
-        } else if (!in_array($courseid, $course_ids_arr)) {
+        }/* else if (!in_array($courseid, $course_ids_arr)) {
             $result['result'] = 'false';
             $result['message'] = '请先购买';
-        } else {
+        }*/ else {
             $result['result'] = 'ok';
             $result['message'] = '认证成功';
             $result['user']['id'] = $user->id;
