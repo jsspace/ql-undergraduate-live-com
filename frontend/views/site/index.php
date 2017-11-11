@@ -16,7 +16,7 @@ $weekarray=array("日","一","二","三","四","五","六");
     <div class="live-course">
         <div class="live-course-container">
             <div class="left-video">
-                <img src="/img/no-video.jpg" class="no-video"/>
+                <!-- <img src="/img/no-video.jpg" class="no-video"/> -->
                 <a href="javascript:void(0)" class="enter-video-btn _video-btn" target="_blank">进入教室</a>
             </div>
             <div class="right-list">

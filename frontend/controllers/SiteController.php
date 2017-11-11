@@ -446,8 +446,9 @@ class SiteController extends Controller
             ->select('course_ids')
             ->where(['user_id' => $user->id])
             ->andWhere(['pay_status' => 2])
-            ->all();
-            //->createCommand()->getRawSql();
+            //->all();
+            ->createCommand()->getRawSql();
+            error_log('$order==='.$order);
             if (!empty($order)) {
                 foreach($order as $item) {
                     $course_ids .= $item->course_ids . ',';
