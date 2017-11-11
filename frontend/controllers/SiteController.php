@@ -461,8 +461,8 @@ class SiteController extends Controller
             $result['message'] = '用户名或密码错误';
             return $result;
         }
-        if (in_array($courseid, $course_ids_arr)) {
-            /*$result['result'] = 'ok';
+        /*if (in_array($courseid, $course_ids_arr)) {
+            $result['result'] = 'ok';
             $result['message'] = '认证成功';
             $result['user']['id'] = $user->id;
             $result['user']['name'] = $user->username;
@@ -484,11 +484,11 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['start']['ypos'] = 0;
             $result['user']['marquee']['action'][1]['start']['alpha'] = 0.5;
             $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
-            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;*/
+            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
         } else {
-            /*$result['result'] = 'false';
-            $result['message'] = '请先购买该门课程';*/
-        }
+            $result['result'] = 'false';
+            $result['message'] = '请先购买该门课程';
+        }*/
         $result = json_encode($result);
         return $result;
     }
