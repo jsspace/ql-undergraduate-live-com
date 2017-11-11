@@ -22,7 +22,9 @@ $this->title = 'Signup';
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'class' => "form-control signup-input", 'placeholder' => "用户名"]) ?>
 
                 <?= $form->field($model, 'email')->textInput(['class' => "form-control signup-input email", 'placeholder' => "邮箱"]) ?>
-                
+
+                <?= $form->field($model, 'password')->passwordInput(['class' => "form-control signup-input", 'placeholder' => "密码"]) ?>
+
                 <?= $form->field($model, 'phone')->textInput(['class' => "form-control signup-input phone", 'placeholder' => "手机号"]) ?>
 				
 				<?= $form->field($model, 'smscode')->textInput(['class' => "form-control signup-input smscode", 'placeholder' => "验证码"]) ?>
@@ -31,8 +33,6 @@ $this->title = 'Signup';
                     <a href="javascript:void(0)" class="btn verify-btn getlogincode">获取验证码</a>
                     <p class="help-block help-block-error"></p>
                 </div>
-                
-                <?= $form->field($model, 'password')->passwordInput(['class' => "form-control signup-input", 'placeholder' => "密码"]) ?>
 
                 <?= Html::activeHiddenInput($model,'invite',array('value'=>$invite)) ?>
 
@@ -46,21 +46,34 @@ $this->title = 'Signup';
 </div>
 <script>
 $('.getlogincode').on('click', function() {
-	$.ajax({
-        url: '/site/logincode',
-        type: 'post',
-        dataType:"json",
-        data: {
-            '_csrf-frontend': $('meta[name=csrf-token]').attr('content'),
-            phone: $('.phone').val(),
-        },
-        success: function (data) {
-            if (data.code !== 0) {
-                $('.verify-code .help-block-error').text(data.message);
+    var seconds = 10;
+    if (!$(this).hasClass('disabled')) {
+        $('.getlogincode').text('重新获取' + seconds +'s后').addClass('disabled');
+        var timeout = setInterval(function() {
+            if (seconds <= 0) {
+                $('.getlogincode').text('获取验证码').removeClass('disabled');
+                clearInterval(timeout);
             } else {
-            	$('.verify-code .help-block-error').text('');
+                --seconds;
+                $('.getlogincode').text('重新获取' + seconds +'s后').addClass('disabled');
             }
-        }
-    });
+        }, 1000);
+        $.ajax({
+            url: '/site/logincode',
+            type: 'post',
+            dataType:"json",
+            data: {
+                '_csrf-frontend': $('meta[name=csrf-token]').attr('content'),
+                phone: $('.phone').val(),
+            },
+            success: function (data) {
+                if (data.code !== 0) {
+                    $('.verify-code .help-block-error').text(data.message);
+                } else {
+                    $('.verify-code .help-block-error').text('');
+                }
+            }
+        });
+    }
 });
 </script>
