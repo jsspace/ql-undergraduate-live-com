@@ -462,7 +462,7 @@ class SiteController extends Controller
             $result = json_encode($result);
             return $result;
         }
-        /*if (in_array($courseid, $course_ids_arr)) {
+        if (in_array($courseid, $course_ids_arr)) {
             $result['result'] = 'ok';
             $result['message'] = '认证成功';
             $result['user']['id'] = $user->id;
@@ -489,7 +489,7 @@ class SiteController extends Controller
         } else {
             $result['result'] = 'false';
             $result['message'] = '请先购买该门课程';
-        }*/
+        }
         $result = json_encode($result);
         return $result;
     }
