@@ -42,11 +42,10 @@ class SignupForm extends Model
             ['phone', 'unique', 'targetClass' => '\common\models\User', 'message' => '{attribute}已经被占用了'],
             ['phone', 'string', 'min'=>11,'max' => 11,'on' => ['default','login_sms_code']],
             
+            ['smscode', 'string', 'min' => 6,'max' => 6],
             ['smscode', 'required','on' => ['default','login_sms_code']],
             ['smscode', 'integer','on' => ['default','login_sms_code']],
-            [['smscode'], 'getLoginCode', 'skipOnEmpty' => false, 'skipOnError' => false],
-//             ['smscode', 'string', 'min'=>6,'max' => 6,'on' => ['default','login_sms_code']],
-            //['smscode', 'filter', 'filter' => function($value) { return $this->getLoginCode($value);}, 'on' => ['default','login_sms_code'],'message'=>'验证码输入错误或者失效'],
+            ['smscode', 'get_login_code', 'skipOnEmpty' => false, 'skipOnError' => false],
             
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
@@ -86,7 +85,7 @@ class SignupForm extends Model
         ];
     }
     
-    public function getLoginCode($attribute, $params)
+    public function get_login_code($attribute, $params)
     {
         //检查session是否打开
         if(!Yii::$app->session->isActive){
