@@ -428,6 +428,7 @@ class SiteController extends Controller
         $roomid = '';
         $viewername = '';
         $viewertoken = '';
+        $userid = '';
         if (!empty($_POST['roomid'])) {
             $roomid = $_POST['roomid'];
         }
@@ -436,6 +437,9 @@ class SiteController extends Controller
         }
         if (!empty($_POST['viewertoken'])) {
             $viewertoken = $_POST['viewertoken'];
+        }
+        if (!empty($_POST['userid'])) {
+            $userid = $_POST['userid'];
         }
         error_log('$roomid=='.$roomid.'$viewername=='.$viewername.'$viewertoken=='.$viewertoken);
         $user = User::getUserByName($viewername, $viewertoken);
@@ -464,10 +468,10 @@ class SiteController extends Controller
         if (in_array($courseid, $course_ids_arr)) {
             $result['result'] = 'ok';
             $result['message'] = '认证成功';
-            $result['user']['id'] = $user->id;
+            $result['user']['id'] = $userid;
             $result['user']['name'] = $user->username;
             $result['user']['avatar'] = $user->picture;
-            /*$result['user']['customua'] = 1;
+            $result['user']['customua'] = 1;
             $result['user']['marquee']['loop'] = -1;
             $result['user']['marquee']['type'] = 'text';
             $result['user']['marquee']['text']['content'] = $user->username;
@@ -484,7 +488,7 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['start']['ypos'] = 0;
             $result['user']['marquee']['action'][1]['start']['alpha'] = 0.5;
             $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
-            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;*/
+            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
         } else {
             $result['result'] = 'false';
             $result['message'] = '请先购买该门课程';
