@@ -488,6 +488,7 @@ class SiteController extends Controller
             $result['message'] = '请先购买该门课程';
         }
         $result = json_encode($result);
+        error_log('result=='.$result);
         return $result;
     }
     
