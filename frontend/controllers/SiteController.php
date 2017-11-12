@@ -490,10 +490,11 @@ class SiteController extends Controller
             $result['result'] = 'false';
             $result['message'] = '请先购买该门课程';
         }
-        $result = json_encode($result);
+       // $result = json_encode($result);
         $result='{"result":"ok","message":"success"}';
-      //  var_dump($result);
-      //  die();
+        $result = json_decode($result);
+    //    var_dump($result) ;
+     //   die();
         return $result;
     }
     
