@@ -492,8 +492,8 @@ class SiteController extends Controller
         }
         $result = json_encode($result);
         $result='{"result":"ok","message":"success"}';
-        var_dump($result);
-        die();
+      //  var_dump($result);
+      //  die();
         return $result;
     }
     
