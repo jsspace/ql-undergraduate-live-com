@@ -31,7 +31,7 @@ class ChangePasswordForm extends Model
             ['phone', 'string', 'min'=>11,'max' => 11],
             ['phone', 'is_phone_exist', 'skipOnEmpty' => false, 'skipOnError' => false],
             
-            ['change_password_code', 'string', 'min'=>6,'max' => 6],
+            ['change_password_code', 'string', 'min'=>6,'max' => 6, 'message' => '验证码为6位数字！'],
             ['change_password_code', 'required','on' => ['default','login_sms_code']],
             ['change_password_code', 'integer','on' => ['default','login_sms_code']],
             [['change_password_code'], 'get_change_password_code', 'skipOnEmpty' => false, 'skipOnError' => false],

@@ -42,7 +42,7 @@ class SignupForm extends Model
             ['phone', 'unique', 'targetClass' => '\common\models\User', 'message' => '{attribute}已经被占用了'],
             ['phone', 'string', 'min'=>11,'max' => 11,'on' => ['default','login_sms_code']],
             
-            ['smscode', 'string', 'min' => 6,'max' => 6],
+            ['smscode', 'string', 'min' => 6,'max' => 6, 'message' => '验证码为6位数字！'],
             ['smscode', 'required','on' => ['default','login_sms_code']],
             ['smscode', 'integer','on' => ['default','login_sms_code']],
             ['smscode', 'get_login_code', 'skipOnEmpty' => false, 'skipOnError' => false],
