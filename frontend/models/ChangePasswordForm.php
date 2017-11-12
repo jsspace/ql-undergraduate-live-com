@@ -41,6 +41,19 @@ class ChangePasswordForm extends Model
         ];
     }
     
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'phone' => Yii::t('app', '手机号'),
+            'change_password_code' => Yii::t('app', '验证码'),
+            'password' => Yii::t('app', '密码'),
+        ];
+    }
+    
     public function is_phone_exist($attribute, $params)
     {
         $this->_user = User::findByPhone($this->phone);
