@@ -441,7 +441,7 @@ class SiteController extends Controller
         error_log('$roomid=='.$roomid.'$viewername=='.$viewername.'$viewertoken=='.$viewertoken);
         $user = User::getUserByName($viewername, $viewertoken);
         if (empty($user)) {
-            $result['result'] = 'false';
+            $result['result'] = 'ok';
             $result['message'] = '用户名或密码错误';
             $result = json_encode($result);
             return $result;
