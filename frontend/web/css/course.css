@@ -159,6 +159,16 @@
     width: 620px;
     height: 450px;
     float: left;
+    position: relative;
+    background-color: #000;
+}
+.course-detail-section .course-detail-left video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: none;
 }
 .course-detail-section .course-detail-left img {
     width: 100%;

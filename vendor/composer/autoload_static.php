@@ -13,6 +13,7 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         '180092cfc969a12e06f2132a203a3184' => __DIR__ . '/..' . '/codeception/verify/src/Codeception/function.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '626dcc41390ebdaa619faa02d99943b0' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/common/customFunctions.php',
+        '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -73,6 +74,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\BrowserKit\\' => 29,
             'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 49,
+        ),
+        'Q' => 
+        array (
+            'Qiniu\\' => 6,
         ),
         'P' => 
         array (
@@ -227,6 +232,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 
         array (
             0 => __DIR__ . '/..' . '/stecman/symfony-console-completion/src',
+        ),
+        'Qiniu\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu',
         ),
         'Psr\\Log\\' => 
         array (

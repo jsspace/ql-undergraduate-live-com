@@ -12,4 +12,5 @@ return array(
     '180092cfc969a12e06f2132a203a3184' => $vendorDir . '/codeception/verify/src/Codeception/function.php',
     'a0edc8309cc5e1d60e3047b5df6b7052' => $vendorDir . '/guzzlehttp/psr7/src/functions_include.php',
     '626dcc41390ebdaa619faa02d99943b0' => $vendorDir . '/khanamiryan/qrcode-detector-decoder/lib/common/customFunctions.php',
+    '841780ea2e1d6545ea3a253239d59c05' => $vendorDir . '/qiniu/php-sdk/src/Qiniu/functions.php',
 );

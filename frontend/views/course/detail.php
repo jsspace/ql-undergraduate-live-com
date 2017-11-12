@@ -4,11 +4,14 @@
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\User;
+use Qiniu\Storage\UploadManager;
+use Qiniu\Auth;
 
 AppAsset::addCss($this,'@web/css/course.css');
 
 $this->title = 'My Yii Application';
 $userid = Yii::$app->user->id;
+
 ?>
 <?php
     $course = $courseDetail['course'];
@@ -25,8 +28,9 @@ $userid = Yii::$app->user->id;
 <div class="container-course course-detail-section">
     <div class="main-section">
         <input class="course-id _course-id" type="hidden" value="<?= $course->id; ?>"/>
-        <div class="course-detail-left">
+        <div class="course-detail-left _course-detail-left">
             <img src="<?= $course->home_pic; ?>"/>
+            <video controls="controls" src=""></video>
         </div>
         <div class="course-detail-right">
             <div class="course-detail-title"><?= $course->course_name; ?></div>
@@ -99,26 +103,34 @@ $userid = Yii::$app->user->id;
                                 <ul class="chapter-con">
                                     <?php foreach ($chapter['chapterchild'] as $key => $section) { ?>
                                     <li>
-                                        <img src="/img/chapter-play-icon.png"/>
-                                        <a target="_blank" href="<?= $section->video_url ?>" class="chapter-list-name"><?= $section->name ?></a>
-                                        <div class="chapter-list-time">
-                                            <?php
-                                                $text = '';
-                                                $current_time = date('Y-m-d H:i:s');
-                                                $end_time = date('Y-m-d H:i:s',strtotime($section->start_time."+".$section->duration." minute"));
-                                                //0 直播
-                                                if ($section->type == 0) {
-                                                    if ($current_time < $section->start_time) {
-                                                        $text = '最近直播：'.$section->start_time;
-                                                    } else if ($current_time >= $section->start_time && $current_time < $end_time) {
-                                                         $text = '直播中';
-                                                    } else if ($current_time > $end_time) {
-                                                        $text = '直播回放';
-                                                    }
-                                                } else {
-                                                    $text = '点播课程';
+                                        <?php
+                                            $text = '';
+                                            $current_time = date('Y-m-d H:i:s');
+                                            $end_time = date('Y-m-d H:i:s',strtotime($section->start_time."+".$section->duration." minute"));
+                                            //0 直播
+                                            $auth = new Auth('BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t', 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15');
+                                            $video_url = $section->video_url;
+                                            if ($section->type == 0) {
+                                                if ($current_time < $section->start_time) {
+                                                    $text = '最近直播：'.$section->start_time;
+                                                } else if ($current_time >= $section->start_time && $current_time < $end_time) {
+                                                     $text = '直播中';
+                                                } else if ($current_time > $end_time) {
+                                                    $text = '直播回放';
                                                 }
-                                            ?>
+                                            } else {
+                                                $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
+                                                $text = '点播课程';
+                                            }
+                                        ?>
+                                        <img src="/img/chapter-play-icon.png"/>
+                                        <?php 
+                                            if ($section->type == 0) { ?>
+                                                <a target="_blank" href="<?= $video_url ?>" class="chapter-list-name"><?= $section->name ?></a>
+                                        <?php } else { ?>
+                                                <a href="javascript:void(0)" target="_blank" data-url="<?= $video_url ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
+                                        <?php } ?>
+                                        <div class="chapter-list-time">
                                             <span class="time-tag"><?= $text ?></span>
                                             <span class="time-con"><?= $section->duration.'分钟' ?></span>
                                         </div>

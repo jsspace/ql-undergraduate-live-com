@@ -12,6 +12,7 @@ var courseDetail = {
         self.collect();
         self.evaluate();
         self.questionSubmit();
+        self.videoNetEvent();
     },
     tagTab: function() {
       $(".course-tag li").each(function(index) {
@@ -145,6 +146,13 @@ var courseDetail = {
               }
           });
       })
+    },
+    videoNetEvent: function() {
+        $('._net-class').on('click', function() {
+            var video_url = $(this).attr('data-url');
+            $('._course-detail-left img').css('display', 'none');
+            $('._course-detail-left video').css('display', 'block').attr('src', video_url);
+        });
     }
 };
 courseDetail.init();
