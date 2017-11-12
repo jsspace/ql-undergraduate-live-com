@@ -362,7 +362,7 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('success', 'New password saved.');
             return $this->goHome();
         }
-        return $this->render('changePassword', [
+        return $this->render('resetPassword', [
             'model' => $model,
         ]);
     }
@@ -370,15 +370,6 @@ class SiteController extends Controller
     public function actionChangPasswordCode()
     {
         $phone = Yii::$app->request->Post('phone');
-        $is_phone_user_exist = \common\models\User::findByPhone($phone);
-        if (empty($is_phone_user_exist)) {
-            $res = [
-                'status' => 'error',
-                'message' => '不存在这个手机号账户！',
-            ];
-            return json_encode($res);
-        }
-        
         //检查session是否打开
         if(!Yii::$app->session->isActive){
             Yii::$app->session->open();
@@ -387,7 +378,8 @@ class SiteController extends Controller
         if (isset($session['change_password_code']) && $session['change_password_code']['request_time'] > time()) {
             $res = [
                 'status' => 'error',
-                'message' => '请等待' . ($session['change_password_code']['request_time']-time()) . 's后再试。',
+                'expire_time' => $session['change_password_code']['expire_time']-time(),
+                'message' => '请等待' . ($session['change_password_code']['expire_time']-time()) . 's后再试。',
             ];
             return json_encode($res);
         } else {
@@ -424,7 +416,6 @@ class SiteController extends Controller
                     'message' => '短信验证码请求太频繁，请稍后再尝试。同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。',
                 ];
             }
-            return json_encode($res);
             $err_str = 'change password sms code, phone:'. $phone . ' code:' . $code .' ';
             $err_str .= 'time:' . $time .' response:' . json_encode($response);
             error_log($err_str);
@@ -512,7 +503,8 @@ class SiteController extends Controller
         if (isset($session['login_sms_code']) && $session['login_sms_code']['request_time'] > time()) {
             $res = [
                 'status' => 'error',
-                'message' => '请等待' . ($session['login_sms_code']['request_time']-time()) . 's后再试。',
+                'expire_time' => $session['login_sms_code']['expire_time']-time(),
+                'message' => '请等待' . ($session['login_sms_code']['expire_time']-time()) . 's后再试。',
             ];
             return json_encode($res);
         } else {
@@ -551,10 +543,35 @@ class SiteController extends Controller
                 'message' => '短信验证码请求太频繁，请稍后再尝试。同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。',
             ];
         }
-        return json_encode($res);
+//         return json_encode($res);
         $err_str = 'login sms code, phone:'. $phone . ' code:' . $code .' ';
         $err_str .= 'time:' . $time .' response:' . json_encode($response);
         error_log($err_str);
       }
+    }
+    
+    
+    public function actionGetlogincode()
+    {
+        //检查session是否打开
+        if(!Yii::$app->session->isActive){
+            Yii::$app->session->open();
+        }
+        $session = Yii::$app->session;
+        if (isset($session['login_sms_code'])) {
+            //取得验证码和短信发送时间session
+            $signup_sms_code = $session['login_sms_code']['code'];
+            $signup_sms_time = $session['login_sms_code']['expire_time'];
+            if (time()-$signup_sms_time < 0) {
+                print_r('line: ' . __LINE__);
+                return intval($signup_sms_code);
+            } else {
+                print_r('line: ' . __LINE__);
+                return 888888;
+            }
+        } else{
+            print_r('line: ' . __LINE__);
+            return 888888;
+        }
     }
 }
