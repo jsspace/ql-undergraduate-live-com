@@ -443,7 +443,7 @@ class SiteController extends Controller
         if (empty($user)) {
             $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
-            $result = json_encode($result);
+         //   $result = json_encode($result);
             return $result;
         }
         $course_ids = '';
@@ -490,11 +490,7 @@ class SiteController extends Controller
             $result['result'] = 'false';
             $result['message'] = '请先购买该门课程';
         }
-       // $result = json_encode($result);
-        $result='{"result":"ok","message":"success"}';
-        $result = json_decode($result);
-    //    var_dump($result) ;
-     //   die();
+        $result = json_encode($result);
         return $result;
     }
     
