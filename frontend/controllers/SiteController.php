@@ -58,7 +58,6 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
-                    'video-auth' => ['post'],
                 ],
             ],
         ];
@@ -464,13 +463,41 @@ class SiteController extends Controller
             $course_ids_arr = explode(',', $course_ids);
         }
         if (in_array($courseid, $course_ids_arr)) {
-            $result['result'] = "ok";
+            $result['result'] = 'ok';
             $result['message'] = '认证成功';
+            $result['user']['id'] = $user->id;
+            $result['user']['name'] = $user->username;
+            $result['user']['avatar'] = $user->picture;
+            $result['user']['customua'] = 1;
+            $result['user']['marquee']['loop'] = -1;
+            $result['user']['marquee']['type'] = 'text';
+            $result['user']['marquee']['text']['content'] = $user->username;
+            $result['user']['marquee']['text']['font_size'] = '12';
+            $result['user']['marquee']['text']['color'] = '0xf0f00f';
+            $result['user']['marquee']['action'][0]['duration'] = '4000';
+            $result['user']['marquee']['action'][0]['start']['xpos'] = 0;
+            $result['user']['marquee']['action'][0]['start']['ypos'] = 0;
+            $result['user']['marquee']['action'][0]['start']['alpha'] = 0.5;
+            $result['user']['marquee']['action'][0]['end']['xpos'] = 1;
+            $result['user']['marquee']['action'][0]['end']['ypos'] = 0;
+            $result['user']['marquee']['action'][1]['duration'] = '4000';
+            $result['user']['marquee']['action'][1]['start']['xpos'] = 1;
+            $result['user']['marquee']['action'][1]['start']['ypos'] = 0;
+            $result['user']['marquee']['action'][1]['start']['alpha'] = 0.5;
+            $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
+            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
         } else {
             $result['result'] = 'false';
             $result['message'] = '请先购买该门课程';
         }
-        $result = json_encode($result);
+        $test = array (  
+                'result' => 'ok',
+                'message' => '123'
+        );  
+        $result = json_encode($test);
+        //$result = json_decode($result);
+
+        //var_dump($result);
         return $result;
     }
     
