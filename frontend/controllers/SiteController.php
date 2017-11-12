@@ -443,9 +443,15 @@ class SiteController extends Controller
         if (empty($user)) {
             $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
-         //   $result = json_encode($result);
+            $result = json_encode($result);
             return $result;
         }
+
+        $result['result'] = 'ok';
+        $result['message'] = '用户名或密码错误';
+        $result = json_encode($result);
+        return $result;
+
         $course_ids = '';
         if (!empty($user)) {
             $courseid = CourseSection::getCourse($roomid);
