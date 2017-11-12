@@ -18,9 +18,9 @@ $this->title = 'Reset password';
             <?php $form = ActiveForm::begin(['id' => 'change-password-form']); ?>
 
                 <?= $form->field($model, 'phone')->textInput(['autofocus' => true,'placeholder' => '手机号']) ?>
-                <?= $form->field($model, 'change_password_code')->textInput(['autofocus' => true, 'placeholder' => '验证码']) ?>
+                <?= $form->field($model, 'change_password_code')->textInput(['type' => 'number', 'placeholder' => '验证码']) ?>
                 <div class="signup-line verify-code has-error">
-                    <a href="javascript:void(0)" class="btn verify-btn getlogincode">获取验证码</a>
+                    <a href="javascript:void(0)" class="btn verify-btn get_change_password_code">获取验证码</a>
                     <p class="help-block help-block-error"></p>
                 </div>
                 <?= $form->field($model, 'password')->passwordInput(['placeholder' => '新密码']) ?>
@@ -34,17 +34,17 @@ $this->title = 'Reset password';
     </div>
 </div>
 <script>
-$('.getlogincode').on('click', function() {
-    var seconds = 60;
+$('.get_change_password_code').on('click', function() {
+    var seconds = 30;
     if (!$(this).hasClass('disabled')) {
-        $('.getlogincode').text('重新获取' + seconds +'s后').addClass('disabled');
+        $('.get_change_password_code1').text('重新获取' + seconds +'s后').addClass('disabled');
         var timeout = setInterval(function() {
             if (seconds <= 0) {
-                $('.getlogincode').text('获取验证码').removeClass('disabled');
+                $('.get_change_password_code1').text('获取验证码').removeClass('disabled');
                 clearInterval(timeout);
             } else {
                 --seconds;
-                $('.getlogincode').text('重新获取' + seconds +'s后').addClass('disabled');
+                $('.get_change_password_code1').text('重新获取' + seconds +'s后').addClass('disabled');
             }
         }, 1000);
     }
@@ -54,7 +54,7 @@ $('.getlogincode').on('click', function() {
         dataType:"json",
         data: {
             '_csrf-frontend': $('meta[name=csrf-token]').attr('content'),
-            phone: $('.phone').val(),
+            phone: $('#changepasswordform-phone').val(),
         },
         success: function (data) {
             if (data.code !== 0) {
