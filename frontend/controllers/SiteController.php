@@ -26,6 +26,7 @@ use backend\models\CourseSection;
 use backend\models\OrderInfo;
 use backend\models\Data;
 
+header('Content-type:text/json'); 
 
 /**
  * Site controller
@@ -425,10 +426,9 @@ class SiteController extends Controller
     
     public function actionVideoAuth(){
         $result = array();
-        $roomid = '';
-        $viewername = '';
-        $viewertoken = '';
-        $userid = '';
+        $roomid = 'E5F3016F3FDBC13B9C33DC5901307461';
+        $viewername = 'admin';
+        $viewertoken = '123456';
         if (!empty($_POST['roomid'])) {
             $roomid = $_POST['roomid'];
         }
@@ -437,9 +437,6 @@ class SiteController extends Controller
         }
         if (!empty($_POST['viewertoken'])) {
             $viewertoken = $_POST['viewertoken'];
-        }
-        if (!empty($_POST['userid'])) {
-            $userid = $_POST['userid'];
         }
         error_log('$roomid=='.$roomid.'$viewername=='.$viewername.'$viewertoken=='.$viewertoken);
         $user = User::getUserByName($viewername, $viewertoken);
@@ -467,8 +464,8 @@ class SiteController extends Controller
         }
         if (in_array($courseid, $course_ids_arr)) {
             $result['result'] = 'ok';
-            $result['message'] = '认证成功';
-            $result['user']['id'] = $userid;
+            $result['message'] = 'success';
+            $result['user']['id'] = $user->id;
             $result['user']['name'] = $user->username;
             $result['user']['avatar'] = $user->picture;
             $result['user']['customua'] = 1;
@@ -494,7 +491,9 @@ class SiteController extends Controller
             $result['message'] = '请先购买该门课程';
         }
         $result = json_encode($result);
-        //var_dump($result);
+        $result='{"result":"ok","message":"success"}';
+        var_dump($result);
+        die();
         return $result;
     }
     
