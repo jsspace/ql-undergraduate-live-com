@@ -1,6 +1,6 @@
 <?php
 namespace frontend\controllers;
-
+header('Content-type:text/json');
 use Yii;
 use backend\models\Course;
 use backend\models\CoursePackage;
@@ -24,9 +24,7 @@ use backend\models\Coupon;
 use backend\models\CourseChapter;
 use backend\models\CourseSection;
 use backend\models\OrderInfo;
-use backend\models\Data;
-
-header('Content-type:text/json'); 
+use backend\models\Data; 
 
 /**
  * Site controller
@@ -426,9 +424,9 @@ class SiteController extends Controller
     
     public function actionVideoAuth(){
         $result = array();
-        $roomid = 'E5F3016F3FDBC13B9C33DC5901307461';
-        $viewername = 'admin';
-        $viewertoken = '123456';
+        $roomid = '';
+        $viewername = '';
+        $viewertoken = '';
         if (!empty($_POST['roomid'])) {
             $roomid = $_POST['roomid'];
         }
@@ -438,20 +436,13 @@ class SiteController extends Controller
         if (!empty($_POST['viewertoken'])) {
             $viewertoken = $_POST['viewertoken'];
         }
-        error_log('$roomid=='.$roomid.'$viewername=='.$viewername.'$viewertoken=='.$viewertoken);
         $user = User::getUserByName($viewername, $viewertoken);
         if (empty($user)) {
-            $result['result'] = 'ok';
+            $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
             $result = json_encode($result);
             return $result;
         }
-
-        $result['result'] = 'ok';
-        $result['message'] = '用户名或密码错误';
-        $result = json_encode($result);
-        return $result;
-
         $course_ids = '';
         if (!empty($user)) {
             $courseid = CourseSection::getCourse($roomid);
