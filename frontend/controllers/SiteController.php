@@ -439,14 +439,13 @@ class SiteController extends Controller
         }
         error_log('$roomid=='.$roomid.'$viewername=='.$viewername.'$viewertoken=='.$viewertoken);
         $user = User::getUserByName($viewername, $viewertoken);
-        $course_ids = '';
         if (empty($user)) {
             $result['result'] = 'false';
             $result['message'] = '用户名或密码错误';
             $result = json_encode($result);
             return $result;
         }
-
+        $course_ids = '';
         if (!empty($user)) {
             $courseid = CourseSection::getCourse($roomid);
             $order = OrderInfo::find()
@@ -490,13 +489,7 @@ class SiteController extends Controller
             $result['result'] = 'false';
             $result['message'] = '请先购买该门课程';
         }
-        $test = array (  
-                'result' => 'ok',
-                'message' => '123'
-        );  
-        $result = json_encode($test);
-        //$result = json_decode($result);
-
+        $result = json_encode($result);
         //var_dump($result);
         return $result;
     }
