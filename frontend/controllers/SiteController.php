@@ -467,7 +467,7 @@ class SiteController extends Controller
             $result['user']['id'] = $user->id;
             $result['user']['name'] = $user->username;
             $result['user']['avatar'] = $user->picture;
-            $result['user']['customua'] = 1;
+            /*$result['user']['customua'] = 1;
             $result['user']['marquee']['loop'] = -1;
             $result['user']['marquee']['type'] = 'text';
             $result['user']['marquee']['text']['content'] = $user->username;
@@ -484,7 +484,7 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['start']['ypos'] = 0;
             $result['user']['marquee']['action'][1]['start']['alpha'] = 0.5;
             $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
-            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
+            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;*/
         } else {
             $result['result'] = 'false';
             $result['message'] = '请先购买该门课程';
