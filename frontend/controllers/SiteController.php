@@ -432,7 +432,6 @@ class SiteController extends Controller
     }
     
     public function actionVideoAuth(){
-        $result = array();
         $roomid = '';
         $viewername = '';
         $viewertoken = '';
@@ -447,10 +446,11 @@ class SiteController extends Controller
         }
         $user = User::getUserByName($viewername, $viewertoken);
         if (empty($user)) {
-            $result['result'] = 'false';
-            $result['message'] = '用户名或密码错误';
-            $result = json_encode($result);
-            return $result;
+            $authorizePlay = array(
+                'result' => 'false',
+                'message' => '用户名或密码错误',
+            );
+            return json_encode($authorizePlay);
         }
         $course_ids = '';
         if (!empty($user)) {
@@ -469,7 +469,17 @@ class SiteController extends Controller
             $course_ids_arr = explode(',', $course_ids);
         }
         if (in_array($courseid, $course_ids_arr)) {
-            $result['result'] = 'ok';
+            $authorizePlay = array(
+                'result' => 'ok',
+                'message' => '验证成功',
+                'user' => array(
+                    'id' => $user->id,
+                    'name' => $user->username,
+                    'avatar' => $user->picture,
+                    'marquee' => "{\"loop\":-1,\"type\":\"text\",\"text\":{\"content\":\"跑马灯内容\",\"font_size\":20,\"color\":\"0xf0f00f\"},\"action\":[{\"duration\":4000,\"start\":{\"xpos\":0,\"ypos\":0,\"alpha\":0.5},\"end\":{\"xpos\":0.6,\"ypos\":0,\"alpha\":1}},{\"duration\":4000,\"start\":{\"xpos\":0,\"ypos\":0.7,\"alpha\":0.3},\"end\":{\"xpos\":0.7,\"ypos\":0.7,\"alpha\":0.9}}]}"
+                        )
+                );
+            /*$result['result'] = 'ok';
             $result['message'] = '验证成功';
             $result['user']['id'] = $user->id;
             $result['user']['name'] = $user->username;
@@ -491,13 +501,14 @@ class SiteController extends Controller
             $result['user']['marquee']['action'][1]['start']['ypos'] = 0;
             $result['user']['marquee']['action'][1]['start']['alpha'] = 0.5;
             $result['user']['marquee']['action'][1]['end']['xpos'] = 1;
-            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;
+            $result['user']['marquee']['action'][1]['end']['ypos'] = 1;*/
         } else {
-            $result['result'] = 'false';
-            $result['message'] = '请先购买该门课程';
+            $authorizePlay = array(
+                'result' => 'false',
+                'message' => '请先购买该门课程',
+            );
         }
-        $result = json_encode($result);
-        return $result;
+        return json_encode($authorizePlay);
     }
     
     public function actionLogincode()
