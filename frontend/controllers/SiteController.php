@@ -475,9 +475,8 @@ class SiteController extends Controller
                 'user' => array(
                     'id' => $user->id,
                     'name' => $user->username,
-                    'avatar' => $user->picture,
-                    'marquee' => "{\"loop\":-1,\"type\":\"text\",\"text\":{\"content\":\"跑马灯内容\",\"font_size\":20,\"color\":\"0xf0f00f\"},\"action\":[{\"duration\":4000,\"start\":{\"xpos\":0,\"ypos\":0,\"alpha\":0.5},\"end\":{\"xpos\":0.6,\"ypos\":0,\"alpha\":1}},{\"duration\":4000,\"start\":{\"xpos\":0,\"ypos\":0.7,\"alpha\":0.3},\"end\":{\"xpos\":0.7,\"ypos\":0.7,\"alpha\":0.9}}]}"
-                        )
+                    'avatar' => 'www.kaoben.top/'.$user->picture,
+                    )
                 );
             /*$result['result'] = 'ok';
             $result['message'] = '验证成功';
