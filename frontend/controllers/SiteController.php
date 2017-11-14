@@ -450,7 +450,7 @@ class SiteController extends Controller
                 'result' => 'false',
                 'message' => '用户名或密码错误',
             );
-            echo json_encode($authorizePlay);
+            return json_encode($authorizePlay);
         }
         $course_ids = '';
         if (!empty($user)) {
@@ -507,7 +507,7 @@ class SiteController extends Controller
                 'message' => '请先购买该门课程',
             );
         }
-        echo json_encode($authorizePlay);
+        return json_encode($authorizePlay);
     }
     
     public function actionLogincode()
