@@ -433,8 +433,8 @@ class SiteController extends Controller
     
     public function actionVideoAuth(){
         $roomid = '';
-        $viewername = '';
-        $viewertoken = '';
+        $viewername = 'admin';
+        $viewertoken = '123456';
         if (!empty($_POST['roomid'])) {
             $roomid = $_POST['roomid'];
         }
@@ -471,7 +471,12 @@ class SiteController extends Controller
         if (in_array($courseid, $course_ids_arr)) {
             $authorizePlay = array(
                 'result' => 'ok',
-                'message' => '验证成功'
+                'message' => '验证成功',
+                'user' => array(
+                    'id' => "'".$user->id."'",
+                    'name' => $user->username,
+                    'avatar' => 'www.kaoben.top/'.$user->picture,
+                    )
                 );
             /*$result['result'] = 'ok';
             $result['message'] = '验证成功';
