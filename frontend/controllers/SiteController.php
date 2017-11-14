@@ -433,8 +433,8 @@ class SiteController extends Controller
     
     public function actionVideoAuth(){
         $roomid = '';
-        $viewername = 'admin';
-        $viewertoken = '123456';
+        $viewername = '';
+        $viewertoken = '';
         if (!empty($_POST['roomid'])) {
             $roomid = $_POST['roomid'];
         }
@@ -477,7 +477,7 @@ class SiteController extends Controller
                     'name' => $user->username,
                     'avatar' => 'www.kaoben.top/'.$user->picture,
                     )
-                );
+            );
             /*$result['result'] = 'ok';
             $result['message'] = '验证成功';
             $result['user']['id'] = $user->id;
