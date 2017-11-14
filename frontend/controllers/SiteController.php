@@ -471,12 +471,7 @@ class SiteController extends Controller
         if (in_array($courseid, $course_ids_arr)) {
             $authorizePlay = array(
                 'result' => 'ok',
-                'message' => '验证成功',
-                'user' => array(
-                    'id' => '123',
-                    'name' => $user->username,
-                    'avatar' => 'www.kaoben.top/'.$user->picture,
-                    )
+                'message' => '验证成功'
                 );
             /*$result['result'] = 'ok';
             $result['message'] = '验证成功';
