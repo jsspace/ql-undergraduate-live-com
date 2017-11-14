@@ -26,7 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 //             'order_id',
             'order_sn',
-            'user_id',
+            'consignee',
+//             'user_id',
 //             'order_status',
             [
                 'attribute' => 'pay_status',
@@ -43,7 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filter'=>[0 => '未付款',1 => '付款中', 2 => '已付款'],
             ],
-            // 'consignee',
             // 'mobile',
             // 'email:email',
             // 'pay_id',

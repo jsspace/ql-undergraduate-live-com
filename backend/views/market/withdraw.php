@@ -5,17 +5,18 @@ use yii\widgets\LinkPager;
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
 
-$this->title = Yii::t('app', '订单记录');
+$this->title = Yii::t('app', '提现历史');
+
 ?>
 <div class="user-view">
 
-    <h1>订单记录</h1>
+    <h1>提现记录</h1>
 <ul>
 <?php 
 $str = '';
 foreach($model as $key=>$val)
 {
-    $str .= "<li><div>$val->order_sn</div><div>$val->goods_amount</div><div>$val->user_id</div><div>".date('Y-m-d H:i:s', $val->add_time)."</div>";
+    $str .= "<li><div>$val->withdraw_id</div><div>$val->fee</div><div>$val->info</div><div>".date('Y-m-d H:i:s', $val->create_time)."</div>";
 }
 echo $str;
 ?>

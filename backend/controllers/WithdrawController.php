@@ -8,6 +8,7 @@ use backend\models\WithdrawSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\models\User;
 
 /**
  * WithdrawController implements the CRUD actions for Withdraw model.
@@ -64,12 +65,13 @@ class WithdrawController extends Controller
     public function actionCreate()
     {
         $model = new Withdraw();
-
+        $marketer = User::users('marketer');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->withdraw_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'marketer' => $marketer,
             ]);
         }
     }
@@ -83,12 +85,13 @@ class WithdrawController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $marketer = User::users('marketer');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->withdraw_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'marketer' => $marketer,
             ]);
         }
     }

@@ -14,6 +14,7 @@ use yii\web\UploadedFile;
 use Da\QrCode\QrCode;
 use backend\models\OrderInfo;
 use yii\data\Pagination;
+use backend\models\Withdraw;
 
 /**
  * MarketController implements the CRUD actions for User model.
@@ -56,6 +57,11 @@ class MarketController extends Controller
      */
     public function actionView($id)
     {
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if (!array_key_exists('admin',$roles_array) && $id != Yii::$app->user->id) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        
         $invite_users = User::find()
         ->where(['invite' => $id])
         ->all();
@@ -85,10 +91,14 @@ class MarketController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionOrder()
+    public function actionOrder($id)
     {
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if (!array_key_exists('admin',$roles_array) && $id != Yii::$app->user->id) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
         $invite_users = User::find()
-        ->where(['invite' => Yii::$app->user->id])
+        ->where(['invite' => $id])
         ->all();
         $invite_users_id = [];
         foreach($invite_users as $user) {
@@ -98,15 +108,37 @@ class MarketController extends Controller
         $data = OrderInfo::find()
         ->where(['user_id' => $invite_users_id])
         ->andWhere(['order_status' => 1])
-        ->andWhere(['pay_status' => 1]);
+        ->andWhere(['pay_status' => 2]);
         $pages = new Pagination(['totalCount' =>$data->count(), 'pageSize' => '10']);
         $model = $data->offset($pages->offset)->limit($pages->limit)->all();
-         
         return $this->render('order',[
             'model' => $model,
             'pages' => $pages,
         ]);
     }
+    
+    /**
+     * Displays a single Withdraw model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionWithdraw($id)
+    {
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if (!array_key_exists('admin',$roles_array) && $id != Yii::$app->user->id) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        //邀请的用户所下的订单
+        $data = Withdraw::find()
+        ->where(['user_id' => $id]);
+        $pages = new Pagination(['totalCount' =>$data->count(), 'pageSize' => '10']);
+        $model = $data->offset($pages->offset)->limit($pages->limit)->all();
+        return $this->render('withdraw',[
+            'model' => $model,
+            'pages' => $pages,
+        ]);
+    }
+    
     /**
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -156,6 +188,10 @@ class MarketController extends Controller
      */
     public function actionUpdate($id)
     {
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if (!array_key_exists('admin',$roles_array) && $id != Yii::$app->user->id) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

@@ -65,8 +65,8 @@ $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $model-
         ],
     ]) ?>
 <div>
-<span><a href="<?= Url::to(['market/order']) ?>">订单记录</a></span><br>
-<span><a href="<?= Url::to(['market/withdraw']) ?>">提现历史</a></span><br>
+<span><a href="<?= Url::to(['market/order', 'id' => $model->id]) ?>">订单记录</a></span><br>
+<span><a href="<?= Url::to(['market/withdraw', 'id' => $model->id]) ?>">提现历史</a></span><br>
 <span>钱包：<?= $fee ?></span><br>
 <span>推广注册链接：<?= $invite_url ?></span><br>
 <span>推广注册二维码图片：<img src="<?= Url::to(['market/qrcode','url' => $invite_url, 'name' => $model->id.'.png'])?>" /></span>
