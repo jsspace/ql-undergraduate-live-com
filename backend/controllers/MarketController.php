@@ -116,7 +116,6 @@ class MarketController extends Controller
     {
         $model = new User();
         $model->status = 10;
-        $model->auth_key = Yii::$app->security->generateRandomString();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $role = new AuthAssignment();
             $role->item_name = 'marketer';

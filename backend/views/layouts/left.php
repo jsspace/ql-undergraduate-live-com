@@ -1,5 +1,6 @@
 <?php 
 use mdm\admin\components\MenuHelper;
+use yii\helpers\Url;
 
 
 ?>
@@ -10,7 +11,7 @@ use mdm\admin\components\MenuHelper;
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                <img src="<?= Url::to('@web/' . Yii::$app->user->identity->picture) ?>" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
                 <p><?= Yii::$app->user->identity->username ?></p>
@@ -74,95 +75,5 @@ use mdm\admin\components\MenuHelper;
         ]);
         
         ?>
-    
-        <ul class="sidebar-menu">
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-gears"></i> <span>权限控制</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu<?php if(Yii::$app->controller->module->id == 'admin'){?> menu-open<?php }?>" 
-                <?php if(Yii::$app->controller->module->id == 'admin'){?>style="display: block;"<?php }?>>
-                    <li class="treeview<?php if(Yii::$app->controller->module->id == 'admin'){?> active<?php }?>">
-                        <a href="/admin">管理员 <?php  //print_r(Yii::$app->authManager->getRolesByUser(4));?></a>
-                        <ul class="treeview-menu <?php if(Yii::$app->controller->module->id == 'admin'){?> menu-open<?php }?>" 
-                        <?php if(Yii::$app->controller->module->id == 'admin'){?>style="display: block;"<?php }?>>
-                            <li><a href="/admin/user">后台用户</a></li>
-                            <li><a href="/admin/assignment">分配</a></li>
-                            <li><a href="/admin/role">角色列表</a></li>
-                            <li><a href="/admin/permission">权限列表</a></li>
-                            <li><a href="/admin/route">路由列表</a></li>
-                            <li><a href="/admin/rule">规则列表</a></li>
-                            <li><a href="/admin/menu">菜单</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-
-        <ul class="sidebar-menu">
-            <li class="treeview<?php if(stristr(Yii::$app->controller->id,'course')){?> active<?php }?>">
-                <a href="#">
-                    <i class="fa fa-book"></i> <span>课程管理</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu<?php if(stristr(Yii::$app->controller->id,'course')){?> menu-open<?php }?>"
-                <?php if(stristr(Yii::$app->controller->id,'course')){?>style="display: block;"<?php }?>>
-                    <li class="treeview">
-                        <a href="/course/index">课程管理</a>
-                        <a href="/course-category/index">课程分类管理</a>
-                        <a href="/course-package/index">套餐管理</a>
-                        <a href="/course-package-category/index">套餐分类管理</a>
-                        <a href="/hot-category/index">热门分类</a>
-                        <a href="/course-news/index">课程推荐</a>
-                        <a href="/course-coment/index">课程评价</a>
-                        <a href="/collection/index">课程收藏</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="sidebar-menu">
-            <li class="treeview<?php if(stristr(Yii::$app->controller->id,'data')){?> active<?php }?>">
-                <a href="#">
-                    <i class="fa fa-file-text"></i> <span>考本资料</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu<?php if(stristr(Yii::$app->controller->id,'data')){?> menu-open<?php }?>"
-                <?php if(stristr(Yii::$app->controller->id,'data')){?>style="display: block;"<?php }?>>
-                    <li class="treeview">
-                        <a href="/data/index">考本资料</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="sidebar-menu">
-            <li class="treeview<?php if(stristr(Yii::$app->controller->id,'quas')){?> active<?php }?>">
-                <a href="#">
-                    <i class="fa fa-question-circle"></i> <span>教师答疑</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu<?php if(stristr(Yii::$app->controller->id,'quas')){?> menu-open<?php }?>"
-                <?php if(stristr(Yii::$app->controller->id,'quas')){?>style="display: block;"<?php }?>>
-                    <li class="treeview">
-                        <a href="/quas/index">教师答疑</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="sidebar-menu">
-            <li class="treeview<?php if(stristr(Yii::$app->controller->id,'friendly-links')){?> active<?php }?>">
-                <a href="#">
-                    <i class="fa fa-link"></i> <span>友情链接</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu <?php if(stristr(Yii::$app->controller->id,'friendly-links')){?> menu-open<?php }?>"
-                <?php if(stristr(Yii::$app->controller->id,'friendly-links')){?>style="display: block;"<?php }?>>
-                    <li class="treeview">
-                        <a href="/friendly-links/index">友情链接</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
     </section>
-
 </aside>

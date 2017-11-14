@@ -8,9 +8,9 @@ use yii\data\ActiveDataProvider;
 use backend\models\User;
 
 /**
- * TeacherSearch represents the model behind the search form about `backend\models\User`.
+ * StudentSearch represents the model behind the search form about `backend\models\User`.
  */
-class TeacherSearch extends User
+class StudentSearch extends User
 {
     /**
      * @inheritdoc
@@ -19,7 +19,8 @@ class TeacherSearch extends User
     {
         return [
             [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro'], 'safe'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'wechat', 'wechat_img'], 'safe'],
+            [['percentage'], 'number'],
         ];
     }
 
@@ -41,9 +42,9 @@ class TeacherSearch extends User
      */
     public function search($params)
     {
-        $teacher_ids = Yii::$app->authManager->getUserIdsByRole('teacher');
+        $user_ids = Yii::$app->authManager->getUserIdsByRole('student');
         $query = User::find()
-        ->where(['in', 'id', $teacher_ids]);
+        ->where(['in', 'id', $user_ids]);
 
         // add conditions that should always apply here
 
@@ -67,6 +68,7 @@ class TeacherSearch extends User
             'updated_at' => $this->updated_at,
             'gender' => $this->gender,
             'invite' => $this->invite,
+            'percentage' => $this->percentage,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
@@ -80,7 +82,9 @@ class TeacherSearch extends User
             ->andFilterWhere(['like', 'office', $this->office])
             ->andFilterWhere(['like', 'goodat', $this->goodat])
             ->andFilterWhere(['like', 'picture', $this->picture])
-            ->andFilterWhere(['like', 'intro', $this->intro]);
+            ->andFilterWhere(['like', 'intro', $this->intro])
+            ->andFilterWhere(['like', 'wechat', $this->wechat])
+            ->andFilterWhere(['like', 'wechat_img', $this->wechat_img]);
 
         return $dataProvider;
     }

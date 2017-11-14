@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-	<?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
 
     <?php // $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
 
@@ -38,16 +38,22 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'goodat')->textInput(['maxlength' => true]) ?>
 
-    <?php // $form->field($model, 'picture')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'picture')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'intro')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'invite')->textInput() ?>
 
+    <?= $form->field($model, 'wechat')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'wechat_img')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'percentage')->textInput() ?>
+
     <?php // $form->field($model, 'created_at')->textInput() ?>
 
     <?php // $form->field($model, 'updated_at')->textInput() ?>
-    
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

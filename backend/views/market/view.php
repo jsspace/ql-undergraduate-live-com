@@ -8,7 +8,7 @@ use yii\helpers\Url;
 /* @var $model backend\models\User */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', '市场专员列表'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $model->id]);
 ?>

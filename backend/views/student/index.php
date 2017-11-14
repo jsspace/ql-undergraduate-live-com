@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\TeacherSearch */
+/* @var $searchModel backend\models\StudentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', '教师列表');
+$this->title = Yii::t('app', '学员列表');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create User'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', '创建学员'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,15 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
+//             'auth_key',
+//             'password_hash',
+//             'password_reset_token',
             // 'email:email',
             // 'status',
             // 'created_at',
             // 'updated_at',
-            // 'phone',
-            // 'gender',
+            'phone',
+            'gender',
             // 'description',
             // 'unit',
             // 'office',
@@ -42,6 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'picture',
             // 'intro:ntext',
             // 'invite',
+            // 'wechat',
+            // 'wechat_img',
+            // 'percentage',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

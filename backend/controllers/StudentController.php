@@ -4,16 +4,16 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\User;
-use backend\models\TeacherSearch;
+use backend\models\StudentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\AuthAssignment;
 
 /**
- * TeacherController implements the CRUD actions for User model.
+ * StudentController implements the CRUD actions for User model.
  */
-class TeacherController extends Controller
+class StudentController extends Controller
 {
     /**
      * @inheritdoc
@@ -36,7 +36,7 @@ class TeacherController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new TeacherSearch();
+        $searchModel = new StudentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -68,7 +68,7 @@ class TeacherController extends Controller
         $model->status = 10;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $role = new AuthAssignment();
-            $role->item_name = 'teacher';
+            $role->item_name = 'student';
             $role->user_id = $model->id;
             $role->save(false);
             return $this->redirect(['view', 'id' => $model->id]);

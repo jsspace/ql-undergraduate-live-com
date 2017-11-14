@@ -34,7 +34,7 @@ use yii\helpers\Url;
                                 <li><!-- start message -->
                                     <a href="#">
                                         <div class="pull-left">
-                                            <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle"
+                                            <img src="<?= Url::to('@web/' . Yii::$app->user->identity->picture) ?>" class="img-circle"
                                                  alt="User Image"/>
                                         </div>
                                         <h4>
@@ -48,7 +48,7 @@ use yii\helpers\Url;
                                 <li>
                                     <a href="#">
                                         <div class="pull-left">
-                                            <img src="<?= $directoryAsset ?>/img/user3-128x128.jpg" class="img-circle"
+                                            <img src="<?= Url::to('@web/' . Yii::$app->user->identity->picture) ?>" class="img-circle"
                                                  alt="user image"/>
                                         </div>
                                         <h4>
@@ -61,7 +61,7 @@ use yii\helpers\Url;
                                 <li>
                                     <a href="#">
                                         <div class="pull-left">
-                                            <img src="<?= $directoryAsset ?>/img/user4-128x128.jpg" class="img-circle"
+                                            <img src="<?= Url::to('@web/' . Yii::$app->user->identity->picture) ?>" class="img-circle"
                                                  alt="user image"/>
                                         </div>
                                         <h4>
@@ -74,7 +74,7 @@ use yii\helpers\Url;
                                 <li>
                                     <a href="#">
                                         <div class="pull-left">
-                                            <img src="<?= $directoryAsset ?>/img/user3-128x128.jpg" class="img-circle"
+                                            <img src="<?= Url::to('@web/' . Yii::$app->user->identity->picture) ?>" class="img-circle"
                                                  alt="user image"/>
                                         </div>
                                         <h4>
@@ -87,7 +87,7 @@ use yii\helpers\Url;
                                 <li>
                                     <a href="#">
                                         <div class="pull-left">
-                                            <img src="<?= $directoryAsset ?>/img/user4-128x128.jpg" class="img-circle"
+                                            <img src="<?= Url::to('@web/' . Yii::$app->user->identity->picture) ?>" class="img-circle"
                                                  alt="user image"/>
                                         </div>
                                         <h4>
@@ -230,18 +230,18 @@ use yii\helpers\Url;
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                        <img src="<?= Url::to('@web/' . Yii::$app->user->identity->picture) ?>" class="user-image" alt="User Image"/>
                         <span class="hidden-xs"><?= Yii::$app->user->identity->username ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle"
+                            <img src="<?= Url::to('@web/' . Yii::$app->user->identity->picture) ?>" class="img-circle"
                                  alt="User Image"/>
 
                             <p>
                                 <?= Yii::$app->user->identity->username ?> - <?= Yii::$app->user->identity->unit ?>
-                                <small><?= Yii::$app->user->identity->created_at ?></small>
+                                <small><?= date('Y m d H:i:s', Yii::$app->user->identity->created_at) ?></small>
                             </p>
                         </li>
                         <!-- Menu Body -->

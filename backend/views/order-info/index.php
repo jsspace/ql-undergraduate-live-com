@@ -24,30 +24,48 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'order_id',
+//             'order_id',
             'order_sn',
             'user_id',
-            'order_status',
-            'pay_status',
+//             'order_status',
+            [
+                'attribute' => 'pay_status',
+                'value' => function ($model) {
+                    $status = '';
+                    if ($model->pay_status ==  0) {
+                        $status = '未付款';
+                    } elseif ($model->pay_status ==  1) {
+                        $status = '付款中';
+                    } elseif ($model->pay_status ==  2) {
+                        $status = '已付款';
+                    }
+                    return $status;
+                },
+                'filter'=>[0 => '未付款',1 => '付款中', 2 => '已付款'],
+            ],
             // 'consignee',
             // 'mobile',
             // 'email:email',
             // 'pay_id',
             // 'pay_name',
-            // 'goods_amount',
+            'goods_amount',
             // 'pay_fee',
             // 'money_paid',
             // 'integral',
             // 'integral_money',
             // 'bonus',
             // 'order_amount',
-            // 'add_time:datetime',
-            // 'confirm_time:datetime',
-            // 'pay_time:datetime',
+            'add_time:datetime',
+            // 'confirm_time',
+            // 'pay_time',
             // 'bonus_id',
             // 'is_separate',
             // 'parent_id',
             // 'discount',
+            // 'invalid_time',
+            // 'course_ids',
+            // 'coupon_ids',
+            // 'coupon_money',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
