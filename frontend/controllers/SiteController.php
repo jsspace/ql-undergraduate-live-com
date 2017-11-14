@@ -473,7 +473,7 @@ class SiteController extends Controller
                 'result' => 'ok',
                 'message' => '验证成功',
                 'user' => array(
-                    'id' => $user->id,
+                    'id' => '123',
                     'name' => $user->username,
                     'avatar' => 'www.kaoben.top/'.$user->picture,
                     )
