@@ -13,50 +13,24 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="order-info-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
+订单号：<?= $model->order_sn; ?>
+姓名：<?= $model->consignee; ?>
+邮箱：<?= $model->email; ?>
+手机号：<?= $model->mobile; ?>
+支付状态：<?= $model->pay_status; ?>
+商品总金额：<?= $model->goods_amount; ?>
+应付款总金额：<?= $model->order_amount; ?>
+优惠券金额：<?= $model->coupon_money; ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->order_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->order_id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'order_id',
-            'order_sn',
-            'user_id',
-            'order_status',
-            'pay_status',
-            'consignee',
-            'mobile',
-            'email:email',
-            'pay_id',
-            'pay_name',
-            'goods_amount',
-            'pay_fee',
-            'money_paid',
-            'integral',
-            'integral_money',
-            'bonus',
-            'order_amount',
-            'add_time',
-            'confirm_time',
-            'pay_time',
-            'bonus_id',
-            'is_separate',
-            'parent_id',
-            'discount',
-            'invalid_time',
-            'course_ids',
-            'coupon_ids',
-            'coupon_money',
-        ],
-    ]) ?>
+<table>
+<tr><th>课程名</th><th>价格</th></tr>
+<?php 
+$str = '';
+foreach ($courses as $course) {
+    $str .= "<tr><th>$course->course_name</th><th>$course->discount</th></tr>";
+}
+echo $str;
+?>
+</table>
 
 </div>

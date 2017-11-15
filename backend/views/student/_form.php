@@ -38,17 +38,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'goodat')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'picture')->textInput(['maxlength' => true]) ?>
+    <?php // $form->field($model, 'picture')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'intro')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'invite')->textInput() ?>
+    <?php // $form->field($model, 'invite')->textInput() ?>
 
-    <?= $form->field($model, 'wechat')->textInput(['maxlength' => true]) ?>
+    <?php // $form->field($model, 'wechat')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'wechat_img')->textInput(['maxlength' => true]) ?>
+    <?php // $form->field($model, 'wechat_img')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'percentage')->textInput() ?>
+    <?php // $form->field($model, 'percentage')->textInput() ?>
 
     <?php // $form->field($model, 'created_at')->textInput() ?>
 

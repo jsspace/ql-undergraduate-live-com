@@ -8,6 +8,7 @@ use backend\models\OrderInfoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\models\Course;
 
 /**
  * OrderInfoController implements the CRUD actions for OrderInfo model.
@@ -51,8 +52,20 @@ class OrderInfoController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        if ($model->pay_status == 0) {
+            $model->pay_status = '未付款';
+        } elseif ($model->pay_status == 1) {
+            $model->pay_status = '付款中';
+        }  elseif ($model->pay_status == 2) {
+            $model->pay_status = '已付款';
+        }
+        $courses = Course::find()
+        ->where(['id' => explode(',', $model->course_ids)])
+        ->all();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'courses' => $courses,
         ]);
     }
 
