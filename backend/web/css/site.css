@@ -343,3 +343,52 @@ a.desc:after {
 .treeview-menu {
     padding-left: 22px !important;
 }
+
+.order-table {
+    font-size: 14px;
+}
+.order-table ul {
+    border: 1px solid #dfdfdf;
+}
+.order-table ul li {
+    border-bottom: 1px solid #dfdfdf;
+    height: 40px;
+    line-height: 40px;
+}
+.order-table ul li:last-child {
+    border-bottom: 0;
+}
+.order-table .tr-title {
+    width: 38%;
+    padding-left: 15px;
+    border-right: 1px solid #dfdfdf;
+    display: inline-block;
+}
+.order-table.order-history .tr-title {
+    width: 23%;
+}
+.order-table.order-history li .tr-title:last-child {
+    border-right: 0;
+}
+.order-table .tr-content {
+    padding-left: 15px;
+}
+.order-table .title {
+    font-size: 16px;
+    padding: 20px 0 15px;
+}
+.order-course-info .info-th {
+    font-weight: bold;
+}
+.order-table .tr-img {
+    height: 150px;
+    line-height: 150px;
+}
+.order-table .tr-img img {
+    width: 120px;
+    margin: 15px 0;
+}
+.order-table a {
+    display: inline-block;
+    margin-right: 20px;
+}

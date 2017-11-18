@@ -65,10 +65,27 @@ $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $model-
         ],
     ]) ?>
 <div>
-<span><a href="<?= Url::to(['market/order', 'id' => $model->id]) ?>">订单记录</a></span><br>
-<span><a href="<?= Url::to(['market/withdraw', 'id' => $model->id]) ?>">提现历史</a></span><br>
-<span>钱包：<?= $fee ?></span><br>
-<span>推广注册链接：<?= $invite_url ?></span><br>
-<span>推广注册二维码图片：<img src="<?= Url::to(['market/qrcode','url' => $invite_url, 'name' => $model->id.'.png'])?>" /></span>
-</div>
+<div class="order-table">
+    <p class="title">推广详情</p>
+    <ul>
+        <li>
+            <label class="tr-title">专员相关链接</label>
+            <span class="tr-content">
+                <a href="<?= Url::to(['market/order', 'id' => $model->id]) ?>">订单记录</a>
+                <a href="<?= Url::to(['market/withdraw', 'id' => $model->id]) ?>">提现历史</a>
+            </span>
+        </li>
+        <li>
+            <label class="tr-title">钱包</label>
+            <span class="tr-content"><?= $fee ?></span>
+        </li>
+        <li>
+            <label class="tr-title">推广注册链接</label>
+            <span class="tr-content"><?= $invite_url ?></span>
+        </li>
+        <li class="tr-img">
+            <label class="tr-title">推广注册二维码图片</label>
+            <span class="tr-content"><img src="<?= Url::to(['market/qrcode','url' => $invite_url, 'name' => $model->id.'.png'])?>" /></span>
+        </li>
+    </ul>
 </div>
