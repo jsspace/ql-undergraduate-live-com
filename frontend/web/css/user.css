@@ -431,6 +431,18 @@ label {
     text-align: center;
     margin-bottom: 0;
 }
+.coin-wrapper .coupon-title-line li,
+.coin-wrapper .coupon-content-line p {
+    width: 20%;
+}
+.coin-wrapper .coupon-title-line li.coin-id,
+.coin-wrapper .coupon-content-line p.coin-id {
+    width: 10%;
+}
+.coin-wrapper .coupon-title-line li.coin-detail,
+.coin-wrapper .coupon-content-line p.coin-detail {
+    width: 30%;
+}
 .coupon-wrapper .coupon-name {
     width: 35%;
 }
@@ -514,6 +526,20 @@ label {
     float: right;
     color: #777;
     margin-top: -40px;
+}
+.coin-con .coin-left {
+    float: left;
+}
+.coin-con .coin-right {
+    float: right;
+}
+.coin-con a {
+    color: #31afff;
+}
+.coin-wrapper p.coin-detail {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 @-webkit-keyframes shadowFadeIn {

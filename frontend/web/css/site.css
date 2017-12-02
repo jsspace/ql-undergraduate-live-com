@@ -176,8 +176,11 @@ a {
 }
 .wrap .menu-wrapper .nav-menu li {
     float: left;
-    margin-right: 60px;
+    margin-right: 40px;
     line-height: 36px;
+}
+.wrap .menu-wrapper .nav-menu li:last-child {
+    margin-right: 15px;
 }
 .wrap .menu-wrapper .nav-menu a {
     color: #3f464e;
