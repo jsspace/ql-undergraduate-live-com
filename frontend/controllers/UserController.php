@@ -284,4 +284,13 @@ class UserController extends Controller
             'coupons' => $coupons,
         ]);
     }
+    public function actionCoin()
+    {
+        /*$coupons = Coupon::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->all();*/
+        return $this->render('coin', [
+            //'coupons' => $coupons,
+        ]);
+    }
 }
