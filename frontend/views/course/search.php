@@ -41,11 +41,13 @@ $this->title = 'My Yii Application';
             <?php } ?>
         </ul>
     </div>
-    <div class="no-result">
-        <img src="/img/no-results.png">
-        <h5>抱歉，没有找到相关课程</h5>
-        <p>请换个关键词重新搜索</p>
-    </div>
+    <?php if (count($coursemodels) == 0) { ?>
+        <div class="no-result">
+            <img src="/img/no-results.png">
+            <h5>抱歉，没有找到相关课程</h5>
+            <p>请换个关键词重新搜索</p>
+        </div>
+    <?php } ?>
 </div>
 <script src="<?php echo Url::to('@web/js/lib/jquery.min.js');?>"></script>
 <script src="/js/course-list.js"></script>
