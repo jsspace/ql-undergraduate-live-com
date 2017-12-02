@@ -81,4 +81,5 @@ return [
     'Create Order Info' => '创建订单',
     'Update Order Info' => '修改订单',
     'Marketers' => '市场专员列表',
+    'Cards' => '充值卡列表',
 ];
