@@ -137,7 +137,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    margin: auto;
+    margin: 10px auto;
 }
 .order-step li span {
     display: inline-block;
@@ -474,4 +474,7 @@
 }
 .payway-method.last-banner .go-back {
     line-height: 50px;
+}
+.card-font {
+    color: #31afff;
 }

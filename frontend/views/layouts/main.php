@@ -67,7 +67,9 @@ AppAsset::register($this);
                 <li>
                     <a href="/data/list">资料</a>
                 </li>
-                
+                <li>
+                    <a href="/data/list">开通VIP</a>
+                </li>
             </ul>
             <div class="menu-search-group">
                 <form action="<?= Url::to(['course/search']); ?>" method="get">
