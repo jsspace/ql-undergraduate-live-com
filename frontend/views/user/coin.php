@@ -21,7 +21,7 @@ $this->title = '个人中心';
         <p class="user-right-title">我的金币</p>
         <p class="coin-con">
             <span class="coin-left">
-                金币余额：0元&nbsp;&nbsp;&nbsp;&nbsp;<a href="/card">充值金币</a>
+                金币余额：<?= $coins[0]->balance ?>元&nbsp;&nbsp;&nbsp;&nbsp;<a href="/card">充值金币</a>
             </span>
             <span class="coin-right">不知道如何充值或使用金币？<a href="">请戳这里</a></span>
         </p>
