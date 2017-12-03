@@ -18,6 +18,7 @@ class CardSearch extends Card
     public function rules()
     {
         return [
+            [['id', 'create_time', 'use_status', 'print_status', 'use_time', 'user_phone'], 'integer'],
             [['card_id', 'card_pass'], 'safe'],
             [['money'], 'number'],
         ];
@@ -41,7 +42,8 @@ class CardSearch extends Card
      */
     public function search($params)
     {
-        $query = Card::find();
+        $query = Card::find()
+        ->orderBy('id desc');
 
         // add conditions that should always apply here
 
@@ -59,7 +61,13 @@ class CardSearch extends Card
 
         // grid filtering conditions
         $query->andFilterWhere([
+            'id' => $this->id,
             'money' => $this->money,
+            'create_time' => $this->create_time,
+            'use_status' => $this->use_status,
+            'print_status' => $this->print_status,
+            'use_time' => $this->use_time,
+            'user_phone' => $this->user_phone,
         ]);
 
         $query->andFilterWhere(['like', 'card_id', $this->card_id])
