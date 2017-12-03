@@ -80,9 +80,9 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                     <span class="payment-desc"> 选择在线支付订单，可使用学习券、优惠券或奖学金抵消部分订单总额；在线支付成功后，系统自动为您开通课程权限。</span>
                 </div>
                 <div class="payment-method">
-                    <input type="radio" name="payment-method"/>
+                    <input type="radio" name="payment-method" <?php if ($coin_balance < $total_price) echo 'disabled="disabled"' ?>/>
                     <span>金币支付</span>
-                    <span class="payment-desc"> 您的金币余额：<strong class="card-font">35</strong>金币。金币支付成功后，系统自动为您开通课程权限。您的金币不足以支付本订单，请先去<a href="" class="card-font">充值</a></span>
+                    <span class="payment-desc"> 您的金币余额：<strong class="card-font"><?= $coin_balance ?></strong>金币。金币支付成功后，系统自动为您开通课程权限。<?php if ($coin_balance < $total_price) { ?>您的金币不足以支付本订单，请先去<a href="" class="card-font">充值</a><?php } ?></span>
                 </div>
             </div>
         </div>

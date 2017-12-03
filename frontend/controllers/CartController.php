@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use backend\models\Cart;
 use backend\models\Course;
 use backend\models\Coupon;
+use backend\models\Coin;
 use backend\models\CoursePackage;
 
 class CartController extends Controller
@@ -149,13 +150,21 @@ class CartController extends Controller
         ->andWhere(['isuse' => 0])
         ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
         ->all();
+
+        /*金币余额*/
+        $coin = Coin::find()
+        ->where(['userid' => Yii::$app->user->id])
+        ->orderBy('id desc')
+        ->one();
         return $this->render('shopping', [
             'course_models' => $course_models,
             'order_sn' => $order_sn,
             'course_ids' => $course_ids,
             'course_package_models' => $course_package_models,
             'course_package_ids' => $course_package_ids,
-            'coupons' => $coupons]);
+            'coupons' => $coupons,
+            'coin_balance' => $coin->balance
+        ]);
     }
     
     protected function findModel($cart_id)
