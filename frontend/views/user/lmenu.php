@@ -20,6 +20,6 @@ use yii\helpers\Url;
         <a href="<?= Url::to(['user/qnas']) ?>"><i class="icon ion-ios-help-outline"></i>我的提问</a>
         <a href="<?= Url::to(['user/course-reviews']) ?>"><i class="icon ion-ios-chatboxes-outline"></i>课程评价</a>
         <a href="<?= Url::to(['user/coupon']) ?>"><i class="icon ion-ios-rose-outline"></i>我的优惠券</a>
-        <a href="<?= Url::to(['user/coin']) ?>"><i class="icon ion-ios-rose-outline"></i>我的金币</a>
+        <a href="<?= Url::to(['user/coin']) ?>"><i class="icon ion-ios-rose-outline"></i>我的钱包</a>
     </div>
 </div>

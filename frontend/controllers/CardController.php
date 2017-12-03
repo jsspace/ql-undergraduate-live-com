@@ -12,7 +12,7 @@ class CardController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    /*public function behaviors()
     {
         return [
             'cache' => [
@@ -23,14 +23,19 @@ class CardController extends Controller
                 ],
             ],
         ];
-    }
+    }*/
     public function actionIndex()
     {
-        return $this->render('index');
+        $coin = Coin::find()
+        ->where(['userid' => Yii::$app->user->id])
+        ->orderBy('id desc')
+        ->one();
+        return $this->render('index', ['coin_balance' => $coin->balance]);
     }
     /*充值*/
     public function actionRecharge()
     {
+        $result = array();
         $data = Yii::$app->request->post();
         $card_id = $data['card_id'];
         $card_pass = $data['card_pass'];
@@ -39,17 +44,27 @@ class CardController extends Controller
         ->where(['card_id' => $card_id])
         ->andWhere(['card_pass' => $card_pass])
         ->one();
+        if (empty($card_model)) {
+            $result['status'] = 'error';
+            $result['message'] = '该学习卡不存在，请认真核对您填写的卡号和密码是否正确';
+            return json_encode($result);
+        }
+        if ($card_model->use_status == 1) {
+            $result['status'] = 'error';
+            $result['message'] = '学习卡已在'.date('Y-m-d H:m:s', $card_model->use_time).'充值了，不可重复充值';
+            return json_encode($result);
+        }
         $coin_model = new Coin();
         $coin = Coin::find()
         ->where(['userid' => Yii::$app->user->id])
         ->orderBy('id desc')
         ->one();
-        $result = array();
         $coin_model->userid = Yii::$app->user->id;
         $coin_model->income = $card_model->money;
         $coin_model->balance = $card_model->money+$coin->balance;
         $coin_model->operation_detail = '学习卡充值'.$card_model->money.'元';
         $coin_model->operation_time = time();
+        $coin_model->card_id = $card_model->card_id;
         if ($coin_model->save()) {
             $card_model->use_status = 1;
             $card_model->use_time = time();
@@ -58,11 +73,11 @@ class CardController extends Controller
             if ($card_model->save()) {
                 $result['status'] = 'success';
                 $result['message'] = '金币充值成功';
-                return $result;
+                return json_encode($result);
             }
         }
         $result['status'] = 'error';
         $result['message'] = '金币充值失败';
-        return $result;
+        return json_encode($result);
     }
 }
