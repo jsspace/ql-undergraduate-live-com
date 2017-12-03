@@ -289,6 +289,7 @@ class UserController extends Controller
     {
         $coins = Coin::find()
         ->where(['userid' => Yii::$app->user->id])
+        ->orderBy('id desc')
         ->all();
         return $this->render('coin', [
             'coins' => $coins,
