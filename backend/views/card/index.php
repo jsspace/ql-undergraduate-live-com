@@ -32,7 +32,12 @@ AppAsset::addCss($this,'@web/css/card.css');
             'card_id',
             'card_pass',
             'money',
-            'create_time:datetime', 
+            [
+                'attribute' => 'create_time',
+                'value' => function($model){
+                    return  date('Y-m-d H:i:s',$model->create_time);
+                },
+            ],
             [
                 'attribute' => 'print_status',
                 'value'=> function ($model) {
@@ -40,7 +45,12 @@ AppAsset::addCss($this,'@web/css/card.css');
                 },
                 'filter' => [1=>'已导出',0=>'未导出' ],
             ],
-            'use_time:datetime', 
+             [
+                'attribute' => 'use_time',
+                'value' => function($model){
+                    return  date('Y-m-d H:i:s',$model->use_time);
+                },
+            ],
             'user_phone',
             [
                 'attribute' => 'use_status',

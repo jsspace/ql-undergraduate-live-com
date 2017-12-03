@@ -14,9 +14,6 @@ $this->title = '金币充值';
 ?>
 <div class="card-wrapper">
     <div class="card-form">
-        <p class="card-img">
-            <img src="/img/card-img.png"/>
-        </p>
         <div class="card-input">
             <p class="large-title">
                 <span class="color">充</span>金币
