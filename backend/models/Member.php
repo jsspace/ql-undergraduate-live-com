@@ -15,6 +15,7 @@ use Yii;
  * @property string $price
  * @property string $discount
  * @property integer $course_category_id
+ * @property integer $position
  */
 class Member extends \yii\db\ActiveRecord
 {
@@ -32,9 +33,9 @@ class Member extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'content', 'time_period', 'price', 'discount', 'course_category_id'], 'required'],
+            [['name', 'description', 'content', 'time_period', 'price', 'discount', 'course_category_id', 'position'], 'required'],
             [['content'], 'string'],
-            [['time_period', 'course_category_id'], 'integer'],
+            [['time_period', 'course_category_id', 'position'], 'integer'],
             [['price', 'discount'], 'number'],
             [['name'], 'string', 'max' => 200],
             [['description'], 'string', 'max' => 600],
@@ -51,10 +52,11 @@ class Member extends \yii\db\ActiveRecord
             'name' => Yii::t('app', '名字'),
             'description' => Yii::t('app', '描述'),
             'content' => Yii::t('app', '详情'),
-            'time_period' => Yii::t('app', '有效期'),
+            'time_period' => Yii::t('app', '有效期(天)'),
             'price' => Yii::t('app', '价格'),
             'discount' => Yii::t('app', '折扣价格'),
             'course_category_id' => Yii::t('app', '课程分类'),
+            'position' => Yii::t('app', '排序'),
         ];
     }
 

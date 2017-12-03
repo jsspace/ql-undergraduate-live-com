@@ -6,6 +6,7 @@
 /* @var $exception Exception */
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use frontend\assets\AppAsset;
 
 AppAsset::addCss($this,'@web/css/vip.css');
@@ -14,93 +15,31 @@ $this->title = '购买vip会员';
 ?>
 <div class="site-vip">
     <div class="inner">
-        <div class="vip-section">
-            <p class="vip-title">健康会员</p>
-            <ul class="vip-list">
-                <li class="active">
-                    <em class="vip_tip-native">
-                        <i class="vip_tip-left"></i>
-                        <i class="vip_tip-right"></i>
-                        <i class="vip_tip-center">健康会员</i>
-                    </em>
-                    <div class="vip-price">￥199</div>
-                    <div class="vip-date"><span>30天</span></div>
-                </li>
-                <li>
-                    <em class="vip_tip-native">
-                        <i class="vip_tip-left"></i>
-                        <i class="vip_tip-right"></i>
-                        <i class="vip_tip-center">健康会员</i>
-                    </em>
-                    <div class="vip-price">￥199</div>
-                    <div class="vip-date"><span>30天</span></div>
-                </li>
-                <li>
-                    <em class="vip_tip-native">
-                        <i class="vip_tip-left"></i>
-                        <i class="vip_tip-right"></i>
-                        <i class="vip_tip-center">健康会员</i>
-                    </em>
-                    <div class="vip-price">￥199</div>
-                    <div class="vip-date"><span>30天</span></div>
-                </li>
-                <li>
-                    <em class="vip_tip-native">
-                        <i class="vip_tip-left"></i>
-                        <i class="vip_tip-right"></i>
-                        <i class="vip_tip-center">健康会员</i>
-                    </em>
-                    <div class="vip-price">￥199</div>
-                    <div class="vip-date"><span>30天</span></div>
-                </li>
-                <li>
-                    <em class="vip_tip-native">
-                        <i class="vip_tip-left"></i>
-                        <i class="vip_tip-right"></i>
-                        <i class="vip_tip-center">健康会员</i>
-                    </em>
-                    <div class="vip-price">￥199</div>
-                    <div class="vip-date"><span>30天</span></div>
-                </li>
-            </ul>
-        </div>
-        <div class="vip-section">
-            <p class="vip-title">书画会员</p>
-            <ul class="vip-list">
-                <li>
-                    <em class="vip_tip-native">
-                        <i class="vip_tip-left"></i>
-                        <i class="vip_tip-right"></i>
-                        <i class="vip_tip-center">书画会员</i>
-                    </em>
-                    <div class="vip-price">￥199</div>
-                    <div class="vip-date"><span>30天</span></div>
-                </li>
-            </ul>
-        </div>
-        <div class="vip-section">
-            <p class="vip-title">音乐会员</p>
-            <ul class="vip-list">
-                <li>
-                    <em class="vip_tip-native">
-                        <i class="vip_tip-left"></i>
-                        <i class="vip_tip-right"></i>
-                        <i class="vip_tip-center">书画会员</i>
-                    </em>
-                    <div class="vip-price">￥199</div>
-                    <div class="vip-date"><span>30天</span></div>
-                </li>
-                <li>
-                    <em class="vip_tip-native">
-                        <i class="vip_tip-left"></i>
-                        <i class="vip_tip-right"></i>
-                        <i class="vip_tip-center">音乐会员</i>
-                    </em>
-                    <div class="vip-price">￥199</div>
-                    <div class="vip-date"><span>30天</span></div>
-                </li>
-            </ul>
-        </div>
+    <?php 
+        $str = '';
+        foreach($member_items as $item) {
+            $str .= '<div class="vip-section"><p class="vip-title">' . $item['course_category'] . '</p>';
+            $str .= '<ul class="vip-list">';
+            foreach($item['members'] as $member) {
+                $str .= '<li data-id="' . $member->id . '">';
+                $str .= '<em class="vip_tip-native">';
+                $str .= '<i class="vip_tip-left"></i><i class="vip_tip-right"></i>';
+                $str .= '<i class="vip_tip-center">' . $item['course_category'] . '</i>';
+                $str .= '</em>';
+                $str .= '<div class="vip-price">￥' . $member->discount . '</div>';
+                $str .= '<div class="vip-date"><span>' . $member->time_period .'天</span></div>';
+                $str .= '</li>';
+            }
+            $str .= '</ul>';
+            $str .= '</div>';
+        }
+        echo $str;
+    ?>
+<?php $form = ActiveForm::begin(['action' => ['member/pay'],'method'=>'post',]); ?>
+<?= Html::hiddenInput('member_id', 1) ?>
+<?= Html::submitButton('支付宝支付', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>
+
+<?php ActiveForm::end(); ?>
         <div class="vip-pay">
             <div class="vip-left">
                 <p class="pay-code">

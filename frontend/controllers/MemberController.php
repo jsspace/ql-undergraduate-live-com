@@ -2,11 +2,23 @@
 
 namespace frontend\controllers;
 
+use backend\models\Member;
+use backend\models\CourseCategory;
+use backend\models\MemberOrder;
+use yii\helpers\Url;
 class MemberController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        return $this->render('index');
+        $member_items = [];
+        $member_models = Member::find()
+        ->orderBy('course_category_id asc,position asc')
+        ->all();
+        foreach ($member_models as $item) {
+            $member_items[$item->course_category_id]['course_category'] = CourseCategory::item($item->course_category_id);
+            $member_items[$item->course_category_id]['members'][] = $item;
+        }
+        return $this->render('index', ['member_items' => $member_items]);
     }
     
     public function actionConfirm_order($order_sn)
@@ -180,6 +192,88 @@ class MemberController extends \yii\web\Controller
         return $this->render('payway');
     }
     
+    public function actionPay()
+    {
+        $data = Yii::$app->request->post();
+        $member_id = $data['member_id'];
+        $memberInfo = Member::find()
+        ->where(['id' => $member_id])
+        ->one();
+        
+        if (!empty($memberInfo)) {
+            //添加订单信息
+            $order_info = new MemberOrder();
+            $order_info->order_sn = $order_sn;
+            $order_info->user_id = Yii::$app->user->id;
+            $order_info->order_status = 1;
+            $order_info->pay_status = 0;
+            $order_info->consignee = Yii::$app->user->identity->username;
+            $order_info->mobile = Yii::$app->user->identity->phone;
+            $order_info->email = Yii::$app->user->identity->email;
+            //0 1支付宝 2 微信
+            $order_info->pay_id = 1;
+            $order_info->pay_name = '支付宝';
+            $order_info->goods_amount = $memberInfo->discount;
+            $order_info->order_amount = $memberInfo->discount;
+            $order_info->add_time = time();
+            $order_info->end_time = time() + $memberInfo->time_period * 3600 * 24;
+            $order_info->member_id = $memberInfo->id;
+            $order_info->save(false);
+            
+            
+            $orderInfo = [
+                'orser_sn' => CartController::createOrderid(),
+                'user_id' => Yii::$app->user->id,
+                'consignee' => Yii::$app->user->identify->username,
+                'email' => Yii::$app->user->identify->email,
+                'phone' => Yii::$app->user->identify->phone,
+                'member_id' => $memberInfo->id,
+                'order_name' => $memberInfo->name,
+                'goods_amount' => $memberInfo->discount,
+                'add_time' => time(),
+                'end_time' => $menberInfo->time_period * 3600 * 24,
+            ];
+            
+            //商户订单号，商户网站订单系统中唯一订单号，必填
+            $out_trade_no = trim($orderInfo['order_sn']);
+    
+            //订单名称，必填
+            $subject = trim($memberInfo->name);
+    
+            //付款金额，必填
+            $total_amount = trim($memberInfo->discount);
+    
+            //商品描述，可空
+            $body = json_encode($orderInfo);
+    
+            //构造参数
+            $payRequestBuilder = new \AlipayTradePagePayContentBuilder();
+            $payRequestBuilder->setBody($body);
+            $payRequestBuilder->setSubject($subject);
+            $payRequestBuilder->setTotalAmount($total_amount);
+            $payRequestBuilder->setOutTradeNo($out_trade_no);
+    
+            //获取配置信息
+            $config = Yii::$app->params['alipay'];
+            $aop = new \AlipayTradeService($config);
+    
+            /**
+             * pagePay 电脑网站支付请求
+             * @param $builder 业务参数，使用buildmodel中的对象生成。
+             * @param $return_url 同步跳转地址，公网可以访问
+             * @param $notify_url 异步通知地址，公网可以访问
+             * @return $response 支付宝返回的信息
+             */
+            $response = $aop->pagePay($payRequestBuilder,Url::to(['user/index'], true),Url::to(['member/Alinotify'], true));
+    
+            //输出表单
+            var_dump($response);
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    
+    }
+    
     public function actionAlinotify()
     {
         $data = Yii::$app->request->Post();
@@ -218,7 +312,7 @@ class MemberController extends \yii\web\Controller
                 //如果有做过处理，不执行商户的业务程序
                 //注意：
                 //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
-                $order_info = OrderInfo::find()
+                $order_info = MemberOrder::find()
                 ->where(['order_sn' => $out_trade_no])
                 ->andWhere(['order_status' => 1])
                 ->one();
@@ -228,14 +322,6 @@ class MemberController extends \yii\web\Controller
                         $order_info->pay_status = 2;
                         $order_info->pay_time = time();
                         $order_info->save(false);
-                        //标记优惠券已使用
-                        Coupon::updateAll(
-                            ['isuse' => 2],
-                            [
-                                'user_id' => $order_info->user_id,
-                                'coupon_id' => explode(',', $order_info->coupon_ids),
-                            ]
-                            );
                     }
                 }
             } else if ($data['trade_status'] == 'TRADE_SUCCESS') {
@@ -245,7 +331,7 @@ class MemberController extends \yii\web\Controller
                 //如果有做过处理，不执行商户的业务程序
                 //注意：
                 //付款完成后，支付宝系统发送该交易状态通知
-                $order_info = OrderInfo::find()
+                $order_info = MemberOrder::find()
                 ->where(['order_sn' => $out_trade_no])
                 ->andWhere(['pay_status' => 0])
                 ->andWhere(['order_status' => 1])
@@ -255,18 +341,10 @@ class MemberController extends \yii\web\Controller
                     $order_info->pay_status = 2;
                     $order_info->pay_time = time();
                     $order_info->save(false);
-                    //标记优惠券已使用
-                    Coupon::updateAll(
-                        ['isuse' => 2],
-                        [
-                            'user_id' => $order_info->user_id,
-                            'coupon_id' => explode(',', $order_info->coupon_ids),
-                        ]
-                        );
                 }
     
             } else if ($data['trade_status'] == 'TRADE_CLOSED') {
-                $order_info = OrderInfo::find()
+                $order_info = MemberOrder::find()
                 ->where(['order_sn' => $out_trade_no])
                 ->andWhere(['order_status' => 1])
                 ->one();
@@ -276,14 +354,6 @@ class MemberController extends \yii\web\Controller
                     $order_info->pay_status = 0;
                     $order_info->invalid_time = time();
                     $order_info->save(false);
-                    //返回优惠券
-                    Coupon::updateAll(
-                        ['isuse' => 0],
-                        [
-                            'user_id' => $order_info->user_id,
-                            'coupon_id' => explode(',', $order_info->coupon_ids),
-                        ]
-                        );
                 }
             }
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——

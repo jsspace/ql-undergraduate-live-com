@@ -32,10 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
             'content:ntext',
-            'time_period:datetime',
+            'time_period',
             'price',
             'discount',
             'course_category_id',
+            'position',
         ],
     ]) ?>
 

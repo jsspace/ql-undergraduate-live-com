@@ -8,6 +8,7 @@ use backend\models\MemberSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\models\CourseCategory;
 
 /**
  * MemberController implements the CRUD actions for Member model.
@@ -51,8 +52,10 @@ class MemberController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $model->course_category_id = CourseCategory::item($model->course_category_id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -64,12 +67,14 @@ class MemberController extends Controller
     public function actionCreate()
     {
         $model = new Member();
+        
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'course_category' => CourseCategory::items(),
             ]);
         }
     }
@@ -87,8 +92,10 @@ class MemberController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            
             return $this->render('update', [
                 'model' => $model,
+                'course_category' => CourseCategory::items(),
             ]);
         }
     }
