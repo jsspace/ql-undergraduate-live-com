@@ -77,7 +77,7 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                 <div class="payment-method">
                     <input type="radio" name="payment-method" checked="checked" />
                     <span>在线支付</span>
-                    <span class="payment-desc"> 选择在线支付订单，可使用学习券、优惠券或奖学金抵消部分订单总额；在线支付成功后，系统自动为您开通课程权限。</span>
+                    <span class="payment-desc"> 选择在线支付订单，可使用钱包、优惠券抵消部分订单总额；在线支付成功后，系统自动为您开通课程权限。</span>
                 </div>
             </div>
         </div>
@@ -92,9 +92,9 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                     <ul class="tab-con">
                         <li>
                             <div class="payment-method">
-                                <input type="checkbox" name="payment-card" <?php if ($coin_balance < $total_price) echo 'disabled="disabled"' ?>/>
+                                <input class="select-wallet" type="checkbox" name="payment-card"/>
                                 <span>使用钱包支付</span>
-                                <span class="payment-desc"> 账户当前钱包余额：<strong class="card-font"><?= $coin_balance ?></strong>金币。金币支付成功后，系统自动为您开通课程权限。<?php if ($coin_balance < $total_price) { ?>您的金币不足以支付本订单，请先去<a href="" class="card-font">充值</a><?php } ?></span>
+                                <span class="payment-desc"> 账户当前钱包余额：<strong class="card-font"><?= $coin_balance ?></strong>元。</span>
                             </div>
                         </li>
                         <li>
@@ -128,6 +128,8 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                     <?= Html::HiddenInput('course_package_ids', $course_package_ids, ['id' => 'course_package_ids']) ?>
                     <?= Html::HiddenInput('course_ids', $course_ids, ['id' => 'course_ids']) ?>
                     <?= Html::HiddenInput('coupon_ids', '', ['id' => 'coupon_ids']) ?>
+                    <?= Html::HiddenInput('my_wallet', $coin_balance, ['id' => 'my_wallet']) ?>
+                    <?= Html::HiddenInput('use_wallet', '0', ['class' => 'use_wallet _use_wallet']) ?>
                     <?= Html::submitButton('提交订单', ['class' => 'btn btn-confirm']) ?>
                     <?php ActiveForm::end(); ?>
                 </div>
@@ -144,5 +146,12 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                 $('.order-payment-method .tab-con li').eq(index).show().siblings('li').hide();
             });
         });
+    });
+    $('.select-wallet').on('click', function(){
+        if ($(this).is(':checked')) {
+            $('._use_wallet').val(1);
+        } else {
+            $('._use_wallet').val(0);
+        }
     });
 </script>

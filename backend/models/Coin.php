@@ -31,7 +31,7 @@ class Coin extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userid', 'income', 'balance', 'operation_detail', 'operation_time', 'card_id'], 'required'],
+            [['userid', 'income', 'balance', 'operation_detail', 'operation_time'], 'required'],
             [['userid', 'operation_time'], 'integer'],
             [['income', 'balance'], 'number'],
             [['operation_detail'], 'string'],

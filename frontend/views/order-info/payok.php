@@ -26,6 +26,9 @@ $this->title = '付款方式';
             </li>
         </ul>
     </div>
+    <?php if ($wallet_pay == 1) {
+        echo "支付成功!";
+    } else { ?>
     <div class="order-payment-method payway-wrapper">
         <div class="inner-order">
             <div class="right-icon"><i class="icon ion-ios-checkmark-outline"></i></div>
@@ -57,4 +60,5 @@ $this->title = '付款方式';
             <a href="" class="btn">一次性支付</a>
         </div>
     </div>
+    <?php } ?>
 </div>
