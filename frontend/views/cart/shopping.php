@@ -79,29 +79,41 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                     <span>在线支付</span>
                     <span class="payment-desc"> 选择在线支付订单，可使用学习券、优惠券或奖学金抵消部分订单总额；在线支付成功后，系统自动为您开通课程权限。</span>
                 </div>
-                <div class="payment-method">
-                    <input type="radio" name="payment-method" <?php if ($coin_balance < $total_price) echo 'disabled="disabled"' ?>/>
-                    <span>金币支付</span>
-                    <span class="payment-desc"> 您的金币余额：<strong class="card-font"><?= $coin_balance ?></strong>金币。金币支付成功后，系统自动为您开通课程权限。<?php if ($coin_balance < $total_price) { ?>您的金币不足以支付本订单，请先去<a href="" class="card-font">充值</a><?php } ?></span>
-                </div>
             </div>
         </div>
         <div class="order-payment-method discount">
             <div class="inner-order">
-                <h3>可使用优惠券</h3>
-                <?php if (empty($coupons)) {?>
-                <div class="no-discount">暂无可使用优惠券</div>
-                <?php } else {?>
-                <ul class="discount-list">
-                	<?php foreach ($coupons as $coupon) {?>
-                    <li>
-                        <input type="radio" data-couponid="<?= $coupon->coupon_id ?>" name="discount"/>
-                        <span class="discount-bg _discount-fee" discount-fee="<?= $coupon->fee ?>">￥<?= $coupon->fee ?></span>
-                        <span class="discount-desc"><?= $coupon->name ?></span>
-                    </li>
-                    <?php }?>
-                </ul>
-                <?php }?>
+                <h3>可使用钱包/优惠券</h3>
+                <div class="discount-con">
+                    <div class="tab-title">
+                        <span class="active">我的钱包</span>
+                        <span>优惠券</span>
+                    </div>
+                    <ul class="tab-con">
+                        <li>
+                            <div class="payment-method">
+                                <input type="checkbox" name="payment-card" <?php if ($coin_balance < $total_price) echo 'disabled="disabled"' ?>/>
+                                <span>使用钱包支付</span>
+                                <span class="payment-desc"> 账户当前钱包余额：<strong class="card-font"><?= $coin_balance ?></strong>金币。金币支付成功后，系统自动为您开通课程权限。<?php if ($coin_balance < $total_price) { ?>您的金币不足以支付本订单，请先去<a href="" class="card-font">充值</a><?php } ?></span>
+                            </div>
+                        </li>
+                        <li>
+                            <?php if (empty($coupons)) {?>
+                            <div class="no-discount">暂无可使用优惠券</div>
+                            <?php } else {?>
+                            <ul class="discount-list">
+                            	<?php foreach ($coupons as $coupon) {?>
+                                <li>
+                                    <input type="radio" data-couponid="<?= $coupon->coupon_id ?>" name="discount"/>
+                                    <span class="discount-bg _discount-fee" discount-fee="<?= $coupon->fee ?>">￥<?= $coupon->fee ?></span>
+                                    <span class="discount-desc"><?= $coupon->name ?></span>
+                                </li>
+                                <?php }?>
+                            </ul>
+                            <?php }?>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="order-payment-method order-total">
@@ -123,3 +135,14 @@ AppAsset::addScript($this,'@web/js/shopping.js');
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $('.order-payment-method .tab-title span').each(function (index) {
+            $(this).on('click', function () {
+                $(this).addClass('active').siblings('span').removeClass('active');
+                $('.order-payment-method .tab-con li').eq(index).show().siblings('li').hide();
+            });
+        });
+    });
+</script>

@@ -478,3 +478,38 @@
 .card-font {
     color: #31afff;
 }
+.order-payment-method .discount-con {
+    border: 1px solid #f6f6f6;
+    margin-top: 15px;
+}
+.order-payment-method .tab-title {
+    width: 100%;
+    background: #f6f6f6;
+    font-size: 15px;
+    margin: 0 0 15px;
+    overflow: hidden;
+}
+.order-payment-method .tab-title span {
+    display: inline-block;
+    width: 100px;
+    padding: 10px 0;
+    text-align: center;
+    float: left;
+    cursor: pointer;
+}
+.order-payment-method .tab-title span.active {
+    background: #fff;
+}
+.order-payment-method .tab-con li {
+    display: none;
+    padding: 0 20px;
+}
+.order-payment-method .tab-con li:first-child {
+    display: block;
+}
+.order-payment-method .tab-con input[type='checkbox'] {
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    margin-top: -2px;
+}
