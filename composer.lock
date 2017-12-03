@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
     "content-hash": "869c94e729d24a9517863c96d7691649",
-=======
-    "content-hash": "ca10149e248982a5a566836f829353da",
->>>>>>> 3315efc3b1bf6e6debef379ca5e47ef83218c1c1
     "packages": [
         {
             "name": "2amigos/qrcode-library",
@@ -1091,7 +1087,6 @@
             "time": "2016-05-20T23:38:13+00:00"
         },
         {
-<<<<<<< HEAD
             "name": "qiniu/php-sdk",
             "version": "v7.2.2",
             "source": {
@@ -1195,8 +1190,6 @@
             "time": "2017-07-05T15:13:35+00:00"
         },
         {
-=======
->>>>>>> 3315efc3b1bf6e6debef379ca5e47ef83218c1c1
             "name": "rmrevin/yii2-fontawesome",
             "version": "2.17.1",
             "source": {

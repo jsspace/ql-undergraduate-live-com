@@ -15,11 +15,23 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
+    <?= $form->field($model, 'id') ?>
+
     <?= $form->field($model, 'card_id') ?>
 
     <?= $form->field($model, 'card_pass') ?>
 
     <?= $form->field($model, 'money') ?>
+
+    <?= $form->field($model, 'create_time') ?>
+
+    <?php // echo $form->field($model, 'use_status') ?>
+
+    <?php // echo $form->field($model, 'print_status') ?>
+
+    <?php // echo $form->field($model, 'use_time') ?>
+
+    <?php // echo $form->field($model, 'user_phone') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

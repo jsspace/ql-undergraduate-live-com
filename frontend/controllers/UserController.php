@@ -12,6 +12,7 @@ use backend\models\Collection;
 use backend\models\CourseComent;
 use backend\models\Coupon;
 use backend\models\Quas;
+use backend\models\Coin;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -286,11 +287,11 @@ class UserController extends Controller
     }
     public function actionCoin()
     {
-        /*$coupons = Coupon::find()
-        ->where(['user_id' => Yii::$app->user->id])
-        ->all();*/
+        $coins = Coin::find()
+        ->where(['userid' => Yii::$app->user->id])
+        ->all();
         return $this->render('coin', [
-            //'coupons' => $coupons,
+            'coins' => $coins,
         ]);
     }
 }

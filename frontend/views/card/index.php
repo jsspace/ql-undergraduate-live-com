@@ -14,9 +14,6 @@ $this->title = '金币充值';
 ?>
 <div class="card-wrapper">
     <div class="card-form">
-        <p class="card-img">
-            <img src="/img/card-img.png"/>
-        </p>
         <div class="card-input">
             <p class="large-title">
                 <span class="color">充</span>金币
@@ -24,7 +21,11 @@ $this->title = '金币充值';
             </p>
             <p class="subtitle">充200送20&nbsp;&nbsp;充500送50</p>
             <p class="card-tips">
-                金币充值仅会员可用，请先<a href="/site/login">&nbsp;&nbsp;登录&nbsp;&nbsp;</a>或<a href="/site/signup">&nbsp;&nbsp;注册&nbsp;&nbsp;</a>
+                <?php if (Yii::$app->user->isGuest) { ?>
+                    金币充值仅会员可用，请先<a href="/site/login">&nbsp;&nbsp;登录&nbsp;&nbsp;</a>或<a href="/site/signup">&nbsp;&nbsp;注册&nbsp;&nbsp;</a>
+                <?php } else { ?>
+                    
+                <?php } ?>
             </p>
             <p class="card-section">
                 <input type="text" placeholder="请输入学习卡号">

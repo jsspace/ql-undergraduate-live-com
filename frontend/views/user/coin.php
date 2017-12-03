@@ -34,20 +34,15 @@ $this->title = '个人中心';
                 <li>操作时间</li>
             </ul>
             <ul class="coupon-content-line">
-                <li>
-                    <p class="coin-id">1</p>
-                    <p>45元</p>
-                    <p>50元</p>
-                    <p class="coin-detail">支付宝支付</p>
-                    <p>2017年12月2日</p>
+                <?php foreach ($coins as $key => $coin) { ?>
+                 <li>
+                    <p class="coin-id"><?= $coin->id ?></p>
+                    <p><?= $coin->income ?></p>
+                    <p><?= $coin->balance ?></p>
+                    <p class="coin-detail"><?= $coin->operation_detail ?></p>
+                    <p><?= date('Y-m-d H:i:s', $coin->operation_time) ?></p>
                 </li>
-                <li>
-                    <p class="coin-id">1</p>
-                    <p>45元</p>
-                    <p>50元</p>
-                    <p class="coin-detail">支付宝支付</p>
-                    <p>2017年12月2日</p>
-                </li>
+                <?php } ?>
             </ul>
         </div>
     </div>
