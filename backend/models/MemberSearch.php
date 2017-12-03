@@ -18,7 +18,7 @@ class MemberSearch extends Member
     public function rules()
     {
         return [
-            [['id', 'time_period', 'course_category_id'], 'integer'],
+            [['id', 'time_period', 'course_category_id', 'position'], 'integer'],
             [['name', 'description', 'content'], 'safe'],
             [['price', 'discount'], 'number'],
         ];
@@ -65,6 +65,7 @@ class MemberSearch extends Member
             'price' => $this->price,
             'discount' => $this->discount,
             'course_category_id' => $this->course_category_id,
+            'position' => $this->position,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

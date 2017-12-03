@@ -78,8 +78,9 @@ class CourseCategory extends \yii\db\ActiveRecord
     }
 
     private static $_items = array();
-    public static function items(){
-        if(count(self::$_items)==0){
+    public static function items()
+    {
+        if (count(self::$_items)==0) {
             self::loadItems();
         }
         return self::$_items;
@@ -87,9 +88,10 @@ class CourseCategory extends \yii\db\ActiveRecord
 
     public static function item($id)
     {
-        if(!isset(self::$_items[$id]))
+        if (!isset(self::$_items[$id])) {
             self::loadItems();
-            return isset(self::$_items[$id]) ? self::$_items[$id] : false;
+        }
+       return isset(self::$_items[$id]) ? self::$_items[$id] : false;
     }
 
     private static function loadItems()
@@ -97,13 +99,13 @@ class CourseCategory extends \yii\db\ActiveRecord
         $models=self::find()
         ->where(['parent_id'=>0])
         ->all();
-        self::$_items[0] = '顶级分类';
         foreach ($models as $model) {
             self::$_items[$model->id] = $model->name;
         }
     }
 
-    public static function hotitems(){
+    public static function hotitems()
+    {
         $models=self::find()
         ->where(['parent_id'=>0])
         ->all();

@@ -2,11 +2,21 @@
 
 namespace frontend\controllers;
 
+use backend\models\Member;
+use backend\models\CourseCategory;
 class MemberController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        return $this->render('index');
+        $member_items = [];
+        $member_models = Member::find()
+        ->orderBy('course_category_id asc,position asc')
+        ->all();
+        foreach ($member_models as $item) {
+            $member_items[$item->course_category_id]['course_category'] = CourseCategory::item($item->course_category_id);
+            $member_items[$item->course_category_id]['members'][] = $item;
+        }
+        return $this->render('index', ['member_items' => $member_items]);
     }
     
     public function actionConfirm_order($order_sn)

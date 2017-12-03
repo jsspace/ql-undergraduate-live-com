@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use backend\models\CourseCategory;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\MemberSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -26,12 +28,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'description',
-            'content:ntext',
-            'time_period:datetime',
+//             'description',
+//             'content:ntext',
+            'time_period',
             // 'price',
-            // 'discount',
-            // 'course_category_id',
+            'discount',
+            [
+                'attribute'=> 'course_category_id',
+                'value' => function($model) {
+                    return CourseCategory::item($model->course_category_id);
+                },
+                'filter' => CourseCategory::items(),
+            ],
+//             'course_category_id',
+                // 'position',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
