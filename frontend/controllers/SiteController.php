@@ -566,7 +566,4 @@ class SiteController extends Controller
         error_log($err_str);
       }
     }
-    public function actionVip() {
-        return $this->render('vip');
-    }
 }
