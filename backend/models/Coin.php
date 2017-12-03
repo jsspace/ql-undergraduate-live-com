@@ -13,6 +13,7 @@ use Yii;
  * @property string $balance
  * @property string $operation_detail
  * @property integer $operation_time
+ * @property string $card_id
  */
 class Coin extends \yii\db\ActiveRecord
 {
@@ -30,10 +31,11 @@ class Coin extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userid', 'income', 'balance', 'operation_detail', 'operation_time'], 'required'],
+            [['userid', 'income', 'balance', 'operation_detail', 'operation_time', 'card_id'], 'required'],
             [['userid', 'operation_time'], 'integer'],
             [['income', 'balance'], 'number'],
             [['operation_detail'], 'string'],
+            [['card_id'], 'string', 'max' => 100],
         ];
     }
 
@@ -49,6 +51,7 @@ class Coin extends \yii\db\ActiveRecord
             'balance' => Yii::t('app', '余额'),
             'operation_detail' => Yii::t('app', '操作明细'),
             'operation_time' => Yii::t('app', '操作时间'),
+            'card_id' => Yii::t('app', '学习卡卡号'),
         ];
     }
 

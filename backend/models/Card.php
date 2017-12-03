@@ -15,7 +15,7 @@ use Yii;
  * @property integer $use_status
  * @property integer $print_status
  * @property integer $use_time
- * @property integer $user_phone
+ * @property string $user_phone
  */
 class Card extends \yii\db\ActiveRecord
 {
@@ -35,8 +35,9 @@ class Card extends \yii\db\ActiveRecord
         return [
             [['card_id', 'card_pass', 'money'], 'required'],
             [['money'], 'number'],
-            [['create_time', 'use_status', 'print_status', 'use_time', 'user_phone'], 'integer'],
+            [['create_time', 'use_status', 'print_status', 'use_time'], 'integer'],
             [['card_id', 'card_pass'], 'string', 'max' => 100],
+            [['user_phone'], 'string', 'max' => 255],
         ];
     }
 
