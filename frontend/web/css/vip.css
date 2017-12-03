@@ -1,0 +1,162 @@
+i {
+    font-style: normal;
+}
+.site-vip .inner {
+    width: 1180px;
+    margin: 0 auto;
+}
+.site-vip .vip-section {
+    border-bottom: 1px dashed #ddd;
+}
+.site-vip .vip-title {
+    font-size: 20px;
+    margin: 20px 0 25px;
+    padding-left: 15px;
+    border-left: 3px solid #ff6e1e;
+}
+.site-vip .vip-list {
+    overflow: hidden;
+    padding-top: 4px;
+    padding-left: 4px;
+}
+.site-vip .vip-list li {
+    width: 200px;
+    height: 70px;
+    float: left;
+    margin-right: 91px;
+    border: 1px solid #ddd;
+    background: #fff;
+    position: relative;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.site-vip .vip-list li.active {
+    border: 2px solid #ff6e1e;
+}
+.site-vip .vip-list li:last-child {
+    margin-right: 0;
+}
+.site-vip .vip-list .vip-price {
+    width: 80%;
+    line-height: 70px;
+    font-size: 23px;
+    color: #ff6e1e;
+    float: left;
+    text-align: center;
+}
+.site-vip .vip-list .vip-date {
+    width: 20%;
+    float: left;
+    background: #ededed;
+    height: 68px;
+    line-height: 68px;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px 0;
+}
+.site-vip .vip-list .vip-date span {
+    display: inline-block;
+    width: 14px;
+    line-height: 20px;
+}
+.vip_tip-native {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    margin: 0 4px;
+    height: 18px;
+    line-height: 18px;
+    background: #ff6e1e;
+    color: #fff;
+    z-index: 9;
+    font-size: 12px;
+}
+.vip_tip-left {
+    display: block;
+    width: 4px;
+    height: 22px;
+    overflow: hidden;
+    background: url('../img/vip_pay-site.png') no-repeat center;
+    background-position: -120px 0;
+    position: absolute;
+    top: 0;
+    left: -4px;
+}
+.vip_tip-right {
+    display: block;
+    width: 4px;
+    height: 18px;
+    overflow: hidden;
+    background: url('../img/vip_pay-site.png') no-repeat center;
+    background-position: -140px -20px;
+    position: absolute;
+    top: 0;
+    right: -4px;
+}
+.vip_tip-center {
+    display: block;
+    max-width: 100px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 5px 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.vip-pay {
+    width: 100%;
+    padding: 60px 0 30px;
+    overflow: hidden;
+}
+.vip-pay .vip-left {
+    width: 50%;
+    float: left;
+    position: relative;
+    padding-right: 20px;
+}
+.vip-pay .vip-left .pay-code {
+    width: 118px;
+    height: 118px;
+    float: right;
+    position: relative;
+}
+.vip-pay .vip-left img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -46px;
+    margin-top: -46px;
+}
+.vip-pay .vip-left .pay-code-bg {
+    width: 118px;
+    height: 118px;
+    background: url('../img/vip-paycode-bg.png') no-repeat center rgba(0,0,0,0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+}
+.vip-pay .vip-left .pay-code-bg i {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url('../img/vip_pay-refresh.png') no-repeat center;
+    margin: 30px auto 10px;
+}
+.vip-pay .vip-right {
+    width: 50%;
+    float: right;
+    text-align: left;
+    padding-left: 20px;
+}
+.vip-right .total-price {
+    font-size: 26px;
+    color: #ff6e1e;
+    font-weight: bold;
+}
+.vip-right .vip-tip {
+    font-size: 13px;
+    margin: 15px 0 10px;
+}

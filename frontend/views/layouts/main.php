@@ -68,7 +68,7 @@ AppAsset::register($this);
                     <a href="/data/list">资料</a>
                 </li>
                 <li>
-                    <a href="/data/list">开通VIP</a>
+                    <a href="/site/vip">开通VIP</a>
                 </li>
             </ul>
             <div class="menu-search-group">
