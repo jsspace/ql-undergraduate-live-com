@@ -40,6 +40,9 @@
 .card-wrapper .card-tips a {
     color: #ffeb3b;
 }
+.card-section .div-ele {
+    display: block;
+}
 .card-section input {
     padding: 18px 15px;
     width: 405px;
@@ -53,6 +56,7 @@
     display: block;
     margin-bottom: 15px;
     color: #444;
+    display: inline-block;
 }
 .card-section .submit-btn {
     display: inline-block;
@@ -67,6 +71,14 @@
     border-radius: 4px;
     color: #fff;
     font-size: 24px;
+}
+.card-section .submit-btn.disabled-submit {
+    background: #bbb;
+    cursor: default;
+}
+.card-section .empty-tip {
+    color: red;
+    display: none;
 }
 .card-section .card-link {
     color: #fff;
@@ -131,4 +143,26 @@
 }
 .deposit-step dd.last span {
     line-height: 48px;
+}
+.card-wrapper .user-info img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 15px;
+}
+.card-wrapper .user-info em {
+    display: block;
+    font-size: 14px;
+    line-height: 14px;
+    font-style: normal;
+    padding-top: 20px;
+}
+.card-wrapper .user-info strong {
+    font-weight: normal;
+    font-size: 20px;
+}
+.card-wrapper .user-info i {
+    font-style: normal;
+    color: #ffeb3b;
 }
