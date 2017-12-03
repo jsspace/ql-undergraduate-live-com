@@ -114,6 +114,7 @@ $this->title = '购买vip会员';
             <div class="vip-right">
                 <p class="total-price">199元</p>
                 <p class="vip-tip">请使用支付宝支付</p>
+                <p class="vip-method"><img src="/img/vip-pay-method.png"/></p>
             </div>
         </div>
     </div>

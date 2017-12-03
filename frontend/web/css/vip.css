@@ -6,7 +6,10 @@ i {
     margin: 0 auto;
 }
 .site-vip .vip-section {
-    border-bottom: 1px dashed #ddd;
+    background: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    margin: 20px 0;
 }
 .site-vip .vip-title {
     font-size: 20px;
@@ -23,8 +26,8 @@ i {
     width: 200px;
     height: 70px;
     float: left;
-    margin-right: 91px;
-    border: 1px solid #ddd;
+    margin-right: 80px;
+    border: 2px solid #ddd;
     background: #fff;
     position: relative;
     margin-bottom: 20px;
@@ -48,8 +51,8 @@ i {
     width: 20%;
     float: left;
     background: #ededed;
-    height: 68px;
-    line-height: 68px;
+    height: 66px;
+    line-height: 66px;
     text-align: center;
     font-size: 14px;
     padding: 10px 0;
@@ -159,4 +162,7 @@ i {
 .vip-right .vip-tip {
     font-size: 13px;
     margin: 15px 0 10px;
+}
+.vip-method img {
+    width: 90px;
 }
