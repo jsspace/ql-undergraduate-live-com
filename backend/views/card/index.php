@@ -1,10 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+/*use yii\grid\GridView;*/
 use yii\widgets\Pjax;
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
+use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CardSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -23,7 +24,9 @@ AppAsset::addCss($this,'@web/css/card.css');
     </span>
     <a class="commit-card _commit-card" href="javascript:void(0)">创建充值卡</a>
 </div>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>
+    <?php $gridColumns = [
+        ['class' => 'kartik\grid\SerialColumn'],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -61,7 +64,22 @@ AppAsset::addCss($this,'@web/css/card.css');
             ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ];
+    echo GridView::widget([
+        'id' => 'kv-grid-demo',
+        'dataProvider'=> $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => $gridColumns,
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'panel'=>[
+            'type'=>GridView::TYPE_PRIMARY,
+        ],
+        'persistResize'=>false,
+    ]);
+    ?>
 <?php Pjax::end(); ?></div>
 <script type="text/javascript">
     $('._commit-card').on('click', function(){
