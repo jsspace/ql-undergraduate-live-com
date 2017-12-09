@@ -9,6 +9,7 @@ use backend\models\MemberOrder;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\web\BadRequestHttpException;
 
 require_once "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
 require_once "../../common/alipay/pagepay/service/AlipayTradeService.php";
@@ -152,7 +153,7 @@ class MemberController extends \yii\web\Controller
             var_dump($response);
         } else {
             //订单已存在
-            throw new NotFoundHttpException('你已是该会员了,请不要重复购买.');
+            throw new BadRequestHttpException('你已是该会员了,请不要重复购买.');
         }
     
     }
