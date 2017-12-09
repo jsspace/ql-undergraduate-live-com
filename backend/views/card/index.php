@@ -27,43 +27,38 @@ AppAsset::addCss($this,'@web/css/card.css');
 <?php Pjax::begin(); ?>
     <?php $gridColumns = [
         ['class' => 'kartik\grid\SerialColumn'],
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'card_id',
-            'card_pass',
-            'money',
-            [
-                'attribute' => 'create_time',
-                'value' => function($model){
-                    return  date('Y-m-d H:i:s',$model->create_time);
-                },
-            ],
-            [
-                'attribute' => 'print_status',
-                'value'=> function ($model) {
-                    return $model->print_status == 1 ? '已导出':'未导出';
-                },
-                'filter' => [1=>'已导出',0=>'未导出' ],
-            ],
-             [
-                'attribute' => 'use_time',
-                'value' => function($model){
-                    return  date('Y-m-d H:i:s',$model->use_time);
-                },
-            ],
-            'user_phone',
-            [
-                'attribute' => 'use_status',
-                'value'=> function ($model) {
-                    return $model->use_status == 1 ? '已使用':'未使用';
-                },
-                'filter' => [1=>'已使用',0=>'未使用' ],
-            ],
-            ['class' => 'yii\grid\ActionColumn'],
+        'card_id',
+        'card_pass',
+        'money',
+        [
+            'attribute' => 'create_time',
+            'value' => function($model){
+                return  date('Y-m-d H:i:s',$model->create_time);
+            },
         ],
+        [
+            'attribute' => 'print_status',
+            'value'=> function ($model) {
+                return $model->print_status == 1 ? '已导出':'未导出';
+            },
+            'filter' => [1=>'已导出',0=>'未导出' ],
+        ],
+         [
+            'attribute' => 'use_time',
+            'value' => function($model){
+                return  date('Y-m-d H:i:s',$model->use_time);
+            },
+        ],
+        'user_phone',
+        [
+            'attribute' => 'use_status',
+            'value'=> function ($model) {
+                return $model->use_status == 1 ? '已使用':'未使用';
+            },
+            'filter' => [1=>'已使用',0=>'未使用' ],
+        ],
+        ['class' => 'yii\grid\ActionColumn'],
+
     ];
     echo GridView::widget([
         'id' => 'kv-grid-demo',
