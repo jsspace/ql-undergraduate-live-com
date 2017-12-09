@@ -36,13 +36,13 @@ AppAsset::addCss($this,'@web/css/card.css');
                 return  date('Y-m-d H:i:s',$model->create_time);
             },
         ],
-        [
+        /*[
             'attribute' => 'print_status',
             'value'=> function ($model) {
                 return $model->print_status == 1 ? '已导出':'未导出';
             },
             'filter' => [1=>'已导出',0=>'未导出' ],
-        ],
+        ],*/
          [
             'attribute' => 'use_time',
             'value' => function($model){
