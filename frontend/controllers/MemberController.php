@@ -7,11 +7,46 @@ use backend\models\Member;
 use backend\models\CourseCategory;
 use backend\models\MemberOrder;
 use yii\helpers\Url;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+
 require_once "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
 require_once "../../common/alipay/pagepay/service/AlipayTradeService.php";
 
 class MemberController extends \yii\web\Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['pay', 'alinotify'],
+                'rules' => [
+                    [
+                        'actions' => ['pay'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                    'actions' => ['alinotify'],
+                    'allow' => true,
+                    'roles' => ['?'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'pay' => ['post'],
+                    'alinotify' => ['post'],
+                ],
+            ],
+        ];
+    }
+    
     public function actionIndex()
     {
         $member_items = [];
@@ -23,177 +58,6 @@ class MemberController extends \yii\web\Controller
             $member_items[$item->course_category_id]['members'][] = $item;
         }
         return $this->render('index', ['member_items' => $member_items]);
-    }
-    
-    public function actionConfirm_order($order_sn)
-    {
-        $orderInfo = OrderInfo::find()
-        ->where(['order_sn' => $order_sn])
-        ->andWhere(['user_id' => Yii::$app->user->id])
-        ->andWhere(['pay_status' => 0])
-        ->one();
-        if (!empty($orderInfo)) {
-            return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $orderInfo->order_amount]);
-        }
-        $data = Yii::$app->request->Post();
-        if (!isset($data['coupon_ids']) || !isset($data['course_ids']) || !isset($data['course_package_ids'])) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        if (empty($data['course_ids']) && empty($data['course_package_ids'])) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        $goods_amount = 0.00;
-        $coupon_ids = explode(',', $data['coupon_ids']);
-        $coupon_money = 0.00;
-        $coupons = Coupon::find()
-        ->where(['user_id' => Yii::$app->user->id])
-        ->andWhere(['coupon_id' => $coupon_ids])
-        ->andWhere(['isuse' => 0])
-        ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
-        ->all();
-        $coupon_ids_str = '';
-        foreach($coupons as $model) {
-            $coupon_ids_str .= $model->coupon_id;
-            $coupon_money += $model->fee;
-            //标记优惠券正在使用中
-            $model->isuse = 1;
-            $model->save(false);
-        }
-    
-        $course_ids = explode(',', $data['course_ids']);
-        //删除购物车中对应的条目
-        Cart::deleteAll([
-            'product_id' => $course_ids,
-            'user_id' => Yii::$app->user->id,
-        ]);
-        $course_models = Course::find()
-        ->where(['id' => $course_ids])
-        ->andWhere(['onuse' => 1])
-        ->all();
-        $courseids = '';
-        foreach($course_models as $model) {
-            $courseids .= $model->id . ',';
-        }
-        //添加订单商品
-        foreach($course_models as $model) {
-            $order_goods = new OrderGoods();
-            $order_goods->order_sn = $order_sn;
-            $order_goods->goods_id = $model->id;
-            $order_goods->goods_name = $model->course_name;
-            $order_goods->goods_number = 1;
-            $order_goods->market_price = $model->price;
-            $order_goods->goods_price = $model->discount;
-            $order_goods->type = 'course';
-            $order_goods->save(false);
-            $goods_amount += $model->discount;
-        }
-    
-        $course_package_ids = explode(',', $data['course_package_ids']);
-        //删除购物车中对应的条目
-        Cart::deleteAll([
-            'product_id' => $course_package_ids,
-            'user_id' => Yii::$app->user->id,
-        ]);
-        $course_package_models = CoursePackage::find()
-        ->where(['id' => $course_package_ids])
-        ->andWhere(['onuse' => 1])
-        ->all();
-        foreach($course_package_models as $model) {
-            $courseids .= $model->course . ',';
-        }
-        //添加订单商品
-        foreach($course_package_models as $model) {
-            $order_goods = new OrderGoods();
-            $order_goods->order_sn = $order_sn;
-            $order_goods->goods_id = $model->id;
-            $order_goods->goods_name = $model->name;
-            $order_goods->goods_number = 1;
-            $order_goods->market_price = $model->price;
-            $order_goods->goods_price = $model->discount;
-            $order_goods->type = 'course_package';
-            $order_goods->save(false);
-            $goods_amount += $model->discount;
-        }
-    
-        $course_ids_arr = explode(',', $courseids);
-        $course_ids_str = implode(',', array_unique($course_ids_arr));
-        $order_amount = $goods_amount - $coupon_money;
-    
-        //添加订单信息
-        $order_info = new OrderInfo();
-        $order_info->order_sn = $order_sn;
-        $order_info->user_id = Yii::$app->user->id;
-        $order_info->order_status = 1;
-        $order_info->pay_status = 0;
-        $order_info->consignee = Yii::$app->user->identity->username;
-        $order_info->mobile = Yii::$app->user->identity->phone;
-        $order_info->email = Yii::$app->user->identity->email;
-        //0 1支付宝 2 微信
-        $order_info->pay_id = 0;
-        $order_info->goods_amount = $goods_amount;
-        $order_info->order_amount = $order_amount;
-        $order_info->add_time = time();
-        $order_info->course_ids = $course_ids_str;
-        $order_info->coupon_ids = $coupon_ids_str;
-        $order_info->coupon_money = $coupon_money;
-        $order_info->save(false);
-        return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount]);
-    }
-    
-    public function actionAlipay($order_sn)
-    {
-        $orderInfo = OrderInfo::find()
-        ->where(['order_sn' => $order_sn])
-        ->andWhere(['user_id' => Yii::$app->user->id])
-        ->andWhere(['pay_status' => 0])
-        ->one();
-        if (!empty($orderInfo)) {
-    
-            //商户订单号，商户网站订单系统中唯一订单号，必填
-            $out_trade_no = trim($orderInfo->order_sn);
-    
-            //订单名称，必填
-            $subject = trim('课程购买订单：'.$orderInfo->order_sn);
-    
-            //付款金额，必填
-            $total_amount = trim($orderInfo->order_amount);
-    
-            //商品描述，可空
-            $body = 'course_ids:'.$orderInfo->course_ids;
-            $body .= ' course_package_ids:'.$orderInfo->course_ids;
-            $body = trim($body);
-    
-            //构造参数
-            $payRequestBuilder = new \AlipayTradePagePayContentBuilder();
-            $payRequestBuilder->setBody($body);
-            $payRequestBuilder->setSubject($subject);
-            $payRequestBuilder->setTotalAmount($total_amount);
-            $payRequestBuilder->setOutTradeNo($out_trade_no);
-    
-            //获取配置信息
-            $config = Yii::$app->params['alipay'];
-            $aop = new \AlipayTradeService($config);
-    
-            /**
-             * pagePay 电脑网站支付请求
-             * @param $builder 业务参数，使用buildmodel中的对象生成。
-             * @param $return_url 同步跳转地址，公网可以访问
-             * @param $notify_url 异步通知地址，公网可以访问
-             * @return $response 支付宝返回的信息
-             */
-            $response = $aop->pagePay($payRequestBuilder,$config['return_url'],$config['notify_url']);
-    
-            //输出表单
-            var_dump($response);
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    
-    }
-    
-    public function actionPayway()
-    {
-        return $this->render('payway');
     }
     
     public function actionPay()
