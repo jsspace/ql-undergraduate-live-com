@@ -44,7 +44,9 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'k' => 
         array (
             'kartik\\plugins\\fileinput\\' => 25,
+            'kartik\\grid\\' => 12,
             'kartik\\file\\' => 12,
+            'kartik\\dialog\\' => 14,
             'kartik\\datetime\\' => 16,
             'kartik\\base\\' => 12,
         ),
@@ -83,6 +85,7 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Payment\\' => 8,
         ),
         'G' => 
         array (
@@ -160,9 +163,17 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         array (
             0 => __DIR__ . '/..' . '/kartik-v/bootstrap-fileinput',
         ),
+        'kartik\\grid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-grid',
+        ),
         'kartik\\file\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-fileinput',
+        ),
+        'kartik\\dialog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog',
         ),
         'kartik\\datetime\\' => 
         array (
@@ -243,6 +254,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Payment\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/riverslei/payment/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
