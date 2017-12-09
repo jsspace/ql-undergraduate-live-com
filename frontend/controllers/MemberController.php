@@ -75,7 +75,15 @@ class MemberController extends \yii\web\Controller
         ->where(['id' => $member_id])
         ->one();
         
-        if (!empty($memberInfo)) {
+        //查看是否已购买过此会员
+        $member_order = MemberOrder::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['order_status' => 1])
+        ->andWhere(['pay_status' => 2])
+        ->andWhere(['>', 'end_time', time()])
+        ->andWhere(['member_id' => $member_id])
+        ->one();
+        if (!empty($memberInfo) && empty($member_order)) {
             //添加订单信息
             $order_info = new MemberOrder();
             $order_info->order_sn = $data['order_sn'];
@@ -143,7 +151,8 @@ class MemberController extends \yii\web\Controller
             //输出表单
             var_dump($response);
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            //订单已存在
+            throw new NotFoundHttpException('你已是该会员了,请不要重复购买.');
         }
     
     }

@@ -18,8 +18,8 @@ class MemberOrderSearch extends MemberOrder
     public function rules()
     {
         return [
-            [['order_id', 'user_id', 'order_status', 'pay_status', 'pay_id'], 'integer'],
-            [['order_sn', 'consignee', 'mobile', 'email', 'pay_name', 'add_time', 'end_time', 'pay_time', 'invalid_time', 'member_id'], 'safe'],
+            [['order_id', 'user_id', 'order_status', 'pay_status', 'pay_id', 'add_time', 'end_time', 'pay_time', 'invalid_time'], 'integer'],
+            [['order_sn', 'consignee', 'mobile', 'email', 'pay_name', 'member_id'], 'safe'],
             [['goods_amount', 'pay_fee', 'money_paid', 'order_amount', 'discount'], 'number'],
         ];
     }
@@ -69,7 +69,11 @@ class MemberOrderSearch extends MemberOrder
             'pay_fee' => $this->pay_fee,
             'money_paid' => $this->money_paid,
             'order_amount' => $this->order_amount,
+            'add_time' => $this->add_time,
+            'end_time' => $this->end_time,
+            'pay_time' => $this->pay_time,
             'discount' => $this->discount,
+            'invalid_time' => $this->invalid_time,
         ]);
 
         $query->andFilterWhere(['like', 'order_sn', $this->order_sn])
@@ -77,10 +81,6 @@ class MemberOrderSearch extends MemberOrder
             ->andFilterWhere(['like', 'mobile', $this->mobile])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'pay_name', $this->pay_name])
-            ->andFilterWhere(['like', 'add_time', $this->add_time])
-            ->andFilterWhere(['like', 'end_time', $this->end_time])
-            ->andFilterWhere(['like', 'pay_time', $this->pay_time])
-            ->andFilterWhere(['like', 'invalid_time', $this->invalid_time])
             ->andFilterWhere(['like', 'member_id', $this->member_id]);
 
         return $dataProvider;

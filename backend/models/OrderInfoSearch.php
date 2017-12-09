@@ -18,8 +18,8 @@ class OrderInfoSearch extends OrderInfo
     public function rules()
     {
         return [
-            [['order_id', 'user_id', 'order_status', 'pay_status', 'pay_id', 'integral', 'bonus_id', 'is_separate', 'parent_id'], 'integer'],
-            [['order_sn', 'consignee', 'mobile', 'email', 'pay_name', 'add_time', 'confirm_time', 'pay_time', 'invalid_time', 'course_ids', 'coupon_ids'], 'safe'],
+            [['order_id', 'user_id', 'order_status', 'pay_status', 'pay_id', 'integral', 'add_time', 'confirm_time', 'pay_time', 'bonus_id', 'is_separate', 'parent_id', 'invalid_time'], 'integer'],
+            [['order_sn', 'consignee', 'mobile', 'email', 'pay_name', 'course_ids', 'coupon_ids'], 'safe'],
             [['goods_amount', 'pay_fee', 'money_paid', 'integral_money', 'bonus', 'order_amount', 'discount', 'coupon_money'], 'number'],
         ];
     }
@@ -72,10 +72,14 @@ class OrderInfoSearch extends OrderInfo
             'integral_money' => $this->integral_money,
             'bonus' => $this->bonus,
             'order_amount' => $this->order_amount,
+            'add_time' => $this->add_time,
+            'confirm_time' => $this->confirm_time,
+            'pay_time' => $this->pay_time,
             'bonus_id' => $this->bonus_id,
             'is_separate' => $this->is_separate,
             'parent_id' => $this->parent_id,
             'discount' => $this->discount,
+            'invalid_time' => $this->invalid_time,
             'coupon_money' => $this->coupon_money,
         ]);
 
@@ -84,10 +88,6 @@ class OrderInfoSearch extends OrderInfo
             ->andFilterWhere(['like', 'mobile', $this->mobile])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'pay_name', $this->pay_name])
-            ->andFilterWhere(['like', 'add_time', $this->add_time])
-            ->andFilterWhere(['like', 'confirm_time', $this->confirm_time])
-            ->andFilterWhere(['like', 'pay_time', $this->pay_time])
-            ->andFilterWhere(['like', 'invalid_time', $this->invalid_time])
             ->andFilterWhere(['like', 'course_ids', $this->course_ids])
             ->andFilterWhere(['like', 'coupon_ids', $this->coupon_ids]);
 

@@ -21,11 +21,11 @@ use Yii;
  * @property string $pay_fee
  * @property string $money_paid
  * @property string $order_amount
- * @property string $add_time
- * @property string $end_time
- * @property string $pay_time
+ * @property integer $add_time
+ * @property integer $end_time
+ * @property integer $pay_time
  * @property string $discount
- * @property string $invalid_time
+ * @property integer $invalid_time
  * @property string $member_id
  */
 class MemberOrder extends \yii\db\ActiveRecord
@@ -45,12 +45,11 @@ class MemberOrder extends \yii\db\ActiveRecord
     {
         return [
             [['order_sn', 'member_id'], 'required'],
-            [['user_id', 'order_status', 'pay_status', 'pay_id'], 'integer'],
+            [['user_id', 'order_status', 'pay_status', 'pay_id', 'add_time', 'end_time', 'pay_time', 'invalid_time'], 'integer'],
             [['goods_amount', 'pay_fee', 'money_paid', 'order_amount', 'discount'], 'number'],
             [['order_sn', 'member_id'], 'string', 'max' => 200],
             [['consignee', 'mobile', 'email'], 'string', 'max' => 60],
             [['pay_name'], 'string', 'max' => 120],
-            [['add_time', 'end_time', 'pay_time', 'invalid_time'], 'string', 'max' => 50],
             [['order_sn'], 'unique'],
         ];
     }

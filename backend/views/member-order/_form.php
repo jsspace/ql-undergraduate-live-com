@@ -38,15 +38,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'order_amount')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'add_time')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'add_time')->textInput() ?>
 
-    <?= $form->field($model, 'end_time')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'end_time')->textInput() ?>
 
-    <?= $form->field($model, 'pay_time')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'pay_time')->textInput() ?>
 
     <?= $form->field($model, 'discount')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'invalid_time')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'invalid_time')->textInput() ?>
 
     <?= $form->field($model, 'member_id')->textInput(['maxlength' => true]) ?>
 
