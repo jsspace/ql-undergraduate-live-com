@@ -210,6 +210,7 @@ class MemberController extends \yii\web\Controller
                 ->andWhere(['pay_status' => 0])
                 ->andWhere(['order_status' => 1])
                 ->one();
+                print_r($order_info);
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     $order_info->money_paid = $total_amount;
                     $order_info->pay_status = 2;
@@ -238,5 +239,11 @@ class MemberController extends \yii\web\Controller
         }
     
     }
-
+    
+    public function actionRt()
+    {
+        $js = array (  'gmt_create' => '2017-12-09 16:03:31',  'charset' => 'UTF-8',  'gmt_payment' => '2017-12-09 16:03:45',  'notify_time' => '2017-12-09 16:03:45',  'subject' => '\xe4\xbc\x98\xe5\xb8\x88\xe8\x81\x94\xe5\x81\xa5\xe5\xba\xb7\xe4\xbc\x9a\xe5\x91\x981\xe4\xb8\xaa\xe6\x9c\x88',  'sign' => 'S+Akb7Izjpwxyq3E/5feMkcVtmdhj/1QwGu9bGmhyTwTU2Q4c2cVIwgYmbMODacrVRTKgN4A2slPQyPIgxlcr9K/uQ/AjTNbiNXzLMuptzhFNU5H5PWBu3KL8+iG/i4bcEKtpeeP3aYvfYR3MWPhnB/ENtbZUqveHAkQILoaer0C1RaN6e7NnVqoXLfALvVocmfJbQjnk8RWG8PKAOYSYfJjKyuUsOOWxCGdypfVmA2hQF2jLyEz76YW8YYe1Dg4reAHm85vUhbZRmqBWGwbk8l0W+L5Qes/Aa5l66q+ssZ55L3m1E/aw6f7+mZlpishX5UxsNb19510MBnYcB/Fug==',  'buyer_id' => '2088202285236569',  'body' => '{"order_sn":"KB-201712091603202357503437","user_id":1,"consignee":"admin","email":"1@1.com","phone":"18792512630","member_id":1,"order_name":"\\\\u4f18\\\\u5e08\\\\u8054\\\\u5065\\\\u5eb7\\\\u4f1a\\\\u54581\\\\u4e2a\\\\u6708","goods_amount":"0.01","add_time":1512806600,"end_time":2592000}',  'invoice_amount' => '0.01',  'version' => '1.0',  'notify_id' => '060bffac7bb4bed722defc96b271107kbm',  'fund_bill_list' => '[{"amount":"0.01","fundChannel":"ALIPAYACCOUNT"}]',  'notify_type' => 'trade_status_sync',  'out_trade_no' => 'KB-201712091603202357503437',  'total_amount' => '0.01',  'trade_status' => 'TRADE_SUCCESS',  'trade_no' => '2017120921001004560257725490',  'auth_app_id' => '2017101209266263',  'receipt_amount' => '0.01',  'point_amount' => '0.00',  'app_id' => '2017101209266263',  'buyer_pay_amount' => '0.01',  'sign_type' => 'RSA2',  'seller_id' => '2088721452319097',);
+        
+        print_r($js);
+    }
 }

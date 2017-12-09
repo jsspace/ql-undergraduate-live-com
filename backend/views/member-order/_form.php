@@ -36,8 +36,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'money_paid')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'bonus')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'order_amount')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'add_time')->textInput(['maxlength' => true]) ?>

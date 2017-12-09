@@ -20,7 +20,6 @@ use Yii;
  * @property string $goods_amount
  * @property string $pay_fee
  * @property string $money_paid
- * @property string $bonus
  * @property string $order_amount
  * @property string $add_time
  * @property string $end_time
@@ -45,9 +44,9 @@ class MemberOrder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['order_sn', 'add_time', 'member_id'], 'required'],
+            [['order_sn', 'member_id'], 'required'],
             [['user_id', 'order_status', 'pay_status', 'pay_id'], 'integer'],
-            [['goods_amount', 'pay_fee', 'money_paid', 'bonus', 'order_amount', 'discount'], 'number'],
+            [['goods_amount', 'pay_fee', 'money_paid', 'order_amount', 'discount'], 'number'],
             [['order_sn', 'member_id'], 'string', 'max' => 200],
             [['consignee', 'mobile', 'email'], 'string', 'max' => 60],
             [['pay_name'], 'string', 'max' => 120],
@@ -75,9 +74,8 @@ class MemberOrder extends \yii\db\ActiveRecord
             'goods_amount' => Yii::t('app', '商品总金额'),
             'pay_fee' => Yii::t('app', '支付费用,跟支付方式的配置相关，取值表ecs_payment'),
             'money_paid' => Yii::t('app', '已付款金额'),
-            'bonus' => Yii::t('app', '使用红包金额'),
             'order_amount' => Yii::t('app', '应付款金额'),
-            'add_time' => Yii::t('app', '订单生成时间'),
+            'add_time' => Yii::t('app', '添加时间'),
             'end_time' => Yii::t('app', '会员失效时间'),
             'pay_time' => Yii::t('app', '订单支付时间'),
             'discount' => Yii::t('app', '折扣金额'),

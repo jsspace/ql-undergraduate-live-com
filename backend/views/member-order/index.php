@@ -37,7 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'goods_amount',
             // 'pay_fee',
             // 'money_paid',
-            // 'bonus',
             // 'order_amount',
             // 'add_time',
             // 'end_time',

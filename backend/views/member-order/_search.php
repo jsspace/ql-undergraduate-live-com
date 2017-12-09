@@ -41,8 +41,6 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'money_paid') ?>
 
-    <?php // echo $form->field($model, 'bonus') ?>
-
     <?php // echo $form->field($model, 'order_amount') ?>
 
     <?php // echo $form->field($model, 'add_time') ?>

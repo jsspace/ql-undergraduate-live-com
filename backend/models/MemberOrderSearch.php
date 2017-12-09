@@ -20,7 +20,7 @@ class MemberOrderSearch extends MemberOrder
         return [
             [['order_id', 'user_id', 'order_status', 'pay_status', 'pay_id'], 'integer'],
             [['order_sn', 'consignee', 'mobile', 'email', 'pay_name', 'add_time', 'end_time', 'pay_time', 'invalid_time', 'member_id'], 'safe'],
-            [['goods_amount', 'pay_fee', 'money_paid', 'bonus', 'order_amount', 'discount'], 'number'],
+            [['goods_amount', 'pay_fee', 'money_paid', 'order_amount', 'discount'], 'number'],
         ];
     }
 
@@ -68,7 +68,6 @@ class MemberOrderSearch extends MemberOrder
             'goods_amount' => $this->goods_amount,
             'pay_fee' => $this->pay_fee,
             'money_paid' => $this->money_paid,
-            'bonus' => $this->bonus,
             'order_amount' => $this->order_amount,
             'discount' => $this->discount,
         ]);
