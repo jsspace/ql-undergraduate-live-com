@@ -178,7 +178,7 @@ class MemberController extends \yii\web\Controller
             $trade_status = $data['trade_status'];
             //支付金额
             $total_amount = $data['total_amount'];
-            
+
             error_log('file:'.__FILE__.'  line:'.__LINE__);
             if ($data['trade_status'] == 'TRADE_FINISHED') {
                 //判断该笔订单是否在商户网站中已经做过处理
