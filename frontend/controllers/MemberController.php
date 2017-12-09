@@ -2,10 +2,14 @@
 
 namespace frontend\controllers;
 
+use yii;
 use backend\models\Member;
 use backend\models\CourseCategory;
 use backend\models\MemberOrder;
 use yii\helpers\Url;
+require_once "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
+require_once "../../common/alipay/pagepay/service/AlipayTradeService.php";
+
 class MemberController extends \yii\web\Controller
 {
     public function actionIndex()
@@ -195,6 +199,7 @@ class MemberController extends \yii\web\Controller
     public function actionPay()
     {
         $data = Yii::$app->request->post();
+        $order_sn = CartController::createOrderid();
         $member_id = $data['member_id'];
         $memberInfo = Member::find()
         ->where(['id' => $member_id])
@@ -220,18 +225,17 @@ class MemberController extends \yii\web\Controller
             $order_info->member_id = $memberInfo->id;
             $order_info->save(false);
             
-            
             $orderInfo = [
-                'orser_sn' => CartController::createOrderid(),
+                'order_sn' => CartController::createOrderid(),
                 'user_id' => Yii::$app->user->id,
-                'consignee' => Yii::$app->user->identify->username,
-                'email' => Yii::$app->user->identify->email,
-                'phone' => Yii::$app->user->identify->phone,
+                'consignee' => Yii::$app->user->identity->username,
+                'email' => Yii::$app->user->identity->email,
+                'phone' => Yii::$app->user->identity->phone,
                 'member_id' => $memberInfo->id,
                 'order_name' => $memberInfo->name,
                 'goods_amount' => $memberInfo->discount,
                 'add_time' => time(),
-                'end_time' => $menberInfo->time_period * 3600 * 24,
+                'end_time' => $memberInfo->time_period * 3600 * 24,
             ];
             
             //商户订单号，商户网站订单系统中唯一订单号，必填
@@ -344,12 +348,13 @@ class MemberController extends \yii\web\Controller
                 }
     
             } else if ($data['trade_status'] == 'TRADE_CLOSED') {
+                //未付款交易超时关闭，或支付完成后全额退款
                 $order_info = MemberOrder::find()
                 ->where(['order_sn' => $out_trade_no])
                 ->andWhere(['order_status' => 1])
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
-                    //取消订单
+                    //未支付，取消订单
                     $order_info->order_status = 2;
                     $order_info->pay_status = 0;
                     $order_info->invalid_time = time();

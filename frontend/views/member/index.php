@@ -35,7 +35,7 @@ $this->title = '购买vip会员';
         }
         echo $str;
     ?>
-<?php $form = ActiveForm::begin(['action' => ['member/pay'],'method'=>'post',]); ?>
+<?php $form = ActiveForm::begin(['action' => ['member/pay'],'method'=>'post', 'id' => 'member_form']); ?>
 <?= Html::hiddenInput('member_id', 1) ?>
 <?= Html::submitButton('支付宝支付', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>
 
@@ -58,3 +58,11 @@ $this->title = '购买vip会员';
         </div>
     </div>
 </div>
+<script>
+$('.vip-list li').on('click', function(){
+	$('.vip-list li').removeClass('active');
+	$(this).addClass('active');
+	$('#member_form input[name="member_id"]').val($(this).attr('data-id'));
+});
+</script>
+
