@@ -178,7 +178,8 @@ class MemberController extends \yii\web\Controller
             $trade_status = $data['trade_status'];
             //支付金额
             $total_amount = $data['total_amount'];
-    
+            
+            error_log('file:'.__FILE__.'  line:'.__LINE__);
             if ($data['trade_status'] == 'TRADE_FINISHED') {
                 //判断该笔订单是否在商户网站中已经做过处理
                 //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
@@ -210,11 +211,15 @@ class MemberController extends \yii\web\Controller
                 ->andWhere(['pay_status' => 0])
                 ->andWhere(['order_status' => 1])
                 ->one();
+                
+                error_log('file:'.__FILE__.'  line:'.__LINE__);
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
+                    error_log('file:'.__FILE__.'  line:'.__LINE__.'  total_amount:'.$total_amount);
                     $order_info->money_paid = $total_amount;
                     $order_info->pay_status = 2;
                     $order_info->pay_time = time();
                     $order_info->save(false);
+                    error_log('file:'.__FILE__.'  line:'.__LINE__);
                 }
     
             } else if ($data['trade_status'] == 'TRADE_CLOSED') {
