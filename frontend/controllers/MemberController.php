@@ -63,13 +63,13 @@ class MemberController extends \yii\web\Controller
             $member_items[$item->course_category_id]['course_category'] = CourseCategory::item($item->course_category_id);
             $member_items[$item->course_category_id]['members'][] = $item;
         }
-        return $this->render('index', ['member_items' => $member_items]);
+        $order_sn = CartController::createOrderid();
+        return $this->render('index', ['member_items' => $member_items, 'order_sn' => $order_sn]);
     }
     
     public function actionPay()
     {
         $data = Yii::$app->request->post();
-        $order_sn = CartController::createOrderid();
         $member_id = $data['member_id'];
         $memberInfo = Member::find()
         ->where(['id' => $member_id])
@@ -78,7 +78,7 @@ class MemberController extends \yii\web\Controller
         if (!empty($memberInfo)) {
             //添加订单信息
             $order_info = new MemberOrder();
-            $order_info->order_sn = $order_sn;
+            $order_info->order_sn = $data['order_sn'];
             $order_info->user_id = Yii::$app->user->id;
             $order_info->order_status = 1;
             $order_info->pay_status = 0;
@@ -96,7 +96,7 @@ class MemberController extends \yii\web\Controller
             $order_info->save(false);
             
             $orderInfo = [
-                'order_sn' => CartController::createOrderid(),
+                'order_sn' => $data['order_sn'],
                 'user_id' => Yii::$app->user->id,
                 'consignee' => Yii::$app->user->identity->username,
                 'email' => Yii::$app->user->identity->email,
@@ -109,7 +109,7 @@ class MemberController extends \yii\web\Controller
             ];
             
             //商户订单号，商户网站订单系统中唯一订单号，必填
-            $out_trade_no = trim($orderInfo['order_sn']);
+            $out_trade_no = trim($data['order_sn']);
     
             //订单名称，必填
             $subject = trim($memberInfo->name);
@@ -179,7 +179,6 @@ class MemberController extends \yii\web\Controller
             //支付金额
             $total_amount = $data['total_amount'];
 
-            error_log('file:'.__FILE__.'  line:'.__LINE__);
             if ($data['trade_status'] == 'TRADE_FINISHED') {
                 //判断该笔订单是否在商户网站中已经做过处理
                 //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
@@ -212,14 +211,11 @@ class MemberController extends \yii\web\Controller
                 ->andWhere(['order_status' => 1])
                 ->one();
                 
-                error_log('file:'.__FILE__.'  line:'.__LINE__);
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
-                    error_log('file:'.__FILE__.'  line:'.__LINE__.'  total_amount:'.$total_amount);
                     $order_info->money_paid = $total_amount;
                     $order_info->pay_status = 2;
                     $order_info->pay_time = time();
                     $order_info->save(false);
-                    error_log('file:'.__FILE__.'  line:'.__LINE__);
                 }
     
             } else if ($data['trade_status'] == 'TRADE_CLOSED') {

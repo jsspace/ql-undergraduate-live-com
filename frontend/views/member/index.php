@@ -36,7 +36,8 @@ $this->title = '购买vip会员';
         echo $str;
     ?>
 <?php $form = ActiveForm::begin(['action' => ['member/pay'],'method'=>'post', 'id' => 'member_form']); ?>
-<?= Html::hiddenInput('member_id', 1) ?>
+<?= Html::hiddenInput('member_id', 1); ?>
+<?= Html::hiddenInput('order_sn', $order_sn); ?>
 <?= Html::submitButton('支付宝支付', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>
 
 <?php ActiveForm::end(); ?>
