@@ -27,17 +27,12 @@ class OrderInfoController extends \yii\web\Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['confirm_order', 'alipay', 'alinotify'],
+                'only' => ['confirm_order', 'alipay'],
                 'rules' => [
                     [
                         'actions' => ['confirm_order', 'alipay'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
-                    [
-                        'actions' => ['alinotify'],
-                        'allow' => true,
-                        'roles' => ['?'],
                     ],
                 ],
             ],

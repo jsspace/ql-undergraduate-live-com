@@ -23,18 +23,13 @@ class MemberController extends \yii\web\Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['pay', 'alinotify'],
+                'only' => ['pay'],
                 'rules' => [
                     [
                         'actions' => ['pay'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
-                    [
-                    'actions' => ['alinotify'],
-                    'allow' => true,
-                    'roles' => ['?'],
-                    ],
+                    ]                    
                 ],
             ],
             'verbs' => [
@@ -45,6 +40,17 @@ class MemberController extends \yii\web\Controller
                 ],
             ],
         ];
+    }
+    
+    public function beforeAction($action)
+    {
+        $currentaction = $action->id;
+        $novalidactions = ['alinotify'];
+        if(in_array($currentaction,$novalidactions)) {
+            $action->controller->enableCsrfValidation = false;
+        }
+        parent::beforeAction($action);
+        return true;
     }
     
     public function actionIndex()
