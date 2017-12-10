@@ -166,6 +166,10 @@ var courseDetail = {
                   } else if (data.status == 1 || data.status == 2) {
                     $('._course-detail-left img').css('display', 'none');
                     $('._course-detail-left video').css('display', 'block').attr('src', data.url);
+                    $('._course-detail-left video').get(0).play();
+                    location.hash = 'view';
+                  } else {
+                    alert(data.message);
                   }
               }
           });

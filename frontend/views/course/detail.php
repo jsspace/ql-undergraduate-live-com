@@ -108,7 +108,6 @@ $userid = Yii::$app->user->id;
                                             $current_time = date('Y-m-d H:i:s');
                                             $end_time = date('Y-m-d H:i:s',strtotime($section->start_time."+".$section->duration." minute"));
                                             //0 直播
-                                            $auth = new Auth('BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t', 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15');
                                             $video_url = $section->video_url;
                                             if ($section->type == 0) {
                                                 if ($current_time < $section->start_time) {
@@ -119,7 +118,6 @@ $userid = Yii::$app->user->id;
                                                     $text = '直播回放';
                                                 }
                                             } else {
-                                                $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
                                                 $text = '点播课程';
                                             }
                                         ?>
@@ -127,7 +125,7 @@ $userid = Yii::$app->user->id;
                                             if ($section->type == 0) { ?>
                                                 <a target="_blank" href="<?= $video_url ?>" class="chapter-list-name"><?= $section->name ?></a>
                                         <?php } else { ?>
-                                                <a href="javascript:void(0)" target="_blank" data-url="<?= $video_url ?>" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
+                                                <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
                                         <?php } ?>
                                         <div class="chapter-list-time">
                                             <span class="time-tag"><?= $text ?></span>
