@@ -10,6 +10,8 @@ use backend\models\CourseSection;
 use backend\models\CourseComent;
 use backend\models\Data;
 use backend\models\Quas;
+use backend\models\OrderInfo;
+use Qiniu\Auth;
 use Yii;
 
 class CourseController extends Controller
@@ -159,5 +161,56 @@ class CourseController extends Controller
             $data['message'] = '提交失败';
         }
         return json_encode($data);
+    }
+    public function actionCheck()
+    {
+        if (Yii::$app->user->isGuest) {
+            $data['status'] = 0;
+            $data['message'] = '请先登陆再观看课程';
+            return json_encode($data);
+        }
+        $data = Yii::$app->request->Post();
+        $section_id = $data['section_id'];
+        $course_id = $data['course_id'];
+        $section = CourseSection::find()
+        ->where(['id' => $section_id])
+        ->one();
+        if (!empty($section)) {
+            if ($section->paid_free == 0) {
+                $data['status'] = 1;
+                $data['message'] = '正在请求观看免费课程';
+                $data['url'] = $section->video_url;
+                return json_encode($data);
+            } else {
+                /*判断是否已经购买*/
+                $orders = OrderInfo::find()
+                ->where(['user_id' => Yii::$app->user->id])
+                ->andWhere(['pay_status' => 1])
+                ->all();
+                $course_ids = '';
+                if (!empty($orders)) {
+                    foreach ($orders as $key => $order) {
+                        $course_ids .= $order->course_ids.',';
+                    }
+                    $course_ids = explode(',', $course_ids);
+                    if (in_array($course_id, $course_ids)) {
+                        $auth = new Auth('BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t', 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15');
+                        $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
+                        $data['status'] = '2';
+                        $data['message'] = '用户已经购买了该课程，允许观看';
+                        $data['url'] = $video_url;
+                    } else {
+                        $data['status'] = '3';
+                        $data['message'] = '您尚未购买该课程，请先购买后再观看';
+                        $data['url'] = '';
+                    }
+                } else {
+                    $data['status'] = '3';
+                    $data['message'] = '您尚未购买该课程，请先购买后再观看';
+                    $data['url'] = '';
+                }
+                return json_encode($data);
+            }
+        }
     }
 }

@@ -149,10 +149,27 @@ var courseDetail = {
     },
     videoNetEvent: function() {
         $('._net-class').on('click', function() {
-            var video_url = $(this).attr('data-url');
-            $('._course-detail-left img').css('display', 'none');
-            $('._course-detail-left video').css('display', 'block').attr('src', video_url);
-        });
+            var section_id = $(this).attr('section-id');
+            var course_id = $('._course-id').val();
+            $.ajax({
+              url: '/course/check',
+              type: 'post',
+              dataType:'json',
+              data: {
+                  section_id: section_id,
+                  course_id: course_id,
+                  '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+              },
+              success: function (data) {
+                  if (data.status == 0) {
+                    window.location.href = '/site/login';
+                  } else if (data.status == 1 || data.status == 2) {
+                    $('._course-detail-left img').css('display', 'none');
+                    $('._course-detail-left video').css('display', 'block').attr('src', data.url);
+                  }
+              }
+          });
+      });
     }
 };
 courseDetail.init();

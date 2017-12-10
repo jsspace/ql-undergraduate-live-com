@@ -409,6 +409,20 @@
     line-height: 22px;
     margin-right: 10px;
 }
+.chapter-con .time-con {
+    display: inline-block;
+    min-width: 70px;
+}
+.chapter-list-name:before {
+    content: '';
+    background: url(/img/chapter-play-icon.png) no-repeat;
+    height: 16px;
+    width: 16px;
+    background-size: cover;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-bottom;
+}
 .course-detail-section .kc-right {
     width: 270px;
     margin-left: 10px;
