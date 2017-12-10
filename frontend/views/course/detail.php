@@ -4,6 +4,7 @@
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\User;
+use backend\models\Course;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
 
@@ -79,10 +80,20 @@ $userid = Yii::$app->user->id;
                     <span>收藏</span>
                 </p>
             </div>
-            <div class="btn-course">
-                <a class="quick-buy _quick-buy" href="javascript: void(0)">立即购买</a>
-                <a class="add-cart _add-cart" href="javascript: void(0)">加入购物车</a>
-            </div>
+            <?php
+                $ismember = Course::ismember($course->id);
+                $ispay = Course::ispay($course->id);
+                if ($ismember == 1) { ?>
+                    <span class="course-ispay-tag">会员课程</span>
+                <?php }
+                else if ($ispay == 1) { ?>
+                    <span class="course-ispay-tag">已购课程</span>
+                <?php } else { ?>
+                    <div class="btn-course">
+                        <a class="quick-buy _quick-buy" href="javascript: void(0)">立即购买</a>
+                        <a class="add-cart _add-cart" href="javascript: void(0)">加入购物车</a>
+                    </div>
+            <?php } ?>
         </div>
     </div>
     <div class="main-section">

@@ -247,10 +247,11 @@ class CourseController extends Controller
         $keywords = $request['keywords'];
         $categorys= CourseCategory::find()
         ->where(['like', 'name', $keywords])
+        ->andWhere(['>', 'parent_id', 0])
         ->all();
         $data = '';
         foreach ($categorys as $category) {
-            $data.='<span class="tag" data-value='.$category->name.'>'.$category->name.'<span class="remove"></span></span>';
+            $data.='<span class="tag" data-value='.$category->id.'>'.$category->name.'<span class="remove"></span></span>';
         }
         return $data;
     }

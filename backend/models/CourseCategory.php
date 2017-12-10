@@ -97,7 +97,7 @@ class CourseCategory extends \yii\db\ActiveRecord
     private static function loadItems()
     {
         $models=self::find()
-        ->where(['parent_id'=>0])
+        //->where(['parent_id'=>0])
         ->all();
         foreach ($models as $model) {
             self::$_items[$model->id] = $model->name;
@@ -114,5 +114,19 @@ class CourseCategory extends \yii\db\ActiveRecord
             $data[$model->id] = $model->name;
         }
         return $data;
+    }
+    public static function getNames($ids) {
+        $ids_arr = explode(',', $ids);
+        $cats = self::find()
+        ->where(['id' => $ids_arr])
+        ->all();
+        $cat_names = '';
+        foreach ($cats as $key => $cat) {
+            if (!empty($cat->name)) {
+                $cat_names.=$cat->name.',';
+            }
+        }
+        $cat_names = substr($cat_names,0,strlen($cat_names)-1);
+        return $cat_names;
     }
 }

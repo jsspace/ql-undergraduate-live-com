@@ -1,7 +1,9 @@
 <?php
 
 namespace backend\models;
-
+use backend\models\OrderInfo;
+use backend\models\MemberOrder;
+use backend\models\Member;
 use Yii;
 
 /**
@@ -154,5 +156,71 @@ class Course extends \yii\db\ActiveRecord
         foreach ($models as $model) {
             self::$_items[$model->id] = $model->course_name;
         }
+    }
+    public static function ismember($course_id)
+    {
+        $current_time = time();
+        $member_orders = MemberOrder::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['>', 'end_time', $current_time])
+        ->all();
+        $member_ids = '';
+        foreach ($member_orders as $key => $member_order) {
+            $member_ids .= $member_order->member_id.',';
+        }
+        $member_ids_arr = explode(',', $member_ids);
+        $members = Member::find()
+        ->where(['id' => $member_ids_arr])
+        ->all();
+        $category_ids = '';
+        foreach ($members as $key => $member) {
+            $category_ids .= $member->course_category_id.',';
+        }
+        $category_ids_arr = explode(',', $category_ids);//当前用户所有会员订单对应的课程分类ids数组
+        $category_ids_arr = array_filter($category_ids_arr);
+        $course = Course::find()
+        ->where(['id' => $course_id])
+        ->one();
+        $current_cids = $course->category_name;
+        $current_cid_arr = explode(',', $current_cids);
+        $catModels = CourseCategory::find()
+        ->where(['id' => $current_cid_arr])
+        ->all();
+        $current_pids = '';
+        foreach ($catModels as $key => $catModel) {
+            $current_pids.=$catModel->parent_id.',';
+        }
+        $current_pid_arr = array_filter(explode(',', $current_pids));
+        $is_member = 0;
+        foreach ($current_pid_arr as $key => $current_pid) {
+            if (in_array($current_pid, $category_ids_arr)) {
+                $is_member = 1;
+                break;
+            }
+        }
+        return $is_member;
+    }
+    public static function ispay($course_id)
+    {
+        $orders = OrderInfo::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['pay_status' => 1])
+        ->all();
+        $course_ids = '';
+        $ispay = 0;
+        if (!empty($orders)) {
+            foreach ($orders as $key => $order) {
+                $course_ids .= $order->course_ids.',';
+            }
+            $course_ids = explode(',', $course_ids);
+            if (in_array($course_id, $course_ids)) {
+                $ispay = 1;
+            } else {
+                $ispay = 0;
+            }
+        } else {
+            $ispay = 0;
+        }
+        return $ispay;
     }
 }

@@ -163,7 +163,7 @@ var courseDetail = {
               success: function (data) {
                   if (data.status == 0) {
                     window.location.href = '/site/login';
-                  } else if (data.status == 1 || data.status == 2) {
+                  } else if (data.status == 1 || data.status == 2 || data.status == 4) {
                     $('._course-detail-left img').css('display', 'none');
                     $('._course-detail-left video').css('display', 'block').attr('src', data.url);
                     $('._course-detail-left video').get(0).play();

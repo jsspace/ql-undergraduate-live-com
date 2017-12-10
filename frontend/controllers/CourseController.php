@@ -12,7 +12,6 @@ use backend\models\CourseSection;
 use backend\models\CourseComent;
 use backend\models\Data;
 use backend\models\Quas;
-use backend\models\OrderInfo;
 use Qiniu\Auth;
 use Yii;
 
@@ -68,7 +67,7 @@ class CourseController extends Controller
                         $firArr[$catModelKey]['child'][$subModelKey]['submodel'] = $subModel;
                         $firArr[$catModelKey]['child'][$subModelKey]['course'] = array();
                         foreach ($coursemodels as $coursekey => $coursemodel) {
-                            if(strstr($coursemodel->category_name, $subModel->name) != false)
+                            if(in_array($subModel->id, explode(',', $coursemodel->category_name)))
                             {
                                 $firArr[$catModelKey]['child'][$subModelKey]['course'][$coursekey] = $coursemodel;
                             }
@@ -195,28 +194,20 @@ class CourseController extends Controller
                 $data['url'] = $section->video_url;
                 return json_encode($data);
             } else {
-                /*判断是否已经购买*/
-                $orders = OrderInfo::find()
-                ->where(['user_id' => Yii::$app->user->id])
-                ->andWhere(['pay_status' => 1])
-                ->all();
-                $course_ids = '';
-                if (!empty($orders)) {
-                    foreach ($orders as $key => $order) {
-                        $course_ids .= $order->course_ids.',';
-                    }
-                    $course_ids = explode(',', $course_ids);
-                    if (in_array($course_id, $course_ids)) {
-                        $auth = new Auth('BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t', 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15');
-                        $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
-                        $data['status'] = '2';
-                        $data['message'] = '用户已经购买了该课程，允许观看';
-                        $data['url'] = $video_url;
-                    } else {
-                        $data['status'] = '3';
-                        $data['message'] = '您尚未购买该课程，请先购买后再观看';
-                        $data['url'] = '';
-                    }
+                $auth = new Auth('BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t', 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15');
+                $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
+                $is_member = Course::ismember($course_id);/*判断是否是该分类下的会员*/
+                if ($is_member == 1) {
+                    $data['status'] = '4';
+                    $data['message'] = '会员，允许观看';
+                    $data['url'] = $video_url;
+                    return json_encode($data);
+                }
+                $ispay = Course::ispay($course_id);/*判断是否已经购买*/
+                if ($ispay == 1) {
+                    $data['status'] = '2';
+                    $data['message'] = '用户已经购买了该课程，允许观看';
+                    $data['url'] = $video_url;
                 } else {
                     $data['status'] = '3';
                     $data['message'] = '您尚未购买该课程，请先购买后再观看';

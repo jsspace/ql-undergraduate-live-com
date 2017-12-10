@@ -230,6 +230,12 @@
     background-color: #fd7863;
     border: 1px solid #fd7863;
 }
+.course-ispay-tag {
+    color: #ff893b;
+    margin-top: 10px;
+    font-size: 16px;
+    display: inline-block;
+}
 .course-detail-section .course-info {
     padding-top: 50px;
     margin-bottom: 20px;

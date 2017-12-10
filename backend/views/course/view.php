@@ -1,6 +1,7 @@
 <?php
 
 use backend\models\User;
+use backend\models\CourseCategory;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -17,7 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'course_name',
-            'category_name',
+            [
+                'attribute' => 'category_name',
+                'value' => CourseCategory::getNames($model->category_name),
+            ],
             //'list_pic',
             //'home_pic',
             [

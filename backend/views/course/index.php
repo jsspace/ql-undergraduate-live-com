@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
+use backend\models\CourseCategory;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CourseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -29,7 +30,12 @@ $this->title = Yii::t('app', '课程列表');
                 }
             ],
             'course_name',
-            'category_name',
+            [
+                'attribute' => 'category_name',
+                'value'=> function ($model) {
+                    return CourseCategory::getNames($model->category_name);
+                }
+            ],
             [
                 'attribute' => 'teacher_id',
                 'value'=> function ($model) {

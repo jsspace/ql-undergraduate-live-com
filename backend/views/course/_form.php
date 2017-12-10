@@ -2,6 +2,7 @@
 
 use backend\assets\AppAsset;
 use backend\models\User;
+use backend\models\CourseCategory;
 use dosamigos\ckeditor\CKEditor;
 use kartik\file\FileInput;
 use yii\helpers\Html;
@@ -28,12 +29,14 @@ AppAsset::addCss($this, '@web/css/course.css');
             <div class="ccategory-wrap _ccategory-wrap form-control">
                 <div class="course-category _course-category">
                     <?php
-                        $categorys = explode(',',$model->category_name);
-                        $data = '';
-                        foreach ($categorys as $category) {
-                            $data.='<span class="tag" data-value='.$category.'>'.$category.'<span class="remove"></span></span>';
+                        if (!empty($model->category_name)) {
+                            $categorys = explode(',',$model->category_name);
+                            $data = '';
+                            foreach ($categorys as $category) {
+                                $data.='<span class="tag" data-value='.$category.'>'.CourseCategory::item($category).'<span class="remove"></span></span>';
+                            }
+                            echo $data;
                         }
-                        echo $data;
                     ?>
                 </div>
                 <input type="text" id="course-category_name" value="" maxlength="255" autocomplete="off" aria-invalid="false">
