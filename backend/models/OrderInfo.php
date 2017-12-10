@@ -24,14 +24,14 @@ use Yii;
  * @property string $integral_money
  * @property string $bonus
  * @property string $order_amount
- * @property string $add_time
- * @property string $confirm_time
- * @property string $pay_time
+ * @property integer $add_time
+ * @property integer $confirm_time
+ * @property integer $pay_time
  * @property integer $bonus_id
  * @property integer $is_separate
  * @property integer $parent_id
  * @property string $discount
- * @property string $invalid_time
+ * @property integer $invalid_time
  * @property string $course_ids
  * @property string $coupon_ids
  * @property string $coupon_money
@@ -53,12 +53,11 @@ class OrderInfo extends \yii\db\ActiveRecord
     {
         return [
             [['order_sn', 'add_time', 'course_ids'], 'required'],
-            [['user_id', 'order_status', 'pay_status', 'pay_id', 'integral', 'bonus_id', 'is_separate', 'parent_id'], 'integer'],
+            [['user_id', 'order_status', 'pay_status', 'pay_id', 'integral', 'add_time', 'confirm_time', 'pay_time', 'bonus_id', 'is_separate', 'parent_id', 'invalid_time'], 'integer'],
             [['goods_amount', 'pay_fee', 'money_paid', 'integral_money', 'bonus', 'order_amount', 'discount', 'coupon_money'], 'number'],
             [['order_sn', 'course_ids'], 'string', 'max' => 200],
             [['consignee', 'mobile', 'email'], 'string', 'max' => 60],
             [['pay_name'], 'string', 'max' => 120],
-            [['add_time', 'confirm_time', 'pay_time', 'invalid_time'], 'string', 'max' => 50],
             [['coupon_ids'], 'string', 'max' => 100],
             [['order_sn'], 'unique'],
         ];

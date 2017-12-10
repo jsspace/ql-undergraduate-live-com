@@ -3,6 +3,8 @@
 namespace frontend\controllers;
 
 use yii\web\Controller;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use backend\models\CourseCategory;
 use backend\models\Course;
 use backend\models\CourseChapter;
@@ -16,21 +18,32 @@ use Yii;
 
 class CourseController extends Controller
 {
-    /**
+        /**
      * @inheritdoc
      */
-    /*public function behaviors()
+    public function behaviors()
     {
         return [
-            'cache' => [
-                'class' => 'yii\filters\PageCache',
-                'duration' => 60,
-                'variations' => [
-                    \Yii::$app->language,
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['qvaluate', 'ques'],
+                'rules' => [
+                    [
+                        'actions' => ['qvaluate', 'ques'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'qvaluate' => ['post'],
+                    'ques' => ['post'],
                 ],
             ],
         ];
-    }*/
+    }
     
     
     public function actionList()
