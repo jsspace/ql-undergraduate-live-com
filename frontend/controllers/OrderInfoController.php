@@ -370,5 +370,11 @@ class OrderInfoController extends \yii\web\Controller
         
     }
     
+    public function actionWechatpay()
+    {
+        
+        
+    }
+    
 
 }

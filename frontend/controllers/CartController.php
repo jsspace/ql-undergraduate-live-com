@@ -44,17 +44,16 @@ class CartController extends Controller
     public function actionIndex()
     {
         $sql = 'select cart_id, {{%course}}.id as course_id, course_name, list_pic, price, discount, username as teacher_name';
-        $sql .= ' from {{%cart}} inner join {{%course}} inner join  {{%user}}';
-        $sql .= ' on {{%cart}}.product_id = {{%course}}.id and {{%cart}}.user_id = '.Yii::$app->user->id;
-        $sql .= ' and {{%cart}}.type = "course"';
-        $sql .= ' and {{%course}}.teacher_id = {{%user}}.id order by {{%cart}}.created_at desc';
+        $sql .= ' from ({{%cart}} inner join {{%course}}';
+        $sql .= ' on {{%cart}}.user_id = '.Yii::$app->user->id.' and {{%cart}}.type = "course" and {{%cart}}.product_id = {{%course}}.id)  inner join  {{%user}}';
+        $sql .= ' on {{%course}}.teacher_id = {{%user}}.id order by {{%cart}}.created_at desc';
         $course_models = Yii::$app->db->createCommand($sql)
         ->queryAll();
         $sql = 'select cart_id, {{%course_package}}.id as course_package_id, {{%course_package}}.name as course_name, list_pic, price, discount, username as teacher_name';
-        $sql .= ' from {{%cart}} inner join {{%course_package}} inner join  {{%user}}';
-        $sql .= ' on {{%cart}}.product_id = {{%course_package}}.id and {{%cart}}.user_id = '.Yii::$app->user->id;
-        $sql .= ' and {{%cart}}.type = "course_package"';
-        $sql .= ' and {{%course_package}}.head_teacher = {{%user}}.id order by {{%cart}}.created_at desc';
+        $sql .= ' from ({{%cart}} inner join {{%course_package}}';
+        $sql .= ' on {{%cart}}.user_id = '.Yii::$app->user->id .' and {{%cart}}.product_id = {{%course_package}}.id ';
+        $sql .= ' and {{%cart}}.type = "course_package") inner join {{%user}} ';
+        $sql .= ' on {{%course_package}}.head_teacher = {{%user}}.id order by {{%cart}}.created_at desc';
         $course_package_models = Yii::$app->db->createCommand($sql)
         ->queryAll();
         return $this->render('index', ['course_models' => $course_models, 'course_package_models' => $course_package_models,]);
