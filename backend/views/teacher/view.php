@@ -6,13 +6,11 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
 
-$this->title = $model->id;
+$this->title = '教师详情';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -30,22 +28,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'username',
-            'auth_key',
+            /*'auth_key',
             'password_hash',
-            'password_reset_token',
+            'password_reset_token',*/
             'email:email',
-            'status',
-            'created_at',
-            'updated_at',
+            //'status',
             'phone',
-            'gender',
+            [
+                'attribute' => 'gender',
+                'value'=> $model->gender == 1 ? '女' : '男',
+            ],
             'description',
             'unit',
             'office',
             'goodat',
-            'picture',
+            [
+                'attribute'=>'picture',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::img($model->picture);
+                }
+
+            ],
             'intro:ntext',
-            'invite',
+            //'invite',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

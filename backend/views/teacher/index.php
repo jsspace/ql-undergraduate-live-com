@@ -12,7 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -24,19 +23,25 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            // 'email:email',
-            // 'status',
+            //'auth_key',
+            //'password_hash',
+            //'password_reset_token',
+            'email:email',
+            //'status',
             // 'created_at',
             // 'updated_at',
-            // 'phone',
-            // 'gender',
+            'phone',
+            [
+                'attribute' => 'gender',
+                'value'=> function ($model) {
+                    return $model->gender == 1 ? '女':'男';
+                },
+                'filter' => [1=>'女',0=>'男' ],
+            ],
             // 'description',
-            // 'unit',
+            'unit',
             // 'office',
             // 'goodat',
             // 'picture',
