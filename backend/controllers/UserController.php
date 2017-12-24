@@ -65,7 +65,7 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
-
+        $model->status = 10;
         if ($model->load(Yii::$app->request->post())) {
             $user_image = UploadedFile::getInstance($model, 'picture');
             $wechat_img = UploadedFile::getInstance($model, 'wechat_img');
@@ -83,7 +83,7 @@ class UserController extends Controller
                 $model->picture = '';
             }
             if (!empty($wechat_img)) {
-                $wechat_image_ext = $wechat_image->getExtension();
+                $wechat_image_ext = $wechat_img->getExtension();
                 $wechatRandName = time() . rand(1000, 9999) . '.' . $wechat_image_ext;
                 $wechat_img_rootPath = $img_rootPath.'wechat_img/';
                 if (!file_exists($wechat_img_rootPath)) {
