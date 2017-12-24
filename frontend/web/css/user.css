@@ -416,6 +416,9 @@ label {
 .coupon-wrapper {
     margin-top: 50px;
 }
+.coupon-wrapper.member-wrapper {
+    margin-top: 20px;
+}
 .coupon-wrapper .coupon-title-line {
     font-size: 14px;
     color: #777;
@@ -541,6 +544,7 @@ label {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
 
 @-webkit-keyframes shadowFadeIn {
   from {
