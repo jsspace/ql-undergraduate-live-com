@@ -222,4 +222,18 @@ class UserController extends Controller
             'coins' => $coins,
         ]);
     }
+    public function actionMember()
+    {
+        $sql = 'select {{%member_order}}.member_id, {{%member_order}}.add_time, {{%member_order}}.end_time, {{%member}}.name, {{%member}}.content';
+        $sql .= ' from {{%member_order}} inner join {{%member}} on {{%member_order}}.user_id = ' . Yii::$app->user->id;
+        $sql .= ' and {{%member_order}}.order_status = 1 and {{%member_order}}.pay_status = 2';
+        $sql .= ' and {{%member_order}}.end_time > ' . time();
+        $sql .= ' and {{%member_order}}.member_id = {{%member}}.id ';
+        $member_models = Yii::$app->db->createCommand($sql)
+        ->queryAll();
+        
+        return $this->render('member', [
+            'member_models' => $member_models,
+        ]);
+    }
 }
