@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\User;
+use backend\models\Course;
 use backend\models\TeacherSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -141,6 +142,21 @@ class TeacherController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionIncomeStatistics()
+    {
+        $userid = Yii::$app->request->get('userid');
+        $courses = Course::find()
+        ->where(['teacher_id' => $userid])
+        ->all();//教师所授课程
+        //个人订单
+        foreach ($courses as $key => $course) {
+            
+        }
+        return $this->render('income-statistics', [
+            'courses' => $courses,
+        ]);
     }
 
     /**

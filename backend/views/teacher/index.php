@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\TeacherSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -22,7 +23,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+            [
+                'label'=>'收入统计',
+                'format'=>'raw',
+                'value' => function($model){
+                    $url = Url::to(['teacher/income-statistics', 'userid' => $model->id]);
+                    return Html::a('收入统计', $url);
+                }
+            ],
             //'id',
             'username',
             //'auth_key',
