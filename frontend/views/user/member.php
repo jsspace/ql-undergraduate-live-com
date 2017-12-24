@@ -33,7 +33,7 @@ $this->title = '个人中心';
                     <p class="coupon-name"><?= $member['member_id'] ?></p>
                     <p class="coupon-money"><?= $member['name'] ?></p>
                     <p class="coupon-status"><?= $member['content'] ?></p>
-                    <p class="coupon-daterange"><?= date('Y-m-d', strtotime($member['add_time'])) ?>至<?= date('Y-m-d', strtotime($member['end_time'])) ?></p>
+                    <p class="coupon-daterange"><?= date('Y-m-d', $member['add_time']) ?>至<?= date('Y-m-d', $member['end_time']) ?></p>
                 </li>
                 <?php } ?>
             </ul>
