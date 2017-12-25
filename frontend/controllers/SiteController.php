@@ -360,7 +360,7 @@ class SiteController extends Controller
     {
         $model = new ChangePasswordForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'New password saved.');
+            Yii::$app->session->setFlash('success', '新密码已保存。');
             return $this->goHome();
         }
         return $this->render('changePassword', [

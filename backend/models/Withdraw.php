@@ -58,4 +58,17 @@ class Withdraw extends \yii\db\ActiveRecord
     {
         return new WithdrawQuery(get_called_class());
     }
+    
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->create_time = date('Y-m-d H:i:s', time());
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

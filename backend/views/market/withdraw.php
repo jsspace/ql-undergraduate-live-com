@@ -23,7 +23,7 @@ $this->title = Yii::t('app', '提现历史');
                     <span class="tr-title"><?= $val->withdraw_id ?></span>
                     <span class="tr-title"><?= $val->fee ?></span>
                     <span class="tr-title"><?= $val->info ?></span>
-                    <span class="tr-title"><?= date('Y-m-d H:i:s', $val->create_time) ?></span>
+                    <span class="tr-title"><?= $val->create_time ?></span>
                 </li>
             <?php } ?>
         </ul>
