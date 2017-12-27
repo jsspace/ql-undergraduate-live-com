@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'parent_id')->dropDownList(CourseCategory::items()) ?>
+    <?= $form->field($model, 'parent_id')->dropDownList(array_merge(['0' => '顶级分类'], CourseCategory::items())) ?>
 
     <?= $form->field($model, 'des')->textarea(['rows' => 6]) ?>
 
