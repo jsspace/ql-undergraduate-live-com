@@ -223,4 +223,15 @@ class Course extends \yii\db\ActiveRecord
         }
         return $ispay;
     }
+    public static function getCourse($ids)
+    {
+        $idarr = explode(',', $ids);
+        $courses = self::find()
+        ->where(['id' => $idarr])
+        ->all();
+        foreach ($courses as $key => $course) {
+            
+        }
+        return $courses;
+    }
 }

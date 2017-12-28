@@ -6,6 +6,8 @@ use Yii;
 use backend\models\User;
 use backend\models\Course;
 use backend\models\TeacherSearch;
+use backend\models\OrderInfo;
+use backend\models\OrderGoods;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -148,14 +150,27 @@ class TeacherController extends Controller
     {
         $userid = Yii::$app->request->get('userid');
         $courses = Course::find()
+        ->select('id')
         ->where(['teacher_id' => $userid])
+        ->asArray()
         ->all();//教师所授课程
+        $course_ids = array_column($courses, 'id');
         //个人订单
-        foreach ($courses as $key => $course) {
-            
-        }
+        $order_goods = OrderGoods::find()
+        ->select('order_sn')
+        ->distinct()
+        ->where(['goods_id' => $course_ids])
+        ->asArray()
+        ->all();
+        $order_sns = array_column($order_goods, 'order_sn');
+        $orders = OrderInfo::find()
+        ->where(['order_sn' => $order_sns])
+        ->andWhere(['pay_status' => 2])
+        ->andWhere(['order_status' => 1])
+        ->all();
         return $this->render('income-statistics', [
-            'courses' => $courses,
+            'orders' => $orders,
+            't_course_ids' => $course_ids
         ]);
     }
 
