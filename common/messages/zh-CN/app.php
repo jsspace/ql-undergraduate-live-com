@@ -82,4 +82,6 @@ return [
     'Update Order Info' => '修改订单',
     'Marketers' => '市场专员列表',
     'Cards' => '充值卡列表',
+    'Comments' => '学习感言',
+    'Create Comment' => '创建学习感言'
 ];

@@ -20,6 +20,7 @@ $this->title = Yii::t('app', '课程列表');
 <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
             ['class' => 'yii\grid\ActionColumn'],
             [
                 'label'=>'章节',

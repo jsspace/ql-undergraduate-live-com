@@ -24,7 +24,9 @@ use backend\models\Coupon;
 use backend\models\CourseChapter;
 use backend\models\CourseSection;
 use backend\models\OrderInfo;
-use backend\models\Data; 
+use backend\models\Data;
+use backend\models\CourseCategory;
+use backend\models\Comment;
 
 /**
  * Site controller
@@ -136,53 +138,41 @@ class SiteController extends Controller
                 }
             }
         }
-        /*热门分类*/
-        $hotcats = HotCategory::find()
+        /*直属学院*/
+        $colleges = CourseCategory::find()
         ->orderBy('position asc')
         ->limit(7)
         ->all();
-        /*套餐->最新课程*/
-        $courseps = CoursePackage::find();
-        $newpcourses = $courseps
-        ->orderBy('create_time desc')
-        ->limit(8)
-        ->all();
-        /*套餐->热门推荐*/
-        $hotpcourses = $courseps
-        ->orderBy('view desc')
-        ->limit(8)
-        ->all();
-        /*套餐->课程排行*/
-        $rankpcourses = $courseps
-        ->orderBy('online desc')
-        ->limit(8)
-        ->all();
-        /*课程->最新课程*/
-        $courses = Course::find();
-        $newcourses = $courses
-        ->orderBy('create_time desc')
-        ->limit(8)
-        ->all();
         /*课程->热门推荐*/
-        $hotcourses = $courses
+        $hotcourses = Course::find()
         ->orderBy('view desc')
         ->limit(8)
         ->all();
-        /*课程->课程排行*/
-        $rankcourses = $courses
-        ->orderBy('online desc')
-        ->limit(8)
+        /*各大学院*/
+        $collegeCourses = Course::find()
         ->all();
-        /*软文推荐*/
-        $tjcourses = CourseNews::find()
+        $course_cat = CourseCategory::find()
+        ->select('id,name')
         ->orderBy('position asc')
-        ->where(['onuse' => 1])
-        ->limit(6)
         ->all();
-        /*用户评说*/
-        $coments = CourseComent::find()
+        $collegeArr = array();
+        foreach ($course_cat as $cat_key => $cat) {
+            $collegeArr[$cat->id]["college_name"] = $cat->name;
+            $count = 0;
+            foreach ($collegeCourses as $key => $collegeCourse) {
+                if ($count === 4) {
+                    break;
+                }
+                $categoryids = explode(',', $collegeCourse->category_name);
+                if (in_array($cat->id, $categoryids)) {
+                    $count = $count+1;
+                    $collegeArr[$cat->id]['college_course'][$key] = $collegeCourse;
+                }
+            }
+        }
+        /*学习感言*/
+        $coments = Comment::find()
         ->where(['check' => 1])
-        ->orderBy('star desc')
         ->limit(6)
         ->all();
         /*友情链接*/
@@ -191,12 +181,7 @@ class SiteController extends Controller
         ->all();
         /*教师列表*/
         $teachers = User::getUserByrole('teacher');
-        /*资料*/
-        $course_datas = Data::find()
-        ->orderBy('ctime desc')
-        ->limit(6)
-        ->all();
-        return $this->render('index', ['hotcats' => $hotcats, 'newpcourses' => $newpcourses, 'hotpcourses' => $hotpcourses, 'rankpcourses' => $rankpcourses, 'newcourses' => $newcourses, 'hotcourses' => $hotcourses, 'rankcourses' => $rankcourses, 'tjcourses' => $tjcourses, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers, 'live_ing' => $live_ing, 'live_will' => $live_will, 'course_datas' => $course_datas]);
+        return $this->render('index', ['hotcourses' => $hotcourses, "collegeArr" => $collegeArr, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers, 'live_ing' => $live_ing, 'live_will' => $live_will, 'colleges' => $colleges]);
     }
     /**
      * Logs in a user.

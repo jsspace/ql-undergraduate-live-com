@@ -18,6 +18,7 @@ $this->title = Yii::t('app', 'Course Categories');
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
             ['class' => 'yii\grid\ActionColumn'],
             'name',
             [
@@ -30,6 +31,7 @@ $this->title = Yii::t('app', 'Course Categories');
                     }
                 }
             ],
+            'position',
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

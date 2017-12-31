@@ -27,6 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 }
             ],
+            [
+                'attribute' => 'list_icon',
+                'label' => '列表图片',
+                'format' => ['image',['width'=>'40']]
+            ],
+            [
+                'attribute' => 'detail_icon',
+                'label' => '封面图片',
+                'format' => ['image',['width'=>'40']]
+            ],
+            'position',
             'des:ntext',
         ],
     ]) ?>

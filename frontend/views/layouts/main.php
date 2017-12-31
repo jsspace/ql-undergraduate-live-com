@@ -30,9 +30,9 @@ AppAsset::register($this);
 <div class="wrap">
     <div class="header-wrapper">
         <div class="top-ads">
-            <div class="ads">
+            <!-- <div class="ads">
                 热烈祝贺***以全市最优异的成绩考上清华大学计算机专业
-            </div>
+            </div> -->
             <ul class="log-sec has-login">
                 <li class="logout">
                     <i class="icon ion-log-out"></i>
@@ -56,19 +56,22 @@ AppAsset::register($this);
                     <a href="/">首页</a>
                 </li>
                 <li>
-                    <a href="/course/list">课程</a>
+                    <a href="/course/list">直属学院</a>
                 </li>
                 <li>
-                    <a href="/package/list">套餐</a>
+                    <a href="/course/list">新课提醒</a>
                 </li>
                 <li>
-                    <a href="/teacher/list">讲师团</a>
+                    <a href="/teacher/list">教师风采</a>
                 </li>
                 <li>
-                    <a href="/data/list">资料</a>
+                    <a href="/member/index">办理入学</a>
                 </li>
                 <li>
-                    <a href="/member/index">开通VIP</a>
+                    <a href="/package/list">学习感言</a>
+                </li>
+                <li>
+                    <a href="/data/list">课程需求</a>
                 </li>
             </ul>
             <div class="menu-search-group">
