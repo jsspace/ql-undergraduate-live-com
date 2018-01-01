@@ -8,7 +8,7 @@ use backend\models\Course;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
 
-AppAsset::addCss($this,'@web/css/course.css');
+AppAsset::addCss($this,'@web/css/college.css');
 
 $this->title = 'My Yii Application';
 $userid = Yii::$app->user->id;

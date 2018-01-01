@@ -78,6 +78,39 @@ class CourseController extends Controller
         }
         return $this->render('list', ['courseLists' => $firArr]);
     }
+    public function actionCollege()
+    {
+        $catModels = CourseCategory::find()
+        ->all();
+        
+        $coursemodels = Course::find()
+        ->where(['onuse' => 1])
+        ->all();
+
+        $firArr = array();
+
+        foreach ($catModels as $catModelKey => $catModel) {
+            if ($catModel->parent_id == 0) {
+                $firArr[$catModelKey] = array();
+                $firArr[$catModelKey]['firModel'] = $catModel;
+                $firArr[$catModelKey]['child'] = array();
+                foreach ($catModels as $subModelKey => $subModel) {
+                    if ($subModel->parent_id == $catModel->id) {
+                        $firArr[$catModelKey]['child'][$subModelKey] = array();
+                        $firArr[$catModelKey]['child'][$subModelKey]['submodel'] = $subModel;
+                        $firArr[$catModelKey]['child'][$subModelKey]['course'] = array();
+                        foreach ($coursemodels as $coursekey => $coursemodel) {
+                            if(in_array($subModel->id, explode(',', $coursemodel->category_name)))
+                            {
+                                $firArr[$catModelKey]['child'][$subModelKey]['course'][$coursekey] = $coursemodel;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $this->render('college', ['courseLists' => $firArr]);
+    }
 
     public function actionSearch()
     {

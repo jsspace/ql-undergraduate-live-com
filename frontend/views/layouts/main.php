@@ -56,7 +56,7 @@ AppAsset::register($this);
                     <a href="/">首页</a>
                 </li>
                 <li>
-                    <a href="/course/list">直属学院</a>
+                    <a href="/course/college">直属学院</a>
                 </li>
                 <li>
                     <a href="/course/list">新课提醒</a>
@@ -68,10 +68,10 @@ AppAsset::register($this);
                     <a href="/member/index">办理入学</a>
                 </li>
                 <li>
-                    <a href="/package/list">学习感言</a>
+                    <a href="/comment/index">学习感言</a>
                 </li>
                 <li>
-                    <a href="/data/list">课程需求</a>
+                    <a href="/command/index">课程需求</a>
                 </li>
             </ul>
             <div class="menu-search-group">
