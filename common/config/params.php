@@ -24,6 +24,6 @@ return [
     ],
     'wxpay' => [
         //异步通知地址
-        'notify_url' => "http://www.kaoben.com/order-info/wxnotify",
+        'notify_url' => "http://www.kaoben.top/wxnotify",
     ],
 ];
