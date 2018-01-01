@@ -460,7 +460,7 @@ class OrderInfoController extends \yii\web\Controller
                     //交易类型
                     $trade_type = $result['trade_type'];
                     //支付金额(单位：分)
-                    $total_fee = $result['total_fee'];
+                    $total_fee = $result['total_fee']/100.00;
                     //支付完成时间
                     $time_end = $result['time_end'];
                 
@@ -472,7 +472,7 @@ class OrderInfoController extends \yii\web\Controller
                     ->one();
                 
                     if (!empty($order_info)) {
-                        if (($order_info->order_amount*100) == $total_fee) {
+                        if ($order_info->order_amount == $total_fee) {
                             $order_info->pay_id = $transaction_id;
                             $order_info->pay_name = '微信支付';
                             $order_info->money_paid = $total_fee;
@@ -529,7 +529,7 @@ class OrderInfoController extends \yii\web\Controller
                     //微信支付订单号
                     $transaction_id = $result['transaction_id'];
                     //支付金额(单位：分)
-                    $total_fee = $result['total_fee'];
+                    $total_fee = $result['total_fee']/100.00;
                     //支付完成时间
                     $time_end = $result['time_end'];
                     
@@ -541,7 +541,7 @@ class OrderInfoController extends \yii\web\Controller
                     ->one();
                     
                     if (!empty($order_info)) {
-                        if (($order_info->order_amount*100) == $total_fee) {
+                        if ($order_info->order_amount == $total_fee) {
                             $order_info->pay_id = $transaction_id;
                             $order_info->pay_name = '微信支付';
                             $order_info->money_paid = $total_fee;
