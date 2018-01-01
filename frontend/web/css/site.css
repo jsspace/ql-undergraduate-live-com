@@ -166,7 +166,7 @@ a {
     text-align: center;
 }
 .wrap .menu-wrapper {
-    width: 1080px;
+    width: 1180px;
     margin: 0 auto;
     height: 80px;
     overflow: hidden;
@@ -174,10 +174,10 @@ a {
 .wrap .menu-wrapper .logo {
     float: left;
     margin-right: 40px;
-    margin-top: 20px;
+    margin-top: 7px;
 }
 .wrap .menu-wrapper .logo img {
-    height: 40px;
+    height: 66px;
 }
 .wrap .menu-wrapper .nav-menu {
     overflow: hidden;
