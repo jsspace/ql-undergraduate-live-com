@@ -174,7 +174,10 @@ a {
 .wrap .menu-wrapper .logo {
     float: left;
     margin-right: 40px;
-    margin-top: 15px;
+    margin-top: 20px;
+}
+.wrap .menu-wrapper .logo img {
+    height: 40px;
 }
 .wrap .menu-wrapper .nav-menu {
     overflow: hidden;

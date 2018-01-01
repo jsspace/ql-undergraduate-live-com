@@ -36,6 +36,15 @@ $this->title = '新课提醒';
                     </li>
                 <?php } ?>
             </ul>
+            <?php 
+               /* echo LinkPager::widget([
+                    'pagination' => $pagination,
+                    'firstPageLabel'=>"First",
+                    'prevPageLabel'=>'Prev',
+                    'nextPageLabel'=>'Next',
+                    'lastPageLabel'=>'Last',
+                ]);*/
+            ?>
         </div>
     </div>
 </div>
