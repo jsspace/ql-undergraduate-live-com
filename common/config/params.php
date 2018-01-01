@@ -22,4 +22,8 @@ return [
         //支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
         'alipay_public_key' => "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlsMy4YNmu5xPm/lp82k8HexDX2TwTsGcxZhpJgvg1lSKcNostKH5/q6upAY/iuNZI3YkMbF2pJdjli2Y+bSFe4TtGUnkx38aeSXKeNZ9uSvVzn6CzKQaz3NZxgoCtNnl4pONgfh3pEllfkGTzadjM/tfSBfvlvIZkxKvklDEVybcKSqfqRAu2OiAk8QjrlQ5qSymTMIgcnuMMCchOYJuGItWh7TJ8+osDJyO5X/Nw2SMVrdWN3s9MXPpee6oz0ZMEQ7QzykQR+P/FuVIMsKEjPm2bd0eKjO17cr0gFjLeRtkwy6Wzv36In8gWcTWSNycYmhxKADfuKPxkadtSj6c6wIDAQAB",
     ],
+    'wxpay' => [
+        //异步通知地址
+        'notify_url' => "http://www.kaoben.com/order-info/wxnotify",
+    ],
 ];
