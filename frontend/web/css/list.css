@@ -1,3 +1,6 @@
+.clear {
+    clear: both;
+}
 .menu-position {
     width: 1180px;
     margin: 0 auto;
@@ -21,18 +24,14 @@
 }
 .course-content .list li .course-img {
     width: 280px;
-    height: 190px;
+    height: 160px;
     cursor: pointer;
     overflow: hidden;
+    margin-bottom: 10px;
 }
 .course-content .list li .course-img img {
-    transform: scale(1.0);
-    transition: transform 1.5s;
-    -webkit-transition: transform 1.5s;
-}
-.course-content .list li .course-img.active img{
-    transform: scale(1.1);
-    -webkit-transform: scale(1.1);
+    height: 100%;
+    width: 100%;
 }
 .course-content .list>li:nth-child(4n) {
     margin-right: 0;
@@ -74,3 +73,40 @@
     font-size: 13px;
     color: #777779;
 }
+.college-position {
+    float: right;
+    color: #50a9fd;
+}
+.course-time {
+    float: right;
+}
+.pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0 40px 0;
+    border-radius: 4px;
+    float: right;
+}
+.pagination > li > a, .pagination > li > span {
+    border: 0;
+    color: #000;
+}
+.pagination .next,
+.pagination .prev {
+    display: none;
+}
+/* .pagination > li > a, .pagination > li > span {
+    background-color: inherit;
+}
+.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+    background-color: inherit;
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: inherit;
+    border-color: inherit;
+    color: #50a9fd;
+}
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+    background-color: inherit;
+    color: #50a9fd;
+} */

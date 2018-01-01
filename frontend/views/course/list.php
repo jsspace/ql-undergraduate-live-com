@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\User;
 use backend\models\CourseCategory;
+use yii\widgets\LinkPager;
 
 AppAsset::addCss($this,'@web/css/list.css');
 
@@ -26,24 +27,24 @@ $this->title = '新课提醒';
                             <div class="course-img">
                                 <img class="course-pic" src="<?= $course->list_pic; ?>"/>
                             </div>
-                            <p class="content-title"><?= $course->course_name; ?></p>
+                            <span class="content-title"><?= $course->course_name; ?></span>
+                            <span class="course-time"><?= date('Y-m-d H:m', $course->create_time); ?></span>
                         </a>
                         <div class="teacher-section">
                             <!-- <img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/> -->
                             <span class="teacher-name">主讲人：<?= User::item($course->teacher_id); ?></span>
-                            <span class="teacher-position"><?= CourseCategory::getNames($course->category_name); ?></span>
+                            <span class="college-position"><?= CourseCategory::getNames($course->category_name); ?></span>
                         </div>
                     </li>
                 <?php } ?>
             </ul>
+            <div class="clear"></div>
             <?php 
-               /* echo LinkPager::widget([
-                    'pagination' => $pagination,
-                    'firstPageLabel'=>"First",
-                    'prevPageLabel'=>'Prev',
-                    'nextPageLabel'=>'Next',
-                    'lastPageLabel'=>'Last',
-                ]);*/
+                echo LinkPager::widget([
+                    'pagination' => $pages,
+                    'firstPageLabel'=>"首页",
+                    'lastPageLabel'=>'尾页',
+                ]);
             ?>
         </div>
     </div>
