@@ -1,32 +1,11 @@
 /* new */
-.college-list .college-banner li {
+.college-list .college-banner {
     width: 100%;
     height: 250px;
-    display: none;
 }
-.college-list .college-banner li.active {
-    display: block;
-}
-.college-list .college-banner li.college-gy {
-    background: url(../img/college-banner-bg.jpg) no-repeat center;
-}
-.college-list .college-banner li.college-health {
-    background: url(../img/college-banner-bg.jpg) no-repeat center;
-}
-.college-list .college-banner li.college-sf {
-    background: url(../img/college-banner-bg.jpg) no-repeat center;
-}
-.college-list .college-banner li.college-ms {
-    background: url(../img/college-banner-bg.jpg) no-repeat center;
-}
-.college-list .college-banner li.college-music {
-    background: url(../img/college-banner-bg.jpg) no-repeat center;
-}
-.college-list .college-banner li.college-sy {
-    background: url(../img/college-banner-bg.jpg) no-repeat center;
-}
-.college-list .college-banner li.college-wx {
-    background: url(../img/college-banner-bg.jpg) no-repeat center;
+.college-list .college-banner img {
+    width: 100%;
+    height: 100%;
 }
 .college-list .college-content {
     width: 1180px;

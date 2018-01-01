@@ -12,6 +12,7 @@ use backend\models\CourseSection;
 use backend\models\CourseComent;
 use backend\models\Data;
 use backend\models\Quas;
+use backend\models\User;
 use Qiniu\Auth;
 use Yii;
 
@@ -80,36 +81,30 @@ class CourseController extends Controller
     }
     public function actionCollege()
     {
-        $catModels = CourseCategory::find()
-        ->all();
-        
+        $cat = Yii::$app->request->get('cat');
+        if (!empty($cat)) {
+            $catModel = CourseCategory::find()
+            ->where(['id' => $cat])
+            ->one();
+        } else {
+            $catModel = CourseCategory::find()
+            ->one();
+        }
         $coursemodels = Course::find()
         ->where(['onuse' => 1])
         ->all();
-
-        $firArr = array();
-
-        foreach ($catModels as $catModelKey => $catModel) {
-            if ($catModel->parent_id == 0) {
-                $firArr[$catModelKey] = array();
-                $firArr[$catModelKey]['firModel'] = $catModel;
-                $firArr[$catModelKey]['child'] = array();
-                foreach ($catModels as $subModelKey => $subModel) {
-                    if ($subModel->parent_id == $catModel->id) {
-                        $firArr[$catModelKey]['child'][$subModelKey] = array();
-                        $firArr[$catModelKey]['child'][$subModelKey]['submodel'] = $subModel;
-                        $firArr[$catModelKey]['child'][$subModelKey]['course'] = array();
-                        foreach ($coursemodels as $coursekey => $coursemodel) {
-                            if(in_array($subModel->id, explode(',', $coursemodel->category_name)))
-                            {
-                                $firArr[$catModelKey]['child'][$subModelKey]['course'][$coursekey] = $coursemodel;
-                            }
-                        }
-                    }
-                }
+        $collegeArr = array();
+        $collegeArr['college'] = $catModel;
+        foreach ($coursemodels as $key => $coursemodel) {
+            $categoryids = explode(',', $coursemodel->category_name);
+            if (in_array($catModel->id, $categoryids)) {
+                $collegeArr['college_course'][$key] = $coursemodel;
+                $collegeArr['college_teacher'][$key] = User::getUserModel($coursemodel->teacher_id);
             }
         }
-        return $this->render('college', ['courseLists' => $firArr]);
+        $all_colleges = CourseCategory::find()
+        ->all();
+        return $this->render('college', ['collegeArr' => $collegeArr, 'all_colleges' => $all_colleges]);
     }
 
     public function actionSearch()
