@@ -10,10 +10,13 @@ use Yii;
  * @property string $id
  * @property string $name
  * @property string $parent_id
+ * @property integer $position 
+ * @property string $list_icon 
+ * @property string $detail_icon 
  * @property string $des
- *
  * @property CourseCategory $parent
  * @property CourseCategory[] $courseCategories
+ * @property HotCategory[] $hotCategories
  */
 class CourseCategory extends \yii\db\ActiveRecord
 {
@@ -31,10 +34,10 @@ class CourseCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'parent_id'], 'required'],
-            [['parent_id'], 'integer'],
+            [['name', 'parent_id', 'position'], 'required'],
+            [['parent_id', 'position'], 'integer'],
             [['des'], 'string'],
-            [['name'], 'string', 'max' => 255],
+            [['name', 'list_icon', 'detail_icon'], 'string', 'max' => 255],
             //[['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => CourseCategory::className(), 'targetAttribute' => ['parent_id' => 'id']],
         ];
     }
@@ -49,6 +52,9 @@ class CourseCategory extends \yii\db\ActiveRecord
             'name' => Yii::t('app', '分类名称'),
             'parent_id' => Yii::t('app', '父级分类'),
             'des' => Yii::t('app', '分类描述'),
+            'position' => Yii::t('app', '排序'), 
+            'list_icon' => Yii::t('app', '列表页图标'), 
+            'detail_icon' => Yii::t('app', '详情页图片'), 
         ];
     }
 

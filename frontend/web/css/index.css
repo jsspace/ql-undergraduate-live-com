@@ -120,6 +120,10 @@
     background: #fff;
     width: 100%;
 }
+.hot-section .container-course {
+    width: 1180px;
+    margin: 0 auto;
+}
 .hot-section .list {
     overflow: hidden;
     margin: 0;
@@ -145,6 +149,30 @@
     height: 64px;
     margin-top: 35px;
     margin-bottom: 25px;
+}
+.hot-section .list li .icon img {
+    height: 100%;
+}
+.hot-section .list li:nth-child(1) {
+    background-color: #f6ce00;
+}
+.hot-section .list li:nth-child(2) {
+    background-color: #4caafc;
+}
+.hot-section .list li:nth-child(3) {
+    background-color: #e994dc;
+}
+.hot-section .list li:nth-child(4) {
+    background-color: #54cea9;
+}
+.hot-section .list li:nth-child(5) {
+    background-color: #9985cc;
+}
+.hot-section .list li:nth-child(6) {
+    background-color: #e3b47b;
+}
+.hot-section .list li:nth-child(7) {
+    background-color: #848d99;
 }
 .hot-section .list h3 {
     font-size: 18px;
@@ -177,20 +205,20 @@
     background: #fff;
     color: #6b6868;
 }
-.hot-section .course-hd {
+.course-hd {
     height: 60px;
     line-height: 60px;
 }
 .hot-section .course-hd .title {
     float: left;
 }
-.hot-section .side a.link {
+.side a.link {
     float: right;
     color: #333;
 }
 .course-title {
-    margin: 60px auto 25px;
-    text-align: center;
+    margin: 20px auto 0;
+    float: left;
 }
 .container fieldset {
     width: 240px;
@@ -218,9 +246,8 @@
     cursor: pointer;
 }
 .course-tab li.active {
-    border: 1px solid #b4746b;
+    border-bottom: 1px solid #b4746b;
     color: #b4746b;
-    border-radius: 18px;
 }
 .course-content {
     clear: both;
@@ -244,7 +271,7 @@
 }
 .course-content .list li .course-img {
     width: 280px;
-    height: 190px;
+    height: 160px;
     cursor: pointer;
     overflow: hidden;
 }
@@ -252,6 +279,8 @@
     transform: scale(1.0);
     transition: transform 1.5s;
     -webkit-transition: transform 1.5s;
+    height: 100%;
+    width: 100%;
 }
 .course-content .list li .course-img.active img{
     transform: scale(1.1);
@@ -266,9 +295,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    margin: 10px 0;
-    color: #777779;
+    margin: 10px 0 0;
+    color: #333;
     text-align: left
+}
+.course-content .content-title:hover {
+    color: #50a9fd;
 }
 .course-content .course-statistic {
     font-size: 13px;
@@ -304,15 +336,23 @@
     box-shadow: 0 0 15px #ff686d;
 }
 .course-content .teacher-section {
-    margin-top: 10px;
+    margin-top: 6px;
+    font-size: 12px;
+}
+.container-course.teacher-section {
+    width: 1180px;
+    margin: 0 auto;
 }
 .course-content .teacher-section img {
     width: 23px;
     margin-right: 15px;
 }
 .course-content .teacher-section .teacher-name {
-    font-size: 13px;
     color: #777779;
+}
+.course-content .teacher-section .teacher-position {
+    float: right;
+    color: #50a9fd;
 }
 .ads-section {
     margin: 55px 0 0;
@@ -367,19 +407,29 @@
     top: -25px;
 }
 .teacher-section .teach-list {
-    margin-top: 80px;
+    margin-top: 120px;
     text-align: center;
 }
 .teacher-section .teach-list li {
     width: 370px;
-    height: 270px;
+    height: 250px;
     background: #fff;
     display: inline-block;
     margin-right: 30px;
     border-radius: 10px;
+    float: left;
+    margin-top: 100px;
 }
-.teacher-section .teach-list li:last-child {
+.clear {
+    clear: both;
+}
+.teacher-section .teach-list li:nth-child(3n) {
     margin-right: 0;
+}
+.teacher-section .teach-list li:nth-child(1),
+.teacher-section .teach-list li:nth-child(2),
+.teacher-section .teach-list li:nth-child(3) {
+    margin-top: 0;
 }
 .teacher-section .teach-list li:hover {
     box-shadow: 0 0 20px rgba(0,0,0,0.2);
@@ -388,6 +438,8 @@
     margin: -60px auto 0;
     text-align: center;
     width: 120px;
+    height: 120px;
+    border-radius: 50%;
 }
 .teacher-section .intro {
     color: #333;
@@ -529,6 +581,10 @@
     clear: both;
     margin-top: 50px;
 }
+.cooperation-section .container-course {
+    width: 1180px;
+    margin: 0 auto;
+}
 .cooperation-section .course-title {
     padding-top: 50px;
 }
@@ -589,6 +645,7 @@
 .cooperation-section .user-comment {
     overflow: hidden;
     height: 200px;
+    padding-left: 26px;
 }
 .cooperation-section .user-comment li {
     width: 33.33%;
@@ -613,11 +670,16 @@
     color: #a9a6a6;
     height: 32px;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .cooperation-section .link-section {
     padding: 30px 0;
     overflow: hidden;
     height: 200px;
+    padding-left: 26px;
+    padding-right: 26px;
 }
 .cooperation-section .link-section li {
     float: left;
@@ -632,4 +694,7 @@
 }
 .cooperation-section .link-section li a:hover {
     color: red;
+}
+.site-index .college-wrap:nth-child(2n) {
+    background-color: #fff;
 }
