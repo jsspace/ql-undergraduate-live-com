@@ -19,7 +19,7 @@ $this->title = 'My Yii Application';
             <h3 class="college-all">全部学院</h3>
             <ul class="college-category-list _college-category-list">
                 <?php foreach ($all_colleges as $key => $all_college) { ?>
-                    <li class="<?php if ($all_college->id === $collegeArr['college']->id) echo 'active' ?>"><?= $all_college->name ?></li>
+                    <li><a class="<?php if ($all_college->id === $collegeArr['college']->id) echo 'active' ?>" href="<?= Url::to(['course/college', 'cat' => $all_college->id]) ?>"><?= $all_college->name ?></a></li>
                 <?php } ?>
             </ul>
         </div>
@@ -40,109 +40,48 @@ $this->title = 'My Yii Application';
                     <?= $collegeArr['college']->des ?>
                 </li>
                 <li class="college-class active">
-                    <?php foreach ($collegeArr["college_course"] as $key => $course) { ?>
-                        <div class="user-course-list">
-                            <div class="course-list-con">
-                                <a href="" class="user-course-img"><img src="/img/course-list-img.jpg"/></a>
-                                <div class="user-course-details">
-                                    <h3><a href="" title="" target="_blank">健康养生</a></h3>
-                                    <div class="row">主讲老师: 张老师</div>
-                                    <div class="row">
-                                        <div class="btns">
-                                            <a class="btn btn-primary" target="_blank" href="">进入学习</a>
-                                        </div>
+                    <div class="user-course-list">
+                        <?php foreach ($collegeArr["college_course"] as $key => $course) { ?>
+                        <div class="course-list-con">
+                            <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>" class="user-course-img" target="_blank"><img src="<?= $course->list_pic ?>"/></a>
+                            <div class="user-course-details">
+                                <h3><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>" title="" target="_blank"><?= $course->course_name ?></a></h3>
+                                <div class="row">主讲老师: <?= User::item($course->teacher_id); ?></div>
+                                <div class="row">
+                                    <div class="btns">
+                                        <a class="btn btn-primary" target="_blank" href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">进入学习</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    <?php } ?>
+                        <?php } ?>
+                    </div>
                 </li>
                 <li class="teacher-section">
                     <div class="teach-list">
-                        <div class="teacher-con">
-                            <a href="">
-                                <img class="people-img" src="/img/teacher-people.png"/>
-                                <p class="intro">
-                                    <span class="name">张老师</span>
-                                    <span class="work">中国人民大学教授</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                                    <span class="te-text">中国人民大学</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">职称职务:&nbsp;&nbsp;</span>
-                                    <span class="te-text">教授</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                                    <span class="te-text">人类健康</span>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="teacher-con">
-                            <a href="">
-                                <img class="people-img" src="/img/teacher-people.png"/>
-                                <p class="intro">
-                                    <span class="name">张老师</span>
-                                    <span class="work">中国人民大学教授</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                                    <span class="te-text">中国人民大学</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">职称职务:&nbsp;&nbsp;</span>
-                                    <span class="te-text">教授</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                                    <span class="te-text">人类健康</span>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="teacher-con">
-                            <a href="">
-                                <img class="people-img" src="/img/teacher-people.png"/>
-                                <p class="intro">
-                                    <span class="name">张老师</span>
-                                    <span class="work">中国人民大学教授</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                                    <span class="te-text">中国人民大学</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">职称职务:&nbsp;&nbsp;</span>
-                                    <span class="te-text">教授</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                                    <span class="te-text">人类健康</span>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="teacher-con">
-                            <a href="">
-                                <img class="people-img" src="/img/teacher-people.png"/>
-                                <p class="intro">
-                                    <span class="name">张老师</span>
-                                    <span class="work">中国人民大学教授</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">任职单位:&nbsp;&nbsp;</span>
-                                    <span class="te-text">中国人民大学</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">职称职务:&nbsp;&nbsp;</span>
-                                    <span class="te-text">教授</span>
-                                </p>
-                                <p class="intro">
-                                    <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
-                                    <span class="te-text">人类健康</span>
-                                </p>
-                            </a>
-                        </div>
+                        <?php foreach ($collegeArr["college_teacher"] as $key => $teacher) { ?>
+                            <div class="teacher-con">
+                                <a href="<?= Url::to(['teacher/detail', 'userid' => $teacher->id]) ?>" target="_blank">
+                                    <img class="people-img" src="<?= $teacher->picture; ?>"/>
+                                    <p class="intro">
+                                        <span class="name"><?= $teacher->username; ?></span>
+                                        <span class="work"><?= $teacher->description; ?></span>
+                                    </p>
+                                    <p class="intro">
+                                        <span class="te-label">任职单位:&nbsp;&nbsp;</span>
+                                        <span class="te-text"><?= $teacher->unit; ?></span>
+                                    </p>
+                                    <p class="intro">
+                                        <span class="te-label">职称职务:&nbsp;&nbsp;</span>
+                                        <span class="te-text"><?= $teacher->office; ?></span>
+                                    </p>
+                                    <p class="intro">
+                                        <span class="te-label">擅长领域:&nbsp;&nbsp;</span>
+                                        <span class="te-text"><?= $teacher->goodat; ?></span>
+                                    </p>
+                                </a>
+                            </div>
+                        <?php } ?>
                     </div>
                 </li>
             </ul>

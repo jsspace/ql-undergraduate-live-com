@@ -74,7 +74,7 @@ $weekarray=array("日","一","二","三","四","五","六");
             <ul class="list">
                 <?php foreach ($colleges as $college) { ?>
                     <li>
-                        <a href="<?= Url::to(['course/list','cat' => $college->id]) ?>">
+                        <a href="<?= Url::to(['course/college','cat' => $college->id]) ?>">
                             <i class="icon"><img src="<?= $college->list_icon; ?>"></i>
                             <h3><?= $college->name; ?></h3>
                             <div class="into"><span class="btn-into">进入学院</span></div>
