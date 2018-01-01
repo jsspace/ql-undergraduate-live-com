@@ -8,7 +8,7 @@ use backend\models\CourseCategory;
 
 AppAsset::addCss($this,'@web/css/college.css');
 
-$this->title = 'My Yii Application';
+$this->title = '直属学院';
 ?>
 <div class="college-list">
     <div class="college-banner _college-banner">

@@ -8,7 +8,7 @@ use backend\models\CourseCategory;
 
 AppAsset::addCss($this,'@web/css/index.css');
 
-$this->title = 'My Yii Application';
+$this->title = '首页';
 
 $weekarray=array("日","一","二","三","四","五","六"); 
 

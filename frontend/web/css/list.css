@@ -1,0 +1,76 @@
+.menu-position {
+    width: 1180px;
+    margin: 0 auto;
+}
+.course-online {
+    padding-top: 0;
+}
+.course-content {
+    clear: both;
+    margin-top: 20px;
+    overflow: hidden;
+}
+.course-content .list li {
+    width: 280px;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 30px;
+}
+.course-content .list li:nth-child(4n) {
+    margin-right: 0;
+}
+.course-content .list li .course-img {
+    width: 280px;
+    height: 190px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.course-content .list li .course-img img {
+    transform: scale(1.0);
+    transition: transform 1.5s;
+    -webkit-transition: transform 1.5s;
+}
+.course-content .list li .course-img.active img{
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+}
+.course-content .list>li:nth-child(4n) {
+    margin-right: 0;
+}
+.course-content .content-title {
+    font-size: 15px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 10px 0;
+    color: #777779;
+    text-align: left
+}
+.course-content .course-statistic {
+    font-size: 13px;
+    color: #b8b8b8;
+    text-align: left;
+}
+.course-content .course-statistic .icon:before {
+    font-size: 18px;
+    vertical-align: middle;
+}
+.course-content .course-statistic .ion-android-person:before {
+    color: #b8b8b8;
+}
+.course-content .course-statistic .ion-heart:before {
+    color: #e43542;
+    margin-left: 15px;
+}
+.course-content .teacher-section {
+    margin-top: 10px;
+}
+.course-content .teacher-section img {
+    width: 23px;
+    margin-right: 15px;
+}
+.course-content .teacher-section .teacher-name {
+    font-size: 13px;
+    color: #777779;
+}
