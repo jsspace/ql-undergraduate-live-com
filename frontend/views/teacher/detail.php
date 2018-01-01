@@ -11,12 +11,14 @@ AppAsset::addCss($this,'@web/css/teacher.css');
 $this->title = 'My Yii Application';
 ?>
 <div class="container-course menu-position">
-    <span>您的位置：</span>
-    <span><a href="/">首页</a></span>
-    <span>&gt;</span>
-    <span><a href="/teacher/list">讲师列表</a></span>
-    <span>&gt;</span>
-    <span><?= $teacher->username ?></span>
+    <div class="container-inner">
+        <span>您的位置：</span>
+        <span><a href="/">首页</a></span>
+        <span>&gt;</span>
+        <span><a href="/teacher/list">讲师列表</a></span>
+        <span>&gt;</span>
+        <span><?= $teacher->username ?></span>
+    </div>
 </div>
 <div class="container-course teacher-detail">
     <div class="left-introduce">
@@ -59,11 +61,11 @@ $this->title = 'My Yii Application';
         </div>
     </div>
 </div>
-<ul class="container-course course-tab">
+<ul class="container-course course-tab container-inner">
     <li class="active">主讲课程</li>
 </ul>
 <div class="container-course course-content">
-    <ul class="list active">
+    <ul class="container-inner list active">
     <?php foreach ($courses as $course) { ?>
         <li>
             <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">

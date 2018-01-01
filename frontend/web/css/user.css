@@ -384,6 +384,7 @@ label {
 }
 .user-question-list .course-img img {
     width: 100%;
+    margin-top: 25px;
 }
 .user-question-list .question-content {
     display: inline-block;
@@ -436,11 +437,11 @@ label {
 }
 .coin-wrapper .coupon-title-line li,
 .coin-wrapper .coupon-content-line p {
-    width: 20%;
+    width: 10%;
 }
 .coin-wrapper .coupon-title-line li.coin-id,
 .coin-wrapper .coupon-content-line p.coin-id {
-    width: 10%;
+    width: 30%;
 }
 .coin-wrapper .coupon-title-line li.coin-detail,
 .coin-wrapper .coupon-content-line p.coin-detail {

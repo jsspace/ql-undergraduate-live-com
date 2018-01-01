@@ -19,224 +19,228 @@ $userid = Yii::$app->user->id;
     $cousechild = $courseDetail['coursechild'];
 ?>
 <div class="container-course menu-position">
-    <span>您的位置：</span>
-    <span><a href="/">首页</a></span>
-    <span>&gt;</span>
-    <span><a href="/course/list">课程列表</a></span>
-    <span>&gt;</span>
-    <span><?= $course->course_name; ?></span>
+    <div class="container-inner">
+        <span>您的位置：</span>
+        <span><a href="/">首页</a></span>
+        <span>&gt;</span>
+        <span><a href="/course/list">课程列表</a></span>
+        <span>&gt;</span>
+        <span><?= $course->course_name; ?></span>
+    </div>
 </div>
 <div class="container-course course-detail-section">
-    <div class="main-section">
-        <input class="course-id _course-id" type="hidden" value="<?= $course->id; ?>"/>
-        <div class="course-detail-left _course-detail-left" id="view">
-            <img src="<?= $course->home_pic; ?>"/>
-            <video controls="controls" src=""></video>
-        </div>
-        <div class="course-detail-right">
-            <div class="course-detail-title"><?= $course->course_name; ?></div>
-            <div class="course-sub-title"><?= $course->course_name; ?></div>
-            <p class="course-price">
-                <span class="price-tag">现价</span>
-                <span class="price-highlight"><?= $course->discount ?>元</span>
-                <span class="price-tag">原价</span> <?= $course->price ?>元
-            </p>
-            <div class="course-info">课程信息</div>
-            <ul class="info-list">
-                <li>
-                    <img src="/img/tb_01.jpg"/>
-                    <span>主讲&nbsp;&nbsp;<?= User::item($course->teacher_id); ?></span>
-                </li>
-                <li>
-                    <img src="/img/tb_02.jpg"/>
-                    <span>时长&nbsp;&nbsp;<?= $duration ?>分钟</span>
-                </li>
-                <li>
-                    <img src="/img/tb_03.jpg"/>
-                    <span>课时&nbsp;&nbsp;<?= ceil($duration/60) ?></span>
-                </li>
-                <li>
-                    <img src="/img/tb_04.jpg"/>
-                    <span>浏览&nbsp;&nbsp;<?= $course->view ?></span>
-                </li>
-                <!-- <li>
-                    <img src="/img/tb_05.jpg"/>
-                    <span>分享&nbsp;&nbsp;<?= $course->share ?></span>
-                </li> -->
-                <li>
-                    <img src="/img/tb_06.jpg"/>
-                    <span>收藏&nbsp;&nbsp;<label class="collection-num _collection-num"><?= $course->collection ?></label></span>
-                </li>
-            </ul>
-            <div class="share-like">
-                <p class="share-list">
-                    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt" target="_blank">
-                        <img src="/img/tb_07.jpg"/>
-                        <span>分享</span>
-                    </a>
-                </p>
-                <p class="share-list collection-btn _collection-btn">
-                    <img src="/img/tb_08.jpg"/>
-                    <span>收藏</span>
-                </p>
+    <div class="container-inner">
+        <div class="main-section">
+            <input class="course-id _course-id" type="hidden" value="<?= $course->id; ?>"/>
+            <div class="course-detail-left _course-detail-left" id="view">
+                <img src="<?= $course->home_pic; ?>"/>
+                <video controls="controls" src=""></video>
             </div>
-            <?php
-                $ismember = Course::ismember($course->id);
-                $ispay = Course::ispay($course->id);
-                if ($ismember == 1) { ?>
-                    <span class="course-ispay-tag">会员课程</span>
-                <?php }
-                else if ($ispay == 1) { ?>
-                    <span class="course-ispay-tag">已购课程</span>
-                <?php } else { ?>
-                    <div class="btn-course">
-                        <a class="quick-buy _quick-buy" href="javascript: void(0)">立即购买</a>
-                        <a class="add-cart _add-cart" href="javascript: void(0)">加入购物车</a>
-                    </div>
-            <?php } ?>
+            <div class="course-detail-right">
+                <div class="course-detail-title"><?= $course->course_name; ?></div>
+                <div class="course-sub-title"><?= $course->course_name; ?></div>
+                <p class="course-price">
+                    <span class="price-tag">现价</span>
+                    <span class="price-highlight"><?= $course->discount ?>元</span>
+                    <span class="price-tag">原价</span> <?= $course->price ?>元
+                </p>
+                <div class="course-info">课程信息</div>
+                <ul class="info-list">
+                    <li>
+                        <img src="/img/tb_01.jpg"/>
+                        <span>主讲&nbsp;&nbsp;<?= User::item($course->teacher_id); ?></span>
+                    </li>
+                    <li>
+                        <img src="/img/tb_02.jpg"/>
+                        <span>时长&nbsp;&nbsp;<?= $duration ?>分钟</span>
+                    </li>
+                    <li>
+                        <img src="/img/tb_03.jpg"/>
+                        <span>课时&nbsp;&nbsp;<?= ceil($duration/60) ?></span>
+                    </li>
+                    <li>
+                        <img src="/img/tb_04.jpg"/>
+                        <span>浏览&nbsp;&nbsp;<?= $course->view ?></span>
+                    </li>
+                    <!-- <li>
+                        <img src="/img/tb_05.jpg"/>
+                        <span>分享&nbsp;&nbsp;<?= $course->share ?></span>
+                    </li> -->
+                    <li>
+                        <img src="/img/tb_06.jpg"/>
+                        <span>收藏&nbsp;&nbsp;<label class="collection-num _collection-num"><?= $course->collection ?></label></span>
+                    </li>
+                </ul>
+                <div class="share-like">
+                    <p class="share-list">
+                        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt" target="_blank">
+                            <img src="/img/tb_07.jpg"/>
+                            <span>分享</span>
+                        </a>
+                    </p>
+                    <p class="share-list collection-btn _collection-btn">
+                        <img src="/img/tb_08.jpg"/>
+                        <span>收藏</span>
+                    </p>
+                </div>
+                <?php
+                    $ismember = Course::ismember($course->id);
+                    $ispay = Course::ispay($course->id);
+                    if ($ismember == 1) { ?>
+                        <span class="course-ispay-tag">会员课程</span>
+                    <?php }
+                    else if ($ispay == 1) { ?>
+                        <span class="course-ispay-tag">已购课程</span>
+                    <?php } else { ?>
+                        <div class="btn-course">
+                            <a class="quick-buy _quick-buy" href="javascript: void(0)">立即购买</a>
+                            <a class="add-cart _add-cart" href="javascript: void(0)">加入购物车</a>
+                        </div>
+                <?php } ?>
+            </div>
         </div>
-    </div>
-    <div class="main-section">
-        <div class="kc-left">
-            <ul class="course-tag">
-                <li class="active">课程章节</li>
-                <li>课程详情</li>
-                <li>课程评价</li>
-                <li>教师答疑</li>
-                <li>课程资料</li>
-            </ul>
-            <div class="course-tag-content">
-                <div class="tag-content active">
-                    <ul class="chapter-title">
-                        <?php foreach ($cousechild as $key => $chapter) { ?>
-                            <li class="active">
-                                <div class="chapter-title-name"><?= $chapter['chapter']->name ?></div>
-                                <ul class="chapter-con">
-                                    <?php foreach ($chapter['chapterchild'] as $key => $section) { ?>
-                                    <li>
-                                        <?php
-                                            $text = '';
-                                            $current_time = date('Y-m-d H:i:s');
-                                            $end_time = date('Y-m-d H:i:s',strtotime($section->start_time."+".$section->duration." minute"));
-                                            //0 直播
-                                            $video_url = $section->video_url;
-                                            if ($section->type == 0) {
-                                                if ($current_time < $section->start_time) {
-                                                    $text = '最近直播：'.$section->start_time;
-                                                } else if ($current_time >= $section->start_time && $current_time < $end_time) {
-                                                     $text = '直播中';
-                                                } else if ($current_time > $end_time) {
-                                                    $text = '直播回放';
+        <div class="main-section">
+            <div class="kc-left">
+                <ul class="course-tag">
+                    <li class="active">课程章节</li>
+                    <li>课程详情</li>
+                    <li>课程评价</li>
+                    <li>教师答疑</li>
+                    <li>课程资料</li>
+                </ul>
+                <div class="course-tag-content">
+                    <div class="tag-content active">
+                        <ul class="chapter-title">
+                            <?php foreach ($cousechild as $key => $chapter) { ?>
+                                <li class="active">
+                                    <div class="chapter-title-name"><?= $chapter['chapter']->name ?></div>
+                                    <ul class="chapter-con">
+                                        <?php foreach ($chapter['chapterchild'] as $key => $section) { ?>
+                                        <li>
+                                            <?php
+                                                $text = '';
+                                                $current_time = date('Y-m-d H:i:s');
+                                                $end_time = date('Y-m-d H:i:s',strtotime($section->start_time."+".$section->duration." minute"));
+                                                //0 直播
+                                                $video_url = $section->video_url;
+                                                if ($section->type == 0) {
+                                                    if ($current_time < $section->start_time) {
+                                                        $text = '最近直播：'.$section->start_time;
+                                                    } else if ($current_time >= $section->start_time && $current_time < $end_time) {
+                                                         $text = '直播中';
+                                                    } else if ($current_time > $end_time) {
+                                                        $text = '直播回放';
+                                                    }
+                                                } else {
+                                                    $text = '点播课程';
                                                 }
-                                            } else {
-                                                $text = '点播课程';
-                                            }
-                                        ?>
-                                        <?php 
-                                            if ($section->type == 0) { ?>
-                                                <a target="_blank" href="<?= $video_url ?>" class="chapter-list-name"><?= $section->name ?></a>
-                                        <?php } else { ?>
-                                                <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
+                                            ?>
+                                            <?php 
+                                                if ($section->type == 0) { ?>
+                                                    <a target="_blank" href="<?= $video_url ?>" class="chapter-list-name"><?= $section->name ?></a>
+                                            <?php } else { ?>
+                                                    <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
+                                            <?php } ?>
+                                            <div class="chapter-list-time">
+                                                <span class="time-tag"><?= $text ?></span>
+                                                <span class="time-con"><?= $section->duration.'分钟' ?></span>
+                                            </div>
+                                        </li>
                                         <?php } ?>
-                                        <div class="chapter-list-time">
-                                            <span class="time-tag"><?= $text ?></span>
-                                            <span class="time-con"><?= $section->duration.'分钟' ?></span>
-                                        </div>
-                                    </li>
-                                    <?php } ?>
-                                </ul>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                </div>
-                <div class="tag-content">
-                    <?= $course->des; ?>
-                </div>
-                <div class="tag-content">
-                    <div class="course-evaluate">
-                        <textarea class="_course-evaluate-content"></textarea>
-                        <button class="_course-evaluate-btn">提交</button>
+                                    </ul>
+                                </li>
+                            <?php } ?>
+                        </ul>
                     </div>
-                    <?php if (count($course_comments) > 0) { ?>
-                    <ul class="evaluate-list _evaluate-list">
-                        <?php foreach ($course_comments as $course_comment) { ?>
-                            <li>
-                                <div class="user-info">
-                                    <p class="user-img"><img src="<?= User::getUserModel($course_comment->user_id)->picture; ?>"/></p>
-                                    <p class="user-name"><?= User::item($course->teacher_id); ?></p>
-                                </div>
-                                <div class="user-evaluate">
-                                    <p class="evaluate-info"><?= $course_comment->content ?></p>
-                                    <p class="evaluate-time"><?= date('Y-m-d H:i:s', $course_comment->create_time) ?></p>
-                                </div>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                    <?php } ?>
-                </div>
-                <div class="tag-content">
-                    <div class="course-evaluate">
-                        <textarea class="_course-question-content"></textarea>
-                        <button class="_course-question-btn">我要提问</button>
+                    <div class="tag-content">
+                        <?= $course->des; ?>
                     </div>
-                    <?php if (count($quas) > 0) { ?>
-                    <ul class="user-question-list">
-                        <?php foreach ($quas as $key => $qu) { ?>
-                        <li>
-                            <div class="question-content">
-                                <p class="question-answer">
-                                    <span class="question-icon">问</span>
-                                    <span class="question-txt"><?= $qu->question ?></span>
-                                    <span class="question-date"><?= date('Y-m-d H:m:s', $qu->question_time) ?></span>
-                                </p>
-                                <p class="question-answer">
-                                    <span class="question-icon">答</span>
-                                    <span class="question-txt"><?= $qu->answer ?></span>
-                                    <span class="question-date"><?= date('Y-m-d H:m:s', $qu->answer_time) ?></span>
-                                </p>
-                            </div>
-                        </li>
-                         <?php } ?>
-                    </ul>
-                    <?php } ?>
-                </div>
-                <div class="tag-content">
-                    <?php if (count($datas) > 0) { ?>
-                        <ul class="list data-ul active">
-                            <?php foreach ($datas as $key => $course_data) { ?>
+                    <div class="tag-content">
+                        <div class="course-evaluate">
+                            <textarea class="_course-evaluate-content"></textarea>
+                            <button class="_course-evaluate-btn">提交</button>
+                        </div>
+                        <?php if (count($course_comments) > 0) { ?>
+                        <ul class="evaluate-list _evaluate-list">
+                            <?php foreach ($course_comments as $course_comment) { ?>
                                 <li>
-                                    <div class="right-con">
-                                        <p class="data-title">
-                                            <?php if ($course_data->url_type == 1) {
-                                                $url = Url::to(['data/detail', 'dataid' => $course_data->id]);
-                                                $target = '_self';
-                                            } else { 
-                                                $url = strip_tags($course_data->content);
-                                                $target = '_blank';
-                                            } ?>
-                                            <span><a class="data-title" target="<?= $target ?>" href="<?= $url ?>"><?= $course_data->name ?></a></span>
-                                        </p>
-                                        <p class="data-intro"><?= $course_data->summary ?></p>
+                                    <div class="user-info">
+                                        <p class="user-img"><img src="<?= User::getUserModel($course_comment->user_id)->picture; ?>"/></p>
+                                        <p class="user-name"><?= User::item($course->teacher_id); ?></p>
+                                    </div>
+                                    <div class="user-evaluate">
+                                        <p class="evaluate-info"><?= $course_comment->content ?></p>
+                                        <p class="evaluate-time"><?= date('Y-m-d H:i:s', $course_comment->create_time) ?></p>
                                     </div>
                                 </li>
                             <?php } ?>
                         </ul>
-                    <?php } else { ?>
-                        <p>暂无</p>
-                    <?php } ?>
+                        <?php } ?>
+                    </div>
+                    <div class="tag-content">
+                        <div class="course-evaluate">
+                            <textarea class="_course-question-content"></textarea>
+                            <button class="_course-question-btn">我要提问</button>
+                        </div>
+                        <?php if (count($quas) > 0) { ?>
+                        <ul class="user-question-list">
+                            <?php foreach ($quas as $key => $qu) { ?>
+                            <li>
+                                <div class="question-content">
+                                    <p class="question-answer">
+                                        <span class="question-icon">问</span>
+                                        <span class="question-txt"><?= $qu->question ?></span>
+                                        <span class="question-date"><?= date('Y-m-d H:m:s', $qu->question_time) ?></span>
+                                    </p>
+                                    <p class="question-answer">
+                                        <span class="question-icon">答</span>
+                                        <span class="question-txt"><?= $qu->answer ?></span>
+                                        <span class="question-date"><?= date('Y-m-d H:m:s', $qu->answer_time) ?></span>
+                                    </p>
+                                </div>
+                            </li>
+                             <?php } ?>
+                        </ul>
+                        <?php } ?>
+                    </div>
+                    <div class="tag-content">
+                        <?php if (count($datas) > 0) { ?>
+                            <ul class="list data-ul active">
+                                <?php foreach ($datas as $key => $course_data) { ?>
+                                    <li>
+                                        <div class="right-con">
+                                            <p class="data-title">
+                                                <?php if ($course_data->url_type == 1) {
+                                                    $url = Url::to(['data/detail', 'dataid' => $course_data->id]);
+                                                    $target = '_self';
+                                                } else { 
+                                                    $url = strip_tags($course_data->content);
+                                                    $target = '_blank';
+                                                } ?>
+                                                <span><a class="data-title" target="<?= $target ?>" href="<?= $url ?>"><?= $course_data->name ?></a></span>
+                                            </p>
+                                            <p class="data-intro"><?= $course_data->summary ?></p>
+                                        </div>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        <?php } else { ?>
+                            <p>暂无</p>
+                        <?php } ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="kc-right">
-            <div class="teacher-show">
-                <div class="teacher-img"><img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/></div>
-                <div class="teacher-detail">
-                    <span class="name">教师： <?= User::item($course->teacher_id); ?></span>
-                    <a href="<?= Url::to(['teacher/detail', 'userid' => $course->teacher_id]) ?>" class="view-btn">查看教师</a>
+            <div class="kc-right">
+                <div class="teacher-show">
+                    <div class="teacher-img"><img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/></div>
+                    <div class="teacher-detail">
+                        <span class="name">教师： <?= User::item($course->teacher_id); ?></span>
+                        <a href="<?= Url::to(['teacher/detail', 'userid' => $course->teacher_id]) ?>" class="view-btn">查看教师</a>
+                    </div>
+                    <div class="teacher-tag"><?= User::getUserModel($course->teacher_id)->description; ?></div>
                 </div>
-                <div class="teacher-tag"><?= User::getUserModel($course->teacher_id)->description; ?></div>
+                <div class="teacher-info"><?= User::getUserModel($course->teacher_id)->intro; ?></div>
             </div>
-            <div class="teacher-info"><?= User::getUserModel($course->teacher_id)->intro; ?></div>
         </div>
     </div>
 </div>
