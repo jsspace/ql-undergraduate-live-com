@@ -59,8 +59,7 @@ class OrderInfoController extends \yii\web\Controller
         if(in_array($currentaction,$novalidactions)) {
             $action->controller->enableCsrfValidation = false;
         }
-        parent::beforeAction($action);
-        return true;
+        return parent::beforeAction($action);
     }
 
     public function actionConfirm_order($order_sn)
@@ -421,7 +420,7 @@ class OrderInfoController extends \yii\web\Controller
             if ($result['return_code'] == 'SUCCESS') {
                 if ($result['result_code'] == 'SUCCESS') {
                     $url2 = self::qrcode($result["code_url"], 'wxpay.png');
-                    return $this->render('wxpay', ['code_url' => $url2]);
+                    return $this->render('wxpay', ['code_url' => $url2, 'out_trade_no' => $orderInfo->order_sn]);
                 } else {
                     $return_msg = $result['err_code'] . ':' . $result['err_code_des'];
                     error_log($return_msg);
@@ -508,6 +507,19 @@ class OrderInfoController extends \yii\web\Controller
             return false;
         }
      }
+     
+     public function actionWxcheckorder()
+     {
+         $data = Yii::$app->request->Post();
+         
+         if(isset($data["out_trade_no"]) && $data["out_trade_no"] != ""){
+            $out_trade_no = $data["out_trade_no"];
+            $input = new \WxPayOrderQuery();
+            $input->SetOut_trade_no($out_trade_no);
+            return json_encode(WxPayApi::orderQuery($input));
+        }
+     }
+     
      private function toXml($values)
      {
          if(!is_array($values) || count($values) <= 0)

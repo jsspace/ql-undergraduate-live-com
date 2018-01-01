@@ -15,6 +15,7 @@ use backend\models\Quas;
 use backend\models\User;
 use Qiniu\Auth;
 use Yii;
+use yii\data\Pagination;
 
 class CourseController extends Controller
 {
@@ -50,9 +51,12 @@ class CourseController extends Controller
     {
         $courses = Course::find()
         ->where(['onuse' => 1])
-        ->orderBy('create_time asc')
+        ->orderBy('create_time asc');
+        $pages = new Pagination(['totalCount' => $courses->count()]);
+        $models = $courses->offset($pages->offset)
+        ->limit(12)
         ->all();
-        return $this->render('list', ['courses' => $courses]);
+        return $this->render('list', ['courses' => $models, 'pages' => $pages,]);
     }
     public function actionCollege()
     {
