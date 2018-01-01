@@ -18,9 +18,12 @@
     height: 40px;
     border: 1px solid #ccc;
     border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .study-list textarea.study-input {
     height: 200px;
+    padding-top: 10px;
 }
 .study-list label.con-label {
     vertical-align: top;

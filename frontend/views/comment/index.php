@@ -24,10 +24,10 @@ $this->title = '学习感言';
 <div class="container-course">
     <div class="container-inner">
         <div class="study-edit">
-            <p class="study-list">
+            <!-- <p class="study-list">
                 <label>标题：</label>
                 <input type="text" class="study-input"/>
-            </p>
+            </p> -->
             <p class="study-list">
                 <label class="con-label">内容：</label>
                 <textarea class="study-input"></textarea>
