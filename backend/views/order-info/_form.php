@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'pay_id')->textInput() ?>
+    <?= $form->field($model, 'pay_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'pay_name')->textInput(['maxlength' => true]) ?>
 

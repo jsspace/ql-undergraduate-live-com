@@ -55,7 +55,7 @@ class OrderInfoController extends \yii\web\Controller
     public function beforeAction($action)
     {
         $currentaction = $action->id;
-        $novalidactions = ['alinotify', 'wxnotify'];
+        $novalidactions = ['alinotify', 'wxnotify', 'wxcheckorder'];
         if(in_array($currentaction,$novalidactions)) {
             $action->controller->enableCsrfValidation = false;
         }
@@ -359,6 +359,7 @@ class OrderInfoController extends \yii\web\Controller
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     //取消订单
+                    $order_info->pay_id = $trade_no;
                     $order_info->pay_name = '支付宝支付';
                     $order_info->order_status = 2;
                     $order_info->pay_status = 0;
@@ -510,13 +511,73 @@ class OrderInfoController extends \yii\web\Controller
      
      public function actionWxcheckorder()
      {
-         $data = Yii::$app->request->Post();
+         $data = Yii::$app->request->post();
          
-         if(isset($data["out_trade_no"]) && $data["out_trade_no"] != ""){
+         if(!empty($data["out_trade_no"])){
             $out_trade_no = $data["out_trade_no"];
             $input = new \WxPayOrderQuery();
             $input->SetOut_trade_no($out_trade_no);
-            return json_encode(WxPayApi::orderQuery($input));
+            $result = \WxPayApi::orderQuery($input);
+            if(array_key_exists("return_code", $result)
+                && array_key_exists("result_code", $result)
+                && $result["return_code"] == "SUCCESS"
+                && $result["result_code"] == "SUCCESS")
+            {
+                if ($result['trade_state'] == "SUCCESS") {
+                    //商户订单号
+                    $out_trade_no = $result['out_trade_no'];
+                    //微信支付订单号
+                    $transaction_id = $result['transaction_id'];
+                    //支付金额(单位：分)
+                    $total_fee = $result['total_fee'];
+                    //支付完成时间
+                    $time_end = $result['time_end'];
+                    
+                    
+                    $order_info = OrderInfo::find()
+                    ->where(['order_sn' => $out_trade_no])
+                    ->andWhere(['order_status' => 1])
+                    ->andWhere(['pay_status' => 0])
+                    ->one();
+                    
+                    if (!empty($order_info)) {
+                        if (($order_info->order_amount*100) == $total_fee) {
+                            $order_info->pay_id = $transaction_id;
+                            $order_info->pay_name = '微信支付';
+                            $order_info->money_paid = $total_fee;
+                            $order_info->pay_status = 2;
+                            $order_info->pay_time = time();
+                            $order_info->save(false);
+                            //标记优惠券已使用
+                            Coupon::updateAll(
+                                ['isuse' => 2],
+                                [
+                                    'user_id' => $order_info->user_id,
+                                    'coupon_id' => explode(',', $order_info->coupon_ids),
+                                ]
+                                );
+                        }
+                    }
+                } else if ($result['trade_state'] == "PAYERROR") {
+                    //支付失败，取消订单
+                    $order_info->pay_id = $transaction_id;
+                    $order_info->pay_name = '微信支付';
+                    $order_info->order_status = 2;
+                    $order_info->pay_status = 0;
+                    $order_info->invalid_time = time();
+                    $order_info->save(false);
+                    //返回优惠券
+                    Coupon::updateAll(
+                        ['isuse' => 0],
+                        [
+                            'user_id' => $order_info->user_id,
+                            'coupon_id' => explode(',', $order_info->coupon_ids),
+                        ]
+                        );
+                }
+            }
+
+            return json_encode($result);
         }
      }
      

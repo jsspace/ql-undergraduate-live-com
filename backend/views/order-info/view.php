@@ -19,6 +19,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 <span class="tr-content"><?= $model->order_sn; ?></span>
             </li>
             <li>
+                <label class="tr-title">支付订单号</label>
+                <span class="tr-content"><?= $model->pay_id; ?></span>
+            </li>
+            <li>
+                <label class="tr-title">支付方式</label>
+                <span class="tr-content"><?= $model->pay_name; ?></span>
+            </li>
+            <li>
                 <label class="tr-title">姓名</label>
                 <span class="tr-content"><?= $model->consignee; ?></span>
             </li>

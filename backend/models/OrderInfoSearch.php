@@ -18,8 +18,8 @@ class OrderInfoSearch extends OrderInfo
     public function rules()
     {
         return [
-            [['order_id', 'user_id', 'order_status', 'pay_status', 'pay_id', 'integral', 'add_time', 'confirm_time', 'pay_time', 'bonus_id', 'is_separate', 'parent_id', 'invalid_time'], 'integer'],
-            [['order_sn', 'consignee', 'mobile', 'email', 'pay_name', 'course_ids', 'coupon_ids'], 'safe'],
+            [['order_id', 'user_id', 'order_status', 'pay_status', 'integral', 'add_time', 'confirm_time', 'pay_time', 'bonus_id', 'is_separate', 'parent_id', 'invalid_time'], 'integer'],
+            [['order_sn', 'consignee', 'mobile', 'email', 'pay_id', 'pay_name', 'course_ids', 'coupon_ids'], 'safe'],
             [['goods_amount', 'pay_fee', 'money_paid', 'integral_money', 'bonus', 'order_amount', 'discount', 'coupon_money'], 'number'],
         ];
     }
@@ -64,7 +64,6 @@ class OrderInfoSearch extends OrderInfo
             'user_id' => $this->user_id,
             'order_status' => $this->order_status,
             'pay_status' => $this->pay_status,
-            'pay_id' => $this->pay_id,
             'goods_amount' => $this->goods_amount,
             'pay_fee' => $this->pay_fee,
             'money_paid' => $this->money_paid,
@@ -87,6 +86,7 @@ class OrderInfoSearch extends OrderInfo
             ->andFilterWhere(['like', 'consignee', $this->consignee])
             ->andFilterWhere(['like', 'mobile', $this->mobile])
             ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'pay_id', $this->pay_id])
             ->andFilterWhere(['like', 'pay_name', $this->pay_name])
             ->andFilterWhere(['like', 'course_ids', $this->course_ids])
             ->andFilterWhere(['like', 'coupon_ids', $this->coupon_ids]);
