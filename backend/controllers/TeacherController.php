@@ -120,12 +120,13 @@ class TeacherController extends Controller
                 }
                 $image_picture->saveAs($rootPath . $randName);
                 $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'teacher/' . $randName;
-                $model->save(false);
                 @unlink(Yii::getAlias("@frontend")."/web/" . $oldpicture_path);
             } else {
                 $model->picture = $oldpicture_path;
             }
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->save(false)) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,

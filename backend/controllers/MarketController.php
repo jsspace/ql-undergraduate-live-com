@@ -208,7 +208,7 @@ class MarketController extends Controller
                 $file->saveAs($img_rootPath . $randName);
                 $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
             }
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

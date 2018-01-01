@@ -45,7 +45,7 @@ class OrderInfoController extends \yii\web\Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'confirm_order' => ['post'],
+                    'confirm_order' => ['post','get'],
                     'alinotify' => ['post'],
                 ],
             ],
