@@ -18,16 +18,19 @@ $(function(){
    setInterval(function(){check()}, 5000);  //5秒查询一次支付是否成功
 })
 function check() {
-    var url = "<?= Url::to(['order-info/wxcheckorder']) ?>";//新建
-    var out_trade_no = $("#out_trade_no").val();
-	var param = {'out_trade_no':out_trade_no};
-    $.post(url, param, function(data){
-        data = JSON.parse(data);
-        if(data['trade_state'] == "SUCCESS"){
-            alert("订单支付成功,即将跳转...");
-            window.location.href = "<?= Url::to(['user/orders']) ?>";
-        }else{
-            console.log(data);
+	$.ajax({
+        url: "<?= Url::to(['order-info/wxcheckorder']) ?>",
+        type: 'post',
+        dataType:"json",
+        data: {
+            'out_trade_no': $("#out_trade_no").val(),
+            '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+        },
+        success: function(data) {
+            if (data.trade_state == "SUCCESS") {
+            	alert("订单支付成功,即将跳转...");
+                window.location.href = "<?= Url::to(['user/orders']) ?>";
+            }
         }
     });
 }

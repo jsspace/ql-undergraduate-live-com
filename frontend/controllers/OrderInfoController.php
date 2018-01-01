@@ -55,7 +55,7 @@ class OrderInfoController extends \yii\web\Controller
     public function beforeAction($action)
     {
         $currentaction = $action->id;
-        $novalidactions = ['alinotify', 'wxnotify', 'wxcheckorder'];
+        $novalidactions = ['alinotify', 'wxnotify'];
         if(in_array($currentaction,$novalidactions)) {
             $action->controller->enableCsrfValidation = false;
         }
