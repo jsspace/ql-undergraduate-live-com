@@ -33,10 +33,10 @@ class OrderInfoController extends \yii\web\Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['confirm_order', 'alipay'],
+                'only' => ['confirm_order', 'alipay', 'wxpay'],
                 'rules' => [
                     [
-                        'actions' => ['confirm_order', 'alipay'],
+                        'actions' => ['confirm_order', 'alipay', 'wxpay'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
