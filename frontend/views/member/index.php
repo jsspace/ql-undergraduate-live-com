@@ -41,22 +41,6 @@ $this->title = '购买vip会员';
 <?= Html::submitButton('支付宝支付', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>
 
 <?php ActiveForm::end(); ?>
-        <!-- <div class="vip-pay">
-            <div class="vip-left">
-                <p class="pay-code">
-                    <img src="/img/vip-qrcode.png" data-vippay-widget="codeImg" width="92" height="92">
-                    <span class="pay-code-bg">
-                        <i></i>
-                        <span>请点击刷新</span>
-                    </span>
-                </p>
-            </div>
-            <div class="vip-right">
-                <p class="total-price">199元</p>
-                <p class="vip-tip">请使用支付宝支付</p>
-                <p class="vip-method"><img src="/img/vip-pay-method.png"/></p>
-            </div>
-        </div> -->
     </div>
 </div>
 <script>

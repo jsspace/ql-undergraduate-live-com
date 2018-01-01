@@ -60,7 +60,7 @@ class MemberController extends \yii\web\Controller
         ->orderBy('course_category_id asc,position asc')
         ->all();
         foreach ($member_models as $item) {
-            $member_items[$item->course_category_id]['course_category'] = CourseCategory::item($item->course_category_id);
+            $member_items[$item->course_category_id]['course_category'] = $item->content;
             $member_items[$item->course_category_id]['members'][] = $item;
         }
         $order_sn = CartController::createOrderid();
@@ -70,20 +70,40 @@ class MemberController extends \yii\web\Controller
     public function actionPay()
     {
         $data = Yii::$app->request->post();
-        $member_id = $data['member_id'];
-        $memberInfo = Member::find()
-        ->where(['id' => $member_id])
-        ->one();
+        $member_ids = explode(',', $data['member_id']);
         
         //查看是否已购买过此会员
-        $member_order = MemberOrder::find()
+        $member_orders = MemberOrder::find()
         ->where(['user_id' => Yii::$app->user->id])
         ->andWhere(['order_status' => 1])
         ->andWhere(['pay_status' => 2])
         ->andWhere(['>', 'end_time', time()])
-        ->andWhere(['member_id' => $member_id])
-        ->one();
-        if (!empty($memberInfo) && empty($member_order)) {
+        ->all();
+        $buy_member_ids = '';
+        foreach ($member_orders as $member_order) {
+            $buy_member_ids .= $member_order->member_id . ',';
+        }
+        $buy_member_ids_arr = explode(',', $buy_member_ids);
+        
+        $member_id_str = '';
+        $member_name = '';
+        $order_amount = 0.00;
+        foreach($member_ids as $member_id) {
+            $memberInfo = Member::find()
+            ->where(['id' => $member_id])
+            ->one();
+            
+            if (!empty($memberInfo) && !in_array($member_id, $buy_member_ids_arr)) {
+                $member_id_str .= $member_id.',';
+                $member_name .= $memberInfo->content . ' ';
+                $order_amount += $memberInfo->discount;
+            } else {
+                //订单已存在
+                throw new BadRequestHttpException('你已是'. $memberInfo->content . '了,请不要重复购买.');
+                exit();
+            }
+        }
+        if (!empty($member_id_str)) {
             //添加订单信息
             $order_info = new MemberOrder();
             $order_info->order_sn = $data['order_sn'];
@@ -96,8 +116,8 @@ class MemberController extends \yii\web\Controller
             //0 1支付宝 2 微信
             $order_info->pay_id = 1;
             $order_info->pay_name = '支付宝';
-            $order_info->goods_amount = $memberInfo->discount;
-            $order_info->order_amount = $memberInfo->discount;
+            $order_info->goods_amount = $order_amount;
+            $order_info->order_amount = $order_amount;
             $order_info->add_time = time();
             $order_info->end_time = time() + $memberInfo->time_period * 3600 * 24;
             $order_info->member_id = $memberInfo->id;
@@ -109,36 +129,36 @@ class MemberController extends \yii\web\Controller
                 'consignee' => Yii::$app->user->identity->username,
                 'email' => Yii::$app->user->identity->email,
                 'phone' => Yii::$app->user->identity->phone,
-                'member_id' => $memberInfo->id,
-                'order_name' => $memberInfo->name,
-                'goods_amount' => $memberInfo->discount,
+                'member_id' => $member_id_str,
+                'order_name' => $member_name,
+                'goods_amount' => $order_amount,
                 'add_time' => time(),
                 'end_time' => $memberInfo->time_period * 3600 * 24,
             ];
             
             //商户订单号，商户网站订单系统中唯一订单号，必填
             $out_trade_no = trim($data['order_sn']);
-    
+            
             //订单名称，必填
-            $subject = trim($memberInfo->name);
-    
+            $subject = trim($member_name);
+            
             //付款金额，必填
-            $total_amount = trim($memberInfo->discount);
-    
+            $total_amount = trim($order_amount);
+            
             //商品描述，可空
             $body = json_encode($orderInfo);
-    
+            
             //构造参数
             $payRequestBuilder = new \AlipayTradePagePayContentBuilder();
             $payRequestBuilder->setBody($body);
             $payRequestBuilder->setSubject($subject);
             $payRequestBuilder->setTotalAmount($total_amount);
             $payRequestBuilder->setOutTradeNo($out_trade_no);
-    
+            
             //获取配置信息
             $config = Yii::$app->params['alipay'];
             $aop = new \AlipayTradeService($config);
-    
+            
             /**
              * pagePay 电脑网站支付请求
              * @param $builder 业务参数，使用buildmodel中的对象生成。
@@ -147,12 +167,9 @@ class MemberController extends \yii\web\Controller
              * @return $response 支付宝返回的信息
              */
             $response = $aop->pagePay($payRequestBuilder,Url::to(['user/orders'], true),Url::to(['member/alinotify'], true));
-    
+            
             //输出表单
             var_dump($response);
-        } else {
-            //订单已存在
-            throw new BadRequestHttpException('你已是该会员了,请不要重复购买.');
         }
     
     }
@@ -201,6 +218,7 @@ class MemberController extends \yii\web\Controller
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     if ($order_info->pay_status == 0) {
+                        $order_info->pay_id = $trade_no;
                         $order_info->money_paid = $total_amount;
                         $order_info->pay_status = 2;
                         $order_info->pay_time = time();
@@ -221,6 +239,7 @@ class MemberController extends \yii\web\Controller
                 ->one();
                 
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
+                    $order_info->pay_id = $trade_no;
                     $order_info->money_paid = $total_amount;
                     $order_info->pay_status = 2;
                     $order_info->pay_time = time();
@@ -235,6 +254,7 @@ class MemberController extends \yii\web\Controller
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     //未支付，取消订单
+                    $order_info->pay_id = $trade_no;
                     $order_info->order_status = 2;
                     $order_info->pay_status = 0;
                     $order_info->invalid_time = time();
