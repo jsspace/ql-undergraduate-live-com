@@ -36,7 +36,7 @@ class OrderInfoController extends \yii\web\Controller
                 'only' => ['confirm_order', 'alipay', 'wxpay'],
                 'rules' => [
                     [
-                        'actions' => ['confirm_order', 'alipay'],
+                        'actions' => ['confirm_order', 'alipay', 'wxpay'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
