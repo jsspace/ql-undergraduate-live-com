@@ -12,10 +12,16 @@ use backend\models\OrderGoods;
 use backend\models\CoursePackage;
 use backend\models\Cart;
 use backend\models\Coin;
-
+use Da\QrCode\QrCode;
+use yii\base\InvalidValueException;
 
 require_once "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
 require_once "../../common/alipay/pagepay/service/AlipayTradeService.php";
+
+require_once "../../common/wxpay/lib/WxPay.Api.php";
+require_once "../../common/wxpay/example/WxPay.NativePay.php";
+require_once '../../common/wxpay/example/log.php';
+
 
 class OrderInfoController extends \yii\web\Controller
 {
@@ -27,10 +33,10 @@ class OrderInfoController extends \yii\web\Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['confirm_order', 'alipay'],
+                'only' => ['confirm_order', 'alipay', 'wxpay'],
                 'rules' => [
                     [
-                        'actions' => ['confirm_order', 'alipay'],
+                        'actions' => ['confirm_order', 'alipay', 'wxpay'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -49,7 +55,7 @@ class OrderInfoController extends \yii\web\Controller
     public function beforeAction($action)
     {
         $currentaction = $action->id;
-        $novalidactions = ['alinotify'];
+        $novalidactions = ['alinotify', 'wxnotify'];
         if(in_array($currentaction,$novalidactions)) {
             $action->controller->enableCsrfValidation = false;
         }
@@ -286,6 +292,8 @@ class OrderInfoController extends \yii\web\Controller
             $trade_status = $data['trade_status'];
             //支付金额
             $total_amount = $data['total_amount'];
+            //支付宝交易号
+            $trade_no = $data['trade_no'];
         
             if ($data['trade_status'] == 'TRADE_FINISHED') {
                 //判断该笔订单是否在商户网站中已经做过处理
@@ -300,6 +308,8 @@ class OrderInfoController extends \yii\web\Controller
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     if ($order_info->pay_status == 0) {
+                        $order_info->pay_id = $trade_no;
+                        $order_info->pay_name = '支付宝支付';
                         $order_info->money_paid = $total_amount;
                         $order_info->pay_status = 2;
                         $order_info->pay_time = time();
@@ -327,6 +337,8 @@ class OrderInfoController extends \yii\web\Controller
                 ->andWhere(['order_status' => 1])
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
+                    $order_info->pay_id = $trade_no;
+                    $order_info->pay_name = '支付宝支付';
                     $order_info->money_paid = $total_amount;
                     $order_info->pay_status = 2;
                     $order_info->pay_time = time();
@@ -348,6 +360,7 @@ class OrderInfoController extends \yii\web\Controller
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     //取消订单
+                    $order_info->pay_name = '支付宝支付';
                     $order_info->order_status = 2;
                     $order_info->pay_status = 0;
                     $order_info->invalid_time = time();
@@ -370,11 +383,193 @@ class OrderInfoController extends \yii\web\Controller
         
     }
     
-    public function actionWechatpay()
+    //模式二
+    /**
+     * 流程：
+     * 1、调用统一下单，取得code_url，生成二维码
+     * 2、用户扫描二维码，进行支付
+     * 3、支付完成之后，微信服务器会通知支付成功
+     * 4、在支付成功通知中需要查单确认是否真正支付成功（见：notify.php）
+     */
+    public function actionWxpay($order_sn)
     {
+        
+        $orderInfo = OrderInfo::find()
+        ->where(['order_sn' => $order_sn])
+        ->andWhere(['user_id' => Yii::$app->user->id])
+        ->andWhere(['pay_status' => 0])
+        ->one();
+        if (!empty($orderInfo)) {
+            $notify = new \NativePay();
+            $url1 = $notify->GetPrePayUrl($order_sn);
+            
+            $input = new \WxPayUnifiedOrder();
+            $input->SetBody(trim('课程购买订单：'.$orderInfo->order_sn));
+            $input->SetAttach($orderInfo->order_sn);
+            $input->SetOut_trade_no($orderInfo->order_sn);
+            $input->SetTotal_fee($orderInfo->order_amount * 100);
+            $input->SetTime_start(date("YmdHis"));
+            $input->SetTime_expire(date("YmdHis", time() + 600));
+//             $input->SetGoods_tag("test");
+            //获取配置信息
+            $config = Yii::$app->params['wxpay'];
+            $input->SetNotify_url($config['notify_url']);
+            $input->SetTrade_type("NATIVE");
+            $input->SetProduct_id($orderInfo->order_sn);
+            $result = $notify->GetPayUrl($input);
+//             print_r($result);die();
+            if ($result['return_code'] == 'SUCCESS') {
+                if ($result['result_code'] == 'SUCCESS') {
+                    $url2 = self::qrcode($result["code_url"], 'wxpay.png');
+                    return $this->render('wxpay', ['code_url' => $url2]);
+                } else {
+                    $return_msg = $result['err_code'] . ':' . $result['err_code_des'];
+                    error_log($return_msg);
+                    return $this->render('wxpay', ['return_msg' => $return_msg]);
+                }
+            } else {
+                $return_msg = $result['result_code'].':'.$result['return_msg'];
+                error_log($return_msg);
+                return $this->render('wxpay', ['return_msg' => $return_msg]);
+            }
+            
+        }
         
         
     }
     
+    public function actionWxnotify()
+    {
+        error_log('file:'.__FILE__.'  line:'.__LINE__);
+        //获取通知的数据
+        $xml = Yii::$app->request->getRawBody();
+        error_log('file:'.__FILE__.'  line:'.__LINE__.'   xml:'.$xml);
+        //如果返回成功则验证签名
+        //try {
+        $result = $this->fromXml($xml);
+        if($result['return_code'] == 'SUCCESS')
+        {
+            $sign = $this->sign($result);
+            if($sign == $result['sign'])
+            {
+                if ($result['result_code'] == 'SUCCESS') {
+                    //商户订单号
+                    $out_trade_no = $result['out_trade_no'];
+                    //微信支付订单号
+                    $transaction_id = $result['transaction_id'];
+                    //交易类型
+                    $trade_type = $result['trade_type'];
+                    //支付金额(单位：分)
+                    $total_fee = $result['total_fee'];
+                    //支付完成时间
+                    $time_end = $result['time_end'];
+                
+                
+                    $order_info = OrderInfo::find()
+                    ->where(['order_sn' => $out_trade_no])
+                    ->andWhere(['order_status' => 1])
+                    ->andWhere(['pay_status' => 0])
+                    ->one();
+                
+                    if (!empty($order_info)) {
+                        if (($order_info->order_amount*100) == $total_fee) {
+                            $order_info->pay_id = $transaction_id;
+                            $order_info->pay_name = '微信支付';
+                            $order_info->money_paid = $total_fee;
+                            $order_info->pay_status = 2;
+                            $order_info->pay_time = time();
+                            $order_info->save(false);
+                            //标记优惠券已使用
+                            Coupon::updateAll(
+                                ['isuse' => 2],
+                                [
+                                    'user_id' => $order_info->user_id,
+                                    'coupon_id' => explode(',', $order_info->coupon_ids),
+                                ]
+                                );
+                        }
+                    } else {
+                        //订单状态已更新，直接返回
+                        return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                    }
+                } else {
+                    $return_msg = $result['err_code'].':'.$result['err_code_des'];
+                    error_log($return_msg);
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+     }
+     private function toXml($values)
+     {
+         if(!is_array($values) || count($values) <= 0)
+         {
+             throw new InvalidValueException("数组数据异常！");
+         }
+         //var_dump($values);exit;
+         $xml = "<xml>";
+         foreach ($values as $key=>$val)
+         {
+             if (is_numeric($val)){
+                 $xml.="<".$key.">".$val."</".$key.">";
+             }else{
+                 $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
+     
+             }
+         }
+         $xml.="</xml>";
+         //echo $xml;exit;
+         return $xml;
+     }
+     
+     private function fromXml($xml)
+     {
+         if(!$xml){
+             throw new InvalidValueException("xml数据异常！");
+         }
+         try
+         {
+             $values = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+         }
+         catch(\Exception $e)
+         {
+             throw new InvalidValueException("xml数据异常！");
+         }
+         return $values;
+     }
+     
+     public function sign($values)
+     {
+         ksort($values);
+         $string = "";
+         foreach ($values as $k => $v)
+         {
+             if($k != "sign" && $v != "" && !is_array($v)){
+                 $string .= $k . "=" . $v . "&";
+             }
+         }
+     
+         $string = trim($string, "&");
+         $string = $string . "&key=".$this->key;
+         $string = md5($string);
+         return strtoupper($string);
+     }
+    
+    public static function qrcode($url, $name)
+    {
+        $qrCode = (new QrCode($url))
+        ->setSize(250)
+        ->setMargin(5)
+        ->useForegroundColor(51, 153, 255);
+        return $qrCode->writeDataUri();
+    }
 
 }
