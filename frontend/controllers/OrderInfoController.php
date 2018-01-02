@@ -124,7 +124,6 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->save(false);
             $goods_amount += $model->discount;
         }
-        
         $course_package_ids = explode(',', $data['course_package_ids']);
         //删除购物车中对应的条目
         Cart::deleteAll([
@@ -175,9 +174,9 @@ class OrderInfoController extends \yii\web\Controller
                 $coin->income = $order_amount;
                 $coin->balance = $my_wallet-$order_amount;
                 $coin->operation_detail = '购买课程花费'.$order_amount.'元';
+                $bonus = $order_amount;
                 $order_amount = 0;
                 $pay_status = 2;
-                $bonus = $order_amount;
             } else {
                 $order_amount = $order_amount-$my_wallet;
                 $coin->income = $my_wallet;
@@ -189,6 +188,9 @@ class OrderInfoController extends \yii\web\Controller
         }
         //添加订单信息
         $order_info = new OrderInfo();
+        if ($wallet_pay === 1) {
+            $order_info->pay_time = time();
+        }
         $order_info->order_sn = $order_sn;
         $order_info->user_id = Yii::$app->user->id;
         $order_info->order_status = 1;
