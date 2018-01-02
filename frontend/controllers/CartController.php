@@ -155,6 +155,11 @@ class CartController extends Controller
         ->where(['userid' => Yii::$app->user->id])
         ->orderBy('id desc')
         ->one();
+        if (!empty($coin)) {
+            $balance = $coin->balance;
+        } else {
+            $balance = 0;
+        }
         return $this->render('shopping', [
             'course_models' => $course_models,
             'order_sn' => $order_sn,
@@ -162,7 +167,7 @@ class CartController extends Controller
             'course_package_models' => $course_package_models,
             'course_package_ids' => $course_package_ids,
             'coupons' => $coupons,
-            'coin_balance' => $coin->balance
+            'coin_balance' => $balance
         ]);
     }
     
