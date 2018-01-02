@@ -44,10 +44,30 @@ $this->title = '购买vip会员';
     </div>
 </div>
 <script>
-$('.vip-list li').on('click', function(){
-	$('.vip-list li').removeClass('active');
-	$(this).addClass('active');
-	$('#member_form input[name="member_id"]').val($(this).attr('data-id'));
+var memberId = '';
+$('.vip-section').each(function () {
+    var $parentEle = $(this).find('.vip-list');
+    $parentEle.find('li').on('click', function () {
+        $(this).addClass('active').siblings('li').removeClass('active');
+    });
 });
+$('button[name="submit-button"]').on('click', function (e) {
+    e.preventDefault();
+    $('.vip-list li').each(function () {
+        if ($(this).hasClass('active')) {
+            if (!memberId) {
+                memberId = memberId + $(this).attr('data-id');
+            } else {
+                memberId = memberId + ',' + $(this).attr('data-id');
+            }
+        }
+    });
+    if (!memberId) {
+        alert('请选择所需开通的会员');
+        return false;
+    }
+    $('#member_form input[name="member_id"]').val(memberId);
+    $('#member_form').submit();
+})
 </script>
 
