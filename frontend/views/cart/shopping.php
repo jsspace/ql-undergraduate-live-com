@@ -92,7 +92,7 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                     <ul class="tab-con">
                         <li>
                             <div class="payment-method">
-                                <input class="select-wallet" type="checkbox" name="payment-card"/>
+                                <input class="select-wallet" type="checkbox" name="payment-card" <?php if($coin_balance == 0) echo "disabled"; ?>/>
                                 <span>使用钱包支付</span>
                                 <span class="payment-desc"> 账户当前钱包余额：<strong class="card-font"><?= $coin_balance ?></strong>元。</span>
                             </div>
