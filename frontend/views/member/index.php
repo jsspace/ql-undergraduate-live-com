@@ -24,7 +24,7 @@ $this->title = '购买vip会员';
                 $str .= '<li data-id="' . $member->id . '">';
                 $str .= '<em class="vip_tip-native">';
                 $str .= '<i class="vip_tip-left"></i><i class="vip_tip-right"></i>';
-                $str .= '<i class="vip_tip-center">' . $item['course_category'] . '</i>';
+                $str .= '<i class="vip_tip-center">' . $member->name . '</i>';
                 $str .= '</em>';
                 $str .= '<div class="vip-price">￥' . $member->discount . '</div>';
                 $str .= '<div class="vip-date"><span>' . $member->time_period .'天</span></div>';
