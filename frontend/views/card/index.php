@@ -94,7 +94,12 @@ $this->title = '钱包充值';
                     },
                     success: function (data) {
                         if (data.status == 'success') {
-                            layer.alert(data.message, {icon: 1});
+                            layer.alert(data.message, {
+                                icon: 1,
+                                yes: function() {
+                                    window.location.href = '/user/coin';
+                                }
+                            });
                         } else {
                             layer.alert(data.message, {icon: 5});
                         }

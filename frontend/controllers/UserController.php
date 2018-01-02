@@ -42,7 +42,7 @@ class UserController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'edit' => ['POST'],
+                    'edit' => ['POST', 'GET'],
                 ],
             ],
         ];

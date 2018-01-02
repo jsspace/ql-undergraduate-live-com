@@ -30,7 +30,12 @@ class CardController extends Controller
         ->where(['userid' => Yii::$app->user->id])
         ->orderBy('id desc')
         ->one();
-        return $this->render('index', ['coin_balance' => $coin->balance]);
+        if (!empty($coin)) {
+            $balance = $coin->balance;
+        } else {
+            $balance = 0;
+        }
+        return $this->render('index', ['coin_balance' => $balance]);
     }
     /*充值*/
     public function actionRecharge()
@@ -59,9 +64,14 @@ class CardController extends Controller
         ->where(['userid' => Yii::$app->user->id])
         ->orderBy('id desc')
         ->one();
+        if (!empty($coin)) {
+            $balance = $coin->balance;
+        } else {
+            $balance = 0;
+        }
         $coin_model->userid = Yii::$app->user->id;
         $coin_model->income = $card_model->money;
-        $coin_model->balance = $card_model->money+$coin->balance;
+        $coin_model->balance = $card_model->money+$balance;
         $coin_model->operation_detail = '学习卡充值'.$card_model->money.'元';
         $coin_model->operation_time = time();
         $coin_model->card_id = $card_model->card_id;
