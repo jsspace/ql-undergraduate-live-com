@@ -204,7 +204,7 @@ class Course extends \yii\db\ActiveRecord
     {
         $orders = OrderInfo::find()
         ->where(['user_id' => Yii::$app->user->id])
-        ->andWhere(['pay_status' => 1])
+        ->andWhere(['pay_status' => 2])
         ->all();
         $course_ids = '';
         $ispay = 0;
@@ -222,16 +222,5 @@ class Course extends \yii\db\ActiveRecord
             $ispay = 0;
         }
         return $ispay;
-    }
-    public static function getCourse($ids)
-    {
-        $idarr = explode(',', $ids);
-        $courses = self::find()
-        ->where(['id' => $idarr])
-        ->all();
-        foreach ($courses as $key => $course) {
-            
-        }
-        return $courses;
     }
 }
