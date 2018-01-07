@@ -124,6 +124,7 @@ class UserController extends Controller
         $orderids = OrderInfo::find()
         ->select('course_ids')
         ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['pay_status' => 2])
         ->asArray()
         ->all();
         $goodsids = '';
