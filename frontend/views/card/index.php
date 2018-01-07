@@ -42,7 +42,7 @@ $this->title = '钱包充值';
                     <span class="empty-tip pwd-empty">请输入8位学习卡密码</span>
                 </span>
                 <a href="javascript:void(0)" class="submit-btn <?php if (Yii::$app->user->isGuest) { ?> disabled-submit <?php } ?>">提交充值</a>
-                <a href="" class="card-link">如何使用钱包购买课程？</a>
+                <a href="/card/howto" class="card-link">如何使用钱包购买课程？</a>
             </p>
         </div>
     </div>
