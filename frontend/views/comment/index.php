@@ -42,7 +42,7 @@ $this->title = '学习感言';
                 <?php foreach ($comments as $key => $comment) { ?>
                     <li>
                         <p class="user-img">
-                            <img src="<?= User::getUserModel($comment->user_id)->picture; ?>"/>
+                            <img src="/<?= User::getUserModel($comment->user_id)->picture; ?>"/>
                         </p>
                         <div class="study-content">
                             <!-- <span class="study-title">平面设计课程讲解透彻</span> -->
@@ -54,14 +54,14 @@ $this->title = '学习感言';
                     </li>
                 <?php } ?>
             </ul>
-            <?php 
-                echo LinkPager::widget([
-                    'pagination' => $pages,
-                    'firstPageLabel'=>"首页",
-                    'lastPageLabel'=>'尾页',
-                ]);
-            ?>
         </div>
+        <?php 
+            echo LinkPager::widget([
+                'pagination' => $pages,
+                'firstPageLabel'=>'首页',
+                'lastPageLabel'=>'尾页',
+            ]);
+        ?>
     </div>
 </div>
 <script type="text/javascript">

@@ -32,7 +32,7 @@ class CommentController extends Controller
         ->orderBy('create_time desc');
         $pages = new Pagination(['totalCount' => $comments->count()]);
         $models = $comments->offset($pages->offset)
-        ->limit(2)
+        //->limit(2)
         ->all();
         return $this->render('index', ['comments' => $models, 'pages' => $pages]);
     }

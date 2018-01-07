@@ -81,7 +81,7 @@ class TeacherController extends Controller
                     mkdir($rootPath, 0777, true);
                 }
                 $image_picture->saveAs($rootPath . $image_picture);
-                $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'teacher/' . $image_picture;
+                $model->picture = Yii::$app->params['upload_img_dir'] . 'teacher/' . $image_picture;
             }
             if ($model->save(false)) {
                 $role = new AuthAssignment();
