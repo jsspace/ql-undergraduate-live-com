@@ -232,7 +232,7 @@ $userid = Yii::$app->user->id;
             </div>
             <div class="kc-right">
                 <div class="teacher-show">
-                    <div class="teacher-img"><img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/></div>
+                    <div class="teacher-img"><img src="/<?= User::getUserModel($course->teacher_id)->picture; ?>"/></div>
                     <div class="teacher-detail">
                         <span class="name">教师： <?= User::item($course->teacher_id); ?></span>
                         <a href="<?= Url::to(['teacher/detail', 'userid' => $course->teacher_id]) ?>" class="view-btn">查看教师</a>

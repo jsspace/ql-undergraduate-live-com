@@ -62,7 +62,7 @@ $this->title = '直属学院';
                         <?php foreach ($collegeArr["college_teacher"] as $key => $teacher) { ?>
                             <div class="teacher-con">
                                 <a href="<?= Url::to(['teacher/detail', 'userid' => $teacher->id]) ?>" target="_blank">
-                                    <img class="people-img" src="<?= $teacher->picture; ?>"/>
+                                    <img class="people-img" src="/<?= $teacher->picture; ?>"/>
                                     <p class="intro">
                                         <span class="name"><?= $teacher->username; ?></span>
                                         <span class="work"><?= $teacher->description; ?></span>
