@@ -64,10 +64,14 @@ var memberId = '';
 $('.vip-section').each(function () {
     var $parentEle = $(this).find('.vip-list');
     $parentEle.find('li').on('click', function () {
-        if ($(this).hasClass('active')) {
-            $(this).removeClass('active');
+        if ($(this).hasClass('havabuy')) {
+            alert('您已经购买过此会员！')
         } else {
-            $(this).addClass('active').siblings('li').removeClass('active');
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                $(this).addClass('active').siblings('li').removeClass('active');
+            }
         }
     });
 });
