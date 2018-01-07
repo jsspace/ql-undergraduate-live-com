@@ -499,6 +499,24 @@ class SiteController extends Controller
     public function actionLogincode()
     {
         $phone = Yii::$app->request->Post('phone');
+        if (empty($phone)) {
+            $res = [
+                'status' => 'error',
+                'message' => '参数缺失。',
+            ];
+            return json_encode($res);
+        }
+        $phone_exist = User::find()
+        ->where(['phone' => $phone])
+        ->andWhere(['status' => 10])
+        ->one();
+        if (!empty($phone)) {
+            $res = [
+                'status' => 'error',
+                'message' => '这个手机号已经注册了，请使用另外一个手机号。',
+            ];
+            return json_encode($res);
+        }
         //检查session是否打开
         if(!Yii::$app->session->isActive){
             Yii::$app->session->open();
@@ -511,8 +529,6 @@ class SiteController extends Controller
             ];
             return json_encode($res);
         } else {
-//         print_r($session['login_sms_code']); echo time();
-//         die();
         $code = rand(100000,999999);
         $time = date('Y m d H:i:s', time());
         $response = SmsController::sendSms(

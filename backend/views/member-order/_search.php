@@ -45,15 +45,11 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'add_time') ?>
 
-    <?php // echo $form->field($model, 'end_time') ?>
-
     <?php // echo $form->field($model, 'pay_time') ?>
 
     <?php // echo $form->field($model, 'discount') ?>
 
     <?php // echo $form->field($model, 'invalid_time') ?>
-
-    <?php // echo $form->field($model, 'member_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

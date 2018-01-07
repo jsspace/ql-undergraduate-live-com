@@ -27,7 +27,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'order_sn',
             'consignee',
 //             'user_id',
-//             'order_status',
+            [
+                'attribute' => 'order_status',
+                'value' => function ($model) {
+                $status = '';
+                if ($model->order_status ==  0) {
+                    $status = '未确认';
+                } elseif ($model->order_status ==  1) {
+                    $status = '已确认';
+                } elseif ($model->order_status ==  2) {
+                    $status = '已取消';
+                } elseif ($model->order_status ==  3) {
+                    $status = '无效';
+                } elseif ($model->order_status ==  4) {
+                    $status = '退货';
+                }
+                return $status;
+            }
+            ],
             [
                 'attribute' => 'pay_status',
                 'value' => function ($model) {

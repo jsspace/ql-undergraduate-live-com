@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'pay_id')->textInput() ?>
+    <?= $form->field($model, 'pay_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'pay_name')->textInput(['maxlength' => true]) ?>
 
@@ -40,15 +40,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'add_time')->textInput() ?>
 
-    <?= $form->field($model, 'end_time')->textInput() ?>
-
     <?= $form->field($model, 'pay_time')->textInput() ?>
 
     <?= $form->field($model, 'discount')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'invalid_time')->textInput() ?>
-
-    <?= $form->field($model, 'member_id')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

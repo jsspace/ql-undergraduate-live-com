@@ -66,16 +66,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'mobile',
             // 'email:email',
             // 'pay_name',
-            // 'goods_amount',
+            'goods_amount',
             // 'pay_fee',
             // 'money_paid',
             // 'order_amount',
-            // 'add_time:datetime',
-            // 'end_time:datetime',
+            'add_time:datetime',
             // 'pay_time:datetime',
             // 'discount',
             // 'invalid_time:datetime',
-            // 'member_id',
 
            [
                 'class' => 'yii\grid\ActionColumn',
