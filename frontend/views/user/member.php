@@ -23,19 +23,17 @@ $this->title = '个人中心';
         <p class="user-right-title">我的会员</p>
         <div class="coupon-wrapper member-wrapper">
             <ul class="coupon-title-line">
-                <li class="coupon-name">会员ID</li>
                 <li class="coupon-money">会员名称</li>
-                <li class="coupon-money">会员详情</li>
+                <li class="coupon-money">会员价格</li>
                 <li class="coupon-daterange">有效期</li>
             </ul>
             <ul class="coupon-content-line _coupon-list">
                 <?php foreach ($member_models as $member) { 
                 ?>
                 <li>
-                    <p class="coupon-name"><?= $member['member_id'] ?></p>
-                    <p class="coupon-money"><?= $member['name'] ?></p>
-                    <p class="coupon-status"><?= $member['content'] ?></p>
-                    <p class="coupon-daterange"><?= date('Y-m-d', $member['add_time']) ?>至<?= date('Y-m-d', $member['end_time']) ?></p>
+                    <p class="coupon-name"><?= $member->member_name ?></p>
+                    <p class="coupon-money"><?= $member->discount ?></p>
+                    <p class="coupon-daterange"><?= date('Y-m-d', $member->add_time) ?>至<?= date('Y-m-d', $member->end_time) ?></p>
                 </li>
                 <?php } ?>
             </ul>
