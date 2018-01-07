@@ -57,7 +57,11 @@ var memberId = '';
 $('.vip-section').each(function () {
     var $parentEle = $(this).find('.vip-list');
     $parentEle.find('li').on('click', function () {
-        $(this).addClass('active').siblings('li').removeClass('active');
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+        } else {
+            $(this).addClass('active').siblings('li').removeClass('active');
+        }
     });
 });
 $('button[name="submit-button"]').on('click', function (e) {
