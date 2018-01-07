@@ -65,3 +65,26 @@ $this->title = '学习感言';
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $('.study-btn').on('click', function() {
+        var content = $('.study-input').val();
+        $.ajax({
+            url: '/comment/add',
+            type: 'post',
+            dataType:"json",
+            data: {
+                'content': content,
+                '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+            },
+            success: function(data) {
+                if (data.status == "success") {
+                    layer.msg(data.message, {icon: 1});
+                    window.location.reload();
+                }
+                if (data.code == 2) {
+                    location.href = '/site/login';
+                }
+            }
+        });
+    });
+</script>

@@ -90,4 +90,8 @@ class CardController extends Controller
         $result['message'] = '金币充值失败';
         return json_encode($result);
     }
+    public function actionHowto()
+    {
+        return $this->render('howto');
+    }
 }

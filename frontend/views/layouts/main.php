@@ -68,6 +68,9 @@ AppAsset::register($this);
                     <a href="/member/index">办理入学</a>
                 </li>
                 <li>
+                    <a href="/card/index">学习卡充值</a>
+                </li>
+                <li>
                     <a href="/comment/index">学习感言</a>
                 </li>
                 <li>
