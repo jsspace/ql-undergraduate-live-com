@@ -8,6 +8,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\assets\AppAsset;
+use backend\models\User;
+use yii\widgets\LinkPager;
 
 AppAsset::addCss($this,'@web/css/comment.css');
 
@@ -37,31 +39,28 @@ $this->title = '学习感言';
         <div class="study-user-list">
             <p class="title">学员感言</p>
             <ul class="list-ul">
-                <li>
-                    <p class="user-img">
-                        <img src="/img/user.jpg"/>
-                    </p>
-                    <div class="study-content">
-                        <span class="study-title">平面设计课程讲解透彻</span>
-                        <span class="study-con">这门课程从整体结构来说比较简单易懂，每个知识点都概括的非常好，老师最后还会带领大家一块儿复习，并根据实际项目工作经历进行有效理解。</span>
-                        <p class="study-user">
-                            <span>小蚯蚓</span>&nbsp;&nbsp;&nbsp;发表于2018.01.01
+                <?php foreach ($comments as $key => $comment) { ?>
+                    <li>
+                        <p class="user-img">
+                            <img src="<?= User::getUserModel($comment->user_id)->picture; ?>"/>
                         </p>
-                    </div>
-                </li>
-                <li>
-                    <p class="user-img">
-                        <img src="/img/user.jpg"/>
-                    </p>
-                    <div class="study-content">
-                        <span class="study-title">平面设计课程讲解透彻</span>
-                        <span class="study-con">这门课程从整体结构来说比较简单易懂，每个知识点都概括的非常好，老师最后还会带领大家一块儿复习，并根据实际项目工作经历进行有效理解。</span>
-                        <p class="study-user">
-                            <span>小蚯蚓</span>&nbsp;&nbsp;&nbsp;发表于2018.01.01
-                        </p>
-                    </div>
-                </li>
+                        <div class="study-content">
+                            <!-- <span class="study-title">平面设计课程讲解透彻</span> -->
+                            <span class="study-con"><?= $comment->content ?></span>
+                            <p class="study-user">
+                                <span><?= User::item($comment->user_id); ?></span>&nbsp;&nbsp;&nbsp;发表于<?= date('Y-m-d H:s:m', $comment->create_time); ?>
+                            </p>
+                        </div>
+                    </li>
+                <?php } ?>
             </ul>
+            <?php 
+                echo LinkPager::widget([
+                    'pagination' => $pages,
+                    'firstPageLabel'=>"首页",
+                    'lastPageLabel'=>'尾页',
+                ]);
+            ?>
         </div>
     </div>
 </div>
@@ -77,12 +76,9 @@ $this->title = '学习感言';
                 '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
             },
             success: function(data) {
-                if (data.status == "success") {
-                    layer.msg(data.message, {icon: 1});
+                alert(data.message);
+                if (data.status === '1') {
                     window.location.reload();
-                }
-                if (data.code == 2) {
-                    location.href = '/site/login';
                 }
             }
         });
