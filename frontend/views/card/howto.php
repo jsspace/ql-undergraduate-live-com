@@ -32,7 +32,7 @@ $this->title = '如何使用钱包购买课程';
             <p class="howto-con">
                 <span>(1) 首先你要有一张学习充值卡。</span>
                 <span>(2) 登录官网，没有账号的童鞋请先注册。</span>
-                <span>(3) 打开帅币充值页面：<a href="/card">http://www.ql.com/card</a>。</span>
+                <span>(3) 打开钱包充值页面：<a href="/card">http://www.kaoben.top/card</a>。</span>
                 <span>(4) 在输入框内输入16位学习卡密码并提交充值。</span>
                 <img src="/img/card01.png"/>
                 <img src="/img/card02.png"/>
@@ -41,8 +41,11 @@ $this->title = '如何使用钱包购买课程';
             <p class="howto-title"><i class="icon ion-ios-navigate-outline"></i>3. 如何使用钱包来购买课程呢?</p>
             <p class="howto-con">
                 <span>(1) 进入你要购买的课程的页面，点击购买</span>
+                <img src="/img/card03.png"/>
                 <span>(2) 提交订单后，选择我的钱包支付方式，选择立即支付即可完成</span>
-                <span>ps.如若钱包余额不足是购买不了课程的，这时候童鞋们请先进行充值</span>
+                <img src="/img/card04.png"/>
+                <img src="/img/card05.png"/>
+                <span style="color: rgb(227,108,9); font-size: 15px;">注意：如若钱包余额不足是购买不了课程的，这时候同学们请前往<a href="/card" style="color: rgb(227,108,9)">  http://www.kaoben.top/card  </a>先进行充值</span>
             </p>
         </div>
     </div>

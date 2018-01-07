@@ -86,8 +86,8 @@ $('button[name="submit-button"]').on('click', function (e) {
         alert('请选择所需开通的会员');
         return false;
     }
-    $('#member_form input[name="member_id"]').val(memberId);
-    $('#member_form').submit();
+    $(this).parents('form').find('input[name="member_id"]').val(memberId);
+    $(this).parents('form').submit();
 })
 </script>
 

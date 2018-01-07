@@ -198,4 +198,5 @@
 .howto-con img {
     display: block;
     margin: 10px 0;
+    max-width: 850px;
 }
