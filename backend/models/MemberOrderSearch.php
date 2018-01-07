@@ -18,8 +18,8 @@ class MemberOrderSearch extends MemberOrder
     public function rules()
     {
         return [
-            [['order_id', 'user_id', 'order_status', 'pay_status', 'pay_id', 'add_time', 'end_time', 'pay_time', 'invalid_time'], 'integer'],
-            [['order_sn', 'consignee', 'mobile', 'email', 'pay_name', 'member_id'], 'safe'],
+            [['order_id', 'user_id', 'order_status', 'pay_status', 'add_time', 'pay_time', 'invalid_time'], 'integer'],
+            [['order_sn', 'consignee', 'mobile', 'email', 'pay_id', 'pay_name'], 'safe'],
             [['goods_amount', 'pay_fee', 'money_paid', 'order_amount', 'discount'], 'number'],
         ];
     }
@@ -64,13 +64,11 @@ class MemberOrderSearch extends MemberOrder
             'user_id' => $this->user_id,
             'order_status' => $this->order_status,
             'pay_status' => $this->pay_status,
-            'pay_id' => $this->pay_id,
             'goods_amount' => $this->goods_amount,
             'pay_fee' => $this->pay_fee,
             'money_paid' => $this->money_paid,
             'order_amount' => $this->order_amount,
             'add_time' => $this->add_time,
-            'end_time' => $this->end_time,
             'pay_time' => $this->pay_time,
             'discount' => $this->discount,
             'invalid_time' => $this->invalid_time,
@@ -80,9 +78,9 @@ class MemberOrderSearch extends MemberOrder
             ->andFilterWhere(['like', 'consignee', $this->consignee])
             ->andFilterWhere(['like', 'mobile', $this->mobile])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'pay_name', $this->pay_name])
-            ->andFilterWhere(['like', 'member_id', $this->member_id]);
-
+            ->andFilterWhere(['like', 'pay_id', $this->pay_id])
+            ->andFilterWhere(['like', 'pay_name', $this->pay_name]);
+        $query->orderBy('order_id desc');
         return $dataProvider;
     }
 }

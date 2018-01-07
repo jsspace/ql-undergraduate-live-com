@@ -46,11 +46,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'money_paid',
             'order_amount',
             'add_time:datetime',
-            'end_time:datetime',
             'pay_time:datetime',
             'discount',
             'invalid_time:datetime',
-            'member_id',
         ],
     ]) ?>
 

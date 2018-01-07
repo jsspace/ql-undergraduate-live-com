@@ -18,6 +18,7 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
+use backend\models\MemberGoods;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -224,14 +225,11 @@ class UserController extends Controller
     }
     public function actionMember()
     {
-        $sql = 'select {{%member_order}}.member_id, {{%member_order}}.add_time, {{%member_order}}.end_time, {{%member}}.name, {{%member}}.content';
-        $sql .= ' from {{%member_order}} inner join {{%member}} on {{%member_order}}.user_id = ' . Yii::$app->user->id;
-        $sql .= ' and {{%member_order}}.order_status = 1 and {{%member_order}}.pay_status = 2';
-        $sql .= ' and {{%member_order}}.end_time > ' . time();
-        $sql .= ' and {{%member_order}}.member_id = {{%member}}.id ';
-        $member_models = Yii::$app->db->createCommand($sql)
-        ->queryAll();
-        
+        $member_models = MemberGoods::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['pay_status' => 2])
+        ->andWhere(['>', 'end_time', time()])
+        ->all();
         return $this->render('member', [
             'member_models' => $member_models,
         ]);

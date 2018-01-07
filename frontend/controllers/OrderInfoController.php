@@ -525,22 +525,21 @@ class OrderInfoController extends \yii\web\Controller
                 && $result["return_code"] == "SUCCESS"
                 && $result["result_code"] == "SUCCESS")
             {
+                //商户订单号
+                $out_trade_no = $result['out_trade_no'];
+                $order_info = OrderInfo::find()
+                ->where(['order_sn' => $out_trade_no])
+                ->andWhere(['order_status' => 1])
+                ->andWhere(['pay_status' => 0])
+                ->one();
                 if ($result['trade_state'] == "SUCCESS") {
-                    //商户订单号
-                    $out_trade_no = $result['out_trade_no'];
+                    
                     //微信支付订单号
                     $transaction_id = $result['transaction_id'];
                     //支付金额(单位：分)
                     $total_fee = $result['total_fee']/100.00;
                     //支付完成时间
                     $time_end = $result['time_end'];
-                    
-                    
-                    $order_info = OrderInfo::find()
-                    ->where(['order_sn' => $out_trade_no])
-                    ->andWhere(['order_status' => 1])
-                    ->andWhere(['pay_status' => 0])
-                    ->one();
                     
                     if (!empty($order_info)) {
                         if ($order_info->order_amount == $total_fee) {
