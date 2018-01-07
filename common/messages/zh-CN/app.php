@@ -83,5 +83,7 @@ return [
     'Marketers' => '市场专员列表',
     'Cards' => '充值卡列表',
     'Comments' => '学习感言',
-    'Create Comment' => '创建学习感言'
+    'Create Comment' => '创建学习感言',
+    'Commands' => '课程需求',
+    'Create Command' => '创建课程需求'
 ];

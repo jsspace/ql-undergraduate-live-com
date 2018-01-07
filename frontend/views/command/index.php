@@ -8,6 +8,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\assets\AppAsset;
+use backend\models\User;
+use yii\widgets\LinkPager;
 
 AppAsset::addCss($this,'@web/css/comment.css');
 
@@ -38,32 +40,48 @@ $this->title = '课程需求';
         <div class="study-user-list">
             <p class="title">课程需求</p>
             <ul class="list-ul">
-                <li>
-                    <p class="user-img">
-                        <img src="/img/user.jpg"/>
-                    </p>
-                    <div class="study-content">
-                        <span class="study-title">平面设计课程讲解透彻</span>
-                        <span class="study-con">这门课程从整体结构来说比较简单易懂，每个知识点都概括的非常好，老师最后还会带领大家一块儿复习，并根据实际项目工作经历进行有效理解。</span>
-                        <p class="study-user">
-                            <span>小蚯蚓</span>&nbsp;&nbsp;&nbsp;发表于2018.01.01
+                <?php foreach ($commands as $key => $command) { ?>
+                    <li>
+                        <p class="user-img">
+                            <img src="/<?= User::getUserModel($command->user_id)->picture; ?>"/>
                         </p>
-                    </div>
-                </li>
-                <li>
-                    <p class="user-img">
-                        <img src="/img/user.jpg"/>
-                    </p>
-                    <div class="study-content">
-                        <span class="study-title">平面设计课程讲解透彻</span>
-                        <span class="study-con">这门课程从整体结构来说比较简单易懂，每个知识点都概括的非常好，老师最后还会带领大家一块儿复习，并根据实际项目工作经历进行有效理解。</span>
-                        <p class="study-user">
-                            <span>小蚯蚓</span>&nbsp;&nbsp;&nbsp;发表于2018.01.01
-                        </p>
-                    </div>
-                </li>
+                        <div class="study-content">
+                            <!-- <span class="study-title">平面设计课程讲解透彻</span> -->
+                            <span class="study-con"><?= $command->content ?></span>
+                            <p class="study-user">
+                                <span><?= User::item($command->user_id); ?></span>&nbsp;&nbsp;&nbsp;发表于<?= date('Y-m-d H:s:m', $command->create_time); ?>
+                            </p>
+                        </div>
+                    </li>
+                <?php } ?>
             </ul>
+            <?php 
+                echo LinkPager::widget([
+                    'pagination' => $pages,
+                    'firstPageLabel'=>'首页',
+                    'lastPageLabel'=>'尾页',
+                ]);
+            ?>
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+    $('.study-btn').on('click', function() {
+        var content = $('.study-input').val();
+        $.ajax({
+            url: '/command/add',
+            type: 'post',
+            dataType:"json",
+            data: {
+                'content': content,
+                '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+            },
+            success: function(data) {
+                alert(data.message);
+                if (data.status === '1') {
+                    window.location.reload();
+                }
+            }
+        });
+    });
+</script>
