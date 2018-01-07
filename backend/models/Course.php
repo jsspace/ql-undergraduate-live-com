@@ -160,20 +160,13 @@ class Course extends \yii\db\ActiveRecord
     public static function ismember($course_id)
     {
         $current_time = time();
-        $member_orders = MemberOrder::find()
+        $member_orders = MemberGoods::find()
         ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['pay_status' => 2])
         ->andWhere(['>', 'end_time', $current_time])
         ->all();
-        $member_ids = '';
-        foreach ($member_orders as $key => $member_order) {
-            $member_ids .= $member_order->member_id.',';
-        }
-        $member_ids_arr = explode(',', $member_ids);
-        $members = Member::find()
-        ->where(['id' => $member_ids_arr])
-        ->all();
         $category_ids = '';
-        foreach ($members as $key => $member) {
+        foreach ($member_orders as $member) {
             $category_ids .= $member->course_category_id.',';
         }
         $category_ids_arr = explode(',', $category_ids);//当前用户所有会员订单对应的课程分类ids数组
