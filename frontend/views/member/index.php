@@ -30,7 +30,11 @@ $this->title = '购买vip会员';
             $str .= '<div class="vip-section"><p class="vip-title">' . $item['course_category'] . '</p>';
             $str .= '<ul class="vip-list">';
             foreach($item['members'] as $member) {
-                $str .= '<li data-id="' . $member->id . '">';
+                $is_buy_class = 'nobuy';
+                if (in_array($member->id, $buy_member_orders)) {
+                    $is_buy_class = 'havebuy';
+                }
+                $str .= '<li data-id="' . $member->id . '" class="' . $is_buy_class . '">';
                 $str .= '<em class="vip_tip-native">';
                 $str .= '<i class="vip_tip-left"></i><i class="vip_tip-right"></i>';
                 $str .= '<i class="vip_tip-center">' . $member->name . '</i>';
@@ -64,10 +68,14 @@ var memberId = '';
 $('.vip-section').each(function () {
     var $parentEle = $(this).find('.vip-list');
     $parentEle.find('li').on('click', function () {
-        if ($(this).hasClass('active')) {
-            $(this).removeClass('active');
+        if ($(this).hasClass('havabuy')) {
+            alert('您已经购买过此会员！')
         } else {
-            $(this).addClass('active').siblings('li').removeClass('active');
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                $(this).addClass('active').siblings('li').removeClass('active');
+            }
         }
     });
 });
