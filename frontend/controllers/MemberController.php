@@ -67,12 +67,22 @@ class MemberController extends \yii\web\Controller
         $member_models = Member::find()
         ->orderBy('course_category_id asc,position asc')
         ->all();
+        //已购买过的会员
+        $member_orders_model = MemberGoods::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['pay_status' => 2])
+        ->andWhere(['>', 'end_time', time()])
+        ->all();
+        $buy_member_orders = [];
+        foreach ($member_orders_model as $member_order_model) {
+            $buy_member_orders[] = $member_order_model->member_id;
+        }
         foreach ($member_models as $item) {
             $member_items[$item->course_category_id]['course_category'] = $item->content;
             $member_items[$item->course_category_id]['members'][] = $item;
         }
         $order_sn = CartController::createOrderid();
-        return $this->render('index', ['member_items' => $member_items, 'order_sn' => $order_sn]);
+        return $this->render('index', ['member_items' => $member_items, 'buy_member_orders' => $buy_member_orders, 'order_sn' => $order_sn]);
     }
     
     public function actionAlipay()
