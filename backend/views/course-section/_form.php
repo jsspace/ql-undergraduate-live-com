@@ -17,7 +17,7 @@ AppAsset::addCss($this,'@web/css/chapter_section.css');
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'type')->dropDownList(['1'=>'网课', '0'=>'直播课']) ?>
+    <?= $form->field($model, 'type')->dropDownList(['1'=>'网课', '0'=>'直播课', '2'=>'直播答疑']) ?>
 
     <?= $form->field($model, 'paid_free')->dropDownList(['1'=>'付费', '0'=>'免费']) ?>
 

@@ -106,7 +106,7 @@ class SiteController extends Controller
         $chapter_list = CourseChapter::find()
         ->select('id, course_id')
         ->all();
-        $sql = 'select * from {{%course_section}} where to_days(start_time) = to_days(now()) and type = 0 ORDER BY start_time ASC';
+        $sql = 'select * from {{%course_section}} where to_days(start_time) = to_days(now()) and type!=1 ORDER BY start_time ASC';
         $section_list = Yii::$app->db->createCommand($sql)
         ->queryAll();
         $live_ing = array();
@@ -121,13 +121,13 @@ class SiteController extends Controller
                             $start_simple = date('H:i', strtotime($section['start_time']));
                             $current_time = date('Y-m-d H:i:s');
                             if ($current_time < $section['start_time']) {
-                                $live_will[$section['id']]['course_name'] = $course->course_name;
+                                $live_will[$section['id']]['course_name'] = $course->course_name.'：'.$section['name'];
                                 $live_will[$section['id']]['live_url'] = $section['video_url'];
                                 $live_will[$section['id']]['start_time'] = $start_simple;
                                 $live_will[$section['id']]['end_time'] = $end_simple;
                                 $live_will[$section['id']]['course_id'] = $course->id;
                             } else if ($current_time >= $section['start_time'] && $current_time < $end_time) {
-                                $live_ing[$section['id']]['course_name'] = $course->course_name;
+                                $live_ing[$section['id']]['course_name'] = $course->course_name.'：'.$section['name'];
                                 $live_ing[$section['id']]['live_url'] = $section['video_url'];
                                 $live_ing[$section['id']]['start_time'] = $start_simple;
                                 $live_ing[$section['id']]['end_time'] = $end_simple;

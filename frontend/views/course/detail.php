@@ -131,12 +131,14 @@ $userid = Yii::$app->user->id;
                                                     } else if ($current_time > $end_time) {
                                                         $text = '直播回放';
                                                     }
-                                                } else {
+                                                } else if ($section->type == 1) {
                                                     $text = '点播课程';
+                                                } else {
+                                                    $text = '直播答疑';
                                                 }
                                             ?>
                                             <?php 
-                                                if ($section->type == 0) { ?>
+                                                if ($section->type == 0 || $section->type == 2) { ?>
                                                     <a target="_blank" href="<?= $video_url ?>" class="chapter-list-name"><?= $section->name ?></a>
                                             <?php } else { ?>
                                                     <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
@@ -165,7 +167,7 @@ $userid = Yii::$app->user->id;
                             <?php foreach ($course_comments as $course_comment) { ?>
                                 <li>
                                     <div class="user-info">
-                                        <p class="user-img"><img src="<?= User::getUserModel($course_comment->user_id)->picture; ?>"/></p>
+                                        <p class="user-img"><img src="/<?= User::getUserModel($course_comment->user_id)->picture; ?>"/></p>
                                         <p class="user-name"><?= User::item($course->teacher_id); ?></p>
                                     </div>
                                     <div class="user-evaluate">
