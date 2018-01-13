@@ -57,21 +57,21 @@ class CoursePackage extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', '套餐名字'),
+            'name' => Yii::t('app', '班级名字'),
             'course' => Yii::t('app', '课程'),
             'list_pic' => Yii::t('app', '列表图片'),
             'home_pic' => Yii::t('app', '封面图片'),
             'price' => Yii::t('app', '价格'),
             'discount' => Yii::t('app', '优惠价格'),
-            'category_name' => Yii::t('app', '套餐分类'),
-            'des' => Yii::t('app', '套餐详情'),
-            'intro' => Yii::t('app', '套餐简介'),
+            'category_name' => Yii::t('app', '学院'),
+            'des' => Yii::t('app', '班级详情'),
+            'intro' => Yii::t('app', '班级简介'),
             'view' => Yii::t('app', '浏览次数'),
             'collection' => Yii::t('app', '收藏次数'),
             'share' => Yii::t('app', '分享次数'),
             'online' => Yii::t('app', '在学人数'),
             'onuse' => Yii::t('app', '是否可用'),
-            'create_time' => Yii::t('app', '套餐创建时间'),
+            'create_time' => Yii::t('app', '班级创建时间'),
             'head_teacher' => Yii::t('app', '班主任'),
         ];
     }

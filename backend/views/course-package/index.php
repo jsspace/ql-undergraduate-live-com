@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
 use backend\models\User;
+use backend\models\CourseCategory;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CoursePackageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -23,16 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\ActionColumn'],
-            [
+            /*[
                 'label'=>'课程',
                 'format'=>'raw',
                 'value' => function($model){
                     $url = Url::to(['course-package/editcourse', 'package_id' => $model->id]);
                     return Html::a('编辑课程', $url);
                 }
-            ],
+            ],*/
             'name',
-            'category_name',
+            [
+                'attribute' => 'category_name',
+                'value'=> function ($model) {
+                    return CourseCategory::getNames($model->category_name);
+                }
+            ],
             'price',
             'discount',
             'view',

@@ -245,8 +245,10 @@ class CoursePackageController extends Controller
     {
         $request = Yii::$app->request->post();
         $keywords = $request['keywords'];
+        $college = $request['college'];
         $courses= Course::find()
-        ->where(['like', 'course_name', $keywords])
+        ->where(['category_name' => $college])
+        ->andWhere(['like', 'course_name', $keywords])
         ->all();
         $data = '';
         foreach ($courses as $course) {

@@ -10,6 +10,7 @@ use backend\models\Course;
 use backend\models\CourseChapter;
 use backend\models\CourseSection;
 use backend\models\CourseComent;
+use backend\models\CoursePackage;
 use backend\models\Data;
 use backend\models\Quas;
 use backend\models\User;
@@ -72,6 +73,9 @@ class CourseController extends Controller
         $coursemodels = Course::find()
         ->where(['onuse' => 1])
         ->all();
+        $classes = CoursePackage::find()
+        ->where(['onuse' => 1])
+        ->all();
         $collegeArr = array();
         $collegeArr['college'] = $catModel;
         foreach ($coursemodels as $key => $coursemodel) {
@@ -79,6 +83,12 @@ class CourseController extends Controller
             if (in_array($catModel->id, $categoryids)) {
                 $collegeArr['college_course'][$key] = $coursemodel;
                 $collegeArr['college_teacher'][$key] = User::getUserModel($coursemodel->teacher_id);
+            }
+        }
+        foreach ($classes as $key => $classmodel) {
+            $categoryids = explode(',', $classmodel->category_name);
+            if (in_array($catModel->id, $categoryids)) {
+                $collegeArr['college_class'][$key] = $classmodel;
             }
         }
         $all_colleges = CourseCategory::find()

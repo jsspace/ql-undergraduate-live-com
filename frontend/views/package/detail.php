@@ -24,7 +24,7 @@ $courses = $packageDetail['course'];
                         <p class="package-icon"><img src="/img/package-icon.png"/></p>
                         <p class="pack-t"><span class="num"><?= count($courses) ?></span>门课程</p>
                         <?php foreach ($courses as $course) { ?>
-                             <p class="pack-con"><?= $course->course_name; ?></p>       
+                             <p class="pack-con"><?= $course->course_name; ?></p>
                         <?php } ?>
                     </div>
                 </div>
@@ -107,7 +107,7 @@ $courses = $packageDetail['course'];
                              ?>
                                 <li>
                                     <div class="top">
-                                        <p class="teacher-img"><img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/></p>
+                                        <p class="teacher-img"><img src="/<?= User::getUserModel($course->teacher_id)->picture; ?>"/></p>
                                         <p class="teacher-name"><?= User::item($course->teacher_id); ?></p>
                                         <p class="teacher-tag"><?= User::getUserModel($course->teacher_id)->office; ?></p>
                                     </div>
@@ -129,7 +129,7 @@ $courses = $packageDetail['course'];
                     <h3>班主任(<?= User::item($package->head_teacher); ?>)</h3>
                     <p class="txt"><img src="<?= User::getUserModel($package->head_teacher)->wechat_img; ?>"></p>
                 </div>
-                <div class="section">
+                <!-- <div class="section">
                     <h3>新加学员</h3>
                     <ul class="user-img">
                         <li><img src="/img/teacher-people.png"/></li>
@@ -148,7 +148,7 @@ $courses = $packageDetail['course'];
                         <a href="">某某某某某某某某某某某某</a>
                         <a href="">某某某某某某某某某某某某</a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

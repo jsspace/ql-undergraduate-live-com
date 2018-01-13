@@ -32,6 +32,9 @@ $this->title = '直属学院';
                     <span>课程列表</span>
                 </li>
                 <li>
+                    <span>班级列表</span>
+                </li>
+                <li>
                     <span>师资力量</span>
                 </li>
             </ul>
@@ -39,7 +42,7 @@ $this->title = '直属学院';
                 <li class="college-intro">
                     <?= $collegeArr['college']->des ?>
                 </li>
-                <li class="college-class active">
+                <li class="college-course active">
                     <div class="user-course-list">
                         <?php foreach ($collegeArr["college_course"] as $key => $course) { ?>
                         <div class="course-list-con">
@@ -54,6 +57,27 @@ $this->title = '直属学院';
                                 </div>
                             </div>
                         </div>
+                        <?php } ?>
+                    </div>
+                </li>
+                <li class="college-class">
+                    <div class="user-course-list">
+                        <?php
+                            if (!empty($collegeArr["college_class"])) {
+                                foreach ($collegeArr["college_class"] as $key => $collegeclass) { ?>
+                                    <div class="course-list-con">
+                                        <a href="<?= Url::to(['package/detail', 'pid' => $collegeclass->id]) ?>" class="user-course-img"><img src="<?= $collegeclass->list_pic ?>"/></a>
+                                        <div class="user-course-details">
+                                            <h3><a href="<?= Url::to(['package/detail', 'pid' => $collegeclass->id]) ?>" title=""><?= $collegeclass->name ?></a></h3>
+                                            <div class="row">班主任: <?= User::item($collegeclass->head_teacher); ?></div>
+                                            <div class="row">
+                                                <div class="btns">
+                                                    <a class="btn btn-primary" href="<?= Url::to(['package/detail', 'pid' => $collegeclass->id]) ?>">办理入学</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                         <?php } ?>
                     </div>
                 </li>
