@@ -10,13 +10,13 @@ AppAsset::addCss($this,'@web/css/course.css');
 
 $this->title = 'My Yii Application';
 ?>
-<div class="container-course menu-position">
+<div class="container-course menu-position container-inner">
     <span>您的位置：</span>
     <span><a href="/">首页</a></span>
     <span>&gt;</span>
     <span>查询结果</span>
 </div>
-<div class="container-course course-section">
+<div class="container-course course-section container-inner">
     <div class="course-content">
         <ul class="list">
             <?php foreach ($coursemodels as $course) { ?>

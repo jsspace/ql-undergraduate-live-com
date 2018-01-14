@@ -191,3 +191,71 @@ i {
 .vip-method img {
     width: 90px;
 }
+
+
+/* new */
+.college-class {
+    overflow: hidden;
+}
+.college-class li {
+    width: 270px;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    cursor: pointer;
+}
+.college-class li:nth-child(4n) {
+    margin-right: 0;
+}
+.college-class .class-img,
+.college-class .class-img img {
+    width: 100%;
+    margin: 0;
+}
+.college-class .vip-detail {
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    display: none;
+}
+.college-class li:hover .vip-detail {
+    display: block;
+}
+.college-class .class-name {
+    font-size: 15px;
+    padding: 0 10px;
+    margin: 15px 5px;
+    border-left: 4px solid #3487dc;
+    text-align: left;
+}
+.college-class .class-btn {
+    padding: 5px 10px;
+    color: #fff;
+    background: #3487dc;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 35px;
+}
+.college-class .class-price {
+    width: 50%;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+}
+.college-class .class-date {
+    width: 50%;
+    position: absolute;
+    bottom: 15px;
+    right: 0;
+}
+.college-class .ion-ios-pricetags-outline:before,
+.college-class .ion-ios-timer-outline:before {
+    font-size: 15px;
+    margin-right: 4px;
+}
