@@ -94,7 +94,7 @@ class HeadTeacherController extends Controller
             }
             if ($model->save(false)) {
                 $role = new AuthAssignment();
-                $role->item_name = 'head-teacher';
+                $role->item_name = 'head_teacher';
                 $role->user_id = $model->id;
                 $role->save(false);
                 return $this->redirect(['view', 'id' => $model->id]);
