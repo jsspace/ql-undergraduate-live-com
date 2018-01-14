@@ -249,7 +249,7 @@ class UserController extends Controller
         $current_time = time();
         foreach ($orderinfo_models as $orderinfo_model) {
             //支付订单后6个月之内有效
-            $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 360;
+            $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 180;
             if ($invalid_time > $current_time) {
                 $order_sns[] = $orderinfo_model->order_sn;
             }
