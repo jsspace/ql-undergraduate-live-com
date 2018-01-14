@@ -20,6 +20,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use backend\models\MemberGoods;
 use backend\models\CoursePackage;
+use backend\models\CourseCategory;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -140,10 +141,6 @@ class UserController extends Controller
             'clist' => $clist,
         ]);
     }
-    public function actionMyclass()
-    {
-        return $this->render('myclass');
-    }
     public function actionFavorite()
     {
         $collections = Collection::find()
@@ -252,7 +249,7 @@ class UserController extends Controller
         $current_time = time();
         foreach ($orderinfo_models as $orderinfo_model) {
             //支付订单后6个月之内有效
-            $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 30 * 6;
+            $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 360;
             if ($invalid_time > $current_time) {
                 $order_sns[] = $orderinfo_model->order_sn;
             }
@@ -269,18 +266,24 @@ class UserController extends Controller
         $course_package_models = CoursePackage::find()
         ->where(['id' => $course_package_ids])
         ->all();
+        $course_package_arr = [];
         foreach ($course_package_models as &$course_package_model) {
-            $course_models = Course::find()
-            ->where(['id' => explode(',', $course_package_model->course)])
-            ->all();
-            $course_package_model->course = $course_models;
+//             $course_models = Course::find()
+//             ->where(['id' => explode(',', $course_package_model->course)])
+//             ->all();
+//             $course_package_model->course = $course_models;
+            $course_category_model = CourseCategory::find()
+            ->where(['id' => $course_package_model->category_name])
+            ->one();
+            $course_package_model->category_name = $course_category_model->name;
             $head_teacher_model = User::findOne(['id' => $course_package_model->head_teacher]);
             $course_package_model->head_teacher = $head_teacher_model;
+            $course_package_arr[$course_category_model->name][] = $course_package_model;
         }
         unset($course_package_model);
-        print_r($course_package_models);die;
+//         print_r($course_package_arr);die;
         return $this->render('class', [
-            'course_package_models' => $course_package_models,
+            'course_package_arr' => $course_package_arr,
         ]);
     }
 }
