@@ -145,7 +145,7 @@ class HeadTeacherController extends Controller
                     mkdir($wechatRootPath, 0777, true);
                 }
                 $wechat_picture->saveAs($wechatRootPath . $randName);
-                $model->picture = Yii::$app->params['upload_img_dir'] . 'head-teacher/' . $randName;
+                $model->wechat_img = Yii::$app->params['upload_img_dir'] . 'head-teacher/' . $randName;
                 @unlink(Yii::getAlias("@frontend")."/web/" . $oldwechat_path);
             } else {
                 $model->wechat_img = $oldwechat_path;
