@@ -45,12 +45,13 @@ var cart = {
                 var $liListEle = $(".cart-course-list li");
                 $liListEle.each(function() {
                     var cartId = $(this).find("input[type='checkbox']:checked").attr("data-cart-id");
-                    cart_ids = cartId + ",";
+                    cart_ids += cartId + ",";
                 });
                 //询问框
                 layer.confirm('您确定要删除所选课程吗？', {
                     btn: ['确定','取消'] //按钮
                 }, function() {
+                    console.log(cart_ids);
                     $.ajax({
                         url: '/cart/remove',
                         type: 'post',
