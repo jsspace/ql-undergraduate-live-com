@@ -18,8 +18,8 @@ class HeadTeacherSearch extends User
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'updated_at', 'gender', 'code'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro'], 'safe'],
+            [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'wechat', 'wechat_img'], 'safe'],
         ];
     }
 
@@ -41,8 +41,9 @@ class HeadTeacherSearch extends User
      */
     public function search($params)
     {
-        $query = User::find();
-
+        $headteacher_ids = Yii::$app->authManager->getUserIdsByRole('head_teacher');
+        $query = User::find()
+        ->where(['in', 'id', $headteacher_ids]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -64,7 +65,7 @@ class HeadTeacherSearch extends User
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'gender' => $this->gender,
-            'code' => $this->code,
+            'invite' => $this->invite,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])

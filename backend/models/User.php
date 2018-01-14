@@ -115,6 +115,7 @@ class User extends \yii\db\ActiveRecord
     }
     
     private static $_users=array();
+    private static $all_users=array();
     
     public static function users($roleName)
     {
@@ -158,6 +159,16 @@ class User extends \yii\db\ActiveRecord
         foreach ($umodels as $umodel) {
             self::$_item[$umodel->id]=$umodel->username;
         }
+    }
+
+    public static function getAllUsers()
+    {
+        $umodels = User::find()
+        ->all();
+        foreach ($umodels as $key => $umodel) {
+            self::$all_users[$umodel->id]=$umodel->username;
+        }
+        return self::$all_users;
     }
 
     public static function getUserModel($id) {

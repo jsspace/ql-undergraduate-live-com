@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use backend\models\User;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\WithdrawSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -12,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="withdraw-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -24,8 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'withdraw_id',
-            'user_id',
+            //'withdraw_id',
+            [
+                'attribute' => 'user_id',
+                'value'=> function ($model) {
+                    return User::item($model->user_id);
+                },
+                'filter' => User::users('marketer'),
+            ],
             'fee',
             'info:ntext',
             'create_time',

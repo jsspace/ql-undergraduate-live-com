@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\AuthAssignment;
+use yii\web\UploadedFile;
 
 /**
  * StudentController implements the CRUD actions for User model.
@@ -65,14 +66,29 @@ class StudentController extends Controller
     public function actionCreate()
     {
         $model = new User();
+        $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
         $model->status = 10;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $role = new AuthAssignment();
-            $role->item_name = 'student';
-            $role->user_id = $model->id;
-            $role->save(false);
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $image_picture = UploadedFile::getInstance($model, 'picture');
+            if ($image_picture) {
+                $ext = $image_picture->getExtension();
+                $randName = time() . rand(1000, 9999) . '.' . $ext;
+                $rootPath .= 'student/';
+                if (!file_exists($rootPath)) {
+                    mkdir($rootPath, 0777, true);
+                }
+                $image_picture->saveAs($rootPath . $image_picture);
+                $model->picture = Yii::$app->params['upload_img_dir'] . 'student/' . $image_picture;
+            }
+            if ($model->save(false)) {
+                $role = new AuthAssignment();
+                $role->item_name = 'student';
+                $role->user_id = $model->id;
+                $role->save(false);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
+             @unlink($rootPath . $image_picture);
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -88,9 +104,26 @@ class StudentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
+        $oldpicture_path = $model->picture;
+        if ($model->load(Yii::$app->request->post())) {
+            $image_picture = UploadedFile::getInstance($model, 'picture');
+            if ($image_picture) {
+                $ext = $image_picture->getExtension();
+                $randName = time() . rand(1000, 9999) . '.' . $ext;
+                $rootPath = $rootPath . 'student/';
+                if (!file_exists($rootPath)) {
+                    mkdir($rootPath, 0777, true);
+                }
+                $image_picture->saveAs($rootPath . $randName);
+                $model->picture = Yii::$app->params['upload_img_dir'] . 'student/' . $randName;
+                @unlink(Yii::getAlias("@frontend")."/web/" . $oldpicture_path);
+            } else {
+                $model->picture = $oldpicture_path;
+            }
+            if ($model->save(false)) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,

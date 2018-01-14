@@ -6,13 +6,11 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
 
-$this->title = $model->id;
+$this->title = '班主任详情页';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -28,24 +26,43 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            //'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
+            //'auth_key',
+            //'password_hash',
+            //'password_reset_token',
             'email:email',
-            'status',
-            'created_at',
-            'updated_at',
             'phone',
-            'gender',
+            //'status',
+            [
+                'attribute' => 'gender',
+                'value'=> $model->gender == 1 ? '女' : '男',
+            ],
             'description',
             'unit',
             'office',
             'goodat',
-            'picture',
+            [
+                'attribute'=>'picture',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::img('/'.$model->picture, ['width' => '100px']);
+                }
+
+            ],
             'intro:ntext',
-            'invite',
+            //'invite',
+            'wechat',
+            [
+                'attribute'=>'wechat_img',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::img('/'.$model->wechat_img, ['width' => '100px']);
+                }
+
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

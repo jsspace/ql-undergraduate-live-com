@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use backend\models\User;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\StudentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -12,7 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -24,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'username',
 //             'auth_key',
 //             'password_hash',
@@ -34,14 +35,26 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'created_at',
             // 'updated_at',
             'phone',
-            'gender',
+            [
+                'attribute' => 'gender',
+                'value'=> function ($model) {
+                    return $model->gender == 1 ? '女':'男';
+                },
+                'filter' => [1=>'女',0=>'男' ],
+            ],
             // 'description',
             // 'unit',
             // 'office',
             // 'goodat',
             // 'picture',
             // 'intro:ntext',
-            // 'invite',
+            [
+                'attribute' => 'invite',
+                'value'=> function ($model) {
+                    return User::item($model->invite);;
+                },
+                'filter' => User::getAllUsers(),
+            ],
             // 'wechat',
             // 'wechat_img',
             // 'percentage',

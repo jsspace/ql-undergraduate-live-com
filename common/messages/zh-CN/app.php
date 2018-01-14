@@ -85,5 +85,8 @@ return [
     'Comments' => '学习感言',
     'Create Comment' => '创建学习感言',
     'Commands' => '课程需求',
-    'Create Command' => '创建课程需求'
+    'Create Command' => '创建课程需求',
+    'Withdraws' => '提现列表',
+    'Create Withdraw' => '创建提现记录',
+    'Create marketer' => '创建市场专员',
 ];

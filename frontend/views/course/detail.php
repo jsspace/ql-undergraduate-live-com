@@ -121,9 +121,9 @@ $userid = Yii::$app->user->id;
                                                 $text = '';
                                                 $current_time = date('Y-m-d H:i:s');
                                                 $end_time = date('Y-m-d H:i:s',strtotime($section->start_time."+".$section->duration." minute"));
-                                                //0 直播
+                                                //0 直播 2 直播答疑
                                                 $video_url = $section->video_url;
-                                                if ($section->type == 0) {
+                                                if ($section->type == 0 || $section->type == 2) {
                                                     if ($current_time < $section->start_time) {
                                                         $text = '最近直播：'.$section->start_time;
                                                     } else if ($current_time >= $section->start_time && $current_time < $end_time) {
@@ -133,8 +133,6 @@ $userid = Yii::$app->user->id;
                                                     }
                                                 } else if ($section->type == 1) {
                                                     $text = '点播课程';
-                                                } else {
-                                                    $text = '直播答疑';
                                                 }
                                             ?>
                                             <?php 

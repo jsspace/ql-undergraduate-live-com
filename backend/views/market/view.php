@@ -7,14 +7,12 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
 
-$this->title = $model->id;
+$this->title = '市场专员详情页';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', '市场专员列表'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $model->id]);
 ?>
 <div class="user-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -30,7 +28,7 @@ $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $model-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            //'id',
             'username',
 //             'auth_key',
 //             'password_hash',
