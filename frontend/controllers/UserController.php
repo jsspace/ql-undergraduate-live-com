@@ -139,6 +139,10 @@ class UserController extends Controller
             'clist' => $clist,
         ]);
     }
+    public function actionMyclass()
+    {
+        return $this->render('myclass');
+    }
     public function actionFavorite()
     {
         $collections = Collection::find()
