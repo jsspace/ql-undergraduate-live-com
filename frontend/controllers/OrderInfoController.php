@@ -111,7 +111,7 @@ class OrderInfoController extends \yii\web\Controller
         foreach($course_models as $model) {
             $courseids .= $model->id . ',';
         }
-        //添加订单商品
+        //添加课程订单商品
         foreach($course_models as $model) {
             $order_goods = new OrderGoods();
             $order_goods->order_sn = $order_sn;
@@ -137,7 +137,7 @@ class OrderInfoController extends \yii\web\Controller
         foreach($course_package_models as $model) {
             $courseids .= $model->course . ',';
         }
-        //添加订单商品
+        //添加班级订单商品
         foreach($course_package_models as $model) {
             $order_goods = new OrderGoods();
             $order_goods->order_sn = $order_sn;

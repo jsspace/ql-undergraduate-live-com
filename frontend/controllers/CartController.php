@@ -111,7 +111,7 @@ class CartController extends Controller
         }
         $post = Yii::$app->request->Post();
         $cart_id = explode(',', $post['cart_id']);
-        $this->findModel($cart_id)->delete();
+        Cart::deleteAll(['cart_id' => $cart_id]);
         
         $data['status'] = 'success';
         $data['code'] = 0;
