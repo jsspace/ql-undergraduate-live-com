@@ -207,9 +207,20 @@ i {
     cursor: pointer;
     overflow: hidden;
 }
+.user-wrapper .college-class li {
+    width: 32%;
+    margin-right: 2%;
+}
 .college-class li:nth-child(4n) {
     margin-right: 0;
 }
+.user-wrapper .college-class li:nth-child(4n) {
+    margin-right: 2%;
+}
+.user-wrapper .college-class li:nth-child(3n) {
+    margin-right: 0;
+}
+
 .college-class .class-img,
 .college-class .class-img img {
     width: 100%;
@@ -247,6 +258,9 @@ i {
     border-radius: 5px;
     display: inline-block;
     margin-top: 10px;
+}
+.user-wrapper .college-class .class-btn {
+    margin-top: 25px;
 }
 .college-class .class-price {
     width: 50%;
