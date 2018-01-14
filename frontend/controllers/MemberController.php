@@ -60,8 +60,11 @@ class MemberController extends \yii\web\Controller
         }
         return parent::beforeAction($action);
     }
-    
     public function actionIndex()
+    {
+        
+    }
+    public function actionIndexOld()
     {
         $member_items = [];
         $member_models = Member::find()

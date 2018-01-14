@@ -19,6 +19,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use backend\models\MemberGoods;
+use backend\models\CoursePackage;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -139,6 +140,10 @@ class UserController extends Controller
             'clist' => $clist,
         ]);
     }
+    public function actionMyclass()
+    {
+        return $this->render('myclass');
+    }
     public function actionFavorite()
     {
         $collections = Collection::find()
@@ -233,6 +238,49 @@ class UserController extends Controller
         ->all();
         return $this->render('member', [
             'member_models' => $member_models,
+        ]);
+    }
+    
+    public function actionClass()
+    {
+        $orderinfo_models = OrderInfo::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['order_status' => 1])
+        ->andWhere(['pay_status' => 2])
+        ->all();
+        $order_sns = [];
+        $current_time = time();
+        foreach ($orderinfo_models as $orderinfo_model) {
+            //支付订单后6个月之内有效
+            $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 30 * 6;
+            if ($invalid_time > $current_time) {
+                $order_sns[] = $orderinfo_model->order_sn;
+            }
+        }
+        //去订单详情表查找班级详细信息
+        $order_goods_models = OrderGoods::find()
+        ->where(['order_sn' => $order_sns])
+        ->andWhere(['type' => 'course_package'])
+        ->all();
+        $course_package_ids = [];
+        foreach ($order_goods_models as $order_goods_model) {
+            $course_package_ids[] = $order_goods_model->goods_id;
+        }
+        $course_package_models = CoursePackage::find()
+        ->where(['id' => $course_package_ids])
+        ->all();
+        foreach ($course_package_models as &$course_package_model) {
+            $course_models = Course::find()
+            ->where(['id' => explode(',', $course_package_model->course)])
+            ->all();
+            $course_package_model->course = $course_models;
+            $head_teacher_model = User::findOne(['id' => $course_package_model->head_teacher]);
+            $course_package_model->head_teacher = $head_teacher_model;
+        }
+        unset($course_package_model);
+        print_r($course_package_models);die;
+        return $this->render('class', [
+            'course_package_models' => $course_package_models,
         ]);
     }
 }
