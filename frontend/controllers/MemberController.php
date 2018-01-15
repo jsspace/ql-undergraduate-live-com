@@ -77,8 +77,6 @@ class MemberController extends \yii\web\Controller
                 }
             }
         }
-        print_r($members);
-        die();
         return $this->render('index', ['members' => $members]);
     }
     public function actionIndexOld()

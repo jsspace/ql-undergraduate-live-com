@@ -27,8 +27,6 @@ $this->title = '购买vip会员';
         </div>
         
         <?php
-            print_r($members);
-            die();
             foreach ($members as $key => $member) { 
                 if (!empty($member['classes']) ) {
         ?>
