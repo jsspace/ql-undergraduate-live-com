@@ -72,7 +72,7 @@ class MemberController extends \yii\web\Controller
             $members[$key]['college'] = $college;
             $members[$key]['classes'] = array();
             foreach ($classes as $classeskey => $class) {
-                if ($college->id === $class->category_name) {
+                if ($college->id == $class->category_name) {
                     $members[$key]['classes'][$classeskey] = $class;
                 }
             }
