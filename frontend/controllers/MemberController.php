@@ -67,6 +67,8 @@ class MemberController extends \yii\web\Controller
         ->all();
         $classes = CoursePackage::find()
         ->all();
+        print_r($classes);
+        die();
         $members = array();
         foreach ($colleges as $key => $college) {
             $members[$key]['college'] = $college;
