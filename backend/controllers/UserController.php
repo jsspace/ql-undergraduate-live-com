@@ -5,10 +5,12 @@ namespace backend\controllers;
 use Yii;
 use backend\models\User;
 use backend\models\UserSearch;
+use backend\models\Cities;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\helpers\Html;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -180,5 +182,35 @@ class UserController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    public function actionCitys()
+    {
+        $post = Yii::$app->request->post();
+        $provinceid = $post['provinceid'];
+        $model = Cities::items($provinceid);
+        foreach($model as $id => $name) {
+            echo Html::tag('option', Html::encode($name), array('value' => $id));
+        }
+    }
+    public function actionProvince()
+    {
+        $post = Yii::$app->request->post();
+        $phone = $post['phone'];
+        $type = 'text';
+        $data = self::getRegion($phone, $type);
+        //输出手机归属地相关信息
+        print_r($data);
+        die();
+    }
+    public static function getRegion($mobile, $type)
+    {
+        $url = "http://api.showji.com/locating/?m=$mobile&output=$type";
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Length: 0'));
+        $data = curl_exec($ch);
+        return $data;
     }
 }

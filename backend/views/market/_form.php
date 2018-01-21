@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
+use backend\models\Provinces;
+use backend\models\Cities;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
@@ -18,6 +20,12 @@ use kartik\file\FileInput;
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'provinceid')->dropDownlist(Provinces::items(),[
+            'prompt' => '- 请选择省份 -',
+            'onchange'=>'getCitys(this.value)'
+    ]) ?>
+    <?= $form->field($model, 'cityid')->dropDownList(Cities::items($model->provinceid), ['prompt'=>'- 请选择地级市 -']) ?>
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
@@ -65,3 +73,4 @@ use kartik\file\FileInput;
     <?php ActiveForm::end(); ?>
 
 </div>
+<script type="text/javascript" src="/js/user.js"></script>

@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+use backend\models\Provinces;
+use backend\models\Cities;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
@@ -35,6 +37,14 @@ $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $model-
 //             'password_reset_token',
             'email:email',
             'phone',
+            [
+                'attribute' => 'provinceid',
+                'value' => Provinces::item($model->provinceid),
+            ],
+            [
+                'attribute' => 'cityid',
+                'value' => Cities::item($model->cityid),
+            ],
             'description',
             [
                 'attribute' => 'gender',

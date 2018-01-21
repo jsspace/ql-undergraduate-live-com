@@ -19,7 +19,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'wechat', 'wechat_img'], 'safe'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'wechat', 'wechat_img', 'cityid', 'provinceid'], 'safe'],
             [['percentage'], 'number'],
         ];
     }
@@ -75,6 +75,8 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'provinceid', $this->phone])
+            ->andFilterWhere(['like', 'cityid', $this->phone])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'unit', $this->unit])
             ->andFilterWhere(['like', 'office', $this->office])

@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use backend\models\Provinces;
+use backend\models\Cities;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\MarketSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -41,6 +43,20 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'picture',
             // 'intro:ntext',
             // 'invite',
+            [
+                'attribute' => 'provinceid',
+                'value' => function ($data) {
+                return Provinces::item($data->provinceid);
+                },
+                'filter'=>Provinces::items(),
+            ],
+            [
+                'attribute' => 'cityid',
+                'value' => function ($data) {
+                    return Cities::item($data->cityid);
+                },
+                'filter'=>Cities::items($searchModel->provinceid),
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

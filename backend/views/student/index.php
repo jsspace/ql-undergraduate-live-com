@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use backend\models\User;
+use backend\models\Provinces;
+use backend\models\Cities;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\StudentSearch */
@@ -27,6 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id',
             'username',
+            [
+                'attribute' => 'gender',
+                'value'=> function ($model) {
+                    return $model->gender == 1 ? '女':'男';
+                },
+                'filter' => [1=>'女',0=>'男' ],
+            ],
 //             'auth_key',
 //             'password_hash',
 //             'password_reset_token',
@@ -36,11 +45,18 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'updated_at',
             'phone',
             [
-                'attribute' => 'gender',
-                'value'=> function ($model) {
-                    return $model->gender == 1 ? '女':'男';
+                'attribute' => 'provinceid',
+                'value' => function ($data) {
+                return Provinces::item($data->provinceid);
                 },
-                'filter' => [1=>'女',0=>'男' ],
+                'filter'=>Provinces::items(),
+            ],
+            [
+                'attribute' => 'cityid',
+                'value' => function ($data) {
+                    return Cities::item($data->cityid);
+                },
+                'filter'=>Cities::items($searchModel->provinceid),
             ],
             // 'description',
             // 'unit',

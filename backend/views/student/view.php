@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use backend\models\Provinces;
+use backend\models\Cities;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
@@ -33,6 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
             //'password_reset_token',
             'email:email',
             'phone',
+            [
+                'attribute' => 'provinceid',
+                'value' => Provinces::item($model->provinceid),
+            ],
+            [
+                'attribute' => 'cityid',
+                'value' => Cities::item($model->cityid),
+            ],
             //'status',
             [
                 'attribute' => 'gender',

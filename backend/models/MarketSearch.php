@@ -19,7 +19,7 @@ class MarketSearch extends User
     {
         return [
             [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro'], 'safe'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'provinceid', 'cityid'], 'safe'],
         ];
     }
 
@@ -75,6 +75,8 @@ class MarketSearch extends User
             ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'provinceid', $this->provinceid])
+            ->andFilterWhere(['like', 'cityid', $this->cityid])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'unit', $this->unit])
             ->andFilterWhere(['like', 'office', $this->office])

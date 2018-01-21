@@ -28,6 +28,8 @@ use Yii;
  * @property string $wechat
  * @property string $wechat_img
  * @property double $percentage
+ * @property string $cityid
+ * @property string $provinceid
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -56,6 +58,7 @@ class User extends \yii\db\ActiveRecord
             [['description'], 'string', 'max' => 2000],
             [['unit', 'office', 'goodat', 'wechat_img'], 'string', 'max' => 300],
             [['wechat'], 'string', 'max' => 200],
+            [['cityid', 'provinceid'], 'string', 'max' => 20]
         ];
     }
 
@@ -87,6 +90,8 @@ class User extends \yii\db\ActiveRecord
             'wechat' => Yii::t('app', '微信号'),
             'wechat_img' => Yii::t('app', '微信二维码'),
             'percentage' => Yii::t('app', '提成比例'),
+            'provinceid' => Yii::t('app', '省份'),
+            'cityid' => Yii::t('app', '地级市'),
         ];
     }
 
