@@ -246,5 +246,13 @@ $userid = Yii::$app->user->id;
 </div>
 <script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
 <script src="<?= Url::to('@web/skin/layer.js');?>"></script>
+<script type="text/javascript" >
+var jiathis_config={
+	summary:"",
+	shortUrl:true,
+	hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
 <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
 <script src="<?= Url::to('@web/js/course-detail.js');?>"></script>
