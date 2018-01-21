@@ -1,6 +1,7 @@
 <?php
 
 use yii\widgets\LinkPager;
+use backend\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
@@ -8,7 +9,6 @@ use yii\widgets\LinkPager;
 $this->title = Yii::t('app', '订单记录');
 ?>
 <div class="user-view">
-    <h1>订单记录</h1>
     <div class="order-table order-history">
         <ul>
             <li>
@@ -21,7 +21,7 @@ $this->title = Yii::t('app', '订单记录');
                 <li>
                     <span class="tr-title"><?= $val->order_sn ?></span>
                     <span class="tr-title"><?= $val->goods_amount ?></span>
-                    <span class="tr-title"><?= $val->user_id ?></span>
+                    <span class="tr-title"><a href="/student/<?= $val->user_id ?>" target="_blank"><?= User::item($val->user_id); ?></a></span>
                     <span class="tr-title"><?= date('Y-m-d H:i:s', $val->add_time) ?></span>
                 </li>
             <?php } ?>
