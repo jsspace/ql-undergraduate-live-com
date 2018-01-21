@@ -6,12 +6,11 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\OrderInfo */
 
-$this->title = $model->order_id;
+$this->title = '订单详情';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Order Infos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-info-view">
-    <h1><?= Html::encode($this->title) ?></h1>
     <div class="order-table">
         <ul>
             <li>

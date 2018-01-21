@@ -19,7 +19,7 @@ $this->title = Yii::t('app', '订单记录');
             </li>
             <?php foreach($model as $key=>$val) { ?>
                 <li>
-                    <span class="tr-title"><?= $val->order_sn ?></span>
+                    <span class="tr-title"><a href="/order-info/view?id=<?= $val->order_id ?>" target="_blank"><?= $val->order_sn ?></a></span>
                     <span class="tr-title"><?= $val->goods_amount ?></span>
                     <span class="tr-title"><a href="/student/<?= $val->user_id ?>" target="_blank"><?= User::item($val->user_id); ?></a></span>
                     <span class="tr-title"><?= date('Y-m-d H:i:s', $val->add_time) ?></span>
