@@ -105,9 +105,15 @@ class CourseController extends Controller
         return $this->render('search', ['coursemodels' => $coursemodels]);
     }
     
-    public function actionDetail()
+    public function actionDetail($courseid, $invite=0)
     {
-        $courseid = Yii::$app->request->get('courseid');
+        //设置邀请人cookie
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new \yii\web\Cookie([
+            'name' => 'invite',
+            'value' => Yii::$app->user->id,
+            'expire'=>time()+3600*24*365
+        ]));
         $courseModel = Course::find()
         ->where(['id' => $courseid])
         ->one();

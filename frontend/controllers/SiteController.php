@@ -257,7 +257,11 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
-        $invite = Yii::$app->request->get('id') ? Yii::$app->request->get('id') : 0;
+        $invite = Yii::$app->request->get('invite') ? Yii::$app->request->get('invite') : 0;
+        $cookies = Yii::$app->response->cookies;
+        if (empty($invite) && $cookies->has('invite')) {
+            $invite = $cookies['invite'];
+        }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
