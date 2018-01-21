@@ -13,6 +13,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\AuthAssignment;
 use yii\web\UploadedFile;
+use backend\models\Withdraw;
+use yii\data\Pagination;
 
 /**
  * TeacherController implements the CRUD actions for User model.
@@ -168,10 +170,27 @@ class TeacherController extends Controller
         ->where(['order_sn' => $order_sns])
         ->andWhere(['pay_status' => 2])
         ->andWhere(['order_status' => 1])
+        ->orderBy('order_id desc');
+        $pagination = new Pagination([
+            'defaultPageSize' => 10,
+            'totalCount' => $orders->count(),
+        ]);
+        $orders = $orders->offset($pagination->offset)->limit($pagination->limit)->all();
+        
+        //提现历史
+        $withdraw_history = Withdraw::find()
+        ->where(['user_id' => $userid])
         ->all();
+        $total_withdraw = 0;
+        foreach($withdraw_history as $withdraw) {
+            $total_withdraw += $withdraw->fee;
+        }
         return $this->render('income-statistics', [
             'orders' => $orders,
-            't_course_ids' => $course_ids
+            'pagination' => $pagination,
+            't_course_ids' => $course_ids,
+            'withdraw_history' => $withdraw_history,
+            'total_withdraw' => $total_withdraw,
         ]);
     }
 

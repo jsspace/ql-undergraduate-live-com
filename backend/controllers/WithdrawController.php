@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\User;
+use yii\data\Pagination;
 
 /**
  * WithdrawController implements the CRUD actions for Withdraw model.
@@ -66,12 +67,14 @@ class WithdrawController extends Controller
     {
         $model = new Withdraw();
         $marketer = User::users('marketer');
+        $teacher = User::users('teacher');
+        $user = array_merge($marketer, $teacher);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->withdraw_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'marketer' => $marketer,
+                'marketer' => $user,
             ]);
         }
     }
@@ -123,5 +126,28 @@ class WithdrawController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    
+    /**
+     * Displays a single Withdraw model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionWithdraw($id)
+    {
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if (!array_key_exists('admin',$roles_array) && $id != Yii::$app->user->id) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        //提现历史
+        $data = Withdraw::find()
+        ->where(['user_id' => $id])
+        ->orderBy('withdraw_id desc');
+        $pages = new Pagination(['totalCount' =>$data->count(), 'pageSize' => '10']);
+        $model = $data->offset($pages->offset)->limit($pages->limit)->all();
+        return $this->render('withdraw',[
+            'model' => $model,
+            'pages' => $pages,
+        ]);
     }
 }

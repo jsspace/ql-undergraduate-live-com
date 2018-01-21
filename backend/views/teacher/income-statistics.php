@@ -4,6 +4,7 @@
 use yii\helpers\Url;
 use backend\assets\AppAsset;
 use backend\models\Course;
+use yii\widgets\LinkPager;
 
 $this->title = '收入统计';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', '教师列表'), 'url' => ['index']];
@@ -57,8 +58,20 @@ AppAsset::addCss($this, '@web/css/teacher-statistic.css');
                 echo '该教师课程总价/课程总价*订单金额*50%=' . $current_income.'元'; ?>
             </li>
         </ul>
-    <?php } ?>
-    <div class="total-income">总收入：<?= $total_income.'元' ?></div>
+    <?php } 
+    // 显示分页
+    echo LinkPager::widget([
+        'pagination' => $pagination,
+        'firstPageLabel'=>"First",
+        'prevPageLabel'=>'Prev',
+        'nextPageLabel'=>'Next',
+        'lastPageLabel'=>'Last',
+    ]);
+    
+    ?>
+
+    <div class="total-income">总收入：<?= $total_income ?>元</div>
+    <div class="total-income">总提现金额：<?= $total_withdraw ?>元</div>
 </div>
 <!-- 会员订单 -->
 <!-- <div class="member-income-list list">

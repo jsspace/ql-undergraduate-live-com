@@ -43,7 +43,7 @@ class Withdraw extends \yii\db\ActiveRecord
     {
         return [
             'withdraw_id' => Yii::t('app', 'Withdraw ID'),
-            'user_id' => Yii::t('app', '市场专员'),
+            'user_id' => Yii::t('app', '用户'),
             'fee' => Yii::t('app', '金额'),
             'info' => Yii::t('app', '描述信息'),
             'create_time' => Yii::t('app', '提现时间'),

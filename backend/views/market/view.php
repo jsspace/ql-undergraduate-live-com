@@ -80,7 +80,7 @@ $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $model-
             <label class="tr-title">专员相关链接</label>
             <span class="tr-content">
                 <a href="<?= Url::to(['market/order', 'id' => $model->id]) ?>">订单记录</a>
-                <a href="<?= Url::to(['market/withdraw', 'id' => $model->id]) ?>">提现历史</a>
+                <a href="<?= Url::to(['withdraw/withdraw', 'id' => $model->id]) ?>">提现历史</a>
             </span>
         </li>
         <li>

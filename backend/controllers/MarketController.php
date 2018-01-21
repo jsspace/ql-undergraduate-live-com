@@ -14,7 +14,6 @@ use yii\web\UploadedFile;
 use Da\QrCode\QrCode;
 use backend\models\OrderInfo;
 use yii\data\Pagination;
-use backend\models\Withdraw;
 
 /**
  * MarketController implements the CRUD actions for User model.
@@ -62,8 +61,11 @@ class MarketController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
         
+        $marketer = User::find()
+        ->where(['id' => $id])
+        ->one();
         $invite_users = User::find()
-        ->where(['invite' => $id])
+        ->where(['cityid' => $marketer->cityid])
         ->all();
         $invite_users_id = [];
         foreach($invite_users as $user) {
@@ -97,8 +99,11 @@ class MarketController extends Controller
         if (!array_key_exists('admin',$roles_array) && $id != Yii::$app->user->id) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+        $marketer = User::find()
+        ->where(['id' => $id])
+        ->one();
         $invite_users = User::find()
-        ->where(['invite' => $id])
+        ->where(['cityid' => $marketer->cityid])
         ->all();
         $invite_users_id = [];
         foreach($invite_users as $user) {
@@ -117,27 +122,7 @@ class MarketController extends Controller
         ]);
     }
     
-    /**
-     * Displays a single Withdraw model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionWithdraw($id)
-    {
-        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
-        if (!array_key_exists('admin',$roles_array) && $id != Yii::$app->user->id) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        //邀请的用户所下的订单
-        $data = Withdraw::find()
-        ->where(['user_id' => $id]);
-        $pages = new Pagination(['totalCount' =>$data->count(), 'pageSize' => '10']);
-        $model = $data->offset($pages->offset)->limit($pages->limit)->all();
-        return $this->render('withdraw',[
-            'model' => $model,
-            'pages' => $pages,
-        ]);
-    }
+
     
     /**
      * Creates a new User model.
