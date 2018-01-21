@@ -31,6 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::a('收入统计', $url);
                 }
             ],
+            [
+                'label'=>'提现历史',
+                'format'=>'raw',
+                'value' => function($model){
+                    $url = Url::to(['withdraw/withdraw', 'id' => $model->id]);
+                    return Html::a('提现历史', $url);
+                }
+            ],
             //'id',
             'username',
             //'auth_key',
