@@ -29,7 +29,7 @@ use backend\models\Cities;
 
     <?php // $form->field($model, 'status')->textInput() ?>
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'onchange'=>'getProvince(this.value)']) ?>
+    <?= $form->field($model, 'phone')->textInput(['maxlength' => true/*, 'onchange'=>'getProvince(this.value)'*/]) ?>
 
     <?= $form->field($model, 'provinceid')->dropDownlist(Provinces::items(),[
             'prompt' => '- 请选择省份 -',

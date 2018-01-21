@@ -21,6 +21,8 @@ use yii\web\UploadedFile;
 use backend\models\MemberGoods;
 use backend\models\CoursePackage;
 use backend\models\CourseCategory;
+use backend\models\Cities;
+use yii\helpers\Html;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -285,5 +287,14 @@ class UserController extends Controller
         return $this->render('class', [
             'course_package_arr' => $course_package_arr,
         ]);
+    }
+    public function actionCitys()
+    {
+        $get = Yii::$app->request->get();
+        $provinceid = $get['provinceid'];
+        $model = Cities::items($provinceid);
+        foreach($model as $id => $name) {
+            echo Html::tag('option', Html::encode($name), array('value' => $id));
+        }
     }
 }

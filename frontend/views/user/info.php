@@ -3,6 +3,8 @@
 /* @var $this yii\web\View */
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
+use backend\models\Provinces;
+use backend\models\Cities;
 
 AppAsset::addCss($this,'@web/css/user.css');
 
@@ -31,6 +33,14 @@ $this->title = '个人中心';
             <p class="info-phone">
                 <span class="info-label">电话：</span>
                 <span class="info-txt"><?= Yii::$app->user->identity->phone; ?></span>
+            </p>
+            <p class="info-phone">
+                <span class="info-label">省份：</span>
+                <span class="info-txt"><?= Provinces::item(Yii::$app->user->identity->provinceid) ?></span>
+            </p>
+            <p class="info-phone">
+                <span class="info-label">地级市：</span>
+                <span class="info-txt"><?= Cities::item(Yii::$app->user->identity->cityid) ?></span>
             </p>
             <p class="info-email">
                 <span class="info-label">邮箱：</span>
