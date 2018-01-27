@@ -89,4 +89,6 @@ return [
     'Withdraws' => '提现列表',
     'Create Withdraw' => '创建提现记录',
     'Create marketer' => '创建市场专员',
+    'Messages' => '消息列表',
+    'Create Message' => '创建消息',
 ];
