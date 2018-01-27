@@ -297,4 +297,16 @@ class UserController extends Controller
             echo Html::tag('option', Html::encode($name), array('value' => $id));
         }
     }
+    public function actionMessage()
+    {
+        return $this->render('message', [
+            'messages' => ''
+        ]);
+    }
+    public function actionMessageView()
+    {
+        return $this->render('message-view', [
+            'messages' => ''
+        ]);
+    }
 }

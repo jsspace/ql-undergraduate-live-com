@@ -23,5 +23,6 @@ use yii\helpers\Url;
         <a href="<?= Url::to(['user/coupon']) ?>"><i class="icon ion-ios-rose-outline"></i>我的优惠券</a>
         <a href="<?= Url::to(['user/coin']) ?>"><i class="icon ion-ios-rose-outline"></i>我的钱包</a>
         <a href="<?= Url::to(['user/member']) ?>"><i class="icon ion-ios-rose-outline"></i>我的会员</a>
+        <a href="<?= Url::to(['user/message']) ?>"><i class="icon ion-ios-rose-outline"></i>消息通知</a>
     </div>
 </div>
