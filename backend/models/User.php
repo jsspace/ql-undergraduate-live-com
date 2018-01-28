@@ -205,6 +205,14 @@ class User extends \yii\db\ActiveRecord
         return $models;
     }
     
+    public static function isAdmin() {
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if(array_key_exists('admin',$roles_array)) {
+            return 1;
+        }
+        return 0;
+    }
+
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {

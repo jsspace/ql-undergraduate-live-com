@@ -70,7 +70,7 @@ AppAsset::addCss($this, '@web/css/teacher-statistic.css');
     
     ?>
 
-    <div class="total-income">总收入：<?= $total_income ?>元</div>
+    <div class="total-income">总收入：<?= $teacher_total_income ?>元</div>
     <div class="total-income">总提现金额：<?= $total_withdraw ?>元</div>
 </div>
 <!-- 会员订单 -->

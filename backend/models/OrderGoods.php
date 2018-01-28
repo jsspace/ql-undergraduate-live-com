@@ -10,6 +10,8 @@ use Yii;
  * @property integer $rec_id
  * @property string $order_sn
  * @property integer $goods_id
+ * @property integer $user_id
+ * @property integer $pay_status
  * @property string $goods_name
  * @property string $goods_sn
  * @property integer $goods_number
@@ -40,7 +42,7 @@ class OrderGoods extends \yii\db\ActiveRecord
     {
         return [
             [['order_sn', 'type'], 'required'],
-            [['goods_id', 'goods_number', 'send_number', 'is_real', 'parent_id', 'is_gift'], 'integer'],
+            [['user_id', 'pay_status', 'goods_id', 'goods_number', 'send_number', 'is_real', 'parent_id', 'is_gift'], 'integer'],
             [['market_price', 'goods_price'], 'number'],
             [['goods_attr'], 'string'],
             [['order_sn'], 'string', 'max' => 200],
@@ -60,6 +62,8 @@ class OrderGoods extends \yii\db\ActiveRecord
             'rec_id' => Yii::t('app', '订单商品信息自增id'),
             'order_sn' => Yii::t('app', '订单商品信息对应的详细信息id，取值order_info的order_sn'),
             'goods_id' => Yii::t('app', '商品的的id，取值表ecs_goods 的goods_id'),
+            'user_id' => Yii::t('app', '用户id'),
+            'pay_status' => Yii::t('app', '支付状态'),
             'goods_name' => Yii::t('app', '商品的名称，取值表ecs_goods '),
             'goods_sn' => Yii::t('app', '商品的唯一货号，取值ecs_goods '),
             'goods_number' => Yii::t('app', '商品的购买数量'),

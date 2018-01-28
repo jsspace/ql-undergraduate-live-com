@@ -2,6 +2,10 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use backend\models\User;
+use backend\models\CoursePackage;
+use backend\models\Cities;
+use backend\models\Lookup;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\MessageSearch */
@@ -9,6 +13,11 @@ use yii\grid\GridView;
 
 $this->title = Yii::t('app', 'Messages');
 $this->params['breadcrumbs'][] = $this->title;
+
+$userModels = User::users('student');
+$ids = array_keys($userModels);
+print_r($ids);
+die();
 ?>
 <div class="message-index">
 
@@ -24,13 +33,39 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'msg_id',
-            'publisher',
-            'content:ntext',
-            'classids',
-            'cityid',
-            // 'status',
-            // 'created_time:datetime',
-            // 'publish_time:datetime',
+            [
+                'attribute' => 'publisher',
+                'value'=> function ($model) {
+                    return User::item($model->publisher);
+                }
+            ],
+            'title',
+            //'content:ntext',
+            [
+                'attribute' => 'classids',
+                'value' => function ($model) {
+                    return CoursePackage::namesById($model->classids);
+                }
+            ],
+            [
+                'attribute' => 'cityid',
+                'value' => function($model) {
+                    if ($model->cityid === 'all') {
+                        return '全国';
+                    } else {
+                        return Cities::item($model->cityid);
+                    }
+                },
+            ],
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    return Lookup::item('message_status', $model->status);
+                },
+                'filter' => Lookup::items('message_status'),
+            ],
+            'created_time:datetime',
+            'publish_time:datetime',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

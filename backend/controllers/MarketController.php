@@ -14,6 +14,7 @@ use yii\web\UploadedFile;
 use Da\QrCode\QrCode;
 use backend\models\OrderInfo;
 use yii\data\Pagination;
+use backend\models\Withdraw;
 
 /**
  * MarketController implements the CRUD actions for User model.
@@ -116,9 +117,32 @@ class MarketController extends Controller
         ->andWhere(['pay_status' => 2]);
         $pages = new Pagination(['totalCount' =>$data->count(), 'pageSize' => '10']);
         $model = $data->offset($pages->offset)->limit($pages->limit)->all();
+        
+        //计算市场专员报酬
+        $income_orders_models = OrderInfo::find()
+        ->where(['user_id' => $invite_users_id])
+        ->andWhere(['order_status' => 1])
+        ->andWhere(['pay_status' => 2])
+        ->all();
+        $market_income = 0;
+        foreach ($income_orders_models as $item) {
+            $market_income = $item->order_amount + $item->bonus;
+        }
+        $market_total_income = $market_income * 0.5;
+        
+        //提现历史
+        $withdraw_history = Withdraw::find()
+        ->where(['user_id' => $id])
+        ->all();
+        $total_withdraw = 0;
+        foreach($withdraw_history as $withdraw) {
+            $total_withdraw += $withdraw->fee;
+        }
         return $this->render('order',[
             'model' => $model,
             'pages' => $pages,
+            'market_total_income' => $market_total_income,
+            'total_withdraw' => $total_withdraw,
         ]);
     }
     

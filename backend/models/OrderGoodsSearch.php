@@ -18,7 +18,7 @@ class OrderGoodsSearch extends OrderGoods
     public function rules()
     {
         return [
-            [['rec_id', 'order_id', 'goods_id', 'goods_number', 'send_number', 'is_real', 'parent_id', 'is_gift'], 'integer'],
+            [['rec_id', 'order_id', 'user_id', 'pay_status', 'goods_id', 'goods_number', 'send_number', 'is_real', 'parent_id', 'is_gift'], 'integer'],
             [['goods_name', 'goods_sn', 'goods_attr', 'extension_code'], 'safe'],
             [['market_price', 'goods_price'], 'number'],
         ];
@@ -63,6 +63,8 @@ class OrderGoodsSearch extends OrderGoods
             'rec_id' => $this->rec_id,
             'order_id' => $this->order_id,
             'goods_id' => $this->goods_id,
+            'user_id' => $this->user_id,
+            'pay_status' => $this->pay_status,
             'goods_number' => $this->goods_number,
             'market_price' => $this->market_price,
             'goods_price' => $this->goods_price,

@@ -5,6 +5,8 @@ use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\Course;
 use backend\models\OrderInfo;
+use backend\models\OrderGoods;
+use backend\models\CoursePackage;
 AppAsset::addCss($this,'@web/css/user.css');
 
 $this->title = '个人中心';
@@ -52,15 +54,29 @@ $this->title = '个人中心';
                         <?php 
                             $courseids = $order->course_ids;
                             $courseids_arr = explode(',', $courseids);
-                            foreach ($courseids_arr as $key => $courseid) {
-                                $course = Course::find()
-                                ->where(['id' => $courseid])
-                                ->one();
+                            
+                            $goods_items_models = OrderGoods::find()
+                            ->where(['order_sn' => $order->order_sn])
+                            ->all();
+                            
+                            foreach ($goods_items_models as $goods_item) {
+                                if ($goods_item->type == 'course') {
+                                    $course = Course::find()
+                                    ->where(['id' => $goods_item->goods_id])
+                                    ->one();
+                                    $course_name = $course->course_name;
+                                } else if ($goods_item->type == 'course_package') { 
+                                    $course = CoursePackage::find()
+                                    ->where(['id' => $goods_item->goods_id])
+                                    ->one();
+                                    $course_name = $course->name;
+                                }
+                                
                            if ($course) {
                             ?>
                             <div class="order-content">
                                 <p class="course-img"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>"><img src="<?= $course->list_pic ?>"/></a></p>
-                                <p class="course-name"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>"><?= $course->course_name ?></a></p>
+                                <p class="course-name"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>"><?= $course_name ?></a></p>
                                 <p class="course-quantity">&times; 1</p>
                                 <p class="order-price">
                                     <span class="total-price">总额：￥<?= $course->discount ?></span>

@@ -28,4 +28,8 @@ $this->title = Yii::t('app', '订单记录');
         </ul>
     </div>
     <?= LinkPager::widget(['pagination' => $pages]); ?>
+
+	<div>市场专员报酬 = 本区域订单×提成比例 提成比例初定为50%</div>
+    <div>总收入：<?= $market_total_income; ?></div>
+    <div>已提现金额：<?= $total_withdraw; ?></div>
 </div>
