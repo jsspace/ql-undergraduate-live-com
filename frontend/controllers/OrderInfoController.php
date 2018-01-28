@@ -14,6 +14,8 @@ use backend\models\Cart;
 use backend\models\Coin;
 use Da\QrCode\QrCode;
 use yii\base\InvalidValueException;
+use backend\models\Lookup;
+use backend\models\User;
 
 require_once "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
 require_once "../../common/alipay/pagepay/service/AlipayTradeService.php";
@@ -142,6 +144,9 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods = new OrderGoods();
             $order_goods->order_sn = $order_sn;
             $order_goods->goods_id = $model->id;
+            $order_goods->user_id = Yii::$app->user->id;
+            $order_goods->pay_status = 0;
+            $order_goods->goods_id = $model->id;
             $order_goods->goods_name = $model->name;
             $order_goods->goods_number = 1;
             $order_goods->market_price = $model->price;
@@ -153,7 +158,24 @@ class OrderInfoController extends \yii\web\Controller
         
         $course_ids_arr = explode(',', $courseids);
         $course_ids_str = implode(',', array_unique($course_ids_arr));
-        $order_amount = $goods_amount - $coupon_money;
+        
+        //查看此人是否是被邀请注册的
+        $invite = Yii::$app->user->identity->invite;
+        //查看是否是第一次购买
+        $is_first_order = OrderInfo::find()
+        ->andWhere(['user_id' => Yii::$app->user->id])
+        ->andWhere(['pay_status' => 2])
+        ->count();
+        if ($invite > 0 && $is_first_order == 0) {
+            $perc = Lookup::find()
+            ->where(['type' => 'share_course_shoping_get'])
+            ->one();
+            $order_amount = ((100 - $perc) / 100.00) * $goods_amount - $coupon_money;
+        } else {
+            $order_amount = $goods_amount - $coupon_money;
+        }
+        
+        
         $pay_status = 0;
         $bonus = 0;/*使用钱包金额*/
         /*是否使用钱包*/
@@ -309,6 +331,35 @@ class OrderInfoController extends \yii\web\Controller
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     if ($order_info->pay_status == 0) {
+                        //给邀请人发送奖励金额
+                        //查看此人是否是被邀请注册的
+                        $invite_peaple = User::find()
+                        ->where(['id' => $order_info->user_id])
+                        ->one();
+                        $invite = $invite_peaple->invite;
+                        //查看是否是第一次购买
+                        $is_first_order = OrderInfo::find()
+                        ->andWhere(['user_id' => Yii::$app->user->id])
+                        ->andWhere(['pay_status' => 2])
+                        ->count();
+                        if ($invite > 0 && $is_first_order == 0) {
+                            $perc = Lookup::find()
+                            ->where(['type' => 'share_course_shoping_get'])
+                            ->one();
+                            // 收入
+                            $income = ($perc / 100.00) * $order_info->goods_amount;
+                            //分享人报酬
+                            $invite_pay = new Coin();
+                            $invite_pay->userid = $invite;
+                            $invite_pay->income = $income;
+                            $invite_pay->balance = $income;
+                            $invite_pay->operation_detail = '邀请注册首单奖励，邀请的用户： ' . $invite_peaple->username;
+                            $invite_pay->operation_time = time();
+                            $invite_pay->card_id = $order_info->order_sn;
+                            $invite_pay->save(false);
+                        }
+                        
+                        OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
                         $order_info->pay_id = $trade_no;
                         $order_info->pay_name = '支付宝支付';
                         $order_info->money_paid = $total_amount;
@@ -338,6 +389,35 @@ class OrderInfoController extends \yii\web\Controller
                 ->andWhere(['order_status' => 1])
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
+                    //给邀请人发送奖励金额
+                    //查看此人是否是被邀请注册的
+                    $invite_peaple = User::find()
+                    ->where(['id' => $order_info->user_id])
+                    ->one();
+                    $invite = $invite_peaple->invite;
+                    //查看是否是第一次购买
+                    $is_first_order = OrderInfo::find()
+                    ->andWhere(['user_id' => Yii::$app->user->id])
+                    ->andWhere(['pay_status' => 2])
+                    ->count();
+                    if ($invite > 0 && $is_first_order == 0) {
+                        $perc = Lookup::find()
+                        ->where(['type' => 'share_course_shoping_get'])
+                        ->one();
+                        // 收入
+                        $income = ($perc / 100.00) * $order_info->goods_amount;
+                        //分享人报酬
+                        $invite_pay = new Coin();
+                        $invite_pay->userid = $invite;
+                        $invite_pay->income = $income;
+                        $invite_pay->balance = $income;
+                        $invite_pay->operation_detail = '邀请注册首单奖励，邀请的用户： ' . $invite_peaple->username;
+                        $invite_pay->operation_time = time();
+                        $invite_pay->card_id = $order_info->order_sn;
+                        $invite_pay->save(false);
+                    }
+                    
+                    OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
                     $order_info->pay_id = $trade_no;
                     $order_info->pay_name = '支付宝支付';
                     $order_info->money_paid = $total_amount;
@@ -475,6 +555,35 @@ class OrderInfoController extends \yii\web\Controller
                 
                     if (!empty($order_info)) {
                         if ($order_info->order_amount == $total_fee) {
+                            //给邀请人发送奖励金额
+                            //查看此人是否是被邀请注册的
+                            $invite_peaple = User::find()
+                            ->where(['id' => $order_info->user_id])
+                            ->one();
+                            $invite = $invite_peaple->invite;
+                            //查看是否是第一次购买
+                            $is_first_order = OrderInfo::find()
+                            ->andWhere(['user_id' => Yii::$app->user->id])
+                            ->andWhere(['pay_status' => 2])
+                            ->count();
+                            if ($invite > 0 && $is_first_order == 0) {
+                                $perc = Lookup::find()
+                                ->where(['type' => 'share_course_shoping_get'])
+                                ->one();
+                                // 收入
+                                $income = ($perc / 100.00) * $order_info->goods_amount;
+                                //分享人报酬
+                                $invite_pay = new Coin();
+                                $invite_pay->userid = $invite;
+                                $invite_pay->income = $income;
+                                $invite_pay->balance = $income;
+                                $invite_pay->operation_detail = '邀请注册首单奖励，邀请的用户： ' . $invite_peaple->username;
+                                $invite_pay->operation_time = time();
+                                $invite_pay->card_id = $order_info->order_sn;
+                                $invite_pay->save(false);
+                            }
+                            
+                            OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
                             $order_info->pay_id = $transaction_id;
                             $order_info->pay_name = '微信支付';
                             $order_info->money_paid = $total_fee;
@@ -543,6 +652,35 @@ class OrderInfoController extends \yii\web\Controller
                     
                     if (!empty($order_info)) {
                         if ($order_info->order_amount == $total_fee) {
+                            //给邀请人发送奖励金额
+                            //查看此人是否是被邀请注册的
+                            $invite_peaple = User::find()
+                            ->where(['id' => $order_info->user_id])
+                            ->one();
+                            $invite = $invite_peaple->invite;
+                            //查看是否是第一次购买
+                            $is_first_order = OrderInfo::find()
+                            ->andWhere(['user_id' => Yii::$app->user->id])
+                            ->andWhere(['pay_status' => 2])
+                            ->count();
+                            if ($invite > 0 && $is_first_order == 0) {
+                                $perc = Lookup::find()
+                                ->where(['type' => 'share_course_shoping_get'])
+                                ->one();
+                                // 收入
+                                $income = ($perc / 100.00) * $order_info->goods_amount;
+                                //分享人报酬
+                                $invite_pay = new Coin();
+                                $invite_pay->userid = $invite;
+                                $invite_pay->income = $income;
+                                $invite_pay->balance = $income;
+                                $invite_pay->operation_detail = '邀请注册首单奖励，邀请的用户： ' . $invite_peaple->username;
+                                $invite_pay->operation_time = time();
+                                $invite_pay->card_id = $order_info->order_sn;
+                                $invite_pay->save(false);
+                            }
+                            
+                            OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
                             $order_info->pay_id = $transaction_id;
                             $order_info->pay_name = '微信支付';
                             $order_info->money_paid = $total_fee;
