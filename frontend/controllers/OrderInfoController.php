@@ -142,6 +142,9 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods = new OrderGoods();
             $order_goods->order_sn = $order_sn;
             $order_goods->goods_id = $model->id;
+            $order_goods->user_id = Yii::$app->user->id;
+            $order_goods->pay_status = 0;
+            $order_goods->goods_id = $model->id;
             $order_goods->goods_name = $model->name;
             $order_goods->goods_number = 1;
             $order_goods->market_price = $model->price;
@@ -309,6 +312,7 @@ class OrderInfoController extends \yii\web\Controller
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
                     if ($order_info->pay_status == 0) {
+                        OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
                         $order_info->pay_id = $trade_no;
                         $order_info->pay_name = '支付宝支付';
                         $order_info->money_paid = $total_amount;
@@ -338,6 +342,7 @@ class OrderInfoController extends \yii\web\Controller
                 ->andWhere(['order_status' => 1])
                 ->one();
                 if (!empty($order_info) && $order_info->order_amount == $total_amount) {
+                    OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
                     $order_info->pay_id = $trade_no;
                     $order_info->pay_name = '支付宝支付';
                     $order_info->money_paid = $total_amount;
@@ -475,6 +480,7 @@ class OrderInfoController extends \yii\web\Controller
                 
                     if (!empty($order_info)) {
                         if ($order_info->order_amount == $total_fee) {
+                            OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
                             $order_info->pay_id = $transaction_id;
                             $order_info->pay_name = '微信支付';
                             $order_info->money_paid = $total_fee;
@@ -543,6 +549,7 @@ class OrderInfoController extends \yii\web\Controller
                     
                     if (!empty($order_info)) {
                         if ($order_info->order_amount == $total_fee) {
+                            OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
                             $order_info->pay_id = $transaction_id;
                             $order_info->pay_name = '微信支付';
                             $order_info->money_paid = $total_fee;
