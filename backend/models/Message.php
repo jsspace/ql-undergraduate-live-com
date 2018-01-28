@@ -2,6 +2,8 @@
 
 namespace backend\models;
 use backend\models\User;
+use backend\models\OrderGoods;
+use backend\models\read;
 
 use Yii;
 
@@ -69,6 +71,14 @@ class Message extends \yii\db\ActiveRecord
         return new MessageQuery(get_called_class());
     }
 
+    public static function getMessage($msg_id)
+    {
+        $model = self::find()
+        ->where(['msg_id' => $msg_id])
+        ->one();
+        return $model;
+    }
+
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -80,29 +90,55 @@ class Message extends \yii\db\ActiveRecord
             if ($insert) {
                 $this->publisher = Yii::$app->user->id;
                 $this->created_time = time();
-                $isadmin = User::isAdmin();
-                if($isadmin === 1) {
+                $isadmin = User::isAdmin(Yii::$app->user->id);
+                if($isadmin == 1) {
                     $this->cityid = 'all';
                 } else {
-                    $this->cityid =  User::getUserModel(Yii::$app->user->id)->cityid;
+                    $this->cityid = User::getUserModel(Yii::$app->user->id)->cityid;
                 }
             }
             /* 如果审核已通过，填充消息的发布时间并将消息保存到用户的系统消息表，初始状态为未读 */
-            if ($this->status === 1) {
+            if ($this->status == 1) {
+                $this->publish_time = time();
                 $userIdArr = array();
-                if($isadmin === 1) {
-                //管理员身份发送信息
-                    if (in_array('alluser', $classIdsArr)) {
-                        $userNameIdArr = User::users('student');
-                        $userIdArr = array_keys($userNameIdArr);
-                    } else if(in_array('allclass', $classIdsArr)) {
-                        
-                    } else {
-                        
-                    }
+                if (in_array('alluser', $classIdsArr)) {
+                    $userNameIdArr = User::users('student');
+                    $userIdArr = array_keys($userNameIdArr);
+                } else if(in_array('allclass', $classIdsArr)) {
+                    $orderGoods = OrderGoods::find()
+                    ->select('user_id')
+                    ->where(['type' => 'course_package'])
+                    ->andWhere(['pay_status' => 2])
+                    ->asArray()
+                    ->all();
+                    $userIdArr = array_column($orderGoods, 'user_id');
                 } else {
-                // 市场专员身份发送信息
-                    
+                    $orderGoods = OrderGoods::find()
+                    ->select('user_id')
+                    ->where(['type' => 'course_package'])
+                    ->andWhere(['pay_status' => 2])
+                    ->andWhere(['goods_id' => $classIdsArr])
+                    ->asArray()
+                    ->all();
+                    $userIdArr = array_column($orderGoods, 'user_id');
+                }
+                $userIdArr = array_unique($userIdArr);
+                $isadmin = User::isAdmin($this->publisher);
+                if(!$isadmin) {
+                //市场专员身份发送信息
+                    foreach ($userIdArr as $key => $userId) {
+                        if (User::getUserModel($userId)->cityid != $this->cityid) {
+                            unset($userIdArr[$key]);
+                        }
+                    }
+                }
+                /* 添加用户消息表 */
+                foreach ($userIdArr as $key => $userId) {
+                    $readModel = new Read();
+                    $readModel->msg_id = $this->msg_id;
+                    $readModel->userid = $userId;
+                    $readModel->get_time = time();
+                    $readModel->save(false);
                 }
             }
             return true;

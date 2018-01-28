@@ -22,6 +22,7 @@ use backend\models\MemberGoods;
 use backend\models\CoursePackage;
 use backend\models\CourseCategory;
 use backend\models\Cities;
+use backend\models\Read;
 use yii\helpers\Html;
 
 /**
@@ -299,14 +300,25 @@ class UserController extends Controller
     }
     public function actionMessage()
     {
+        $messages = Read::find()
+        ->where(['userid' => Yii::$app->user->id])
+        ->orderBy([
+          'status' => SORT_ASC,
+          'get_time'=>SORT_DESC
+        ])->all();
         return $this->render('message', [
-            'messages' => ''
+            'messages' => $messages
         ]);
     }
     public function actionMessageView()
     {
+        $get = Yii::$app->request->get();
+        $read_id = $get['id'];
+        $readModel = Read::find()
+        ->where(['id' => $read_id])
+        ->one();
         return $this->render('message-view', [
-            'messages' => ''
+            'read' => $readModel
         ]);
     }
 }

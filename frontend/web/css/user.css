@@ -585,11 +585,13 @@ label {
     white-space: nowrap;
     margin-top: 10px;
 }
+.message-list .msg-con p {
+    display: inline-block;
+}
 .message-list .msg-more {
     display: inline-block;
     margin-left: 10px;
     vertical-align: middle;
-    margin-top: -10px;
 }
 .user-right-title a {
     color: #009aff;

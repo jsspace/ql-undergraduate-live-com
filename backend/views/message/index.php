@@ -6,6 +6,7 @@ use backend\models\User;
 use backend\models\CoursePackage;
 use backend\models\Cities;
 use backend\models\Lookup;
+use backend\models\OrderGoods;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\MessageSearch */
@@ -14,10 +15,6 @@ use backend\models\Lookup;
 $this->title = Yii::t('app', 'Messages');
 $this->params['breadcrumbs'][] = $this->title;
 
-$userModels = User::users('student');
-$ids = array_keys($userModels);
-print_r($ids);
-die();
 ?>
 <div class="message-index">
 

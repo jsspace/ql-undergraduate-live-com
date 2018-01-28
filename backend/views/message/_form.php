@@ -46,7 +46,7 @@ AppAsset::addCss($this,'@web/css/message.css');
     }]); ?>
 
     <?php
-        $isadmin = User::isAdmin();
+        $isadmin = User::isAdmin(Yii::$app->user->id);
         if($isadmin === 1) {
             echo $form->field($model, 'status')->dropDownList(Lookup::items('message_status'));
         }
