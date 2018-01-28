@@ -1,6 +1,7 @@
 <?php
 
 namespace backend\models;
+use backend\models\User;
 
 use Yii;
 
@@ -95,5 +96,48 @@ class CoursePackage extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    }
+    /* 获取所有班级列表 */
+    private static $_items=array();
+
+    public static function items()
+    {
+        if(!count(self::$_items)) {
+            self::loadItems();
+        }
+        return self::$_items;
+    }
+    
+    public static function item($id)
+    {
+        if(!isset(self::$_items[$id])) {
+            self::loadItems();
+        }
+        return isset(self::$_items[$id]) ? self::$_items[$id] : false;
+    }
+    
+    private static function loadItems()
+    {
+        $isadmin = User::isAdmin();
+        if($isadmin === 1) {
+            self::$_items['alluser'] = '全部学员';
+        }
+        self::$_items['allclass'] = '全部班级';
+        $models=self::find()
+        ->all();
+        foreach($models as $model) {
+            self::$_items[$model->id] = $model->name;
+        }
+    }
+
+    public static function namesById($ids)
+    {
+        $idArr = explode(',', $ids);
+        $names = '';
+        foreach ($idArr as $key => $id) {
+            $names .= self::item($id).',';
+        }
+        $names = substr($names,0,strlen($names)-1); 
+        return $names;
     }
 }

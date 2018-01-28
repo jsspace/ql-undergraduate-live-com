@@ -19,7 +19,7 @@ class MessageSearch extends Message
     {
         return [
             [['msg_id', 'publisher', 'status', 'created_time', 'publish_time'], 'integer'],
-            [['content', 'classids', 'cityid'], 'safe'],
+            [['content', 'classids', 'cityid', 'title'], 'safe'],
         ];
     }
 
@@ -67,6 +67,7 @@ class MessageSearch extends Message
         ]);
 
         $query->andFilterWhere(['like', 'content', $this->content])
+            ->andFilterWhere(['like', 'title', $this->classids])
             ->andFilterWhere(['like', 'classids', $this->classids])
             ->andFilterWhere(['like', 'cityid', $this->cityid]);
 
