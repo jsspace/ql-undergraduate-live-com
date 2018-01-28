@@ -111,7 +111,7 @@ class CourseController extends Controller
         $cookies = Yii::$app->response->cookies;
         $cookies->add(new \yii\web\Cookie([
             'name' => 'invite',
-            'value' => Yii::$app->user->id,
+            'value' => $invite,
             'expire'=>time()+3600*24*365
         ]));
         $courseModel = Course::find()
