@@ -177,6 +177,33 @@ class TeacherController extends Controller
         ]);
         $orders = $orders->offset($pagination->offset)->limit($pagination->limit)->all();
         
+        //计算教师总收入
+        $income_orders_models = OrderInfo::find()
+        ->where(['order_sn' => $order_sns])
+        ->andWhere(['pay_status' => 2])
+        ->andWhere(['order_status' => 1])
+        ->all();
+        $teacher_income = 0;
+        $order_money = 0;
+        foreach ($income_orders_models as $income_orders_item) {
+            // 当前订单金额
+            $order_money = $income_orders_item->order_amount + $income_orders_item->bonus;
+            // 获取当前订单中的所有课程
+            $curr_courses = Course::getCourse($income_orders_item->course_ids);
+            // 当前订单中所有课程的总价
+            $course_total_price = 0;
+            // 当前订单中教师所教授课程的价格
+            $t_total_price = 0;
+            foreach ($curr_courses as $key => $course_item) {
+                $course_total_price += $course_item->discount;
+                if (in_array($course_item->id, $course_ids) ) {
+                    $t_total_price += $course_item->discount;
+                }
+            }
+            $teacher_income += $t_total_price/$course_total_price*$order_money*0.5;
+        }
+        $teacher_total_income = round($teacher_income, 2);
+        
         //提现历史
         $withdraw_history = Withdraw::find()
         ->where(['user_id' => $userid])
@@ -191,6 +218,7 @@ class TeacherController extends Controller
             't_course_ids' => $course_ids,
             'withdraw_history' => $withdraw_history,
             'total_withdraw' => $total_withdraw,
+            'teacher_total_income' => $teacher_total_income,
         ]);
     }
 

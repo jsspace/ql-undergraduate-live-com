@@ -81,6 +81,11 @@ class TeacherSearch extends User
             ->andFilterWhere(['like', 'goodat', $this->goodat])
             ->andFilterWhere(['like', 'picture', $this->picture])
             ->andFilterWhere(['like', 'intro', $this->intro]);
+        
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if(!array_key_exists('admin',$roles_array)) {
+            $query->andFilterWhere(['id' => Yii::$app->user->id]);
+        }
 
         return $dataProvider;
     }
