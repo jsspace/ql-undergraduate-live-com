@@ -22,14 +22,14 @@ $this->title = '个人中心';
     <?= $this->render('lmenu') ?>
     <div class="right-content">
        <p class="user-right-title">消息通知</p>
-       <div class="status-select-wrapper _order-status">
+       <!-- <div class="status-select-wrapper _order-status">
             <p class="current-status">全部状态</p>
             <ul class="status-list">
                 <li class="active">全部状态</li>
                 <li>已读</li>
                 <li>未读</li>
             </ul>
-        </div>
+        </div> -->
 
         <ul class="message-list">
             <?php

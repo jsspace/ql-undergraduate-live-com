@@ -91,4 +91,5 @@ return [
     'Create marketer' => '创建市场专员',
     'Messages' => '消息列表',
     'Create Message' => '创建消息',
+    'Reads' => '消息读取表',
 ];

@@ -8,6 +8,9 @@ use backend\models\MessageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\models\User;
+use backend\models\OrderGoods;
+use backend\models\read;
 
 /**
  * MessageController implements the CRUD actions for Message model.
@@ -42,6 +45,58 @@ class MessageController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionReview()
+    {
+        $id = Yii::$app->request->get('msg_id');
+        $message = $this->findModel($id);
+        /* 如果审核已通过，填充消息的发布时间并将消息保存到用户的系统消息表，初始状态为未读 */
+        $message->publish_time = time();
+        $message->status = 1;
+        $message->save(false);
+        $userIdArr = array();
+        $classIdsArr = explode(',', $message->classids);
+        if (in_array('alluser', $classIdsArr)) {
+            $userNameIdArr = User::users('student');
+            $userIdArr = array_keys($userNameIdArr);
+        } else if(in_array('allclass', $classIdsArr)) {
+            $orderGoods = OrderGoods::find()
+            ->select('user_id')
+            ->where(['type' => 'course_package'])
+            ->andWhere(['pay_status' => 2])
+            ->asArray()
+            ->all();
+            $userIdArr = array_column($orderGoods, 'user_id');
+        } else {
+            $orderGoods = OrderGoods::find()
+            ->select('user_id')
+            ->where(['type' => 'course_package'])
+            ->andWhere(['pay_status' => 2])
+            ->andWhere(['goods_id' => $classIdsArr])
+            ->asArray()
+            ->all();
+            $userIdArr = array_column($orderGoods, 'user_id');
+        }
+        $userIdArr = array_unique($userIdArr);
+        $isadmin = User::isAdmin($message->publisher);
+        if(!$isadmin) {
+        //市场专员身份发送信息
+            foreach ($userIdArr as $key => $userId) {
+                if (User::getUserModel($userId)->cityid != $message->cityid) {
+                    unset($userIdArr[$key]);
+                }
+            }
+        }
+        /* 添加用户消息表 */
+        foreach ($userIdArr as $key => $userId) {
+            $readModel = new Read();
+            $readModel->msg_id = $message->msg_id;
+            $readModel->userid = $userId;
+            $readModel->get_time = time();
+            $readModel->save(false);
+        }
+        return $this->redirect('index');
     }
 
     /**

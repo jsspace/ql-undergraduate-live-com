@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use backend\models\User;
 use backend\models\CoursePackage;
@@ -28,8 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'msg_id',
+            ['class' => 'yii\grid\ActionColumn'],
+            //'msg_id',
+            [
+                'label'=>'审核',
+                'format'=>'raw',
+                'value' => function($model){
+                    if ($model->status != 1) {
+                        $url = Url::to(['message/review', 'msg_id' => $model->msg_id]);
+                        return Html::a('审核通过', $url);
+                    } else {
+                        return '已处理';
+                    }
+                }
+            ],
             [
                 'attribute' => 'publisher',
                 'value'=> function ($model) {
@@ -62,9 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => Lookup::items('message_status'),
             ],
             'created_time:datetime',
-            'publish_time:datetime',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            //'publish_time:datetime'
         ],
     ]); ?>
 </div>

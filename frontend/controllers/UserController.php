@@ -317,6 +317,9 @@ class UserController extends Controller
         $readModel = Read::find()
         ->where(['id' => $read_id])
         ->one();
+        $readModel->status = 1;
+        $readModel->read_time = time();
+        $readModel->save(false);
         return $this->render('message-view', [
             'read' => $readModel
         ]);

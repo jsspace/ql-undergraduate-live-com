@@ -82,10 +82,11 @@ class Message extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $classIdsArr = $this->classids;
             /* 分割传过来的数组 */
             if($this->classids) {
-                $this->classids = implode(',',$this->classids);
+                if (is_array($this->classids)) {
+                    $this->classids = implode(',',$this->classids);
+                }
             }
             if ($insert) {
                 $this->publisher = Yii::$app->user->id;
@@ -95,50 +96,6 @@ class Message extends \yii\db\ActiveRecord
                     $this->cityid = 'all';
                 } else {
                     $this->cityid = User::getUserModel(Yii::$app->user->id)->cityid;
-                }
-            }
-            /* 如果审核已通过，填充消息的发布时间并将消息保存到用户的系统消息表，初始状态为未读 */
-            if ($this->status == 1) {
-                $this->publish_time = time();
-                $userIdArr = array();
-                if (in_array('alluser', $classIdsArr)) {
-                    $userNameIdArr = User::users('student');
-                    $userIdArr = array_keys($userNameIdArr);
-                } else if(in_array('allclass', $classIdsArr)) {
-                    $orderGoods = OrderGoods::find()
-                    ->select('user_id')
-                    ->where(['type' => 'course_package'])
-                    ->andWhere(['pay_status' => 2])
-                    ->asArray()
-                    ->all();
-                    $userIdArr = array_column($orderGoods, 'user_id');
-                } else {
-                    $orderGoods = OrderGoods::find()
-                    ->select('user_id')
-                    ->where(['type' => 'course_package'])
-                    ->andWhere(['pay_status' => 2])
-                    ->andWhere(['goods_id' => $classIdsArr])
-                    ->asArray()
-                    ->all();
-                    $userIdArr = array_column($orderGoods, 'user_id');
-                }
-                $userIdArr = array_unique($userIdArr);
-                $isadmin = User::isAdmin($this->publisher);
-                if(!$isadmin) {
-                //市场专员身份发送信息
-                    foreach ($userIdArr as $key => $userId) {
-                        if (User::getUserModel($userId)->cityid != $this->cityid) {
-                            unset($userIdArr[$key]);
-                        }
-                    }
-                }
-                /* 添加用户消息表 */
-                foreach ($userIdArr as $key => $userId) {
-                    $readModel = new Read();
-                    $readModel->msg_id = $this->msg_id;
-                    $readModel->userid = $userId;
-                    $readModel->get_time = time();
-                    $readModel->save(false);
                 }
             }
             return true;

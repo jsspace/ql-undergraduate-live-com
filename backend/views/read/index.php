@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use backend\models\User;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ReadSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -12,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="read-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -24,14 +24,25 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'msg_id',
-            'userid',
-            'status',
+            [
+                'attribute' => 'userid',
+                'value'=> function ($model) {
+                    return User::item($model->userid);
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'value'=> function ($model) {
+                    return $model->status == 1 ? '已读':'未读';
+                },
+                'filter' => [1=>'已读',0=>'未读' ],
+            ],
+            'get_time:datetime',
             'read_time:datetime',
-            // 'get_time:datetime',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
