@@ -32,9 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'value'=> function ($model) {
-                    return $model->status == 1 ? '已激活':'未激活';
+                    return $model->status == 10 ? '已激活':'未激活';
                 },
-                'filter' => [1=>'已激活',0=>'未激活'],
+                'filter' => [10=>'已激活',0=>'未激活'],
             ],
             // 'created_at',
             // 'updated_at',

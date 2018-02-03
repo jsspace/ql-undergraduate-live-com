@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'email:email',
             [
                 'attribute' => 'status',
-                'value'=> $model->status == 1 ? '已激活' : '未激活',
+                'value'=> $model->status == 10 ? '已激活' : '未激活',
             ],
             'created_at',
             'updated_at',

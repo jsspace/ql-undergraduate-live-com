@@ -21,7 +21,7 @@ use kartik\file\FileInput;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->dropDownList(['10'=>'已激活', '0'=>'未激活']) ?>
+    <?= $form->field($model, 'status')->dropDownList(['10'=>'已激活', '0'=>'未激活'], ['prompt'=>'请选择...']) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 

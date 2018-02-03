@@ -229,7 +229,12 @@ class CourseController extends Controller
                     return json_encode($data);
                 }
                 $ispay = Course::ispay($course_id);/*判断是否已经购买*/
-                if ($ispay == 1) {
+                $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+                $isschool = 0;
+                if (array_key_exists('school',$roles_array)) {
+                    $isschool = 1;
+                }
+                if ($ispay == 1 || $isschool == 1) {
                     $data['status'] = '2';
                     $data['message'] = '用户已经购买了该课程，允许观看';
                     $data['url'] = $video_url;
