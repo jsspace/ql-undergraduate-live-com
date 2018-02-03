@@ -84,12 +84,17 @@ $userid = Yii::$app->user->id;
                     </p>
                 </div>
                 <?php
+                    $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+                    $isschool = 0;
+                    if (array_key_exists('school',$roles_array)) {
+                        $isschool = 1;
+                    }
                     $ismember = Course::ismember($course->id);
                     $ispay = Course::ispay($course->id);
                     if ($ismember == 1) { ?>
                         <span class="course-ispay-tag">会员课程</span>
                     <?php }
-                    else if ($ispay == 1) { ?>
+                    else if ($ispay == 1 || $isschool == 1) { ?>
                         <span class="course-ispay-tag">已购课程</span>
                     <?php } else { ?>
                         <div class="btn-course">
