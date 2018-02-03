@@ -121,43 +121,46 @@ $weekarray=array("日","一","二","三","四","五","六");
     </div>
     <?php 
         foreach ($collegeArr as $key => $college) {
-    ?>
-    <div class="container-course course-online college-wrap">
-        <div class="container-course-wrap">
-            <div class="course-hd">
-                <h3 class="course-title"><?= $college['college_name'] ?></h3>
-                <div class="side">
-                    <a href="<?= Url::to(['course/college','cat' => $key]) ?>" class="link more">更多&gt;&gt;</a>
-                </div>
-            </div>
-            <div class="course-content">
-                <ul class="list active">
-                    <?php foreach ($college['college_course'] as $course) { ?>
-                        <li>
-                            <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">
-                                <div class="course-img">
-                                    <img class="course-pic" src="<?= $course->list_pic; ?>"/>
-                                </div>
-                                <p class="content-title"><?= $course->course_name; ?></p>
-                            </a>
-                            <!-- <div class="course-statistic">
-                                <i class="icon ion-android-person"></i>
-                                <span class="people"><?= $course->online; ?>人在学</span>
-                                <i class="icon ion-heart"></i>
-                                <span class="people"><?= $course->collection; ?>人</span>
-                            </div> -->
-                            <div class="teacher-section">
-                                <!-- <img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/> -->
-                                <span class="teacher-name">主讲人：<?= User::item($course->teacher_id); ?></span>
-                                <span class="teacher-position"><?= User::getUserModel($course->teacher_id)->description; ?></span>
+            if (!empty($college['college_course']) && count($college['college_course']) != 0) { ?>
+                <div class="container-course course-online college-wrap">
+                    <div class="container-course-wrap">
+                        <div class="course-hd">
+                            <h3 class="course-title"><?= $college['college_name'] ?></h3>
+                            <div class="side">
+                                <a href="<?= Url::to(['course/college','cat' => $key]) ?>" class="link more">更多&gt;&gt;</a>
                             </div>
-                        </li>
-                    <?php } ?>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <?php  
+                        </div>
+                        <div class="course-content">
+                            <ul class="list active">
+                                <?php 
+                                    if (!empty($college['college_course'])) {
+                                        foreach ($college['college_course'] as $course) { ?>
+                                        <li>
+                                            <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">
+                                                <div class="course-img">
+                                                    <img class="course-pic" src="<?= $course->list_pic; ?>"/>
+                                                </div>
+                                                <p class="content-title"><?= $course->course_name; ?></p>
+                                            </a>
+                                            <!-- <div class="course-statistic">
+                                                <i class="icon ion-android-person"></i>
+                                                <span class="people"><?= $course->online; ?>人在学</span>
+                                                <i class="icon ion-heart"></i>
+                                                <span class="people"><?= $course->collection; ?>人</span>
+                                            </div> -->
+                                            <div class="teacher-section">
+                                                <!-- <img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/> -->
+                                                <span class="teacher-name">主讲人：<?= User::item($course->teacher_id); ?></span>
+                                                <span class="teacher-position"><?= User::getUserModel($course->teacher_id)->description; ?></span>
+                                            </div>
+                                        </li>
+                                        <?php }
+                                    } ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        <?php }
         }
     ?>
     <div class="container-course teacher-section">

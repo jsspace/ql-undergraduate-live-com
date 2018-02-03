@@ -44,7 +44,9 @@ $this->title = '直属学院';
                 </li>
                 <li class="college-course active">
                     <div class="user-course-list">
-                        <?php foreach ($collegeArr["college_course"] as $key => $course) { ?>
+                        <?php 
+                        if (!empty($collegeArr["college_course"])) {
+                        foreach ($collegeArr["college_course"] as $key => $course) { ?>
                         <div class="course-list-con">
                             <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>" class="user-course-img" target="_blank"><img src="<?= $course->list_pic ?>"/></a>
                             <div class="user-course-details">
@@ -57,7 +59,7 @@ $this->title = '直属学院';
                                 </div>
                             </div>
                         </div>
-                        <?php } ?>
+                        <?php } } ?>
                     </div>
                 </li>
                 <li class="college-class">
@@ -83,7 +85,9 @@ $this->title = '直属学院';
                 </li>
                 <li class="teacher-section">
                     <div class="teach-list">
-                        <?php foreach ($collegeArr["college_teacher"] as $key => $teacher) { ?>
+                        <?php 
+                            if (!empty($collegeArr["college_teacher"])) {
+                            foreach ($collegeArr["college_teacher"] as $key => $teacher) { ?>
                             <div class="teacher-con">
                                 <a href="<?= Url::to(['teacher/detail', 'userid' => $teacher->id]) ?>" target="_blank">
                                     <img class="people-img" src="/<?= $teacher->picture; ?>"/>
@@ -105,7 +109,7 @@ $this->title = '直属学院';
                                     </p>
                                 </a>
                             </div>
-                        <?php } ?>
+                        <?php } } ?>
                     </div>
                 </li>
             </ul>
