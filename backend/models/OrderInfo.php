@@ -53,7 +53,7 @@ class OrderInfo extends \yii\db\ActiveRecord
     {
         return [
             [['order_sn', 'add_time', 'course_ids'], 'required'],
-            [['user_id', 'order_status', 'pay_status', 'integral', 'add_time', 'confirm_time', 'pay_time', 'bonus_id', 'is_separate', 'parent_id', 'invalid_time'], 'integer'],
+            [['user_id', 'order_status', 'pay_status', 'integral', 'add_time', 'confirm_time', 'bonus_id', 'is_separate', 'parent_id'], 'integer'],
             [['goods_amount', 'pay_fee', 'money_paid', 'integral_money', 'bonus', 'order_amount', 'discount', 'coupon_money'], 'number'],
             [['order_sn', 'pay_id', 'course_ids'], 'string', 'max' => 200],
             [['consignee', 'mobile', 'email'], 'string', 'max' => 60],
@@ -71,14 +71,14 @@ class OrderInfo extends \yii\db\ActiveRecord
         return [
             'order_id' => Yii::t('app', '订单详细信息自增id'),
             'order_sn' => Yii::t('app', '订单号，唯一'),
-            'user_id' => Yii::t('app', '用户id'),
+            'user_id' => Yii::t('app', '用户'),
             'order_status' => Yii::t('app', '订单状态'),
             'pay_status' => Yii::t('app', '支付状态'),
             'consignee' => Yii::t('app', '用户'),
             'mobile' => Yii::t('app', '收货人的手机，用户页面填写，默认取值于表user_phone'),
             'email' => Yii::t('app', '收货人的邮箱，用户页面填写，默认取值于表user_email'),
             'pay_id' => Yii::t('app', '支付订单号'),
-            'pay_name' => Yii::t('app', '用户选择的支付方式的名称，取值表ecs_payment'),
+            'pay_name' => Yii::t('app', '支付方式'),
             'goods_amount' => Yii::t('app', '商品总金额'),
             'pay_fee' => Yii::t('app', '支付费用,跟支付方式的配置相关，取值表ecs_payment'),
             'money_paid' => Yii::t('app', '已付款金额'),

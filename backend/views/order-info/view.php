@@ -11,6 +11,18 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Order Infos'), 'url'
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-info-view">
+
+    <p>
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->order_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->order_id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                'method' => 'post',
+            ],
+        ]) ?>
+    </p>
+
     <div class="order-table">
         <ul>
             <li>
@@ -49,10 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <label class="tr-title">应付款总金额</label>
                 <span class="tr-content"><?= $model->order_amount; ?></span>
             </li>
-            <li>
+            <!-- <li>
                 <label class="tr-title">优惠券金额</label>
                 <span class="tr-content"><?= $model->coupon_money; ?></span>
-            </li>
+            </li> -->
         </ul>
     </div>
     <div class="order-table order-course-info">
@@ -62,12 +74,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 <span class="tr-title">课程</span>
                 <span class="tr-content">价格</span>
             </li>
-            <?php foreach ($courses as $course) { ?>
-                <li>
-                    <span class="tr-title"><?= $course->course_name ?></span>
-                    <span class="tr-content"><?= $course->discount ?></span>
-                </li>
-            <?php } ?>
+            <?php
+            if ($courses == 'all') {
+                echo "<h3>全部课程</h3>";
+            } else {
+                foreach ($courses as $course) { ?>
+                    <li>
+                        <span class="tr-title"><?= $course->course_name ?></span>
+                        <span class="tr-content"><?= $course->discount ?></span>
+                    </li>
+                <?php }
+            } ?>
         </ul>
     </div>
 </div>

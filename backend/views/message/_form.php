@@ -45,12 +45,12 @@ AppAsset::addCss($this,'@web/css/message.css');
         return '<label><input type="checkbox" name="'.$name.'" value="'.$value.'" '.$checkStr.' class="'.$classname.'">'.$label.'</label>';
     }]); ?>
 
-    <?php
+    <!-- <?php
         $isadmin = User::isAdmin(Yii::$app->user->id);
         if($isadmin === 1) {
             echo $form->field($model, 'status')->dropDownList(Lookup::items('message_status'));
         }
-    ?>
+    ?> -->
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

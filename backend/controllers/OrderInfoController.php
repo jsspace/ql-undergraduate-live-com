@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\Course;
+use backend\models\User;
 
 /**
  * OrderInfoController implements the CRUD actions for OrderInfo model.
@@ -60,9 +61,13 @@ class OrderInfoController extends Controller
         }  elseif ($model->pay_status == 2) {
             $model->pay_status = '已付款';
         }
-        $courses = Course::find()
-        ->where(['id' => explode(',', $model->course_ids)])
-        ->all();
+        if ($model->course_ids == 'all') {
+            $courses = 'all';
+        } else {
+            $courses = Course::find()
+            ->where(['id' => explode(',', $model->course_ids)])
+            ->all();
+        }
         return $this->render('view', [
             'model' => $model,
             'courses' => $courses,
@@ -78,8 +83,24 @@ class OrderInfoController extends Controller
     {
         $model = new OrderInfo();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->order_id]);
+        $model->order_sn = 'school_'.time();
+        $model->order_status = 1;
+        $model->pay_status = 2;
+        $model->add_time = time();
+        $model->confirm_time = time();
+        $model->course_ids = 'all';
+        if ($model->load(Yii::$app->request->post())) {
+            $data = Yii::$app->request->post();
+            $user_id = $data['OrderInfo']['user_id'];
+            $user = User::getUserModel($user_id);
+            $model->mobile = $user->phone;
+            $model->email =  $user->email;
+            $model->consignee =  $user->username;
+            $model->pay_time = strtotime($data['OrderInfo']['pay_time']);
+            $model->invalid_time = strtotime($data['OrderInfo']['invalid_time']);
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->order_id]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -96,9 +117,18 @@ class OrderInfoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->order_id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $data = Yii::$app->request->post();
+            $user_id = $data['OrderInfo']['user_id'];
+            $user = User::getUserModel($user_id);
+            $model->mobile = $user->phone;
+            $model->email =  $user->email;
+            $model->consignee =  $user->username;
+            $model->pay_time = strtotime($data['OrderInfo']['pay_time']);
+            $model->invalid_time = strtotime($data['OrderInfo']['invalid_time']);
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->order_id]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
