@@ -109,7 +109,7 @@ class CourseController extends Controller
     {
         //设置邀请人cookie
         $cookies = Yii::$app->response->cookies;
-        if (!isset($cookies['invite'])) {
+        if (!isset($cookies['invite']) || ($invite > 0)) {
             $cookies->add(new \yii\web\Cookie([
                 'name' => 'invite',
                 'value' => $invite,
