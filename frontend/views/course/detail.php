@@ -261,6 +261,7 @@ $userid = Yii::$app->user->id;
 <script src="<?= Url::to('@web/skin/layer.js');?>"></script>
 <script type="text/javascript" >
 var jiathis_config={
+	siteUrl:"<?= Url::to(['course/detail', 'id'=>$course->id, 'invite'=>Yii::$app->user->id], true) ?>",
 	summary:"<?= Url::to(['course/detail', 'id'=>$course->id, 'invite'=>Yii::$app->user->id], true) ?>",
 	shortUrl:true,
 	hideMore:false
