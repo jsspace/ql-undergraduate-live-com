@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'label'=>'提现历史',
+                'label'=>'财务管理',
                 'format'=>'raw',
                 'value' => function($model){
                 $url = Url::to(['withdraw/withdraw', 'id' => $model->id]);

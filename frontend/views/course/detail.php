@@ -108,10 +108,11 @@ $userid = Yii::$app->user->id;
             <div class="kc-left">
                 <ul class="course-tag">
                     <li class="active">课程章节</li>
-                    <li>课程详情</li>
+                    <li>课程介绍</li>
                     <li>课程评价</li>
                     <li>教师答疑</li>
-                    <li>课程资料</li>
+                    <li>课程作业</li>
+                    <li>辅导员</li>
                 </ul>
                 <div class="course-tag-content">
                     <div class="tag-content active">
@@ -232,6 +233,13 @@ $userid = Yii::$app->user->id;
                         <?php } else { ?>
                             <p>暂无</p>
                         <?php } ?>
+                    </div>
+                    <div class="tag-content wechat">
+                        <p>
+                            <img src="/<?= User::getUserModel($course->head_teacher)->wechat_img; ?>">
+                        </p>
+                        <p>微信号：<?= User::getUserModel($course->head_teacher)->wechat; ?></p>
+                        <p>辅导员姓名：<?= User::getUserModel($course->head_teacher)->username; ?></p>
                     </div>
                 </div>
             </div>

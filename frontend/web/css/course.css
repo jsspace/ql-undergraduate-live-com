@@ -563,3 +563,7 @@
     word-break: break-all;
     line-height: 15px;
 }
+.tag-content.wechat img {
+    height: 100px;
+    width: 100px;
+}
