@@ -185,6 +185,7 @@ class CourseController extends Controller
         $content = $data['content'];
         $course_quas = new Quas();
         $course_quas->course_id = $courseid;
+        $course_quas->teacher_id = Course::teacher($courseid);
         $course_quas->question = $content;
         $course_quas->student_id = Yii::$app->user->id;
         $course_quas->question_time = time();

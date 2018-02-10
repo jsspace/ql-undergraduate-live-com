@@ -227,4 +227,11 @@ class Course extends \yii\db\ActiveRecord
         }
         return $courses;
     }
+    public static function teacher($id)
+    {
+        $course = self::find()
+        ->where(['id' => $id])
+        ->one();
+        return $course->teacher_id;
+    }
 }

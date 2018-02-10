@@ -71,6 +71,11 @@ class QuasSearch extends Quas
         $query->andFilterWhere(['like', 'question', $this->question])
             ->andFilterWhere(['like', 'answer', $this->answer]);
 
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if(!array_key_exists('admin',$roles_array)) {
+            $query->andFilterWhere(['teacher_id' => Yii::$app->user->id]);
+        }
+
         return $dataProvider;
     }
 }
