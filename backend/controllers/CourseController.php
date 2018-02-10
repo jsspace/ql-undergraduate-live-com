@@ -88,6 +88,11 @@ class CourseController extends Controller
                 $image_home->saveAs($rootPath . $homerandName);
                 $model->list_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course/' . $listrandName;
                 $model->home_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course/' . $homerandName;
+                /*浏览次数 收藏次数 分享次数 在学人数 设置500-600之间的随机数*/
+                $model->view = rand(800, 1200);
+                $model->collection = rand(400, 500);
+                $model->share = rand(300, 400);
+                $model->online = rand(200, 300);
             }
             if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);

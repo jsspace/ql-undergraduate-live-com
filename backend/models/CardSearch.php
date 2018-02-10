@@ -18,8 +18,8 @@ class CardSearch extends Card
     public function rules()
     {
         return [
-            [['id', 'create_time', 'use_status', 'print_status', 'use_time', 'user_phone'], 'integer'],
-            [['card_id', 'card_pass'], 'safe'],
+            [['id', 'use_status', 'print_status', 'use_time', 'user_phone'], 'integer'],
+            [['card_id', 'card_pass', 'create_time'], 'safe'],
             [['money'], 'number'],
         ];
     }
@@ -63,13 +63,14 @@ class CardSearch extends Card
         $query->andFilterWhere([
             'id' => $this->id,
             'money' => $this->money,
-            'create_time' => $this->create_time,
             'use_status' => $this->use_status,
             'print_status' => $this->print_status,
             'use_time' => $this->use_time,
             'user_phone' => $this->user_phone,
         ]);
-
+        if ($this->create_time) {
+            $query->andFilterWhere(['create_time' => strtotime($this->create_time)]);
+        }
         $query->andFilterWhere(['like', 'card_id', $this->card_id])
             ->andFilterWhere(['like', 'card_pass', $this->card_pass]);
 
