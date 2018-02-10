@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use backend\models\User;
 use backend\models\OrderGoods;
 use backend\models\read;
+use backend\models\OrderInfo;
 
 /**
  * MessageController implements the CRUD actions for Message model.
@@ -58,8 +59,16 @@ class MessageController extends Controller
         $userIdArr = array();
         $classIdsArr = explode(',', $message->classids);
         if (in_array('alluser', $classIdsArr)) {
-            $userNameIdArr = User::users('student');
-            $userIdArr = array_keys($userNameIdArr);
+            /*$userNameIdArr1 = User::users('student');
+            $userNameIdArr2 = User::users('school');
+            $userNameIdArr = array_merge($userNameIdArr1, $userNameIdArr2);
+            $userIdArr = array_keys($userNameIdArr);*/
+            $orderGoods = OrderInfo::find()
+            ->select('user_id')
+            ->where(['pay_status' => 2])
+            ->asArray()
+            ->all();
+            $userIdArr = array_column($orderGoods, 'user_id');
         } else if(in_array('allclass', $classIdsArr)) {
             $orderGoods = OrderGoods::find()
             ->select('user_id')

@@ -119,9 +119,10 @@ class CoursePackage extends \yii\db\ActiveRecord
     private static function loadItems()
     {
         $isadmin = User::isAdmin(Yii::$app->user->id);
-        if($isadmin === 1) {
+        /*if($isadmin === 1) {
             self::$_items['alluser'] = '全部学员';
-        }
+        }*/
+        self::$_items['alluser'] = '全部学员';
         self::$_items['allclass'] = '全部班级';
         $models=self::find()
         ->all();
