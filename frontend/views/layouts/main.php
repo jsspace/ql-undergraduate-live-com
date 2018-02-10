@@ -65,7 +65,7 @@ AppAsset::register($this);
                     <a href="/teacher/list">教师风采</a>
                 </li>
                 <li>
-                    <a href="/member/index">办理入学</a>
+                    <a href="/member/index">会员</a>
                 </li>
                 <li>
                     <a href="/card/index">学习卡充值</a>

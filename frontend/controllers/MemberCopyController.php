@@ -6,6 +6,7 @@ use yii;
 use backend\models\Member;
 use backend\models\CourseCategory;
 use backend\models\MemberOrder;
+use backend\models\CoursePackage;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -14,12 +15,12 @@ use backend\models\MemberGoods;
 use Da\QrCode\QrCode;
 use yii\base\InvalidValueException;
 
-require_once "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
+/*require_once "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
 require_once "../../common/alipay/pagepay/service/AlipayTradeService.php";
 
 require_once "../../common/wxpay/lib/WxPay.Api.php";
 require_once "../../common/wxpay/example/WxPay.NativePay.php";
-require_once '../../common/wxpay/example/log.php';
+require_once '../../common/wxpay/example/log.php';*/
 
 
 class MemberController extends \yii\web\Controller
@@ -60,8 +61,25 @@ class MemberController extends \yii\web\Controller
         }
         return parent::beforeAction($action);
     }
-    
     public function actionIndex()
+    {
+        $colleges = CourseCategory::find()
+        ->all();
+        $classes = CoursePackage::find()
+        ->all();
+        $members = array();
+        foreach ($colleges as $key => $college) {
+            $members[$key]['college'] = $college;
+            $members[$key]['classes'] = array();
+            foreach ($classes as $classeskey => $class) {
+                if ($college->id == $class->category_name) {
+                    $members[$key]['classes'][$classeskey] = $class;
+                }
+            }
+        }
+        return $this->render('index', ['members' => $members]);
+    }
+    public function actionIndexOld()
     {
         $member_items = [];
         $member_models = Member::find()
