@@ -62,6 +62,9 @@ $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $model-
 //             'intro:ntext',
 //             'invite',
 //             'status',
+            'bank',
+            'bank_username',
+            'bankc_card',
             [
                 'attribute' => 'created_at',
                 'value'=> date('Y-m-d H:i:s', $model->created_at),

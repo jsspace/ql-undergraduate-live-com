@@ -7,6 +7,10 @@ use kartik\file\FileInput;
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
 /* @var $form yii\widgets\ActiveForm */
+
+$roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+$is_admin = array_key_exists('admin',$roles_array);
+
 ?>
 
 <div class="user-form">
@@ -56,7 +60,15 @@ use kartik\file\FileInput;
     <?= $form->field($model, 'intro')->textarea(['rows' => 6]) ?>
 
     <?php // $form->field($model, 'invite')->textInput() ?>
-
+    <?php if(empty($model->bank) || $is_admin) {?>
+    <?= $form->field($model, 'bank')->textInput(['maxlength' => true]) ?>
+	<?php }?>
+	<?php if(empty($model->bank_username) || $is_admin) {?>
+    <?= $form->field($model, 'bank_username')->textInput(['maxlength' => true]) ?>
+	<?php }?>
+	<?php if(empty($model->bankc_card) || $is_admin) {?>
+    <?= $form->field($model, 'bankc_card')->textInput() ?>
+	<?php }?>
     <?php // $form->field($model, 'created_at')->textInput() ?>
 
     <?php // $form->field($model, 'updated_at')->textInput() ?>

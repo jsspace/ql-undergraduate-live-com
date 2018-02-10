@@ -30,6 +30,9 @@ use Yii;
  * @property double $percentage
  * @property string $cityid
  * @property string $provinceid
+ * @property string $bank
+ * @property string $bank_username
+ * @property integer $bankc_card
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -50,15 +53,16 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'email', 'phone'], 'required'],
-            [['status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
+            [['status', 'created_at', 'updated_at', 'gender', 'invite', 'bankc_card'], 'integer'],
             [['intro', 'password'], 'string'],
             [['percentage'], 'number'],
             [['username', 'auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password_reset_token', 'email', 'phone', 'picture'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 2000],
-            [['unit', 'office', 'goodat', 'wechat_img'], 'string', 'max' => 300],
+            [['unit', 'office', 'goodat', 'wechat_img', 'bank_username'], 'string', 'max' => 300],
             [['wechat'], 'string', 'max' => 200],
-            [['cityid', 'provinceid'], 'string', 'max' => 20]
+            [['cityid', 'provinceid'], 'string', 'max' => 20],
+            [['bank'], 'string', 'max' => 800],
         ];
     }
 
@@ -72,7 +76,7 @@ class User extends \yii\db\ActiveRecord
             'username' => Yii::t('app', '姓名'),
             'auth_key' => Yii::t('app', 'Auth Key'),
             'password' => Yii::t('app', '密码'),
-            'password_hash' => Yii::t('app', 'Password Hash'),
+            'password_hash' => Yii::t('app', 'Password'),
             'password_reset_token' => Yii::t('app', 'Password Reset Token'),
             'email' => Yii::t('app', '邮箱'),
             'status' => Yii::t('app', '状态'),
@@ -90,8 +94,11 @@ class User extends \yii\db\ActiveRecord
             'wechat' => Yii::t('app', '微信号'),
             'wechat_img' => Yii::t('app', '微信二维码'),
             'percentage' => Yii::t('app', '提成比例'),
-            'provinceid' => Yii::t('app', '省份'),
             'cityid' => Yii::t('app', '地级市'),
+            'provinceid' => Yii::t('app', '省份'),
+            'bank' => Yii::t('app', '银行名称'),
+            'bank_username' => Yii::t('app', '账户名'),
+            'bankc_card' => Yii::t('app', '银行卡帐号'),
         ];
     }
 
