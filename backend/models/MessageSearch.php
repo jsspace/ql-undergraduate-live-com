@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use backend\models\Message;
+use backend\models\User;
 
 /**
  * MessageSearch represents the model behind the search form about `backend\models\Message`.
@@ -70,6 +71,11 @@ class MessageSearch extends Message
             ->andFilterWhere(['like', 'title', $this->classids])
             ->andFilterWhere(['like', 'classids', $this->classids])
             ->andFilterWhere(['like', 'cityid', $this->cityid]);
+
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if(!array_key_exists('admin',$roles_array)) {
+            $query->andFilterWhere(['publisher' => Yii::$app->user->id]);
+        }
 
         return $dataProvider;
     }

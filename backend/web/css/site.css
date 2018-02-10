@@ -392,3 +392,7 @@ a.desc:after {
     display: inline-block;
     margin-right: 20px;
 }
+.user-panel>.image>img {
+    height: 45px !important;
+    width: 45px !important;
+}

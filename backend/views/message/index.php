@@ -15,7 +15,7 @@ use backend\models\OrderGoods;
 
 $this->title = Yii::t('app', 'Messages');
 $this->params['breadcrumbs'][] = $this->title;
-
+$isadmin = User::isAdmin(Yii::$app->user->id);
 ?>
 <div class="message-index">
 
@@ -35,13 +35,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'=>'审核',
                 'format'=>'raw',
                 'value' => function($model){
-                    if ($model->status != 1) {
+                    if ($model->status == 0) {
                         $url = Url::to(['message/review', 'msg_id' => $model->msg_id]);
                         return Html::a('审核通过', $url);
+                    } else if ($model->status == 1) {
+                        return '已通过';
                     } else {
-                        return '已处理';
+                        return '审核未通过';
                     }
-                }
+                },
+                'visible' => intval($isadmin) == 1
             ],
             [
                 'attribute' => 'publisher',

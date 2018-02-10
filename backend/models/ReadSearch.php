@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use backend\models\Read;
+use backend\models\Message;
 
 /**
  * ReadSearch represents the model behind the search form about `backend\models\Read`.
@@ -40,8 +41,19 @@ class ReadSearch extends Read
      */
     public function search($params)
     {
-        $query = Read::find();
-
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if(!array_key_exists('admin',$roles_array)) {
+            //获取所有该市场专员发送的消息id
+            $msgids = Message::find()
+            ->select('msg_id')
+            ->where(['publisher' => Yii::$app->user->id])
+            ->asArray()
+            ->all();
+            $query = Read::find()
+            ->where(['msg_id' => $msgids]);
+        } else {
+            $query = Read::find();
+        }
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
