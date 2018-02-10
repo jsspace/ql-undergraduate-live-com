@@ -18,8 +18,8 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'wechat', 'wechat_img', 'cityid', 'provinceid'], 'safe'],
+            [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite', 'bankc_card'], 'integer'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'wechat', 'wechat_img', 'cityid', 'provinceid', 'bank', 'bank_username'], 'safe'],
             [['percentage'], 'number'],
         ];
     }
@@ -67,6 +67,7 @@ class UserSearch extends User
             'gender' => $this->gender,
             'invite' => $this->invite,
             'percentage' => $this->percentage,
+            'bankc_card' => $this->bankc_card,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
@@ -75,8 +76,6 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'provinceid', $this->phone])
-            ->andFilterWhere(['like', 'cityid', $this->phone])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'unit', $this->unit])
             ->andFilterWhere(['like', 'office', $this->office])
@@ -84,7 +83,11 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'picture', $this->picture])
             ->andFilterWhere(['like', 'intro', $this->intro])
             ->andFilterWhere(['like', 'wechat', $this->wechat])
-            ->andFilterWhere(['like', 'wechat_img', $this->wechat_img]);
+            ->andFilterWhere(['like', 'wechat_img', $this->wechat_img])
+            ->andFilterWhere(['like', 'cityid', $this->cityid])
+            ->andFilterWhere(['like', 'provinceid', $this->provinceid])
+            ->andFilterWhere(['like', 'bank', $this->bank])
+            ->andFilterWhere(['like', 'bank_username', $this->bank_username]);
 
         return $dataProvider;
     }

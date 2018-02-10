@@ -57,6 +57,16 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'percentage') ?>
 
+    <?php // echo $form->field($model, 'cityid') ?>
+
+    <?php // echo $form->field($model, 'provinceid') ?>
+
+    <?php // echo $form->field($model, 'bank') ?>
+
+    <?php // echo $form->field($model, 'bank_username') ?>
+
+    <?php // echo $form->field($model, 'bankc_card') ?>
+
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>

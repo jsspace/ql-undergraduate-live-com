@@ -73,6 +73,16 @@ use kartik\file\FileInput;
 
     <?= $form->field($model, 'percentage')->textInput() ?>
 
+    <?= $form->field($model, 'cityid')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'provinceid')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'bank')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'bank_username')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'bankc_card')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

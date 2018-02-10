@@ -56,6 +56,11 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'wechat',
             // 'wechat_img',
             // 'percentage',
+            // 'cityid',
+            // 'provinceid',
+            // 'bank',
+            // 'bank_username',
+            // 'bankc_card',
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

@@ -61,6 +61,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
 
             ],
+            'bank',
+            'bank_username',
+            'bankc_card',
             'created_at:datetime',
             'updated_at:datetime',
         ],
