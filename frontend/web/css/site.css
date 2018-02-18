@@ -80,48 +80,55 @@ a {
 .wrap .top-ads .has-login {
     display: none;
 }
-.nav-right {
-    float: right;
+.nav-login {
+    background: #f6f6f6;
+}
+.nav-login .inner {
     position: relative;
-    height: 80px;
+    height: 40px;
+    line-height: 30px;
+    padding: 5px;
+    box-sizing: border-box;
+    width: 1180px;
+    margin: 0 auto;
 }
-.nav-right ul.unlogin li {
+.nav-login ul.unlogin {
+    float: left;
+    font-size: 12px;
+}
+.nav-login ul.unlogin li {
     display: inline-block;
-    height: 80px;
-    line-height: 80px;
-    margin-right: 20px;
+    line-height: 14px;
+    padding: 0 5px;
+    border-right: 1px solid #bfbfbf;
 }
-.nav-right ul.unlogin li:nth-child(2) {
+.nav-login ul.unlogin li:nth-child(2) {
     margin-right: 0;
-}
-.nav-right .cart-link {
-    height: 30px;
-    display: inline-block;
-    margin-right: 20px;
+    border-right: 0;
 }
 .login-wrap {
-    margin-top: 25px;
-    font-size: 15px;
+    font-size: 12px;
     display: inline-block;
 }
 .login-wrap li {
     display: inline-block;
-    height: 30px;
-    line-height: 30px;
-    margin-right: 20px;
+    line-height: 17px;
+    padding: 0 7px;
+    border-right: 1px solid #bfbfbf;
 }
 .login-wrap li:nth-child(2) {
     margin-right: 0;
+    border-right: 0;
 }
 .login-wrap .logout-link {
-    background-color: #fff;
+    background-color: #f6f6f6;
     outline: none;
     border: 0;
     color: #949494;
 }
 .login-wrap .logout-link:before {
     content: '';
-    display: inline-block;
+    display: none;
     height: 20px;
     width: 20px;
     background: url(/img/logout.png);
@@ -135,12 +142,89 @@ a {
 }
 .login-wrap .user-avar img,
 .nav-right .cart-link img {
-    width: 20px;
-    height: 20px;
-    vertical-align: sub;
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    margin-top: -2px;
 }
 .nav-right .cart-link img {
-    vertical-align: bottom;
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    margin-right: 5px;
+    margin-top: -3px;
+}
+.nav-right {
+    float: right;
+}
+.nav-right li {
+    float: left;
+    color: #555;
+    font-size: 12px;
+}
+.nav-right li dl {
+    text-align: center;
+    margin-bottom: 0;
+    box-sizing: border-box;
+}
+.nav-right li dl dt {
+    font-weight: normal;
+    color: #555;
+    margin-top: 5px;
+    padding: 1px 10px;
+    box-sizing: border-box;
+}
+.nav-right li dl dt:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid #555;
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 5px;
+}
+.nav-right li dl:hover dt:after {
+    margin-top: -5px;
+    border-top: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 5px solid #555;
+}
+.nav-right li dl .nav-show {
+    display: none;
+}
+.nav-right li dd {
+    line-height: 18px;
+}
+.nav-right li dl:hover {
+    background: #fff;
+    position: relative;
+}
+.nav-right li dl:hover .nav-show {
+    display: block;
+    text-indent: -12px;
+    padding-bottom: 5px;
+    position: absolute;
+    background: #fff;
+    border: 1px solid #dfdfdf;
+    width: 100%;
+    border-top: 0;
+    padding-top: 3px;
+    z-index: 5;
+}
+.nav-right li .nav-title {
+    border: 1px solid transparent;
+    border-right: 1px solid #b7b7b7;
+    padding: 0 10px;
+}
+.nav-right li dl:hover dt {
+    border: 1px solid #dfdfdf;
+    border-bottom: 0;
+}
+.nav-right li:last-child .nav-title {
+    border-right: 0;
 }
 .wrap .icon.ion-ios-cart-outline:before {
     font-size: 25px;
@@ -165,28 +249,28 @@ a {
     text-align: center;
 }
 .wrap .menu-wrapper {
-    width: 1280px;
+    width: 1180px;
     margin: 0 auto;
-    height: 80px;
+    height: 60px;
     overflow: hidden;
 }
 .wrap .menu-wrapper .logo {
     float: left;
     margin-right: 40px;
-    margin-top: 7px;
+    margin-top: 2px;
 }
 .wrap .menu-wrapper .logo img {
-    height: 66px;
+    height: 50px;
 }
 .wrap .menu-wrapper .nav-menu {
     overflow: hidden;
     float: left;
-    margin: 22px 0 0;
+    margin: 0;
 }
 .wrap .menu-wrapper .nav-menu li {
     float: left;
     margin-right: 28px;
-    line-height: 36px;
+    line-height: 60px;
 }
 .wrap .menu-wrapper .nav-menu li:last-child {
     margin-right: 15px;
@@ -393,8 +477,9 @@ a.desc:after {
     outline: none;
 }
 .menu-wrapper .menu-search-group{
-    padding: 25px 0;
-    float: left;
+    padding: 15px 0;
+    float: right;
+    margin-right: 10px;
 }
 .menu-wrapper .menu-search-group .btn-default:hover {
     background-color: transparent;
@@ -405,7 +490,7 @@ a.desc:after {
     border-radius: 20px;
     display: inline-block;
     padding: 6px 12px 6px 30px;
-    width: 150px;
+    width: 180px;
     height: 30px;
     text-indent: 0;
 }

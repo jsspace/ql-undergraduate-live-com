@@ -47,6 +47,42 @@ AppAsset::register($this);
                 </li>
             </ul>
         </div>
+        <div class="nav-login">
+            <div class="inner">
+            <?php if(Yii::$app->user->isGuest) {?>
+            <ul class="log-sec no-login unlogin">
+                <li class="login"><a href="<?= Url::to(['site/login']) ?>">请登录</a></li>
+                <li class="register"><a href="<?= Url::to(['site/signup']) ?>">免费注册</a></li>
+            </ul>
+            <?php } else {
+                echo '<ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="/'
+                    . Yii::$app->user->identity->picture . '"/></a>&nbsp;&nbsp;用户名</li><li class="logout-li">'
+                    . Html::beginForm(['/site/logout'], 'post')
+                    . Html::submitButton(
+                        '退出',
+                        ['class' => 'logout-link']
+                    )
+                    . Html::endForm(). '</li></ul>';
+            }?>
+
+            <ul class="nav-right">
+                <li>
+                    <dl>
+                        <dt class="nav-title">个人中心</dt>
+                        <div class="nav-show">
+                            <dd>我的课程</dd>
+                            <dd>我的钱包</dd>
+                            <dd>个人设置</dd>
+                            <dd>消息通知</dd>
+                        </div>
+                    </dl>
+                </li>
+                <li><a href="/cart/index" class="cart-link nav-title"><img src="/img/cart-icon.png" />我的购物车</a></li>
+                <li><a href="" class="nav-title">学习感言</a></li>
+                <li><a href="" class="nav-title">课程需求</a></li>
+            </ul>
+            </div>
+        </div>
         <div class="menu-wrapper">
             <div class="logo">
                 <img src="/img/website-logo.jpg"/>
@@ -82,23 +118,6 @@ AppAsset::register($this);
                     <button type="submit" class="glyphicon glyphicon-search search-button _search-button"></button>
                     <input type="text" class="form-control" placeholder="搜索课程" name="searchContent">
                 </form>
-            </div>
-            <div class="nav-right">
-                <?php if(Yii::$app->user->isGuest) {?>
-                <ul class="log-sec no-login unlogin">
-                    <li class="register"><a href="<?= Url::to(['site/signup']) ?>">注册</a></li>
-                    <li class="login"><a href="<?= Url::to(['site/login']) ?>">登录</a></li>
-                </ul>
-                <?php } else {
-                    echo '<a href="'.Url::to(["cart/index"]).'" class="cart-link"><img src="/img/cart-icon.png" /></a><ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="/'
-                        . Yii::$app->user->identity->picture . '"/></a></li><li class="logout-li">'
-                        . Html::beginForm(['/site/logout'], 'post')
-                        . Html::submitButton(
-                            '注销',
-                            ['class' => 'logout-link']
-                        )
-                        . Html::endForm(). '</li></ul>';
-                }?>
             </div>
         </div>
     </div>
