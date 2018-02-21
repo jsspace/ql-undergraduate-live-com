@@ -269,7 +269,7 @@ a {
 }
 .wrap .menu-wrapper .nav-menu li {
     float: left;
-    margin-right: 28px;
+    margin-right: 50px;
     line-height: 60px;
 }
 .wrap .menu-wrapper .nav-menu li:last-child {
@@ -277,8 +277,7 @@ a {
 }
 .wrap .menu-wrapper .nav-menu a {
     color: #3f464e;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
 }
 .wrap .menu-wrapper input {
     width: 200px;

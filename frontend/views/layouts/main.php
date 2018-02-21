@@ -68,18 +68,18 @@ AppAsset::register($this);
             <ul class="nav-right">
                 <li>
                     <dl>
-                        <dt class="nav-title">个人中心</dt>
+                        <dt class="nav-title"><a href="/user/info">个人中心</a></dt>
                         <div class="nav-show">
-                            <dd>我的课程</dd>
-                            <dd>我的钱包</dd>
-                            <dd>个人设置</dd>
-                            <dd>消息通知</dd>
+                            <dd><a href="/user/course">我的课程</a></dd>
+                            <dd><a href="/user/coin">我的钱包</a></dd>
+                            <dd><a href="/user/edit">个人设置</a></dd>
+                            <dd><a href="/user/message">消息通知</a></dd>
                         </div>
                     </dl>
                 </li>
                 <li><a href="/cart/index" class="cart-link nav-title"><img src="/img/cart-icon.png" />我的购物车</a></li>
-                <li><a href="" class="nav-title">学习感言</a></li>
-                <li><a href="" class="nav-title">课程需求</a></li>
+                <li><a href="/comment/index" class="nav-title">学习感言</a></li>
+                <li><a href="/command/index" class="nav-title">课程需求</a></li>
             </ul>
             </div>
         </div>
@@ -106,12 +106,12 @@ AppAsset::register($this);
                 <li>
                     <a href="/card/index">学习卡充值</a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="/comment/index">学习感言</a>
                 </li>
                 <li>
                     <a href="/command/index">课程需求</a>
-                </li>
+                </li> -->
             </ul>
             <div class="menu-search-group">
                 <form action="<?= Url::to(['course/search']); ?>" method="get">

@@ -103,7 +103,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                                         <i class="icon ion-android-person"></i>
                                         <span class="people"><?= $hotcourse->online; ?>人在学</span>
                                         <i class="icon ion-heart"></i>
-                                        <span class="course-price"><?= $hotcourse->collection; ?>人</span>
+                                        <span class="course-price">￥<?= $hotcourse->discount; ?></span>
                                     </div>
                                 </div>
                             </a>
@@ -168,7 +168,7 @@ $weekarray=array("日","一","二","三","四","五","六");
             <?php 
                 $count = 0;
                 foreach ($teachers as $key => $teacher) { 
-                    if ($count === 10) {
+                    if ($count === 9) {
                         break;
                     }
             ?>
