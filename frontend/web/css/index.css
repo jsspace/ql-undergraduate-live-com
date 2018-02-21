@@ -254,23 +254,35 @@
     margin-top: 20px;
     overflow: hidden;
 }
+.course-content .left-ad {
+    float: left;
+    width: 20%;
+    height: 420px;
+}
+.course-content .left-ad img {
+    width: 100%;
+    height: 100%;
+}
 .course-content .list {
     display: none;
+    overflow: hidden;
+    width: 78%;
+    margin-left: 22%;
 }
 .course-content .list.active {
     display: block;
 }
 .course-content .list li {
-    width: 280px;
+    width: 23.5%;
     float: left;
-    margin-right: 20px;
+    margin-right: 2%;
     margin-bottom: 30px;
 }
 .course-content .list li:nth-child(4n) {
     margin-right: 0;
 }
 .course-content .list li .course-img {
-    width: 280px;
+    width: 100%;
     height: 160px;
     cursor: pointer;
     overflow: hidden;
@@ -369,6 +381,8 @@
 .course-content .teacher-section .teacher-name {
     color: #777779;
     float: left;
+    width: 120px;
+    display: inline-block;
 }
 .course-content .teacher-section .teacher-position {
     float: right;
@@ -666,6 +680,7 @@
     overflow: hidden;
     height: 200px;
     padding-left: 26px;
+    margin-left: 0;
 }
 .cooperation-section .user-comment li {
     width: 33.33%;
@@ -700,6 +715,7 @@
     height: 200px;
     padding-left: 26px;
     padding-right: 26px;
+    margin-left: 0;
 }
 .cooperation-section .link-section li {
     float: left;
