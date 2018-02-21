@@ -160,7 +160,7 @@ class SiteController extends Controller
             $collegeArr[$cat->id]["college_name"] = $cat->name;
             $count = 0;
             foreach ($collegeCourses as $key => $collegeCourse) {
-                if ($count === 4) {
+                if ($count === 8) {
                     break;
                 }
                 $categoryids = explode(',', $collegeCourse->category_name);
