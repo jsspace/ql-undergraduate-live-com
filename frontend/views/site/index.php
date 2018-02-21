@@ -93,6 +93,11 @@ $weekarray=array("日","一","二","三","四","五","六");
                 </div>
             </div>
             <div class="course-content">
+                <div class="left-ad">
+                    <a href="">
+                        <img src="/img/course-list-img.jpg"/>
+                    </a>
+                </div>
                 <ul class="list active">
                     <?php foreach ($hotcourses as $hotcourse) { ?>
                         <li>
@@ -130,6 +135,11 @@ $weekarray=array("日","一","二","三","四","五","六");
                             </div>
                         </div>
                         <div class="course-content">
+                            <div class="left-ad">
+                                <a href="">
+                                    <img src="/img/course-list-img.jpg"/>
+                                </a>
+                            </div>
                             <ul class="list active">
                                 <?php 
                                     if (!empty($college['college_course'])) {
@@ -138,8 +148,13 @@ $weekarray=array("日","一","二","三","四","五","六");
                                             <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">
                                                 <div class="course-img">
                                                     <img class="course-pic" src="<?= $course->list_pic; ?>"/>
+                                                    <div class="course-statistic">
+                                                        <i class="icon ion-android-person"></i>
+                                                        <span class="people"><?= $course->online; ?>人在学</span>
+                                                        <i class="icon ion-heart"></i>
+                                                        <span class="course-price">￥<?= $course->discount; ?></span>
+                                                    </div>
                                                 </div>
-                                                <p class="content-title"><?= $course->course_name; ?></p>
                                             </a>
                                             <!-- <div class="course-statistic">
                                                 <i class="icon ion-android-person"></i>
@@ -147,10 +162,10 @@ $weekarray=array("日","一","二","三","四","五","六");
                                                 <i class="icon ion-heart"></i>
                                                 <span class="people"><?= $course->collection; ?>人</span>
                                             </div> -->
-                                            <div class="teacher-section">
-                                                <!-- <img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/> -->
-                                                <span class="teacher-name">主讲人：<?= User::item($course->teacher_id); ?></span>
-                                                <span class="teacher-position"><?= User::getUserModel($course->teacher_id)->description; ?></span>
+                                            <div class="teacher-section hot-course">
+                                                <!-- <img src="<?= User::getUserModel($hotcourse->teacher_id)->picture; ?>"/> -->
+                                                <span class="content-title teacher-name"><?= $course->course_name; ?></span>
+                                                <span class="content-title teacher-position"><?= CourseCategory::getNames($course->category_name); ?></span>
                                             </div>
                                         </li>
                                         <?php }
