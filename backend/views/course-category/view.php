@@ -33,6 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => ['image',['width'=>'40']]
             ],
             [
+                'attribute' => 'home_icon',
+                'label' => '首页图片',
+                'format' => ['image',['width'=>'40']]
+            ],
+            [
                 'attribute' => 'detail_icon',
                 'label' => '封面图片',
                 'format' => ['image',['width'=>'40']]

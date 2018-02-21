@@ -13,6 +13,7 @@ use Yii;
  * @property integer $position 
  * @property string $list_icon 
  * @property string $detail_icon 
+ * @property string $home_icon
  * @property string $des
  * @property CourseCategory $parent
  * @property CourseCategory[] $courseCategories
@@ -37,7 +38,7 @@ class CourseCategory extends \yii\db\ActiveRecord
             [['name', 'parent_id', 'position'], 'required'],
             [['parent_id', 'position'], 'integer'],
             [['des'], 'string'],
-            [['name', 'list_icon', 'detail_icon'], 'string', 'max' => 255],
+            [['name', 'list_icon', 'detail_icon', 'home_icon'], 'string', 'max' => 255],
             //[['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => CourseCategory::className(), 'targetAttribute' => ['parent_id' => 'id']],
         ];
     }
@@ -55,6 +56,7 @@ class CourseCategory extends \yii\db\ActiveRecord
             'position' => Yii::t('app', '排序'), 
             'list_icon' => Yii::t('app', '列表页图标'), 
             'detail_icon' => Yii::t('app', '详情页图片'), 
+            'home_icon' => Yii::t('app', '首页图片'), 
         ];
     }
 

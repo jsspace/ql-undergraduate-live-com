@@ -32,6 +32,20 @@ use kartik\file\FileInput;
             ],
         ]) ?>
 
+    <?= $form->field($model, 'home_icon')->widget(FileInput::classname(),
+        [
+            'options' => ['accept' => 'image/png,image/jpeg'],
+            'pluginOptions' => [
+                'showPreview' => true,
+                'showCaption' => true,
+                'showRemove' => true,
+                'showUpload' => false,
+                'initialPreview' => [
+                    $model->home_icon ? Html::img($model->home_icon, $options = ['width' => '170px']) : null,
+                ]
+            ],
+        ]) ?>
+
     <?= $form->field($model, 'detail_icon')->widget(FileInput::classname(),
         [
             'options' => ['accept' => 'image/png,image/jpeg'],

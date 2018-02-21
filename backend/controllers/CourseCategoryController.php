@@ -71,6 +71,7 @@ class CourseCategoryController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $image_list = UploadedFile::getInstance($model, 'list_icon');
             $image_home = UploadedFile::getInstance($model, 'detail_icon');
+            $image_home_left = UploadedFile::getInstance($model, 'home_icon');
             if ($image_list && $image_home) {
                 $list_ext = $image_list->getExtension();
                 $home_ext = $image_home->getExtension();
@@ -82,8 +83,14 @@ class CourseCategoryController extends Controller
                 }
                 $image_list->saveAs($rootPath . $listrandName);
                 $image_home->saveAs($rootPath . $homerandName);
-                $model->list_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course-category/' . $listrandName;
-                $model->home_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course-category/' . $homerandName;
+                $model->list_icon = '/'.Yii::$app->params['upload_img_dir'] . 'course-category/' . $listrandName;
+                $model->detail_icon = '/'.Yii::$app->params['upload_img_dir'] . 'course-category/' . $homerandName;
+            }
+            if ($image_home_left) {
+                $home_left_ext = $image_home_left->getExtension();
+                $home_left_randName = time() . rand(1000, 9999) . '.' . $home_left_ext;
+                $image_home_left->saveAs($rootPath . $home_left_randName);
+                $model->home_icon = '/'.Yii::$app->params['upload_img_dir'] . 'course-category/' . $home_left_randName;
             }
             if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -114,9 +121,11 @@ class CourseCategoryController extends Controller
         $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
         $oldlist_path = $model->list_icon;
         $oldhome_path = $model->detail_icon;
+        $oldhomeleft_path = $model->home_icon;
         if ($model->load(Yii::$app->request->post())) {
             $image_list = UploadedFile::getInstance($model, 'list_icon');
             $image_home = UploadedFile::getInstance($model, 'detail_icon');
+            $image_home_left = UploadedFile::getInstance($model, 'home_icon');
             if ($image_list) {
                 $list_ext = $image_list->getExtension();
                 $listrandName = time() . rand(1000, 9999) . '.' . $list_ext;
@@ -140,8 +149,21 @@ class CourseCategoryController extends Controller
                 $image_home->saveAs($homerootPath . $homerandName);
                 $model->detail_icon = '/'.Yii::$app->params['upload_img_dir'] . 'course-category/' . $homerandName;
                 @unlink(Yii::getAlias("@frontend")."/web/" . $oldhome_path);
-            }  else {
+            } else {
                 $model->detail_icon = $oldhome_path;
+            }
+            if ($image_home_left) {
+                $home_ext = $image_home_left->getExtension();
+                $homerandName = time() . rand(1000, 9999) . '.' . $home_ext;
+                $homerootPath = $rootPath . 'course-category/';
+                if (!file_exists($homerootPath)) {
+                    mkdir($homerootPath, 0777, true);
+                }
+                $image_home_left->saveAs($homerootPath . $homerandName);
+                $model->home_icon = '/'.Yii::$app->params['upload_img_dir'] . 'course-category/' . $homerandName;
+                @unlink(Yii::getAlias("@frontend")."/web/" . $oldhomeleft_path);
+            } else {
+                $model->home_icon = $oldhomeleft_path;
             }
             if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -149,6 +171,7 @@ class CourseCategoryController extends Controller
                 //没有保存成功，删除图片
                 @unlink($rootPath . $listrandName);
                 @unlink($rootPath . $homerandName);
+                @unlink($rootPath . $oldhomeleft_path);
                 return $this->render('create', [
                     'model' => $model
                 ]);
