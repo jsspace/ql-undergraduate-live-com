@@ -269,6 +269,10 @@
     width: 78%;
     margin-left: 22%;
 }
+.course-content.hot-course-content .list {
+    width: 100%;
+    margin-left: 0;
+}
 .course-content .list.active {
     display: block;
 }
@@ -381,7 +385,7 @@
 .course-content .teacher-section .teacher-name {
     color: #777779;
     float: left;
-    width: 120px;
+    width: 100%;
     display: inline-block;
 }
 .course-content .teacher-section .teacher-position {

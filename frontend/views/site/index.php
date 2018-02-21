@@ -92,12 +92,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                     <a href="<?= Url::to(['course/list']) ?>" class="link more">更多&gt;&gt;</a>
                 </div>
             </div>
-            <div class="course-content">
-                <div class="left-ad">
-                    <a href="">
-                        <img src="/img/course-list-img.jpg"/>
-                    </a>
-                </div>
+            <div class="course-content hot-course-content">
                 <ul class="list active">
                     <?php foreach ($hotcourses as $hotcourse) { ?>
                         <li>
@@ -165,7 +160,6 @@ $weekarray=array("日","一","二","三","四","五","六");
                                             <div class="teacher-section hot-course">
                                                 <!-- <img src="<?= User::getUserModel($hotcourse->teacher_id)->picture; ?>"/> -->
                                                 <span class="content-title teacher-name"><?= $course->course_name; ?></span>
-                                                <span class="content-title teacher-position"><?= CourseCategory::getNames($course->category_name); ?></span>
                                             </div>
                                         </li>
                                         <?php }
