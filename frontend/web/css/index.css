@@ -220,6 +220,12 @@
     margin: 20px auto 0;
     float: left;
 }
+.teacher-list-title {
+    margin-bottom: 50px;
+    height: 64px;
+    text-align: center;
+    background: url(/img/arrow-icon.jpg) center bottom no-repeat;
+}
 .container fieldset {
     width: 240px;
     margin: 0 auto;

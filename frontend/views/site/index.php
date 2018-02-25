@@ -172,7 +172,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         }
     ?>
     <div class="container-course teacher-section">
-        <h3 class="course-title">教师风采</h3>
+        <h3 class="teacher-list-title">教师风采</h3>
         <ul class="teach-list">
             <?php 
                 $count = 0;
