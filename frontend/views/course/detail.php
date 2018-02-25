@@ -7,7 +7,6 @@ use backend\models\User;
 use backend\models\Course;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
-
 AppAsset::addCss($this,'@web/css/course.css');
 
 $this->title = 'My Yii Application';
@@ -34,7 +33,7 @@ $userid = Yii::$app->user->id;
             <input class="course-id _course-id" type="hidden" value="<?= $course->id; ?>"/>
             <div class="course-detail-left _course-detail-left" id="view">
                 <img src="<?= $course->home_pic; ?>"/>
-                <video controls="controls" src=""></video>
+                <video id="course-video" controls src=""></video>
             </div>
             <div class="course-detail-right">
                 <div class="course-detail-title"><?= $course->course_name; ?></div>

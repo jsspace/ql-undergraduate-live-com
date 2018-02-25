@@ -148,6 +148,12 @@ var courseDetail = {
       })
     },
     videoNetEvent: function() {
+        $('#course-video').on("play", function(){
+            console.log(this.currentTime);
+        });
+        $('#course-video').on("pause", function(){
+            console.log(this.currentTime);
+        });
         $('._net-class').on('click', function() {
             var section_id = $(this).attr('section-id');
             var course_id = $('._course-id').val();
@@ -173,7 +179,7 @@ var courseDetail = {
                   }
               }
           });
-      });
+        });
     }
 };
 courseDetail.init();
