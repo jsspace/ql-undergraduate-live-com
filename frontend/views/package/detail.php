@@ -4,6 +4,7 @@
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\User;
+use backend\models\CoursePackage;
 
 AppAsset::addCss($this,'@web/css/package.css');
 
@@ -42,9 +43,20 @@ $courses = $packageDetail['course'];
                     <span class="price-highlight"><?= $package->discount ?>元</span>
                     <span class="price-tag">原价</span> <?= $package->price ?>元
                 </p>
-                <a href="javascript:void(0)" class="package-btn btn-green quick-buy _quick-buy">立即购买</a>
-                <a href="javascript:void(0)" class="package-btn btn-red add-cart _add-cart">加入购物车</a>
-                <p class="tips-detail">加入会员免费学（已有<?= $package->online ?>名会员加入）</p>
+                <?php
+                    $isClassMember = CoursePackage::isClassMember($package->id);
+                    /*是否为公开课程*/
+                    if ($course->discount == 0) { ?>
+                        <span class="package-ispay-tag">公开班级</span>
+                    <?php }
+                    /*是否已加入班级*/
+                    elseif ($isClassMember == 1) { ?>
+                        <span class="package-ispay-tag">已入学</span>
+                    <?php } else { ?>
+                        <a href="javascript:void(0)" class="package-btn btn-green quick-buy _quick-buy">立即购买</a>
+                        <a href="javascript:void(0)" class="package-btn btn-red add-cart _add-cart">加入购物车</a>
+                        <p class="tips-detail">加入会员免费学（已有<?= $package->online ?>名会员加入）</p>
+                    <?php } ?>
             </div>
         </div>
     </div>

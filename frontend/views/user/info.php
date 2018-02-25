@@ -24,7 +24,7 @@ $this->title = '个人中心';
         <div class="info-wrapper">
             <p class="info-img">
                 <span class="info-label">头像：</span>
-                <span class="info-txt"><img src="<?= Url::to('@web/'.Yii::$app->user->identity->picture); ?>"/></span>
+                <span class="info-txt"><img src="<?= Yii::$app->user->identity->picture; ?>"/></span>
             </p>
             <p class="info-name">
                 <span class="info-label">用户名：</span>

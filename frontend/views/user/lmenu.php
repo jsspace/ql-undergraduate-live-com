@@ -6,7 +6,7 @@ use yii\helpers\Url;
 ?>
 <div class="left-menu">
     <div class="topinfo">
-        <img src="<?= Url::to('@web/'.Yii::$app->user->identity->picture); ?>" class="pic">
+        <img src="<?= Yii::$app->user->identity->picture; ?>" class="pic">
         <h4 class="name"><?= Yii::$app->user->identity->username; ?></h4>
         <div class="btn">
             <a href="<?= Url::to(['user/info']) ?>"><i class="icon ion-ios-person-outline"></i>个人资料</a>

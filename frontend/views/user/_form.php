@@ -23,7 +23,7 @@ use backend\models\Cities;
                 'showRemove' => true,
                 'showUpload' => false,
                 'initialPreview' => [
-                    $model->picture ? Html::img("/".$model->picture, $options = ['width' => '100px']) : null,
+                    $model->picture ? Html::img($model->picture, $options = ['width' => '100px']) : null,
                 ]
             ],
         ]) ?>

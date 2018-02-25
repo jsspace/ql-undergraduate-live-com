@@ -243,47 +243,7 @@ class UserController extends Controller
     
     public function actionClass()
     {
-        $orderinfo_models = OrderInfo::find()
-        ->where(['user_id' => Yii::$app->user->id])
-        ->andWhere(['order_status' => 1])
-        ->andWhere(['pay_status' => 2])
-        ->all();
-        $order_sns = [];
-        $current_time = time();
-        foreach ($orderinfo_models as $orderinfo_model) {
-            //支付订单后6个月之内有效
-            $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 180;
-            if ($invalid_time > $current_time) {
-                $order_sns[] = $orderinfo_model->order_sn;
-            }
-        }
-        //去订单详情表查找班级详细信息
-        $order_goods_models = OrderGoods::find()
-        ->where(['order_sn' => $order_sns])
-        ->andWhere(['type' => 'course_package'])
-        ->all();
-        $course_package_ids = [];
-        foreach ($order_goods_models as $order_goods_model) {
-            $course_package_ids[] = $order_goods_model->goods_id;
-        }
-        $course_package_models = CoursePackage::find()
-        ->where(['id' => $course_package_ids])
-        ->all();
-        $course_package_arr = [];
-        foreach ($course_package_models as &$course_package_model) {
-//             $course_models = Course::find()
-//             ->where(['id' => explode(',', $course_package_model->course)])
-//             ->all();
-//             $course_package_model->course = $course_models;
-            $course_category_model = CourseCategory::find()
-            ->where(['id' => $course_package_model->category_name])
-            ->one();
-            $course_package_model->category_name = $course_category_model->name;
-            $head_teacher_model = User::findOne(['id' => $course_package_model->head_teacher]);
-            $course_package_model->head_teacher = $head_teacher_model;
-            $course_package_arr[$course_category_model->name][] = $course_package_model;
-        }
-        unset($course_package_model);
+        $course_package_arr = CoursePackage::getUserClass();
 //         print_r($course_package_arr);die;
         return $this->render('class', [
             'course_package_arr' => $course_package_arr,

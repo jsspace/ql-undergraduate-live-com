@@ -91,7 +91,10 @@ $userid = Yii::$app->user->id;
                     }
                     $ismember = Course::ismember($course->id);
                     $ispay = Course::ispay($course->id);
-                    if ($ismember == 1) { ?>
+                    if ($course->discount == 0) { ?>
+                        <span class="course-ispay-tag">公开课程</span>
+                    <?php }
+                    else if ($ismember == 1) { ?>
                         <span class="course-ispay-tag">会员课程</span>
                     <?php }
                     else if ($ispay == 1 || $isschool == 1) { ?>
