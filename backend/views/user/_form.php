@@ -44,7 +44,7 @@ use kartik\file\FileInput;
                 'showRemove' => true,
                 'showUpload' => false,
                 'initialPreview' => [
-                    $model->picture ? Html::img("/".$model->picture, $options = ['width' => '100px']) : null,
+                    $model->picture ? Html::img($model->picture, $options = ['width' => '100px']) : null,
                 ]
             ],
         ]) ?>
@@ -65,7 +65,7 @@ use kartik\file\FileInput;
                 'showRemove' => true,
                 'showUpload' => false,
                 'initialPreview' => [
-                    $model->wechat_img ? Html::img("/".$model->wechat_img, $options = ['width' => '100px']) : null,
+                    $model->wechat_img ? Html::img($model->wechat_img, $options = ['width' => '100px']) : null,
                 ]
             ],
         ]) ?>

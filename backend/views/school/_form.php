@@ -34,7 +34,7 @@ use kartik\file\FileInput;
                 'showRemove' => true,
                 'showUpload' => false,
                 'initialPreview' => [
-                    $model->picture ? Html::img('/'.$model->picture, $options = ['width' => '170px']) : null,
+                    $model->picture ? Html::img($model->picture, $options = ['width' => '170px']) : null,
                 ]
             ],
         ]) ?>

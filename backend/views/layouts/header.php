@@ -230,7 +230,7 @@ use yii\helpers\Url;
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?= Url::to('@web/' . Yii::$app->user->identity->picture) ?>" class="user-image" alt="User Image"/>
+                        <img src="<?=Yii::$app->user->identity->picture ?>" class="user-image" alt="User Image"/>
                         <span class="hidden-xs"><?= Yii::$app->user->identity->username ?></span>
                     </a>
                     <ul class="dropdown-menu">

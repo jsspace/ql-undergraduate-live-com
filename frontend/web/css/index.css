@@ -257,7 +257,7 @@
 .course-content .left-ad {
     float: left;
     width: 20%;
-    height: 420px;
+    height: 386px;
 }
 .course-content .left-ad img {
     width: 100%;
@@ -385,7 +385,6 @@
 .course-content .teacher-section .teacher-name {
     color: #777779;
     float: left;
-    width: 100%;
     display: inline-block;
 }
 .course-content .teacher-section .teacher-position {

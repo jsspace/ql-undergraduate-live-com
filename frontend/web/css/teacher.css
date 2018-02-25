@@ -10,6 +10,7 @@
     margin-right: 30px;
     border-radius: 10px;
     margin-bottom: 90px;
+    float: left;
 }
 .teacher-section .teach-list li:nth-child(3n) {
     margin-right: 0;

@@ -62,7 +62,7 @@ $is_admin = array_key_exists('admin',$roles_array);
                 'showRemove' => true,
                 'showUpload' => false,
                 'initialPreview' => [
-                    $model->picture ? Html::img("/".$model->picture, $options = ['width' => '100px']) : null,
+                    $model->picture ? Html::img($model->picture, $options = ['width' => '100px']) : null,
                 ]
             ],
         ]) ?>

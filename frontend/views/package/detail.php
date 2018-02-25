@@ -107,7 +107,7 @@ $courses = $packageDetail['course'];
                              ?>
                                 <li>
                                     <div class="top">
-                                        <p class="teacher-img"><img src="/<?= User::getUserModel($course->teacher_id)->picture; ?>"/></p>
+                                        <p class="teacher-img"><img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/></p>
                                         <p class="teacher-name"><?= User::item($course->teacher_id); ?></p>
                                         <p class="teacher-tag"><?= User::getUserModel($course->teacher_id)->office; ?></p>
                                     </div>
@@ -127,7 +127,7 @@ $courses = $packageDetail['course'];
             <div class="right-section">
                 <div class="section">
                     <h3>班主任(<?= User::item($package->head_teacher); ?>)</h3>
-                    <p class="txt"><img src="/<?= User::getUserModel($package->head_teacher)->wechat_img; ?>"></p>
+                    <p class="txt"><img src="<?= User::getUserModel($package->head_teacher)->wechat_img; ?>"></p>
                 </div>
                 <!-- <div class="section">
                     <h3>新加学员</h3>

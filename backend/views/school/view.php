@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'picture',
                 'label' => '照片',
                 'format' => 'raw',
-                'value' => Html::img('@web/'.$model->picture, ['width' => 40]),
+                'value' => Html::img($model->picture, ['width' => 40]),
             ],
             [
                 'attribute' => 'provinceid',

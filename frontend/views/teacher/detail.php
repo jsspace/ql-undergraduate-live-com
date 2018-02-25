@@ -22,7 +22,7 @@ $this->title = 'My Yii Application';
 </div>
 <div class="container-course teacher-detail">
     <div class="left-introduce">
-        <p class="teacher-img"><img src="/<?= $teacher->picture ?>"/></p>
+        <p class="teacher-img"><img src="<?= $teacher->picture ?>"/></p>
         <div class="teacher-name">
             <span class="name"><?= $teacher->username ?></span>
             <span class="school"><?= $teacher->description ?></span>

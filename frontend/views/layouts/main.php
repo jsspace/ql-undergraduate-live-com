@@ -55,7 +55,7 @@ AppAsset::register($this);
                 <li class="register"><a href="<?= Url::to(['site/signup']) ?>">免费注册</a></li>
             </ul>
             <?php } else {
-                echo '<ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="/'
+                echo '<ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="'
                     . Yii::$app->user->identity->picture . '"/></a>&nbsp;&nbsp;用户名</li><li class="logout-li">'
                     . Html::beginForm(['/site/logout'], 'post')
                     . Html::submitButton(

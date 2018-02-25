@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'picture',
                 'format' => 'raw',
                 'value' => function($model){
-                    return Html::img('/'.$model->picture, ['width' => '100px']);
+                    return Html::img($model->picture, ['width' => '100px']);
                 }
 
             ],
@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'wechat_img',
                 'format' => 'raw',
                 'value' => function($model){
-                    return Html::img('/'.$model->wechat_img, ['width' => '100px']);
+                    return Html::img($model->wechat_img, ['width' => '100px']);
                 }
 
             ],

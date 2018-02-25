@@ -131,8 +131,8 @@ $weekarray=array("日","一","二","三","四","五","六");
                         </div>
                         <div class="course-content">
                             <div class="left-ad">
-                                <a href="">
-                                    <img src="/img/course-list-img.jpg"/>
+                                <a href="<?= Url::to(['course/college','cat' => $key]) ?>">
+                                    <img src="<?= $college['college_pic'] ?>"/>
                                 </a>
                             </div>
                             <ul class="list active">

@@ -79,7 +79,7 @@ class SchoolController extends Controller
                     mkdir($rootPath, 0777, true);
                 }
                 $image_picture->saveAs($rootPath . $image_picture);
-                $model->picture = Yii::$app->params['upload_img_dir'] . 'school/' . $image_picture;
+                $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'school/' . $image_picture;
             }
             if ($model->save(false)) {
                 $role = new AuthAssignment();
@@ -117,7 +117,7 @@ class SchoolController extends Controller
                     mkdir($rootPath, 0777, true);
                 }
                 $image_picture->saveAs($rootPath . $randName);
-                $model->picture = Yii::$app->params['upload_img_dir'] . 'school/' . $randName;
+                $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'school/' . $randName;
                 @unlink(Yii::getAlias("@frontend")."/web/" . $oldpicture_path);
             } else {
                 $model->picture = $oldpicture_path;

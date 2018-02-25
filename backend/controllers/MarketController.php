@@ -174,7 +174,7 @@ class MarketController extends Controller
                     mkdir($img_rootPath, 0777, true);
                 }
                 $file->saveAs($img_rootPath . $randName);
-                $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
+                $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
             }
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -215,7 +215,7 @@ class MarketController extends Controller
                     mkdir($img_rootPath, 0777, true);
                 }
                 $file->saveAs($img_rootPath . $randName);
-                $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
+                $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
             }
             if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);

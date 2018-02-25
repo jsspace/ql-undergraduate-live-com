@@ -49,12 +49,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=> $model->gender == 1 ? '女' : '男',
             ],
             [
-                'attribute'=>'picture',
-                'format' => 'raw',
-                'value' => function($model){
-                    return Html::img('/'.$model->picture, ['width' => '100px']);
-                }
-
+                'attribute' => 'picture',
+                'label' => '首页图片',
+                'format' => ['image',['width'=>'40']]
             ],
             'created_at:datetime',
             'updated_at:datetime',

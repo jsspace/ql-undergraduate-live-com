@@ -152,12 +152,13 @@ class SiteController extends Controller
         $collegeCourses = Course::find()
         ->all();
         $course_cat = CourseCategory::find()
-        ->select('id,name')
+        ->select('id,name,home_icon')
         ->orderBy('position asc')
         ->all();
         $collegeArr = array();
         foreach ($course_cat as $cat_key => $cat) {
             $collegeArr[$cat->id]["college_name"] = $cat->name;
+            $collegeArr[$cat->id]["college_pic"] = $cat->home_icon;
             $count = 0;
             foreach ($collegeCourses as $key => $collegeCourse) {
                 if ($count === 8) {

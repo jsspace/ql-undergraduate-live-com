@@ -80,7 +80,7 @@ class UserController extends Controller
                     mkdir($user_img_rootPath, 0777, true);
                 }
                 $user_image->saveAs($user_img_rootPath . $userRandName);
-                $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $userRandName;
+                $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'head_img/' . $userRandName;
             } else {
                 $model->picture = '';
             }
@@ -92,7 +92,7 @@ class UserController extends Controller
                     mkdir($wechat_img_rootPath, 0777, true);
                 }
                 $wechat_img->saveAs($wechat_img_rootPath . $wechatRandName);
-                $model->wechat_img = Yii::$app->params['upload_img_dir'] . 'wechat_img/' . $wechatRandName;
+                $model->wechat_img = '/'.Yii::$app->params['upload_img_dir'] . 'wechat_img/' . $wechatRandName;
             } else {
                 $model->wechat_img = '';
             }
@@ -129,7 +129,7 @@ class UserController extends Controller
                     mkdir($user_img_rootPath, 0777, true);
                 }
                 $user_image->saveAs($user_img_rootPath . $userRandName);
-                $model->picture = Yii::$app->params['upload_img_dir'] . 'head_img/' . $userRandName;
+                $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'head_img/' . $userRandName;
             } else {
                 $model->picture = $old_user_image;
             }
@@ -141,7 +141,7 @@ class UserController extends Controller
                     mkdir($wechat_img_rootPath, 0777, true);
                 }
                 $wechat_img->saveAs($wechat_img_rootPath . $wechatRandName);
-                $model->wechat_img = Yii::$app->params['upload_img_dir'] . 'wechat_img/' . $wechatRandName;
+                $model->wechat_img = '/'.Yii::$app->params['upload_img_dir'] . 'wechat_img/' . $wechatRandName;
             } else {
                 $model->wechat_img = $old_wechat_img;
             }
