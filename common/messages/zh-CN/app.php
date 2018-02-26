@@ -92,4 +92,5 @@ return [
     'Messages' => '消息列表',
     'Create Message' => '创建消息',
     'Reads' => '消息读取表',
+    'User Study Logs' => '用户学习日志',
 ];

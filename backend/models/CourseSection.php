@@ -1,7 +1,7 @@
 <?php
 
 namespace backend\models;
-
+use backend\models\CourseChapter;
 use Yii;
 
 /**
@@ -93,5 +93,39 @@ class CourseSection extends \yii\db\ActiveRecord
             ->one();
             return $chapter->course_id;
         }
-    } 
+    }
+    private static $_items = array();
+    public static function item($id)
+    {
+        if(!isset(self::$_items[$id]))
+            self::loadItems();
+            return isset(self::$_items[$id]) ? self::$_items[$id] : false;
+    }
+    public static function items($courseid)
+    {
+        /* 所有章 */
+        $chapters = CourseChapter::find()
+        ->select('id')
+        ->where(['course_id' => $courseid])
+        ->asArray()
+        ->all();
+        /* 所有节 */
+        $sections = self::find()
+        ->where(['chapter_id' => $chapters])
+        ->all();
+        $result = array();
+        if (empty($sections)) {
+            foreach ($sections as $section) {
+               $result[$section->id] = $section->name;
+            }
+        }
+        return $result;
+    }
+    public static function loadItems() {
+        $models = self::find()
+        ->all();
+        foreach ($models as $model) {
+            self::$_items[$model->id] = $model->name;
+        }
+    }
 }
