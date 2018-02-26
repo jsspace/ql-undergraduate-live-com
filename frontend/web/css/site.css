@@ -277,7 +277,8 @@ a {
 }
 .wrap .menu-wrapper .nav-menu a {
     color: #3f464e;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: bold;
 }
 .wrap .menu-wrapper input {
     width: 200px;

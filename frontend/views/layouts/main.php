@@ -85,7 +85,7 @@ AppAsset::register($this);
         </div>
         <div class="menu-wrapper">
             <div class="logo">
-                <img src="/img/website-logo.jpg"/>
+                <img src="/img/website-logo.png"/>
             </div>
             <ul class="nav-menu">
                 <li>
