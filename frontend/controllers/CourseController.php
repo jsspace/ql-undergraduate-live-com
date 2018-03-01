@@ -14,6 +14,7 @@ use backend\models\CoursePackage;
 use backend\models\Data;
 use backend\models\Quas;
 use backend\models\User;
+use backend\models\UserStudyLog;
 use Qiniu\Auth;
 use Yii;
 use yii\data\Pagination;
@@ -247,5 +248,39 @@ class CourseController extends Controller
                 return json_encode($data);
             }
         }
+    }
+    public function actionAddnetlog() {
+        $result = array();
+        if (!Yii::$app->user->isGuest) {
+            $data = Yii::$app->request->Post();
+            $userlogs = $data['userlog'];
+            if (empty($userlogs)) {
+                return $result['status'] = 1;//'未观看任何视频'
+                $result['msg'] = '未观看任何视频';
+            } else {
+                foreach ($userlogs as $key => $userlog) {
+                    $userid = Yii::$app->user->id;
+                    $start_time = $userlog['startTime'];
+                    $duration = $userlog['duration'];
+                    $course_id = $userlog['courseId'];
+                    $section_id = $key;
+                    $type = 1;
+                    $logModel = new UserStudyLog();
+                    $logModel->userid = $userid;
+                    $logModel->start_time = $start_time;
+                    $logModel->duration = $duration;
+                    $logModel->course_id = $course_id;
+                    $logModel->section_id = $section_id;
+                    $logModel->type = $type;
+                    $logModel->save(false);
+                }
+                $result['status'] = 2;
+                $result['msg'] = '保存成功';
+            }
+        } else {
+            $result['status'] = 0;//'游客
+            $result['msg'] = '游客';
+        }
+        return json_encode($result);
     }
 }
