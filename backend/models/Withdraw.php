@@ -39,9 +39,9 @@ class Withdraw extends \yii\db\ActiveRecord
             [['user_id', 'status'], 'integer'],
             [['fee'], 'number'],
             [['info'], 'string'],
-            [['withdraw_date', 'create_time'], 'safe'],
+            [['create_time'], 'safe'],
             [['role'], 'string', 'max' => 200],
-            [['bankc_card'], 'string', 'max' => 30],
+            [['withdraw_date', 'bankc_card'], 'string', 'max' => 30],
             [['bank', 'bank_username'], 'string', 'max' => 300],
         ];
     }

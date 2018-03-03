@@ -63,13 +63,13 @@ class WithdrawSearch extends Withdraw
             'withdraw_id' => $this->withdraw_id,
             'user_id' => $this->user_id,
             'fee' => $this->fee,
-            'withdraw_date' => $this->withdraw_date,
             'status' => $this->status,
             'create_time' => $this->create_time,
         ]);
 
         $query->andFilterWhere(['like', 'role', $this->role])
             ->andFilterWhere(['like', 'info', $this->info])
+            ->andFilterWhere(['like', 'withdraw_date', $this->withdraw_date])
             ->andFilterWhere(['like', 'bankc_card', $this->bankc_card])
             ->andFilterWhere(['like', 'bank', $this->bank])
             ->andFilterWhere(['like', 'bank_username', $this->bank_username]);

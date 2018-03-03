@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'info')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'withdraw_date')->textInput() ?>
+    <?= $form->field($model, 'withdraw_date')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'bankc_card')->textInput(['maxlength' => true]) ?>
 
