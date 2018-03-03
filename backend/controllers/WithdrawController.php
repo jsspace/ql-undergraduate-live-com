@@ -10,6 +10,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\User;
 use yii\data\Pagination;
+use backend\models\OrderInfo;
+use backend\models\Course;
+use backend\models\OrderGoods;
 
 /**
  * WithdrawController implements the CRUD actions for Withdraw model.
