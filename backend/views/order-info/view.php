@@ -9,6 +9,8 @@ use yii\widgets\DetailView;
 $this->title = '订单详情';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Order Infos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+
 ?>
 <div class="order-info-view">
 

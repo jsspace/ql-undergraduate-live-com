@@ -415,10 +415,10 @@ class SiteController extends Controller
                     'message' => '短信验证码请求太频繁，请稍后再尝试。同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。',
                 ];
             }
-            return json_encode($res);
             $err_str = 'change password sms code, phone:'. $phone . ' code:' . $code .' ';
             $err_str .= 'time:' . $time .' response:' . json_encode($response);
             error_log($err_str);
+            return json_encode($res);
         }
     }
     
