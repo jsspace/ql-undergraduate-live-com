@@ -33,7 +33,7 @@ AppAsset::addCss($this,'@web/css/message.css');
         ],
     ]) ?>
 
-    <?= $form->field($model, 'classids')->checkboxList(CoursePackage::items(),['item'=>function($index, $label, $name, $checked, $value){
+    <!-- <?= $form->field($model, 'classids')->checkboxList(CoursePackage::items(),['item'=>function($index, $label, $name, $checked, $value){
         $checkStr = $checked ? "checked" : "";
         if ($value === 'alluser') {
             $classname = 'alluser all classitem';
@@ -43,7 +43,7 @@ AppAsset::addCss($this,'@web/css/message.css');
             $classname = 'item classitem';
         }
         return '<label><input type="checkbox" name="'.$name.'" value="'.$value.'" '.$checkStr.' class="'.$classname.'">'.$label.'</label>';
-    }]); ?>
+    }]); ?> -->
 
     <!-- <?php
         $isadmin = User::isAdmin(Yii::$app->user->id);

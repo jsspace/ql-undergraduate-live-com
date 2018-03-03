@@ -53,22 +53,25 @@ class MessageController extends Controller
         $id = Yii::$app->request->get('msg_id');
         $message = $this->findModel($id);
         /* 如果审核已通过，填充消息的发布时间并将消息保存到用户的系统消息表，初始状态为未读 */
-        $message->publish_time = time();
-        $message->status = 1;
-        $message->save(false);
         $userIdArr = array();
-        $classIdsArr = explode(',', $message->classids);
+        //$classIdsArr = explode(',', $message->classids);
+        $classIdsArr = array('alluser');
         if (in_array('alluser', $classIdsArr)) {
             /*$userNameIdArr1 = User::users('student');
             $userNameIdArr2 = User::users('school');
             $userNameIdArr = array_merge($userNameIdArr1, $userNameIdArr2);
             $userIdArr = array_keys($userNameIdArr);*/
-            $orderGoods = OrderInfo::find()
+            /*$orderGoods = OrderInfo::find()
             ->select('user_id')
             ->where(['pay_status' => 2])
             ->asArray()
             ->all();
-            $userIdArr = array_column($orderGoods, 'user_id');
+            $userIdArr = array_column($orderGoods, 'user_id');*/
+            $students = User::users('student');
+            $schools = User::users('school');
+            $studentsIdArr = array_keys($students);
+            $schoolsIdArr = array_keys($schools);
+            $userIdArr = array_merge($studentsIdArr, $schoolsIdArr);
         } else if(in_array('allclass', $classIdsArr)) {
             $orderGoods = OrderGoods::find()
             ->select('user_id')
@@ -105,6 +108,9 @@ class MessageController extends Controller
             $readModel->get_time = time();
             $readModel->save(false);
         }
+        $message->publish_time = time();
+        $message->status = 1;
+        $message->save(false);
         return $this->redirect('index');
     }
 

@@ -236,7 +236,7 @@ use yii\helpers\Url;
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= Url::to('@web/' . Yii::$app->user->identity->picture) ?>" class="img-circle"
+                            <img src="<?= Url::to(Yii::$app->user->identity->picture) ?>" class="img-circle"
                                  alt="User Image"/>
 
                             <p>
