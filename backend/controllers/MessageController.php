@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\User;
 use backend\models\OrderGoods;
-use backend\models\read;
+use backend\models\Read;
 use backend\models\OrderInfo;
 
 /**
