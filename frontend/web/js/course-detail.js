@@ -164,15 +164,12 @@ var courseDetail = {
             //停止时关闭定时器
             window.clearInterval(self.count_down_int);
             /*当前观看的秒数 self.seconds*/
-            if (!self.study_log[self.section_id]['duration']) {
-                self.study_log[self.section_id]['duration'] = 0;
+            if (!self.study_log[self.section_id].duration) {
+                self.study_log[self.section_id].duration = 0;
             }
-            self.study_log[self.section_id]['duration'] = self.study_log[self.section_id]['duration'] + self.seconds;
-            localStorage.setItem("study_log", self.study_log);
-            var data = localStorage.getItem('study_log');
-            console.log( typeof data);
-            console.log(data.split(","));
-            
+            self.study_log[self.section_id].duration = self.study_log[self.section_id].duration + self.seconds;
+            var log = JSON.stringify(self.study_log);
+            localStorage.setItem("study_log", log);
             self.seconds = 0;
         });
         $('._net-class').on('click', function() {
@@ -197,10 +194,10 @@ var courseDetail = {
                         self.seconds = 0;
                         $('._course-detail-left video').get(0).play();
                         self.study_log[self.section_id] = {};
-                        self.study_log[self.section_id]['courseId'] = self.course_id;
+                        self.study_log[self.section_id].courseId = self.course_id;
                         /*获取当前时间戳*/
-                        if (!self.study_log[self.section_id]['startTime']) {
-                            self.study_log[self.section_id]['startTime'] = (new Date()).valueOf();
+                        if (!self.study_log[self.section_id].startTime) {
+                            self.study_log[self.section_id].startTime = (new Date()).valueOf();
                         }
                         location.hash = 'view';
                     } else {
