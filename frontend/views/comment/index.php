@@ -42,7 +42,7 @@ $this->title = '学习感言';
                 <?php foreach ($comments as $key => $comment) { ?>
                     <li>
                         <p class="user-img">
-                            <img src="/<?= User::getUserModel($comment->user_id)->picture; ?>"/>
+                            <img src="<?= User::getUserModel($comment->user_id)->picture; ?>"/>
                         </p>
                         <div class="study-content">
                             <!-- <span class="study-title">平面设计课程讲解透彻</span> -->

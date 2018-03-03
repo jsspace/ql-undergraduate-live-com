@@ -169,7 +169,10 @@ var courseDetail = {
             }
             self.study_log[self.section_id]['duration'] = self.study_log[self.section_id]['duration'] + self.seconds;
             localStorage.setItem("study_log", self.study_log);
-            console.log(localStorage.getItem('study_log'));
+            var data = localStorage.getItem('study_log');
+            console.log( typeof data);
+            console.log(data.split(","));
+            
             self.seconds = 0;
         });
         $('._net-class').on('click', function() {

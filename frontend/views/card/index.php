@@ -26,7 +26,7 @@ $this->title = '钱包充值';
                     金币充值仅会员可用，请先<a href="/site/login">&nbsp;&nbsp;登录&nbsp;&nbsp;</a>或<a href="/site/signup">&nbsp;&nbsp;注册&nbsp;&nbsp;</a>
                 <?php } else { ?>
                     <span class="user-info">
-                        <img src="<?= Url::to('@web/'.Yii::$app->user->identity->picture); ?>"/>
+                        <img src="<?= Yii::$app->user->identity->picture; ?>"/>
                         <em><?= Yii::$app->user->identity->username ?></em>
                         <strong>当前余额：<i><?= $coin_balance ?></i>元</strong>
                     </span>

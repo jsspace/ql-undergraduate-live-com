@@ -43,7 +43,7 @@ $this->title = '课程需求';
                 <?php foreach ($commands as $key => $command) { ?>
                     <li>
                         <p class="user-img">
-                            <img src="/<?= User::getUserModel($command->user_id)->picture; ?>"/>
+                            <img src="<?= User::getUserModel($command->user_id)->picture; ?>"/>
                         </p>
                         <div class="study-content">
                             <!-- <span class="study-title">平面设计课程讲解透彻</span> -->

@@ -19,6 +19,8 @@ $this->title = '如何使用钱包购买课程';
         <span>您的位置：</span>
         <span><a href="/">首页</a></span>
         <span>&gt;</span>
+        <span><a href="/user/coin">个人中心</a></span>
+        <span>&gt;</span>
         <span>如何使用钱包购买课程</span>
     </div>
 </div>
