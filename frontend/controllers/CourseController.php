@@ -260,19 +260,30 @@ class CourseController extends Controller
             } else {
                 foreach ($userlogs as $key => $userlog) {
                     $userid = Yii::$app->user->id;
-                    $start_time = $userlog['startTime'];
                     $duration = $userlog['duration'];
                     $course_id = $userlog['courseId'];
-                    $section_id = $key;
+                    $section_id = $userlog['sectionId'];
                     $type = 1;
-                    $logModel = new UserStudyLog();
-                    $logModel->userid = $userid;
-                    $logModel->start_time = $start_time;
-                    $logModel->duration = $duration;
-                    $logModel->course_id = $course_id;
-                    $logModel->section_id = $section_id;
-                    $logModel->type = $type;
-                    $logModel->save(false);
+                    $start = strtotime(date('Y-m-d 00:00:00'));
+                    $end = strtotime(date('Y-m-d H:i:s'));
+                    $model = UserStudyLog::find()
+                    ->where(['userid' => $userid])
+                    ->andWhere(['courseid' => $course_id])
+                    ->andWhere(['sectionid' => $section_id])
+                    ->andWhere(['between', 'start_time', $start, $end])
+                    ->one();
+                    if (empty($model)) {
+                        $model = new UserStudyLog();
+                        $model->userid = $userid;
+                        $model->start_time = time();
+                        $model->duration = $duration;
+                        $model->courseid = $course_id;
+                        $model->sectionid = $section_id;
+                        $model->type = $type;
+                    } else {
+                        $model->duration = $model->duration+$duration;
+                    }
+                    $model->save(false);
                 }
                 $result['status'] = 2;
                 $result['msg'] = '保存成功';

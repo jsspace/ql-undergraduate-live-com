@@ -31,7 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'start_time:datetime',
-            'duration',
+            [
+                'attribute' => 'duration',
+                'value'=> function ($model) {
+                    return date('i:s',$model->duration);
+                },
+            ],
             [
                 'attribute' => 'courseid',
                 'value'=> function ($model) {

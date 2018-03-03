@@ -164,7 +164,7 @@ var courseDetail = {
             //停止时关闭定时器
             window.clearInterval(self.count_down_int);
             /*当前观看的秒数 self.seconds*/
-            if (!self.study_log[self.section_id].duration) {
+            if (typeof(self.study_log[self.section_id].duration) == 'undefined') {
                 self.study_log[self.section_id].duration = 0;
             }
             self.study_log[self.section_id].duration = self.study_log[self.section_id].duration + self.seconds;
@@ -195,10 +195,7 @@ var courseDetail = {
                         $('._course-detail-left video').get(0).play();
                         self.study_log[self.section_id] = {};
                         self.study_log[self.section_id].courseId = self.course_id;
-                        /*获取当前时间戳*/
-                        if (!self.study_log[self.section_id].startTime) {
-                            self.study_log[self.section_id].startTime = (new Date()).valueOf();
-                        }
+                        self.study_log[self.section_id].sectionId = self.section_id;
                         location.hash = 'view';
                     } else {
                         alert(data.message);
@@ -214,6 +211,8 @@ var courseDetail = {
         var self = this;
         var study_log = localStorage.getItem('study_log');
         if (study_log && study_log.length != 0) {
+            study_log = JSON.parse(study_log);
+            study_log = $.grep(study_log, function(n) {return $.trim(n).length > 0;});
             $.ajax({
                 url: '/course/addnetlog',
                 type: 'post',
