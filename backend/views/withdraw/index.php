@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                'value'=> function ($model) {
                    return User::item($model->user_id);
                },
-               'filter' => User::users('marketer'),
+               'filter' => array_merge(User::users('marketer'), User::users('teacher')),
             ],
             'fee',
             'info:ntext',

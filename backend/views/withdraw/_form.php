@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'role')->dropDownList(['student' => '教师', 'marketer' => '市场专员'], ['prompt' => '请选择...']) ?>
 
-    <?= $form->field($model, 'user_id')->dropDownList($marketer) ?>
+    <?= $form->field($model, 'user_id')->dropDownList($user) ?>
 
     <?= $form->field($model, 'fee')->textInput(['maxlength' => true]) ?>
 

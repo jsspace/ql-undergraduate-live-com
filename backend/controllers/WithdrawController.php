@@ -77,7 +77,7 @@ class WithdrawController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'marketer' => $user,
+                'user' => $user,
             ]);
         }
     }
