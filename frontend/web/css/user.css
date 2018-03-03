@@ -145,7 +145,6 @@ label {
 }
 .user-course-list li img {
     width: 100%;
-    max-height: 178px;
 }
 .user-course-list li:hover {
     border-color: #dfdfdf;

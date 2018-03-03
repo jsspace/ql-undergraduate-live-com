@@ -158,7 +158,7 @@
 }
 .course-detail-section .course-detail-left {
     width: 620px;
-    height: 450px;
+    height: auto;
     float: left;
     position: relative;
     background-color: #000;
