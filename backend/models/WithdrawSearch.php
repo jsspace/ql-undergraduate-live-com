@@ -18,9 +18,9 @@ class WithdrawSearch extends Withdraw
     public function rules()
     {
         return [
-            [['withdraw_id', 'user_id'], 'integer'],
+            [['withdraw_id', 'user_id', 'status'], 'integer'],
+            [['role', 'info', 'withdraw_date', 'bankc_card', 'bank', 'bank_username', 'create_time'], 'safe'],
             [['fee'], 'number'],
-            [['info', 'create_time'], 'safe'],
         ];
     }
 
@@ -63,10 +63,16 @@ class WithdrawSearch extends Withdraw
             'withdraw_id' => $this->withdraw_id,
             'user_id' => $this->user_id,
             'fee' => $this->fee,
+            'withdraw_date' => $this->withdraw_date,
+            'status' => $this->status,
             'create_time' => $this->create_time,
         ]);
 
-        $query->andFilterWhere(['like', 'info', $this->info]);
+        $query->andFilterWhere(['like', 'role', $this->role])
+            ->andFilterWhere(['like', 'info', $this->info])
+            ->andFilterWhere(['like', 'bankc_card', $this->bankc_card])
+            ->andFilterWhere(['like', 'bank', $this->bank])
+            ->andFilterWhere(['like', 'bank_username', $this->bank_username]);
 
         return $dataProvider;
     }

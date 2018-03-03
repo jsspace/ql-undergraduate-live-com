@@ -18,8 +18,8 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite', 'bankc_card'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'wechat', 'wechat_img', 'cityid', 'provinceid', 'bank', 'bank_username'], 'safe'],
+            [['id', 'status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'phone', 'description', 'unit', 'office', 'goodat', 'picture', 'intro', 'wechat', 'wechat_img', 'cityid', 'provinceid', 'bank', 'bank_username', 'bankc_card'], 'safe'],
             [['percentage'], 'number'],
         ];
     }
@@ -67,7 +67,6 @@ class UserSearch extends User
             'gender' => $this->gender,
             'invite' => $this->invite,
             'percentage' => $this->percentage,
-            'bankc_card' => $this->bankc_card,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
@@ -87,7 +86,8 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'cityid', $this->cityid])
             ->andFilterWhere(['like', 'provinceid', $this->provinceid])
             ->andFilterWhere(['like', 'bank', $this->bank])
-            ->andFilterWhere(['like', 'bank_username', $this->bank_username]);
+            ->andFilterWhere(['like', 'bank_username', $this->bank_username])
+            ->andFilterWhere(['like', 'bankc_card', $this->bankc_card]);
 
         return $dataProvider;
     }

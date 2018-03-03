@@ -133,6 +133,7 @@ class MarketController extends Controller
         //提现历史
         $withdraw_history = Withdraw::find()
         ->where(['user_id' => $id])
+        ->andWhere(['status' => 1])
         ->all();
         $total_withdraw = 0;
         foreach($withdraw_history as $withdraw) {

@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="withdraw-index">
 
+    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -24,16 +25,42 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'withdraw_id',
+//             'withdraw_id',
             [
-                'attribute' => 'user_id',
+                'attribute' => 'role',
                 'value'=> function ($model) {
-                    return User::item($model->user_id);
+                    if ($model->role == 'marketer') {
+                        return '市场专员';
+                    } elseif ($model->role == 'teacher') {
+                        return '教师';
+                    }
                 },
-                'filter' => User::users('marketer'),
+                'filter' => ['marketer' => '市场专员', 'teacher' => '教师'],
+            ],
+            [
+               'attribute' => 'user_id',
+               'value'=> function ($model) {
+                   return User::item($model->user_id);
+               },
+               'filter' => User::users('marketer'),
             ],
             'fee',
             'info:ntext',
+            'withdraw_date',
+            'bankc_card',
+            'bank',
+            'bank_username',
+            [
+                'attribute' => 'status',
+                'value'=> function ($model) {
+                    if ($model->status == 0) {
+                        return '未提现';
+                    } elseif ($model->status == 1) {
+                        return '已提现';
+                    }
+                },
+                'filter' => [0 => '未提现', 1 => '已提现'],
+            ],
             'create_time',
 
             ['class' => 'yii\grid\ActionColumn'],

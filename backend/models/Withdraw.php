@@ -8,9 +8,15 @@ use Yii;
  * This is the model class for table "{{%withdraw}}".
  *
  * @property integer $withdraw_id
+ * @property string $role
  * @property integer $user_id
  * @property string $fee
  * @property string $info
+ * @property string $withdraw_date
+ * @property string $bankc_card
+ * @property string $bank
+ * @property string $bank_username
+ * @property integer $status
  * @property string $create_time
  */
 class Withdraw extends \yii\db\ActiveRecord
@@ -29,10 +35,14 @@ class Withdraw extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id'], 'integer'],
+            [['role', 'withdraw_date', 'bankc_card', 'bank', 'bank_username', 'status'], 'required'],
+            [['user_id', 'status'], 'integer'],
             [['fee'], 'number'],
             [['info'], 'string'],
-            [['create_time'], 'safe'],
+            [['withdraw_date', 'create_time'], 'safe'],
+            [['role'], 'string', 'max' => 200],
+            [['bankc_card'], 'string', 'max' => 30],
+            [['bank', 'bank_username'], 'string', 'max' => 300],
         ];
     }
 
@@ -43,10 +53,16 @@ class Withdraw extends \yii\db\ActiveRecord
     {
         return [
             'withdraw_id' => Yii::t('app', 'Withdraw ID'),
+            'role' => Yii::t('app', '用户类型'),
             'user_id' => Yii::t('app', '用户'),
             'fee' => Yii::t('app', '金额'),
             'info' => Yii::t('app', '描述信息'),
-            'create_time' => Yii::t('app', '提现时间'),
+            'withdraw_date' => Yii::t('app', '提现时间'),
+            'bankc_card' => Yii::t('app', '银行卡号'),
+            'bank' => Yii::t('app', '银行名称'),
+            'bank_username' => Yii::t('app', '户名'),
+            'status' => Yii::t('app', '状态'),
+            'create_time' => Yii::t('app', '创建时间'),
         ];
     }
 
@@ -59,7 +75,6 @@ class Withdraw extends \yii\db\ActiveRecord
         return new WithdrawQuery(get_called_class());
     }
     
-
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {

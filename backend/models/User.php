@@ -32,7 +32,7 @@ use Yii;
  * @property string $provinceid
  * @property string $bank
  * @property string $bank_username
- * @property integer $bankc_card
+ * @property string $bankc_card
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -53,7 +53,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'email', 'phone'], 'required'],
-            [['status', 'created_at', 'updated_at', 'gender', 'invite', 'bankc_card'], 'integer'],
+            [['status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
             [['intro', 'password'], 'string'],
             [['percentage'], 'number'],
             [['username', 'auth_key'], 'string', 'max' => 32],
@@ -63,6 +63,7 @@ class User extends \yii\db\ActiveRecord
             [['wechat'], 'string', 'max' => 200],
             [['cityid', 'provinceid'], 'string', 'max' => 20],
             [['bank'], 'string', 'max' => 800],
+            [['bankc_card'], 'string', 'max' => 30],
         ];
     }
 
@@ -207,6 +208,7 @@ class User extends \yii\db\ActiveRecord
         $userIds = Yii::$app->authManager->getUserIdsByRole($roleName);
         $models = self::find()
         ->where(['in', 'id', $userIds])
+        ->andWhere(['status' => 10])
         ->orderBy('id desc')
         ->all();
         return $models;

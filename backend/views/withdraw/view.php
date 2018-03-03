@@ -28,7 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             //'withdraw_id',
-             [
+            'role',
+            [
                 'attribute' => 'user_id',
                 'value'=> function ($model) {
                     return User::item($model->user_id);
@@ -36,6 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'fee',
             'info:ntext',
+            'withdraw_date',
+            'bankc_card',
+            'bank',
+            'bank_username',
+            'status',
             'create_time',
         ],
     ]) ?>
