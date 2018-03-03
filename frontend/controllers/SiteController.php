@@ -515,7 +515,7 @@ class SiteController extends Controller
         ->where(['phone' => $phone])
         ->andWhere(['status' => 10])
         ->one();
-        if (!empty($phone)) {
+        if (!empty($phone_exist)) {
             $res = [
                 'status' => 'error',
                 'message' => '这个手机号已经注册了，请使用另外一个手机号。',
