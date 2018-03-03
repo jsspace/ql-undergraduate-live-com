@@ -277,12 +277,12 @@ class CourseController extends Controller
                         $model = new UserStudyLog();
                         $model->userid = $userid;
                         $model->start_time = time();
-                        $model->duration = 1;
+                        $model->duration = 60;
                         $model->courseid = $course_id;
                         $model->sectionid = $section_id;
                         $model->type = $type;
                     } else {
-                        $model->duration = $model->duration+1;
+                        $model->duration = $model->duration+60;
                     }
                     $model->save(false);
                 //}
