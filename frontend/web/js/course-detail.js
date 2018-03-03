@@ -5,10 +5,10 @@ var courseDetail = {
     shortUrl: false,
     hideMore: false,
     count_down_int: 0,
-    seconds: 0,
+    //seconds: 0,
     section_id: '',
     course_id: '',
-    study_log: [],
+    //study_log: [],
     init: function() {
         var self = this;
         self.tagTab();
@@ -18,7 +18,7 @@ var courseDetail = {
         self.evaluate();
         self.questionSubmit();
         self.videoNetEvent();
-        window.onbeforeunload = self.windowEvent();
+        //window.onbeforeunload = self.windowEvent();
     },
     tagTab: function() {
         $(".course-tag li").each(function(index) {
@@ -157,20 +157,20 @@ var courseDetail = {
         var self = this;
         $('#course-video').on("play", function() {
             /*启动定时器*/
-            self.count_down_int = window.setInterval(self.countDown, 1000);
+            self.count_down_int = window.setInterval(self.countDown, 60000);
             /*重置self.seconds*/
         });
         $('#course-video').on("pause", function() {
             //停止时关闭定时器
             window.clearInterval(self.count_down_int);
             /*当前观看的秒数 self.seconds*/
-            if (typeof(self.study_log[self.section_id].duration) == 'undefined') {
+            /*if (typeof(self.study_log[self.section_id].duration) == 'undefined') {
                 self.study_log[self.section_id].duration = 0;
             }
             self.study_log[self.section_id].duration = self.study_log[self.section_id].duration + self.seconds;
             var log = JSON.stringify(self.study_log);
             localStorage.setItem("study_log", log);
-            self.seconds = 0;
+            self.seconds = 0;*/
         });
         $('._net-class').on('click', function() {
             self.section_id = $(this).attr('section-id');
@@ -191,11 +191,11 @@ var courseDetail = {
                         $('._course-detail-left img').css('display', 'none');
                         $('._course-detail-left video').css('display', 'block').attr('src', data.url);
                         /*播放之前重置self.seconds*/
-                        self.seconds = 0;
+                        //self.seconds = 0;
                         $('._course-detail-left video').get(0).play();
-                        self.study_log[self.section_id] = {};
+                        /*self.study_log[self.section_id] = {};
                         self.study_log[self.section_id].courseId = self.course_id;
-                        self.study_log[self.section_id].sectionId = self.section_id;
+                        self.study_log[self.section_id].sectionId = self.section_id;*/
                         location.hash = 'view';
                     } else {
                         alert(data.message);
@@ -205,9 +205,10 @@ var courseDetail = {
         });
     },
     countDown: function() {
-        courseDetail.seconds++;
+        //courseDetail.seconds++;
+        courseDetail.windowEvent();
     },
-    windowEvent: function() {
+    /*windowEvent: function() {
         var self = this;
         var study_log = localStorage.getItem('study_log');
         if (study_log && study_log.length != 0) {
@@ -227,6 +228,21 @@ var courseDetail = {
                 }
             });
         }
+    },*/
+    windowEvent: function() {
+        var self = this;
+        $.ajax({
+            url: '/course/addnetlog',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                courseId: self.course_id,
+                sectionId: self.section_id,
+                '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+            },
+            success: function(data) {
+            }
+        });
     },
 };
 courseDetail.init();
