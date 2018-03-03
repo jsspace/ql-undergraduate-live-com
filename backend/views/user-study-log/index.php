@@ -57,8 +57,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filter' => Lookup::items('video_type'),
             ],
-
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
