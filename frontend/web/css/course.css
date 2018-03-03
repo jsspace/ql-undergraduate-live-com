@@ -158,10 +158,13 @@
 }
 .course-detail-section .course-detail-left {
     width: 620px;
-    height: auto;
+    height: 420px;
     float: left;
     position: relative;
     background-color: #000;
+}
+.course-detail-section .course-detail-left img {
+    height: auto !important;
 }
 .course-detail-section .course-detail-left video {
     position: absolute;
