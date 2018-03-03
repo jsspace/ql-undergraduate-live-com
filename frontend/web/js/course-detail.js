@@ -196,7 +196,7 @@ var courseDetail = {
                         /*播放之前重置self.seconds*/
                         self.seconds = 0;
                         $('._course-detail-left video').get(0).play();
-                        self.study_log[self.section_id] = [];
+                        self.study_log[self.section_id] = {};
                         self.study_log[self.section_id]['courseId'] = self.course_id;
                         /*获取当前时间戳*/
                         if (!self.study_log[self.section_id]['startTime']) {

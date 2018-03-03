@@ -108,7 +108,6 @@ $weekarray=array("日","一","二","三","四","五","六");
                                 </div>
                             </a>
                             <div class="teacher-section hot-course">
-                                <!-- <img src="<?= User::getUserModel($hotcourse->teacher_id)->picture; ?>"/> -->
                                 <span class="content-title teacher-name"><?= $hotcourse->course_name; ?></span>
                                 <span class="content-title teacher-position"><?= CourseCategory::getNames($hotcourse->category_name); ?></span>
                             </div>
@@ -158,7 +157,6 @@ $weekarray=array("日","一","二","三","四","五","六");
                                                 <span class="people"><?= $course->collection; ?>人</span>
                                             </div> -->
                                             <div class="teacher-section hot-course">
-                                                <!-- <img src="<?= User::getUserModel($hotcourse->teacher_id)->picture; ?>"/> -->
                                                 <span class="content-title teacher-name"><?= $course->course_name; ?></span>
                                             </div>
                                         </li>
