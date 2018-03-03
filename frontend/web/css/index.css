@@ -293,7 +293,7 @@
 }
 .course-content .list li .course-img {
     width: 100%;
-    height: 160px;
+    height: auto;
     cursor: pointer;
     overflow: hidden;
     position: relative;
