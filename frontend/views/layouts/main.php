@@ -56,7 +56,7 @@ AppAsset::register($this);
             </ul>
             <?php } else {
                 echo '<ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="'
-                    . Yii::$app->user->identity->picture . '"/></a>&nbsp;&nbsp;用户名</li><li class="logout-li">'
+                    . Yii::$app->user->identity->picture . '"/>&nbsp;&nbsp;'.Yii::$app->user->identity->username.'</a></li><li class="logout-li">'
                     . Html::beginForm(['/site/logout'], 'post')
                     . Html::submitButton(
                         '退出',

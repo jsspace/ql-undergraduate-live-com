@@ -253,16 +253,17 @@ class CourseController extends Controller
         $result = array();
         if (!Yii::$app->user->isGuest) {
             $data = Yii::$app->request->Post();
-            $userlogs = $data['userlog'];
-            if (empty($userlogs)) {
+            //$userlogs = $data['userlog'];
+            /*if (empty($userlogs)) {
                 return $result['status'] = 1;//'未观看任何视频'
                 $result['msg'] = '未观看任何视频';
-            } else {
-                foreach ($userlogs as $key => $userlog) {
+            } else {*/
+                //foreach ($userlogs as $key => $userlog) {
                     $userid = Yii::$app->user->id;
-                    $duration = $userlog['duration'];
-                    $course_id = $userlog['courseId'];
-                    $section_id = $userlog['sectionId'];
+                    //$course_id = $userlog['courseId'];
+                    //$section_id = $userlog['sectionId'];
+                    $course_id = $data['courseId'];
+                    $section_id = $data['sectionId'];
                     $type = 1;
                     $start = strtotime(date('Y-m-d 00:00:00'));
                     $end = strtotime(date('Y-m-d H:i:s'));
@@ -276,18 +277,18 @@ class CourseController extends Controller
                         $model = new UserStudyLog();
                         $model->userid = $userid;
                         $model->start_time = time();
-                        $model->duration = $duration;
+                        $model->duration = 60;
                         $model->courseid = $course_id;
                         $model->sectionid = $section_id;
                         $model->type = $type;
                     } else {
-                        $model->duration = $model->duration+$duration;
+                        $model->duration = $model->duration+60;
                     }
                     $model->save(false);
-                }
+                //}
                 $result['status'] = 2;
                 $result['msg'] = '保存成功';
-            }
+            //}
         } else {
             $result['status'] = 0;//'游客
             $result['msg'] = '游客';

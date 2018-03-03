@@ -185,14 +185,14 @@ class WithdrawController extends Controller
             //插入一条记录到提现记录表
             $is_exist = Withdraw::find()
             ->where(['user_id' => $market->id])
-            ->andWhere(['withdraw_date' => date('Y-m-t', strtotime('-1 month'))])
+            ->andWhere(['withdraw_date' => date('Y-m', strtotime('-1 month'))])
             ->one();
             if (empty($is_exist)) {
                 $withdraw = new Withdraw();
                 $withdraw->role = 'marketer';
                 $withdraw->user_id = $market->id;
                 $withdraw->fee = $market_total_income;
-                $withdraw->withdraw_date = date('Y-m-t', strtotime('-1 month'));
+                $withdraw->withdraw_date = date('Y-m', strtotime('-1 month'));
                 $withdraw->bankc_card = $market->bankc_card;
                 $withdraw->bank = $market->bank;
                 $withdraw->bank_username = $market->bank_username;
@@ -250,14 +250,14 @@ class WithdrawController extends Controller
             //插入一条记录到提现记录表
             $is_exist = Withdraw::find()
             ->where(['user_id' => $teacher->id])
-            ->andWhere(['withdraw_date' => date('Y-m-t', strtotime('-1 month'))])
+            ->andWhere(['withdraw_date' => date('Y-m', strtotime('-1 month'))])
             ->one();
             if (empty($is_exist)) {
                 $withdraw = new Withdraw();
                 $withdraw->role = 'teacher';
                 $withdraw->user_id = $teacher->id;
                 $withdraw->fee = $teacher_total_income;
-                $withdraw->withdraw_date = date('Y-m-t', strtotime('-1 month'));
+                $withdraw->withdraw_date = date('Y-m', strtotime('-1 month'));
                 $withdraw->bankc_card = $teacher->bankc_card;
                 $withdraw->bank = $teacher->bank;
                 $withdraw->bank_username = $teacher->bank_username;
