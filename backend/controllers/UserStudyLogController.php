@@ -44,6 +44,16 @@ class UserStudyLogController extends Controller
         ]);
     }
 
+    public function actionStatistic()
+    {
+        $searchModel = new UserStudyLogSearch();
+        $dataProvider = $searchModel->totalsearch(Yii::$app->request->queryParams);
+        return $this->render('statistic', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single UserStudyLog model.
      * @param string $id

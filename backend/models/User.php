@@ -136,6 +136,15 @@ class User extends \yii\db\ActiveRecord
             self::loadUsers($roleName);
             return self::$_users[$roleName];
     }
+
+    public static function students()
+    {
+        if(!isset(self::$_users['student'])) {
+            self::loadUsers('student');
+            self::loadUsers('school');
+        }
+        return self::$_users['student']+self::$_users['school'];
+    }
     
     public static function user($roleName,$id)
     {

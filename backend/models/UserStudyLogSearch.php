@@ -46,6 +46,7 @@ class UserStudyLogSearch extends UserStudyLog
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -65,6 +66,30 @@ class UserStudyLogSearch extends UserStudyLog
             'courseid' => $this->courseid,
             'sectionid' => $this->sectionid,
             'type' => $this->type,
+        ]);
+
+        return $dataProvider;
+    }
+
+    public function totalsearch($params)
+    {
+        $query = UserStudyLog::find()
+        ->groupBy('userid');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'userid' => $this->userid,
         ]);
 
         return $dataProvider;
