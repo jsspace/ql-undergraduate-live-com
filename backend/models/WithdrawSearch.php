@@ -73,6 +73,11 @@ class WithdrawSearch extends Withdraw
             ->andFilterWhere(['like', 'bankc_card', $this->bankc_card])
             ->andFilterWhere(['like', 'bank', $this->bank])
             ->andFilterWhere(['like', 'bank_username', $this->bank_username]);
+        
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if(!array_key_exists('admin',$roles_array)) {
+            $query->andFilterWhere(['user_id' => Yii::$app->user->id]);
+        }
 
         return $dataProvider;
     }
