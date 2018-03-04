@@ -441,6 +441,46 @@
     border-radius: 5px;
     padding: 15px;
 }
+.course-detail-section .kc-right.kc-right-student {
+    margin-top: 20px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+}
+.course-detail-section .kc-right-student .student-title {
+    font-size: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    text-indent: 15px;
+}
+.course-detail-section .student-list {
+    overflow: hidden;
+    padding: 8px 8px 0;
+}
+.course-detail-section .student-list li {
+    float: left;
+    width: 23.5%;
+    margin-right: 2%;
+    margin-bottom: 5px;
+    text-align: center;
+}
+.course-detail-section .student-list li:nth-child(4n) {
+    margin-right: 0;
+}
+.course-detail-section .student-img {
+    width: 100%;
+    margin-bottom: 8px;
+}
+.course-detail-section .student-img img {
+    width: 85%;
+}
+.course-detail-section .student-name {
+    font-size: 12px;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 .course-detail-section .teacher-show {
     overflow: hidden;
 }
