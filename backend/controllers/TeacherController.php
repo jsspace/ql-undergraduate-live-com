@@ -149,9 +149,12 @@ class TeacherController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionIncomeStatistics()
+    public function actionIncomeStatistics($userid, $month=null)
     {
-        $userid = Yii::$app->request->get('userid');
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if(!array_key_exists('admin',$roles_array) && $userid !== Yii::$app->user->id) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
         $courses = Course::find()
         ->select('id')
         ->where(['teacher_id' => $userid])
@@ -166,23 +169,47 @@ class TeacherController extends Controller
         ->asArray()
         ->all();
         $order_sns = array_column($order_goods, 'order_sn');
-        $orders = OrderInfo::find()
-        ->where(['order_sn' => $order_sns])
-        ->andWhere(['pay_status' => 2])
-        ->andWhere(['order_status' => 1])
-        ->orderBy('order_id desc');
+        if ($month) {
+            $timestamp = strtotime($month);
+            $start_time = date( 'Y-m-1 00:00:00', $timestamp );
+            $mdays = date( 't', $timestamp );
+            $end_time = date( 'Y-m-' . $mdays . ' 23:59:59', $timestamp );
+            $orders = OrderInfo::find()
+            ->where(['order_sn' => $order_sns])
+            ->andWhere(['between', 'add_time', $start_time, $end_time])
+            ->andWhere(['pay_status' => 2])
+            ->andWhere(['order_status' => 1])
+            ->orderBy('order_id desc');
+            
+            //计算教师总收入
+            $income_orders_models = OrderInfo::find()
+            ->where(['order_sn' => $order_sns])
+            ->andWhere(['between', 'add_time', $start_time, $end_time])
+            ->andWhere(['pay_status' => 2])
+            ->andWhere(['order_status' => 1])
+            ->all();
+        } else {
+            $orders = OrderInfo::find()
+            ->where(['order_sn' => $order_sns])
+            ->andWhere(['pay_status' => 2])
+            ->andWhere(['order_status' => 1])
+            ->orderBy('order_id desc');
+            
+            //计算教师总收入
+            $income_orders_models = OrderInfo::find()
+            ->where(['order_sn' => $order_sns])
+            ->andWhere(['pay_status' => 2])
+            ->andWhere(['order_status' => 1])
+            ->all();
+        }
+        
         $pagination = new Pagination([
             'defaultPageSize' => 10,
             'totalCount' => $orders->count(),
         ]);
         $orders = $orders->offset($pagination->offset)->limit($pagination->limit)->all();
         
-        //计算教师总收入
-        $income_orders_models = OrderInfo::find()
-        ->where(['order_sn' => $order_sns])
-        ->andWhere(['pay_status' => 2])
-        ->andWhere(['order_status' => 1])
-        ->all();
+        
         $teacher_income = 0;
         $order_money = 0;
         foreach ($income_orders_models as $income_orders_item) {
