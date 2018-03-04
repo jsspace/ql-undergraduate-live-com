@@ -183,11 +183,11 @@ class WithdrawController extends Controller
             $market_total_income = $market_income * 0.5;
             
             //插入一条记录到提现记录表
-            $is_exist = Withdraw::find()
+            $is_market_withdraw_exist = Withdraw::find()
             ->where(['user_id' => $market->id])
             ->andWhere(['withdraw_date' => date('Y-m', strtotime('-1 month'))])
             ->one();
-            if (empty($is_exist)) {
+            if (empty($is_market_withdraw_exist)) {
                 $withdraw = new Withdraw();
                 $withdraw->role = 'marketer';
                 $withdraw->user_id = $market->id;
@@ -248,11 +248,11 @@ class WithdrawController extends Controller
             $teacher_total_income = round($teacher_income, 2);
             
             //插入一条记录到提现记录表
-            $is_exist = Withdraw::find()
+            $is_teacher_withdraw_exist = Withdraw::find()
             ->where(['user_id' => $teacher->id])
             ->andWhere(['withdraw_date' => date('Y-m', strtotime('-1 month'))])
             ->one();
-            if (empty($is_exist)) {
+            if (empty($is_teacher_withdraw_exist)) {
                 $withdraw = new Withdraw();
                 $withdraw->role = 'teacher';
                 $withdraw->user_id = $teacher->id;
