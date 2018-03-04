@@ -156,6 +156,12 @@ var courseDetail = {
     videoNetEvent: function() {
         var self = this;
         $('#course-video').on("play", function() {
+            /* 获取当前播放位置 */
+            $('#course-video').on('timeupdate', function() {
+                var currentTime = this.currentTime;
+                var tag = 'course'+self.course_id+'section'+self.section_id;
+                localStorage.setItem(tag, currentTime);
+            });
             /*启动定时器*/
             self.count_down_int = window.setInterval(self.countDown, 60000);
             /*重置self.seconds*/
@@ -193,6 +199,8 @@ var courseDetail = {
                         /*播放之前重置self.seconds*/
                         //self.seconds = 0;
                         $('._course-detail-left video').get(0).play();
+                        var tag = 'course'+self.course_id+'section'+self.section_id;
+                        $('#course-video').get(0).currentTime = localStorage.getItem(tag);
                         /*self.study_log[self.section_id] = {};
                         self.study_log[self.section_id].courseId = self.course_id;
                         self.study_log[self.section_id].sectionId = self.section_id;*/
