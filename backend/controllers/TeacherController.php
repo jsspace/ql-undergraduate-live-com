@@ -171,9 +171,9 @@ class TeacherController extends Controller
         $order_sns = array_column($order_goods, 'order_sn');
         if ($month) {
             $timestamp = strtotime($month);
-            $start_time = date( 'Y-m-1 00:00:00', $timestamp );
+            $start_time = strtotime(date( 'Y-m-1 00:00:00', $timestamp ));
             $mdays = date( 't', $timestamp );
-            $end_time = date( 'Y-m-' . $mdays . ' 23:59:59', $timestamp );
+            $end_time = strtotime(date( 'Y-m-' . $mdays . ' 23:59:59', $timestamp ));
             $orders = OrderInfo::find()
             ->where(['order_sn' => $order_sns])
             ->andWhere(['between', 'add_time', $start_time, $end_time])

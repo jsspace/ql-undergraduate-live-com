@@ -22,13 +22,17 @@ $is_admin = array_key_exists('admin',$roles_array);
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
-
+	<?php 
+	$roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+	if(array_key_exists('admin',$roles_array)) {
+	?>
     <?= $form->field($model, 'provinceid')->dropDownlist(Provinces::items(),[
             'prompt' => '- 请选择省份 -',
             'onchange'=>'getCitys(this.value)'
     ]) ?>
     <?= $form->field($model, 'cityid')->dropDownList(Cities::items($model->provinceid), ['prompt'=>'- 请选择地级市 -']) ?>
-
+	<?php }?>
+	
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
     <?php // $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>

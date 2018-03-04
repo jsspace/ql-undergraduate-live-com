@@ -112,9 +112,9 @@ class MarketController extends Controller
         }
         if ($month) {
             $timestamp = strtotime($month);
-            $start_time = date( 'Y-m-1 00:00:00', $timestamp );
+            $start_time = strtotime(date( 'Y-m-1 00:00:00', $timestamp ));
             $mdays = date( 't', $timestamp );
-            $end_time = date( 'Y-m-' . $mdays . ' 23:59:59', $timestamp );
+            $end_time = strtotime(date( 'Y-m-' . $mdays . ' 23:59:59', $timestamp ));
             //邀请的用户所下的订单
             $data = OrderInfo::find()
             ->where(['user_id' => $invite_users_id])
@@ -151,7 +151,7 @@ class MarketController extends Controller
         
         $market_income = 0;
         foreach ($income_orders_models as $item) {
-            $market_income = $item->order_amount + $item->bonus;
+            $market_income += $item->order_amount + $item->bonus;
         }
         $market_total_income = $market_income * 0.5;
         

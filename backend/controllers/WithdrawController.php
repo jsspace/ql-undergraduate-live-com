@@ -178,10 +178,9 @@ class WithdrawController extends Controller
             ->all();
             $market_income = 0;
             foreach ($income_orders_models as $item) {
-                $market_income = $item->order_amount + $item->bonus;
+                $market_income += $item->order_amount + $item->bonus;
             }
             $market_total_income = $market_income * 0.5;
-            
             //插入一条记录到提现记录表
             $is_market_withdraw_exist = Withdraw::find()
             ->where(['user_id' => $market->id])
@@ -197,7 +196,7 @@ class WithdrawController extends Controller
                 $withdraw->bank = $market->bank;
                 $withdraw->bank_username = $market->bank_username;
                 $withdraw->status = 0;
-                $withdraw->save();
+                $withdraw->save(false);
             }
             
             
@@ -262,7 +261,7 @@ class WithdrawController extends Controller
                 $withdraw->bank = $teacher->bank;
                 $withdraw->bank_username = $teacher->bank_username;
                 $withdraw->status = 0;
-                $withdraw->save();
+                $withdraw->save(false);
             }
         }
         
