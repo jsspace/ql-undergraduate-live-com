@@ -150,6 +150,7 @@ class SiteController extends Controller
         ->all();
         /*各大学院*/
         $collegeCourses = Course::find()
+        ->orderBy('create_time desc')
         ->all();
         $course_cat = CourseCategory::find()
         ->select('id,name,home_icon')
@@ -174,6 +175,7 @@ class SiteController extends Controller
         /*学习感言*/
         $coments = Comment::find()
         ->where(['check' => 1])
+        ->orderBy('create_time desc')
         ->limit(6)
         ->all();
         /*友情链接*/
