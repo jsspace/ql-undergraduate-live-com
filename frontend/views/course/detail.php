@@ -256,6 +256,41 @@ $userid = Yii::$app->user->id;
                 </div>
                 <div class="teacher-info"><?= User::getUserModel($course->teacher_id)->intro; ?></div>
             </div>
+            <div class="kc-right kc-right-student">
+                <p class="student-title">同学录（**人）</p>
+                <ul class="student-list">
+                    <li>
+                        <p class="student-img">
+                            <img src="/img/people-default.jpg"/>
+                        </p>
+                        <p class="student-name">小小鸟</p>
+                    </li>
+                    <li>
+                        <p class="student-img">
+                            <img src="/img/people-default.jpg"/>
+                        </p>
+                        <p class="student-name">小小鸟</p>
+                    </li>
+                    <li>
+                        <p class="student-img">
+                            <img src="/img/people-default.jpg"/>
+                        </p>
+                        <p class="student-name">小小鸟</p>
+                    </li>
+                    <li>
+                        <p class="student-img">
+                            <img src="/img/people-default.jpg"/>
+                        </p>
+                        <p class="student-name">小小鸟</p>
+                    </li>
+                    <li>
+                        <p class="student-img">
+                            <img src="/img/people-default.jpg"/>
+                        </p>
+                        <p class="student-name">小小鸟</p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
