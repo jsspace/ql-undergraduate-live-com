@@ -156,7 +156,17 @@ class CourseController extends Controller
         ->where(['course_id' => $courseid])
         ->andWhere(['check' => 1])
         ->all();
-        return $this->render('detail', ['courseDetail' => $courseDetail, 'duration' => $duration, 'course_comments' => $course_comments, 'datas' => $datas, 'quas' => $quas]);
+        /* 获取前12个学员 */
+        $studyids = UserStudyLog::find()
+        ->select('userid')
+        ->where(['courseid' => $courseid])
+        ->orderBy('start_time desc')
+        ->limit(12)
+        ->asArray()
+        ->all();
+        $studyids = array_column($studyids, 'userid');
+        $studyids = array_unique($studyids);
+        return $this->render('detail', ['courseDetail' => $courseDetail, 'duration' => $duration, 'course_comments' => $course_comments, 'datas' => $datas, 'quas' => $quas, 'studyids' => $studyids]);
     }
 
     public function actionEvaluate()

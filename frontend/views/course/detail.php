@@ -9,7 +9,7 @@ use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
 AppAsset::addCss($this,'@web/css/course.css');
 
-$this->title = 'My Yii Application';
+$this->title = '课程详情';
 $userid = Yii::$app->user->id;
 
 ?>
@@ -257,38 +257,16 @@ $userid = Yii::$app->user->id;
                 <div class="teacher-info"><?= User::getUserModel($course->teacher_id)->intro; ?></div>
             </div>
             <div class="kc-right kc-right-student">
-                <p class="student-title">同学录（**人）</p>
+                <p class="student-title"><?= count($studyids) ?>人在学习该课程</p>
                 <ul class="student-list">
-                    <li>
-                        <p class="student-img">
-                            <img src="/img/people-default.jpg"/>
-                        </p>
-                        <p class="student-name">小小鸟</p>
-                    </li>
-                    <li>
-                        <p class="student-img">
-                            <img src="/img/people-default.jpg"/>
-                        </p>
-                        <p class="student-name">小小鸟</p>
-                    </li>
-                    <li>
-                        <p class="student-img">
-                            <img src="/img/people-default.jpg"/>
-                        </p>
-                        <p class="student-name">小小鸟</p>
-                    </li>
-                    <li>
-                        <p class="student-img">
-                            <img src="/img/people-default.jpg"/>
-                        </p>
-                        <p class="student-name">小小鸟</p>
-                    </li>
-                    <li>
-                        <p class="student-img">
-                            <img src="/img/people-default.jpg"/>
-                        </p>
-                        <p class="student-name">小小鸟</p>
-                    </li>
+                    <?php foreach ($studyids as $key => $studyid) { ?>
+                        <li>
+                            <p class="student-img">
+                                <img src="<?= User::getUserModel($studyid)->picture; ?>"/>
+                            </p>
+                            <p class="student-name"><?= User::item($studyid) ?></p>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
         </div>
