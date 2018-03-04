@@ -90,7 +90,8 @@ class OrderInfoSearch extends OrderInfo
             ->andFilterWhere(['like', 'pay_name', $this->pay_name])
             ->andFilterWhere(['like', 'course_ids', $this->course_ids])
             ->andFilterWhere(['like', 'coupon_ids', $this->coupon_ids]);
-
+        $query->orderBy('order_id desc');
+        
         return $dataProvider;
     }
 }
