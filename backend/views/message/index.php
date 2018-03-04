@@ -29,7 +29,37 @@ $isadmin = User::isAdmin(Yii::$app->user->id);
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header' => '操作',
+                'template' => '{view} {update} {delete}',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        if ($model->status == 0 || $model->status == 2) {
+                            $options = array_merge([
+                                    'title' => Yii::t('yii', 'Update'),
+                                    'aria-label' => Yii::t('yii', 'Update'),
+                                    'data-pjax' => '0',
+                            ]);
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, $options);
+                        } else {
+                            return '';
+                        }
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        if ($model->status == 0 || $model->status == 2) {
+                            $options = array_merge([
+                                    'title' => Yii::t('yii', 'Delete'),
+                                    'aria-label' => Yii::t('yii', 'Delete'),
+                                    'data-pjax' => '0',
+                            ]);
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
+                        } else {
+                            return '';
+                        }
+                    },
+                ],
+            ],
             //'msg_id',
             [
                 'label'=>'审核',
