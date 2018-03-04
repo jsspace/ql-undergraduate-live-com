@@ -174,7 +174,7 @@ $userid = Yii::$app->user->id;
                                 <li>
                                     <div class="user-info">
                                         <p class="user-img"><img src="<?= User::getUserModel($course_comment->user_id)->picture; ?>"/></p>
-                                        <p class="user-name"><?= User::item($course->teacher_id); ?></p>
+                                        <p class="user-name"><?= User::item($course_comment->user_id); ?></p>
                                     </div>
                                     <div class="user-evaluate">
                                         <p class="evaluate-info"><?= $course_comment->content ?></p>
