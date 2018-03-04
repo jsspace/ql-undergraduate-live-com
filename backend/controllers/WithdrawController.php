@@ -91,7 +91,9 @@ class WithdrawController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $user = User::users('marketer');
+        $marketer = User::users('marketer');
+        $teacher = User::users('teacher');
+        $user = array_merge($marketer, $teacher);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->withdraw_id]);
         } else {
