@@ -94,14 +94,14 @@ class MarketController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionOrder($id)
+    public function actionOrder($userid, $month=null)
     {
         $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
-        if (!array_key_exists('admin',$roles_array) && $id != Yii::$app->user->id) {
+        if (!array_key_exists('admin',$roles_array) && $userid != Yii::$app->user->id) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
         $marketer = User::find()
-        ->where(['id' => $id])
+        ->where(['id' => $userid])
         ->one();
         $invite_users = User::find()
         ->where(['cityid' => $marketer->cityid])
@@ -110,20 +110,45 @@ class MarketController extends Controller
         foreach($invite_users as $user) {
             $invite_users_id[] = $user->id;
         }
-        //邀请的用户所下的订单
-        $data = OrderInfo::find()
-        ->where(['user_id' => $invite_users_id])
-        ->andWhere(['order_status' => 1])
-        ->andWhere(['pay_status' => 2]);
+        if ($month) {
+            $timestamp = strtotime($month);
+            $start_time = date( 'Y-m-1 00:00:00', $timestamp );
+            $mdays = date( 't', $timestamp );
+            $end_time = date( 'Y-m-' . $mdays . ' 23:59:59', $timestamp );
+            //邀请的用户所下的订单
+            $data = OrderInfo::find()
+            ->where(['user_id' => $invite_users_id])
+            ->andWhere(['between', 'add_time', $start_time, $end_time])
+            ->andWhere(['order_status' => 1])
+            ->andWhere(['pay_status' => 2])
+            ->orderBy('order_id desc');
+            
+            //计算市场专员报酬
+            $income_orders_models = OrderInfo::find()
+            ->where(['user_id' => $invite_users_id])
+            ->andWhere(['between', 'add_time', $start_time, $end_time])
+            ->andWhere(['order_status' => 1])
+            ->andWhere(['pay_status' => 2])
+            ->all();
+        } else {
+            //邀请的用户所下的订单
+            $data = OrderInfo::find()
+            ->where(['user_id' => $invite_users_id])
+            ->andWhere(['order_status' => 1])
+            ->andWhere(['pay_status' => 2])
+            ->orderBy('order_id desc');
+            
+            //计算市场专员报酬
+            $income_orders_models = OrderInfo::find()
+            ->where(['user_id' => $invite_users_id])
+            ->andWhere(['order_status' => 1])
+            ->andWhere(['pay_status' => 2])
+            ->all();
+        }
         $pages = new Pagination(['totalCount' =>$data->count(), 'pageSize' => '10']);
         $model = $data->offset($pages->offset)->limit($pages->limit)->all();
         
-        //计算市场专员报酬
-        $income_orders_models = OrderInfo::find()
-        ->where(['user_id' => $invite_users_id])
-        ->andWhere(['order_status' => 1])
-        ->andWhere(['pay_status' => 2])
-        ->all();
+        
         $market_income = 0;
         foreach ($income_orders_models as $item) {
             $market_income = $item->order_amount + $item->bonus;
@@ -132,7 +157,7 @@ class MarketController extends Controller
         
         //提现历史
         $withdraw_history = Withdraw::find()
-        ->where(['user_id' => $id])
+        ->where(['user_id' => $userid])
         ->andWhere(['status' => 1])
         ->all();
         $total_withdraw = 0;

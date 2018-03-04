@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use backend\models\User;
 use mdm\admin\components\Helper;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\WithdrawSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -37,6 +38,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
+            [
+                'label'=>'订单统计',
+                'format'=>'raw',
+                'value' => function($model){
+                    $url = '';
+                    if ($model->role == 'marketer') {
+                        $url = Url::to(['market/order', 'userid' => $model->user_id, 'month' => $model->withdraw_date]);
+                    } elseif ($model->role == 'teacher') {
+                        $url = Url::to(['teacher/income-statistics', 'userid' => $model->user_id, 'month' => $model->withdraw_date]);
+                    }
+                    return Html::a('订单统计', $url);
+                }
+            ],
 //             'withdraw_id',
             [
                 'attribute' => 'role',
