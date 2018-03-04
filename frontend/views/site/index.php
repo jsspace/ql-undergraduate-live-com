@@ -89,7 +89,7 @@ $weekarray=array("日","一","二","三","四","五","六");
             <div class="course-hd">
                 <h3 class="course-title">热门课程</h3>
                 <div class="side">
-                    <a href="<?= Url::to(['course/list']) ?>" class="link more">更多&gt;&gt;</a>
+                    <!-- <a href="<?= Url::to(['course/list']) ?>" class="link more">更多&gt;&gt;</a> -->
                 </div>
             </div>
             <div class="course-content hot-course-content">
