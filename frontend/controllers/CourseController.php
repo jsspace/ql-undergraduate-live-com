@@ -83,7 +83,7 @@ class CourseController extends Controller
             $categoryids = explode(',', $coursemodel->category_name);
             if (in_array($catModel->id, $categoryids)) {
                 $collegeArr['college_course'][$key] = $coursemodel;
-                $collegeArr['college_teacher'][$key] = User::getUserModel($coursemodel->teacher_id);
+                $collegeArr['college_teacher'][$key] = $coursemodel->teacher_id;
             }
         }
         foreach ($classes as $key => $classmodel) {

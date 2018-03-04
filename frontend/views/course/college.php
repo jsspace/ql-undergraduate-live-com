@@ -87,7 +87,10 @@ $this->title = '直属学院';
                     <div class="teach-list">
                         <?php 
                             if (!empty($collegeArr["college_teacher"])) {
-                            foreach ($collegeArr["college_teacher"] as $key => $teacher) { ?>
+                            $collegeArr["college_teacher"] = array_unique($collegeArr["college_teacher"]);
+                            foreach ($collegeArr["college_teacher"] as $key => $teacher) {
+                                    $teacher = User::getUserModel($teacher);
+                            ?>
                             <div class="teacher-con">
                                 <a href="<?= Url::to(['teacher/detail', 'userid' => $teacher->id]) ?>" target="_blank">
                                     <img class="people-img" src="<?= $teacher->picture; ?>"/>
