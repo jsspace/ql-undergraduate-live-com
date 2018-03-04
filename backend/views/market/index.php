@@ -6,6 +6,7 @@ use yii\widgets\Pjax;
 use backend\models\Provinces;
 use backend\models\Cities;
 use yii\helpers\Url;
+use mdm\admin\components\Helper;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\MarketSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -16,10 +17,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php 
+    //没有创建权限不显示按钮
+    if(Helper::checkRoute('create')) {
+    ?>
     <p>
         <?= Html::a(Yii::t('app', 'Create marketer'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php }?>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -74,7 +79,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'=>Cities::items($searchModel->provinceid),
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [ 
+                'class' => 'yii\grid\ActionColumn', 
+                'template' => Helper::filterActionColumn('{view}{update}{delete}'), 
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
