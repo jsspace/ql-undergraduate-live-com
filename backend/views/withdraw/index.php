@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use backend\models\User;
+use mdm\admin\components\Helper;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\WithdrawSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -15,10 +16,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+	
     <p>
+    <?php 
+    //没有创建权限不显示按钮
+    if(Helper::checkRoute('create')) {
+    ?>
         <?= Html::a(Yii::t('app', 'Create Withdraw'), ['create'], ['class' => 'btn btn-success']) ?>
+    <?php }?>
+    <?php 
+    //没有创建权限不显示按钮
+    if(Helper::checkRoute('getlastmonthwithdraw')) {
+    ?>
         <?= Html::a(Yii::t('app', 'Get last month Withdraw'), ['getlastmonthwithdraw'], ['class' => 'btn btn-success']) ?>
+    <?php }?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -64,7 +75,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'create_time',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [ 
+                'class' => 'yii\grid\ActionColumn', 
+                'template' => Helper::filterActionColumn('{view}{update}{delete}'), 
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
