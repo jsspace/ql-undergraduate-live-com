@@ -26,3 +26,13 @@ use yii\helpers\Url;
         <a href="<?= Url::to(['user/message']) ?>"><i class="icon ion-ios-bell-outline"></i>消息通知</a>
     </div>
 </div>
+
+<script>
+    var url = window.location.pathname;
+    $('.menu a').each(function () {
+        var currentHref = $(this).attr('href');
+        if (url.indexOf(currentHref) > -1) {
+            $(this).addClass('active').siblings('a').removeClass('active');
+        }
+    });
+</script>

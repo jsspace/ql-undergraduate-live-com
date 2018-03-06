@@ -277,6 +277,9 @@
     width: 78%;
     margin-left: 22%;
 }
+.course-content .list.user-comment {
+    width: 100%;
+}
 .course-content.hot-course-content .list {
     width: 100%;
     margin-left: 0;
@@ -694,7 +697,7 @@
     margin-left: 0;
 }
 .cooperation-section .user-comment li {
-    width: 33.33%;
+    width: 25%;
     float: left;
     margin-right: 0;
     margin-bottom: 40px;
