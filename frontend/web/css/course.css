@@ -610,3 +610,15 @@
     height: 100px;
     width: 100px;
 }
+/* share */
+.bdshare-button-style0-16 a {
+    float: left;
+    padding-left: 17px;
+    line-height: 16px;
+    height: 16px;
+    margin: 0;
+}
+.bdshare-button-style0-16 .bds_weixin {
+    background-image: url(/img/weixin-share.png);
+    background-position: inherit;
+}

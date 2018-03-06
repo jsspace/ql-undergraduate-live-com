@@ -11,11 +11,16 @@ AppAsset::addCss($this,'@web/css/course.css');
 
 $this->title = '课程详情';
 $userid = Yii::$app->user->id;
-
-?>
-<?php
-    $course = $courseDetail['course'];
-    $cousechild = $courseDetail['coursechild'];
+$course = $courseDetail['course'];
+$cousechild = $courseDetail['coursechild'];
+$share_title = '精品课程，超低优惠，快来学习吧！';
+$share_url = Url::to(['course/detail', 'id'=>$course->id, 'invite'=>$userid], true);
+$news = array(
+    "PicUrl" =>'/img/share-logo.png',
+    "Description"=>"活到老，学到老，快来和大家一起学习吧！",
+    "Url" =>$share_url,
+    'title' => $share_title
+);
 ?>
 <div class="container-course menu-position">
     <div class="container-inner">
@@ -72,10 +77,25 @@ $userid = Yii::$app->user->id;
                 </ul>
                 <div class="share-like">
                     <p class="share-list">
-                        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt" target="_blank">
-                            <img src="/img/tb_07.jpg"/>
-                            <span>分享</span>
-                        </a>
+                        <div class="share">
+                            <div class="bdsharebuttonbox">
+                                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                            </div>
+                            <script>
+                                window._bd_share_config = {
+                                "common":{
+                                    "bdSnsKey":{},
+                                    "bdText":'<?= $news["title"];?>',
+                                    "bdDesc":'<?= $news["Description"];?>',
+                                    "bdMini":"2",
+                                    "bdPic":'<?= $news["PicUrl"];?>',
+                                    "bdStyle":"0",
+                                    "bdSize":"16",
+                                    "bdUrl": '<?= $news["Url"];?>',
+                                },
+                                "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                            </script>
+                        </div>
                     </p>
                     <p class="share-list collection-btn _collection-btn">
                         <img src="/img/tb_08.jpg"/>
@@ -274,14 +294,4 @@ $userid = Yii::$app->user->id;
 </div>
 <script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
 <script src="<?= Url::to('@web/skin/layer.js');?>"></script>
-<script type="text/javascript" >
-var jiathis_config={
-	siteUrl:"<?= Url::to(['course/detail', 'id'=>$course->id, 'invite'=>Yii::$app->user->id], true) ?>",
-	summary:"<?= Url::to(['course/detail', 'id'=>$course->id, 'invite'=>Yii::$app->user->id], true) ?>",
-	shortUrl:true,
-	hideMore:false
-}
-</script>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
-<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
 <script src="<?= Url::to('@web/js/course-detail.js');?>"></script>
