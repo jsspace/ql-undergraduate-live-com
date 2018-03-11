@@ -37,32 +37,35 @@ $this->title = 'Reset password';
 $('.get_change_password_code').on('click', function() {
     var seconds = 30;
     if (!$(this).hasClass('disabled')) {
-        $('.get_change_password_code1').text('重新获取' + seconds +'s后').addClass('disabled');
-        var timeout = setInterval(function() {
-            if (seconds <= 0) {
-                $('.get_change_password_code1').text('获取验证码').removeClass('disabled');
-                clearInterval(timeout);
-            } else {
-                --seconds;
-                $('.get_change_password_code1').text('重新获取' + seconds +'s后').addClass('disabled');
+        $.ajax({
+            url: '/site/chang-password-code',
+            type: 'post',
+            dataType:"json",
+            async: false,
+            data: {
+                '_csrf-frontend': $('meta[name=csrf-token]').attr('content'),
+                phone: $('#changepasswordform-phone').val(),
+            },
+            success: function (data) {
+                if (data.code !== 0) {
+                    $('.verify-code .help-block-error').text(data.message);
+                } else {
+                    $('.verify-code .help-block-error').text('');
+                }
             }
-        }, 1000);
-    }
-	$.ajax({
-        url: '/site/chang-password-code',
-        type: 'post',
-        dataType:"json",
-        data: {
-            '_csrf-frontend': $('meta[name=csrf-token]').attr('content'),
-            phone: $('#changepasswordform-phone').val(),
-        },
-        success: function (data) {
-            if (data.code !== 0) {
-                $('.verify-code .help-block-error').text(data.message);
-            } else {
-            	$('.verify-code .help-block-error').text('');
-            }
+        });
+        if ($('.help-block-error').text() === '') {
+            $('.get_change_password_code1').text('重新获取' + seconds +'s后').addClass('disabled');
+            var timeout = setInterval(function() {
+                if (seconds <= 0) {
+                    $('.get_change_password_code1').text('获取验证码').removeClass('disabled');
+                    clearInterval(timeout);
+                } else {
+                    --seconds;
+                    $('.get_change_password_code1').text('重新获取' + seconds +'s后').addClass('disabled');
+                }
+            }, 1000);
         }
-    });
+    }
 });
 </script>

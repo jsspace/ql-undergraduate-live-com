@@ -76,9 +76,10 @@ $news = array(
                     </li>
                 </ul>
                 <div class="share-like">
-                    <p class="share-list">
+                    <div class="share-list">
                         <div class="share">
                             <div class="bdsharebuttonbox">
+                                <span>分享</span>
                                 <a href="https://www.baidu.com" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
                                 <a class="bds_sqq" data-cmd="sqq"></a>
                                 <a class="bds_qzone" data-cmd="qzone" href="#"></a>
@@ -102,7 +103,7 @@ $news = array(
                             };with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
                             </script>
                         </div>
-                    </p>
+                    </div>
                     <p class="share-list collection-btn _collection-btn">
                         <img src="/img/tb_08.jpg"/>
                         <span>收藏</span>

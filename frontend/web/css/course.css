@@ -446,6 +446,7 @@
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;
+    clear: both;
 }
 .course-detail-section .kc-right-student .student-title {
     font-size: 18px;
@@ -626,12 +627,23 @@
 .bdshare-button-style0-32 .bds_tsina {
     background-position: inherit !important;
 }
+.bdshare-button-style0-32 a {
+    margin: 0 6px 0 0 !important;
+}
+.bdsharebuttonbox .bds_weixin {
+    background-size: 25px auto;
+}
 .bdsharebuttonbox .bds_sqq {
     background: url(/img/qq-share.png) no-repeat top center;
+    background-size: 22px auto;
 }
 .bdsharebuttonbox .bds_qzone {
     background: url(/img/qq-space-share.png) no-repeat top center;
+    background-size: 26px auto;
+    margin-top: -2px !important;
 }
 .bdsharebuttonbox .bds_tsina {
     background: url(/img/tsina-share.png) no-repeat top center;
+    background-size: 28px auto;
+    margin-top: -2px !important;
 }

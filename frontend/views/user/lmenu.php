@@ -10,7 +10,7 @@ use yii\helpers\Url;
         <h4 class="name"><?= Yii::$app->user->identity->username; ?></h4>
         <div class="btn">
             <a href="<?= Url::to(['user/info']) ?>"><i class="icon ion-ios-person-outline"></i>个人资料</a>
-            <a href="<?= Url::to(['site/change-password']) ?>"><i class="icon ion-edit"></i>修改密码</a>
+            <a href="<?= Url::to(['user/change-password']) ?>"><i class="icon ion-edit"></i>修改密码</a>
         </div>
     </div>
     <div class="menu">
@@ -21,9 +21,9 @@ use yii\helpers\Url;
         <a href="<?= Url::to(['user/coin']) ?>"><i class="icon ion-ios-pricetags-outline"></i>我的钱包</a>
         <a href="<?= Url::to(['user/coupon']) ?>"><i class="icon ion-ios-rose-outline"></i>我的优惠券</a>
         <a href="<?= Url::to(['user/favorite']) ?>" class="a4 "><i class="icon ion-ios-star-outline"></i>我的收藏</a>
-        <a href="<?= Url::to(['user/qnas']) ?>"><i class="icon ion-ios-help-outline"></i>我的提问<span></span></a>
-        <a href="<?= Url::to(['user/course-reviews']) ?>"><i class="icon ion-ios-chatboxes-outline"></i>课程评价<span></span></a>
-        <a href="<?= Url::to(['user/message']) ?>"><i class="icon ion-ios-bell-outline"></i>消息通知<span></span></a>
+        <a href="<?= Url::to(['user/qnas']) ?>"><i class="icon ion-ios-help-outline"></i>我的提问<span>13</span></a>
+        <a href="<?= Url::to(['user/course-reviews']) ?>"><i class="icon ion-ios-chatboxes-outline"></i>课程评价<span>2</span></a>
+        <a href="<?= Url::to(['user/message']) ?>"><i class="icon ion-ios-bell-outline"></i>消息通知<span>1</span></a>
     </div>
 </div>
 

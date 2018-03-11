@@ -293,4 +293,10 @@ class UserController extends Controller
             'read' => $readModel
         ]);
     }
+    
+    public function actionChangePassword()
+    {
+        
+        return $this->render('change-password');
+    }
 }
