@@ -16,7 +16,7 @@ $cousechild = $courseDetail['coursechild'];
 $share_title = '精品课程，超低优惠，快来学习吧！';
 $share_url = Url::to(['course/detail', 'courseid'=>$course->id, 'invite'=>$userid], true);
 $news = array(
-    "PicUrl" =>'/img/share-logo.png',
+    "PicUrl" =>'http://www.kaoben.top/img/share-logo.png',
     "Description"=>"活到老，学到老，快来和大家一起学习吧！",
     "Url" =>$share_url,
     'title' => $share_title
@@ -79,7 +79,7 @@ $news = array(
                     <p class="share-list">
                         <div class="share">
                             <div class="bdsharebuttonbox">
-                                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                <a href="https://www.baidu.com" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
                             </div>
                             <script>
                                 window._bd_share_config = {
