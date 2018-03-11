@@ -80,6 +80,9 @@ $news = array(
                         <div class="share">
                             <div class="bdsharebuttonbox">
                                 <a href="https://www.baidu.com" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                <a class="bds_sqq" data-cmd="sqq"></a>
+                                <a class="bds_qzone" data-cmd="qzone" href="#"></a>
+                                <a class="bds_tsina" data-cmd="tsina"></a>
                             </div>
                             <script>
                                 window._bd_share_config = {

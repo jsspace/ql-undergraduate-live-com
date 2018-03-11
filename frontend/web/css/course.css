@@ -620,6 +620,18 @@
 .bdsharebuttonbox .bds_weixin {
     background: url(/img/weixin-share.png) no-repeat top center;
 }
-.bdshare-button-style0-32 .bds_weixin {
+.bdshare-button-style0-32 .bds_weixin,
+.bdshare-button-style0-32 .bds_sqq,
+.bdshare-button-style0-32 .bds_qzone,
+.bdshare-button-style0-32 .bds_tsina {
     background-position: inherit !important;
+}
+.bdsharebuttonbox .bds_sqq {
+    background: url(/img/qq-share.png) no-repeat top center;
+}
+.bdsharebuttonbox .bds_qzone {
+    background: url(/img/qq-space-share.png) no-repeat top center;
+}
+.bdsharebuttonbox .bds_tsina {
+    background: url(/img/tsina-share.png) no-repeat top center;
 }
