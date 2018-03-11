@@ -29,6 +29,7 @@ class CommandController extends Controller
     public function actionIndex()
     {
         $commands = Command::find()
+        ->where(['ischeck' => 1])
         ->orderBy('create_time desc');
         //->all();
         $pages = new Pagination(['totalCount' => $commands->count()]);

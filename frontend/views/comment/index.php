@@ -48,7 +48,7 @@ $this->title = '学习感言';
                             <!-- <span class="study-title">平面设计课程讲解透彻</span> -->
                             <span class="study-con"><?= $comment->content ?></span>
                             <p class="study-user">
-                                <span><?= User::item($comment->user_id); ?></span>&nbsp;&nbsp;&nbsp;发表于<?= date('Y-m-d H:s:m', $comment->create_time); ?>
+                                <span><?= User::item($comment->user_id); ?></span>&nbsp;&nbsp;&nbsp;发表于<?= date('Y-m-d H:i:s', $comment->create_time); ?>
                             </p>
                         </div>
                     </li>

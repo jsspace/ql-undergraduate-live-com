@@ -122,9 +122,13 @@ var courseDetail = {
                 },
                 success: function(data) {
                     if (data.status == 'success') {
-                        layer.msg(data.message, { icon: 6 });
+                        layer.msg(data.message, { icon: 6 }, function(){
+                            $('._course-evaluate-content').val('');
+                        });
                     } else if (data.status == 'error') {
-                        layer.msg(data.message, { icon: 5 });
+                        layer.msg(data.message, { icon: 5 }, function(){
+                            $('._course-evaluate-content').val('');
+                        });
                     }
                 }
             });
@@ -145,9 +149,13 @@ var courseDetail = {
                 },
                 success: function(data) {
                     if (data.status == 'success') {
-                        layer.msg(data.message, { icon: 6 });
+                        layer.msg(data.message, { icon: 6 }, function(){
+                            $('._course-question-content').val('');
+                        });
                     } else if (data.status == 'error') {
-                        layer.msg(data.message, { icon: 5 });
+                        layer.msg(data.message, { icon: 5 }, function(){
+                            $('._course-question-content').val('');
+                        });
                     }
                 }
             });

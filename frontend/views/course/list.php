@@ -28,7 +28,7 @@ $this->title = '新课提醒';
                                 <img class="course-pic" src="<?= $course->list_pic; ?>"/>
                             </div>
                             <span class="content-title"><?= $course->course_name; ?></span>
-                            <span class="course-time"><?= date('Y-m-d H:m', $course->create_time); ?></span>
+                            <span class="course-time"><?= date('Y-m-d H:i', $course->create_time); ?></span>
                         </a>
                         <div class="teacher-section">
                             <!-- <img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/> -->
