@@ -10,7 +10,7 @@ use yii\helpers\Url;
         <h4 class="name"><?= Yii::$app->user->identity->username; ?></h4>
         <div class="btn">
             <a href="<?= Url::to(['user/info']) ?>"><i class="icon ion-ios-person-outline"></i>个人资料</a>
-            <a href="<?= Url::to(['site/change-password']) ?>"><i class="icon ion-edit"></i>修改密码</a>
+            <a href="<?= Url::to(['user/change-password']) ?>"><i class="icon ion-edit"></i>修改密码</a>
         </div>
     </div>
     <div class="menu">
