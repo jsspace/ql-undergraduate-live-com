@@ -7,6 +7,7 @@ var cart = {
         self.selectAll();
         self.accessAgreement();
         self.gotoOrder();
+        self.initPrice();
     },
     removeCart: function() {
         $("._delete-operation").on('click',function(){
@@ -96,9 +97,25 @@ var cart = {
                 $("._delete-all").removeClass("delete-all-active");
             }
             $(".course-num").text(totalQuntity);
-            $(".course-price").text(totalPrice);
+            $(".course-price").text(totalPrice.toFixed(2));
         });
-        
+    },
+    initPrice () {
+        $(".order-cart .cart-course-list li").each(function () {
+            var $parentEle = $(this);
+            var proQuantity = Number($parentEle.find(".cart-quantity").text());
+            var proPrice = Number($parentEle.find(".cart-price span").text());
+            var currentQuantity = Number($(".course-num").text());
+            var currentPrice = Number($(".course-price").text());
+            if ($(this).find('.select input').is(':checked') ) {
+                var totalQuntity = currentQuantity + proQuantity;
+                var totalPrice = currentPrice + proPrice;
+                $("._delete-all").addClass("delete-all-active");
+                $("._delete-all").removeClass("delete-all");
+            }
+            $(".course-num").text(totalQuntity);
+            $(".course-price").text(totalPrice.toFixed(2));
+        });
     },
     selectAll: function() {
         $("._checkbox-selectAll").on('click',function() {
@@ -120,7 +137,7 @@ var cart = {
                 });
             }
             $(".course-num").text(proQuantity);
-            $(".course-price").text(totalPrice);
+            $(".course-price").text(totalPrice.toFixed(2));
         });
     },
     accessAgreement: function() {

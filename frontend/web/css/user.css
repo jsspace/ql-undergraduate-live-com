@@ -58,10 +58,18 @@
     line-height: 50px;
     padding-left: 60px;
 }
+.user-wrapper .left-menu .menu a span {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: red;
+    border-radius: 50%;
+    margin-left: 10px;
+    vertical-align: middle;
+}
 .user-wrapper .left-menu .menu a.active,
 .user-wrapper .left-menu .menu a:hover {
-    background: #e3383e;
-    color: #fff;
+    color: #009aff;
 }
 .user-wrapper .left-menu .menu a i {
     margin-right: 10px;
@@ -70,7 +78,7 @@
 }
 .user-wrapper .left-menu .menu a.active i:before,
 .user-wrapper .left-menu .menu a:hover i:before {
-    color: #fff;
+    color: #009aff;
 }
 .user-wrapper .right-content {
     background: #fff;

@@ -48,20 +48,11 @@ $this->title = 'Signup';
 $('.getlogincode').on('click', function() {
     var seconds = 60;
     if (!$(this).hasClass('disabled')) {
-        $('.getlogincode').text('重新获取' + seconds +'s后').addClass('disabled');
-        var timeout = setInterval(function() {
-            if (seconds <= 0) {
-                $('.getlogincode').text('获取验证码').removeClass('disabled');
-                clearInterval(timeout);
-            } else {
-                --seconds;
-                $('.getlogincode').text('重新获取' + seconds +'s后').addClass('disabled');
-            }
-        }, 1000);
         $.ajax({
             url: '/site/logincode',
             type: 'post',
             dataType:"json",
+            async: false,
             data: {
                 '_csrf-frontend': $('meta[name=csrf-token]').attr('content'),
                 phone: $('.phone').val(),
@@ -74,6 +65,18 @@ $('.getlogincode').on('click', function() {
                 }
             }
         });
+        if ($('.help-block-error').text() === '') {
+            $('.getlogincode').text('重新获取' + seconds +'s后').addClass('disabled');
+            var timeout = setInterval(function() {
+                if (seconds <= 0) {
+                    $('.getlogincode').text('获取验证码').removeClass('disabled');
+                    clearInterval(timeout);
+                } else {
+                    --seconds;
+                    $('.getlogincode').text('重新获取' + seconds +'s后').addClass('disabled');
+                }
+            }, 1000);
+        }
     }
 });
 </script>
