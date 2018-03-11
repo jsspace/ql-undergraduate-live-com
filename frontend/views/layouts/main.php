@@ -73,7 +73,7 @@ AppAsset::register($this);
                             <dd><a href="/user/course">我的课程</a></dd>
                             <dd><a href="/user/coin">我的钱包</a></dd>
                             <dd><a href="/user/edit">个人设置</a></dd>
-                            <dd><a href="/user/message">消息通知</a></dd>
+                            <dd><a href="/user/message">消息通知</a><span class="message-amount">3</span></dd>
                         </div>
                     </dl>
                 </li>
