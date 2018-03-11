@@ -26,15 +26,12 @@ $this->title = '个人中心';
                 <p>修改密码:</p>
                 <div class="row">
                     <div class="col-lg-5">
-                        <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
                             <input type="password" placeholder="现有密码" id="historyPwd" />
                             <input type="password" placeholder="新密码" id="newPwd"/>
                             <input type="password" placeholder="重新输入新密码" id="repeatPwd"/>
                             <div class="form-group">
                                 <?= Html::submitButton('保存', ['class' => 'btn btn-primary']) ?>
                             </div>
-
-                        <?php ActiveForm::end(); ?>
                     </div>
                 </div>
             </div>
@@ -68,7 +65,7 @@ $this->title = '个人中心';
             return false;
         }
         $.ajax({
-            url: '/site/chang-password-code',
+            url: <?= Url::to(['user/change-password']) ?>,
             type: 'post',
             dataType:"json",
             async: false,
@@ -82,7 +79,7 @@ $this->title = '个人中心';
                 if (data.code !== 0) {
                     alert(data.message);
                 } else {
-                    window.location.href = '/user/info';
+                    window.location.href = <?= Url::to(['/user/info']) ?>;
                 }
             }
         });

@@ -296,7 +296,45 @@ class UserController extends Controller
     
     public function actionChangePassword()
     {
-        
+        if (Yii::$app->request->post()) {
+            $data = Yii::$app->request->post();
+            
+            if (!isset($data['old_password']) || !isset($data['new_password']) || !isset($data['renew_password'])) {
+                $msg = [
+                    'status' => 1,
+                    'message' => '参数不全',
+                ];
+                return json_encode($msg);
+            }
+            
+            $user = User::find()
+            ->where(['id' => Yii::$app->user->id])
+            ->one();
+            
+            if (Yii::$app->security->generatePasswordHash($data['old_password']) == $user->password_hash) {
+                if ($data['new_password'] == $data['renew_password']) {
+                    $user->password_hash = Yii::$app->security->generatePasswordHash($data['new_password']);
+                    $user->save();
+                    $msg = [
+                        'status' => 0,
+                        'message' => '密码修改成功',
+                    ];
+                    return json_encode($msg);
+                } else {
+                    $msg = [
+                        'status' => 2,
+                        'message' => '新密码与重复新密码不相同，请重新输入',
+                    ];
+                    return json_encode($msg);
+                }
+            } else {
+                $msg = [
+                    'status' => 3,
+                    'message' => '老密码输入错误，请重新输入',
+                ];
+                return json_encode($msg);
+            }
+        }
         return $this->render('change-password');
     }
 }
