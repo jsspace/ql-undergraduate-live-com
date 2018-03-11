@@ -15,7 +15,7 @@ use kartik\datetime\DateTimePicker;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->dropDownList(User::users('school')) ?>
+    <?= $form->field($model, 'user_id')->dropDownList(User::getAllUsers()) ?>
 
     <?= $form->field($model, 'pay_id')->textInput(['maxlength' => true]) ?>
 
@@ -23,9 +23,9 @@ use kartik\datetime\DateTimePicker;
 
     <?= $form->field($model, 'goods_amount')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'money_paid')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'order_amount')->textInput(['maxlength' => true]) ?>
+    <!-- <?= $form->field($model, 'money_paid')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'order_amount')->textInput(['maxlength' => true]) ?> -->
 
     <?= $form->field($model, 'pay_time')->widget(DateTimePicker::classname(), [
             'options' => ['placeholder' => ''],

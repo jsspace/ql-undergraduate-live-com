@@ -16,3 +16,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     ]) ?>
 
 </div>
+<script type="text/javascript">
+    $('#comment-user_id').attr('disabled', 'disabled');
+    $('#comment-content').attr('disabled', 'disabled');
+</script>

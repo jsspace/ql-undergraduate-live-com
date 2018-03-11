@@ -16,6 +16,6 @@ $this->title = 'My Yii Application';
 </div>
 <div class="container-course data-detail-wrapper">
     <div class="detail-title"><?= $dataDetail->name; ?></div>
-    <div class="detail-date"><?= date('Y-m-d H:m:s', $dataDetail->ctime); ?></div> 
+    <div class="detail-date"><?= date('Y-m-d H:i:s', $dataDetail->ctime); ?></div> 
     <div class="detail-content"><?= $dataDetail->content; ?></div>
 </div>

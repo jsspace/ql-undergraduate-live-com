@@ -57,12 +57,12 @@ $this->title = '个人中心';
                             <p class="question-answer">
                                 <span class="question-icon">问</span>
                                 <span class="question-txt"><?= $qu->question ?></span>
-                                <span class="question-date"><?= date('Y-m-d H:m:s', $qu->question_time) ?></span>
+                                <span class="question-date"><?= date('Y-m-d H:i:s', $qu->question_time) ?></span>
                             </p>
                             <p class="question-answer">
                                 <span class="question-icon">答</span>
                                 <span class="question-txt"><?= $qu->answer ?></span>
-                                <span class="question-date"><?= date('Y-m-d H:m:s', $qu->answer_time) ?></span>
+                                <span class="question-date"><?= date('Y-m-d H:i:s', $qu->answer_time) ?></span>
                             </p>
                         </div>
                     </li>

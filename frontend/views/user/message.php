@@ -39,7 +39,7 @@ $this->title = '个人中心';
                     <li>
                         <dl>
                             <dt>
-                                <span class="msg-date"><?= date('Y-m-d H:s:m', $read->get_time) ?></span>
+                                <span class="msg-date"><?= date('Y-m-d H:i:s', $read->get_time) ?></span>
                                 <a href="/user/message-view?id=<?= $read->id ?>"><?= $message->title ?></a>
                                 <?php if ($read->status == 0) { ?>
                                     <span class="unread">未读</span>

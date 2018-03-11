@@ -93,7 +93,10 @@ $news = array(
                                     "bdSize":"16",
                                     "bdUrl": '<?= $news["Url"];?>',
                                 },
-                                "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                                "share": {
+                                    "bdSize": 32
+                                },
+                            };with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
                             </script>
                         </div>
                     </p>
@@ -223,7 +226,7 @@ $news = array(
                                     <p class="question-answer">
                                         <span class="question-icon">答</span>
                                         <span class="question-txt"><?= $qu->answer ?></span>
-                                        <span class="question-date"><?= date('Y-m-d H:m:s', $qu->answer_time) ?></span>
+                                        <span class="question-date"><?= date('Y-m-d H:i:s', $qu->answer_time) ?></span>
                                     </p>
                                 </div>
                             </li>

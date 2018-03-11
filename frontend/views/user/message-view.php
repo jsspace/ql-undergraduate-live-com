@@ -36,7 +36,7 @@ $this->title = '个人中心';
                 <dt><?= $message->title ?></dt>
                 <dd class="msg-info">
                     <span class="author"><?= User::getUserModel($message->publisher)->username; ?></span>&nbsp;&nbsp;
-                    <span class="msg-date">发表于&nbsp;<?= date('Y-m-d H:s:m', $read->get_time) ?></span>
+                    <span class="msg-date">发表于&nbsp;<?= date('Y-m-d H:i:s', $read->get_time) ?></span>
                 </dd>
                 <dd class="content" id="content-detail">
                     <?= $message->content ?>

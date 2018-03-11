@@ -31,15 +31,10 @@ use backend\models\Cities;
     
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+    <!-- <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?> -->
 	<?php if(Yii::$app->controller->action->id !== 'edit') {?>
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 	<?php }?>
-    <?= $form->field($model, 'provinceid')->dropDownlist(Provinces::items(),[
-            'prompt' => '- 请选择省份 -',
-            'onchange'=>'getCitys(this.value)'
-    ]) ?>
-    <?= $form->field($model, 'cityid')->dropDownList(Cities::items($model->provinceid), ['prompt'=>'- 请选择地级市 -']) ?>
 
     <?= $form->field($model, 'gender')->dropDownList(['1'=>'女', '0'=>'男']) ?>
 

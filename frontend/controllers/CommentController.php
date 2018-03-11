@@ -29,6 +29,7 @@ class CommentController extends Controller
     public function actionIndex()
     {
         $comments = Comment::find()
+        ->where(['check' => 1])
         ->orderBy('create_time desc');
         $pages = new Pagination(['totalCount' => $comments->count()]);
         $models = $comments->offset($pages->offset)

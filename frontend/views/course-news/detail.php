@@ -19,7 +19,7 @@ $this->title = 'My Yii Application';
 </div>
 <div class="container-course data-detail-wrapper">
     <div class="detail-title"><?= $tui->title ?></div>
-    <div class="detail-date"><?= date('Y-m-d H:m:s', $tui->create_time); ?></div> 
+    <div class="detail-date"><?= date('Y-m-d H:i:s', $tui->create_time); ?></div> 
     <div class="detail-content"><?= $tui->des ?></div>
 </div>
 <div class="container-course data-course-wrapper">

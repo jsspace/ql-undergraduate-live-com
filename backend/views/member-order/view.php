@@ -12,8 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="member-order-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?php
         //Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->order_id], ['class' => 'btn btn-primary']) ?>

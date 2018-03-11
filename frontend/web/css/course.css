@@ -611,14 +611,15 @@
     width: 100px;
 }
 /* share */
-.bdshare-button-style0-16 a {
-    float: left;
-    padding-left: 17px;
-    line-height: 16px;
-    height: 16px;
-    margin: 0;
+.bdsharebuttonbox a {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    margin: 0px 5px;
 }
-.bdshare-button-style0-16 .bds_weixin {
-    background-image: url(/img/weixin-share.png);
-    background-position: inherit;
+.bdsharebuttonbox .bds_weixin {
+    background: url(/img/weixin-share.png) no-repeat top center;
+}
+.bdshare-button-style0-32 .bds_weixin {
+    background-position: inherit !important;
 }

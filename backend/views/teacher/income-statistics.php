@@ -30,7 +30,7 @@ AppAsset::addCss($this, '@web/css/teacher-statistic.css');
     ?>
         <ul>
             <li><?= $order->order_sn ?></li>
-            <li><?= date('Y-m-d H:m:s', $order->pay_time) ?></li>
+            <li><?= date('Y-m-d H:i:s', $order->pay_time) ?></li>
             <li><?= $order_money ?></li>
             <?php
                 $courses = Course::getCourse($order->course_ids);
@@ -90,7 +90,7 @@ AppAsset::addCss($this, '@web/css/teacher-statistic.css');
     ?>
         <ul>
             <li><?= $order->order_sn ?></li>
-            <li><?= date('Y-m-d H:m:s', $order->pay_time) ?></li>
+            <li><?= date('Y-m-d H:i:s', $order->pay_time) ?></li>
             <li><?= $order_money ?></li>
             <?php
                 $courses = Course::getCourse($order->course_ids);

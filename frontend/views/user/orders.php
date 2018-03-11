@@ -47,7 +47,7 @@ $this->title = '个人中心';
                 ?>
                     <li class="order-list-item" order-status="<?= $class_tag ?>">
                         <div class="order-title-line">
-                            <span class="order-time"><?= date('Y-m-d H:m:s', $order->add_time)  ?></span>
+                            <span class="order-time"><?= date('Y-m-d H:i:s', $order->add_time)  ?></span>
                             <span class="order-number">订单号：<em><?= $order->order_sn ?></em></span>
                             <span class="order-total-money">订单总金额：<?= $order->goods_amount ?></span>
                         </div>

@@ -54,7 +54,7 @@ $this->title = '个人中心';
                             <?php } ?>
                         </div>
                         <div class="evaluate-content"><?= $coment->content ?></div>
-                        <div class="evaluate-date"><?= date('Y-m-d H:m:s', $coment->create_time) ?></div>
+                        <div class="evaluate-date"><?= date('Y-m-d H:i:s', $coment->create_time) ?></div>
 
                         <div class="check-status">
                             <?php if ($coment->check == 0) {?>

@@ -43,13 +43,19 @@ $this->title = '课程需求';
                 <?php foreach ($commands as $key => $command) { ?>
                     <li>
                         <p class="user-img">
-                            <img src="<?= User::getUserModel($command->user_id)->picture; ?>"/>
+                            <?php
+                                $src = '';
+                                if (!empty(User::getUserModel($command->user_id))) {
+                                    $src = User::getUserModel($command->user_id)->picture;
+                                }
+                            ?>
+                            <img src="<?= $src ?>"/>
                         </p>
                         <div class="study-content">
                             <!-- <span class="study-title">平面设计课程讲解透彻</span> -->
                             <span class="study-con"><?= $command->content ?></span>
                             <p class="study-user">
-                                <span><?= User::item($command->user_id); ?></span>&nbsp;&nbsp;&nbsp;发表于<?= date('Y-m-d H:s:m', $command->create_time); ?>
+                                <span><?= User::item($command->user_id); ?></span>&nbsp;&nbsp;&nbsp;发表于<?= date('Y-m-d H:i:s', $command->create_time); ?>
                             </p>
                         </div>
                     </li>
