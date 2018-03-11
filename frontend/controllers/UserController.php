@@ -127,14 +127,19 @@ class UserController extends Controller
     public function actionCourse()
     {
         $orderids = OrderInfo::find()
-        ->select('course_ids')
+        ->select('course_ids, invalid_time')
         ->where(['user_id' => Yii::$app->user->id])
         ->andWhere(['pay_status' => 2])
         ->asArray()
         ->all();
         $goodsids = '';
+        $course_invalid_time = [];
         foreach ($orderids as $key => $orderid) {
             $goodsids.=$orderid['course_ids'].',';
+            $courseid_arr = explode(',', $orderid['course_ids']);
+            foreach ($courseid_arr as $key => $courseid) {
+                $course_invalid_time[$courseid] = $orderid['invalid_time'];
+            }
         }
         $goodsid_arr = explode(',', $goodsids);
         $clist = Course::find()
@@ -142,6 +147,7 @@ class UserController extends Controller
         ->all();
         return $this->render('course', [
             'clist' => $clist,
+            'course_invalid_time' => $course_invalid_time
         ]);
     }
     public function actionFavorite()
@@ -243,10 +249,13 @@ class UserController extends Controller
     
     public function actionClass()
     {
-        $course_package_arr = CoursePackage::getUserClass();
+        $results = CoursePackage::getUserClass();
+        $course_package_arr = $results['course_package_arr'];
+        $package_invalid_time = $results['package_invalid_time'];
 //         print_r($course_package_arr);die;
         return $this->render('class', [
             'course_package_arr' => $course_package_arr,
+            'package_invalid_time' => $package_invalid_time
         ]);
     }
     public function actionCitys()

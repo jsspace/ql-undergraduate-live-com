@@ -260,16 +260,18 @@ i {
     margin-top: 10px;
 }
 .college-class .class-price {
-    width: 50%;
+    width: 40%;
     position: absolute;
     bottom: 15px;
     left: 0;
+    font-size: 12px;
 }
 .college-class .class-date {
-    width: 50%;
+    width: 60%;
     position: absolute;
     bottom: 15px;
     right: 0;
+    font-size: 12px;
 }
 .college-class .ion-ios-pricetags-outline:before,
 .college-class .ion-ios-timer-outline:before {

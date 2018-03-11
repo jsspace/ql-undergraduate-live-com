@@ -53,7 +53,7 @@ class CourseController extends Controller
     {
         $courses = Course::find()
         ->where(['onuse' => 1])
-        ->orderBy('create_time asc');
+        ->orderBy('create_time desc');
         $pages = new Pagination(['totalCount' => $courses->count()]);
         $models = $courses->offset($pages->offset)
         ->limit(12)

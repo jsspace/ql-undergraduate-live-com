@@ -163,7 +163,7 @@ label {
     animation-name: shadowFadeIn;
 }
 .user-course-details {
-    height: 80px;
+    height: 110px;
     background: #fff;
     margin-top: 0;
     position: absolute;
@@ -173,7 +173,7 @@ label {
 }
 .user-course-list li:hover .user-course-details {
     margin-top: -55px;
-    height: 120px;
+    height: 160px;
 }
 .user-course-details a {
     color: #444;

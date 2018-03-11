@@ -143,6 +143,17 @@ class CoursePackage extends \yii\db\ActiveRecord
         $names = substr($names,0,strlen($names)-1); 
         return $names;
     }
+    public static function getInvalidTime($package_id)
+    {
+        $order_goods_model = OrderGoods::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->andWhere(['goods_id' => $package_id])
+        ->one();
+        $order_model = OrderInfo::find()
+        ->where(['order_sn' => $order_goods_model->order_sn])
+        ->one();
+        return $order_model->invalid_time;
+    }
     public static function getUserClass()
     {
         $orderinfo_models = OrderInfo::find()
@@ -152,6 +163,7 @@ class CoursePackage extends \yii\db\ActiveRecord
         ->all();
         $order_sns = [];
         $current_time = time();
+        $package_invalid_time = [];
         foreach ($orderinfo_models as $orderinfo_model) {
             //支付订单后6个月之内有效
             $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 180;
@@ -167,6 +179,7 @@ class CoursePackage extends \yii\db\ActiveRecord
         $course_package_ids = [];
         foreach ($order_goods_models as $order_goods_model) {
             $course_package_ids[] = $order_goods_model->goods_id;
+            $package_invalid_time[$order_goods_model->goods_id] = self::getInvalidTime($order_goods_model->goods_id);
         }
         $course_package_models = self::find()
         ->where(['id' => $course_package_ids])
@@ -186,7 +199,10 @@ class CoursePackage extends \yii\db\ActiveRecord
             $course_package_arr[$course_category_model->name][] = $course_package_model;
         }
         unset($course_package_model);
-        return $course_package_arr;
+        $data = [];
+        $data['course_package_arr'] = $course_package_arr;
+        $data['package_invalid_time'] = $package_invalid_time;
+        return $data;
     }
     public static function isClassMember($classid)
     {

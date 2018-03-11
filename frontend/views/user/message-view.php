@@ -30,7 +30,7 @@ $this->title = '个人中心';
        </p>
        <div class="message-detail">
             <span class="avt">
-                <img src="/<?= User::getUserModel($message->publisher)->picture; ?>" title="<?= User::getUserModel($message->publisher)->username; ?>">
+                <img src="<?= User::getUserModel($message->publisher)->picture; ?>" title="<?= User::getUserModel($message->publisher)->username; ?>">
             </span>
             <dl>
                 <dt><?= $message->title ?></dt>

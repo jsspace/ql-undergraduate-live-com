@@ -28,6 +28,7 @@ $this->title = '个人中心';
                     <div class="user-course-details">
                         <h3><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>" title="<?= $course->course_name ?>" target="_blank"><?= $course->course_name ?></a></h3>
                         <div class="row">主讲老师: <?= User::item($course->teacher_id); ?></div>
+                        <div class="row">截止日期: <?= date('Y-m-d', $course_invalid_time[$course->id]) ?></div>
                         <div class="row">
                             <div class="btns">
                                 <a class="btn btn-primary" target="_blank" href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">进入学习</a>

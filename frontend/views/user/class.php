@@ -32,7 +32,7 @@ $this->title = '个人中心';
                         <p class="class-name"><?= $course_package_model->name ?></p>
                         <a href="<?= Url::to(['package/detail', 'pid' => $course_package_model->id]); ?>" class="class-btn">查看详情</a>
                         <p class="class-price"><i class="icon ion-ios-pricetags-outline"></i>价格: <?= $course_package_model->discount ?>元</p>
-                        <p class="class-date"><i class="icon ion-ios-timer-outline"></i>有效期: 360天</p>
+                        <p class="class-date"><i class="icon ion-ios-timer-outline"></i>截止日期: <?= date('Y-m-d',$package_invalid_time[$course_package_model->id]) ?></p>
                     </div>
                 </li>
                 <?php }?>
