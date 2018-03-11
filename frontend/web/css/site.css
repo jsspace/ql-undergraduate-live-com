@@ -196,7 +196,8 @@ a {
     display: none;
 }
 .nav-right li dd {
-    line-height: 18px;
+    line-height: 23px;
+    position: relative;
 }
 .nav-right li dl:hover {
     background: #fff;
@@ -217,7 +218,7 @@ a {
 .nav-right li .nav-title {
     border: 1px solid transparent;
     border-right: 1px solid #b7b7b7;
-    padding: 0 10px;
+    padding: 0 15px;
 }
 .nav-right li dl:hover dt {
     border: 1px solid #dfdfdf;
@@ -225,6 +226,22 @@ a {
 }
 .nav-right li:last-child .nav-title {
     border-right: 0;
+}
+.message-amount {
+    display: block;
+    height: 15px;
+    background: #3487dc;
+    min-width: 15px;
+    font-size: 12px;
+    border-radius: 3px;
+    position: absolute;
+    right: 2px;
+    top: 4px;
+    text-align: center;
+    line-height: 15px;
+    color: #fff;
+    text-indent: 0;
+    padding: 0 2px;
 }
 .wrap .icon.ion-ios-cart-outline:before {
     font-size: 25px;
