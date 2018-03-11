@@ -146,14 +146,17 @@ class CourseController extends Controller
         $course_comments = CourseComent::find()
         ->where(['course_id' => $courseid])
         ->andWhere(['check' => 1])
+        ->orderBy('id desc')
         ->all();
         //课程资料
         $datas = Data::find()
         ->where(['course_id' => $courseid])
+        ->orderBy('id desc')
         ->all();
         /* 教师答疑 */
         $quas = Quas::find()
         ->where(['course_id' => $courseid])
+        ->orderBy('id desc')
         ->andWhere(['check' => 1])
         ->all();
         /* 获取前12个学员 */

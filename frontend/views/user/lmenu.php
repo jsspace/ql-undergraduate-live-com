@@ -21,9 +21,9 @@ use yii\helpers\Url;
         <a href="<?= Url::to(['user/coin']) ?>"><i class="icon ion-ios-pricetags-outline"></i>我的钱包</a>
         <a href="<?= Url::to(['user/coupon']) ?>"><i class="icon ion-ios-rose-outline"></i>我的优惠券</a>
         <a href="<?= Url::to(['user/favorite']) ?>" class="a4 "><i class="icon ion-ios-star-outline"></i>我的收藏</a>
-        <a href="<?= Url::to(['user/qnas']) ?>"><i class="icon ion-ios-help-outline"></i>我的提问<span></span></a>
-        <a href="<?= Url::to(['user/course-reviews']) ?>"><i class="icon ion-ios-chatboxes-outline"></i>课程评价<span></span></a>
-        <a href="<?= Url::to(['user/message']) ?>"><i class="icon ion-ios-bell-outline"></i>消息通知<span></span></a>
+        <a href="<?= Url::to(['user/qnas']) ?>"><i class="icon ion-ios-help-outline"></i>我的提问<span>13</span></a>
+        <a href="<?= Url::to(['user/course-reviews']) ?>"><i class="icon ion-ios-chatboxes-outline"></i>课程评价<span>2</span></a>
+        <a href="<?= Url::to(['user/message']) ?>"><i class="icon ion-ios-bell-outline"></i>消息通知<span>1</span></a>
     </div>
 </div>
 

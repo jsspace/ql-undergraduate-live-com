@@ -14,9 +14,9 @@ $userid = Yii::$app->user->id;
 $course = $courseDetail['course'];
 $cousechild = $courseDetail['coursechild'];
 $share_title = '精品课程，超低优惠，快来学习吧！';
-$share_url = Url::to(['course/detail', 'courseid'=>$course->id, 'invite'=>$userid], true);
+$share_url = 'http://www.kaoben.top/course/detail?courseid='.$course->id.'&invite='.$userid;
 $news = array(
-    "PicUrl" =>'/img/share-logo.png',
+    "PicUrl" =>'http://www.kaoben.top/img/share-logo.png',
     "Description"=>"活到老，学到老，快来和大家一起学习吧！",
     "Url" =>$share_url,
     'title' => $share_title
@@ -79,7 +79,11 @@ $news = array(
                     <div class="share-list">
                         <div class="share">
                             <div class="bdsharebuttonbox">
-                                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                <span>分享</span>
+                                <a href="https://www.baidu.com" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                <a class="bds_sqq" data-cmd="sqq"></a>
+                                <a class="bds_qzone" data-cmd="qzone" href="#"></a>
+                                <a class="bds_tsina" data-cmd="tsina"></a>
                             </div>
                             <script>
                                 window._bd_share_config = {
