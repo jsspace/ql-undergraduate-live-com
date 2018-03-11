@@ -10,6 +10,7 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
+use backend\models\Read;
 
 AppAsset::register($this);
 ?>
@@ -73,7 +74,19 @@ AppAsset::register($this);
                             <dd><a href="/user/course">我的课程</a></dd>
                             <dd><a href="/user/coin">我的钱包</a></dd>
                             <dd><a href="/user/edit">个人设置</a></dd>
-                            <dd><a href="/user/message">消息通知</a><span class="message-amount"></span></dd>
+                            <dd><a href="/user/message">消息通知</a>
+                                <?php
+                                    if(!Yii::$app->user->isGuest) {
+                                        $read_models = Read::find()
+                                        ->where(['userid' => Yii::$app->user->id])
+                                        ->andWhere(['status' => 0])
+                                        ->all();
+                                        if (!empty($read_models)) { ?>
+                                            <span class="message-amount"></span>
+                                 <?php   }
+                                    }
+                                 ?>
+                            </dd>
                         </div>
                     </dl>
                 </li>
