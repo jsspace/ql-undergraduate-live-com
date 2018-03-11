@@ -65,7 +65,7 @@ $this->title = '个人中心';
             return false;
         }
         $.ajax({
-            url: <?= Url::to(['user/change-password']) ?>,
+            url: "<?= Url::to(['user/change-password']) ?>",
             type: 'post',
             dataType:"json",
             async: false,
@@ -76,10 +76,11 @@ $this->title = '个人中心';
                 'renew_password': repeatPwd
             },
             success: function (data) {
-                if (data.code !== 0) {
+                if (data.status !== 0) {
                     alert(data.message);
                 } else {
-                    window.location.href = <?= Url::to(['/user/info']) ?>;
+                	alert(data.message);
+                    window.location.href = "<?= Url::to(['/user/info']) ?>";
                 }
             }
         });
