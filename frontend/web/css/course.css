@@ -446,6 +446,7 @@
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;
+    clear: both;
 }
 .course-detail-section .kc-right-student .student-title {
     font-size: 18px;
@@ -622,4 +623,10 @@
 }
 .bdshare-button-style0-32 .bds_weixin {
     background-position: inherit !important;
+}
+.bdshare-button-style0-32 a {
+    margin: 0 6px 0 0 !important;
+}
+.bdsharebuttonbox .bds_weixin {
+    background-size: 25px auto;
 }
