@@ -268,4 +268,23 @@ class WithdrawController extends Controller
         
         
     }
+    
+    public function actionBulk()
+    {
+        $action = Yii::$app->request->post('action');
+        $selection = (array)Yii::$app->request->post('selection');//typecasting
+        print_r($selection);die;
+        foreach($selection as $id){
+            //标记状态
+            $Withdraw = Withdraw::findOne((int)$id);
+            if ($action == 0) {
+                $Withdraw->status = 0;
+            } elseif ($action == 1) {
+                $Withdraw->status = 1;
+            }
+            $Withdraw->save();
+        }
+    }
+    
+    
 }
