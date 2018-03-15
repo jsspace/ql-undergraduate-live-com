@@ -33,6 +33,18 @@ return [
         "@mdm/admin" => "@vendor/mdmsoft/yii2-admin",
     ],
     'components' => [
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@backend/messages', // if advanced application, set @frontend/messages
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        //'main' => 'main.php',
+                    ],
+                ],
+            ],
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // 使用数据库管理配置文件
             'defaultRoles' => ["guest"],

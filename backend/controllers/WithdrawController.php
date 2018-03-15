@@ -272,17 +272,39 @@ class WithdrawController extends Controller
     public function actionBulk()
     {
         $action = Yii::$app->request->post('action');
-        $selection = (array)Yii::$app->request->post('selection');//typecasting
-        print_r($selection);die;
-        foreach($selection as $id){
-            //标记状态
-            $Withdraw = Withdraw::findOne((int)$id);
-            if ($action == 0) {
-                $Withdraw->status = 0;
-            } elseif ($action == 1) {
-                $Withdraw->status = 1;
+        $selection = (array)Yii::$app->request->post('selection');
+        if ($action == 0 || $action == 1) {
+            foreach($selection as $id){
+                //标记状态
+                $Withdraw = Withdraw::findOne((int)$id);
+                $Withdraw->status = $action;
+                $Withdraw->save();
             }
-            $Withdraw->save();
+        } elseif ($action == 2) {
+            $file = \Yii::createObject([
+                'class' => 'codemix\excelexport\ExcelFile',
+                'sheets' => [
+                     'Active Users' => [
+            'class' => 'codemix\excelexport\ActiveExcelSheet',
+            'query' => Withdraw::find()->where(['withdraw_id' => $selection]),
+
+            // If not specified, all attributes from `User::attributes()` are used
+            'attributes' => [
+                'withdraw_id',
+                'role',
+                'fee',
+                'withdraw_date',    // Related attribute
+                'bankc_card',
+                'bank',
+                'bank_username',
+            ],
+            'titles' => [
+                'D' => '提现月份',
+            ],
+        ],
+       ]
+       ]);
+            $file->send(date('Y-m-d ').'_提现打款.xlsx');
         }
     }
     
