@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(); ?>    
 <?=Html::beginForm(['withdraw/bulk'],'post');?>
 <?=Html::dropDownList('action','',[''=>'标记选中为: ','0'=>'未提现', '1'=>'已提现','2'=>'下载报表'],['class'=>'dropdown',])?>
-<?=Html::submitButton('标记状态', ['class' => 'btn btn-info',]);?>
+<?=Html::submitButton('操作', ['class' => 'btn btn-info',]);?>
 <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
