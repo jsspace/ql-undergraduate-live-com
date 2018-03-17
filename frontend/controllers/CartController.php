@@ -39,9 +39,6 @@ class CartController extends Controller
                     'remove' => ['post'],
                 ],
             ],
-            'checker' => [
-                'class' => 'backend\libs\CheckerFilter',
-            ],
         ];
     }
     public function actionIndex()

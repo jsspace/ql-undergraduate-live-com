@@ -15,9 +15,6 @@ class CardController extends Controller
     public function behaviors()
     {
         return [
-            'checker' => [
-                'class' => 'backend\libs\CheckerFilter',
-            ],
 //             'cache' => [
 //                 'class' => 'yii\filters\PageCache',
 //                 'duration' => 60,

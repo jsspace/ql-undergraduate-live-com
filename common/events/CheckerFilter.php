@@ -1,24 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jiangyan
- * Date: 2016-05-18
- * Time: 17:22
- */
-namespace backend\libs;
+namespace common\events;
 
-use backend\models\AdminSession;
 use Yii;
-use yii\base\ActionFilter;
-use yii\web\UnauthorizedHttpException;
+use yii\web\session;
+use yii\base\Event;
+use backend\models\AdminSession;
 
-class CheckerFilter extends ActionFilter
+class CheckerFilter extends Event
 {
-    public function beforeAction($action)
+    public static function login_check()
     {
         //rbac访问控制
         $controllerID = Yii::$app->controller->id;
-        $actionID = $action->id;
+        $actionID = Yii::$app->controller->action->id;;
         //登录  所有操作都虚经过过滤器控制输出
         if(!Yii::$app->user->isGuest && $actionID != 'logout')
         {
@@ -34,6 +28,5 @@ class CheckerFilter extends ActionFilter
                 Yii::$app->run();
             }
         }
-        return parent::beforeAction($action);
     }
 }

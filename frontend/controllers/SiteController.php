@@ -61,9 +61,6 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
-            'checker' => [
-                'class' => 'backend\libs\CheckerFilter',
-            ],
         ];
     }
 

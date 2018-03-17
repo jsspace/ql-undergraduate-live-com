@@ -22,9 +22,6 @@ class CourseNewsController extends Controller
                     \Yii::$app->language,
                 ],
             ],
-            'checker' => [
-                'class' => 'backend\libs\CheckerFilter',
-            ],
         ];
     }
     

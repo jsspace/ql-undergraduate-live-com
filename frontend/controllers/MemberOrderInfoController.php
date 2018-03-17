@@ -15,17 +15,6 @@ require_once "../../common/alipay/pagepay/service/AlipayTradeService.php";
 
 class MemberOrderInfoController extends \yii\web\Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'checker' => [
-                'class' => 'backend\libs\CheckerFilter',
-            ],
-        ];
-    }
     public function beforeAction($action)
     {
         $currentaction = $action->id;

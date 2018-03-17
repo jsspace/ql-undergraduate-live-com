@@ -10,19 +10,7 @@ use backend\models\Collection;
 use backend\models\Course;
 
 class CollectionController extends \yii\web\Controller
-{   
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'checker' => [
-                'class' => 'backend\libs\CheckerFilter',
-            ],
-        ];
-    }
-    
+{    
     public function actionAdd()
     {
         if(Yii::$app->user->isGuest) {
