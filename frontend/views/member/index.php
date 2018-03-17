@@ -59,7 +59,11 @@ $this->title = '购买vip会员';
 <?= Html::hiddenInput('order_sn', $order_sn); ?>
 <?= Html::submitButton('微信支付', ['class'=>'btn btn-primary wx_submit','name' =>'submit-button']) ?>
 <?php ActiveForm::end(); ?>
-
+<?php $form = ActiveForm::begin(['action' => ['member/coinpay'],'method'=>'post', 'id' => 'member_coin_form']); ?>
+<?= Html::hiddenInput('member_id'); ?>
+<?= Html::hiddenInput('order_sn', $order_sn); ?>
+<?= Html::submitButton('钱包支付', ['class'=>'btn btn-primary coin_submit','name' =>'submit-button']) ?>
+<?php ActiveForm::end(); ?>
 
     </div>
 </div>
