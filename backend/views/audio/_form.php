@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Audio */
@@ -14,13 +15,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'des')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'pic')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'pic')->widget(FileInput::classname(),
+        [
+            'options' => ['accept' => 'image/png,image/jpeg'],
+            'pluginOptions' => [
+                'showPreview' => true,
+                'showCaption' => true,
+                'showRemove' => true,
+                'showUpload' => false,
+                'initialPreview' => [
+                    $model->pic ? Html::img($model->pic, $options = ['width' => '100px']) : null,
+                ]
+            ],
+        ]) ?>
 
     <?= $form->field($model, 'category_id')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'click_time')->textInput() ?>
-
-    <?= $form->field($model, 'create_time')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

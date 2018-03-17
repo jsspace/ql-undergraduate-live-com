@@ -93,5 +93,9 @@ return [
     'Create Message' => '创建消息',
     'Reads' => '消息读取表',
     'User Study Logs' => '用户学习日志',
-    'Member Orders' => '会员订单'
+    'Member Orders' => '会员订单',
+    'Audios' => '音频列表',
+    'Create Audio' => '创建音频',
+    'Audio Categories' => '音频分类',
+    'Create Audio Category' => '创建音频分类',
 ];
