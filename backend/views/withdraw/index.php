@@ -32,10 +32,16 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Get last month Withdraw'), ['getlastmonthwithdraw'], ['class' => 'btn btn-success']) ?>
     <?php }?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+<?=Html::beginForm(['withdraw/bulk'],'post');?>
+<?=Html::dropDownList('action','',[''=>'标记选中为: ','0'=>'未提现', '1'=>'已提现','2'=>'下载报表'],['class'=>'dropdown',])?>
+<?=Html::submitButton('操作', ['class' => 'btn btn-info',]);?>
+<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            ['class' => 'yii\grid\CheckboxColumn'],
+            'withdraw_id',
             ['class' => 'yii\grid\SerialColumn'],
 
             [
@@ -95,4 +101,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+<?= Html::endForm();?> 
 <?php Pjax::end(); ?></div>

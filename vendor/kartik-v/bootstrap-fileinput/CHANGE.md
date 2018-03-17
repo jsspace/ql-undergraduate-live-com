@@ -1,11 +1,124 @@
 Change Log: `bootstrap-fileinput`
 =================================
 
-## version 4.4.3 (_under development_)
+## version 4.4.8 (_under development_)
 
-**Date:** 17-Jul-2017
+**Date:** _work in progress_
 
+- (enh #1179): New property `reversePreviewOrder` to allow reversing files displayed in preview.
+- (enh #1178): Enhance BS button styling for default and FA themes.
+- (bug #1173): Correct `showRemove` validation in `fileActionSettings`.
+- (enh #1168): Update Ukranian translations.
+- (enh #1166): Update Hungarian translations.
+- (enh #1148): Update font awesome themes to include missing download icon.
+
+## version 4.4.7
+
+**Date:** 22-Jan-2018
+
+- Update copyright year to current.
+- (enh #1164): Update Slovak translations.
+- (enh #1163): Update Czech translations.
+- (enh #1159): Update Portuguese Brazilian translations.
+- (enh #1157, #1158): Update input group styles for BS4 beta3.
+- (bug #1152): Correct preview thumbs stacking post sorting and/or ajax deletion.
+- (enh #1149): Enhance download button behavior to allow Firefox browser to download.
+- (enh #1143): Correct translation path in docs.
+- (enh #1142, #1141): Update Georgian translations.
+- (enh #1138, #1137): Update Italian translations.
+- (enh #1134): Update Polish translations.
+- (enh #1131): New public method `readFiles` to allow input & preview of file objects programmatically.
+- (enh #1128, #1129): Update rubaxa sortable plugin to fix Chrome support errors.
+- (enh #1127): Update Italian Translations.
+
+## version 4.4.6
+
+**Date:** 13-Nov-2017
+
+- (enh #1125): Create CODE_OF_CONDUCT.md.
+- (bug #1123): Correct error container close button click behavior for various scenarios.
+- (enh #1121): Update Spanish Translations.
+- (enh #1119): Enhance close button icon markup as per BS4 norms.
+- (enh #1118): Better file action button style.
+- (bug #1117): Reset `ajaxAborted` status more correctly before upload.
+- (enh #1113): Correct slug default callback to include hyphens in file name.
+- (enh #1111): Enhance default file download action to use `button` markup.
+- (enh #1110): Add support for previewing TIFF, EPS, AI, WMF files.
+- (bug #1108): Correct sortable drag element parsing during sorting.
+- (enh #1106): Update Portuguese BR Translations.
+- (enh #1105): Update Russian Translations.
+- (enh #1103): Update German Translations.
+- (enh #1099): Enhance mime type parsing for IE 11. 
+- (enh #1097): Add support for previewing Office file formats (e.g. docx, xlsx, pptx). 
+    - Supports all common formats that google docs can view.
+    - Available only for initial preview content (where the document is accessible via a public web link).
+- Update README to include updated cover images for bootstrap-fileinput themes (with Bootstrap 4.x support).
+- (enh #1096): Update Czech language folder and code to ISO code `cs`.
+- (bug #1095): Fix resize image when used with non JPEG images (silently ignoring `piexif` errors).
+- (enh #1094): Update French Translations.
+
+## version 4.4.5
+
+**Date:** 01-Oct-2017
+
+- Update readme and example index to use plugin's CDN libraries.
+- (enh #1093): Revamp SCSS with better variables and extensions.
+- (enh #1091): Set default button type for close button markup template.
+- (enh #1090): Auto detect intelligently the preview type based on file content.
+- (enh #1087): Enhance SCSS/SASS styling configurations.
+- (enh #1086): New placeholder property and various caption rendering enhancements.
+- (enh #1085): Update Slovak Translations.
+- (enh #1084): Update Czech Translations.
+
+## version 4.4.4
+
+**Date:** 21-Sep-2017
+
+**_This release adds Bootstrap v4.x support._**
+
+- (enh #1082, #1083): Better handling of errors when `showPreview` is `false`.
+- (enh #1080): Enhance styling of zoom modal header and buttons.
+- (bug #1079): Correct initial preview rendering when no `initialPreviewConfig` supplied.
+- (enh #1078): Correct markup during file validation errors (non-ajax mode).
+- (enh #1075): Enhance initial preview delete behavior (ensure `previewCache` splices deleted initial preview content items).
+- (enh #1073): Enhance `refresh` method to overwrite options.
+- (enh #1072): Enhance preview thumb templates to allow setting CSS styles (BC Breaking).
+- (enh #1071): Auto detect small screen width and auto style/auto fit preview thumbnails.
+- (enh #1070): Include new download action button for initial preview thumbnails.
+- (enh #1069): Enhance action buttons to parse new `{key}` & `{filename}` tags.
+- (bug #1068): Add ability to merge ajax callbacks when overriding ajax settings.
+- (bug #1066): Correct `removeFromPreviewOnError` validation.
+- (enh #1065): Enhancements to support Bootstrap v4.x framework.
+- (enh #1064): Update Chinese Translations.
+
+## version 4.4.3
+
+**Date:** 27-Aug-2017
+
+- (enh #1059): Better form reset behavior and update of `reset` method in docs.
+- (enh #1056): Add Lithuanian Translations.
+- (enh #1050): Update Japanese Translations & Locales.
+- (enh #1049): New property `uploadUrlThumb`.
+- (enh #1048): Add ability to retry errored file uploads.
+    - New plugin properties added:
+        - `retryErrorUploads`: _boolean_, will determine if errored out thumbnails can be retried for upload and submitted again.
+        - `fileActionSettings.uploadRetryIcon`: Will change the icon of the upload button to retry icon specified here.
+        - `fileActionSettings.uploadRetryTitle`: Will change the title of the upload button to retry title specified here.
+        - `msgUploadError`: will be displayed within the progress bar on the errored out thumbnails.
+    - Other enhancements include:
+        - resetting progress bar correctly
+        - enhancing upload validation behavior so that if `retryErrorUploads` is `false`, then no upload button is shown on the errored out thumbnails.
+- (enh #1044): Add Slovak Translations.
+- (enh #1043): Add Czech Translations.
+- (enh #1042, #830): Fixes to initial preview delete (related to #1034).
+- (enh #1038): Fix documentation for `{dataKey}`.
+- (enh #1034): Add new event `filebeforedelete` and enhance delete abort logic.
+- (enh #1033): Correct reset of preview in `reset` method.
+- (enh #1031): Update French Translations.
+- (bug #1030): Correct image dimension validation to consider non JPEG images.
 - (enh #1015): Enhancement to RTL styling.
+- (enh #1014): Enhancements to file upload single.
+- (enh #1012): Better formatting of ajax errors display.
 - (enh #1006): Update Farsi Translations.
 
 ## version 4.4.2

@@ -24,15 +24,44 @@ The preferred way to install this extension is through [composer](http://getcomp
 To install AdminLTE v2 run:
 
 ```
-php composer.phar require dmstr/yii2-adminlte-asset "2.*"
+composer require dmstr/yii2-adminlte-asset "^2.1"
 ```
 
 To install AdminLTE v1 run:
 
 ```
-php composer.phar require dmstr/yii2-adminlte-asset "1.*"
+composer require dmstr/yii2-adminlte-asset "^1"
 ```
 
+FAQ
+---
+
+### Web-font usage
+
+AdminLTE dropped web-font inclusion in `2.4.0`, so you need to include your desired font manually, ie.
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+> Inclusion via CDN is not recommended for production, please adjust this to your project's asset-bundling workflow.
+
+For details see [#140](https://github.com/dmstr/yii2-adminlte-asset/issues/140).
+
+### Upgrading
+
+When upgrading please see the [AdminLTE upgrade guide](https://adminlte.io/docs/2.4/upgrade-guide) for adjustments you need to make in your views.
+
+### Composer installation
+
+- For issues with `DmitryBaranovskiy/eve.git`, please see [#113](https://github.com/dmstr/yii2-adminlte-asset/issues/133#issuecomment-337179853).
+
+### Compatibility matrix
+
+| yii2-adminlte-asset | AdminLTE |
+|---|---|
+| 2.4 | 2.0 - 2.3 |
+| 2.5 | 2.4 |
+
+> For other [issues](https://github.com/dmstr/yii2-adminlte-asset/issues?utf8=%E2%9C%93&q=is%3Aissue), please search GitHub first.
 
 
 Quick Start
@@ -62,7 +91,7 @@ For [phd5](https://github.com/dmstr/phd5-app) application
     'view' => [
         'theme' => [
             'pathMap' => [
-                '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/phundament/app'
+                '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/testing/app'
             ],
         ],
     ],
@@ -151,6 +180,15 @@ Here is the list of available skins:
 "skin-green-light"
 ```
 
+#### Disabling skin file loading, when using bundled assets
+
+    Yii::$container->set(
+        AdminLteAsset::className(),
+        [
+            'skin' => false,
+        ]
+    );
+
 If you want to use native DOM of headers AdminLTE
 
 ```html
@@ -181,8 +219,8 @@ About <small>static page</small>
 If you need to separate sections of the menu then just add the `li.header` item to `items`
 ```php
     'items' => [
-        ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii']],
-        ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
+        ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+        ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
         ['label' => 'MAIN NAVIGATION', 'options' => ['class' => 'header']], // here
         // ... a group items
         ['label' => '', 'options' => ['class' => 'header']],
@@ -195,13 +233,55 @@ To add a label for a item:
 
 ```php
 'items' => [
-        [
-            'label' => '<span>Mailbox</span><span class="pull-right-container"><small class="label pull-right bg-yellow">' . $mailCount . '</small></span>',
-            'icon' => 'fa fa fa-envelope-o',
-            'url' => ['/mailbox'],
-            'encode' => false,
-        ],
+    [
+        'label' => 'Mailbox',
+        'icon' => 'envelope-o',
+        'url' => ['/mailbox'],
+        'template'=>'<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-yellow">123</small></span></a>'
+    ],
+]
 ```
+
+By default to icons will be added prefix of [Font Awesome](http://fontawesome.io/)
+
+### Template for Gii CRUD generator
+
+Tell Gii about our template. The setting is made in the config file:
+
+```php
+if (YII_ENV_DEV) {    
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',      
+        'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.178.20'],  
+        'generators' => [ //here
+            'crud' => [
+                'class' => 'yii\gii\generators\crud\Generator',
+                'templates' => [
+                    'adminlte' => '@vendor/dmstr/yii2-adminlte-asset/gii/templates/crud/simple',
+                ]
+            ]
+        ],
+    ];
+}
+```
+
+Testing
+-------
+
+Go to the tests folder and start the testing stack
+
+    cd tests
+    docker-compose up -d
+    
+Install `yii2-adminlte-asset` in the testing application
+
+    docker-compose exec php composer install
+    
+Open testing URLs in your browser
+
+    http://docker.local:20580/test
+    http://docker.local:20580/test/login    
+
 
 Further Information
 -------------------

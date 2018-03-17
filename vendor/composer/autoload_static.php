@@ -9,10 +9,11 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '180092cfc969a12e06f2132a203a3184' => __DIR__ . '/..' . '/codeception/verify/src/Codeception/function.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '626dcc41390ebdaa619faa02d99943b0' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/common/customFunctions.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
     );
 
@@ -39,6 +40,7 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         ),
         'm' => 
         array (
+            'mikehaertl\\tmp\\' => 15,
             'mdm\\admin\\' => 10,
         ),
         'k' => 
@@ -58,6 +60,7 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         ),
         'c' => 
         array (
+            'codemix\\excelexport\\' => 20,
             'cebe\\markdown\\' => 14,
         ),
         'W' => 
@@ -75,7 +78,6 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\BrowserKit\\' => 29,
-            'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 49,
         ),
         'Q' => 
         array (
@@ -103,6 +105,8 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         ),
         'C' => 
         array (
+            'Composer\\Installers\\' => 20,
+            'Codeception\\PHPUnit\\' => 20,
             'Codeception\\Extension\\' => 22,
             'Codeception\\' => 12,
         ),
@@ -115,7 +119,7 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         ),
         'yii\\httpclient\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-httpclient',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-httpclient/src',
         ),
         'yii\\gii\\' => 
         array (
@@ -135,11 +139,11 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         ),
         'yii\\bootstrap\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap/src',
         ),
         'yii\\authclient\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-authclient',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-authclient/src',
         ),
         'yii\\' => 
         array (
@@ -154,6 +158,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'mikehaertl\\tmp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mikehaertl/php-tmpfile/src',
         ),
         'mdm\\admin\\' => 
         array (
@@ -194,6 +202,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'dektrium\\user\\' => 
         array (
             0 => __DIR__ . '/..' . '/dektrium/yii2-user',
+        ),
+        'codemix\\excelexport\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/codemix/yii2-excelexport/src',
         ),
         'cebe\\markdown\\' => 
         array (
@@ -239,10 +251,6 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
         ),
-        'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/stecman/symfony-console-completion/src',
-        ),
         'Qiniu\\' => 
         array (
             0 => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu',
@@ -279,13 +287,22 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         array (
             0 => __DIR__ . '/..' . '/2amigos/qrcode-library/src',
         ),
+        'Composer\\Installers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
+        ),
+        'Codeception\\PHPUnit\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/codeception/phpunit-wrapper/src',
+        ),
         'Codeception\\Extension\\' => 
         array (
             0 => __DIR__ . '/..' . '/codeception/base/ext',
         ),
         'Codeception\\' => 
         array (
-            0 => __DIR__ . '/..' . '/codeception/base/src/Codeception',
+            0 => __DIR__ . '/..' . '/codeception/stub/src',
+            1 => __DIR__ . '/..' . '/codeception/base/src/Codeception',
         ),
     );
 
@@ -302,6 +319,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
+            ),
+            'PHPExcel' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
             ),
         ),
         'H' => 
@@ -336,9 +357,12 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',
+        'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/AssertionFailedError.php',
         'PHPUnit\\Framework\\BaseTestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/BaseTestListener.php',
+        'PHPUnit\\Framework\\Test' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Test.php',
         'PHPUnit\\Framework\\TestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestCase.php',
         'PHPUnit\\Framework\\TestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestListener.php',
+        'PHPUnit\\Framework\\TestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestSuite.php',
         'PHPUnit_Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit_Extensions_GroupTestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
         'PHPUnit_Extensions_PhptTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',

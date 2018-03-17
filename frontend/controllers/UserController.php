@@ -311,7 +311,7 @@ class UserController extends Controller
             ->where(['id' => Yii::$app->user->id])
             ->one();
             
-            if (Yii::$app->security->generatePasswordHash($data['old_password']) == $user->password_hash) {
+            if (Yii::$app->security->validatePassword($data['old_password'], $user->password_hash)) {
                 if ($data['new_password'] == $data['renew_password']) {
                     $user->password_hash = Yii::$app->security->generatePasswordHash($data['new_password']);
                     $user->save();

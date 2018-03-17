@@ -7,7 +7,7 @@
  * Grid grouping jquery library created for yii2-grid.
  *
  * Author: Kartik Visweswaran
- * Copyright: 2015, Kartik Visweswaran, Krajee.com
+ * Copyright: 2014 - 2018, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
@@ -48,13 +48,25 @@ var kvGridGroup;
          * @returns string
          */
         formatNumber = function (n, d, c, s, x) {
-            var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')', num = parseFloat(n),
-                dec = parseInt(d);
+            var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')', 
+                num = parseFloat(n), dec = parseInt(d), newNum, hasDec = true;
             if (isNaN(num)) {
                 return '';
             }
-            num = num.toFixed(isNaN(dec) || dec < 0 ? 0 : dec);
-            return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+            newNum = num + '';
+            c = c || '.';
+            s = s || ',';
+            if (newNum.indexOf('.') === -1) {
+                hasDec = false;
+            } else {
+                newNum = num.toFixed(isNaN(dec) || dec < 0 ? 0 : dec);
+            }
+            newNum = newNum.replace('.', c);
+            if (hasDec) {
+                return newNum.replace(new RegExp(re, 'g'), '$&' + s);
+            } else {
+                return (newNum + c).replace(new RegExp(re, 'g'), '$&' + s).slice(0, -1);
+            }
         };
         getParentGroup = function ($cell) {
             var $tr, $td, id = $cell.attr('data-sub-group-of'), i, tag;
@@ -230,6 +242,12 @@ var kvGridGroup;
                     }
                     if (data.contentOptions && data.contentOptions[i]) {
                         $col.attr(data.contentOptions[i]);
+                    }
+                    if ($td.hasClass('kv-grid-hide')) {
+                        $col.addClass('kv-grid-hide');
+                    }
+                    if ($td.hasClass('skip-export')) {
+                        $col.addClass('skip-export');
                     }
                     $col.appendTo($row);
                 }
