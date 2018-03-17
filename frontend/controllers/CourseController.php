@@ -45,6 +45,9 @@ class CourseController extends Controller
                     'ques' => ['post'],
                 ],
             ],
+            'checker' => [
+                'class' => 'backend\libs\CheckerFilter',
+            ],
         ];
     }
     

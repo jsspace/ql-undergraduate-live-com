@@ -14,18 +14,21 @@ class PackageController extends Controller
     /**
      * @inheritdoc
      */
-    /*public function behaviors()
+    public function behaviors()
     {
         return [
-            'cache' => [
-                'class' => 'yii\filters\PageCache',
-                'duration' => 60,
-                'variations' => [
-                    \Yii::$app->language,
-                ],
+//             'cache' => [
+//                 'class' => 'yii\filters\PageCache',
+//                 'duration' => 60,
+//                 'variations' => [
+//                     \Yii::$app->language,
+//                 ],
+//             ],
+            'checker' => [
+                'class' => 'backend\libs\CheckerFilter',
             ],
         ];
-    }*/
+    }
     
     
     public function actionList()

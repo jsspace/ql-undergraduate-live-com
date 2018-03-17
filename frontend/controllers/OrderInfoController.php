@@ -51,6 +51,9 @@ class OrderInfoController extends \yii\web\Controller
                     'alinotify' => ['post'],
                 ],
             ],
+            'checker' => [
+                'class' => 'backend\libs\CheckerFilter',
+            ],
         ];
     }
     

@@ -10,6 +10,17 @@ require_once "../../common/wxpay/lib/WxPay.Notify.php";
 
 class PaynotifyController extends \WxPayNotify
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'checker' => [
+                'class' => 'backend\libs\CheckerFilter',
+            ],
+        ];
+    }
 	//查询订单
 	public function Queryorder($transaction_id)
 	{

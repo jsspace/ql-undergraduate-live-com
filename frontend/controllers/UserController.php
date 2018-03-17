@@ -51,6 +51,9 @@ class UserController extends Controller
                     'edit' => ['POST', 'GET'],
                 ],
             ],
+            'checker' => [
+                'class' => 'backend\libs\CheckerFilter',
+            ],
         ];
     }
 
