@@ -13,6 +13,7 @@ use yii\web\BadRequestHttpException;
 use backend\models\MemberGoods;
 use Da\QrCode\QrCode;
 use yii\base\InvalidValueException;
+use backend\models\Coin;
 
 require_once "../../common/alipay/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php";
 require_once "../../common/alipay/pagepay/service/AlipayTradeService.php";
@@ -605,5 +606,104 @@ class MemberController extends \yii\web\Controller
             ->setMargin(5)
             ->useForegroundColor(51, 153, 255);
             return $qrCode->writeDataUri();
+        }
+        
+        /**
+         * 钱包支付
+         */
+        public function actionCoinpay()
+        {
+            $data = Yii::$app->request->post();
+            if (empty($data['member_id']) || empty($data['order_sn'])) {
+                throw new BadRequestHttpException('缺失参数。');
+            }
+            $member_ids = explode(',', $data['member_id']);
+            //查看将要购买的会员类型
+            $course_categorys = Member::find()
+            ->where(['id' => $member_ids])
+            ->groupBy('course_category_id')
+            ->all();
+            if (empty($course_categorys)) {
+                throw new BadRequestHttpException('会员不存在。');
+            }
+            $course_category_ids_arr = [];
+            foreach ($course_categorys as $course_category_id) {
+                $course_category_ids_arr[] = $course_category_id->course_category_id;
+            }
+            //已购买过的会员
+            $member_orders = MemberGoods::find()
+            ->where(['user_id' => Yii::$app->user->id])
+            ->andWhere(['pay_status' => 2])
+            ->andWhere(['>', 'end_time', time()])
+            ->all();
+            $buy_course_category_ids_str = '';
+            foreach ($member_orders as $member_order) {
+                $buy_course_category_ids_str .= $member_order->course_category_id . ',';
+            }
+            $buy_course_category_ids_arr = explode(',', $buy_course_category_ids_str);
+            if (array_intersect($buy_course_category_ids_arr, $course_category_ids_arr)) {
+                //订单已存在
+                throw new BadRequestHttpException('你购买相关会员了,请不要重复购买。');
+            }
+            $member_id_str = '';
+            $course_category_id_str = '';
+            $member_name = '';
+            $order_amount = 0.00;
+            foreach($course_categorys as $course_category) {
+                $member_name .= $course_category->content . ' ';
+                $order_amount += $course_category->discount;
+            }
+            //判断钱包余额是否能够支付
+            $coin = Coin::find()
+            ->where(['userid' => Yii::$app->user->id])
+            ->orderBy('id desc')
+            ->one();
+            if (empty($coin) || $coin->balance < $order_amount) {
+                throw new BadRequestHttpException('钱包余额不足，请使用其他支付方式。');
+            }
+            $coin_model = new Coin();
+            $coin_model->userid = Yii::$app->user->id;
+            $coin_model->income = $order_amount;
+            $coin_model->balance = $coin->balance - $order_amount;
+            $coin_model->operation_detail = '购买会员';
+            $coin_model->operation_time = time();
+            $coin_model->card_id = $data['order_sn'];
+            $coin_model->save();
+            
+            //添加订单信息
+            $order_info = new MemberOrder();
+            $order_info->order_sn = $data['order_sn'];
+            $order_info->user_id = Yii::$app->user->id;
+            $order_info->order_status = 1;
+            $order_info->pay_status = 2;
+            $order_info->consignee = Yii::$app->user->identity->username;
+            $order_info->mobile = Yii::$app->user->identity->phone;
+            $order_info->email = Yii::$app->user->identity->email;
+            //0 1支付宝 2 微信 3 钱包支付
+            $order_info->pay_id = 3;
+            $order_info->pay_name = '钱包支付';
+            $order_info->goods_amount = $order_amount;
+            $order_info->order_amount = $order_amount;
+            $order_info->add_time = time();
+            $order_info->save(false);
+            foreach($course_categorys as $course_category) {
+                $member_goods_model = new MemberGoods();
+                $member_goods_model->user_id = Yii::$app->user->id;
+                $member_goods_model->order_sn = $data['order_sn'];
+                $member_goods_model->member_id = $course_category->id;
+                $member_goods_model->course_category_id = $course_category->course_category_id;
+                $member_goods_model->member_name = $course_category->name;
+                $member_goods_model->price = $course_category->price;
+                $member_goods_model->discount = $course_category->discount;
+                $member_goods_model->add_time = time();
+                $member_goods_model->end_time = time() + $course_category->time_period * 3600 * 24;
+                $member_goods_model->pay_status = 2;
+                $member_goods_model->save();
+            }
+            Yii::$app->getSession()->setFlash('error', '购买会员成功');
+            return $this->redirect(Url::to(['user/member']));
+            
+        
+        
         }
 }

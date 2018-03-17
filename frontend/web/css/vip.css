@@ -77,16 +77,24 @@ i {
     line-height: 20px;
 }
 #member_form {
-    text-align: right;
-    padding-right: 20px;
-    margin-bottom: 20px;
-    width: 50%;
+    text-align: center;
+    border-radius: 20px;
+    width: 335px;
+    height: 70px;
+    margin: auto;
+    line-height: 50px;
+}
+#member_ali_form {
     float: left;
+    padding-right: 20px;
 }
 #member_wx_form {
-    width: 50%;
     float: left;
-    padding-left: 20px;
+    padding-right: 20px;
+}
+#member_coin_form {
+    float: left;
+    padding-right: 20px;
 }
 .vip_tip-native {
     position: absolute;
