@@ -1,4 +1,4 @@
-FROM docker.mobvoi.com/php-base:latest
+FROM php-base:latest
 
 MAINTAINER fanghua
 
