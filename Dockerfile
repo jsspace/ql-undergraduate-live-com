@@ -6,7 +6,6 @@ RUN mkdir /home/servlets
 
 ADD run /usr/share/nginx/html/ql-undergraduate-live-com
 
-#RUN sed -i -e 's/listen = 127.0.0.1:9000/listen = 127.0.0.1:9031/g' /etc/php-fpm.d/www.conf
 RUN sed -i -e 's#;request_terminate_timeout = 0#request_terminate_timeout = 0#g' \
 	     -e 's#;catch_workers_output = yes#catch_workers_output = yes#g' \
 	     -e 's#php_admin_value\[error_log\] = /var/log/php-fpm/www-error.log#php_admin_value\[error_log\] = /home/servlets/www-error.log#g' /etc/php-fpm.d/www.conf

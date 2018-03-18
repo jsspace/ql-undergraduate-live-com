@@ -1,8 +1,0 @@
-.main-header,
-.main-footer,
-.content-header {
-    display: none;
-}
-.content-wrapper {
-    min-height: auto !important;
-}
