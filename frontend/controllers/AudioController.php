@@ -30,7 +30,7 @@ class AudioController extends Controller
         parent::beforeAction($action);
         return true;
     }
-    
+
     public function actionAudioHome()
     {
         $cat_models = AudioCategory::find()
@@ -71,5 +71,10 @@ class AudioController extends Controller
         }
         $response = json_encode($response);
         return $response;
+    }
+
+    public function actionGetAudio($audio_id)
+    {
+        
     }
 }
