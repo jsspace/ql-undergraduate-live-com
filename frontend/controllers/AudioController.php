@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\AudioCategory;
 use backend\models\AudioSection;
+use yii\helpers\Url;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -23,7 +24,7 @@ class AudioController extends Controller
     {
 
         $currentaction = $action->id;
-        $novalidactions = ['audio-home'];
+        $novalidactions = ['audio-home', 'get-audio'];
         if(in_array($currentaction,$novalidactions)) {
             $action->controller->enableCsrfValidation = false;
         }
@@ -52,7 +53,7 @@ class AudioController extends Controller
                     $audioitem = array(
                         'id' => $audio->id,
                         'des' => $audio->des,
-                        'pic' => $audio->pic
+                        'pic' => Url::to('@web'.$audio->pic, true)
                     );
                     $audios[$catkey]['audioList'][] = $audioitem;
                 }
@@ -73,8 +74,80 @@ class AudioController extends Controller
         return $response;
     }
 
-    public function actionGetAudio($audio_id)
+    public function actionGetAudio($cat_id)
     {
-        
+        $cat_model = AudioCategory::find()
+        ->where(['id' => $cat_id])
+        ->one();
+        $audio_models = Audio::find()
+        ->where(['category_id' => $cat_id])
+        ->orderBy('id desc')
+        ->all();
+        $audios = array();
+        $audios['cat'] = array(
+            'id' => $cat_id,
+            'catname' => $cat_model->name
+        );
+        $audios['audioList'] = array();
+        foreach ($audio_models as $audiokey => $audio) {
+            if ($audio->id === $cat_id) {
+                $audioitem = array(
+                    'id' => $audio->id,
+                    'des' => $audio->des,
+                    'pic' => Url::to('@web'.$audio->pic, true)
+                );
+                $audios['audioList'][] = $audioitem;
+            }
+        }
+        if (!empty($audios)) {
+            $response = array(
+                'err_code' => '200',
+                'data' => $audios
+            );
+        } else {
+            $response = array(
+                'err_code' => '-1',
+                'data' => '空数据'
+            );
+        }
+        $response = json_encode($response);
+        return $response;
+    }
+    public function actionGetAudiosection($audio_id)
+    {
+        $audio_model = Audio::find()
+        ->where(['id' => $audio_id])
+        ->one();
+        $section_models = AudioSection::find()
+        ->where(['audio_id' => $audio_id])
+        ->orderBy('id desc')
+        ->all();
+        $audio_sections = array();
+        $audio_sections['audio'] = array(
+            'des' => $audio_model->des,
+            'pic' => Url::to('@web'.$audio_model->pic, true)
+        );
+        $audio_sections['sectionList'] = array();
+        foreach ($section_models as $sectionkey => $section) {
+            $audioitem = array(
+                'name' => $section->audio_name,
+                'author' => $section->audio_author,
+                'url' => $section->audio_url,
+            );
+            $audio_sections['sectionList'][] = $audioitem;
+        }
+        if (!empty($audio_sections)) {
+            $response = array(
+                'err_code' => '200',
+                'data' => $audio_sections
+            );
+        } else {
+            $response = array(
+                'err_code' => '-1',
+                'data' => '空数据'
+            );
+        }
+        $response = json_encode($response);
+        return $response;
     }
 }
