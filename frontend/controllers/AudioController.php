@@ -48,7 +48,11 @@ class AudioController extends Controller
             );
             $audios[$catkey]['cat'] = $catitem;
             $audios[$catkey]['audioList'] = array();
+            $count = 0;
             foreach ($audio_models as $audiokey => $audio) {
+                if ($count === 6) {
+                    break;
+                }
                 if ($audio->category_id === $cat->id) {
                     $audioitem = array(
                         'id' => $audio->id,
@@ -56,6 +60,7 @@ class AudioController extends Controller
                         'pic' => Url::to('@web'.$audio->pic, true)
                     );
                     $audios[$catkey]['audioList'][] = $audioitem;
+                    $count++;
                 }
             }
         }
