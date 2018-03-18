@@ -49,7 +49,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUserbyphone();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect phone or password.');
+                $this->addError($attribute, '手机号帐号不存在或着密码错误');
             }
         }
     }
