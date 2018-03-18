@@ -1,0 +1,674 @@
+.btn-default:active:hover,
+.btn-default.active:hover,
+.open > .dropdown-toggle.btn-default:hover,
+.btn-default:active:focus, .btn-default.active:focus,
+.open > .dropdown-toggle.btn-default:focus,
+.btn-default:active.focus,
+.btn-default.active.focus, .open > .dropdown-toggle.btn-default.focus {
+    background-color: #008ae6;
+    border-color: #008ae6;
+    color: white;
+}
+.user-wrapper {
+    width: 1180px;
+    margin: 0 auto;
+}
+.user-wrapper .left-menu {
+    width: 225px;
+    background: #fff;
+    padding-bottom: 70px;
+    margin-bottom: 30px;
+    float: left;
+}
+.user-wrapper .left-menu .topinfo .pic {
+    border-radius: 50%;
+    width: 70px;
+}
+.user-wrapper .left-menu a {
+    color: #333;
+}
+.user-wrapper .topinfo {
+    padding: 30px 20px 0;
+    text-align: center;
+}
+.user-wrapper .topinfo .company {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 25px;
+}
+.user-wrapper .btn a {
+    font-size: 13px;
+    margin-right: 8px;
+}
+.user-wrapper .btn a i {
+    margin-right: 3px;
+}
+.user-wrapper .btn a i.ion-edit:before {
+    font-size: 15px;
+}
+.user-wrapper .left-menu .menu {
+    margin-top: 20px;
+}
+.user-wrapper .left-menu .menu a {
+    display: block;
+    font-size: 16px;
+    color: #4a4a4a;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 60px;
+}
+.user-wrapper .left-menu .menu a span {
+    display: inline-block;
+    width: 25px;
+    height: 15px;
+    background: #ee6868;
+    border-radius: 5px;
+    margin-left: 10px;
+    vertical-align: middle;
+    line-height: 15px;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+}
+.user-wrapper .left-menu .menu a.active,
+.user-wrapper .left-menu .menu a:hover {
+    color: #009aff;
+}
+.user-wrapper .left-menu .menu a i {
+    margin-right: 10px;
+    width: 16px;
+    display: inline-block;
+}
+.user-wrapper .left-menu .menu a.active i:before,
+.user-wrapper .left-menu .menu a:hover i:before {
+    color: #009aff;
+}
+.user-wrapper .right-content {
+    background: #fff;
+    width: 890px;
+    padding: 30px;
+    float: right;
+    min-height: 566px;
+    margin-bottom: 30px;
+}
+.user-wrapper .info-wrapper {
+    padding: 30px;
+}
+.user-wrapper .info-wrapper p {
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+.user-wrapper .info-wrapper .info-label {
+    display: inline-block;
+    width: 80px;
+    margin-right: 10px;
+    text-align: right;
+}
+.user-wrapper .info-wrapper .info-img img {
+    width: 70px;
+    border-radius: 50%;
+}
+.user-wrapper .info-wrapper .edit-btn {
+    display: block;
+    width: 150px;
+    height: 40px;
+    color: #fff;
+    background: #529bcc;
+    border-radius: 18px;
+    line-height: 40px;
+    text-align: center;
+    margin-left: 30px;
+    margin-top: 40px;
+}
+.user-wrapper input {
+    display: inline-block;
+    width: 350px;
+    height: 35px;
+    line-height: 35px;
+    outline: none;
+}
+.form-control {
+    display: inline-block;
+    width: auto;
+}
+label {
+    margin-right: 12px;
+}
+.krajee-default.file-preview-frame .kv-file-content,
+.krajee-default.file-preview-frame .file-thumbnail-footer {
+    height: auto !important;
+}
+
+.user-right-title {
+    font-size: 20px;
+    padding: 0 0 15px;
+    border-bottom: 1px solid #dfdfdf;
+    color: #777;
+}
+.user-course-list li {
+    padding: 9px 9px 15px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    width: 276px;
+    height: 285px;
+    float: left;
+    margin-bottom: 20px;
+}
+.user-course-list li img {
+    width: 100%;
+}
+.user-course-list li:hover {
+    border-color: #dfdfdf;
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    -webkit-animation-name: shadowFadeIn;
+    -ms-animation-name: shadowFadeIn;
+    animation-name: shadowFadeIn;
+}
+.user-course-details {
+    height: 110px;
+    background: #fff;
+    margin-top: 0;
+    position: absolute;
+    width: 258px;
+    transition: all .3s;
+    overflow: hidden;
+}
+.user-course-list li:hover .user-course-details {
+    margin-top: -55px;
+    height: 160px;
+}
+.user-course-details a {
+    color: #444;
+    font-size: 16px;
+}
+.user-course-details h3 {
+    line-height: 22px;
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 7px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    max-width: 100%;
+}
+.user-course-details .row {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    max-width: 100%;
+    line-height: 22px;
+    font-size: 13px;
+    color: #848e99;
+    margin-left: 0;
+    padding-bottom: 10px;
+}
+.user-course-details a.btn {
+    padding: 6px 20px;
+}
+.user-course-details .btns {
+    text-align: center;
+}
+.user-course-details a.btn-primary {
+    color: #fff;
+    margin-right: 20px;
+}
+
+/* user order */
+.status-select-wrapper {
+    width: 120px;
+    padding: 0 10px;
+    font-size: 13px;
+    color: #777;
+    position: absolute;
+    background: #fff;
+}
+.status-select-wrapper:hover {
+    box-shadow: 0 0 3px rgba(0,0,0,0.15);
+}
+.status-select-wrapper .current-status,
+.status-select-wrapper ul,
+.status-select-wrapper li {
+    line-height: 25px;
+    margin-bottom: 0;
+    cursor: pointer;
+    position: relative;
+}
+.status-select-wrapper .status-list {
+    display: none;
+    font-size: 12px;
+}
+.status-select-wrapper:hover .status-list {
+    display: block;
+}
+.status-select-wrapper .current-status,
+.status-select-wrapper li {
+    margin-left: 7px;
+}
+.status-select-wrapper .current-status:after {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-left: 1px solid #777;
+    border-bottom: 1px solid #777;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    vertical-align: middle;
+    position: absolute;
+    right: 5px;
+    top: 8px;
+}
+.status-select-wrapper:hover .current-status:after {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    top: 12px;
+}
+.status-select-wrapper li.active {
+    color: red;
+}
+.status-select-wrapper li.active:before {
+    content: "\2714";
+    display: inline-block;
+    font-size: 13px;
+    color: red;
+    position: absolute;
+    left: -15px;
+}
+.order-list {
+    margin-top: 50px;
+}
+.order-list li {
+    border: 1px solid #dfdfdf;
+    margin-bottom: 20px;
+}
+.order-list li .order-title-line {
+    background: #f6f6f6;
+    font-size: 13px;
+    color: #777;
+    padding: 0 20px;
+    line-height: 30px;
+    border-bottom: 1px solid #dfdfdf;
+}
+.order-list li .order-title-line .order-total-money {
+    float: right;
+}
+.order-list em {
+    font-style: normal;
+    color: #000;
+}
+.order-list .order-time {
+    margin-right: 30px;
+}
+.order-list .order-content {
+    height: 100px;
+    padding: 0 0 0 20px;
+    border-bottom: 1px solid #dfdfdf;
+}
+.order-list .order-content:last-child {
+    border-bottom: 0;
+}
+.order-list .order-content p {
+    float: left;
+    margin-bottom: 0;
+    height: 100%;
+}
+.order-list .course-img {
+    width: 100px;
+    max-height: 80px;
+    overflow: hidden;
+}
+.order-list .course-img img {
+    width: 100%;
+    margin-top: 15px;
+}
+.order-list .course-name {
+    padding: 15px 25px;
+    width: 400px;
+    font-size: 13px;
+}
+.order-list .course-name a {
+    color: #333;
+}
+.order-list .course-quantity {
+    padding: 40px 30px;
+    color: #777;
+}
+.order-list .order-price {
+    padding: 25px 15px;
+    font-size: 13px;
+    color: #777;
+    text-align: center;
+    border-left: 1px solid #dfdfdf;
+    border-right: 1px solid #dfdfdf;
+    width: 150px;
+}
+.order-list .total-price {
+    display: block;
+    border-bottom: 1px solid #dfdfdf;
+    padding-bottom: 5px;
+}
+.order-list .pay-method {
+    padding-top: 5px;
+    display: block;
+}
+.order-list .order-status {
+    padding: 40px 0;
+    text-align: center;
+    margin-bottom: 0;
+    width: 75px;
+    font-size: 13px;
+    color: #777;
+}
+
+/* user question */
+.user-question-list {
+    margin-top: 50px;
+}
+.user-question-list .quas-status-txt {
+    text-align: right;
+    color: orange;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+.user-question-list li {
+    border-bottom: 1px solid #dfdfdf;
+    padding: 15px 0;
+    overflow: hidden;
+}
+.user-question-list li:last-child {
+    border-bottom: 0;
+}
+.user-question-list .course-img {
+    display: inline-block;
+    width: 100px;
+    float: left;
+    margin-right: 20px;
+}
+.user-question-list .course-img img {
+    width: 100%;
+    margin-top: 25px;
+}
+.user-question-list .question-content {
+    display: inline-block;
+    width: 85%;
+}
+.user-question-list .question-icon {
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    background: orange;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    vertical-align: top;
+}
+.user-question-list .question-txt {
+    max-width: 500px;
+    display: inline-block;
+    word-break: break-all;
+    line-height: 15px;
+}
+.user-question-list .question-date {
+    float: right;
+    font-size: 12px;
+    color: #777;
+}
+/* user coupon */
+.coupon-wrapper {
+    margin-top: 50px;
+}
+.coupon-wrapper.member-wrapper {
+    margin-top: 20px;
+}
+.coupon-wrapper .coupon-title-line {
+    font-size: 14px;
+    color: #777;
+    padding: 10px 0;
+    border-bottom: 1px solid #dfdfdf;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+.coupon-wrapper .coupon-title-line li,
+.coupon-wrapper .coupon-content-line p {
+    float: left;
+    width: 25%;
+    text-align: center;
+    margin-bottom: 0;
+}
+.coin-wrapper .coupon-title-line li,
+.coin-wrapper .coupon-content-line p {
+    width: 10%;
+}
+.coin-wrapper .coupon-title-line li.coin-id,
+.coin-wrapper .coupon-content-line p.coin-id {
+    width: 30%;
+}
+.coin-wrapper .coupon-title-line li.coin-detail,
+.coin-wrapper .coupon-content-line p.coin-detail {
+    width: 30%;
+}
+.coupon-wrapper .coupon-name {
+    width: 35%;
+}
+.coupon-wrapper .coupon-money {
+    width: 15%;
+}
+.coupon-wrapper .coupon-content-line {
+    background-color: #f6f6f6;
+    text-align: center;
+    margin-bottom: 0;
+}
+.coupon-wrapper .coupon-content-line li {
+    padding: 10px 0;
+    overflow: hidden;
+    border-bottom: 1px solid #dfdfdf;
+}
+.user-wrapper .empty-content {
+    padding: 10px 0;
+    text-align: center;
+}
+.user-course-details .btn-primary:hover {
+    background-color: #40b3ff;
+    border-color: #40b3ff;
+    color: white;
+}
+.user-course-details .btn-primary {
+    background-color: #009aff;
+    border: 1px solid #009aff;
+    color: white;
+}
+.user-course-details .btn-default {
+    background-color: white;
+    border: 1px solid #009aff;
+    color: #009aff;
+}
+/* course evaluate */
+.user-evaluate {
+    margin-top: 50px;
+}
+.user-evaluate li {
+    overflow: hidden;
+    border-bottom: 1px solid #dfdfdf;
+    padding: 15px 0 10px;
+}
+.evaluate-left {
+    width: 120px;
+    text-align: center;
+    float: left;
+    margin-right: 20px;
+}
+.evaluate-img {
+    width: 100%;
+    display: inline-block;
+}
+.evaluate-img img {
+    width: 100%;
+    max-height: 90px;
+}
+.evaluate-course-name {
+    font-size: 12px;
+    margin-bottom: 0;
+}
+.evaluate-course-name a {
+    color: #777;
+}
+.evaluate-right {
+    padding: 10px 0;
+}
+.evaluate-right .star,
+.evaluate-right .evaluate-content {
+    margin-bottom: 10px;
+}
+.evaluate-right .evaluate-content {
+    max-width: 600px;
+}
+.evaluate-right .evaluate-date {
+    font-size: 13px;
+    color: #777;
+}
+.evaluate-right .check-status {
+    float: right;
+    color: #777;
+    margin-top: -40px;
+}
+.coin-con .coin-left {
+    float: left;
+}
+.coin-con .coin-right {
+    float: right;
+}
+.coin-con a {
+    color: #31afff;
+}
+.coin-wrapper p.coin-detail {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.message-list {
+    margin-top: 20px;
+}
+.message-list li {
+    padding: 18px 0;
+    border-bottom: 1px solid #dfdfdf;
+}
+.message-list .msg-date {
+    float: right;
+    font-size: 13px;
+    color: #81828c;
+    line-height: 15px;
+    font-weight: normal;
+}
+.message-list a {
+    color: #009aff;
+}
+.message-list .unread {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 3px 5px;
+    line-height: 14px;
+    background: #F44336;
+    border-radius: 3px;
+    color: white;
+    font-size: 12px;
+}
+.message-list dl {
+    margin: 0;
+}
+.message-list .msg-con {
+    width: 70%;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 10px;
+}
+.message-list .msg-con p {
+    display: inline-block;
+}
+.message-list .msg-more {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+.user-right-title a {
+    color: #009aff;
+    font-size: 14px;
+    float: right;
+    line-height: 35px;
+}
+.message-detail .avt {
+    float: left;
+    margin-right: 20px;
+    display: inline-block;
+    width: 60px;
+}
+.message-detail .avt img {
+    width: 100%;
+    border-radius: 50%;
+}
+.message-detail dl {
+    margin-left: 80px;
+    color: #676767;
+}
+.message-detail dt {
+    line-height: 32px;
+    font-size: 18px;
+    font-weight: normal;
+}
+.message-detail .msg-info {
+    margin-top: 5px;
+}
+.message-detail .content {
+    margin-top: 30px;
+}
+.site-reset-password input {
+    display: block;
+    border-radius: 5px;
+    border: 1px solid #dfdfdf;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-indent: 10px;
+}
+.site-reset-password p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+@-webkit-keyframes shadowFadeIn {
+  from {
+    box-shadow: 0 0 0px 0px transparent;
+  }
+  to {
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.15);
+  }
+}
+@-ms-keyframes shadowFadeIn {
+  from {
+    box-shadow: 0 0 0px 0px transparent;
+  }
+  to {
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.15);
+  }
+}
+@keyframes shadowFadeIn {
+  from {
+    box-shadow: 0 0 0px 0px transparent;
+  }
+  to {
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.15);
+  }
+}

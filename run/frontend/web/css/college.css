@@ -1,0 +1,226 @@
+/* new */
+.college-list .college-banner {
+    width: 100%;
+    height: 200px;
+}
+.college-list .college-banner img {
+    width: 100%;
+    height: 100%;
+}
+.college-list .college-content {
+    width: 1180px;
+    margin: 30px auto;
+    background: #f6f6f6;
+}
+.college-list .college-category {
+    float: left;
+    width: 170px;
+}
+.college-list .college-all {
+    position: relative;
+    padding: 20px;
+    font-size: 20px;
+    background: #fff;
+    color: #575e65;
+    margin: 0;
+    background: #fff;
+}
+.college-list .college-all:before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 4px;
+    height: 20px;
+    border-radius: 4px;
+    background: #50a9fd;
+}
+.college-list .college-category-list {
+    margin: 20px 0;
+    background: #fff;
+}
+.college-list .college-category-list li {
+    padding: 15px 0;
+    font-size: 16px;
+    color: #444;
+    cursor: pointer;
+    text-align: center;
+}
+.college-list .college-category-list li a:hover,
+.college-list .college-category-list li a.active {
+    color: #50a9fd;
+}
+.college-right {
+    width: 1000px;
+    margin-left: 10px;
+    float: left;
+}
+.college-right .college-tab {
+    width: 100%;
+    background: #fff;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.college-right .college-tab li {
+    padding: 0 20px;
+    font-size: 16px;
+    color: #444;
+    float: left;
+    cursor: pointer;
+}
+.college-right .college-tab li span {
+    display: inline-block;
+    padding: 20px 10px;
+}
+.college-right .college-tab li.active span {
+    border-bottom: 2px solid #50a9fd;
+}
+.college-category-con {
+    padding: 20px;
+    background: #fff;
+}
+.college-category-con li {
+    display: none;
+}
+.college-category-con li.active {
+    display: block;
+}
+.college-intro p {
+    text-indent: 28px;
+    font-size: 14px;
+    line-height: 22px;
+}
+.user-course-list {
+    overflow: hidden;
+    padding: 20px 10px 0;
+}
+.user-course-list .course-list-con {
+    padding: 9px 9px 15px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    width: 235px;
+    height: 270px;
+    float: left;
+    margin-bottom: 20px;
+}
+.user-course-list .course-list-con img {
+    width: 100%;
+    height: auto;
+}
+.user-course-list .course-list-con:hover {
+    border-color: #dfdfdf;
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    -webkit-animation-name: shadowFadeIn;
+    -ms-animation-name: shadowFadeIn;
+    animation-name: shadowFadeIn;
+}
+.user-course-details {
+    height: 80px;
+    background: #fff;
+    margin-top: 0;
+    position: absolute;
+    width: 220px;
+    transition: all .3s;
+    overflow: hidden;
+}
+.user-course-list .course-list-con:hover .user-course-details {
+    margin-top: -55px;
+    height: 120px;
+}
+.user-course-details a {
+    color: #444;
+    font-size: 16px;
+}
+.user-course-details h3 {
+    line-height: 22px;
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 7px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    max-width: 100%;
+}
+.user-course-details .row {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    max-width: 100%;
+    line-height: 22px;
+    font-size: 13px;
+    color: #848e99;
+    margin-left: 0;
+    padding-bottom: 10px;
+}
+.user-course-details a.btn {
+    padding: 6px 20px;
+}
+.user-course-details .btns {
+    text-align: center;
+}
+.user-course-details a.btn-primary {
+    color: #fff;
+    margin-right: 20px;
+}
+.teacher-section .teach-list {
+    padding: 80px 10px 0;
+    text-align: center;
+    overflow: hidden;
+}
+.teacher-section .teach-list .teacher-con {
+    width: 30%;
+    height: 225px;
+    background: #fff;
+    float: left;
+    margin-right: 2%;
+    border-radius: 10px;
+    margin-bottom: 90px;
+}
+.teacher-section .teach-list .teacher-con:nth-child(3n) {
+    margin-right: 0;
+}
+.teacher-section .teach-list .teacher-con:hover {
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+.teacher-section .people-img {
+    margin: -60px auto 15px;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+}
+.teacher-section .teach-list .teacher-con:hover .people-img {
+    border: 4px solid #e6393f;
+    box-sizing: border-box;
+}
+.teacher-section .intro {
+    color: #333;
+    padding-left: 35px;
+    margin-top: 10px;
+    text-align: left;
+}
+.teacher-section .name {
+    font-size: 16px;
+}
+.teacher-section .work {
+    background: #38b29b;
+    color: #fff;
+    font-size: 12px;
+    display: inline-block;
+    padding: 5px 20px;
+    border-radius: 18px;
+    margin-left: 10px;
+}
+.teacher-section .te-label,
+.teacher-section .te-text {
+    font-size: 14px;
+}
+.teacher-section .te-text {
+    color: #888;
+}

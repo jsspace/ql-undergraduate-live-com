@@ -1,0 +1,288 @@
+i {
+    font-style: normal;
+}
+.site-vip .inner {
+    width: 1180px;
+    margin: 0 auto;
+}
+.site-vip .vip-section {
+    background: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    margin: 20px 0;
+}
+.site-vip .vip-section.vip-tip {
+    padding-bottom: 30px;
+}
+.site-vip .vip-title {
+    font-size: 20px;
+    margin: 20px 0 25px;
+    padding-left: 15px;
+    border-left: 3px solid #ff6e1e;
+}
+.site-vip .vip-tip .vip-title {
+    padding-left: 0;
+    border: 0;
+}
+.site-vip .vip-tip .vip-title .ion-ios-navigate-outline:before {
+    color: #ff6e1e;
+    font-size: 26px;
+    vertical-align: bottom;
+    margin-right: 10px;
+    font-weight: 600;
+}
+.site-vip .vip-list {
+    overflow: hidden;
+    padding-top: 4px;
+    padding-left: 4px;
+}
+.site-vip .vip-list li {
+    width: 200px;
+    height: 70px;
+    float: left;
+    margin-right: 80px;
+    border: 2px solid #ddd;
+    background: #fff;
+    position: relative;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.site-vip .vip-list li.active {
+    border: 2px solid #ff6e1e;
+}
+.site-vip .vip-list li:last-child {
+    margin-right: 0;
+}
+.site-vip .vip-list .vip-price {
+    width: 80%;
+    line-height: 70px;
+    font-size: 23px;
+    color: #ff6e1e;
+    float: left;
+    text-align: center;
+}
+.site-vip .vip-list .vip-date {
+    width: 20%;
+    float: left;
+    background: #ededed;
+    height: 66px;
+    line-height: 66px;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px 0;
+}
+.site-vip .vip-list .vip-date span {
+    display: inline-block;
+    width: 14px;
+    line-height: 20px;
+}
+#member_form {
+    text-align: center;
+    border-radius: 20px;
+    width: 335px;
+    height: 70px;
+    margin: auto;
+    line-height: 50px;
+}
+#member_ali_form {
+    float: left;
+    padding-right: 20px;
+}
+#member_wx_form {
+    float: left;
+    padding-right: 20px;
+}
+#member_coin_form {
+    float: left;
+    padding-right: 20px;
+}
+.vip_tip-native {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    margin: 0 4px;
+    height: 18px;
+    line-height: 18px;
+    background: #ff6e1e;
+    color: #fff;
+    z-index: 9;
+    font-size: 12px;
+}
+.vip_tip-left {
+    display: block;
+    width: 4px;
+    height: 22px;
+    overflow: hidden;
+    background: url('../img/vip_pay-site.png') no-repeat center;
+    background-position: -120px 0;
+    position: absolute;
+    top: 0;
+    left: -4px;
+}
+.vip_tip-right {
+    display: block;
+    width: 4px;
+    height: 18px;
+    overflow: hidden;
+    background: url('../img/vip_pay-site.png') no-repeat center;
+    background-position: -140px -20px;
+    position: absolute;
+    top: 0;
+    right: -4px;
+}
+.vip_tip-center {
+    display: block;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 5px 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.vip-pay {
+    width: 100%;
+    padding: 60px 0 30px;
+    overflow: hidden;
+}
+.vip-pay .vip-left {
+    width: 50%;
+    float: left;
+    position: relative;
+    padding-right: 20px;
+}
+.vip-pay .vip-left .pay-code {
+    width: 118px;
+    height: 118px;
+    float: right;
+    position: relative;
+}
+.vip-pay .vip-left img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -46px;
+    margin-top: -46px;
+}
+.vip-pay .vip-left .pay-code-bg {
+    width: 118px;
+    height: 118px;
+    background: url('../img/vip-paycode-bg.png') no-repeat center rgba(0,0,0,0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+}
+.vip-pay .vip-left .pay-code-bg i {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url('../img/vip_pay-refresh.png') no-repeat center;
+    margin: 30px auto 10px;
+}
+.vip-pay .vip-right {
+    width: 50%;
+    float: right;
+    text-align: left;
+    padding-left: 20px;
+}
+.vip-right .total-price {
+    font-size: 26px;
+    color: #ff6e1e;
+    font-weight: bold;
+}
+.vip-right .vip-tip {
+    font-size: 13px;
+    margin: 15px 0 10px;
+}
+.vip-method img {
+    width: 90px;
+}
+
+
+/* new */
+.college-class {
+    overflow: hidden;
+}
+.college-class li {
+    width: 270px;
+    height: 152px;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+.user-wrapper .college-class li {
+    width: 32%;
+    margin-right: 2%;
+}
+.college-class li:nth-child(4n) {
+    margin-right: 0;
+}
+.user-wrapper .college-class li:nth-child(4n) {
+    margin-right: 2%;
+}
+.user-wrapper .college-class li:nth-child(3n) {
+    margin-right: 0;
+}
+
+.college-class .class-img,
+.college-class .class-img img {
+    width: 100%;
+    margin: 0;
+    height: 152px;
+}
+.college-class .vip-detail {
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    /* display: none; */
+}
+.college-class li .class-img img {
+    transition: all 0.6s;
+}
+.college-class li:hover .class-img img {
+    transform: scale(1.2);
+}
+.college-class .class-name {
+    font-size: 15px;
+    padding: 0 10px;
+    margin: 15px 5px;
+    border-left: 4px solid #3487dc;
+    text-align: left;
+}
+.college-class .class-btn {
+    padding: 5px 10px;
+    color: #fff;
+    background: #3487dc;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+}
+.college-class .class-price {
+    width: 40%;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    font-size: 12px;
+}
+.college-class .class-date {
+    width: 60%;
+    position: absolute;
+    bottom: 15px;
+    right: 0;
+    font-size: 12px;
+}
+.college-class .ion-ios-pricetags-outline:before,
+.college-class .ion-ios-timer-outline:before {
+    font-size: 15px;
+    margin-right: 4px;
+}
