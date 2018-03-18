@@ -88,7 +88,7 @@ class SiteController extends Controller
             //存session token值没必要取键名为$id&$username ,目的是标识用户登录token的键，$id或$username就可以
             
             $model->insertSession($id,$token);//将token存到tbl_admin_session
-            return $this->goBack();
+            return $this->goHome();
         } else {
             return $this->render('login', [
                 'model' => $model,
