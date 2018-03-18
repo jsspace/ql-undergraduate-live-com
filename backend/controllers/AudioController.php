@@ -79,7 +79,7 @@ class AudioController extends Controller
                     mkdir($rootPath, 0777, true);
                 }
                 $image_picture->saveAs($rootPath . $randName);
-                $model->pic = '/'.Yii::$app->params['upload_img_dir'] . 'audio/' . $image_picture;
+                $model->pic = '/'.Yii::$app->params['upload_img_dir'] . 'audio/' . $randName;
             }
             if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
