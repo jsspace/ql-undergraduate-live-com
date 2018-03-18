@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
             //'id',
             'des',
-            //'pic',
+            'pic',
             [
                 'attribute' => 'category_id',
                 'value'=> function ($model) {

@@ -122,6 +122,8 @@ class AudioController extends Controller
     }
     public function actionGetAudiosection($audio_id)
     {
+        $data = Yii::$app->request->get();
+        $audio_id = $data['audio_id'];
         $audio_model = Audio::find()
         ->where(['id' => $audio_id])
         ->one();

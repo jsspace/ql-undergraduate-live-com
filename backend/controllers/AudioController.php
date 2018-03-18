@@ -20,17 +20,6 @@ class AudioController extends Controller
     /**
      * @inheritdoc
      */
-    public function beforeAction($action)
-    {
-
-        $currentaction = $action->id;
-        $novalidactions = ['audio-home'];
-        if(in_array($currentaction,$novalidactions)) {
-            $action->controller->enableCsrfValidation = false;
-        }
-        parent::beforeAction($action);
-        return true;
-    }
 
     public function behaviors()
     {
@@ -89,7 +78,7 @@ class AudioController extends Controller
                 if (!file_exists($rootPath)) {
                     mkdir($rootPath, 0777, true);
                 }
-                $image_picture->saveAs($rootPath . $image_picture);
+                $image_picture->saveAs($rootPath . $randName);
                 $model->pic = '/'.Yii::$app->params['upload_img_dir'] . 'audio/' . $image_picture;
             }
             if ($model->save(false)) {
