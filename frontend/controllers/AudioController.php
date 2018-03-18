@@ -79,23 +79,25 @@ class AudioController extends Controller
         return $response;
     }
 
-    public function actionGetAudio($cat_id)
+    public function actionGetAudio()
     {
+        $data = Yii::$app->request->get();
+        $cat_id = $data['cat_id'];
         $cat_model = AudioCategory::find()
         ->where(['id' => $cat_id])
         ->one();
-        $audio_models = Audio::find()
-        ->where(['category_id' => $cat_id])
-        ->orderBy('id desc')
-        ->all();
-        $audios = array();
-        $audios['cat'] = array(
-            'id' => $cat_id,
-            'catname' => $cat_model->name
-        );
-        $audios['audioList'] = array();
-        foreach ($audio_models as $audiokey => $audio) {
-            if ($audio->id === $cat_id) {
+        if (!empty($cat_model)) {
+            $audio_models = Audio::find()
+            ->where(['category_id' => $cat_id])
+            ->orderBy('id desc')
+            ->all();
+            $audios = array();
+            $audios['cat'] = array(
+                'id' => $cat_id,
+                'catname' => $cat_model->name
+            );
+            $audios['audioList'] = array();
+            foreach ($audio_models as $audiokey => $audio) {
                 $audioitem = array(
                     'id' => $audio->id,
                     'des' => $audio->des,
