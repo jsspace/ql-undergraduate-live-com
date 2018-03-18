@@ -83,7 +83,7 @@ class LoginForm extends Model
         return $this->_user;
     }
     
-    public function insertSession($id,$sessionToken)
+    public static function insertSession($id,$sessionToken)
     {
         $loginAdmin = AdminSession::findOne(['id' => $id]); //查询admin_session表中是否有用户的登录记录
         if(!$loginAdmin){ //如果没有记录则新建此记录
