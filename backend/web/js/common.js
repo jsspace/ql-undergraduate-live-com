@@ -1,7 +1,9 @@
 var commonFunc = {
     init: function() {
         var self = this;
-        self.menuAnimate();
+        $(function(){
+            self.menuAnimate();
+        })
         self.getMenuTree();
     },
     menuAnimate: function() {
@@ -21,6 +23,9 @@ var commonFunc = {
                 $(this).hide();
                 $(this).parents(".account").removeClass("active");
             }
+        });
+        $('.sidebar-menu .treeview').on('click', function() {
+             $(this).find('.treeview-menu').slideToggle('400');
         });
     },
     getMenuTree: function() {
