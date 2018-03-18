@@ -46,6 +46,7 @@ class SignupForm extends Model
             ['smscode', 'required','on' => ['default','login_sms_code']],
             ['smscode', 'integer','on' => ['default','login_sms_code']],
             ['smscode', 'get_login_code', 'skipOnEmpty' => false, 'skipOnError' => false],
+            ['phone', 'get_phone', 'skipOnEmpty' => false, 'skipOnError' => false],
             
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
@@ -98,6 +99,30 @@ class SignupForm extends Model
             $signup_sms_time = $session['login_sms_code']['expire_time'];
             if (time()-$signup_sms_time < 0) {
                 if ($this->smscode != $session['login_sms_code']['code']) {
+                    $this->addError('smscode', '验证码的值输入错误！');
+                }
+            } else {
+                $session->remove('login_sms_code');
+                $this->addError('smscode', '验证码的值失效！');
+            }
+        } else{
+            $this->addError('smscode', '请输入验证码的值！');
+        }
+    }
+    
+    public function get_phone($attribute, $params)
+    {
+        //检查session是否打开
+        if(!Yii::$app->session->isActive){
+            Yii::$app->session->open();
+        }
+        $session = Yii::$app->session;
+        if (isset($session['login_sms_code'])) {
+            //取得验证码和短信发送时间session
+            $signup_sms_phone = $session['login_sms_code']['phone'];
+            $signup_sms_time = $session['login_sms_code']['expire_time'];
+            if (time()-$signup_sms_time < 0) {
+                if ($this->phone != $session['login_sms_code']['phone']) {
                     $this->addError('smscode', '验证码的值输入错误！');
                 }
             } else {

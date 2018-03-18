@@ -34,7 +34,8 @@ class ChangePasswordForm extends Model
             ['change_password_code', 'string', 'min'=>6,'max' => 6, 'message' => '验证码为6位数字！'],
             ['change_password_code', 'required','on' => ['default','login_sms_code']],
             ['change_password_code', 'integer','on' => ['default','login_sms_code']],
-            [['change_password_code'], 'get_change_password_code', 'skipOnEmpty' => false, 'skipOnError' => false],
+            ['change_password_code', 'get_change_password_code', 'skipOnEmpty' => false, 'skipOnError' => false],
+            ['phone', 'get_phone', 'skipOnEmpty' => false, 'skipOnError' => false],
             
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
@@ -75,6 +76,30 @@ class ChangePasswordForm extends Model
             $expire_time = $session['change_password_code']['expire_time'];
             if (time()-$expire_time < 0) {
                 if ($this->change_password_code != $session['change_password_code']['code']) {
+                    $this->addError('change_password_code', '验证码的值输入错误！');
+                }
+            } else {
+                $session->remove('change_password_code');
+                $this->addError('change_password_code', '验证码的值失效！');
+            }
+        } else{
+            $this->addError('change_password_code', '请输入验证码的值！');
+        }
+    }
+    
+    public function get_phone($attribute, $params)
+    {
+        //检查session是否打开
+        if(!Yii::$app->session->isActive){
+            Yii::$app->session->open();
+        }
+        $session = Yii::$app->session;
+        if (isset($session['change_password_code'])) {
+            //取得验证码和短信发送时间session
+            $change_password_phone = $session['change_password_code']['phone'];
+            $change_password_sms_time = $session['change_password_code']['expire_time'];
+            if (time()-$change_password_sms_time < 0) {
+                if ($this->phone != $session['change_password_code']['phone']) {
                     $this->addError('change_password_code', '验证码的值输入错误！');
                 }
             } else {
