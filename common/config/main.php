@@ -2,6 +2,7 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'timeZone'=>'Asia/Chongqing',
+    'on beforeAction' => ['common\events\CheckerFilter', 'login_check'],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',

@@ -10,7 +10,7 @@ use backend\models\Collection;
 use backend\models\Course;
 
 class CollectionController extends \yii\web\Controller
-{   
+{    
     public function actionAdd()
     {
         if(Yii::$app->user->isGuest) {

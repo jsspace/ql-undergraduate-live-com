@@ -22,8 +22,7 @@ class MemberOrderInfoController extends \yii\web\Controller
         if(in_array($currentaction,$novalidactions)) {
             $action->controller->enableCsrfValidation = false;
         }
-        parent::beforeAction($action);
-        return true;
+        return parent::beforeAction($action);
     }
     
     public function actionSlcourse()
