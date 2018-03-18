@@ -199,6 +199,11 @@ class AudioController extends Controller
                 'err_code' => '200',
                 'data' => $audios
             );
+        } else {
+            $response = array(
+                'err_code' => '-1',
+                'data' => '空数据'
+            );
         }
         $response = json_encode($response);
         return $response;
