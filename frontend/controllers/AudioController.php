@@ -49,7 +49,7 @@ class AudioController extends Controller
             $audios[$catkey]['cat'] = $catitem;
             $audios[$catkey]['audioList'] = array();
             foreach ($audio_models as $audiokey => $audio) {
-                if ($audio->id === $audio->category_id) {
+                if ($audio->category_id === $cat->id) {
                     $audioitem = array(
                         'id' => $audio->id,
                         'des' => $audio->des,
