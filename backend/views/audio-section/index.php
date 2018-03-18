@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use backend\models\Audio;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\AudioSectionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -12,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="audio-section-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -23,18 +23,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            ['class' => 'yii\grid\ActionColumn'],
+            //'id',
             'audio_name',
             'audio_author',
             'audio_url:url',
-            'audio_id',
-            // 'click_time:datetime',
-            // 'collection',
-            // 'share',
-            // 'create_time:datetime',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'audio_id',
+                'value'=> function ($model) {
+                    return Audio::item($model->audio_id);
+                },
+                'filter'=>Audio::items(),
+            ],
+            'click_time:datetime',
+            'collection',
+            'share',
+            'create_time:datetime',
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

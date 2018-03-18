@@ -8,6 +8,9 @@ use backend\models\AudioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use backend\models\AudioCategory;
+use backend\models\AudioSection;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -17,6 +20,18 @@ class AudioController extends Controller
     /**
      * @inheritdoc
      */
+    public function beforeAction($action)
+    {
+
+        $currentaction = $action->id;
+        $novalidactions = ['audio-home'];
+        if(in_array($currentaction,$novalidactions)) {
+            $action->controller->enableCsrfValidation = false;
+        }
+        parent::beforeAction($action);
+        return true;
+    }
+
     public function behaviors()
     {
         return [
@@ -64,9 +79,22 @@ class AudioController extends Controller
     public function actionCreate()
     {
         $model = new Audio();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
+        if ($model->load(Yii::$app->request->post())) {
+            $image_picture = UploadedFile::getInstance($model, 'pic');
+            if ($image_picture) {
+                $ext = $image_picture->getExtension();
+                $randName = time() . rand(1000, 9999) . '.' . $ext;
+                $rootPath .= 'audio/';
+                if (!file_exists($rootPath)) {
+                    mkdir($rootPath, 0777, true);
+                }
+                $image_picture->saveAs($rootPath . $image_picture);
+                $model->pic = '/'.Yii::$app->params['upload_img_dir'] . 'audio/' . $image_picture;
+            }
+            if ($model->save(false)) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -83,9 +111,26 @@ class AudioController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
+        $oldpicture_path = $model->pic;
+        if ($model->load(Yii::$app->request->post())) {
+            $image_picture = UploadedFile::getInstance($model, 'pic');
+            if ($image_picture) {
+                $ext = $image_picture->getExtension();
+                $randName = time() . rand(1000, 9999) . '.' . $ext;
+                $rootPath = $rootPath . 'audio/';
+                if (!file_exists($rootPath)) {
+                    mkdir($rootPath, 0777, true);
+                }
+                $image_picture->saveAs($rootPath . $randName);
+                $model->pic = '/'.Yii::$app->params['upload_img_dir'] . 'audio/' . $randName;
+                @unlink(Yii::getAlias("@frontend")."/web/" . $oldpicture_path);
+            } else {
+                $model->pic = $oldpicture_path;
+            }
+            if ($model->save(false)) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -120,5 +165,42 @@ class AudioController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionAudioHome()
+    {
+        $cat_models = AudioCategory::find()
+        ->orderBy('position asc')
+        ->all();
+        $audio_models = Audio::find()
+        ->orderBy('id desc')
+        ->all();
+        $audios = array();
+        foreach ($cat_models as $catkey => $cat) {
+            $catitem = array(
+                'id' => $cat->id,
+                'catname' => $cat->name
+            );
+            $audios[$catkey]['cat'] = $catitem;
+            $audios[$catkey]['audioList'] = array();
+            foreach ($audio_models as $audiokey => $audio) {
+                if ($audio->id === $audio->category_id) {
+                    $audioitem = array(
+                        'id' => $audio->id,
+                        'des' => $audio->des,
+                        'pic' => $audio->pic
+                    );
+                    $audios[$catkey]['audioList'][] = $audioitem;
+                }
+            }
+        }
+        if (!empty($audios)) {
+            $response = array(
+                'err_code' => '200',
+                'data' => $audios
+            );
+        }
+        $response = json_encode($response);
+        return $response;
     }
 }

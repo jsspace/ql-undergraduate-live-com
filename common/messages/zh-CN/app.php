@@ -98,4 +98,6 @@ return [
     'Create Audio' => '创建音频',
     'Audio Categories' => '音频分类',
     'Create Audio Category' => '创建音频分类',
+    'Audio Sections' => '音频章节',
+    'Create Audio Section' => '创建音频章节'
 ];

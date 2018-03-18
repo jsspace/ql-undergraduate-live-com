@@ -2,18 +2,16 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use backend\models\Audio;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\AudioSection */
 
-$this->title = $model->id;
+$this->title = $model->audio_name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Audio Sections'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="audio-section-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
@@ -28,12 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            //'id',
             'audio_name',
             'audio_author',
             'audio_url:url',
-            'audio_id',
-            'click_time:datetime',
+            [
+                'attribute' => 'audio_id',
+                'value' => Audio::item($model->audio_id),
+            ],
+            'click_time',
             'collection',
             'share',
             'create_time:datetime',

@@ -64,8 +64,7 @@ class AudioSectionController extends Controller
     public function actionCreate()
     {
         $model = new AudioSection();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

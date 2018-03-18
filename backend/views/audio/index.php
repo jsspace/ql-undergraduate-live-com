@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
+use backend\models\AudioCategory;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\AudioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -21,15 +23,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'des',
-            'pic',
-            'category_id',
-            'click_time:datetime',
-            // 'create_time:datetime',
-
             ['class' => 'yii\grid\ActionColumn'],
+            //'id',
+            'des',
+            //'pic',
+            [
+                'attribute' => 'category_id',
+                'value'=> function ($model) {
+                    return AudioCategory::item($model->category_id);
+                },
+                'filter'=>AudioCategory::items(),
+            ],
+            'create_time:datetime',
+            'click_time',
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

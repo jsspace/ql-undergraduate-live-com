@@ -45,7 +45,7 @@ class Audio extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'des' => Yii::t('app', '描述'),
             'pic' => Yii::t('app', '图片'),
-            'category_id' => Yii::t('app', '父级分类'),
+            'category_id' => Yii::t('app', '分类'),
             'click_time' => Yii::t('app', '点击次数'),
             'create_time' => Yii::t('app', '创建时间'),
         ];
@@ -69,6 +69,32 @@ class Audio extends \yii\db\ActiveRecord
             return true;
         } else {
             return false;
+        }
+    }
+    private static $_items = array();
+
+    public static function items()
+    {
+        if(count(self::$_items) === 0) {
+            self::loadItems();
+        }
+        return self::$_items;
+    }
+    
+    public static function item($id)
+    {
+        if(!isset(self::$_items[$id])) {
+            self::loadItems();
+        }
+        return isset(self::$_items[$id]) ? self::$_items[$id] : false;
+    }
+    
+    private static function loadItems()
+    {
+        $models=self::find()
+        ->all();
+        foreach($models as $model) {
+            self::$_items[$model->id]=$model->des;
         }
     }
 }

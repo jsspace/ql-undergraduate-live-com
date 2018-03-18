@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
+use backend\models\AudioCategory;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Audio */
@@ -28,8 +29,7 @@ use kartik\file\FileInput;
                 ]
             ],
         ]) ?>
-
-    <?= $form->field($model, 'category_id')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'category_id')->dropDownList(AudioCategory::items(), ['prompt'=>'- 请选择分类 -']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

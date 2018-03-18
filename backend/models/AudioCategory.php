@@ -58,4 +58,31 @@ class AudioCategory extends \yii\db\ActiveRecord
     {
         return new AudioCategoryQuery(get_called_class());
     }
+
+    private static $_items = array();
+
+    public static function items()
+    {
+        if(count(self::$_items) === 0) {
+            self::loadItems();
+        }
+        return self::$_items;
+    }
+    
+    public static function item($id)
+    {
+        if(!isset(self::$_items[$id])) {
+            self::loadItems();
+        }
+        return isset(self::$_items[$id]) ? self::$_items[$id] : false;
+    }
+    
+    private static function loadItems()
+    {
+        $models=self::find()
+        ->all();
+        foreach($models as $model) {
+            self::$_items[$model->id]=$model->name;
+        }
+    }
 }

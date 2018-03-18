@@ -65,4 +65,16 @@ class AudioSection extends \yii\db\ActiveRecord
     {
         return new AudioSectionQuery(get_called_class());
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->create_time = time();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
