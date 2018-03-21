@@ -38,14 +38,22 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => true,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'user',
+                    'except' => ['delete', 'create', 'update', 'view'],
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST login' => 'login'
+                    ]
+                ],
             ],
         ],
-        */
+        
     ],
     'params' => $params,
 ];
