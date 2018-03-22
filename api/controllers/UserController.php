@@ -2,6 +2,7 @@
 
 namespace api\controllers;
 
+use yii;
 use yii\rest\ActiveController;
 use yii\data\ActiveDataProvider;
 use api\models\ApiLoginForm;
@@ -17,8 +18,7 @@ class UserController extends ActiveController
     {
         $model = new ApiLoginForm();
 
-        $model->username = $_POST['username'];
-        $model->password = $_POST['password'];
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
 
         if ($model->login()) {
             return ['access_token' => $model->login()];

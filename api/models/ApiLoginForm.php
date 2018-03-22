@@ -8,9 +8,9 @@ use common\models\User;
 /**
  * Login form
  */
-class LoginForm extends Model
+class ApiLoginForm extends Model
 {
-    public $username;
+    public $phone;
     public $password;
     public $rememberMe = true;
 
@@ -48,7 +48,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUserbyphone();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, '手机号帐号不存在或着密码错误');
+                $this->addError($attribute, '手机号不存在或者密码错误');
             }
         }
     }
@@ -62,8 +62,10 @@ class LoginForm extends Model
     {
         if ($this->validate()) {
             $accessToken = $this->_user->generateAccessToken();
+            $this->_user->expire_at = time()+3600*24*7; //设定token过期时间
             $this->_user->save();
-            return $accessToken;
+            Yii::$app->user->login($this->_user,3600*24*7);
+            return  $accessToken;
         } else {
             return false;
         }

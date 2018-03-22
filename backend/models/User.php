@@ -12,6 +12,8 @@ use Yii;
  * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
+ * @property string $access_token
+ * @property integer $expire_at
  * @property string $email
  * @property integer $status
  * @property integer $created_at
@@ -53,17 +55,18 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'email', 'phone'], 'required'],
-            [['status', 'created_at', 'updated_at', 'gender', 'invite'], 'integer'],
+            [['status', 'created_at', 'updated_at', 'gender', 'invite', 'expire_at'], 'integer'],
             [['intro', 'password'], 'string'],
             [['percentage'], 'number'],
             [['username', 'auth_key'], 'string', 'max' => 32],
-            [['password_hash', 'password_reset_token', 'email', 'phone', 'picture'], 'string', 'max' => 255],
+            [['password_hash', 'password_reset_token', 'email', 'phone', 'picture', 'access_token'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 2000],
             [['unit', 'office', 'goodat', 'wechat_img', 'bank_username'], 'string', 'max' => 300],
             [['wechat'], 'string', 'max' => 200],
             [['cityid', 'provinceid'], 'string', 'max' => 20],
             [['bank'], 'string', 'max' => 800],
             [['bankc_card'], 'string', 'max' => 30],
+            [['access_token'], 'unique'],
         ];
     }
 
@@ -100,6 +103,8 @@ class User extends \yii\db\ActiveRecord
             'bank' => Yii::t('app', '银行名称'),
             'bank_username' => Yii::t('app', '账户名'),
             'bankc_card' => Yii::t('app', '银行卡帐号'),
+            'access_token' => '访问token',
+            'expire_at' => '过期时间',
         ];
     }
 

@@ -51,6 +51,22 @@ return [
                         'POST login' => 'login'
                     ]
                 ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'audio',
+                    'except' => ['delete', 'create', 'update', 'view'],
+                    'extraPatterns' => [
+                        'GET audio-home' => 'audio-home',
+                        'GET get-audio' => 'get-audio',
+                        'GET get-audiosection' => 'get-audiosection',
+                    ]
+                ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'card',
+                    'extraPatterns' => [
+                        'GET wechat-get-balance' => 'wechat-get-balance',
+                        'POST wechat-recharge' => 'wechat-recharge'
+                    ]
+                ],
             ],
         ],
         

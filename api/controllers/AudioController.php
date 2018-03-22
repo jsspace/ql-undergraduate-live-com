@@ -3,9 +3,9 @@
 namespace api\controllers;
 
 use Yii;
+use yii\web\Controller;
 use backend\models\Audio;
 use backend\models\AudioSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\AudioCategory;
@@ -20,17 +20,6 @@ class AudioController extends Controller
     /**
      * @inheritdoc
      */
-    public function beforeAction($action)
-    {
-
-        $currentaction = $action->id;
-        $novalidactions = ['audio-home', 'get-audio'];
-        if(in_array($currentaction,$novalidactions)) {
-            $action->controller->enableCsrfValidation = false;
-        }
-        parent::beforeAction($action);
-        return true;
-    }
 
     public function actionAudioHome()
     {
@@ -120,7 +109,7 @@ class AudioController extends Controller
         $response = json_encode($response);
         return $response;
     }
-    public function actionGetAudiosection($audio_id)
+    public function actionGetAudiosection()
     {
         $data = Yii::$app->request->get();
         $audio_id = $data['audio_id'];
