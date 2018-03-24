@@ -38,9 +38,9 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'urlManager' => [
+        /*'urlManager' => [
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            //'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule',
@@ -69,7 +69,7 @@ return [
                     ]
                 ],
             ],
-        ],
+        ],*/
         
     ],
     'params' => $params,

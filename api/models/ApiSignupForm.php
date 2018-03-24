@@ -148,5 +148,4 @@ class ApiSignupForm extends Model
         $role->save(false);
         return $user->save() ? $user : null;
     }
-    
 }
