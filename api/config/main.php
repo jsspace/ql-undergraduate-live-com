@@ -50,7 +50,8 @@ return [
                     'except' => ['delete', 'create', 'update', 'view'],
                     'extraPatterns' => [
                         'POST login' => 'login',
-                        'POST signup' => 'signup'
+                        'POST signup' => 'signup',
+                        'POST logincode' => 'logincode'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
