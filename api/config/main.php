@@ -48,7 +48,8 @@ return [
                     'except' => ['delete', 'create', 'update', 'view'],
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'POST login' => 'login'
+                        'POST login' => 'login',
+                        'POST signup' => 'signup'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',

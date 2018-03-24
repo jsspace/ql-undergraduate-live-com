@@ -81,7 +81,6 @@ class ApiLoginForm extends Model
         if ($this->_user === null) {
             $this->_user = User::findByPhone($this->phone);
         }
-    
         return $this->_user;
     }
     
