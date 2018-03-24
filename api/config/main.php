@@ -41,7 +41,7 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'enableStrictParsing' => true,
+            'enableStrictParsing' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule',
                     'controller' => 'user',
