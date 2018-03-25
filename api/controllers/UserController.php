@@ -48,7 +48,7 @@ class UserController extends ActiveController
             $coupon->save();
             //如果邀请人是学员，给邀请人添加优惠券
             if (!empty($data['invite'])) {
-                $roles_model = Yii::$app->authManager->getRolesByUser($data['invite']);
+                $roles_model = Yii::$app->authManager->getAssignments($data['invite']);
                 if (isset($roles_model['student'])) {
                     $coupon = new Coupon();
                     $coupon->name = '推广新会员50元优惠券';

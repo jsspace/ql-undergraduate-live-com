@@ -18,6 +18,9 @@ return [
             'enableCookieValidation' => false,
             'enableCsrfValidation' => false,
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
