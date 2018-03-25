@@ -24,20 +24,19 @@ class ApiSignupForm extends Model
     {
         return [
             ['phone', 'trim'],
-            ['phone', 'required'],
-            ['phone','match','pattern'=>'/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/','message'=>'{attribute}号码格式错误，必须为1开头的11位纯数字'],
-            ['phone', 'unique', 'targetClass' => '\common\models\User', 'message' => '{attribute}已经被占用了'],
+            ['phone', 'required', 'message' => '电话号码不能为空'],
+            ['phone','match','pattern'=>'/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/','message'=>'电话号码格式错误，必须为1开头的11位纯数字'],
+            ['phone', 'unique', 'targetClass' => '\common\models\User', 'message' => '电话号码被占用'],
             ['phone', 'string', 'min'=>11,'max' => 11,'on' => ['default','login_sms_code']],
             
             ['smscode', 'string', 'min' => 6,'max' => 6, 'message' => '验证码为6位数字！'],
-            ['smscode', 'required','on' => ['default','login_sms_code']],
+            ['smscode', 'required','on' => ['default','login_sms_code'],'message' => '短信验证码不能为空'],
             ['smscode', 'integer','on' => ['default','login_sms_code']],
             ['smscode', 'get_login_code', 'skipOnEmpty' => false, 'skipOnError' => false],
             ['phone', 'get_phone', 'skipOnEmpty' => false, 'skipOnError' => false],
             
-            ['password', 'required'],
+            ['password', 'required', 'message' => '密码不能为空'],
             ['password', 'string', 'min' => 6],
-            
             ['invite', 'integer'],
         ];
     }
@@ -86,11 +85,11 @@ class ApiSignupForm extends Model
             $signup_sms_time = $session['login_sms_code']['expire_time'];
             if (time()-$signup_sms_time < 0) {
                 if ($this->smscode != $session['login_sms_code']['code']) {
-                    $this->addError('smscode', '验证码的值输入错误！');
+                    $this->addError('smscode', '验证码输入错误！');
                 }
             } else {
                 $session->remove('login_sms_code');
-                $this->addError('smscode', '验证码的值失效！');
+                $this->addError('smscode', '验证码过期！');
             }
         } else{
             $this->addError('smscode', '请输入验证码的值！');

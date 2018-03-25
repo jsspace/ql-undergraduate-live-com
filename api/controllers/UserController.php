@@ -76,7 +76,7 @@ class UserController extends ActiveController
         if (!empty($phone_exist)) {
             $res = [
                 'status' => 'error',
-                'message' => '这个手机号已经注册了，请使用另外一个手机号。',
+                'message' => '手机号已注册，请直接登录',
             ];
             return $res;
         }
