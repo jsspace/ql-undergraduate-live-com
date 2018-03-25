@@ -75,7 +75,7 @@ class ApiSignupForm extends Model
     public function get_login_code($attribute, $params)
     {
         //检查session是否打开
-        if(!Yii::$app->session->isActive){
+        if(!Yii::$app->session->isActive) {
             Yii::$app->session->open();
         }
         $session = Yii::$app->session;
@@ -83,7 +83,7 @@ class ApiSignupForm extends Model
             //取得验证码和短信发送时间session
             $signup_sms_code = $session['login_sms_code']['code'];
             $signup_sms_time = $session['login_sms_code']['expire_time'];
-            if (time()-$signup_sms_time < 0) {
+            if (time()-$signup_sms_time < 0) { //未过期
                 if ($this->smscode != $session['login_sms_code']['code']) {
                     $this->addError('smscode', '验证码输入错误！');
                 }
@@ -91,7 +91,9 @@ class ApiSignupForm extends Model
                 $session->remove('login_sms_code');
                 $this->addError('smscode', '验证码过期！');
             }
-        } else{
+        } else {
+            print_r($session);
+            die();
             $this->addError('smscode', '请输入验证码的值！');
         }
     }
