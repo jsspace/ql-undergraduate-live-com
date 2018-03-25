@@ -7,6 +7,7 @@ use yii\rest\ActiveController;
 use yii\data\ActiveDataProvider;
 use api\models\ApiLoginForm;
 use api\models\ApiSignupForm;
+use api\models\ApiChangePasswordForm;
 use backend\models\Coupon;
 use backend\models\User;
 use frontend\controllers\SmsController;
@@ -69,17 +70,27 @@ class UserController extends ActiveController
     public function actionLogincode()
     {
        $phone = Yii::$app->request->Post('phone');
-       $phone_exist = User::find()
-        ->where(['phone' => $phone])
-        ->andWhere(['status' => 10])
-        ->one();
-        if (!empty($phone_exist)) {
+       if (empty($phone)) {
             $res = [
                 'status' => 'error',
-                'message' => '手机号已注册，请直接登录',
+                'message' => '电话号码不能为空',
             ];
             return $res;
-        }
+       }
+       $channel = Yii::$app->request->Post('channel');
+       if (!empty($channel) && $channel == 'signup') {
+           $phone_exist = User::find()
+            ->where(['phone' => $phone])
+            ->andWhere(['status' => 10])
+            ->one();
+            if (!empty($phone_exist)) {
+                $res = [
+                    'status' => 'error',
+                    'message' => '手机号已注册，请直接登录',
+                ];
+                return $res;
+            }
+       }
         //检查session是否打开
         if(!Yii::$app->session->isActive){
             Yii::$app->session->open();
@@ -110,7 +121,7 @@ class UserController extends ActiveController
             $smsdata = [
                 'phone' => $phone,
                 'code' => $code,
-                'expire_time' => time() + 15*3600,
+                'expire_time' => time() + 15*60,
                 'request_time' => time() + 30,
             ];
             Yii::$app->session->set('login_sms_code', $smsdata);
@@ -131,5 +142,17 @@ class UserController extends ActiveController
         $err_str .= 'time:' . $time .' response:' . json_encode($response);
         error_log($err_str);
       }
+    }
+    public function actionChangepassword()
+    {
+        $model = new ApiChangePasswordForm();
+        $model->load($data = Yii::$app->getRequest()->getBodyParams(), '');//实例化对象
+        if ($model->validate() && $model->resetPassword()) {
+            Yii::$app->session->setFlash('success', '新密码已保存。');
+            return ['status' => '200', 'result' => '密码修改成功！'];
+        } else {
+            $model->validate();
+            return $model;
+        }
     }
 }

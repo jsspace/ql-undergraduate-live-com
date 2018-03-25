@@ -430,7 +430,7 @@ class SiteController extends Controller
                 $smsdata = [
                     'phone' => $phone,
                     'code' => $code,
-                    'expire_time' => time() + 15*3600,
+                    'expire_time' => time() + 15*60,
                     'request_time' => time() + 30,
                 ];
                 Yii::$app->session->set('change_password_code', $smsdata);
@@ -583,7 +583,7 @@ class SiteController extends Controller
             $smsdata = [
                 'phone' => $phone,
                 'code' => $code,
-                'expire_time' => time() + 15*3600,
+                'expire_time' => time() + 15*60,
                 'request_time' => time() + 30,
             ];
             Yii::$app->session->set('login_sms_code', $smsdata);

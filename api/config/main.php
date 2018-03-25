@@ -54,7 +54,8 @@ return [
                     'extraPatterns' => [
                         'POST login' => 'login',
                         'POST signup' => 'signup',
-                        'POST logincode' => 'logincode'
+                        'POST logincode' => 'logincode',
+                        'POST changepassword' => 'changepassword',
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
