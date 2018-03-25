@@ -110,11 +110,11 @@ class ApiSignupForm extends Model
             $signup_sms_time = $session['login_sms_code']['expire_time'];
             if (time()-$signup_sms_time < 0) {
                 if ($this->phone != $session['login_sms_code']['phone']) {
-                    $this->addError('smscode', '验证码的值输入错误！');
+                    $this->addError('smscode', '验证码不匹配！');
                 }
             } else {
                 $session->remove('login_sms_code');
-                $this->addError('smscode', '验证码的值失效！');
+                $this->addError('smscode', '验证码失效！');
             }
         } else{
             $this->addError('smscode', '请输入验证码的值！');
@@ -134,7 +134,7 @@ class ApiSignupForm extends Model
         }
         
         $user = new User();
-        //$user->username = $this->username;
+        $user->username = '尊敬的用户';
         //$user->email = $this->email;
         $user->phone = $this->phone;
         $user->invite = $this->invite;
