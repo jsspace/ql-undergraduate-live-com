@@ -39,6 +39,7 @@ class UserController extends ActiveController
         if ($user = $model->signup()) {
             //给注册学员发优惠券
             $coupon = new Coupon();
+            $coupon->name = '新会员50元优惠券';
             $coupon->fee = 50;
             $coupon->user_id = $user->id;
             $coupon->isuse = 0;
@@ -50,6 +51,7 @@ class UserController extends ActiveController
                 $roles_model = Yii::$app->authManager->getAssignments($data['invite']);
                 if (isset($roles_model['student'])) {
                     $coupon = new Coupon();
+                    $coupon->name = '推广新会员50元优惠券';
                     $coupon->fee = 50;
                     $coupon->user_id = $data['invite'];
                     $coupon->isuse = 0;
