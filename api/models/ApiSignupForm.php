@@ -135,7 +135,7 @@ class ApiSignupForm extends Model
         
         $user = new User();
         $user->username = '尊敬的用户';
-        //$user->email = $this->email;
+        $user->email = '';
         $user->phone = $this->phone;
         $user->invite = $this->invite;
         $user->setPassword($this->password);
