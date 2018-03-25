@@ -92,8 +92,6 @@ class ApiSignupForm extends Model
                 $this->addError('smscode', '验证码过期！');
             }
         } else {
-            print_r($session);
-            die();
             $this->addError('smscode', '请输入验证码的值！');
         }
     }
