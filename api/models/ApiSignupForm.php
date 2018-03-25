@@ -82,8 +82,6 @@ class ApiSignupForm extends Model
         if (isset($session['login_sms_code'])) {
             //取得验证码和短信发送时间session
             $signup_sms_code = $session['login_sms_code']['code'];
-            print_r($signup_sms_code);
-            die();
             $signup_sms_time = $session['login_sms_code']['expire_time'];
             if (time()-$signup_sms_time < 0) {
                 if ($this->smscode != $session['login_sms_code']['code']) {
