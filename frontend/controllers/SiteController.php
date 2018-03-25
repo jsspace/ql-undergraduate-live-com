@@ -282,6 +282,7 @@ class SiteController extends Controller
             if ($user = $model->signup()) {
                 //给注册学员发优惠券
                 $coupon = new Coupon();
+                $coupon->name = '新会员50元优惠券';
                 $coupon->fee = 50;
                 $coupon->user_id = $user->id;
                 $coupon->isuse = 0;
@@ -289,15 +290,18 @@ class SiteController extends Controller
                 $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
                 $coupon->save();
                 //如果邀请人是学员，给邀请人添加优惠券
-                $roles_model = Yii::$app->authManager->getAssignments($invite);
-                if (isset($roles_model['student'])) {
-                    $coupon = new Coupon();
-                    $coupon->fee = 50;
-                    $coupon->user_id = $user->id;
-                    $coupon->isuse = 0;
-                    $coupon->start_time = date('Y-m-d H:i:s', time());
-                    $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
-                    $coupon->save();
+                if (!empty($invite)) {
+                    $roles_model = Yii::$app->authManager->getAssignments($invite);
+                    if (isset($roles_model['student'])) {
+                        $coupon = new Coupon();
+                        $coupon->name = '推广新会员50元优惠券';
+                        $coupon->fee = 50;
+                        $coupon->user_id = $invite;
+                        $coupon->isuse = 0;
+                        $coupon->start_time = date('Y-m-d H:i:s', time());
+                        $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
+                        $coupon->save();
+                    }
                 }
                 if (Yii::$app->getUser()->login($user)) {
                     //使用session和表tbl_admin_session记录登录账号的token:time&id&ip,并进行MD5加密
