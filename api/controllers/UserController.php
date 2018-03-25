@@ -46,15 +46,19 @@ class UserController extends ActiveController
             $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
             $coupon->save();
             //如果邀请人是学员，给邀请人添加优惠券
-            $roles_model = Yii::$app->authManager->getAssignments($data['invite']);
-            if (isset($roles_model['student'])) {
-                $coupon = new Coupon();
-                $coupon->fee = 50;
-                $coupon->user_id = $data['invite'];
-                $coupon->isuse = 0;
-                $coupon->start_time = date('Y-m-d H:i:s', time());
-                $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
-                $coupon->save();
+            print_r($data['invite']);
+            die();
+            if (!empty($data['invite'])) {
+                $roles_model = Yii::$app->authManager->getAssignments($data['invite']);
+                if (isset($roles_model['student'])) {
+                    $coupon = new Coupon();
+                    $coupon->fee = 50;
+                    $coupon->user_id = $data['invite'];
+                    $coupon->isuse = 0;
+                    $coupon->start_time = date('Y-m-d H:i:s', time());
+                    $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
+                    $coupon->save();
+                }
             }
             return ['status' => '200', 'result' => '注册成功！'];
         } else {
