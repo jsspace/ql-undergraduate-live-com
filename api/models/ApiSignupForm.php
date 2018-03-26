@@ -79,8 +79,6 @@ class ApiSignupForm extends Model
             Yii::$app->session->open();
         }
         $session = Yii::$app->session;
-        print_r($session);
-        die();
         if (isset($session['login_sms_code'])) {
             //取得验证码和短信发送时间session
             $signup_sms_code = $session['login_sms_code']['code'];

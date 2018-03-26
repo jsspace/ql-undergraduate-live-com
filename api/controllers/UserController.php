@@ -124,7 +124,7 @@ class UserController extends ActiveController
                 'expire_time' => time() + 15*60,
                 'request_time' => time() + 30,
             ];
-            Yii::$app->session->set('login_sms_code', $smsdata);
+            $session->set('login_sms_code', $smsdata);
             $res = [
                 'status' => 'success',
                 'code' => 0,
