@@ -1853,61 +1853,6 @@
         ]
     },
     {
-        "name": "bower-asset/bootstrap3-dialog",
-        "version": "v1.35.4",
-        "version_normalized": "1.35.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/nakupanda/bootstrap3-dialog.git",
-            "reference": "3dd11d586f78de75356af418907ec6e3b347377c"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/nakupanda/bootstrap3-dialog/zipball/3dd11d586f78de75356af418907ec6e3b347377c",
-            "reference": "3dd11d586f78de75356af418907ec6e3b347377c",
-            "shasum": ""
-        },
-        "require": {
-            "bower-asset/bootstrap": ">=3.1.0",
-            "bower-asset/jquery": ">=1.9.0"
-        },
-        "type": "bower-asset-library",
-        "extra": {
-            "bower-asset-main": [
-                "dist/less/bootstrap-dialog.less",
-                "dist/css/bootstrap-dialog.min.css",
-                "dist/js/bootstrap-dialog.min.js"
-            ],
-            "bower-asset-ignore": [
-                "source",
-                "spec",
-                ".bowerrc",
-                ".gitignore",
-                ".jshintignore",
-                ".jshintrc",
-                "bower.json",
-                "gruntfile.js",
-                "package.json",
-                "README.md"
-            ]
-        },
-        "installation-source": "dist",
-        "license": [
-            "MIT"
-        ],
-        "description": "Make use of Bootstrap Modal more monkey-friendly. http://nakupanda.github.io/bootstrap3-dialog/",
-        "keywords": [
-            "css",
-            "framework",
-            "front-end",
-            "js",
-            "less",
-            "mobile-first",
-            "responsive",
-            "web"
-        ]
-    },
-    {
         "name": "kartik-v/yii2-dialog",
         "version": "v1.0.3",
         "version_normalized": "1.0.3.0",
@@ -2167,68 +2112,6 @@
         "installation-source": "dist",
         "license": [
             "MIT"
-        ]
-    },
-    {
-        "name": "bower-asset/inputmask",
-        "version": "3.3.11",
-        "version_normalized": "3.3.11.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/RobinHerbots/Inputmask.git",
-            "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/RobinHerbots/Inputmask/zipball/5e670ad62f50c738388d4dcec78d2888505ad77b",
-            "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b",
-            "shasum": ""
-        },
-        "require": {
-            "bower-asset/jquery": ">=1.7"
-        },
-        "time": "2017-11-21T11:46:23+00:00",
-        "type": "bower-asset-library",
-        "extra": {
-            "bower-asset-main": [
-                "./dist/inputmask/inputmask.js",
-                "./dist/inputmask/inputmask.extensions.js",
-                "./dist/inputmask/inputmask.date.extensions.js",
-                "./dist/inputmask/inputmask.numeric.extensions.js",
-                "./dist/inputmask/inputmask.phone.extensions.js",
-                "./dist/inputmask/jquery.inputmask.js",
-                "./dist/inputmask/global/document.js",
-                "./dist/inputmask/global/window.js",
-                "./dist/inputmask/phone-codes/phone.js",
-                "./dist/inputmask/phone-codes/phone-be.js",
-                "./dist/inputmask/phone-codes/phone-nl.js",
-                "./dist/inputmask/phone-codes/phone-ru.js",
-                "./dist/inputmask/phone-codes/phone-uk.js",
-                "./dist/inputmask/dependencyLibs/inputmask.dependencyLib.jqlite.js",
-                "./dist/inputmask/dependencyLibs/inputmask.dependencyLib.jquery.js",
-                "./dist/inputmask/dependencyLibs/inputmask.dependencyLib.js",
-                "./dist/inputmask/bindings/inputmask.binding.js"
-            ],
-            "bower-asset-ignore": [
-                "**/*",
-                "!dist/*",
-                "!dist/inputmask/*",
-                "!dist/min/*",
-                "!dist/min/inputmask/*"
-            ]
-        },
-        "installation-source": "dist",
-        "license": [
-            "http://opensource.org/licenses/mit-license.php"
-        ],
-        "description": "Inputmask is a javascript library which creates an input mask.  Inputmask can run against vanilla javascript, jQuery and jqlite.",
-        "keywords": [
-            "form",
-            "input",
-            "inputmask",
-            "jquery",
-            "mask",
-            "plugins"
         ]
     },
     {
@@ -4710,6 +4593,176 @@
             "excel",
             "export",
             "yii2"
+        ]
+    },
+    {
+        "name": "bower-asset/inputmask",
+        "version": "3.3.11",
+        "version_normalized": "3.3.11.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/RobinHerbots/Inputmask.git",
+            "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/RobinHerbots/Inputmask/zipball/5e670ad62f50c738388d4dcec78d2888505ad77b",
+            "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.7"
+        },
+        "time": "2017-11-21T11:46:23+00:00",
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "./dist/inputmask/inputmask.js",
+                "./dist/inputmask/inputmask.extensions.js",
+                "./dist/inputmask/inputmask.date.extensions.js",
+                "./dist/inputmask/inputmask.numeric.extensions.js",
+                "./dist/inputmask/inputmask.phone.extensions.js",
+                "./dist/inputmask/jquery.inputmask.js",
+                "./dist/inputmask/global/document.js",
+                "./dist/inputmask/global/window.js",
+                "./dist/inputmask/phone-codes/phone.js",
+                "./dist/inputmask/phone-codes/phone-be.js",
+                "./dist/inputmask/phone-codes/phone-nl.js",
+                "./dist/inputmask/phone-codes/phone-ru.js",
+                "./dist/inputmask/phone-codes/phone-uk.js",
+                "./dist/inputmask/dependencyLibs/inputmask.dependencyLib.jqlite.js",
+                "./dist/inputmask/dependencyLibs/inputmask.dependencyLib.jquery.js",
+                "./dist/inputmask/dependencyLibs/inputmask.dependencyLib.js",
+                "./dist/inputmask/bindings/inputmask.binding.js"
+            ],
+            "bower-asset-ignore": [
+                "**/*",
+                "!dist/*",
+                "!dist/inputmask/*",
+                "!dist/min/*",
+                "!dist/min/inputmask/*"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "http://opensource.org/licenses/mit-license.php"
+        ],
+        "description": "Inputmask is a javascript library which creates an input mask.  Inputmask can run against vanilla javascript, jQuery and jqlite.",
+        "keywords": [
+            "form",
+            "input",
+            "inputmask",
+            "jquery",
+            "mask",
+            "plugins"
+        ]
+    },
+    {
+        "name": "yiisoft/yii2-redis",
+        "version": "2.0.8",
+        "version_normalized": "2.0.8.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yiisoft/yii2-redis.git",
+            "reference": "ffe6bff8dc6be4bb84c9495cd3ef7ef1161c1314"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-redis/zipball/ffe6bff8dc6be4bb84c9495cd3ef7ef1161c1314",
+            "reference": "ffe6bff8dc6be4bb84c9495cd3ef7ef1161c1314",
+            "shasum": ""
+        },
+        "require": {
+            "yiisoft/yii2": "~2.0.14"
+        },
+        "require-dev": {
+            "yiisoft/yii2-dev": "~2.0.14"
+        },
+        "time": "2018-03-20T11:01:04+00:00",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "yii\\redis\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Carsten Brandt",
+                "email": "mail@cebe.cc"
+            }
+        ],
+        "description": "Redis Cache, Session and ActiveRecord for the Yii framework",
+        "keywords": [
+            "active-record",
+            "cache",
+            "redis",
+            "session",
+            "yii2"
+        ]
+    },
+    {
+        "name": "bower-asset/bootstrap3-dialog",
+        "version": "v1.35.4",
+        "version_normalized": "1.35.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/nakupanda/bootstrap3-dialog.git",
+            "reference": "3dd11d586f78de75356af418907ec6e3b347377c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/nakupanda/bootstrap3-dialog/zipball/3dd11d586f78de75356af418907ec6e3b347377c",
+            "reference": "3dd11d586f78de75356af418907ec6e3b347377c",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/bootstrap": ">=3.1.0",
+            "bower-asset/jquery": ">=1.9.0"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "dist/less/bootstrap-dialog.less",
+                "dist/css/bootstrap-dialog.min.css",
+                "dist/js/bootstrap-dialog.min.js"
+            ],
+            "bower-asset-ignore": [
+                "source",
+                "spec",
+                ".bowerrc",
+                ".gitignore",
+                ".jshintignore",
+                ".jshintrc",
+                "bower.json",
+                "gruntfile.js",
+                "package.json",
+                "README.md"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "description": "Make use of Bootstrap Modal more monkey-friendly. http://nakupanda.github.io/bootstrap3-dialog/",
+        "keywords": [
+            "css",
+            "framework",
+            "front-end",
+            "js",
+            "less",
+            "mobile-first",
+            "responsive",
+            "web"
         ]
     }
 ]

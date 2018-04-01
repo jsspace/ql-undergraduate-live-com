@@ -21,6 +21,7 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'y' => 
         array (
             'yii\\swiftmailer\\' => 16,
+            'yii\\redis\\' => 10,
             'yii\\httpclient\\' => 15,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
@@ -116,6 +117,10 @@ class ComposerStaticInit2c9d0c9e69a941b993a2864463e4305f
         'yii\\swiftmailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer',
+        ),
+        'yii\\redis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-redis/src',
         ),
         'yii\\httpclient\\' => 
         array (
