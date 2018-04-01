@@ -75,20 +75,20 @@ class ApiSignupForm extends Model
     public function get_login_code($attribute, $params)
     {
         //检查session是否打开
-        if(!Yii::$app->session->isActive) {
+        /*if(!Yii::$app->session->isActive) {
             Yii::$app->session->open();
-        }
-        $session = Yii::$app->session;
-        if (isset($session['login_sms_code'])) {
-            //取得验证码和短信发送时间session
-            $signup_sms_code = $session['login_sms_code']['code'];
-            $signup_sms_time = $session['login_sms_code']['expire_time'];
+        }*/
+        $redis = Yii::$app->redis;
+        if (isset($redis['login_sms_code'])) {
+            //取得验证码和短信发送时间redis
+            $signup_sms_code = $redis['login_sms_code']['code'];
+            $signup_sms_time = $redis['login_sms_code']['expire_time'];
             if (time()-$signup_sms_time < 0) { //未过期
-                if ($this->smscode != $session['login_sms_code']['code']) {
+                if ($this->smscode != $redis['login_sms_code']['code']) {
                     $this->addError('smscode', '验证码输入错误！');
                 }
             } else {
-                $session->remove('login_sms_code');
+                $redis->remove('login_sms_code');
                 $this->addError('smscode', '验证码过期！');
             }
         } else {
@@ -99,20 +99,20 @@ class ApiSignupForm extends Model
     public function get_phone($attribute, $params)
     {
         //检查session是否打开
-        if(!Yii::$app->session->isActive){
+        /*if(!Yii::$app->session->isActive){
             Yii::$app->session->open();
-        }
-        $session = Yii::$app->session;
-        if (isset($session['login_sms_code'])) {
-            //取得验证码和短信发送时间session
-            $signup_sms_phone = $session['login_sms_code']['phone'];
-            $signup_sms_time = $session['login_sms_code']['expire_time'];
+        }*/
+        $redis = Yii::$app->redis;
+        if (isset($redis['login_sms_code'])) {
+            //取得验证码和短信发送时间redis
+            $signup_sms_phone = $redis['login_sms_code']['phone'];
+            $signup_sms_time = $redis['login_sms_code']['expire_time'];
             if (time()-$signup_sms_time < 0) {
-                if ($this->phone != $session['login_sms_code']['phone']) {
+                if ($this->phone != $redis['login_sms_code']['phone']) {
                     $this->addError('smscode', '验证码不匹配！');
                 }
             } else {
-                $session->remove('login_sms_code');
+                $redis->remove('login_sms_code');
                 $this->addError('smscode', '验证码失效！');
             }
         } else{

@@ -92,14 +92,14 @@ class UserController extends ActiveController
             }
        }
         //检查session是否打开
-        if(!Yii::$app->session->isActive){
+        /*if(!Yii::$app->session->isActive){
             Yii::$app->session->open();
-        }
-        $session = Yii::$app->session;
-        if (isset($session['login_sms_code']) && $session['login_sms_code']['request_time'] > time()) {
+        }*/
+        $redis = Yii::$app->redis;
+        if (isset($redis['login_sms_code']) && $redis['login_sms_code']['request_time'] > time()) {
             $res = [
                 'status' => 'error',
-                'message' => '请等待' . ($session['login_sms_code']['request_time']-time()) . 's后再试。',
+                'message' => '请等待' . ($redis['login_sms_code']['request_time']-time()) . 's后再试。',
             ];
             return $res;
         } else {
@@ -124,7 +124,9 @@ class UserController extends ActiveController
                 'expire_time' => time() + 15*60,
                 'request_time' => time() + 30,
             ];
-            $session->set('login_sms_code', $smsdata);
+            $redis->set('login_sms_code', $smsdata);
+            print_r($redis->get('login_sms_code'));
+            print_r($redis->['login_sms_code']);
             $res = [
                 'status' => 'success',
                 'code' => 0,
