@@ -126,7 +126,7 @@ class UserController extends ActiveController
             ];
             $redis->set('login_sms_code', $smsdata);
             print_r($redis->get('login_sms_code'));
-            print_r($redis->['login_sms_code']);
+            print_r($redis['login_sms_code']);
             $res = [
                 'status' => 'success',
                 'code' => 0,
