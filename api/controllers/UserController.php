@@ -11,6 +11,7 @@ use api\models\ApiChangePasswordForm;
 use backend\models\Coupon;
 use backend\models\User;
 use frontend\controllers\SmsController;
+use api\models\Smsdata;
 /**
  * AudioController implements the CRUD actions for Audio model.
  */
@@ -91,13 +92,13 @@ class UserController extends ActiveController
                 return $res;
             }
         }
-        $redis = Yii::$app->redis;
-        $redis->set('username','wfzhang');
-        $session = Yii::$app->session;
-        if (isset($session['login_sms_code']) && $session['login_sms_code']['request_time'] > time()) {
+        $login_info = Smsdata::find()
+        ->where(['phone' => $phone])
+        ->one();
+        if (!empty($login_info) && $login_info->request_time > time()) {
             $res = [
                 'status' => 'error',
-                'message' => '请等待' . ($session['login_sms_code']['request_time']-time()) . 's后再试。',
+                'message' => '请等待' . ($login_info->request_time-time()) . 's后再试。',
             ];
             return $res;
         } else {
@@ -116,13 +117,14 @@ class UserController extends ActiveController
         
         $res = [];
         if ($response->Code == 'OK') {
-            $smsdata = [
-                'phone' => $phone,
-                'code' => $code,
-                'expire_time' => time() + 15*60,
-                'request_time' => time() + 30,
-            ];
-            $session->set('login_sms_code', $smsdata);
+            if (empty($login_info)) {
+                $login_info = new Smsdata();
+            }
+            $login_info->phone = $phone;
+            $login_info->code = $code;
+            $login_info->expire_time = time() + 15*60;
+            $login_info->request_time = time() + 30;
+            $login_info->save();
             $res = [
                 'status' => 'success',
                 'code' => 0,

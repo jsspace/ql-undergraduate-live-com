@@ -13,20 +13,6 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
-        'session' => [
-            'class' => 'yii\redis\Session',
-            'redis' => [
-                'hostname' => '127.0.0.1',
-                'port' => 6379,
-                'database' => 0,
-            ]
-        ],
-        'redis' => [
-            'class' => 'yii\redis\Connection',
-            'hostname' => 'localhost',
-            'port' => 6379,
-            'database' => 0,
-        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
             'enableCookieValidation' => false,

@@ -33,7 +33,7 @@ class ApiSignupForm extends Model
             ['smscode', 'required','on' => ['default','login_sms_code'], 'message' => '验证码不能为空'],
             ['smscode', 'integer','on' => ['default','login_sms_code']],
             ['smscode', 'get_login_code', 'skipOnEmpty' => false, 'skipOnError' => false],
-            ['phone', 'get_phone', 'skipOnEmpty' => false, 'skipOnError' => false],
+            //['phone', 'get_phone', 'skipOnEmpty' => false, 'skipOnError' => false],
             
             ['password', 'required', 'message' => '密码不能为空'],
             ['password', 'string', 'min' => 6],
@@ -74,27 +74,30 @@ class ApiSignupForm extends Model
     
     public function get_login_code($attribute, $params)
     {
-        $session = Yii::$app->session;
-        if (isset($session['login_sms_code'])) {
+        $smsdata = Smsdata::find()
+        ->where(['phone' => $this->phone])
+        ->one();
+        if (!empty($smsdata)) {
             //取得验证码和短信发送时间session
-            $signup_sms_code = $session['login_sms_code']['code'];
-            $signup_sms_time = $session['login_sms_code']['expire_time'];
+            $signup_sms_code = $smsdata->code;
+            $signup_sms_time = $smsdata->expire_time;
             if (time()-$signup_sms_time < 0) { //未过期
-                if ($this->smscode != $session['login_sms_code']['code']) {
+                if ($this->smscode != $signup_sms_code) {
                     $this->addError('smscode', '验证码输入错误！');
                 }
             } else {
-                $session->remove('login_sms_code');
+                $smsdata->delete();
                 $this->addError('smscode', '验证码过期！');
             }
         } else {
             $this->addError('smscode', '请输入验证码的值！');
         }
     }
-    
-    public function get_phone($attribute, $params)
+    /*public function get_phone($attribute, $params)
     {
-        $session = Yii::$app->session;
+        $smsdata = Smsdata::find()
+        ->where(['phone' => $this->phone])
+        ->one();
         if (isset($session['login_sms_code'])) {
             //取得验证码和短信发送时间session
             $signup_sms_phone = $session['login_sms_code']['phone'];
@@ -110,7 +113,7 @@ class ApiSignupForm extends Model
         } else{
             $this->addError('smscode', '请输入验证码的值！');
         }
-    }
+    }*/
 
     /**
      * Signs user up.
@@ -122,7 +125,6 @@ class ApiSignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        
         $user = new User();
         $user->username = '尊敬的用户';
         $user->email = '';
