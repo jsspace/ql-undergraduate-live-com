@@ -5,6 +5,7 @@ use Yii;
 use yii\base\Model;
 use common\models\User;
 use backend\models\AuthAssignment;
+use api\controllers\SmsdataController;
 
 /**
  * Signup form
@@ -133,7 +134,7 @@ class ApiSignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->save();
-        
+        SmsdataController::delete($this->phone);
         $role = new AuthAssignment();
         $role->item_name = 'student';
         $role->user_id = $user->id;

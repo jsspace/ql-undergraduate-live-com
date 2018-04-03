@@ -4,6 +4,7 @@ namespace api\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use api\controllers\SmsdataController;
 
 /**
  * Password reset form
@@ -35,7 +36,7 @@ class ApiChangePasswordForm extends Model
             ['change_password_code', 'required','on' => ['default','login_sms_code'], 'message' => '验证码不能为空'],
             ['change_password_code', 'integer','on' => ['default','login_sms_code']],
             ['change_password_code', 'get_login_code', 'skipOnEmpty' => false, 'skipOnError' => false],
-            ['phone', 'get_phone', 'skipOnEmpty' => false, 'skipOnError' => false],
+            //['phone', 'get_phone', 'skipOnEmpty' => false, 'skipOnError' => false],
             ['password', 'required', 'message' => '密码不能为空'],
             ['password', 'string', 'min' => 6],
         ];
@@ -65,20 +66,19 @@ class ApiChangePasswordForm extends Model
     public function get_login_code($attribute, $params)
     {
         //检查session是否打开
-        if(!Yii::$app->session->isActive){
-            Yii::$app->session->open();
-        }
-        $session = Yii::$app->session;
-        if (isset($session['login_sms_code'])) {
+        $smsdata = Smsdata::find()
+        ->where(['phone' => $this->phone])
+        ->one();
+        if (!empty($smsdata)) {
             //取得验证码和短信发送时间session
-            $signup_sms_code = $session['login_sms_code']['code'];
-            $signup_sms_time = $session['login_sms_code']['expire_time'];
+            $signup_sms_code = $smsdata->code;
+            $signup_sms_time = $smsdata->expire_time;
             if (time()-$signup_sms_time < 0) {
-                if ($this->change_password_code != $session['login_sms_code']['code']) {
+                if ($this->change_password_code != $signup_sms_code) {
                     $this->addError('change_password_code', '验证码输入错误！');
                 }
             } else {
-                $session->remove('login_sms_code');
+                $smsdata->delete();
                 $this->addError('change_password_code', '验证码过期！');
             }
         } else{
@@ -86,7 +86,7 @@ class ApiChangePasswordForm extends Model
         }
     }
     
-    public function get_phone($attribute, $params)
+    /*public function get_phone($attribute, $params)
     {
         //检查session是否打开
         if(!Yii::$app->session->isActive){
@@ -108,7 +108,7 @@ class ApiChangePasswordForm extends Model
         } else{
             $this->addError('smscode', '请输入验证码的值！');
         }
-    }
+    }*/
 
     /**
      * Resets password.
@@ -120,6 +120,7 @@ class ApiChangePasswordForm extends Model
         $user = $this->_user;
         $user->setPassword($this->password);
         $user->removePasswordResetToken();
+        SmsdataController::delete($this->phone);
         return $user->save(false);
     }
 }
