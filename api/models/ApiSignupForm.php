@@ -74,10 +74,6 @@ class ApiSignupForm extends Model
     
     public function get_login_code($attribute, $params)
     {
-        //检查session是否打开
-        if(!Yii::$app->session->isActive) {
-            Yii::$app->session->open();
-        }
         $session = Yii::$app->session;
         if (isset($session['login_sms_code'])) {
             //取得验证码和短信发送时间session
@@ -98,10 +94,6 @@ class ApiSignupForm extends Model
     
     public function get_phone($attribute, $params)
     {
-        //检查session是否打开
-        if(!Yii::$app->session->isActive){
-            Yii::$app->session->open();
-        }
         $session = Yii::$app->session;
         if (isset($session['login_sms_code'])) {
             //取得验证码和短信发送时间session

@@ -91,10 +91,6 @@ class UserController extends ActiveController
                 return $res;
             }
        }
-        //检查session是否打开
-        if(!Yii::$app->session->isActive){
-            Yii::$app->session->open();
-        }
         $session = Yii::$app->session;
         if (isset($session['login_sms_code']) && $session['login_sms_code']['request_time'] > time()) {
             $res = [
