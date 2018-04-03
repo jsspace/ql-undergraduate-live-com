@@ -90,7 +90,9 @@ class UserController extends ActiveController
                 ];
                 return $res;
             }
-       }
+        }
+        $redis = Yii::$app->redis;
+        $redis->set('username','wfzhang');
         $session = Yii::$app->session;
         if (isset($session['login_sms_code']) && $session['login_sms_code']['request_time'] > time()) {
             $res = [
