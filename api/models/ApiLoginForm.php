@@ -75,7 +75,7 @@ class ApiLoginForm extends Model
             $this->_user->expire_at = time()+3600*24*7; //设定token过期时间
             $this->_user->save();
             Yii::$app->user->login($this->_user,3600*24*7);
-            return  $accessToken;
+            return $accessToken;
         } else {
             return false;
         }

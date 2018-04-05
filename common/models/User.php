@@ -72,7 +72,7 @@ class User extends ActiveRecord implements IdentityInterface
         //throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
         return static::find()
         ->where(['access_token'=>$token , 'status' => self::STATUS_ACTIVE])
-        ->andWhere(['>','expire_at',time()]) 
+        ->andWhere(['>','expire_at',time()])
         ->one();
     }
 

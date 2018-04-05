@@ -4,7 +4,7 @@ namespace api\controllers;
 use Yii;
 use backend\models\Card;
 use backend\models\Coin;
-use backend\models\User;
+use common\models\User;
 use yii\rest\ActiveController;
 use yii\helpers\ArrayHelper;
 use yii\filters\auth\QueryParamAuth;
@@ -16,6 +16,7 @@ class CardController extends ActiveController
      */
     public $modelClass = 'backend\models\Card';
 
+    /* 过滤器实现认证 */
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(), [
@@ -30,7 +31,15 @@ class CardController extends ActiveController
     {
         $result = array();
         $data = Yii::$app->request->post();
-        $user_id = $data['user_id'];
+        $getdata = Yii::$app->request->get();
+        $access_token = $getdata['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        if (empty($user)) {
+            $result['status'] = '-1';
+            $result['msg'] = '身份验证失败，请重新登录';
+            return $result;
+        }
+        $user_id = $user->id;
         $card_id = $data['card_id'];
         $card_pass = $data['card_pass'];
         //充值卡
@@ -39,14 +48,14 @@ class CardController extends ActiveController
         ->andWhere(['card_pass' => $card_pass])
         ->one();
         if (empty($card_model)) {
-            $result['status'] = 'error';
-            $result['message'] = '该学习卡不存在，请认真核对您填写的卡号和密码是否正确';
-            return json_encode($result);
+            $result['status'] = '-1';
+            $result['msg'] = '该学习卡不存在，请认真核对您填写的卡号和密码是否正确';
+            return $result;
         }
         if ($card_model->use_status == 1) {
-            $result['status'] = 'error';
-            $result['message'] = '学习卡已在'.date('Y-m-d H:m:s', $card_model->use_time).'充值了，不可重复充值';
-            return json_encode($result);
+            $result['status'] = '-1';
+            $result['msg'] = '学习卡已在'.date('Y-m-d H:m:s', $card_model->use_time).'充值了，不可重复充值';
+            return $result;
         }
         $coin_model = new Coin();
         $coin = Coin::find()
@@ -67,12 +76,11 @@ class CardController extends ActiveController
         if ($coin_model->save()) {
             $card_model->use_status = 1;
             $card_model->use_time = time();
-            $user = User::getUserModel($user_id);
             $card_model->user_phone = $user->phone;
             if ($card_model->save()) {
-                $result['status'] = 'success';
-                $result['message'] = '金币充值成功';
-                return json_encode($result);
+                $result['status'] = '200';
+                $result['message'] = '学习卡充值成功';
+                return $result;
             }
         }
         $result['status'] = 'error';
@@ -85,11 +93,17 @@ class CardController extends ActiveController
     {
         $result = array();
         $data = Yii::$app->request->get();
-        $user_id = $data['user_id'];
-        //充值卡
-        $coin_model = new Coin();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        if (empty($user)) {
+            $result['status'] = '-1';
+            $result['balance'] = 0;
+            $result['msg'] = '身份验证失败，请重新登录';
+            return $result;
+        }
+        //充值卡余额
         $coin = Coin::find()
-        ->where(['userid' => $user_id])
+        ->where(['userid' => $user->id])
         ->orderBy('id desc')
         ->one();
         if (!empty($coin)) {
@@ -97,7 +111,7 @@ class CardController extends ActiveController
         } else {
             $balance = 0;
         }
-        $result['status'] = 'ok';
+        $result['status'] = '200';
         $result['balance'] = $balance;
         return $result;
     }
