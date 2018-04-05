@@ -79,7 +79,7 @@ class CardController extends ActiveController
             }
         }
         $result['status'] = 'error';
-        $result['message'] = '金币充值失败';
+        $result['message'] = '学习卡充值失败';
         return $result;
     }
 
@@ -102,6 +102,26 @@ class CardController extends ActiveController
         }
         $result['status'] = '200';
         $result['balance'] = $balance;
+        return $result;
+    }
+    public function actionCoinDetails()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $coins = Coin::find()
+        ->where(['userid' => $user->id])
+        ->orderBy('id desc')
+        ->all();
+        $result = array();
+        foreach ($coins as $key => $coin) {
+            $content = array(
+                'income' => $coin->income,
+                'operation_time' => $coin->operation_time,
+                'operation_detail' => $coin->operation_detail
+            );
+            $result[] = $content;
+        }
         return $result;
     }
 }

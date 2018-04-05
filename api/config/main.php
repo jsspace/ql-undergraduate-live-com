@@ -71,7 +71,8 @@ return [
                     'controller' => 'card',
                     'extraPatterns' => [
                         'GET wechat-get-balance' => 'wechat-get-balance',
-                        'POST wechat-recharge' => 'wechat-recharge'
+                        'POST wechat-recharge' => 'wechat-recharge',
+                        'GET coin-details' => 'coin-details'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',

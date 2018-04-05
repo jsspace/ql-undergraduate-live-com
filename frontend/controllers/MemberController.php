@@ -663,7 +663,7 @@ class MemberController extends \yii\web\Controller
             }
             $coin_model = new Coin();
             $coin_model->userid = Yii::$app->user->id;
-            $coin_model->income = $order_amount;
+            $coin_model->income = -$order_amount;
             $coin_model->balance = $coin->balance - $order_amount;
             $coin_model->operation_detail = '购买会员';
             $coin_model->operation_time = time();

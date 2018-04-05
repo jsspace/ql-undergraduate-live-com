@@ -193,7 +193,7 @@ class OrderInfoController extends \yii\web\Controller
                 /*标记钱包支付*/
                 $wallet_pay = 1;
                 /*钱包中减去此次订单总额*/
-                $coin->income = $order_amount;
+                $coin->income = -$order_amount;
                 $coin->balance = $my_wallet-$order_amount;
                 $coin->operation_detail = '购买课程花费'.$order_amount.'元';
                 $bonus = $order_amount;
@@ -201,7 +201,7 @@ class OrderInfoController extends \yii\web\Controller
                 $pay_status = 2;
             } else {
                 $order_amount = $order_amount-$my_wallet;
-                $coin->income = $my_wallet;
+                $coin->income = -$my_wallet;
                 $coin->balance = 0;
                 $coin->operation_detail = '购买课程花费'.$my_wallet.'元';
                 $bonus = $my_wallet;
