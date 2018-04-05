@@ -55,7 +55,7 @@ return [
                         'POST login' => 'login',
                         'POST signup' => 'signup',
                         'POST logincode' => 'logincode',
-                        'POST changepassword' => 'changepassword',
+                        'POST changepassword' => 'changepassword'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
@@ -72,6 +72,16 @@ return [
                     'extraPatterns' => [
                         'GET wechat-get-balance' => 'wechat-get-balance',
                         'POST wechat-recharge' => 'wechat-recharge'
+                    ]
+                ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'personal',
+                    'pluralize'=>false,
+                    'extraPatterns' => [
+                        'GET user-profile' => 'user-profile',
+                        'POST update-username' => 'update-username',
+                        'POST update-gender' => 'update-gender',
+                        'POST update-headimg' => 'update-headimg',
                     ]
                 ],
             ],

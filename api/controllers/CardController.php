@@ -34,11 +34,6 @@ class CardController extends ActiveController
         $getdata = Yii::$app->request->get();
         $access_token = $getdata['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
-        if (empty($user)) {
-            $result['status'] = '-1';
-            $result['msg'] = '身份验证失败，请重新登录';
-            return $result;
-        }
         $user_id = $user->id;
         $card_id = $data['card_id'];
         $card_pass = $data['card_pass'];
@@ -95,12 +90,6 @@ class CardController extends ActiveController
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
-        if (empty($user)) {
-            $result['status'] = '-1';
-            $result['balance'] = 0;
-            $result['msg'] = '身份验证失败，请重新登录';
-            return $result;
-        }
         //充值卡余额
         $coin = Coin::find()
         ->where(['userid' => $user->id])
