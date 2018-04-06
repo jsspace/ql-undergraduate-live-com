@@ -77,7 +77,7 @@ class PersonalController extends ActiveController
             $file->saveAs($img_rootPath . $randName);
             $user->picture = '/'.Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
             $user->save();
-            return ['status' => '200'];
+            return ['status' => '200', 'url' => Url::to('@web'.$user->picture, true)];
         }
         return ['status' => '-1', 'msg' => '图片为空'];
     }
