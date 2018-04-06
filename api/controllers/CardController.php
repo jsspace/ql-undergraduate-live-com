@@ -117,7 +117,7 @@ class CardController extends ActiveController
         foreach ($coins as $key => $coin) {
             $content = array(
                 'income' => $coin->income,
-                'operation_time' => $coin->operation_time,
+                'operation_time' => date('Y-m-d H:i:s',$coin->operation_time),
                 'operation_detail' => $coin->operation_detail
             );
             $result[] = $content;

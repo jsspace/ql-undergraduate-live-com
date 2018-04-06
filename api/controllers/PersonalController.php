@@ -7,6 +7,9 @@ use yii\rest\ActiveController;
 use yii\helpers\ArrayHelper;
 use yii\filters\auth\QueryParamAuth;
 use yii\web\UploadedFile;
+use backend\models\Course;
+use backend\models\OrderInfo;
+use yii\helpers\Url;
 
 class PersonalController extends ActiveController
 {
@@ -31,7 +34,7 @@ class PersonalController extends ActiveController
         $result['phone'] = $user->phone;
         $result['username'] = $user->username;
         $result['gender'] = $user->gender;
-        $result['picture'] = $user->picture;
+        $result['picture'] = Url::to('@web'.$user->picture, true);
         return $result;
     }
     public function actionUpdateUsername()
@@ -77,5 +80,41 @@ class PersonalController extends ActiveController
             return ['status' => '200'];
         }
         return ['status' => '-1', 'msg' => '图片为空'];
+    }
+    public function actionCourseList()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $orderids = OrderInfo::find()
+        ->select('course_ids, invalid_time')
+        ->where(['user_id' => $user->id])
+        ->andWhere(['pay_status' => 2])
+        ->asArray()
+        ->all();
+        $goodsids = '';
+        $course_invalid_time = [];
+        foreach ($orderids as $key => $orderid) {
+            $goodsids.=$orderid['course_ids'].',';
+            $courseid_arr = explode(',', $orderid['course_ids']);
+            foreach ($courseid_arr as $key => $courseid) {
+                $course_invalid_time[$courseid] = $orderid['invalid_time'];
+            }
+        }
+        $goodsid_arr = explode(',', $goodsids);
+        $clist = Course::find()
+        ->where(['in', 'id', $goodsid_arr])
+        ->all();
+        $result = array();
+        foreach ($clist as $key => $course) {
+            $content = array(
+                'course_name' => $course->course_name,
+                'discount' => $course->discount,
+                'invalid_time' => date('Y-m-d',$course_invalid_time[$course->id]),
+                'list_pic' => Url::to('@web'.$course->list_pic, true)
+            );
+            $result[] = $content;
+        }
+        return $result;
     }
 }

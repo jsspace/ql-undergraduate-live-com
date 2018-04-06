@@ -83,6 +83,7 @@ return [
                         'POST update-username' => 'update-username',
                         'POST update-gender' => 'update-gender',
                         'POST update-headimg' => 'update-headimg',
+                        'GET course-list' => 'course-list',
                     ]
                 ],
             ],
