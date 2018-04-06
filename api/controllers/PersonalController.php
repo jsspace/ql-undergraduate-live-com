@@ -137,9 +137,7 @@ class PersonalController extends ActiveController
             $course_id_arr = explode(',', $course_ids);
             $courses = array();
             foreach ($course_id_arr as $key => $course_id) {
-                $course = Course::find()
-                ->where(['id' => $course_id])
-                ->one();
+                $course = Course::findOne($course_id);
                 $content = array(
                     'course_id' => $course->id,
                     'course_name' => $course->course_name,
@@ -185,6 +183,27 @@ class PersonalController extends ActiveController
             );
             $result[] = $content;
         }
+        return $result;
+    }
+    public function actionMessageView()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $postdata = Yii::$app->request->post();
+        $read_id = $postdata['read_id'];
+        $readModel = Read::findOne($read_id);
+        $readModel->status = 1;
+        $readModel->read_time = time();
+        $readModel->save(false);
+        $message = Message::findOne($readModel->msg_id);
+        $publisher = User::findOne($message->publisher);
+        $result = array(
+            'get_time' => date('Y-m-d H:i:s',$readModel->get_time),
+            'title' => $message->title,
+            'content' => $message->content,
+            'publisher' => $publisher->username
+        );
         return $result;
     }
 }

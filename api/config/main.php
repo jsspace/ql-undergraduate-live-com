@@ -85,7 +85,8 @@ return [
                         'POST update-headimg' => 'update-headimg',
                         'GET course-list' => 'course-list',
                         'GET order-list' => 'order-list',
-                        'GET message-list' => 'message-list'
+                        'GET message-list' => 'message-list',
+                        'POST message-view' => 'message-view'
                     ]
                 ],
             ],
