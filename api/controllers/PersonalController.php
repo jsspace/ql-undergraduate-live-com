@@ -10,6 +10,8 @@ use yii\web\UploadedFile;
 use backend\models\Course;
 use backend\models\OrderInfo;
 use yii\helpers\Url;
+use backend\models\Read;
+use backend\models\Message;
 
 class PersonalController extends ActiveController
 {
@@ -151,6 +153,37 @@ class PersonalController extends ActiveController
                 'goods_amount' => $order->goods_amount,
                 'pay_status' => $order->pay_status
             );
+        }
+        return $result;
+    }
+    public function actionMessageList()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $messages = Read::find()
+        ->where(['userid' => $user->id])
+        ->orderBy([
+          'status' => SORT_ASC,
+          'get_time'=>SORT_DESC
+        ])->all();
+        $result = array();
+        $models = Message::find()
+        ->all();
+        $title = array();
+        foreach ($models as $key => $model) {
+            $title[$model->msg_id]['title'] = $model->title;
+            $title[$model->msg_id]['content'] = $model->content;
+        }
+        foreach ($messages as $key => $message) {
+            $content = array(
+                'id' => $message->id,
+                'status' => $message->status,
+                'get_time' => date('Y-m-d H:i:s',$message->get_time),
+                'title' => $title[$message->msg_id]['title'],
+                'content' => $title[$message->msg_id]['content'],
+            );
+            $result[] = $content;
         }
         return $result;
     }
