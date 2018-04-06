@@ -108,12 +108,49 @@ class PersonalController extends ActiveController
         $result = array();
         foreach ($clist as $key => $course) {
             $content = array(
+                'course_id' => $course->id,
                 'course_name' => $course->course_name,
                 'discount' => $course->discount,
                 'invalid_time' => date('Y-m-d',$course_invalid_time[$course->id]),
                 'list_pic' => Url::to('@web'.$course->list_pic, true)
             );
             $result[] = $content;
+        }
+        return $result;
+    }
+    public function actionOrderList()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        //所有订单
+        $all_orders = OrderInfo::find()
+        ->where(['user_id' => Yii::$app->user->id])
+        ->orderBy('add_time desc')
+        ->all();
+        $result = array();
+        foreach ($all_orders as $key => $order) {
+            $course_ids = $order->course_ids;
+            $course_ids = substr($course_ids,0,strlen($course_ids)-1);
+            $course_id_arr = explode(',', $course_ids);
+            $courses = array();
+            foreach ($course_id_arr as $key => $course_id) {
+                $course = Course::find()
+                ->where(['id' => $course_id])
+                ->one();
+                $content = array(
+                    'course_id' => $course->id,
+                    'course_name' => $course->course_name,
+                    'list_pic' => Url::to('@web'.$course->list_pic, true)
+                );
+                $courses[] = $content;
+            }
+            $result[] = array(
+                'courses' => $courses,
+                'add_time' => date('Y-m-d H:i:s',$order->add_time),
+                'goods_amount' => $order->goods_amount,
+                'pay_status' => $order->pay_status
+            );
         }
         return $result;
     }
