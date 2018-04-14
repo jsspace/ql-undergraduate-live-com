@@ -104,6 +104,13 @@ return [
                         'GET detail' => 'detail'
                     ]
                 ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'order',
+                    'pluralize'=>false,
+                    'extraPatterns' => [
+                        'POST shopping' => 'shopping',
+                    ]
+                ],
             ],
         ],
     ],
