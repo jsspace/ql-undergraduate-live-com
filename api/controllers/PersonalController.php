@@ -141,6 +141,7 @@ class PersonalController extends ActiveController
                 $content = array(
                     'course_id' => $course->id,
                     'course_name' => $course->course_name,
+                    'discount' => $course->discount,
                     'list_pic' => Url::to('@web'.$course->list_pic, true)
                 );
                 $courses[] = $content;
@@ -149,6 +150,7 @@ class PersonalController extends ActiveController
                 'courses' => $courses,
                 'add_time' => date('Y-m-d H:i:s',$order->add_time),
                 'goods_amount' => $order->goods_amount,
+                'order_sn' => $order->order_sn,
                 'pay_status' => $order->pay_status
             );
         }

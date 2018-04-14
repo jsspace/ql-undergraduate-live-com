@@ -96,6 +96,12 @@ return [
                         'POST message-view' => 'message-view'
                     ]
                 ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'course',
+                    'extraPatterns' => [
+                        'GET list' => 'list'
+                    ]
+                ],
             ],
         ],
     ],
