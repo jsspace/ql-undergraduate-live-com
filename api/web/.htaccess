@@ -9,3 +9,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 # otherwise forward it to index.php
 RewriteRule . index.php
+
+RewriteRule \.svn\/  /404.html
+RewriteRule \.git\/  /404.html
