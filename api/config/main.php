@@ -99,6 +99,7 @@ return [
                 ['class' => 'yii\rest\UrlRule',
                     'controller' => 'course',
                     'extraPatterns' => [
+                        'GET college' => 'college',
                         'GET list' => 'list'
                     ]
                 ],

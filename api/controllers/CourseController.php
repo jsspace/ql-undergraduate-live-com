@@ -19,7 +19,7 @@ class CourseController extends Controller
      * @inheritdoc
      */
 
-    public function actionList()
+    public function actionCollege()
     {
         $cat = Yii::$app->request->get('cat');
         $catModel = CourseCategory::find()
@@ -67,6 +67,17 @@ class CourseController extends Controller
             }
         }
         return json_encode($collegeArr);
+    }
+    public function actionDetail()
+    {
+        $courses = Course::find()
+        ->where(['onuse' => 1])
+        ->orderBy('create_time desc');
+        $pages = new Pagination(['totalCount' => $courses->count()]);
+        $models = $courses->offset($pages->offset)
+        ->limit(12)
+        ->all();
+        return $this->render('list', ['courses' => $models, 'pages' => $pages,]);
     }
     public function actionDetail()
     {

@@ -94,7 +94,7 @@ class SiteController extends Controller
                         'discount' => $collegeCourse->discount,
                         'online' => $collegeCourse->online
                     );
-                    $college_content['college_course'][$key] = $content;
+                    $college_content['college_course'][] = $content;
                 }
             }
             if (!empty($college_content['college_course'])) {
