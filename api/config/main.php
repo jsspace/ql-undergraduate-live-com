@@ -100,7 +100,8 @@ return [
                     'controller' => 'course',
                     'extraPatterns' => [
                         'GET college' => 'college',
-                        'GET list' => 'list'
+                        'GET list' => 'list',
+                        'GET detail' => 'detail'
                     ]
                 ],
             ],

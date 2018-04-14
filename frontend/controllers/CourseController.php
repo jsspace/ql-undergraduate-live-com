@@ -138,8 +138,8 @@ class CourseController extends Controller
             foreach ($sections as $sectionsKey => $section) {
                 if ($section->chapter_id == $chapter->id) {
                     $courseDetail['coursechild'][$chapterKey]['chapterchild'][$sectionsKey] = $section;
+                    $duration = $duration+$section->duration;
                 }
-                $duration = $duration+$section->duration;
             }
         }
         // 课程评价
