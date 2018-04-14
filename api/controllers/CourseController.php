@@ -34,7 +34,6 @@ class CourseController extends Controller
         $collegeArr = array();
         $collegeArr['college_intro'] = $catModel->des;
         $teachers = array();
-        $courses = array();
         foreach ($coursemodels as $key => $coursemodel) {
             $categoryids = explode(',', $coursemodel->category_name);
             if (in_array($catModel->id, $categoryids)) {
@@ -45,11 +44,10 @@ class CourseController extends Controller
                     'discount' => $coursemodel->discount,
                     'online' => $coursemodel->online
                 );
-                $courses[] = $content;
+                $collegeArr['college_course'][] = $content;
                 $teachers[] = $coursemodel->teacher_id;
             }
         }
-        $collegeArr['college_course'] = $courses;
         if (!empty($teachers)) {
             $teachers = array_unique($teachers);
             $collegeArr["college_teacher"] = array();
@@ -68,16 +66,24 @@ class CourseController extends Controller
         }
         return json_encode($collegeArr);
     }
-    public function actionDetail()
+    public function actionList()
     {
         $courses = Course::find()
         ->where(['onuse' => 1])
-        ->orderBy('create_time desc');
-        $pages = new Pagination(['totalCount' => $courses->count()]);
-        $models = $courses->offset($pages->offset)
-        ->limit(12)
+        ->orderBy('create_time desc')
         ->all();
-        return $this->render('list', ['courses' => $models, 'pages' => $pages,]);
+        $result = array();
+        foreach ($courses as $key => $course) {
+            $content = array(
+                'id' => $course->id,
+                'course_name' => $course->course_name,
+                'list_pic' => Url::to('@web'.$course->list_pic, true),
+                'discount' => $course->discount,
+                'online' => $course->online
+            );
+            $result[] = $content;
+        }
+        return json_encode($result);
     }
     public function actionDetail()
     {
