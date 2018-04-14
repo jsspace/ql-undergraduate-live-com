@@ -103,6 +103,13 @@ return [
                         'GET list' => 'list'
                     ]
                 ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'order',
+                    'pluralize'=>false,
+                    'extraPatterns' => [
+                        'POST shopping' => 'shopping',
+                    ]
+                ],
             ],
         ],
     ],
