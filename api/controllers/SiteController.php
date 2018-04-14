@@ -42,7 +42,7 @@ class SiteController extends Controller
             $content = array(
                 'id' => $college->id,
                 'name' => $college->name,
-                'icon' => Url::to('@web'.$college->home_icon, true)
+                'icon' => Url::to('@web'.$college->list_icon, true)
             );
             $colleges_arr[] = $content;
         }
@@ -116,12 +116,12 @@ class SiteController extends Controller
                 'office' => $teacher->office,
                 'unit' => $teacher->unit,
                 'goodat' => $teacher->goodat,
-                'picture' => $teacher->picture
+                'picture' => Url::to('@web'.$teacher->picture, true),
             );
             $teachers_arr[] = $content;
             $tag++;
         }
         $result['teachers'] = $teachers_arr;
-        return json_encode($result);;
+        return json_encode($result);
     }
 }
