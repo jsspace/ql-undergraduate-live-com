@@ -140,6 +140,22 @@ class CourseController extends Controller
             $courseDetail['chapter'][] = $content;
         }
         /* 课程详情 */
+        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        $isschool = 0;
+        if (array_key_exists('school',$roles_array)) {
+            $isschool = 1;
+        }
+        $ismember = Course::ismember($courseModel->id);
+        $ispay = Course::ispay($courseModel->id);
+        if ($courseModel->discount == 0) {
+            $tag = 1; //公开课程
+        } else if ($ismember == 1) {
+            $tag = 2; //会员课程
+        } else if ($ispay == 1 || $isschool == 1) {
+            $tag = 3; //已购买课程
+        } else {
+            $tag = 0; //尚未购买
+        }
         $course = array(
             'id' => $courseModel->id,
             'course_name' => $courseModel->course_name,
@@ -149,7 +165,8 @@ class CourseController extends Controller
             'class' => $duration/60,
             'view' => $courseModel->view,
             'collection' => $courseModel->collection,
-            'intro' => $courseModel->des
+            'intro' => $courseModel->des,
+            'ispay' => $tag
         );
         $courseDetail['course'] = $course;
         //课程教师
@@ -158,10 +175,13 @@ class CourseController extends Controller
             'teacher_img' => Url::to('@web'.$teacher_model->picture, true),
             'teacher_name' => $teacher_model->username,
             'teacher_tag' => $teacher_model->description,
+            'office' => $teacher_model->office,
+            'unit' => $teacher_model->unit,
+            'goodat' => $teacher_model->goodat
         );
         $courseDetail['teacher'] = $teacher;
         // 课程评价
-        $course_comments = CourseComent::find()
+        /*$course_comments = CourseComent::find()
         ->where(['course_id' => $courseid])
         ->andWhere(['check' => 1])
         ->orderBy('id desc')
@@ -174,9 +194,9 @@ class CourseController extends Controller
                 'create_time' => date('Y-m-d H:i:s', $course_comment->create_time)
             );
             $courseDetail['course_comments'][] = $content;
-        }
+        }*/
         //课程资料
-        $datas = Data::find()
+        /*$datas = Data::find()
         ->where(['course_id' => $courseid])
         ->orderBy('id desc')
         ->all();
@@ -192,9 +212,9 @@ class CourseController extends Controller
                 'summary' => $data->summary
             );
             $courseDetail['course_tasks'][] = $content;
-        }
+        }*/
         /* 教师答疑 */
-        $quas = Quas::find()
+        /*$quas = Quas::find()
         ->where(['course_id' => $courseid])
         ->orderBy('id desc')
         ->andWhere(['check' => 1])
@@ -207,7 +227,7 @@ class CourseController extends Controller
                 'answer_time' => date('Y-m-d H:i:s', $qua->answer_time)
             );
             $courseDetail['course_quas'][] = $content;
-        }
+        }*/
         /* 获取前12个学员 */
         $studyids = UserStudyLog::find()
         ->select('userid')
