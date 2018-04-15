@@ -90,6 +90,9 @@ echo "\n create symlink in backend/web ";
 $target = "frontend/web/uploads";
 $link = "backend/web/uploads";
 @symlink($root . "/" . $target, $root . "/" . $link);
+$target = "frontend/web/uploads";
+$link = "api/web/uploads";
+@symlink($root . "/" . $target, $root . "/" . $link);
 
 function getFileList($root, $basePath = '')
 {

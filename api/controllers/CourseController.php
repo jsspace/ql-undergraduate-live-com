@@ -319,15 +319,19 @@ class CourseController extends Controller
                     $isschool = 1;
                 }
                 if ($ispay == 1 || $isschool == 1) {
-                    $data['status'] = '2';
-                    $data['message'] = '用户已经购买了该课程，允许观看';
-                    $data['url'] = $video_url;
+                    $data = array(
+                        'status' => 2,
+                        'message' => '用户已经购买了该课程，允许观看',
+                        'url' => $video_url
+                    );
                 } else {
-                    $data['status'] = '3';
-                    $data['message'] = '您尚未购买该课程，请先购买后再观看';
-                    $data['url'] = '';
+                    $data = array(
+                        'status' => 3,
+                        'message' => '您尚未购买该课程，请先购买后再观看',
+                        'url' => ''
+                    );
                 }
-                return json_encode($data);
+                return $data;
             }
         }
     }
