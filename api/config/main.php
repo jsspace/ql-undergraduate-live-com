@@ -101,7 +101,8 @@ return [
                     'extraPatterns' => [
                         'GET college' => 'college',
                         'GET list' => 'list',
-                        'GET detail' => 'detail'
+                        'GET detail' => 'detail',
+                        'POST check' => 'check'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',

@@ -38,7 +38,11 @@ class CourseController extends Controller
         // ->where(['onuse' => 1])
         // ->all();
         $collegeArr = array();
-        $collegeArr['college_intro'] = $catModel->des;
+        $college_intro = array(
+            'des' => $catModel->des,
+            'name' => $catModel->name
+        );
+        $collegeArr['college_intro'] = $college_intro;
         $teachers = array();
         foreach ($coursemodels as $key => $coursemodel) {
             $categoryids = explode(',', $coursemodel->category_name);
@@ -279,7 +283,10 @@ class CourseController extends Controller
     }
     public function actionCheck()
     {
-        if (Yii::$app->user->isGuest) {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        if (empty($user)) {
             $data = array(
                 'status' => 0,
                 'message' => '请先登陆再观看课程'
