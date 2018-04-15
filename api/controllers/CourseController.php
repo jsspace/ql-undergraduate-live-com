@@ -242,14 +242,16 @@ class CourseController extends Controller
         ->limit(12)
         ->asArray()
         ->all();
-        $studyids = array_column($studyids, 'userid');
-        $studyids = array_unique($studyids);
-        foreach ($studyids as $key => $studyid) {
-            $content = array(
-                'student_img' => Url::to('@web'.User::getUserModel($studyid)->picture, true),
-                'student_name' => User::item($studyid)
-            );
-            $courseDetail['students'][] = $content;
+        if (!empty($studyids)) {
+            $studyids = array_column($studyids, 'userid');
+            $studyids = array_unique($studyids);
+            foreach ($studyids as $key => $studyid) {
+                $content = array(
+                    'student_img' => Url::to('@web'.User::getUserModel($studyid)->picture, true),
+                    'student_name' => User::item($studyid)
+                );
+                $courseDetail['students'][] = $content;
+            }
         }
         return  json_encode($courseDetail);
     }
@@ -283,15 +285,15 @@ class CourseController extends Controller
     }
     public function actionCheck()
     {
-        $data = Yii::$app->request->get();
-        $access_token = $data['access-token'];
-        $user = User::findIdentityByAccessToken($access_token);
+        $get = Yii::$app->request->get();
+        $access_token = $get['access-token'];
+        $user = \common\models\User::findIdentityByAccessToken($access_token);
         if (empty($user)) {
-            $data = array(
+            $result = array(
                 'status' => 0,
                 'message' => '请先登陆再观看课程'
             );
-            return $data;
+            return json_encode($result);
         }
         $data = Yii::$app->request->post();
         $section_id = $data['section_id'];
@@ -301,23 +303,23 @@ class CourseController extends Controller
         ->one();
         if (!empty($section)) {
             if ($section->paid_free == 0) {
-                $data = array(
+                $result = array(
                     'status' => 1,
                     'message' => '正在请求观看免费课程',
                     'url' => $section->video_url
                 );
-                return $data;
+                return json_encode($result);
             } else {
                 $auth = new Auth('BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t', 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15');
                 $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
                 $is_member = Course::ismember($course_id);/*判断是否是该分类下的会员*/
                 if ($is_member == 1) {
-                    $data = array(
+                    $result = array(
                         'status' => 4,
                         'message' => '会员，允许观看',
                         'url' => $video_url
                     );
-                    return $data;
+                    return json_encode($result);
                 }
                 $ispay = Course::ispay($course_id);/*判断是否已经购买*/
                 $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
@@ -326,19 +328,19 @@ class CourseController extends Controller
                     $isschool = 1;
                 }
                 if ($ispay == 1 || $isschool == 1) {
-                    $data = array(
+                    $result = array(
                         'status' => 2,
                         'message' => '用户已经购买了该课程，允许观看',
                         'url' => $video_url
                     );
                 } else {
-                    $data = array(
+                    $result = array(
                         'status' => 3,
                         'message' => '您尚未购买该课程，请先购买后再观看',
                         'url' => ''
                     );
                 }
-                return $data;
+                return json_encode($result);
             }
         }
     }
