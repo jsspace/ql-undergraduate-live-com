@@ -129,6 +129,7 @@ class CourseController extends Controller
                     $videoType = self::getVideoType($section);
                     $section = array(
                         'section_id' => $section->id,
+                        'name' => $section->name,
                         'video_type_text' => $videoType['text'],
                         'type' => $section->type,
                         'url' => $videoType['url'],
