@@ -242,8 +242,6 @@ class CourseController extends Controller
         ->limit(12)
         ->asArray()
         ->all();
-        print_r($studyids);
-        die();
         if (!empty($studyids)) {
             $studyids = array_column($studyids, 'userid');
             $studyids = array_unique($studyids);
