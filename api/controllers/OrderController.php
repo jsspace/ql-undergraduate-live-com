@@ -81,32 +81,32 @@ class OrderController extends Controller
         foreach($course_package_array as $course_package) {
             $course_package_ids .= $course_package['id'] . ',';
         }
-        $coupons = Coupon::find()
-        ->where(['user_id' => $user_id])
-        ->andWhere(['isuse' => 0])
-        ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
-        ->asArray()
-        ->all();
+//         $coupons = Coupon::find()
+//         ->where(['user_id' => $user_id])
+//         ->andWhere(['isuse' => 0])
+//         ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
+//         ->asArray()
+//         ->all();
 
-        /*金币余额*/
-        $coin = Coin::find()
-        ->where(['userid' => $user_id])
-        ->orderBy('id desc')
-        ->asArray()
-        ->one();
-        if (!empty($coin)) {
-            $balance = $coin['balance'];
-        } else {
-            $balance = 0;
-        }
+//         /*金币余额*/
+//         $coin = Coin::find()
+//         ->where(['userid' => $user_id])
+//         ->orderBy('id desc')
+//         ->asArray()
+//         ->one();
+//         if (!empty($coin)) {
+//             $balance = $coin['balance'];
+//         } else {
+//             $balance = 0;
+//         }
         $data = [
             'courses' => $course_array,
             'order_sn' => $order_sn,
             'course_ids' => $course_ids,
             'course_packages' => $course_package_array,
             'course_package_ids' => $course_package_ids,
-            'coupons' => $coupons,
-            'coin_balance' => $balance
+//             'coupons' => $coupons,
+//             'coin_balance' => $balance
         ];
         return json_encode($data);
     }
