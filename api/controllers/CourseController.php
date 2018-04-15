@@ -161,6 +161,7 @@ class CourseController extends Controller
             'course_name' => $courseModel->course_name,
             'discount' => $courseModel->discount,
             'price' => $courseModel->price,
+            'home_pic' => Url::to('@web'.$courseModel->home_pic, true),
             'teacher' => User::item($courseModel->teacher_id),
             'class' => $duration/60,
             'view' => $courseModel->view,
@@ -274,5 +275,59 @@ class CourseController extends Controller
             'url' => $url
         );
         return $result;
+    }
+    public function actionCheck()
+    {
+        if (Yii::$app->user->isGuest) {
+            $data = array(
+                'status' => 0,
+                'message' => '请先登陆再观看课程'
+            );
+            return $data;
+        }
+        $data = Yii::$app->request->post();
+        $section_id = $data['section_id'];
+        $course_id = $data['course_id'];
+        $section = CourseSection::find()
+        ->where(['id' => $section_id])
+        ->one();
+        if (!empty($section)) {
+            if ($section->paid_free == 0) {
+                $data = array(
+                    'status' => 1,
+                    'message' => '正在请求观看免费课程',
+                    'url' => $section->video_url
+                );
+                return $data;
+            } else {
+                $auth = new Auth('BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t', 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15');
+                $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
+                $is_member = Course::ismember($course_id);/*判断是否是该分类下的会员*/
+                if ($is_member == 1) {
+                    $data = array(
+                        'status' => 4,
+                        'message' => '会员，允许观看',
+                        'url' => $video_url
+                    );
+                    return $data;
+                }
+                $ispay = Course::ispay($course_id);/*判断是否已经购买*/
+                $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+                $isschool = 0;
+                if (array_key_exists('school',$roles_array)) {
+                    $isschool = 1;
+                }
+                if ($ispay == 1 || $isschool == 1) {
+                    $data['status'] = '2';
+                    $data['message'] = '用户已经购买了该课程，允许观看';
+                    $data['url'] = $video_url;
+                } else {
+                    $data['status'] = '3';
+                    $data['message'] = '您尚未购买该课程，请先购买后再观看';
+                    $data['url'] = '';
+                }
+                return json_encode($data);
+            }
+        }
     }
 }
