@@ -243,6 +243,7 @@ class CourseController extends Controller
         ->asArray()
         ->all();
         print_r($studyids);
+        die();
         if (!empty($studyids)) {
             $studyids = array_column($studyids, 'userid');
             $studyids = array_unique($studyids);
