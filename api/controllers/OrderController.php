@@ -28,11 +28,33 @@ class OrderController extends Controller
         ]);
     }
     
+    public function actionIndex()
+    {
+        $post = Yii::$app->request->Post();
+        $get = Yii::$app->request->get();
+        $order_sn = $get['order_sn'];
+        $access_token = $get['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $user_id = $user->id;
+    
+        
+        $data = [
+            'courses' => $course_array,
+            'order_sn' => $order_sn,
+            'course_ids' => $course_ids,
+            'course_packages' => $course_package_array,
+            'course_package_ids' => $course_package_ids,
+            'coupons' => $coupons,
+            'coin_balance' => $balance
+        ];
+        return json_encode($data);
+    }
+    
     public function actionShopping()
     {
         $post = Yii::$app->request->Post();
-        $getdata = Yii::$app->request->get();
-        $access_token = $getdata['access-token'];
+        $get = Yii::$app->request->get();
+        $access_token = $get['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
         
@@ -59,40 +81,47 @@ class OrderController extends Controller
         foreach($course_package_array as $course_package) {
             $course_package_ids .= $course_package['id'] . ',';
         }
-        $coupons = Coupon::find()
-        ->where(['user_id' => $user_id])
-        ->andWhere(['isuse' => 0])
-        ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
-        ->asArray()
-        ->all();
+//         $coupons = Coupon::find()
+//         ->where(['user_id' => $user_id])
+//         ->andWhere(['isuse' => 0])
+//         ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
+//         ->asArray()
+//         ->all();
 
-        /*金币余额*/
-        $coin = Coin::find()
-        ->where(['userid' => $user_id])
-        ->orderBy('id desc')
-        ->asArray()
-        ->one();
-        if (!empty($coin)) {
-            $balance = $coin['balance'];
-        } else {
-            $balance = 0;
-        }
+//         /*金币余额*/
+//         $coin = Coin::find()
+//         ->where(['userid' => $user_id])
+//         ->orderBy('id desc')
+//         ->asArray()
+//         ->one();
+//         if (!empty($coin)) {
+//             $balance = $coin['balance'];
+//         } else {
+//             $balance = 0;
+//         }
         $data = [
             'courses' => $course_array,
             'order_sn' => $order_sn,
             'course_ids' => $course_ids,
             'course_packages' => $course_package_array,
             'course_package_ids' => $course_package_ids,
-            'coupons' => $coupons,
-            'coin_balance' => $balance
+//             'coupons' => $coupons,
+//             'coin_balance' => $balance
         ];
         return json_encode($data);
     }
-    public function actionConfirmOrder($userid, $courseid)
+    
+    public function actionConfirmOrder()
     {
+        $get = Yii::$app->request->get();
+        $order_sn = $get['order_sn'];
+        $access_token = $get['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $user_id = $user->id;
+        
         $orderInfo = OrderInfo::find()
         ->where(['order_sn' => $order_sn])
-        ->andWhere(['user_id' => Yii::$app->user->id])
+        ->andWhere(['user_id' => $user_id])
         ->andWhere(['pay_status' => 0])
         ->one();
         if (!empty($orderInfo)) {
@@ -109,7 +138,7 @@ class OrderController extends Controller
         $coupon_ids = explode(',', $data['coupon_ids']);
         $coupon_money = 0.00;
         $coupons = Coupon::find()
-        ->where(['user_id' => Yii::$app->user->id])
+        ->where(['user_id' => $user_id])
         ->andWhere(['coupon_id' => $coupon_ids])
         ->andWhere(['isuse' => 0])
         ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
@@ -127,7 +156,7 @@ class OrderController extends Controller
         //删除购物车中对应的条目
         Cart::deleteAll([
             'product_id' => $course_ids, 
-            'user_id' => Yii::$app->user->id,
+            'user_id' => $user_id,
         ]);
         $course_models = Course::find()
         ->where(['id' => $course_ids])
@@ -154,7 +183,7 @@ class OrderController extends Controller
         //删除购物车中对应的条目
         Cart::deleteAll([
             'product_id' => $course_package_ids,
-            'user_id' => Yii::$app->user->id,
+            'user_id' => $user_id,
         ]);
         $course_package_models = CoursePackage::find()
         ->where(['id' => $course_package_ids])
@@ -168,7 +197,7 @@ class OrderController extends Controller
             $order_goods = new OrderGoods();
             $order_goods->order_sn = $order_sn;
             $order_goods->goods_id = $model->id;
-            $order_goods->user_id = Yii::$app->user->id;
+            $order_goods->user_id = $user_id;
             $order_goods->pay_status = 0;
             $order_goods->goods_id = $model->id;
             $order_goods->goods_name = $model->name;
@@ -184,10 +213,10 @@ class OrderController extends Controller
         $course_ids_str = implode(',', array_unique($course_ids_arr));
         
         //查看此人是否是被邀请注册的
-        $invite = Yii::$app->user->identity->invite;
+        $invite = $user_identity->invite;
         //查看是否是第一次购买
         $is_first_order = OrderInfo::find()
-        ->andWhere(['user_id' => Yii::$app->user->id])
+        ->andWhere(['user_id' => $user_id])
         ->andWhere(['pay_status' => 2])
         ->count();
         if ($invite > 0 && $is_first_order == 0) {
@@ -207,7 +236,7 @@ class OrderController extends Controller
         $use_wallet = $data['use_wallet'];
         $coin = new Coin();
         if ($use_wallet == 1) {
-            $coin->userid = Yii::$app->user->id;
+            $coin->userid = $user_id;
             $coin->card_id = $order_sn;
             $coin->operation_time = time();
             /*钱包余额*/
@@ -238,12 +267,12 @@ class OrderController extends Controller
             $order_info->pay_time = time();
         }
         $order_info->order_sn = $order_sn;
-        $order_info->user_id = Yii::$app->user->id;
+        $order_info->user_id = $user_id;
         $order_info->order_status = 1;
         $order_info->pay_status = $pay_status;
-        $order_info->consignee = Yii::$app->user->identity->username;
-        $order_info->mobile = Yii::$app->user->identity->phone;
-        $order_info->email = Yii::$app->user->identity->email;
+        $order_info->consignee = $user_identity->username;
+        $order_info->mobile = $user_identity->phone;
+        $order_info->email = $user_identity->email;
         //0 1支付宝 2 微信
         $order_info->pay_id = 0;
         $order_info->goods_amount = $goods_amount;
@@ -256,9 +285,64 @@ class OrderController extends Controller
         $order_info->save(false);
         return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount, 'wallet_pay' => $wallet_pay]);
     }
+//模式二
+    /**
+     * 流程：
+     * 1、调用统一下单，取得code_url，生成二维码
+     * 2、用户扫描二维码，进行支付
+     * 3、支付完成之后，微信服务器会通知支付成功
+     * 4、在支付成功通知中需要查单确认是否真正支付成功（见：notify.php）
+     */
     public function actionWxpay()
     {
-
+        $get = Yii::$app->request->get();
+        $order_sn = $get['order_sn'];
+        $access_token = $get['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $user_id = $user->id;
+        
+        $orderInfo = OrderInfo::find()
+        ->where(['order_sn' => $order_sn])
+        ->andWhere(['user_id' => $user_id])
+        ->andWhere(['pay_status' => 0])
+        ->one();
+        if (!empty($orderInfo)) {
+            $notify = new \NativePay();
+            $url1 = $notify->GetPrePayUrl($order_sn);
+            
+            $input = new \WxPayUnifiedOrder();
+            $input->SetBody(trim('课程购买订单：'.$orderInfo->order_sn));
+            $input->SetAttach($orderInfo->order_sn);
+            $input->SetOut_trade_no($orderInfo->order_sn);
+            $input->SetTotal_fee($orderInfo->order_amount * 100);
+            $input->SetTime_start(date("YmdHis"));
+            $input->SetTime_expire(date("YmdHis", time() + 600));
+//             $input->SetGoods_tag("test");
+            //获取配置信息
+            $config = Yii::$app->params['wxpay'];
+            $input->SetNotify_url($config['notify_url']);
+            $input->SetTrade_type("NATIVE");
+            $input->SetProduct_id($orderInfo->order_sn);
+            $result = $notify->GetPayUrl($input);
+//             print_r($result);die();
+            if ($result['return_code'] == 'SUCCESS') {
+                if ($result['result_code'] == 'SUCCESS') {
+                    $url2 = self::qrcode($result["code_url"], 'wxpay.png');
+                    return $this->render('wxpay', ['code_url' => $url2, 'out_trade_no' => $orderInfo->order_sn]);
+                } else {
+                    $return_msg = $result['err_code'] . ':' . $result['err_code_des'];
+                    error_log($return_msg);
+                    return $this->render('wxpay', ['return_msg' => $return_msg]);
+                }
+            } else {
+                $return_msg = $result['result_code'].':'.$result['return_msg'];
+                error_log($return_msg);
+                return $this->render('wxpay', ['return_msg' => $return_msg]);
+            }
+            
+        }
+        
+        
     }
     
     public static function createOrderid()

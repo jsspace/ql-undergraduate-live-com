@@ -108,7 +108,10 @@ return [
                     'controller' => 'order',
                     'pluralize'=>false,
                     'extraPatterns' => [
+                        'GET index' => 'index',
                         'POST shopping' => 'shopping',
+                        'POST confirm-order' => 'confirm-order',
+                        'GET wxpay' => 'wxpay'
                     ]
                 ],
             ],
