@@ -50,8 +50,8 @@ class OrderController extends Controller
         return json_encode($data);
     }
 
-    //预生成订单信息
-    public function actionShopping()
+    //课程信息接口
+    public function actionCourseinfo()
     {
         $post = Yii::$app->request->Post();
         $course_id = $post['course_id'];
