@@ -12,6 +12,7 @@ use backend\models\CourseCategory;
 use backend\models\CoursePackage;
 use backend\models\Coupon;
 use backend\models\Coin;
+use yii\helpers\Url;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
