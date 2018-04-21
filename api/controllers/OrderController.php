@@ -54,35 +54,23 @@ class OrderController extends Controller
     public function actionShopping()
     {
         $post = Yii::$app->request->Post();
-        $get = Yii::$app->request->get();
-        $access_token = $get['access-token'];
-        $user = User::findIdentityByAccessToken($access_token);
-        $user_id = $user->id;
-        
-        //唯一订单号码（KB-YYYYMMDDHHIISSNNNNNNNNCC）
-        $order_sn = $this->createOrderid();
-        
         $course_id = $post['course_id'];
-        $course_package_id = $post['course_package_id'];
-        
-        if (!empty($course_id)) {
-            
-        }
         $course_data = Course::find()
         ->where(['id' => $course_id])
         ->andWhere(['onuse' => 1])
         ->asArray()
         ->one();
-        $course_package_data = CoursePackage::find()
-        ->where(['id' => $course_package_id])
-        ->andWhere(['onuse' => 1])
-        ->asArray()
-        ->one();
-        $data = [
-            'course' => $course_data,
-            'course_package' => $course_package_data,
-            'order_sn' => $order_sn,
-        ];
+        if (!empty($course_data)) {
+            $data = [
+                'code' => 0,
+                'course' => $course_data,
+            ];
+        } else {
+            $data = [
+                'code' => 1,
+                'message' => '没有数据',
+            ];
+        }
         return json_encode($data);
     }
     
@@ -263,7 +251,8 @@ class OrderController extends Controller
     public function actionConfirmOrder()
     {
         $get = Yii::$app->request->get();
-        $order_sn = $get['order_sn'];
+        //唯一订单号码（KB-YYYYMMDDHHIISSNNNNNNNNCC）
+        $order_sn = $this->createOrderid();;
         $access_token = $get['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
