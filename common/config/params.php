@@ -1,4 +1,9 @@
 <?php
+//小程序
+$xcx_appid = 'wxa82b0fd068efd444';
+$xcx_secret = '5d829699b0455eb9072223bdc03e84ad';
+
+
 return [
     'adminEmail' => 'admin@example.com',
     'supportEmail' => 'support@example.com',
@@ -24,6 +29,9 @@ return [
     ],
     'wxpay' => [
         //异步通知地址
-        'notify_url' => "http://www.kaoben.top/wxnotify",
+        'notify_url' => "https://www.kaoben.top/wxnotify",
+        // 获取session_key, openid接口
+        'jscode2session_url' => "https://api.weixin.qq.com/sns/jscode2session?appid=$xcx_appid&secret=$xcx_secret&js_code=%s&grant_type=authorization_code",
+        
     ],
 ];
