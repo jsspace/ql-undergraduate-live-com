@@ -266,7 +266,7 @@ class OrderController extends Controller
         $user_id = $user->id;
     
         
-        $data = Yii::$app->request->Post();
+        $data = Yii::$app->request->post();
         if (empty($data['course_id'])) {
             $data = [
                 'code' => -1,
@@ -274,12 +274,12 @@ class OrderController extends Controller
             ];
             return json_encode($data);
         }
-        $course_id = explode(',', $data['course_id']);
-        $course_model = Course::find()
+        $course_id = $data['course_id'];
+        $course_models = Course::find()
         ->where(['id' => $course_id])
         ->andWhere(['onuse' => 1])
-        ->one();
-        if (empty($course_model)) {
+        ->all();
+        if (empty($course_models)) {
             $data = [
                 'code' => -2,
                 'message' => '课程数据为空'
@@ -293,7 +293,7 @@ class OrderController extends Controller
         ]);
         $goods_amount = 0.00;
         //添加课程订单商品
-        foreach($course_model as $model) {
+        foreach($course_models as $model) {
             $order_goods = new OrderGoods();
             $order_goods->order_sn = $order_sn;
             $order_goods->goods_id = $model->id;
@@ -305,8 +305,6 @@ class OrderController extends Controller
             $order_goods->save(false);
             $goods_amount += $model->discount;
         }
-        
-    
         //查看此人是否是被邀请注册的
         $invite = $user->invite;
         //查看是否是第一次购买
@@ -345,7 +343,7 @@ class OrderController extends Controller
         
         $data = [
             'code' => 0,
-            'order_info' => $order_info,
+            'order_sn' => $order_sn,
         ];
         return json_encode($data);
     }

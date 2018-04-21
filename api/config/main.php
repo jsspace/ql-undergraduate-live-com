@@ -111,7 +111,7 @@ return [
                     'pluralize'=>false,
                     'extraPatterns' => [
                         'GET index' => 'index',
-                        'POST shopping' => 'shopping',
+                        'POST courseinfo' => 'courseinfo',
                         'POST confirm-order' => 'confirm-order',
                         'GET wxpay' => 'wxpay'
                     ]
