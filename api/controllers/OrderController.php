@@ -50,7 +50,7 @@ class OrderController extends Controller
         return json_encode($data);
     }
 
-    //立即购买生成订单信息
+    //预生成订单信息
     public function actionShopping()
     {
         $post = Yii::$app->request->Post();
