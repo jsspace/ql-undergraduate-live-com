@@ -155,4 +155,22 @@ class UserController extends ActiveController
             return $model;
         }
     }
+    public function actionIslogin()
+    {
+        $get = Yii::$app->request->get();
+        $access_token = $get['access-token'];
+        $user = \common\models\User::findIdentityByAccessToken($access_token);
+        if (empty($user)) {
+            $result = array(
+                'status' => 0,
+                'message' => '未登录'
+            );
+        } else {
+            $result = array(
+                'status' => 1,
+                'message' => '已登录'
+            );
+        }
+        return $result;
+    }
 }

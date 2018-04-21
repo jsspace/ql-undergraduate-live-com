@@ -98,6 +98,8 @@ class CourseController extends Controller
     public function actionDetail()
     {
         $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = \common\models\User::findIdentityByAccessToken($access_token);
         $courseid = $data['courseid'];
         $invite = 0;
         if (isset($data['invite'])) {
@@ -145,13 +147,17 @@ class CourseController extends Controller
             $courseDetail['chapter'][] = $content;
         }
         /* 课程详情 */
-        $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        $ismember = 0;
+        $ispay = 0;
         $isschool = 0;
-        if (array_key_exists('school',$roles_array)) {
-            $isschool = 1;
+        if (!empty($user)) {
+            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
+            if (array_key_exists('school',$roles_array)) {
+                $isschool = 1;
+            }
+            $ismember = Course::ismember($courseModel->id, $user);
+            $ispay = Course::ispay($courseModel->id, $user);
         }
-        $ismember = Course::ismember($courseModel->id);
-        $ispay = Course::ispay($courseModel->id);
         if ($courseModel->discount == 0) {
             $tag = 1; //公开课程
         } else if ($ismember == 1) {
@@ -322,8 +328,8 @@ class CourseController extends Controller
                     );
                     return json_encode($result);
                 }
-                $ispay = Course::ispay($course_id);/*判断是否已经购买*/
-                $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+                $ispay = Course::ispay($course_id, $user);/*判断是否已经购买*/
+                $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
                 $isschool = 0;
                 if (array_key_exists('school',$roles_array)) {
                     $isschool = 1;
