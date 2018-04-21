@@ -171,6 +171,7 @@ class CourseController extends Controller
             'class' => $duration/60,
             'view' => $courseModel->view,
             'collection' => $courseModel->collection,
+            'online' => $courseModel->online,
             'intro' => $courseModel->des,
             'ispay' => $tag
         );
