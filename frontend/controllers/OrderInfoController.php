@@ -162,15 +162,16 @@ class OrderInfoController extends \yii\web\Controller
         //查看此人是否是被邀请注册的
         $invite = Yii::$app->user->identity->invite;
         //查看是否是第一次购买
-        $is_first_order = OrderInfo::find()
+        $order_count = OrderInfo::find()
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->andWhere(['pay_status' => 2])
         ->count();
-        if ($invite > 0 && $is_first_order == 0) {
+        if ($invite > 0 && $order_count == 0) {
+            //被邀请会员第一次购买有优惠
             $perc = Lookup::find()
-            ->where(['type' => 'share_course_shoping_get'])
+            ->where(['type' => 'share_course_discount'])
             ->one();
-            $order_amount = ((100 - $perc) / 100.00) * $goods_amount - $coupon_money;
+            $order_amount = ((100 - $perc->code) / 100.00) * $goods_amount - $coupon_money;
         } else {
             $order_amount = $goods_amount - $coupon_money;
         }
