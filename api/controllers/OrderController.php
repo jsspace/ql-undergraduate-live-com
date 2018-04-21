@@ -61,6 +61,8 @@ class OrderController extends Controller
         ->asArray()
         ->one();
         if (!empty($course_data)) {
+            $course_data['home_pic'] = Url::to('@web'.$course_data['home_pic'], true);
+            $course_data['list_pic'] = Url::to('@web'.$course_data['list_pic'], true);
             $data = [
                 'code' => 0,
                 'course' => $course_data,
@@ -248,6 +250,7 @@ class OrderController extends Controller
         $order_info->save(false);
         return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount, 'wallet_pay' => $wallet_pay]);
     }
+    //确认订单接口
     public function actionConfirmOrder()
     {
         $get = Yii::$app->request->get();
@@ -257,50 +260,23 @@ class OrderController extends Controller
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
     
-        $orderInfo = OrderInfo::find()
-        ->where(['order_sn' => $order_sn])
-        ->andWhere(['user_id' => $user_id])
-        ->andWhere(['pay_status' => 0])
-        ->one();
-        if (!empty($orderInfo)) {
-            
-            return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $orderInfo->order_amount]);
-        }
+        
         $data = Yii::$app->request->Post();
-        if (!isset($data['coupon_ids']) || !isset($data['course_ids']) || !isset($data['course_package_ids'])) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        if (empty($data['course_ids']) && empty($data['course_package_ids'])) {
+        if (empty($data['course_ids'])) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
         $goods_amount = 0.00;
-        $coupon_ids = explode(',', $data['coupon_ids']);
-        $coupon_money = 0.00;
-        $coupons = Coupon::find()
-        ->where(['user_id' => $user_id])
-        ->andWhere(['coupon_id' => $coupon_ids])
-        ->andWhere(['isuse' => 0])
-        ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
-        ->all();
-        $coupon_ids_str = '';
-        foreach($coupons as $model) {
-            $coupon_ids_str .= $model->coupon_id;
-            $coupon_money += $model->fee;
-            //标记优惠券正在使用中
-            $model->isuse = 1;
-            $model->save(false);
-        }
     
-        $course_ids = explode(',', $data['course_ids']);
+        $course_id = explode(',', $data['course_id']);
         //删除购物车中对应的条目
         Cart::deleteAll([
-            'product_id' => $course_ids,
+            'product_id' => $course_id,
             'user_id' => $user_id,
         ]);
-        $course_models = Course::find()
+        $course_model = Course::find()
         ->where(['id' => $course_ids])
         ->andWhere(['onuse' => 1])
-        ->all();
+        ->one();
         $courseids = '';
         foreach($course_models as $model) {
             $courseids .= $model->id . ',';
