@@ -88,7 +88,7 @@ class SiteController extends Controller
                 if ($cat->id == $collegeCourse->category_name) {
                     $count = $count+1;
                     $content = array(
-                        'id' => $hotcourse->id,
+                        'id' => $collegeCourse->id,
                         'course_name' => $collegeCourse->course_name,
                         'list_pic' => Url::to('@web'.$collegeCourse->list_pic, true),
                         'discount' => $collegeCourse->discount,
