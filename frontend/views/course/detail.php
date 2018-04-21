@@ -115,8 +115,8 @@ $news = array(
                     if (array_key_exists('school',$roles_array)) {
                         $isschool = 1;
                     }
-                    $ismember = Course::ismember($course->id);
-                    $ispay = Course::ispay($course->id);
+                    $ismember = Course::ismember($course->id, Yii::$app->user->id);
+                    $ispay = Course::ispay($course->id, Yii::$app->user->id);
                     if ($course->discount == 0) { ?>
                         <span class="course-ispay-tag">公开课程</span>
                     <?php }

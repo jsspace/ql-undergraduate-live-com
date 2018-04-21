@@ -157,9 +157,9 @@ class Course extends \yii\db\ActiveRecord
             self::$_items[$model->id] = $model->course_name;
         }
     }
-    public static function ismember($course_id, $user)
+
+    public static function ismember($course_id, $user_id)
     {
-        $user_id = Yii::$app->user->id || $user->id;
         $current_time = time();
         $member_orders = MemberGoods::find()
         ->where(['user_id' => $user_id])
@@ -194,9 +194,8 @@ class Course extends \yii\db\ActiveRecord
         }
         return $is_member;
     }
-    public static function ispay($course_id, $user)
+    public static function ispay($course_id, $user_id)
     {
-        $user_id = Yii::$app->user->id || $user->id;
         $orders = OrderInfo::find()
         ->where(['user_id' => $user_id])
         ->andWhere(['pay_status' => 2])

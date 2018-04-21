@@ -236,7 +236,7 @@ class CourseController extends Controller
             } else {
                 $auth = new Auth('BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t', 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15');
                 $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
-                $is_member = Course::ismember($course_id);/*判断是否是该分类下的会员*/
+                $is_member = Course::ismember($course_id, Yii::$app->user->id);/*判断是否是该分类下的会员*/
                 if ($is_member == 1) {
                     $data['status'] = '4';
                     $data['message'] = '会员，允许观看';

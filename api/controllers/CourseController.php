@@ -155,8 +155,8 @@ class CourseController extends Controller
             if (array_key_exists('school',$roles_array)) {
                 $isschool = 1;
             }
-            $ismember = Course::ismember($courseModel->id, $user);
-            $ispay = Course::ispay($courseModel->id, $user);
+            $ismember = Course::ismember($courseModel->id, $user->id);
+            $ispay = Course::ispay($courseModel->id, $user->id);
         }
         if ($courseModel->discount == 0) {
             $tag = 1; //公开课程
@@ -319,7 +319,7 @@ class CourseController extends Controller
             } else {
                 $auth = new Auth('BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t', 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15');
                 $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
-                $is_member = Course::ismember($course_id);/*判断是否是该分类下的会员*/
+                $is_member = Course::ismember($course_id, $user->id);/*判断是否是该分类下的会员*/
                 if ($is_member == 1) {
                     $result = array(
                         'status' => 4,
@@ -328,7 +328,7 @@ class CourseController extends Controller
                     );
                     return json_encode($result);
                 }
-                $ispay = Course::ispay($course_id, $user);/*判断是否已经购买*/
+                $ispay = Course::ispay($course_id, $user->id);/*判断是否已经购买*/
                 $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
                 $isschool = 0;
                 if (array_key_exists('school',$roles_array)) {
