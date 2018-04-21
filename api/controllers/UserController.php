@@ -12,6 +12,7 @@ use backend\models\Coupon;
 use backend\models\User;
 use frontend\controllers\SmsController;
 use api\models\Smsdata;
+use common\controllers\ApiController;
 /**
  * AudioController implements the CRUD actions for Audio model.
  */
@@ -172,5 +173,11 @@ class UserController extends ActiveController
             );
         }
         return $result;
+    }
+    public function actionOnlogin($code)
+    {
+        $url = sprintf(Yii::$app->params['wxpay']['jscode2session_url'], $code);
+        $response_str = ApiController::http_get_data($url);
+        return $response_str;
     }
 }
