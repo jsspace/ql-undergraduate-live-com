@@ -277,7 +277,7 @@ class OrderController extends Controller
         ->one();
         if (empty($course_model)) {
             $data = [
-                'code' => -1,
+                'code' => -2,
                 'message' => '课程数据为空'
             ];
             return json_encode($data);
