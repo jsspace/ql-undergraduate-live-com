@@ -263,27 +263,33 @@ class OrderController extends Controller
     
         
         $data = Yii::$app->request->Post();
-        if (empty($data['course_ids'])) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+        if (empty($data['course_id'])) {
+            $data = [
+                'code' => -1,
+                'message' => 'course_id参数为空'
+            ];
+            return json_encode($data);
         }
-        $goods_amount = 0.00;
-    
         $course_id = explode(',', $data['course_id']);
-        //删除购物车中对应的条目
-        Cart::deleteAll([
-            'product_id' => $course_id,
-            'user_id' => $user_id,
-        ]);
         $course_model = Course::find()
-        ->where(['id' => $course_ids])
+        ->where(['id' => $course_id])
         ->andWhere(['onuse' => 1])
         ->one();
-        $courseids = '';
-        foreach($course_models as $model) {
-            $courseids .= $model->id . ',';
+        if (empty($course_model)) {
+            $data = [
+                'code' => -1,
+                'message' => '课程数据为空'
+            ];
+            return json_encode($data);
         }
+        //删除购物车中对应的条目
+        Cart::deleteAll([
+            'product_id' => [$course_id],
+            'user_id' => $user_id,
+        ]);
+        $goods_amount = 0.00;
         //添加课程订单商品
-        foreach($course_models as $model) {
+        foreach($course_model as $model) {
             $order_goods = new OrderGoods();
             $order_goods->order_sn = $order_sn;
             $order_goods->goods_id = $model->id;
@@ -295,111 +301,49 @@ class OrderController extends Controller
             $order_goods->save(false);
             $goods_amount += $model->discount;
         }
-        $course_package_ids = explode(',', $data['course_package_ids']);
-        //删除购物车中对应的条目
-        Cart::deleteAll([
-            'product_id' => $course_package_ids,
-            'user_id' => $user_id,
-        ]);
-        $course_package_models = CoursePackage::find()
-        ->where(['id' => $course_package_ids])
-        ->andWhere(['onuse' => 1])
-        ->all();
-        foreach($course_package_models as $model) {
-            $courseids .= $model->course . ',';
-        }
-        //添加班级订单商品
-        foreach($course_package_models as $model) {
-            $order_goods = new OrderGoods();
-            $order_goods->order_sn = $order_sn;
-            $order_goods->goods_id = $model->id;
-            $order_goods->user_id = $user_id;
-            $order_goods->pay_status = 0;
-            $order_goods->goods_id = $model->id;
-            $order_goods->goods_name = $model->name;
-            $order_goods->goods_number = 1;
-            $order_goods->market_price = $model->price;
-            $order_goods->goods_price = $model->discount;
-            $order_goods->type = 'course_package';
-            $order_goods->save(false);
-            $goods_amount += $model->discount;
-        }
-    
-        $course_ids_arr = explode(',', $courseids);
-        $course_ids_str = implode(',', array_unique($course_ids_arr));
+        
     
         //查看此人是否是被邀请注册的
-        $invite = $user_identity->invite;
+        $invite = $user->invite;
         //查看是否是第一次购买
-        $is_first_order = OrderInfo::find()
+        $order_count = OrderInfo::find()
         ->andWhere(['user_id' => $user_id])
         ->andWhere(['pay_status' => 2])
         ->count();
-        if ($invite > 0 && $is_first_order == 0) {
+        if ($invite > 0 && $order_count == 0) {
+            //被邀请会员第一次购买有优惠
             $perc = Lookup::find()
-            ->where(['type' => 'share_course_shoping_get'])
+            ->where(['type' => 'share_course_discount'])
             ->one();
-            $order_amount = ((100 - $perc) / 100.00) * $goods_amount - $coupon_money;
+            $order_amount = ((100 - $perc->code) / 100.00) * $goods_amount;
         } else {
-            $order_amount = $goods_amount - $coupon_money;
-        }
-    
-    
-        $pay_status = 0;
-        $bonus = 0;/*使用钱包金额*/
-        /*是否使用钱包*/
-        $wallet_pay = 0;/*默认钱包支付 标记为0*/
-        $use_wallet = $data['use_wallet'];
-        $coin = new Coin();
-        if ($use_wallet == 1) {
-            $coin->userid = $user_id;
-            $coin->card_id = $order_sn;
-            $coin->operation_time = time();
-            /*钱包余额*/
-            $my_wallet = $data['my_wallet'];
-            /*钱包金额够支付订单的*/
-            if ($order_amount <= $my_wallet) {
-                /*标记钱包支付*/
-                $wallet_pay = 1;
-                /*钱包中减去此次订单总额*/
-                $coin->income = -$order_amount;
-                $coin->balance = $my_wallet-$order_amount;
-                $coin->operation_detail = '购买课程花费'.$order_amount.'元';
-                $bonus = $order_amount;
-                $order_amount = 0;
-                $pay_status = 2;
-            } else {
-                $order_amount = $order_amount-$my_wallet;
-                $coin->income = -$my_wallet;
-                $coin->balance = 0;
-                $coin->operation_detail = '购买课程花费'.$my_wallet.'元';
-                $bonus = $my_wallet;
-            }
-            $coin->save(false);
+            $order_amount = $goods_amount;
         }
         //添加订单信息
         $order_info = new OrderInfo();
-        if ($wallet_pay === 1) {
-            $order_info->pay_time = time();
-        }
         $order_info->order_sn = $order_sn;
         $order_info->user_id = $user_id;
         $order_info->order_status = 1;
-        $order_info->pay_status = $pay_status;
-        $order_info->consignee = $user_identity->username;
-        $order_info->mobile = $user_identity->phone;
-        $order_info->email = $user_identity->email;
+        $order_info->pay_status = 0;
+        $order_info->consignee = $user->username;
+        $order_info->mobile = $user->phone;
+        $order_info->email = $user->email;
         //0 1支付宝 2 微信
         $order_info->pay_id = 0;
         $order_info->goods_amount = $goods_amount;
         $order_info->order_amount = $order_amount;
         $order_info->add_time = time();
-        $order_info->course_ids = $course_ids_str;
-        $order_info->coupon_ids = $coupon_ids_str;
-        $order_info->coupon_money = $coupon_money;
-        $order_info->bonus = $bonus;
+        $order_info->course_ids = $course_id;
+        $order_info->coupon_ids = '';
+        $order_info->coupon_money = 0;
+        $order_info->bonus = 0;
         $order_info->save(false);
-        return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount, 'wallet_pay' => $wallet_pay]);
+        
+        $data = [
+            'code' => 0,
+            'order_info' => $order_info,
+        ];
+        return json_encode($data);
     }
 //模式二
     /**
