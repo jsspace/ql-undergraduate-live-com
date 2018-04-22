@@ -23,6 +23,7 @@ use common\controllers\ApiController;
 require_once "../../common/xcx_wxpay/lib/WxPay.Api.php";
 require_once "../../common/xcx_wxpay/example/WxPay.NativePay.php";
 require_once '../../common/xcx_wxpay/example/log.php';
+require_once "../../common/xcx_wxpay/lib/WxPay.Config.php";
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -577,7 +578,7 @@ class OrderController extends ActiveController
         $timeStamp = time();
         $pre_paySign = "appId=".$result['appid']."&nonceStr=".$result['nonce_str'];
         $pre_paySign .= "&package=prepay_id=".$result['prepay_id'].'&signType=MD5';
-        $pre_paySign .= "&timeStamp=".$timeStamp."&key=".WxPayConfig::KEY;
+        $pre_paySign .= "&timeStamp=".$timeStamp."&key=".\WxPayConfig::KEY;
         $paySign = MD5($pre_paySign);
         $data = [
             'appId' => $result['appid'],
