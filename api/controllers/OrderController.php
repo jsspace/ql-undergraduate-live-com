@@ -376,7 +376,7 @@ class OrderController extends ActiveController
         ];
         return $data;
     }
-    public function actionPay($access_token, $order_sn, $code, $coupon_id = -1, $coin_id = -1)
+    public function actionPay($access_token, $order_sn, $code, $coupon_id = -1, $use_coin = 0)
     {
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
@@ -458,11 +458,10 @@ class OrderController extends ActiveController
         
         $coin = Coin::find()
         ->where(['userid' => $user_id])
-        ->andWhere(['id' => $coin_id])
         ->andWhere(['>', 'balance', 0])
         ->one();
         $coin_pay = 0.00;
-        if (!empty($coin)) {
+        if (!empty($coin) && $coin->balance > 0 && $use_coin) {
             if (($coupon_pay + $coin->balance) >= $orderInfo->order_amount) {
                 //此订单所花费钱包金额
                 $coin_use = $orderInfo->order_amount - $coupon_pay;
