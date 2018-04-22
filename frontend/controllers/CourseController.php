@@ -234,7 +234,7 @@ class CourseController extends Controller
                 $data['url'] = $section->video_url;
                 return json_encode($data);
             } else {
-                $auth = new Auth('BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t', 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15');
+                $auth = new Auth(Yii::$app->params['access_key'], Yii::$app->params['secret_key']);
                 $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
                 $is_member = Course::ismember($course_id, Yii::$app->user->id);/*判断是否是该分类下的会员*/
                 if ($is_member == 1) {
