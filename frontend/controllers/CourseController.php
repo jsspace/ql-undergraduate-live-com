@@ -243,7 +243,7 @@ class CourseController extends Controller
                     $data['url'] = $video_url;
                     return json_encode($data);
                 }
-                $ispay = Course::ispay($course_id);/*判断是否已经购买*/
+                $ispay = Course::ispay($course_id, Yii::$app->user->id);/*判断是否已经购买*/
                 $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
                 $isschool = 0;
                 if (array_key_exists('school',$roles_array)) {
