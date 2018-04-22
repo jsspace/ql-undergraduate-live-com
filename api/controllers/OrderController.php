@@ -18,6 +18,7 @@ use backend\models\OrderGoods;
 use backend\models\OrderInfo;
 use backend\models\Lookup;
 use yii\rest\ActiveController;
+use common\controllers\ApiController;
 
 require_once "../../common/xcx_wxpay/lib/WxPay.Api.php";
 require_once "../../common/xcx_wxpay/example/WxPay.NativePay.php";
