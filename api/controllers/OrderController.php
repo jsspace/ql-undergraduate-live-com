@@ -13,6 +13,10 @@ use backend\models\CoursePackage;
 use backend\models\Coupon;
 use backend\models\Coin;
 use yii\helpers\Url;
+use backend\models\Cart;
+use backend\models\OrderGoods;
+use backend\models\OrderInfo;
+use backend\models\Lookup;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -262,7 +266,7 @@ class OrderController extends Controller
         $user_id = $user->id;
     
         
-        $data = Yii::$app->request->Post();
+        $data = Yii::$app->request->post();
         if (empty($data['course_id'])) {
             $data = [
                 'code' => -1,
@@ -270,12 +274,12 @@ class OrderController extends Controller
             ];
             return json_encode($data);
         }
-        $course_id = explode(',', $data['course_id']);
-        $course_model = Course::find()
+        $course_id = $data['course_id'];
+        $course_models = Course::find()
         ->where(['id' => $course_id])
         ->andWhere(['onuse' => 1])
-        ->one();
-        if (empty($course_model)) {
+        ->all();
+        if (empty($course_models)) {
             $data = [
                 'code' => -2,
                 'message' => '课程数据为空'
@@ -289,7 +293,7 @@ class OrderController extends Controller
         ]);
         $goods_amount = 0.00;
         //添加课程订单商品
-        foreach($course_model as $model) {
+        foreach($course_models as $model) {
             $order_goods = new OrderGoods();
             $order_goods->order_sn = $order_sn;
             $order_goods->goods_id = $model->id;
@@ -301,8 +305,6 @@ class OrderController extends Controller
             $order_goods->save(false);
             $goods_amount += $model->discount;
         }
-        
-    
         //查看此人是否是被邀请注册的
         $invite = $user->invite;
         //查看是否是第一次购买
@@ -312,7 +314,7 @@ class OrderController extends Controller
         ->count();
         if ($invite > 0 && $order_count == 0) {
             //被邀请会员第一次购买有优惠
-            $perc = Lookup::find()
+            $perc =Lookup::find()
             ->where(['type' => 'share_course_discount'])
             ->one();
             $order_amount = ((100 - $perc->code) / 100.00) * $goods_amount;
@@ -341,10 +343,62 @@ class OrderController extends Controller
         
         $data = [
             'code' => 0,
-            'order_info' => $order_info,
+            'order_sn' => $order_sn,
         ];
         return json_encode($data);
     }
+    public function actionPay()
+    {
+        $get = Yii::$app->request->get();
+        $order_sn = $get['order_sn'];
+        $access_token = $get['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $user_id = $user->id;
+    
+        $orderInfo = OrderInfo::find()
+        ->where(['order_sn' => $order_sn])
+        ->andWhere(['user_id' => $user_id])
+        ->andWhere(['pay_status' => 0])
+        ->one();
+        if (!empty($orderInfo)) {
+            $notify = new \NativePay();
+            $url1 = $notify->GetPrePayUrl($order_sn);
+    
+            $input = new \WxPayUnifiedOrder();
+            $input->SetBody(trim('课程购买订单：'.$orderInfo->order_sn));
+            $input->SetAttach($orderInfo->order_sn);
+            $input->SetOut_trade_no($orderInfo->order_sn);
+            $input->SetTotal_fee($orderInfo->order_amount * 100);
+            $input->SetTime_start(date("YmdHis"));
+            $input->SetTime_expire(date("YmdHis", time() + 600));
+            //             $input->SetGoods_tag("test");
+            //获取配置信息
+            $config = Yii::$app->params['wxpay'];
+            $input->SetNotify_url($config['notify_url']);
+            $input->SetTrade_type("NATIVE");
+            $input->SetProduct_id($orderInfo->order_sn);
+            $result = $notify->GetPayUrl($input);
+            //             print_r($result);die();
+            if ($result['return_code'] == 'SUCCESS') {
+                if ($result['result_code'] == 'SUCCESS') {
+                    $url2 = self::qrcode($result["code_url"], 'wxpay.png');
+                    return $this->render('wxpay', ['code_url' => $url2, 'out_trade_no' => $orderInfo->order_sn]);
+                } else {
+                    $return_msg = $result['err_code'] . ':' . $result['err_code_des'];
+                    error_log($return_msg);
+                    return $this->render('wxpay', ['return_msg' => $return_msg]);
+                }
+            } else {
+                $return_msg = $result['result_code'].':'.$result['return_msg'];
+                error_log($return_msg);
+                return $this->render('wxpay', ['return_msg' => $return_msg]);
+            }
+    
+        }
+    
+    
+    }
+    
 //模式二
     /**
      * 流程：
