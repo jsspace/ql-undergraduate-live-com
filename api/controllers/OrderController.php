@@ -35,7 +35,6 @@ class OrderController extends Controller
     
     public function actionOrderinfo()
     {
-        $post = Yii::$app->request->Post();
         $get = Yii::$app->request->get();
         $order_sn = $get['order_sn'];
         $access_token = $get['access-token'];
