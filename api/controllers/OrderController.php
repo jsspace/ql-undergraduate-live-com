@@ -581,6 +581,8 @@ class OrderController extends ActiveController
         $pre_paySign .= "&timeStamp=".$timeStamp."&key=".\WxPayConfig::KEY;
         $paySign = MD5($pre_paySign);
         $data = [
+            'code' => 2,
+            'wxpay' => 1,
             'appId' => $result['appid'],
             'timeStamp' => $timeStamp,
             'nonceStr' => $result['nonce_str'],
