@@ -15,6 +15,7 @@ use backend\models\CourseComent;
 use backend\models\Data;
 use backend\models\Quas;
 use backend\models\UserStudyLog;
+use Qiniu\Auth;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
