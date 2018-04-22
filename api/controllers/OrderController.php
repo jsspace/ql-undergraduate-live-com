@@ -550,10 +550,13 @@ class OrderController extends ActiveController
         $wxpay = new \WxPayApi();
         $attach = [
             'order_sn' => $orderInfo->order_sn,
-            'coupon_id' => $coupon->coupon_id,
-            'coin_pay' => $coin_pay
         ];
-
+        if (!empty($coupon)) {
+            $attach['coupon_id'] = $coupon->coupon_id;
+        }
+        if ($use_coin) {
+            $attach['coin_pay'] = $coin_pay;
+        }
         $input = new \WxPayUnifiedOrder();
         $input->SetBody(trim('课程购买订单：'.$order_sn));
         $input->SetAttach(json_encode($attach));
