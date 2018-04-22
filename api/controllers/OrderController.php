@@ -376,11 +376,17 @@ class OrderController extends ActiveController
         ];
         return $data;
     }
-    public function actionPay($access_token, $order_sn, $code, $coupon_id = -1, $use_coin = 0)
+    public function actionPay($coupon_id = -1, $use_coin = 0)
     {
+        $get = Yii::$app->request->get();
+        $order_sn = $get['order_sn'];
+        $access_token = $get['access-token'];
+        $code = $get['code'];
+//         $coupon_id = $get['coupon_id'];
+//         $use_coin = $get['use_coin'];
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
-    
+        
         $orderInfo = OrderInfo::find()
         ->where(['order_sn' => $order_sn])
         ->andWhere(['user_id' => $user_id])
@@ -564,6 +570,7 @@ class OrderController extends ActiveController
         $input->SetOpenid($response->openid);
         $result = $wxpay->unifiedOrder($input);
         print_r($result);die();
+        $paySign = MD5(appId=wxd678efh567hg6787&nonceStr=5K8264ILTKCH16CQ2502SI8ZNMTM67VS&package=prepay_id=wx2017033010242291fcfe0db70013231072&signType=MD5&timeStamp=1490840662&key=qazwsxedcrfvtgbyhnujmikolp111111)
     
     
     
