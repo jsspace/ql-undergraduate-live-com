@@ -110,7 +110,7 @@ return [
                     'controller' => 'order',
                     'pluralize'=>false,
                     'extraPatterns' => [
-                        'GET index' => 'index',
+                        'GET orderinfo' => 'orderinfo',
                         'POST courseinfo' => 'courseinfo',
                         'POST confirm-order' => 'confirm-order',
                         'GET wxpay' => 'wxpay'

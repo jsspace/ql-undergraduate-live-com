@@ -33,24 +33,46 @@ class OrderController extends Controller
         ]);
     }
     
-    public function actionIndex()
+    public function actionOrderinfo()
     {
-        $post = Yii::$app->request->Post();
         $get = Yii::$app->request->get();
         $order_sn = $get['order_sn'];
         $access_token = $get['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
-    
+        
+        $order_info = OrderInfo::find()
+        ->where(['order_sn' => $order_sn])
+        ->andWhere(['user_id' => $user_id])
+        ->asArray()
+        ->one();
+        if (empty($order_info)) {
+            $data = [
+                'code' => -1,
+                'message' => '没有查到订单信息',
+            ];
+            return json_encode($data);
+        }
+        
+        $coupon = Coupon::find()
+        ->where(['user_id' => $user_id])
+        ->andWhere(['isuse' => 0])
+        ->andWhere(['>','end_time', date('Y-m-d H:i:s',time())])
+        ->asArray()
+        ->all();    
+        
+        $coin = Coin::find()
+        ->where(['userid' => $user_id])
+        ->orderBy('id desc')
+        ->asArray()
+        ->one();
+        
         
         $data = [
-            'courses' => $course_array,
-            'order_sn' => $order_sn,
-            'course_ids' => $course_ids,
-            'course_packages' => $course_package_array,
-            'course_package_ids' => $course_package_ids,
-            'coupons' => $coupons,
-            'coin_balance' => $balance
+            'code' => 0,
+            'order_info' => $order_info,
+            'coupon' => $coupon,
+            'coin' => $coin,
         ];
         return json_encode($data);
     }
@@ -361,6 +383,10 @@ class OrderController extends Controller
         ->andWhere(['pay_status' => 0])
         ->one();
         if (!empty($orderInfo)) {
+            
+            
+            
+            
             $notify = new \NativePay();
             $url1 = $notify->GetPrePayUrl($order_sn);
     
