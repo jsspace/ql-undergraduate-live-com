@@ -547,7 +547,6 @@ class OrderController extends ActiveController
             return $data;
         }
         //统一下单
-        $url = Yii::$app->params['wxpay']['unifiedorder_url'];
         $wxpay = new \WxPayApi();
         $attach = [
             'order_sn' => $orderInfo->order_sn,
