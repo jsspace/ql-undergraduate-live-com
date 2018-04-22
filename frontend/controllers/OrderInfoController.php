@@ -348,7 +348,7 @@ class OrderInfoController extends \yii\web\Controller
                             ->where(['type' => 'share_course_shoping_get'])
                             ->one();
                             // 收入
-                            $income = ($perc / 100.00) * $order_info->goods_amount;
+                            $income = ($perc->code / 100.00) * $order_info->goods_amount;
                             //分享人报酬
                             $invite_pay = new Coin();
                             $invite_pay->userid = $invite;
@@ -406,7 +406,7 @@ class OrderInfoController extends \yii\web\Controller
                         ->where(['type' => 'share_course_shoping_get'])
                         ->one();
                         // 收入
-                        $income = ($perc / 100.00) * $order_info->goods_amount;
+                        $income = ($perc->code / 100.00) * $order_info->goods_amount;
                         //分享人报酬
                         $invite_pay = new Coin();
                         $invite_pay->userid = $invite;
@@ -572,7 +572,7 @@ class OrderInfoController extends \yii\web\Controller
                                 ->where(['type' => 'share_course_shoping_get'])
                                 ->one();
                                 // 收入
-                                $income = ($perc / 100.00) * $order_info->goods_amount;
+                                $income = ($perc->code / 100.00) * $order_info->goods_amount;
                                 //分享人报酬
                                 $invite_pay = new Coin();
                                 $invite_pay->userid = $invite;
@@ -669,7 +669,7 @@ class OrderInfoController extends \yii\web\Controller
                                 ->where(['type' => 'share_course_shoping_get'])
                                 ->one();
                                 // 收入
-                                $income = ($perc / 100.00) * $order_info->goods_amount;
+                                $income = ($perc->code / 100.00) * $order_info->goods_amount;
                                 //分享人报酬
                                 $invite_pay = new Coin();
                                 $invite_pay->userid = $invite;

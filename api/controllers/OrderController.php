@@ -19,6 +19,10 @@ use backend\models\OrderInfo;
 use backend\models\Lookup;
 use yii\rest\ActiveController;
 
+require_once "../../common/xcx_wxpay/lib/WxPay.Api.php";
+require_once "../../common/xcx_wxpay/example/WxPay.NativePay.php";
+require_once '../../common/xcx_wxpay/example/log.php';
+
 /**
  * AudioController implements the CRUD actions for Audio model.
  */
@@ -62,10 +66,11 @@ class OrderController extends ActiveController
         ->andWhere(['isuse' => 0])
         ->andWhere(['>','end_time', date('Y-m-d H:i:s',time())])
         ->asArray()
-        ->all();    
+        ->all();
         
         $coin = Coin::find()
         ->where(['userid' => $user_id])
+        ->andWhere(['>', 'balance', 0])
         ->orderBy('id desc')
         ->asArray()
         ->one();
@@ -371,58 +376,196 @@ class OrderController extends ActiveController
         ];
         return $data;
     }
-    public function actionPay()
+    public function actionPay($access_token, $order_sn, $code, $coupon_id = -1, $coin_id = -1)
     {
-        $get = Yii::$app->request->get();
-        $order_sn = $get['order_sn'];
-        $access_token = $get['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
     
         $orderInfo = OrderInfo::find()
         ->where(['order_sn' => $order_sn])
         ->andWhere(['user_id' => $user_id])
+        ->andWhere(['order_status' => 1])
         ->andWhere(['pay_status' => 0])
         ->one();
-        if (!empty($orderInfo)) {
-            
-            
-            
-            
-            $notify = new \NativePay();
-            $url1 = $notify->GetPrePayUrl($order_sn);
-    
-            $input = new \WxPayUnifiedOrder();
-            $input->SetBody(trim('课程购买订单：'.$orderInfo->order_sn));
-            $input->SetAttach($orderInfo->order_sn);
-            $input->SetOut_trade_no($orderInfo->order_sn);
-            $input->SetTotal_fee($orderInfo->order_amount * 100);
-            $input->SetTime_start(date("YmdHis"));
-            $input->SetTime_expire(date("YmdHis", time() + 600));
-            //             $input->SetGoods_tag("test");
-            //获取配置信息
-            $config = Yii::$app->params['wxpay'];
-            $input->SetNotify_url($config['notify_url']);
-            $input->SetTrade_type("NATIVE");
-            $input->SetProduct_id($orderInfo->order_sn);
-            $result = $notify->GetPayUrl($input);
-            //             print_r($result);die();
-            if ($result['return_code'] == 'SUCCESS') {
-                if ($result['result_code'] == 'SUCCESS') {
-                    $url2 = self::qrcode($result["code_url"], 'wxpay.png');
-                    return $this->render('wxpay', ['code_url' => $url2, 'out_trade_no' => $orderInfo->order_sn]);
-                } else {
-                    $return_msg = $result['err_code'] . ':' . $result['err_code_des'];
-                    error_log($return_msg);
-                    return $this->render('wxpay', ['return_msg' => $return_msg]);
-                }
-            } else {
-                $return_msg = $result['result_code'].':'.$result['return_msg'];
-                error_log($return_msg);
-                return $this->render('wxpay', ['return_msg' => $return_msg]);
-            }
-    
+        if (empty($orderInfo)) {
+            $data = [
+                'code' => -1,
+                'message' => '不存在这个订单或者此订单已支付'
+            ];
+            return $data;
         }
+        
+        $coupon = Coupon::find()
+        ->where(['user_id' => $user_id])
+        ->andWhere(['coupon_id' => $coupon_id])
+        ->andWhere(['isuse' => 0])
+        ->andWhere(['>','end_time', date('Y-m-d H:i:s',time())])
+        ->one();
+        $coupon_pay = 0.00;
+        if (!empty($coupon)) {
+            if ($coupon->fee >= $orderInfo->order_amount) {
+                //标记优惠券已使用
+                $coupon->isuse = 2;
+                $coupon->save(false);
+                $order_info->pay_name = '优惠券支付';
+                $orderInfo->coupon_ids = $coupon_id;
+                $orderInfo->coupon_money = $coupon->fee;
+                $orderInfo->pay_status = 2;
+                $orderInfo->pay_time = time();
+                $order_info->save(false);
+                OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $order_sn]);
+                
+                
+                //给邀请人发送奖励金额
+                //查看此人是否是被邀请注册的
+                $invite_peaple = User::find()
+                ->where(['id' => $user_id])
+                ->one();
+                $invite = $invite_peaple->invite;
+                //查看是否是第一次购买
+                $is_first_order = OrderInfo::find()
+                ->andWhere(['user_id' => $user_id])
+                ->andWhere(['pay_status' => 2])
+                ->count();
+                if ($invite > 0 && $is_first_order == 0) {
+                    $perc = Lookup::find()
+                    ->where(['type' => 'share_course_shoping_get'])
+                    ->one();
+                    // 收入
+                    $income = ($perc->code / 100.00) * $order_info->goods_amount;
+                    //分享人报酬
+                    $invite_pay = new Coin();
+                    $invite_pay->userid = $invite;
+                    $invite_pay->income = $income;
+                    $invite_pay->balance = $income;
+                    $invite_pay->operation_detail = '邀请注册首单奖励，邀请的用户： ' . $invite_peaple->username;
+                    $invite_pay->operation_time = time();
+                    $invite_pay->card_id = $order_info->order_sn;
+                    $invite_pay->save(false);
+                }
+                
+                $data = [
+                    'code' => 0,
+                    'message' => '支付成功'
+                ];
+                return $data;
+                
+            } else {
+                $coupon_pay = $coupon->fee;
+            }
+            
+        }
+        
+        $coin = Coin::find()
+        ->where(['userid' => $user_id])
+        ->andWhere(['id' => $coin_id])
+        ->andWhere(['>', 'balance', 0])
+        ->one();
+        $coin_pay = 0.00;
+        if (!empty($coin)) {
+            if (($coupon_pay + $coin->balance) >= $orderInfo->order_amount) {
+                //此订单所花费钱包金额
+                $coin_use = $orderInfo->order_amount - $coupon_pay;
+                $coin_model = new Coin();
+                $coin_model->userid = $user_id;
+                $coin_model->income = -$coin_use;
+                $coin_model->balance = $coin->balance - $coin_use;
+                $coin_model->operation_detail = "购买课程花费$coin_use元";
+                $coin_model->operation_time = time();
+                $coin_model->card_id = $orderInfo->order_sn;
+                $coin_model->save(false);
+                
+                //标记优惠券已使用
+                $coupon->isuse = 2;
+                $coupon->save(false);
+                $order_info->pay_name = '优惠券+钱包支付';
+                $orderInfo->coupon_ids = $coupon_id;
+                $orderInfo->coupon_money = $coupon->fee;
+                $orderInfo->bonus = $coin_use;
+                $orderInfo->bonus_id = $coin_model->id;
+                $orderInfo->coupon_money = $coupon->fee;
+                $orderInfo->pay_status = 2;
+                $orderInfo->pay_time = time();
+                $order_info->save(false);
+                OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $order_sn]);
+                
+                //给邀请人发送奖励金额
+                //查看此人是否是被邀请注册的
+                $invite_peaple = User::find()
+                ->where(['id' => $user_id])
+                ->one();
+                $invite = $invite_peaple->invite;
+                //查看是否是第一次购买
+                $is_first_order = OrderInfo::find()
+                ->andWhere(['user_id' => $user_id])
+                ->andWhere(['pay_status' => 2])
+                ->count();
+                if ($invite > 0 && $is_first_order == 0) {
+                    $perc = Lookup::find()
+                    ->where(['type' => 'share_course_shoping_get'])
+                    ->one();
+                    // 收入
+                    $income = ($perc->code / 100.00) * $order_info->goods_amount;
+                    //分享人报酬
+                    $invite_pay = new Coin();
+                    $invite_pay->userid = $invite;
+                    $invite_pay->income = $income;
+                    $invite_pay->balance = $income;
+                    $invite_pay->operation_detail = '邀请注册首单奖励，邀请的用户： ' . $invite_peaple->username;
+                    $invite_pay->operation_time = time();
+                    $invite_pay->card_id = $order_info->order_sn;
+                    $invite_pay->save(false);
+                }
+                
+                $data = [
+                    'code' => 1,
+                    'message' => '支付成功'
+                ];
+                return $data;
+            
+            } else {
+                $coin_pay = $coin->balance;
+            }
+        }
+        //微信支付需要支付的金额
+        $weixin_pay = $orderInfo->order_amount - $coupon_pay - $coin_pay;
+        //调用小程序登录API()
+        $url = sprintf(Yii::$app->params['wxpay']['jscode2session_url'], $code);
+        $response_str = ApiController::http_get_data($url);
+        $response = json_decode($response_str);
+        if (isset($response->errcode)) {
+            $data = [
+                'code' => -1,
+                'message' => $response->errmsg
+            ];
+            return $data;
+        }
+        //统一下单
+        $url = Yii::$app->params['wxpay']['unifiedorder_url'];
+        $wxpay = new \WxPayApi();
+        $attach = [
+            'order_sn' => $orderInfo->order_sn,
+            'coupon_id' => $coupon->coupon_id,
+            'coin_pay' => $coin_pay
+        ];
+
+        $input = new \WxPayUnifiedOrder();
+        $input->SetBody(trim('课程购买订单：'.$order_sn));
+        $input->SetAttach(json_encode($attach));
+        $input->SetOut_trade_no($order_sn);
+        $input->SetTotal_fee($weixin_pay * 100);
+        $input->SetTime_start(date("YmdHis"));
+        $input->SetTime_expire(date("YmdHis", time() + 600));
+        //             $input->SetGoods_tag("test");
+        //获取配置信息
+        $config = Yii::$app->params['wxpay'];
+        $input->SetNotify_url($config['notify_url']);
+        $input->SetTrade_type("JSAPI");
+        $input->SetProduct_id($orderInfo->order_sn);
+        $input->SetOpenid($response->openid);
+        $result = $wxpay->unifiedOrder($input);
+        print_r($result);die();
+    
     
     
     }
@@ -463,7 +606,7 @@ class OrderController extends ActiveController
             //获取配置信息
             $config = Yii::$app->params['wxpay'];
             $input->SetNotify_url($config['notify_url']);
-            $input->SetTrade_type("NATIVE");
+            $input->SetTrade_type("JSAPI");
             $input->SetProduct_id($orderInfo->order_sn);
             $result = $notify->GetPayUrl($input);
 //             print_r($result);die();
