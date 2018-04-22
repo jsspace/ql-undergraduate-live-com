@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
+use components\helpers\QiniuUpload;
 
 /**
  * CourseController implements the CRUD actions for Course model.
@@ -143,6 +144,12 @@ class CourseController extends Controller
             $message = '';
             $uploadPath .= $file;
             $move = $uploadedFile->saveAs($uploadPath);
+            $folder = 'upload/img/ckeditor';
+            $result = QiniuUpload::uploadToQiniu($uploadedFile, $uploadPath, $folder);
+            if (!empty($result)) {
+                $url = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                @unlink($uploadPath);
+            }
             if(!$move)
             {
                 $message = "移动图片失败，请检查文件夹的权限！";
