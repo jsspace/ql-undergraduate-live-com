@@ -17,12 +17,15 @@ use backend\models\Cart;
 use backend\models\OrderGoods;
 use backend\models\OrderInfo;
 use backend\models\Lookup;
+use yii\rest\ActiveController;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
  */
-class OrderController extends Controller
+class OrderController extends ActiveController
 {
+    public $modelClass = 'backend\models\OrderInfo';
+    
     /* 过滤器实现认证 */
     public function behaviors()
     {
