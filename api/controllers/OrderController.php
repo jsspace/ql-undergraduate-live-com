@@ -70,7 +70,6 @@ class OrderController extends ActiveController
         ->asArray()
         ->one();
         
-        
         $data = [
             'code' => 0,
             'order_info' => $order_info,
