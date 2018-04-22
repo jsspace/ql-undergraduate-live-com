@@ -54,7 +54,7 @@ class OrderController extends ActiveController
                 'code' => -1,
                 'message' => '没有查到订单信息',
             ];
-            return json_encode($data);
+            return $data;
         }
         
         $coupon = Coupon::find()
@@ -76,7 +76,7 @@ class OrderController extends ActiveController
             'coupon' => $coupon,
             'coin' => $coin,
         ];
-        return json_encode($data);
+        return $data;
     }
 
     //课程信息接口
@@ -102,7 +102,7 @@ class OrderController extends ActiveController
                 'message' => '没有数据',
             ];
         }
-        return json_encode($data);
+        return $data;
     }
     
     public function actionConfirmOrder1()
@@ -296,7 +296,7 @@ class OrderController extends ActiveController
                 'code' => -1,
                 'message' => 'course_id参数为空'
             ];
-            return json_encode($data);
+            return $data;
         }
         $course_id = $data['course_id'];
         $course_models = Course::find()
@@ -308,7 +308,7 @@ class OrderController extends ActiveController
                 'code' => -2,
                 'message' => '课程数据为空'
             ];
-            return json_encode($data);
+            return $data;
         }
         //删除购物车中对应的条目
         Cart::deleteAll([
@@ -369,7 +369,7 @@ class OrderController extends ActiveController
             'code' => 0,
             'order_sn' => $order_sn,
         ];
-        return json_encode($data);
+        return $data;
     }
     public function actionPay()
     {
