@@ -127,24 +127,26 @@ class PersonalController extends ActiveController
         $user = User::findIdentityByAccessToken($access_token);
         //所有订单
         $all_orders = OrderInfo::find()
-        ->where(['user_id' => Yii::$app->user->id])
+        ->where(['user_id' => $user->id])
         ->orderBy('add_time desc')
         ->all();
         $result = array();
         foreach ($all_orders as $key => $order) {
             $course_ids = $order->course_ids;
-            $course_ids = substr($course_ids,0,strlen($course_ids)-1);
+            //$course_ids = substr($course_ids,0,strlen($course_ids)-1);
             $course_id_arr = explode(',', $course_ids);
             $courses = array();
             foreach ($course_id_arr as $key => $course_id) {
                 $course = Course::findOne($course_id);
-                $content = array(
-                    'course_id' => $course->id,
-                    'course_name' => $course->course_name,
-                    'discount' => $course->discount,
-                    'list_pic' => Url::to('@web'.$course->list_pic, true)
-                );
-                $courses[] = $content;
+                if (!empty($course)) {
+                    $content = array(
+                        'course_id' => $course->id,
+                        'course_name' => $course->course_name,
+                        'discount' => $course->discount,
+                        'list_pic' => Url::to('@web'.$course->list_pic, true)
+                    );
+                    $courses[] = $content;
+                }
             }
             $result[] = array(
                 'courses' => $courses,
