@@ -28,11 +28,10 @@ $(function(){
 function check() {
 	$.ajax({
         url: "<?= Url::to(['order-info/wxcheckorder']) ?>",
-        type: 'post',
+        type: 'get',
         dataType:"json",
         data: {
             'out_trade_no': $("#out_trade_no").val(),
-            '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
         },
         success: function(data) {
             if (data.trade_state == "SUCCESS") {

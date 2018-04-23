@@ -623,7 +623,7 @@ class OrderInfoController extends \yii\web\Controller
      
      public function actionWxcheckorder()
      {
-         $data = Yii::$app->request->post();
+         $data = Yii::$app->request->get();
          
          if(!empty($data["out_trade_no"])){
             $out_trade_no = $data["out_trade_no"];

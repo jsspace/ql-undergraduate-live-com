@@ -29,7 +29,7 @@ return [
     ],
     'wxpay' => [
         //异步通知地址
-        'notify_url' => "https://www.kaoben.top/wxnotify",
+        'notify_url' => "https://www.kaoben.top/wxnotify/index",
         // 获取session_key, openid接口
         'jscode2session_url' => "https://api.weixin.qq.com/sns/jscode2session?appid=$xcx_appid&secret=$xcx_secret&js_code=%s&grant_type=authorization_code",
         
