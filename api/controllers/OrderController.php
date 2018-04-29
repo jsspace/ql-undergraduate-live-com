@@ -746,7 +746,7 @@ class OrderController extends ActiveController
                                 $invite_pay->save(false);
                             }
     
-                            OrdergupdateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
+                            OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
                             $order_info->pay_id = $transaction_id;
                             $order_info->pay_name = '微信支付';
                             $order_info->money_paid = $total_fee;
