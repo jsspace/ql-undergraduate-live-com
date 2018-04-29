@@ -384,8 +384,6 @@ class OrderController extends ActiveController
         $order_sn = $get['order_sn'];
         $access_token = $get['access-token'];
         $code = $get['code'];
-//         $coupon_id = $get['coupon_id'];
-//         $use_coin = $get['use_coin'];
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
         
@@ -468,6 +466,7 @@ class OrderController extends ActiveController
         $coin = Coin::find()
         ->where(['userid' => $user_id])
         ->andWhere(['>', 'balance', 0])
+        ->orderBy('id desc')
         ->one();
         $coin_pay = 0.00;
         if (!empty($coin) && $coin->balance > 0 && $use_coin) {
@@ -491,7 +490,6 @@ class OrderController extends ActiveController
                 $orderInfo->coupon_money = $coupon->fee;
                 $orderInfo->bonus = $coin_use;
                 $orderInfo->bonus_id = $coin_model->id;
-                $orderInfo->coupon_money = $coupon->fee;
                 $orderInfo->pay_status = 2;
                 $orderInfo->pay_time = time();
                 $order_info->save(false);

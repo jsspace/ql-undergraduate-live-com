@@ -59,8 +59,7 @@ class WxnotifyController extends \yii\web\Controller
         if(in_array($currentaction,$novalidactions)) {
             $action->controller->enableCsrfValidation = false;
         }
-        parent::beforeAction($action);
-        return true;
+        return parent::beforeAction($action);
     }
 
 
@@ -69,7 +68,7 @@ class WxnotifyController extends \yii\web\Controller
     {
         error_log('file:'.__FILE__.'  line:'.__LINE__);
         //获取通知的数据
-        $xml = Yii::$app->request->getRawBody();
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
         error_log('file:'.__FILE__.'  line:'.__LINE__.'   xml:'.$xml);
         //如果返回成功则验证签名
         //try {
@@ -87,10 +86,9 @@ class WxnotifyController extends \yii\web\Controller
                     //交易类型
                     $trade_type = $result['trade_type'];
                     //支付金额(单位：分)
-                    $total_fee = $result['total_fee'];
+                    $total_fee = $result['total_fee']/100.00;
                     //支付完成时间
                     $time_end = $result['time_end'];
-                
                 
                     $order_info = OrderInfo::find()
                     ->where(['order_sn' => $out_trade_no])
@@ -98,27 +96,93 @@ class WxnotifyController extends \yii\web\Controller
                     ->andWhere(['pay_status' => 0])
                     ->one();
                 
-                    if (!empty($order_info)) {
-                        if (($order_info->order_amount*100) == $total_fee) {
-                            $order_info->pay_id = $transaction_id;
-                            $order_info->pay_name = '微信支付';
-                            $order_info->money_paid = $total_fee;
-                            $order_info->pay_status = 2;
-                            $order_info->pay_time = time();
-                            $order_info->save(false);
-                            //标记优惠券已使用
-                            Coupon::updateAll(
-                                ['isuse' => 2],
-                                [
-                                    'user_id' => $order_info->user_id,
-                                    'coupon_id' => explode(',', $order_info->coupon_ids),
-                                ]
-                                );
+                    if (!empty($order_info) && ($order_info->order_amount == $total_fee)) {
+                        // attach
+                        if (isset($result['attach']) && !empty($result['attach'])) {
+                            $attach = json_decode($result['attach']);
+                            if (isset($attach['coupon_id'])) {
+                                $coupon = Coupon::findOne(['user_id' => $order_info->user_id, 'coupon_id' => $attach['coupon_id']]);
+                                $coupon->isuse = 2;
+                                $coupon->update();
+                                $order_info->coupon_ids = $attach['coupon_id'];
+                                $order_info->coupon_money = $coupon->fee;
+                            }
+                            if (isset($attach['coin_pay'])) {
+                                $coin = Coin::find()
+                                ->where(['userid' => $order_info->user_id])
+                                ->andWhere(['>', 'balance', 0])
+                                ->orderBy('id desc')
+                                ->one();
+                                $coin_model = new Coin();
+                                $coin_model->userid = $order_info->user_id;
+                                $coin_model->income = -$attach['coin_pay'];
+                                $coin_model->balance = $coin->balance - $attach['coin_pay'];
+                                $coin_model->operation_detail = "购买课程花费".$attach['coin_pay']."元";
+                                $coin_model->operation_time = time();
+                                $coin_model->card_id = $order_info->order_sn;
+                                $coin_model->save(false);
+                                $order_info->bonus = $attach['coin_pay'];
+                                $order_info->bonus_id = $coin_model->id;
+                            }
+                            
+                        
+                        }                        
+                        
+                        $order_info->pay_id = $transaction_id;
+                        $order_info->pay_name = '优惠券+钱包支付+微信支付';
+                        $order_info->money_paid = $total_fee;
+                        $order_info->pay_status = 2;
+                        $order_info->pay_time = time();
+                        $order_info->save(false);
+                        OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $order_sn]);
+                        //标记优惠券已使用
+                        Coupon::updateAll(
+                            ['isuse' => 2],
+                            [
+                                'user_id' => $order_info->user_id,
+                                'coupon_id' => explode(',', $order_info->coupon_ids),
+                            ]
+                            );
+                        
+                        //给邀请人发送奖励金额
+                        //查看此人是否是被邀请注册的
+                        $invite_peaple = User::find()
+                        ->where(['id' => $order_info->user_id])
+                        ->one();
+                        $invite = $invite_peaple->invite;
+                        //查看是否是第一次购买
+                        $is_first_order = OrderInfo::find()
+                        ->andWhere(['user_id' => $order_info->user_id])
+                        ->andWhere(['pay_status' => 2])
+                        ->count();
+                        if ($invite > 0 && $is_first_order == 0) {
+                            $perc = Lookup::find()
+                            ->where(['type' => 'share_course_shoping_get'])
+                            ->one();
+                            // 收入
+                            $income = ($perc->code / 100.00) * $order_info->goods_amount;
+                            //分享人报酬
+                            $invite_pay = new Coin();
+                            $invite_pay->userid = $invite;
+                            $invite_pay->income = $income;
+                            $invite_pay->balance = $income;
+                            $invite_pay->operation_detail = '邀请注册首单奖励，邀请的用户： ' . $invite_peaple->username;
+                            $invite_pay->operation_time = time();
+                            $invite_pay->card_id = $order_info->order_sn;
+                            $invite_pay->save(false);
                         }
+                        
+                        
+                        
                     } else {
-                        //订单状态已更新，直接返回
-                        return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                        $err_str = 'money is not right, $result: ' . json_encode($result);
+                        $err_str .= ' file: ' . __FILE__ . ' line: ' . __LINE__ . PHP_EOL;
+                        error_log($err_str);
+                        return false;
                     }
+                    //订单状态已更新，直接返回
+                    return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                    
                 } else {
                     $return_msg = $result['err_code'].':'.$result['err_code_des'];
                     error_log($return_msg);
