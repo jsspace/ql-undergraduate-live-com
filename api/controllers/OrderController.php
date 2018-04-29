@@ -535,7 +535,7 @@ class OrderController extends ActiveController
             }
         }
         //微信支付需要支付的金额
-        $weixin_pay = $orderInfo->order_amount - $coupon_pay - $coin_pay;
+        $weixin_pay = number_format($orderInfo->order_amount - $coupon_pay - $coin_pay, 2);
         //调用小程序登录API()
         $url = sprintf(Yii::$app->params['wxpay']['jscode2session_url'], $code);
         $response_str = ApiController::http_get_data($url);
@@ -573,6 +573,11 @@ class OrderController extends ActiveController
         $input->SetProduct_id($orderInfo->order_sn);
         $input->SetOpenid($response->openid);
         $result = $wxpay->unifiedOrder($input);
+        if ($result['return_code'] != 'SUCCESS') {
+            $err_str = json_encode($result);
+            $err_str .= 'file: '.__FILE__ . ' line: '.__LINE__;
+            error_log($err_str);
+        }
         $timeStamp = time();
         $pre_paySign = "appId=".$result['appid']."&nonceStr=".$result['nonce_str'];
         $pre_paySign .= "&package=prepay_id=".$result['prepay_id'].'&signType=MD5';
@@ -684,9 +689,21 @@ class OrderController extends ActiveController
                     $total_fee = $result['total_fee']/100.00;
                     //支付完成时间
                     $time_end = $result['time_end'];
+                    $wxpay = $order_info->order_amount;
+                    if (isset($result['attach']) && !empty($result['attach'])) {
+                        $attach = json_decode($result['attach'], true);
+                        if (isset($attach['coupon_id'])) {
+                            $coupon = Coupon::findOne(['user_id' => $order_info->user_id, 'coupon_id' => $attach['coupon_id']]);
+                            $wxpay -= $coupon->fee;
+                        }
+                        if (isset($attach['coin_pay'])) {
+                            $wxpay -= $attach['coin_pay'];
+                        }
+                    }
+                    $wxpay = number_format($wxpay, 2);
     
                     if (!empty($order_info)) {
-                        if ($order_info->order_amount == $total_fee) {
+                        if ($wxpay == $total_fee) {
                             // attach
                             if (isset($result['attach']) && !empty($result['attach'])) {
                                 
