@@ -87,8 +87,17 @@ class CourseController extends Controller
                 }
                 $image_list->saveAs($rootPath . $listrandName);
                 $image_home->saveAs($rootPath . $homerandName);
-                $model->list_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course/' . $listrandName;
-                $model->home_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course/' . $homerandName;
+                $folder = 'course';
+                $result = QiniuUpload::uploadToQiniu($image_list, $rootPath . $listrandName, $folder);
+                if (!empty($result)) {
+                    $model->list_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                    @unlink($rootPath . $listrandName);
+                }
+                $result = QiniuUpload::uploadToQiniu($image_home, $rootPath . $homerandName, $folder);
+                if (!empty($result)) {
+                    $model->home_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                    @unlink($rootPath . $homerandName);
+                }
                 /*浏览次数 收藏次数 分享次数 在学人数 设置500-600之间的随机数*/
                 $model->view = rand(800, 1200);
                 $model->collection = rand(400, 500);
@@ -174,6 +183,7 @@ class CourseController extends Controller
         $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
         $oldlist_path = $model->list_pic;
         $oldhome_path = $model->home_pic;
+        $folder = 'course';
         if ($model->load(Yii::$app->request->post())) {
             $image_list = UploadedFile::getInstance($model, 'list_pic');
             $image_home = UploadedFile::getInstance($model, 'home_pic');
@@ -185,8 +195,11 @@ class CourseController extends Controller
                     mkdir($listrootPath, 0777, true);
                 }
                 $image_list->saveAs($listrootPath . $listrandName);
-                $model->list_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course/' . $listrandName;
-                @unlink(Yii::getAlias("@frontend")."/web/" . $oldlist_path);
+                $result = QiniuUpload::uploadToQiniu($image_list, $listrootPath . $listrandName, $folder);
+                if (!empty($result)) {
+                    $model->list_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                    @unlink($listrootPath . $listrandName);
+                }
             } else {
                 $model->list_pic = $oldlist_path;
             }
@@ -198,8 +211,11 @@ class CourseController extends Controller
                     mkdir($homerootPath, 0777, true);
                 }
                 $image_home->saveAs($homerootPath . $homerandName);
-                $model->home_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course/' . $homerandName;
-                @unlink(Yii::getAlias("@frontend")."/web/" . $oldhome_path);
+                $result = QiniuUpload::uploadToQiniu($image_home, $homerootPath . $homerandName, $folder);
+                if (!empty($result)) {
+                    $model->home_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                    @unlink($homerootPath . $homerandName);
+                }
             }  else {
                 $model->home_pic = $oldhome_path;
             }

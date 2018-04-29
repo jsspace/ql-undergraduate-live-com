@@ -32,7 +32,7 @@ class SiteController extends Controller
             );
             $ads_arr[] = $content;
         }
-        $result['ads'] = $ads_arr;
+        $result['home_ads'] = $ads_arr;
         /*直属学院*/
         $colleges = CourseCategory::find()
         ->orderBy('position asc')
