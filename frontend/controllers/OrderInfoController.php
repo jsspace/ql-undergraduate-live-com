@@ -651,12 +651,24 @@ class OrderInfoController extends \yii\web\Controller
                     $total_fee = $result['total_fee']/100.00;
                     //支付完成时间
                     $time_end = $result['time_end'];
+                    $wxpay = $order_info->order_amount;
+                    if (isset($result['attach']) && !empty($result['attach'])) {
+                        $attach = json_decode($result['attach'], true);
+                        if (isset($attach['coupon_id'])) {
+                            $coupon = Coupon::findOne(['user_id' => $order_info->user_id, 'coupon_id' => $attach['coupon_id']]);
+                            $wxpay -= $coupon->fee;
+                        }
+                        if (isset($attach['coin_pay'])) {
+                            $wxpay -= $attach['coin_pay'];
+                        }
+                    }
+                    $wxpay = number_format($wxpay, 2);
                     
                     if (!empty($order_info)) {
-                        if ($order_info->order_amount == $total_fee) {
+                        if ($wxpay == $total_fee) {
                             // attach
                             if (isset($result['attach']) && !empty($result['attach'])) {
-                                $attach = json_decode($result['attach']);
+                                $attach = json_decode($result['attach'], true);
                                 if (isset($attach['coupon_id'])) {
                                     $coupon = Coupon::findOne(['user_id' => $order_info->user_id, 'coupon_id' => $attach['coupon_id']]);
                                     $coupon->isuse = 2;
