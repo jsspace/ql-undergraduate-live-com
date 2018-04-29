@@ -653,6 +653,36 @@ class OrderInfoController extends \yii\web\Controller
                     
                     if (!empty($order_info)) {
                         if ($order_info->order_amount == $total_fee) {
+                            // attach
+                            if (isset($result['attach']) && !empty($result['attach'])) {
+                                $attach = json_decode($result['attach']);
+                                if (isset($attach['coupon_id'])) {
+                                    $coupon = Coupon::findOne(['user_id' => $order_info->user_id, 'coupon_id' => $attach['coupon_id']]);
+                                    $coupon->isuse = 2;
+                                    $coupon->update();
+                                    $order_info->coupon_ids = $attach['coupon_id'];
+                                    $order_info->coupon_money = $coupon->fee;
+                                }
+                                if (isset($attach['coin_pay'])) {
+                                    $coin = Coin::find()
+                                    ->where(['userid' => $order_info->user_id])
+                                    ->andWhere(['>', 'balance', 0])
+                                    ->orderBy('id desc')
+                                    ->one();
+                                    $coin_model = new Coin();
+                                    $coin_model->userid = $order_info->user_id;
+                                    $coin_model->income = -$attach['coin_pay'];
+                                    $coin_model->balance = $coin->balance - $attach['coin_pay'];
+                                    $coin_model->operation_detail = "购买课程花费".$attach['coin_pay']."元";
+                                    $coin_model->operation_time = time();
+                                    $coin_model->card_id = $order_info->order_sn;
+                                    $coin_model->save(false);
+                                    $order_info->bonus = $attach['coin_pay'];
+                                    $order_info->bonus_id = $coin_model->id;
+                                }
+                            
+                            
+                            }
                             //给邀请人发送奖励金额
                             //查看此人是否是被邀请注册的
                             $invite_peaple = User::find()
