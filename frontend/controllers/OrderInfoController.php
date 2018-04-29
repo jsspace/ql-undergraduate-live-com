@@ -490,7 +490,8 @@ class OrderInfoController extends \yii\web\Controller
             $input->SetBody(trim('课程购买订单：'.$orderInfo->order_sn));
             $input->SetAttach($orderInfo->order_sn);
             $input->SetOut_trade_no($orderInfo->order_sn);
-            $input->SetTotal_fee($orderInfo->order_amount * 100);
+            $total_fee = number_format($orderInfo->order_amount, 2) * 100;
+            $input->SetTotal_fee($total_fee);
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
 //             $input->SetGoods_tag("test");

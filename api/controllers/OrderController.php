@@ -535,7 +535,7 @@ class OrderController extends ActiveController
             }
         }
         //微信支付需要支付的金额
-        $weixin_pay = $orderInfo->order_amount - $coupon_pay - $coin_pay;
+        $weixin_pay = number_format($orderInfo->order_amount - $coupon_pay - $coin_pay, 2);
         //调用小程序登录API()
         $url = sprintf(Yii::$app->params['wxpay']['jscode2session_url'], $code);
         $response_str = ApiController::http_get_data($url);
@@ -573,6 +573,11 @@ class OrderController extends ActiveController
         $input->SetProduct_id($orderInfo->order_sn);
         $input->SetOpenid($response->openid);
         $result = $wxpay->unifiedOrder($input);
+        if ($result['return_code'] != 'SUCCESS') {
+            $err_str = json_encode($result);
+            $err_str .= 'file: '.__FILE__ . ' line: '.__LINE__;
+            error_log($err_str);
+        }
         $timeStamp = time();
         $pre_paySign = "appId=".$result['appid']."&nonceStr=".$result['nonce_str'];
         $pre_paySign .= "&package=prepay_id=".$result['prepay_id'].'&signType=MD5';
