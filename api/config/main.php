@@ -113,7 +113,8 @@ return [
                         'GET orderinfo' => 'orderinfo',
                         'POST courseinfo' => 'courseinfo',
                         'POST confirm-order' => 'confirm-order',
-                        'GET pay' => 'pay'
+                        'GET pay' => 'pay',
+                        'GET wxcheckorder' => 'wxcheckorder',
                     ]
                 ],
             ],
