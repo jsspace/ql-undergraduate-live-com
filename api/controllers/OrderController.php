@@ -689,7 +689,8 @@ class OrderController extends ActiveController
                         if ($order_info->order_amount == $total_fee) {
                             // attach
                             if (isset($result['attach']) && !empty($result['attach'])) {
-                                $attach = json_decode($result['attach']);
+                                
+                                $attach = json_decode($result['attach'], true);
                                 if (isset($attach['coupon_id'])) {
                                     $coupon = Coupon::findOne(['user_id' => $order_info->user_id, 'coupon_id' => $attach['coupon_id']]);
                                     $coupon->isuse = 2;
