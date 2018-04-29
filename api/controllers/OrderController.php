@@ -655,6 +655,140 @@ class OrderController extends ActiveController
         
     }
     
+    public function actionWxcheckorder()
+    {
+        $data = Yii::$app->request->get();
+        
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $user_id = $user->id;
+         
+        if(!empty($data["out_trade_no"])){
+            $out_trade_no = $data["out_trade_no"];
+            $input = new \WxPayOrderQuery();
+            $input->SetOut_trade_no($out_trade_no);
+            $result = \WxPayApi::orderQuery($input);
+            if(array_key_exists("return_code", $result)
+                && array_key_exists("result_code", $result)
+                && $result["return_code"] == "SUCCESS"
+                && $result["result_code"] == "SUCCESS")
+            {
+                //商户订单号
+                $out_trade_no = $result['out_trade_no'];
+                $order_info = OrderInfo::find()
+                ->where(['order_sn' => $out_trade_no])
+                ->andWhere(['order_status' => 1])
+                ->andWhere(['pay_status' => 0])
+                ->one();
+                if ($result['trade_state'] == "SUCCESS") {
+    
+                    //微信支付订单号
+                    $transaction_id = $result['transaction_id'];
+                    //支付金额(单位：分)
+                    $total_fee = $result['total_fee']/100.00;
+                    //支付完成时间
+                    $time_end = $result['time_end'];
+    
+                    if (!empty($order_info)) {
+                        if ($order_info->order_amount == $total_fee) {
+                            // attach
+                            if (isset($result['attach']) && !empty($result['attach'])) {
+                                $attach = json_decode($result['attach']);
+                                if (isset($attach['coupon_id'])) {
+                                    $coupon = Coupon::findOne(['user_id' => $order_info->user_id, 'coupon_id' => $attach['coupon_id']]);
+                                    $coupon->isuse = 2;
+                                    $coupon->update();
+                                    $order_info->coupon_ids = $attach['coupon_id'];
+                                    $order_info->coupon_money = $coupon->fee;
+                                }
+                                if (isset($attach['coin_pay'])) {
+                                    $coin = Coin::find()
+                                    ->where(['userid' => $order_info->user_id])
+                                    ->andWhere(['>', 'balance', 0])
+                                    ->orderBy('id desc')
+                                    ->one();
+                                    $coin_model = new Coin();
+                                    $coin_model->userid = $order_info->user_id;
+                                    $coin_model->income = -$attach['coin_pay'];
+                                    $coin_model->balance = $coin->balance - $attach['coin_pay'];
+                                    $coin_model->operation_detail = "购买课程花费".$attach['coin_pay']."元";
+                                    $coin_model->operation_time = time();
+                                    $coin_model->card_id = $order_info->order_sn;
+                                    $coin_model->save(false);
+                                    $order_info->bonus = $attach['coin_pay'];
+                                    $order_info->bonus_id = $coin_model->id;
+                                }
+    
+    
+                            }
+                            //给邀请人发送奖励金额
+                            //查看此人是否是被邀请注册的
+                            $invite_peaple = User::find()
+                            ->where(['id' => $order_info->user_id])
+                            ->one();
+                            $invite = $invite_peaple->invite;
+                            //查看是否是第一次购买
+                            $is_first_order = OrderInfo::find()
+                            ->andWhere(['user_id' => Yii::$app->user->id])
+                            ->andWhere(['pay_status' => 2])
+                            ->count();
+                            if ($invite > 0 && $is_first_order == 0) {
+                                $perc = Lookup::find()
+                                ->where(['type' => 'share_course_shoping_get'])
+                                ->one();
+                                // 收入
+                                $income = ($perc->code / 100.00) * $order_info->goods_amount;
+                                //分享人报酬
+                                $invite_pay = new Coin();
+                                $invite_pay->userid = $invite;
+                                $invite_pay->income = $income;
+                                $invite_pay->balance = $income;
+                                $invite_pay->operation_detail = '邀请注册首单奖励，邀请的用户： ' . $invite_peaple->username;
+                                $invite_pay->operation_time = time();
+                                $invite_pay->card_id = $order_info->order_sn;
+                                $invite_pay->save(false);
+                            }
+    
+                            OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
+                            $order_info->pay_id = $transaction_id;
+                            $order_info->pay_name = '微信支付';
+                            $order_info->money_paid = $total_fee;
+                            $order_info->pay_status = 2;
+                            $order_info->pay_time = time();
+                            $order_info->save(false);
+                            //标记优惠券已使用
+                            Coupon::updateAll(
+                                ['isuse' => 2],
+                                [
+                                    'user_id' => $order_info->user_id,
+                                    'coupon_id' => explode(',', $order_info->coupon_ids),
+                                ]
+                                );
+                        }
+                    }
+                } else if ($result['trade_state'] == "PAYERROR") {
+                    //支付失败，取消订单
+                    $order_info->pay_id = $transaction_id;
+                    $order_info->pay_name = '微信支付';
+                    $order_info->order_status = 2;
+                    $order_info->pay_status = 0;
+                    $order_info->invalid_time = time();
+                    $order_info->save(false);
+                    //返回优惠券
+                    Coupon::updateAll(
+                        ['isuse' => 0],
+                        [
+                            'user_id' => $order_info->user_id,
+                            'coupon_id' => explode(',', $order_info->coupon_ids),
+                        ]
+                        );
+                }
+            }
+    
+            return json_encode($result);
+        }
+    }
+    
     public static function createOrderid()
     {
         //生成24位唯一订单号码，格式：YYYY-MMDD-HHII-SS-NNNN,NNNN-CC，其中：YYYY=年份，MM=月份，DD=日期，HH=24格式小时，II=分，SS=秒，NNNNNNNN=随机数，CC=检查码
