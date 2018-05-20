@@ -14,7 +14,6 @@ return [
     'secret_key' => 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15',
     'public_bucket' => 'youshilian',
     'get_source_host' => 'http://oyxhwhkdy.bkt.clouddn.com',
-
     'alipay' => [
         //应用ID,您的APPID。
         'app_id' => "2017101209266263",
