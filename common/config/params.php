@@ -9,7 +9,6 @@ return [
     'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
     'upload_img_dir' => "uploads/img/",
-    
     /*七牛云图片存储配置信息*/
     'access_key' => 'BpA5RUTf1eWdiDpsRrosEJ-i9CroZjj9Gi4NOw5t',
     'secret_key' => 'errjOOqxbwghY96t1a4bSP-ERR-42bHqEI_4H-15',
