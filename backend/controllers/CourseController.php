@@ -4,7 +4,6 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Course;
-use backend\models\CourseCategory;
 use backend\models\CourseSearch;
 use backend\models\User;
 use yii\filters\VerbFilter;
@@ -267,20 +266,5 @@ class CourseController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-
-    public function actionGetcategory()
-    {
-        $request = Yii::$app->request->post();
-        $keywords = $request['keywords'];
-        $categorys= CourseCategory::find()
-        ->where(['like', 'name', $keywords])
-        //->andWhere(['>', 'parent_id', 0])
-        ->all();
-        $data = '';
-        foreach ($categorys as $category) {
-            $data.='<span class="tag" data-value='.$category->id.'>'.$category->name.'<span class="remove"></span></span>';
-        }
-        return $data;
     }
 }

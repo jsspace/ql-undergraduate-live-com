@@ -4,7 +4,6 @@
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\User;
-use backend\models\CourseCategory;
 use yii\widgets\LinkPager;
 
 AppAsset::addCss($this,'@web/css/list.css');
@@ -33,7 +32,6 @@ $this->title = '新课提醒';
                         <div class="teacher-section">
                             <!-- <img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/> -->
                             <span class="teacher-name">主讲人：<?= User::item($course->teacher_id); ?></span>
-                            <span class="college-position"><?= CourseCategory::getNames($course->category_name); ?></span>
                         </div>
                     </li>
                 <?php } ?>

@@ -2,7 +2,6 @@
 
 use backend\assets\AppAsset;
 use backend\models\User;
-use backend\models\CourseCategory;
 use dosamigos\ckeditor\CKEditor;
 use kartik\file\FileInput;
 use yii\helpers\Html;
@@ -21,29 +20,6 @@ AppAsset::addCss($this, '@web/css/course.css');
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'course_name')->textInput(['maxlength' => true]) ?>
-
-    <div class="course-category-wrap">
-        <div class="form-group field-course-category_name required">
-            <label class="control-label" for="course-category_name">课程分类</label>
-            <input type="text" name="Course[category_name]" class="hidden-course-category-name _hidden-course-category-name" value="<?= $model->category_name; ?>">
-            <div class="ccategory-wrap _ccategory-wrap form-control">
-                <div class="course-category _course-category">
-                    <?php
-                        if (!empty($model->category_name)) {
-                            $categorys = explode(',',$model->category_name);
-                            $data = '';
-                            foreach ($categorys as $category) {
-                                $data.='<span class="tag" data-value='.$category.'>'.CourseCategory::item($category).'<span class="remove"></span></span>';
-                            }
-                            echo $data;
-                        }
-                    ?>
-                </div>
-                <input type="text" id="course-category_name" value="" maxlength="255" autocomplete="off" aria-invalid="false">
-            </div>
-        </div>
-        <div class="ccategory-result _ccategory-result"></div>
-    </div>
 
     <?= $form->field($model, 'teacher_id')->dropDownList($teachers) ?>
 
@@ -108,4 +84,3 @@ AppAsset::addCss($this, '@web/css/course.css');
     <?php ActiveForm::end(); ?>
 
 </div>
-<script src='/js/course.js'></script>

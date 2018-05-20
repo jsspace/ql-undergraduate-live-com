@@ -19,7 +19,7 @@ class CourseSearch extends Course
     {
         return [
             [['id', 'teacher_id', 'view', 'collection', 'share', 'online', 'create_time', 'head_teacher'], 'integer'],
-            [['course_name', 'list_pic', 'home_pic', 'category_name', 'des'], 'safe'],
+            [['course_name', 'list_pic', 'home_pic', 'des'], 'safe'],
             [['price', 'discount'], 'number'],
         ];
     }
@@ -77,7 +77,6 @@ class CourseSearch extends Course
         $query->andFilterWhere(['like', 'course_name', $this->course_name])
             ->andFilterWhere(['like', 'list_pic', $this->list_pic])
             ->andFilterWhere(['like', 'home_pic', $this->home_pic])
-            ->andFilterWhere(['like', 'category_name', $this->category_name])
             ->andFilterWhere(['like', 'des', $this->des]);
 
         return $dataProvider;

@@ -105,16 +105,10 @@ AppAsset::register($this);
                     <a href="/">首页</a>
                 </li>
                 <li>
-                    <a href="/course/college">直属学院</a>
-                </li>
-                <li>
                     <a href="/course/list">新课提醒</a>
                 </li>
                 <li>
                     <a href="/teacher/list">教师风采</a>
-                </li>
-                <li>
-                    <a href="/member/index">会员</a>
                 </li>
                 <li>
                     <a href="/card/index">学习卡充值</a>

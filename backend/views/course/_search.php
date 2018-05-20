@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\models\User;
-use backend\models\CourseCategory;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseSearch */
@@ -18,8 +17,6 @@ use backend\models\CourseCategory;
     ]); ?>
 
     <?= $form->field($model, 'course_name') ?>
-
-    <?= $form->field($model, 'category_name')->dropDownList(CourseCategory::items(), ['prompt' => '请选择']); ?>
 
     <?= $form->field($model, 'teacher_id')->dropDownList(User::users('teacher'), ['prompt' => '请选择']); ?>
 

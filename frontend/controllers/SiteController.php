@@ -3,8 +3,6 @@ namespace frontend\controllers;
 header('Content-type:text/json');
 use Yii;
 use backend\models\Course;
-use backend\models\CoursePackage;
-use backend\models\HotCategory;
 use common\models\LoginForm;
 use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
@@ -25,7 +23,6 @@ use backend\models\CourseChapter;
 use backend\models\CourseSection;
 use backend\models\OrderInfo;
 use backend\models\Data;
-use backend\models\CourseCategory;
 use backend\models\Comment;
 
 /**
@@ -138,11 +135,6 @@ class SiteController extends Controller
                 }
             }
         }
-        /*直属学院*/
-        $colleges = CourseCategory::find()
-        ->orderBy('position asc')
-        ->limit(7)
-        ->all();
         /*课程->热门推荐*/
         $hotcourses = Course::find()
         ->orderBy('view desc')
@@ -152,26 +144,6 @@ class SiteController extends Controller
         $collegeCourses = Course::find()
         ->orderBy('create_time desc')
         ->all();
-        $course_cat = CourseCategory::find()
-        ->select('id,name,home_icon')
-        ->orderBy('position asc')
-        ->all();
-        $collegeArr = array();
-        foreach ($course_cat as $cat_key => $cat) {
-            $collegeArr[$cat->id]["college_name"] = $cat->name;
-            $collegeArr[$cat->id]["college_pic"] = $cat->home_icon;
-            $count = 0;
-            foreach ($collegeCourses as $key => $collegeCourse) {
-                if ($count === 8) {
-                    break;
-                }
-                $categoryids = explode(',', $collegeCourse->category_name);
-                if (in_array($cat->id, $categoryids)) {
-                    $count = $count+1;
-                    $collegeArr[$cat->id]['college_course'][$key] = $collegeCourse;
-                }
-            }
-        }
         /*学习感言*/
         $coments = Comment::find()
         ->where(['check' => 1])
@@ -184,7 +156,7 @@ class SiteController extends Controller
         ->all();
         /*教师列表*/
         $teachers = User::getUserByrole('teacher');
-        return $this->render('index', ['hotcourses' => $hotcourses, "collegeArr" => $collegeArr, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers, 'live_ing' => $live_ing, 'live_will' => $live_will, 'colleges' => $colleges]);
+        return $this->render('index', ['hotcourses' => $hotcourses, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers, 'live_ing' => $live_ing, 'live_will' => $live_will]);
     }
     /**
      * Logs in a user.

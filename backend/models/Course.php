@@ -2,8 +2,6 @@
 
 namespace backend\models;
 use backend\models\OrderInfo;
-use backend\models\MemberOrder;
-use backend\models\Member;
 use Yii;
 
 /**
@@ -16,7 +14,6 @@ use Yii;
  * @property integer $teacher_id
  * @property string $price
  * @property string $discount
- * @property string $category_name
  * @property string $des
  * @property integer $view
  * @property integer $collection
@@ -25,7 +22,6 @@ use Yii;
  * @property integer $onuse
  * @property integer $create_time
  * @property integer $head_teacher
- *
  * @property User $teacher
  * @property User $headTeacher
  * @property CourseChapter[] $courseChapters
@@ -46,12 +42,12 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_name', 'teacher_id', 'price', 'discount', 'category_name', 'des', 'head_teacher'], 'required'],
+            [['course_name', 'teacher_id', 'price', 'discount', 'des', 'head_teacher'], 'required'],
             [['list_pic', 'home_pic'], 'required', 'on'=> 'create'],
             [['view', 'collection', 'share', 'online', 'onuse', 'create_time'], 'integer'],
             [['price', 'discount'], 'number'],
             [['des'], 'string'],
-            [['course_name', 'list_pic', 'home_pic', 'category_name'], 'string', 'max' => 255],
+            [['course_name', 'list_pic', 'home_pic'], 'string', 'max' => 255],
             // [['teacher_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],
             // [['head_teacher'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['head_teacher' => 'id']],
         ];
@@ -70,7 +66,6 @@ class Course extends \yii\db\ActiveRecord
             'teacher_id' => Yii::t('app', '授课教师'),
             'price' => Yii::t('app', '价格'),
             'discount' => Yii::t('app', '优惠价格'),
-            'category_name' => Yii::t('app', '课程分类'),
             'des' => Yii::t('app', '课程详情'),
             'view' => Yii::t('app', '浏览次数'),
             'collection' => Yii::t('app', '收藏次数'),

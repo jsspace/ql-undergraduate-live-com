@@ -5,7 +5,6 @@ namespace frontend\controllers;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use backend\models\CourseCategory;
 use backend\models\Course;
 use backend\models\CourseChapter;
 use backend\models\CourseSection;
@@ -59,42 +58,6 @@ class CourseController extends Controller
         ->limit(12)
         ->all();
         return $this->render('list', ['courses' => $models, 'pages' => $pages,]);
-    }
-    public function actionCollege()
-    {
-        $cat = Yii::$app->request->get('cat');
-        if (!empty($cat)) {
-            $catModel = CourseCategory::find()
-            ->where(['id' => $cat])
-            ->one();
-        } else {
-            $catModel = CourseCategory::find()
-            ->one();
-        }
-        $coursemodels = Course::find()
-        ->where(['onuse' => 1])
-        ->all();
-        $classes = CoursePackage::find()
-        ->where(['onuse' => 1])
-        ->all();
-        $collegeArr = array();
-        $collegeArr['college'] = $catModel;
-        foreach ($coursemodels as $key => $coursemodel) {
-            $categoryids = explode(',', $coursemodel->category_name);
-            if (in_array($catModel->id, $categoryids)) {
-                $collegeArr['college_course'][$key] = $coursemodel;
-                $collegeArr['college_teacher'][$key] = $coursemodel->teacher_id;
-            }
-        }
-        foreach ($classes as $key => $classmodel) {
-            $categoryids = explode(',', $classmodel->category_name);
-            if (in_array($catModel->id, $categoryids)) {
-                $collegeArr['college_class'][$key] = $classmodel;
-            }
-        }
-        $all_colleges = CourseCategory::find()
-        ->all();
-        return $this->render('college', ['collegeArr' => $collegeArr, 'all_colleges' => $all_colleges]);
     }
 
     public function actionSearch()
