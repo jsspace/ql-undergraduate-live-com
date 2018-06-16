@@ -1,3 +1,6 @@
+*{
+    box-sizing: border-box;
+}
 .clear {
     clear: both;
 }
@@ -7,6 +10,8 @@
 }
 .course-online {
     padding-top: 0;
+    width: 1180px;
+    margin: 0 auto;
 }
 .course-content {
     clear: both;

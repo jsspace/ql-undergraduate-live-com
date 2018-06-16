@@ -31,6 +31,13 @@ class TeacherController extends Controller
         $teachers = User::getUserByrole('teacher');
         return $this->render('list',['teachers' => $teachers]);
     }
+
+    public function actionIntro()
+    {
+        /*教师列表*/
+        $teachers = User::getUserByrole('teacher');
+        return $this->render('intro',['teachers' => $teachers]);
+    }
     
     public function actionDetail()
     {

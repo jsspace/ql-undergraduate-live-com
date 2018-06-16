@@ -60,6 +60,18 @@ class CourseController extends Controller
         return $this->render('list', ['courses' => $models, 'pages' => $pages,]);
     }
 
+    public function actionOpen()
+    {
+        $courses = Course::find()
+        ->where(['onuse' => 1])
+        ->orderBy('create_time desc');
+        $pages = new Pagination(['totalCount' => $courses->count()]);
+        $models = $courses->offset($pages->offset)
+        ->limit(12)
+        ->all();
+        return $this->render('open', ['courses' => $models, 'pages' => $pages,]);
+    }
+
     public function actionSearch()
     {
         $searchContent = Yii::$app->request->get('searchContent');
@@ -69,7 +81,7 @@ class CourseController extends Controller
         return $this->render('search', ['coursemodels' => $coursemodels]);
     }
     
-    public function actionDetail($courseid, $invite=0)
+    public function actionOpenDetail($courseid, $invite=0)
     {
         //设置邀请人cookie
         $cookies = Yii::$app->response->cookies;
@@ -132,7 +144,12 @@ class CourseController extends Controller
         ->all();
         $studyids = array_column($studyids, 'userid');
         $studyids = array_unique($studyids);
-        return $this->render('detail', ['courseDetail' => $courseDetail, 'duration' => $duration, 'course_comments' => $course_comments, 'datas' => $datas, 'quas' => $quas, 'studyids' => $studyids]);
+        return $this->render('open-detail', ['courseDetail' => $courseDetail, 'duration' => $duration, 'course_comments' => $course_comments, 'datas' => $datas, 'quas' => $quas, 'studyids' => $studyids]);
+    }
+
+    public function actionDetail()
+    {
+        return $this->render('detail');
     }
 
     public function actionEvaluate()

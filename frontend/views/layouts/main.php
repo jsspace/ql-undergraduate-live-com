@@ -27,154 +27,104 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-
-<div class="wrap">
-    <div class="header-wrapper">
-        <div class="top-ads">
-            <!-- <div class="ads">
-                热烈祝贺***以全市最优异的成绩考上清华大学计算机专业
-            </div> -->
-            <ul class="log-sec has-login">
-                <li class="logout">
-                    <i class="icon ion-log-out"></i>
-                </li>
-                <li class="login">
-                    <i class="icon ion-android-person"></i>
-                    <span class="user-name">哈哈</span>
-                </li>
-                <li class="cart">
-                    <i class="icon ion-ios-cart-outline"></i>
-                    <i class="cart-count">23</i>
-                </li>
-            </ul>
-        </div>
-        <div class="nav-login">
-            <div class="inner">
+<div id="topnav">
+    <dl class="color2">
+        <dt>欢迎您来到都想学！</dt>
+        <dd>
+            <span class="topli">
+                <img src="/images/topicon1.png" />微信公众号
+            </span>
+            <span class="topli">
+                <img src="/images/topicon2.png" />电话号码
+            </span>
             <?php if(Yii::$app->user->isGuest) {?>
-            <ul class="log-sec no-login unlogin">
-                <li class="login"><a href="<?= Url::to(['site/login']) ?>">请登录</a></li>
-                <li class="register"><a href="<?= Url::to(['site/signup']) ?>">免费注册</a></li>
+            <span>
+                <a href="<?= Url::to(['site/login']) ?>"><img src="/images/topicon3.png" />登录</a>
+            </span>
+            <span>没有账号？
+                <a href="<?= Url::to(['site/signup']) ?>" class="topcol2">请注册！</a>
+                <a href="<?= Url::to(['site/signup']) ?>" class="topcol2">申请试听</a>
+            </span>
+            <?php } else { ?>
+                <span>你好，
+                    <a href="<?= Url::to(['user/info']) ?>" class="topcol2 username"><?= Yii::$app->user->identity->username || '尊敬的用户' ?></a>
+                    <a href="<?= Url::to(['user/info']) ?>" class="topcol2">会员中心</a>
+                    <a href="<?= Url::to(['site/logout']) ?>" class="topcol2">退出</a>
+                </span>
+            <?php } ?>
+        </dd>
+    </dl>
+</div>
+<div id="header" class="cc">
+    <span>
+        <img src="/images/topdh.png" />010-65000965<p>全国服务咨询热线</p>
+    </span>
+    <h1><a href="#"><img src="/images/logo.png" /></a></h1>
+</div>
+<div id="topmenu">
+    <dl>
+        <dt>
+            <ul class="colorfff">
+                <li><a href="/">首页</a></li>
+                <li><a href="/course/list">热门班级</a></li>
+                <li><a href="/course/open">公开课</a></li>
+                <li><a href="/teacher/intro">教师团队</a></li>
+                <li><a href="#">如何上课</a></li>
+                <li><a href="#">问老师</a></li>
             </ul>
-            <?php } else {
-                echo '<ul class="log-sec login login-wrap"><li class="user-li user-avar"><a href="'.Url::to(["user/info"]).'"><img src="'
-                    . Yii::$app->user->identity->picture . '"/>&nbsp;&nbsp;'.Yii::$app->user->identity->username.'</a></li><li class="logout-li">'
-                    . Html::beginForm(['/site/logout'], 'post')
-                    . Html::submitButton(
-                        '退出',
-                        ['class' => 'logout-link']
-                    )
-                    . Html::endForm(). '</li></ul>';
-            }?>
-
-            <ul class="nav-right">
-                <li>
-                    <dl>
-                        <dt class="nav-title"><a href="/user/info">个人中心</a></dt>
-                        <div class="nav-show">
-                            <dd><a href="/user/course">我的课程</a></dd>
-                            <dd><a href="/user/coin">我的钱包</a></dd>
-                            <dd><a href="/user/edit">个人设置</a></dd>
-                            <dd><a href="/user/message">消息通知</a>
-                                <?php
-                                    if(!Yii::$app->user->isGuest) {
-                                        $read_models = Read::find()
-                                        ->where(['userid' => Yii::$app->user->id])
-                                        ->andWhere(['status' => 0])
-                                        ->all();
-                                        if (!empty($read_models)) { ?>
-                                            <span class="message-amount"></span>
-                                 <?php   }
-                                    }
-                                 ?>
-                            </dd>
-                        </div>
-                    </dl>
-                </li>
-                <li><a href="/cart/index" class="cart-link nav-title"><img src="/img/cart-icon.png" />我的购物车</a></li>
-                <li><a href="/comment/index" class="nav-title">学习感言</a></li>
-                <li><a href="/command/index" class="nav-title">课程需求</a></li>
-            </ul>
-            </div>
-        </div>
-        <div class="menu-wrapper">
-            <div class="logo">
-                <img src="/img/website-logo.png"/>
-            </div>
-            <ul class="nav-menu">
-                <li>
-                    <a href="/">首页</a>
-                </li>
-                <li>
-                    <a href="/course/list">新课提醒</a>
-                </li>
-                <li>
-                    <a href="/teacher/list">教师风采</a>
-                </li>
-                <li>
-                    <a href="/card/index">学习卡充值</a>
-                </li>
-                <!-- <li>
-                    <a href="/comment/index">学习感言</a>
-                </li>
-                <li>
-                    <a href="/command/index">课程需求</a>
-                </li> -->
-            </ul>
-            <div class="menu-search-group">
-                <form action="<?= Url::to(['course/search']); ?>" method="get">
-                    <button type="submit" class="glyphicon glyphicon-search search-button _search-button"></button>
-                    <input type="text" class="form-control" placeholder="搜索课程" name="searchContent">
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
+        </dt>
+        <dd>
+            <input name="" type="text" class="topinput1" placeholder="请输入……" />
+            <input name="" type="submit" class="topbtn1" />
+        </dd>
+    </dl>
+</div>
+<div class="content">
+    <?= Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
+    <?= Alert::widget() ?>
+    <?= $content ?>
 </div>
 
-<footer>
-    <div class="footer">
-        <div class="footer-inner">
-            <dl>
-                <dt>常见问题</dt>
-                <dd><a href="">帮助一</a></dd>
-                <dd><a href="">帮助二</a></dd>
-                <dd><a href="">测试一下</a></dd>
-                <dd><a href="">更多帮助</a></dd>
-            </dl>
-            <dl>
-                <dt>合作共赢</dt>
-                <dd><a href="">关于我们</a></dd>
-                <dd><a href="">企业申请使用</a></dd>
-                <dd><a href="">讲师合作等级</a></dd>
-            </dl>
-            <dl>
-                <dt>联系我们</dt>
-                <dd>咨询电话：010-65000965</dd>
-                <dd>全国加盟热线：010-65000965</dd>
-                <dd>投诉电话：010-65000965</dd>
-                <dd>校长邮箱：president@juren.com</dd>
-            </dl>
-            <dl class="qrcode-section">
-                <dt>官方微信</dt>
-                <dd><img src="/img/website-qrcode-large.jpg"/></dd>
-            </dl>
-            <dl class="qrcode-section">
-                <dt>手机微信</dt>
-                <dd><img src="/img/mobile-qrcode-large.jpg"/></dd>
-            </dl>
-        </div>
+<div id="footer">
+    <div class="footer-content">
+        <h2><img src="/images/ftlogo.png" /><p>优师联网络培训平台</p></h2>
+        <ul>
+            <li>
+                <h4>快速链接</h4>
+                <p><a href="#">首   页</a></p>
+                <p><a href="#">热门班级</a></p>
+                <p><a href="#">公开课</a></p>
+                <p><a href="#">教师团队</a></p>
+                <p><a href="#">如何上课</a></p>
+            </li>
+            <li>
+                <h4>快速链接</h4>
+                <p><a href="#">帮助一</a></p>
+                <p><a href="#">帮助二</a></p>
+                <p><a href="#">测试一下</a></p>
+                <p><a href="#">如何上课</a></p>
+            </li>
+            <li>
+                <h4>联系地址</h4>
+                <p>加盟热线：010-65000963</p>
+                <p>督学邮箱：president@126.com</p>
+            </li>
+            <li class="ftwx">
+                <span>
+                <h4>官方微信</h4>
+                <p><img src="/images/wxpic1.jpg" /></p>
+            </span>
+                <span>
+                <h4>微信客服</h4>
+                <p><img src="/images/wxpic1.jpg" /></p>
+            </span>
+            </li>
+        </ul>
     </div>
-    <div class="copyright">
-        <p class="pull-left">&copy; <?= date('Y') ?>  优师联网络培训平台---京ICP备17055689号-1</p>
-    </div>
-</footer>
+    <div class="footer-bottom">Copyright©2018 优师联网络培训平台 2017 浙ICP备：16003173号</div>
+</div>
 
 <?php $this->endBody() ?>
 </body>

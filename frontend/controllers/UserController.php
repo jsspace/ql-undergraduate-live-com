@@ -73,6 +73,7 @@ class UserController extends Controller
     
     public function actionInfo()
     {
+        $this->layout = false;
         return $this->render('info');
     }
     
