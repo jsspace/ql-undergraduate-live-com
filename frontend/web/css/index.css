@@ -50,13 +50,19 @@
     height: 38px;
     line-height: 38px;
     background: #f4f3f3;
+    overflow: hidden;
+    position: relative;
+}
+.indexgg img {
+    position: absolute;
+    top: 13px;
+    left: 54px;
 }
 .indexgg dl {
     width: 1200px;
     margin: 0 auto;
 }
 .indexgg dt {
-    float: left;
     font-size: 12px;
 }
 .indexgg dt img {
@@ -235,13 +241,14 @@
 .indextxt5 dt p em {
     width: 9px;
     height: 8px;
-    background: url(images/xingji.png) no-repeat;
+    /* background: url(images/xingji.png) no-repeat; */
+    background: url(images/xingji2.png) no-repeat;
     float: left;
     margin: 5px 2px 0 0;
 }
-.indextxt5 dt p em.xingji2 {
+/* .indextxt5 dt p em.xingji2 {
     background: url(images/xingji2.png) no-repeat;
-}
+} */
 .indextxt5 dt p span {
     float: right;
     font-size: 12px;
@@ -251,7 +258,7 @@
 .indextxt5 dd {
     width: 100%;
     float: left;
-    height: 40px;
+    height: 56px;
     overflow: hidden;
     color: #666;
 }

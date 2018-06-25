@@ -10,11 +10,11 @@ AppAsset::addCss($this,'@web/css/main.css');
 
 $this->title = '新课提醒';
 ?>
-<div class="indexgg indexgg">
+<!-- <div class="indexgg indexgg">
     <dl>
         <dt><img src="/images/lbicon1.png" />最新公告：2017年行政管理专业各科真题及答案汇编</dt>
     </dl>
-</div>
+</div> -->
 <div class="main cc" >
     <div class="nytxt1 cc">
         <dl>

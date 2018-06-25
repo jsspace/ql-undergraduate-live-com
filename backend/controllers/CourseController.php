@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Course;
+use backend\models\CourseCategory;
 use backend\models\CourseSearch;
 use backend\models\User;
 use yii\filters\VerbFilter;
@@ -71,6 +72,7 @@ class CourseController extends Controller
         
         $teachers = User::users('teacher');
         $head_teachers = User::users('head_teacher');
+        $categorys = CourseCategory::hotitems();
 
         if ($model->load(Yii::$app->request->post())) {
             $image_list = UploadedFile::getInstance($model, 'list_pic');
@@ -101,7 +103,7 @@ class CourseController extends Controller
                 $model->view = rand(800, 1200);
                 $model->collection = rand(400, 500);
                 $model->share = rand(300, 400);
-                $model->online = rand(200, 300);
+                $model->online = rand(1000, 2000);
             }
             if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -113,6 +115,7 @@ class CourseController extends Controller
                     'model' => $model,
                     'teachers' => $teachers,
                     'head_teachers' => $head_teachers,
+                    'categorys' => $categorys
                 ]);
             }
         } else {
@@ -120,6 +123,7 @@ class CourseController extends Controller
                 'model' => $model,
                 'teachers' => $teachers,
                 'head_teachers' => $head_teachers,
+                'categorys' => $categorys
             ]);
         }
     }
@@ -178,6 +182,7 @@ class CourseController extends Controller
         $model = $this->findModel($id);
         $teachers = User::users('teacher');
         $head_teachers = User::users('head_teacher');
+        $categorys = CourseCategory::hotitems();
 
         $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
         $oldlist_path = $model->list_pic;
@@ -228,6 +233,7 @@ class CourseController extends Controller
                     'model' => $model,
                     'teachers' => $teachers,
                     'head_teachers' => $head_teachers,
+                    'categorys' => $categorys
                 ]);
             }
         } else {
@@ -235,6 +241,7 @@ class CourseController extends Controller
                 'model' => $model,
                 'teachers' => $teachers,
                 'head_teachers' => $head_teachers,
+                'categorys' => $categorys
             ]);
         }
     }
@@ -266,5 +273,20 @@ class CourseController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionGetcategory()
+    {
+        $request = Yii::$app->request->post();
+        $keywords = $request['keywords'];
+        $categorys= CourseCategory::find()
+        ->where(['like', 'name', $keywords])
+        //->andWhere(['>', 'parent_id', 0])
+        ->all();
+        $data = '';
+        foreach ($categorys as $category) {
+            $data.='<span class="tag" data-value='.$category->id.'>'.$category->name.'<span class="remove"></span></span>';
+        }
+        return $data;
     }
 }

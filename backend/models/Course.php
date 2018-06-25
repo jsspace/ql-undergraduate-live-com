@@ -2,29 +2,32 @@
 
 namespace backend\models;
 use backend\models\OrderInfo;
+use backend\models\MemberOrder;
+use backend\models\Member;
 use Yii;
 
 /**
  * This is the model class for table "{{%course}}".
  *
  * @property string $id
- * @property string $course_name
- * @property string $list_pic
- * @property string $home_pic
- * @property integer $teacher_id
- * @property string $price
- * @property string $discount
- * @property string $des
- * @property integer $view
- * @property integer $collection
- * @property integer $share
- * @property integer $online
- * @property integer $onuse
- * @property integer $create_time
- * @property integer $head_teacher
- * @property User $teacher
- * @property User $headTeacher
- * @property CourseChapter[] $courseChapters
+ * @property string $course_name 课程名字
+ * @property string $list_pic 列表图片
+ * @property string $home_pic 封面图片
+ * @property int $teacher_id 授课教师
+ * @property string $price 价格
+ * @property string $discount 优惠价格
+ * @property string $category_name 课程分类
+ * @property string $des 课程详情
+ * @property int $view 浏览次数
+ * @property int $collection 收藏次数
+ * @property int $share 分享次数
+ * @property int $online 在学人数
+ * @property int $onuse 是否可用
+ * @property int $create_time 课程创建时间
+ * @property string $head_teacher 辅导老师
+ * @property string $examination_time 模拟考次数
+ * @property int $type 热门班级/公开课
+ * @property int $open_course_url 公开课链接
  */
 class Course extends \yii\db\ActiveRecord
 {
@@ -42,12 +45,12 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_name', 'teacher_id', 'price', 'discount', 'des', 'head_teacher'], 'required'],
-            [['list_pic', 'home_pic'], 'required', 'on'=> 'create'],
-            [['view', 'collection', 'share', 'online', 'onuse', 'create_time'], 'integer'],
+            [['course_name', 'teacher_id', 'price', 'discount', 'category_name', 'des', 'type'], 'required'],
+            [['list_pic'], 'required', 'on'=> 'create'],
+            [['view', 'collection', 'share', 'online', 'onuse', 'create_time', 'examination_time'], 'integer'],
             [['price', 'discount'], 'number'],
             [['des'], 'string'],
-            [['course_name', 'list_pic', 'home_pic'], 'string', 'max' => 255],
+            [['course_name', 'list_pic', 'home_pic', 'category_name', 'head_teacher', 'open_course_url'], 'string', 'max' => 255],
             // [['teacher_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],
             // [['head_teacher'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['head_teacher' => 'id']],
         ];
@@ -66,6 +69,7 @@ class Course extends \yii\db\ActiveRecord
             'teacher_id' => Yii::t('app', '授课教师'),
             'price' => Yii::t('app', '价格'),
             'discount' => Yii::t('app', '优惠价格'),
+            'category_name' => Yii::t('app', '课程分类'),
             'des' => Yii::t('app', '课程详情'),
             'view' => Yii::t('app', '浏览次数'),
             'collection' => Yii::t('app', '收藏次数'),
@@ -73,7 +77,10 @@ class Course extends \yii\db\ActiveRecord
             'online' => Yii::t('app', '在学人数'),
             'onuse' => Yii::t('app', '是否可用'),
             'create_time' => Yii::t('app', '课程创建时间'),
-            'head_teacher' => Yii::t('app', '辅导员'),
+            'head_teacher' => Yii::t('app', '辅导老师'),
+            'examination_time' => Yii::t('app', '模拟考次数'),
+            'type' => Yii::t('app', '热门班级/公开课'),
+            'open_course_url' => Yii::t('app', '公开课链接'),
         ];
     }
 
@@ -88,10 +95,10 @@ class Course extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getHeadTeacher()
+    /*public function getHeadTeacher()
     {
         return $this->hasOne(User::className(), ['id' => 'head_teacher']);
-    }
+    }*/
 
     /**
      * @return \yii\db\ActiveQuery

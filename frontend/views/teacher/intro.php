@@ -8,12 +8,12 @@ AppAsset::addCss($this,'@web/css/main.css');
 
 $this->title = '教研队伍';
 ?>
-<div class="indexgg indexgg">
+<!-- <div class="indexgg indexgg">
     <dl>
         <dt><img src="/images/lbicon1.png" />最新公告：2017年行政管理专业各科真题及答案汇编</dt>
     </dl>
 </div>
-<div class="main cc" >
+ --><div class="main cc" >
     <div class="indextt1">
         <h3>教研队伍<p>教研团队负责课程内容设计，团队成员均有专升本命题经历</p><em></em></h3>
     </div>

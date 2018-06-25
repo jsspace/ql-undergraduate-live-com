@@ -5,6 +5,8 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
+use backend\models\CourseCategory;
+use backend\models\Lookup;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CourseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,6 +20,7 @@ $this->title = Yii::t('app', '课程列表');
     </p>
 <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             ['class' => 'yii\grid\ActionColumn'],
@@ -31,10 +34,25 @@ $this->title = Yii::t('app', '课程列表');
             ],
             'course_name',
             [
+                'attribute' => 'category_name',
+                'value'=> function ($model) {
+                    return CourseCategory::getNames($model->category_name);
+                },
+                'filter' => CourseCategory::hotitems(),
+            ],
+            [
+                'attribute' => 'type',
+                'value' => function ($model) {
+                    return Lookup::item('course_type', $model->type);
+                },
+                'filter' => Lookup::items('course_type'),
+            ],
+            [
                 'attribute' => 'teacher_id',
                 'value'=> function ($model) {
                     return User::item($model->teacher_id);
-                }
+                },
+                'filter' => User::users('teacher'),
             ],
             'price',
             'discount',
@@ -42,13 +60,13 @@ $this->title = Yii::t('app', '课程列表');
             'collection',
             'share',
             'online',
-            [
+            /*[
                 'attribute' => 'onuse',
                 'value'=> function ($model) {
                     return $model->onuse == 1 ? '可用':'不可用';
                 },
                 'filter' => [1=>'可用',0=>'不可用' ],
-            ],
+            ],*/
             // 'create_time:datetime',
             [
                 'attribute' => 'head_teacher',

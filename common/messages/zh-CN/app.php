@@ -102,4 +102,6 @@ return [
     'Create Audio Section' => '创建音频章节',
     'Ads' => '广告位管理',
     'Create Ad' => '创建广告位',
+    'Notices' => '公告管理',
+    'Create Notice' => '创建公告'
 ];

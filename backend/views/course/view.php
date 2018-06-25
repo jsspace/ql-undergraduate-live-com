@@ -1,8 +1,10 @@
 <?php
 
 use backend\models\User;
+use backend\models\CourseCategory;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use backend\models\Lookup;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Course */
@@ -17,6 +19,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'course_name',
+            [
+                'attribute' => 'category_name',
+                'value' => CourseCategory::getNames($model->category_name),
+            ],
+            [
+                'attribute' => 'type',
+                'value' => Lookup::item('course_type', $model->type),
+            ],
+            [
+                'attribute' => 'open_course_url',
+                'options' => ['class' => 'open_course_url'],
+            ],
             //'list_pic',
             //'home_pic',
             [
@@ -55,3 +69,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+<script type="text/javascript">
+    var type = <?= $model->type ?>;
+    if (type == 2) {
+        $('.open_course_url').show();
+    } else {
+        $('.open_course_url').hide();
+    }
+</script>

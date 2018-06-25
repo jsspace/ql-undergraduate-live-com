@@ -7,8 +7,10 @@ use Yii;
 /**
  * This is the model class for table "{{%notice}}".
  *
- * @property integer $id
- * @property string $title
+ * @property string $id
+ * @property string $theme 主题
+ * @property string $url 链接
+ * @property int $position 显示顺序
  */
 class Notice extends \yii\db\ActiveRecord
 {
@@ -26,8 +28,10 @@ class Notice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
-            [['title'], 'string', 'max' => 255],
+            [['theme'], 'required'],
+            [['position'], 'integer'],
+            [['theme'], 'string', 'max' => 200],
+            [['url'], 'string', 'max' => 100],
         ];
     }
 
@@ -38,7 +42,9 @@ class Notice extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', '公告标题'),
+            'theme' => Yii::t('app', '主题'),
+            'url' => Yii::t('app', '链接（无链接填写#）'),
+            'position' => Yii::t('app', '显示顺序'),
         ];
     }
 

@@ -31,12 +31,14 @@ AppAsset::register($this);
     <dl class="color2">
         <dt>欢迎您来到都想学！</dt>
         <dd>
-            <span class="topli">
-                <img src="/images/topicon1.png" />微信公众号
+            <span class="topli wechat-icon-wrap hover">
+                <img src="/images/topicon1.png"/>微信公众号
+                <img src="/images/public-erweima.jpg" class="erweima">
             </span>
-            <span class="topli">
-                <img src="/images/topicon2.png" />电话号码
-            </span>
+            <!-- <span class="topli qq-icon-wrap hover">
+                <img src="/images/topicon2.png" />qq
+                <img src="/images/qq-erweima.jpg" class="erweima">
+            </span> -->
             <?php if(Yii::$app->user->isGuest) {?>
             <span>
                 <a href="<?= Url::to(['site/login']) ?>"><img src="/images/topicon3.png" />登录</a>
@@ -59,7 +61,7 @@ AppAsset::register($this);
     <span>
         <img src="/images/topdh.png" />010-65000965<p>全国服务咨询热线</p>
     </span>
-    <h1><a href="#"><img src="/images/logo.png" /></a></h1>
+    <h1><a href="/"><img src="/images/logo.png" /></a></h1>
 </div>
 <div id="topmenu">
     <dl>
@@ -74,8 +76,10 @@ AppAsset::register($this);
             </ul>
         </dt>
         <dd>
-            <input name="" type="text" class="topinput1" placeholder="请输入……" />
-            <input name="" type="submit" class="topbtn1" />
+            <form action="<?= Url::to(['course/search']); ?>" method="get">
+                <button type="submit" class="topbtn1"></button>
+                <input type="text" class="topinput1" placeholder="请输入……" name="searchContent" />
+            </form>        
         </dd>
     </dl>
 </div>
@@ -93,32 +97,32 @@ AppAsset::register($this);
         <ul>
             <li>
                 <h4>快速链接</h4>
-                <p><a href="#">首   页</a></p>
-                <p><a href="#">热门班级</a></p>
-                <p><a href="#">公开课</a></p>
-                <p><a href="#">教师团队</a></p>
-                <p><a href="#">如何上课</a></p>
+                <p><a href="/">首   页</a></p>
+                <p><a href="/course/list">热门班级</a></p>
+                <p><a href="/course/open">公开课</a></p>
+                <p><a href="/teacher/intro">教师团队</a></p>
+                <p><a href="#">问老师</a></p>
             </li>
             <li>
                 <h4>快速链接</h4>
-                <p><a href="#">帮助一</a></p>
-                <p><a href="#">帮助二</a></p>
-                <p><a href="#">测试一下</a></p>
+                <p><a href="#">关于我们</a></p>
+                <p><a href="#">加入我们</a></p>
                 <p><a href="#">如何上课</a></p>
+                <p><a href="#">常见问题</a></p>
             </li>
             <li>
                 <h4>联系地址</h4>
-                <p>加盟热线：010-65000963</p>
-                <p>督学邮箱：president@126.com</p>
+                <p>服务热线：010-65000965</p>
+                <p>督学邮箱：mengxg@cuc.edu.cn</p>
             </li>
             <li class="ftwx">
                 <span>
-                <h4>官方微信</h4>
-                <p><img src="/images/wxpic1.jpg" /></p>
+                <h4>公众号微信</h4>
+                <p><img src="/images/public-erweima.jpg" /></p>
             </span>
                 <span>
                 <h4>微信客服</h4>
-                <p><img src="/images/wxpic1.jpg" /></p>
+                <p><img src="/images/kefu-erweima.jpg" /></p>
             </span>
             </li>
         </ul>

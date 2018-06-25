@@ -24,6 +24,7 @@ use backend\models\CourseSection;
 use backend\models\OrderInfo;
 use backend\models\Data;
 use backend\models\Comment;
+use backend\models\Notice;
 
 /**
  * Site controller
@@ -156,7 +157,14 @@ class SiteController extends Controller
         ->all();
         /*教师列表*/
         $teachers = User::getUserByrole('teacher');
-        return $this->render('index', ['hotcourses' => $hotcourses, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers, 'live_ing' => $live_ing, 'live_will' => $live_will]);
+        /*公告*/
+        $notices = Notice::find()
+        ->orderBy([
+            'position' => SORT_ASC,
+            'id' => SORT_DESC,
+        ])
+        ->all();
+        return $this->render('index', ['hotcourses' => $hotcourses, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers, 'live_ing' => $live_ing, 'live_will' => $live_will, 'notices' => $notices]);
     }
     /**
      * Logs in a user.
@@ -166,7 +174,8 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            //return $this->goHome();
+            return $this->redirect('/user/info');
         }
 
         $model = new LoginForm();
@@ -183,7 +192,8 @@ class SiteController extends Controller
             //存session token值没必要取键名为$id&$username ,目的是标识用户登录token的键，$id或$username就可以
             
             $model->insertSession($id,$token);//将token存到tbl_admin_session
-            return $this->goHome();
+            //return $this->goHome();
+            return $this->redirect('/user/info');
         } else {
             Yii::$app->user->setReturnUrl(Yii::$app->request->referrer);
             return $this->render('login', [
@@ -288,7 +298,8 @@ class SiteController extends Controller
                     //存session token值没必要取键名为$id&$username ,目的是标识用户登录token的键，$id或$username就可以
                     
                     LoginForm::insertSession($id,$token);//将token存到tbl_admin_session
-                    return $this->goHome();
+                    //return $this->goHome();
+                    return $this->redirect('/user/info');
                 }
             }
         }

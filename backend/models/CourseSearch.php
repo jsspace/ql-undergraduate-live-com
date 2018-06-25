@@ -18,8 +18,8 @@ class CourseSearch extends Course
     public function rules()
     {
         return [
-            [['id', 'teacher_id', 'view', 'collection', 'share', 'online', 'create_time', 'head_teacher'], 'integer'],
-            [['course_name', 'list_pic', 'home_pic', 'des'], 'safe'],
+            [['id', 'teacher_id', 'view', 'collection', 'share', 'online', 'create_time', 'examination_time', 'type'], 'integer'],
+            [['course_name', 'list_pic', 'home_pic', 'category_name', 'des', 'head_teacher'], 'safe'],
             [['price', 'discount'], 'number'],
         ];
     }
@@ -71,13 +71,16 @@ class CourseSearch extends Course
             'online' => $this->online,
             'onuse' => $this->onuse,
             'create_time' => $this->create_time,
-            'head_teacher' => $this->head_teacher,
+            'examination_time' => $this->examination_time,
+            'type' => $this->type,
         ]);
 
         $query->andFilterWhere(['like', 'course_name', $this->course_name])
             ->andFilterWhere(['like', 'list_pic', $this->list_pic])
             ->andFilterWhere(['like', 'home_pic', $this->home_pic])
-            ->andFilterWhere(['like', 'des', $this->des]);
+            ->andFilterWhere(['like', 'category_name', $this->category_name])
+            ->andFilterWhere(['like', 'des', $this->des])
+            ->andFilterWhere(['like', 'head_teacher', $this->head_teacher]);
 
         return $dataProvider;
     }

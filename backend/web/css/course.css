@@ -78,3 +78,6 @@
 .course-news-wrap .hidden-course-id {
     display: none;
 }
+.field-course-open_course_url {
+    display: none;
+}

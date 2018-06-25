@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use backend\models\CourseCategory;
 use backend\models\Course;
 use backend\models\CourseChapter;
 use backend\models\CourseSection;
