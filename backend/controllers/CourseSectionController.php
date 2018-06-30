@@ -36,12 +36,18 @@ class CourseSectionController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new CourseSectionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $request = Yii::$app->request->queryParams;
+        $course_id = $request['course_id'];
+        $courseSections = CourseSection::find()
+        ->where(['course_id' => $course_id])
+        ->orderBy('position ASC')
+        ->all();
+        $course = Course::find()
+        ->where(['id' => $course_id])
+        ->one();
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'courseSections' => $courseSections,
+            'course' => $course,
         ]);
     }
 
@@ -66,8 +72,8 @@ class CourseSectionController extends Controller
     {
         $model = new CourseSection();
         $request = Yii::$app->request->queryParams;
-        $chapter_id = $request['chapter_id'];
-        $model->chapter_id = $chapter_id;
+        $course_id = $request['course_id'];
+        $model->course_id = $course_id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
