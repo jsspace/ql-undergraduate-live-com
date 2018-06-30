@@ -103,5 +103,7 @@ return [
     'Ads' => '广告位管理',
     'Create Ad' => '创建广告位',
     'Notices' => '公告管理',
-    'Create Notice' => '创建公告'
+    'Create Notice' => '创建公告',
+    'Course Sections' => '课程小节',
+    'Create Course Section' => '创建课程小节'
 ];

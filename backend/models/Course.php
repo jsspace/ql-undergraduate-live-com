@@ -28,6 +28,7 @@ use Yii;
  * @property string $examination_time 模拟考次数
  * @property int $type 热门班级/公开课
  * @property int $open_course_url 公开课链接
+ * @property string $intro 课程简介
  */
 class Course extends \yii\db\ActiveRecord
 {
@@ -45,12 +46,12 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_name', 'teacher_id', 'price', 'discount', 'category_name', 'des', 'type'], 'required'],
+            [['course_name', 'teacher_id', 'price', 'discount', 'category_name', 'des', 'type', 'intro'], 'required'],
             [['list_pic'], 'required', 'on'=> 'create'],
             [['view', 'collection', 'share', 'online', 'onuse', 'create_time', 'examination_time'], 'integer'],
             [['price', 'discount'], 'number'],
             [['des'], 'string'],
-            [['course_name', 'list_pic', 'home_pic', 'category_name', 'head_teacher', 'open_course_url'], 'string', 'max' => 255],
+            [['course_name', 'list_pic', 'home_pic', 'category_name', 'head_teacher', 'open_course_url', 'intro'], 'string', 'max' => 255],
             // [['teacher_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],
             // [['head_teacher'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['head_teacher' => 'id']],
         ];
@@ -81,6 +82,7 @@ class Course extends \yii\db\ActiveRecord
             'examination_time' => Yii::t('app', '模拟考次数'),
             'type' => Yii::t('app', '热门班级/公开课'),
             'open_course_url' => Yii::t('app', '公开课链接'),
+            'intro' => Yii::t('app', '课程简介'),
         ];
     }
 

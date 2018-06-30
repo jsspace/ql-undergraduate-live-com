@@ -55,6 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'head_teacher',
             'price',
             'discount',
+            'intro',
             'des:html',
             'view',
             'collection',

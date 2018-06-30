@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use backend\models\Course;
 use backend\models\CourseSection;
 use backend\models\CourseSectionSearch;
 use yii\web\Controller;

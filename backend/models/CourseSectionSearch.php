@@ -18,7 +18,7 @@ class CourseSectionSearch extends CourseSection
     public function rules()
     {
         return [
-           [['id', 'chapter_id', 'position', 'type', 'paid_free'], 'integer'],
+           [['id', 'course_id', 'position', 'type', 'paid_free'], 'integer'],
           [['name', 'start_time', 'video_url', 'duration', 'playback_url'], 'safe'],
         ];
     }
@@ -60,7 +60,7 @@ class CourseSectionSearch extends CourseSection
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'chapter_id' => $this->chapter_id,
+            'course_id' => $this->course_id,
             'position' => $this->position,
             'type' => $this->type,
             'start_time' => $this->start_time,

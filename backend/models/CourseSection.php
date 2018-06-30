@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "{{%course_section}}".
  *
  * @property string $id
- * @property string $chapter_id
+ * @property string $course_id
  * @property string $name
  * @property integer $position
  * @property integer $type
@@ -36,12 +36,12 @@ class CourseSection extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['chapter_id', 'name', 'video_url', 'duration', 'paid_free', 'roomid'], 'required'],
-            [['chapter_id', 'position', 'type', 'paid_free'], 'integer'],
+            [['course_id', 'name', 'video_url', 'duration', 'paid_free', 'roomid'], 'required'],
+            [['course_id', 'position', 'type', 'paid_free'], 'integer'],
             [['start_time'], 'safe'],
             [['name', 'video_url', 'playback_url'], 'string', 'max' => 255],
             [['duration','roomid'], 'string', 'max' => 50],
-            [['chapter_id'], 'exist', 'skipOnError' => true, 'targetClass' => CourseChapter::className(), 'targetAttribute' => ['chapter_id' => 'id']],
+            [['course_id'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_id' => 'id']],
         ];
     }
 
@@ -52,7 +52,7 @@ class CourseSection extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'chapter_id' => Yii::t('app', '所属章'),
+            'course_id' => Yii::t('app', '所属课程'),
             'name' => Yii::t('app', '名称'),
             'position' => Yii::t('app', '排序'),
             'type' => Yii::t('app', '网课/直播课/直播答疑'),
@@ -68,9 +68,9 @@ class CourseSection extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getChapter()
+    public function getCourse()
     {
-        return $this->hasOne(CourseChapter::className(), ['id' => 'chapter_id']);
+        return $this->hasOne(Course::className(), ['id' => 'course_id']);
     }
 
     /**
@@ -82,18 +82,18 @@ class CourseSection extends \yii\db\ActiveRecord
         return new CourseSectionQuery(get_called_class());
     }
 
-    public static function getCourse($roomid)
+    /*public static function getCourse($roomid)
     {
         $section = self::find()
         ->where(['roomid' => $roomid])
         ->one();
         if (!empty($section)) {
             $chapter = CourseChapter::find()
-            ->where(['id' => $section->chapter_id])
+            ->where(['id' => $section->course_id])
             ->one();
             return $chapter->course_id;
         }
-    }
+    }*/
     private static $_items = array();
     public static function item($id)
     {
@@ -104,14 +104,14 @@ class CourseSection extends \yii\db\ActiveRecord
     public static function items($courseid)
     {
         /* 所有章 */
-        $chapters = CourseChapter::find()
+        /*$chapters = CourseChapter::find()
         ->select('id')
         ->where(['course_id' => $courseid])
         ->asArray()
-        ->all();
+        ->all();*/
         /* 所有节 */
         $sections = self::find()
-        ->where(['chapter_id' => $chapters])
+        ->where(['course_id' => $courseid])
         ->all();
         $result = array();
         if (empty($sections)) {

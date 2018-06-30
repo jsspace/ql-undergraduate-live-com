@@ -28,8 +28,12 @@ $this->title = Yii::t('app', '课程列表');
                 'label'=>'章节',
                 'format'=>'raw',
                 'value' => function($model){
-                    $url = Url::to(['course-chapter/index', 'course_id' => $model->id]);
-                    return Html::a('编辑章节', $url);
+                    if ($model->type == 2) {
+                        return '';
+                    } else {
+                        $url = Url::to(['course-section/index', 'course_id' => $model->id]);
+                        return Html::a('编辑章节', $url);
+                    }
                 }
             ],
             'course_name',
