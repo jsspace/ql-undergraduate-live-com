@@ -5,3 +5,7 @@
 
   $this->title = '如何上课';
 ?>
+
+<div>
+    fdsafdsa
+</div>
