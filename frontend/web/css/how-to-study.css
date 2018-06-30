@@ -1,0 +1,86 @@
+.study-step {
+    overflow: hidden;
+}
+.study-step li {
+    margin: 0 24px;
+    cursor: pointer;
+    color: #999;
+    float: left;
+    text-align: center;
+    padding: 45px 29px 0;
+    line-height: 22px;
+    box-sizing: content-box;
+}
+
+.study-step p {
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    margin-top: 40px;
+}
+
+.download-link {
+    padding: 8px 12px;
+    border: 2px solid #b00015;
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #b00015 !important;
+    margin-right: 3px;
+}
+
+.download-link:hover {
+    color: #df2a1c !important;
+    border-color: #df2a1c;
+}
+
+.study-soft {
+    overflow: hidden;
+    margin-top: 45px;
+}
+.study-soft li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 45%;
+    padding: 0 5%;
+    float: left;
+    font-size: 14px;
+}
+
+.study-soft li img {
+    margin-right: 20px;
+}
+
+.soft-name {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.soft-info {
+    margin-bottom: 20px;
+}
+.line {
+    width: 80%;
+    height: 1px;
+    background: #ccc;
+    margin: 40px auto 0;
+}
+.scan {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20%;
+}
+
+.scan-title {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.scan-info {
+    font-size: 14px;
+}
