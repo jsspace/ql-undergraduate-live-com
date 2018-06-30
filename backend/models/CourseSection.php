@@ -22,6 +22,8 @@ use Yii;
  */
 class CourseSection extends \yii\db\ActiveRecord
 {
+    public $section_type;
+    public $parent_id;
     /**
      * @inheritdoc
      */
