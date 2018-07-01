@@ -1,0 +1,36 @@
+.about-content {
+    padding: 17px 265px 67px;
+}
+
+.about-content h2 {
+    font-size: 24px;
+    color: #333;
+    font-weight: normal;
+    margin-top: 50px;
+}
+
+.about-content h3 {
+    font-size: 20px;
+    color: #333;
+    font-weight: normal;
+    margin: 20px 0;
+}
+
+.about-content ul {
+    padding-left: 16px;
+}
+
+.about-content ul, .about-content li {
+    list-style-type: decimal;
+}
+
+.about-content li {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.7;
+}
+.about-content p {
+    color: #666;
+    margin: 14px 0;
+    font-size: 14px;
+}
