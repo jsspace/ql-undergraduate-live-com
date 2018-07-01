@@ -20,13 +20,13 @@ use backend\models\Cities;
 </head>
 <body>
 <div id="httop" class="colorfff cc">
-    <h1><a href="#"><img src="/images/htlogo.png" /></a></h1>
+    <h1><a href="/"><img src="/images/htlogo.png" /></a></h1>
     <ul>
         <li><a href="#"><img src="/images/hticon1.png" />我的课表</a></li>
         <li><a href="#"><img src="/images/hticon1a.png" />热门班级</a></li>
-        <li><a href="#"><img src="/images/hticon1b.png" />公开课</a></li>
+        <li><a href="/course/open"><img src="/images/hticon1b.png" />公开课</a></li>
         <li><a href="#"><img src="/images/hticon1c.png" />个人资料</a></li>
-        <li><a href="#"><img src="/images/hticon1d.png" />如何上课</a></li>
+        <li><a href="/about/how-to-study"><img src="/images/hticon1d.png" />如何上课</a></li>
         <li><a href="#"><img src="/images/hticon1e.png" />问老师</a></li>
     </ul>
     <dl>
@@ -39,26 +39,24 @@ use backend\models\Cities;
     <div class="htsidebar">
         <h3 class="colorfff">个人中心</h3>
         <ul>
-            <li><a href="#"><span><img src="/images/hticon3.png" /><cite><img src="/images/hticon3a.png" /></cite></span>我的班级</a></li>
-            <li class="htleftnow"><a href="#"><span><img src="/images/hticon4.png" /><cite><img src="/images/hticon4a.png" /></cite></span>我的订单</a></li>
-            <li><a href="#"><span><img src="/images/hticon5.png" /><cite><img src="/images/hticon5a.png" /></cite></span>全能订单</a></li>
-            <li><a href="#"><span><img src="/images/hticon6.png" /><cite><img src="/images/hticon6a.png" /></cite></span>我的收藏</a></li>
-            <li><a href="#"><span><img src="/images/hticon7.png" /><cite><img src="/images/hticon7a.png" /></cite></span>我的奖励</a></li>
-            <li><a href="#"><span><img src="/images/hticon8.png" /><cite><img src="/images/hticon8a.png" /></cite></span>我的钱包</a></li>
+            <li><a href="/user/class"><span><img src="/images/hticon3.png" /><cite><img src="/images/hticon3a.png" /></cite></span>我的班级</a></li>
+            <li class="htleftnow"><a href="/user/orders"><span><img src="/images/hticon4.png" /><cite><img src="/images/hticon4a.png" /></cite></span>我的订单</a></li>
+            <li><a href="/user/favorite"><span><img src="/images/hticon6.png" /><cite><img src="/images/hticon6a.png" /></cite></span>我的收藏</a></li>
+            <li><a href="/user/coupon"><span><img src="/images/hticon7.png" /><cite><img src="/images/hticon7a.png" /></cite></span>我的奖励</a></li>
             <li><a href="#"><span><img src="/images/hticon9.png" /><cite><img src="/images/hticon9a.png" /></cite></span>邀请好友</a></li>
         </ul>
         <dl>
             <dt>
-                <h4><a href="#">开学指导</a></h4>
-                <h4><a href="#">学员手册</a></h4>
+                <h4><a href="/about/start-guid">开学指导</a></h4>
+                <h4><a href="/about/student-book">学员手册</a></h4>
                 <h5>常见问题</h5>
-                <p><a href="#">?问题1</a></p>
-                <p><a href="#">?问题2</a></p>
-                <p><a href="#">?问题3</a></p>
+                <p><a href="/about/faq">?问题1</a></p>
+                <p><a href="/about/faq">?问题2</a></p>
+                <p><a href="/about/faq">?问题3</a></p>
             </dt>
             <dd>
                 <h4><img src="/images/htwxicon1.png" />微信客服</h4>
-                <p><img src="/images/htwxpic1.jpg" /></p>
+                <p><img src="/images/kefu-erweima.jpg" /></p>
             </dd>
         </dl>
     </div>

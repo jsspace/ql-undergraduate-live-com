@@ -31,10 +31,10 @@ AppAsset::register($this);
     <dl class="color2">
         <dt>欢迎您来到都想学！</dt>
         <dd>
-            <span class="topli wechat-icon-wrap hover">
-                <img src="/images/topicon1.png"/>微信公众号
+           <!-- <span class="topli wechat-icon-wrap hover">
+                <img src="/images/cart-icon.png"/>购物车
                 <img src="/images/public-erweima.jpg" class="erweima">
-            </span>
+            </span>-->
             <!-- <span class="topli qq-icon-wrap hover">
                 <img src="/images/topicon2.png" />qq
                 <img src="/images/qq-erweima.jpg" class="erweima">
@@ -48,9 +48,14 @@ AppAsset::register($this);
                 <a href="<?= Url::to(['site/signup']) ?>" class="topcol2">申请试听</a>
             </span>
             <?php } else { ?>
-                <span>你好，
+                <span class="topli">
+                    <a href="/cart/index"><img src="/images/cart-icon.png"/>购物车</a>
+                </span>
+                <span class="topli">你好，
                     <a href="<?= Url::to(['user/info']) ?>" class="topcol2 username"><?= Yii::$app->user->identity->username || '尊敬的用户' ?></a>
                     <a href="<?= Url::to(['user/info']) ?>" class="topcol2">会员中心</a>
+                </span>
+                <span>
                     <a href="<?= Url::to(['site/logout']) ?>" class="topcol2">退出</a>
                 </span>
             <?php } ?>
@@ -108,7 +113,7 @@ AppAsset::register($this);
                 <p><a href="/about/index">关于我们</a></p>
                 <p><a href="/about/join">加入我们</a></p>
                 <p><a href="/about/how-to-study">如何上课</a></p>
-                <p><a href="#">常见问题</a></p>
+                <p><a href="/about/faq">常见问题</a></p>
             </li>
             <li>
                 <h4>联系地址</h4>
