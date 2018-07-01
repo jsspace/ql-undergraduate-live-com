@@ -78,7 +78,7 @@ AppAsset::register($this);
         <dd>
             <form action="<?= Url::to(['course/search']); ?>" method="get">
                 <button type="submit" class="topbtn1"></button>
-                <input type="text" class="topinput1" placeholder="请输入……" name="searchContent" />
+                <input type="text" class="topinput1" placeholder="请输入……" autocomplete="off" name="searchContent" />
             </form>        
         </dd>
     </dl>
