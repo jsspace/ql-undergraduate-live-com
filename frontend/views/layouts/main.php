@@ -105,9 +105,9 @@ AppAsset::register($this);
             </li>
             <li>
                 <h4>快速链接</h4>
-                <p><a href="#">关于我们</a></p>
-                <p><a href="#">加入我们</a></p>
-                <p><a href="#">如何上课</a></p>
+                <p><a href="/about/index">关于我们</a></p>
+                <p><a href="/about/join">加入我们</a></p>
+                <p><a href="/about/how-to-study">如何上课</a></p>
                 <p><a href="#">常见问题</a></p>
             </li>
             <li>

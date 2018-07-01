@@ -1,0 +1,19 @@
+.about-content {
+    padding: 17px 265px 67px;
+}
+
+.about-title {
+    margin-top: 50px;
+}
+.about-content h2 {
+    font-size: 28px;
+    color: #333;
+    font-weight: normal;
+}
+
+.about-content p {
+    color: #757575;
+    line-height: 1.7;
+    margin: 14px 0;
+    font-size: 14px;
+}
