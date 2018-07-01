@@ -76,7 +76,13 @@ class UserController extends Controller
         $this->layout = false;
         return $this->render('info');
     }
-    
+
+    public function actionAskTeacher()
+    {
+        $this->layout = false;
+        return $this->render('ask-teacher');
+    }
+
     public function actionEdit()
     {
         $model = $this->findModel(Yii::$app->user->id);

@@ -77,7 +77,7 @@ AppAsset::register($this);
                 <li><a href="/course/open">公开课</a></li>
                 <li><a href="/teacher/intro">教师团队</a></li>
                 <li><a href="/about/how-to-study">如何上课</a></li>
-                <li><a href="#">问老师</a></li>
+                <li><a href="/user/ask-teacher">问老师</a></li>
             </ul>
         </dt>
         <dd>
@@ -106,7 +106,7 @@ AppAsset::register($this);
                 <p><a href="/course/list">热门班级</a></p>
                 <p><a href="/course/open">公开课</a></p>
                 <p><a href="/teacher/intro">教师团队</a></p>
-                <p><a href="#">问老师</a></p>
+                <p><a href="/user/ask-teacher">问老师</a></p>
             </li>
             <li>
                 <h4>快速链接</h4>
