@@ -21,11 +21,11 @@ $this->title = '新课提醒';
                 <h4><?= $course->course_name; ?></h4>
                 <p class="bjms"><?= $course->intro; ?></p>
                 <div class="tyny">
-                    <p><img src="/images/nyicon1.png" />课堂学（13）</p>
+                    <p><img src="/images/nyicon1.png" />课堂学（<?= count($sections) ?>）</p>
                     <p><img src="/images/nyicon1a.png" />随堂练（<?= count($sections) ?>）</p>
                     <p><img src="/images/nyicon1b.png" />问老师</p>
                     <p><img src="/images/nyicon1.png" />模拟考（<?= $course->examination_time; ?>）</p>
-                    <h5><span class="colorfff"><a href="/course/detail">体验一下</a></span><?= $course->online; ?>人正在学习</h5>
+                    <h5><span class="colorfff"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">体验一下</a></span><?= $course->online; ?>人正在学习</h5>
                 </div>
             </dd>
         </dl>

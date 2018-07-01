@@ -792,7 +792,7 @@ code {
 }
 .nytxt3_l {
     width: 826px;
-    padding: 18px 18px 0;
+    padding: 18px;
     float: left;
     border: 1px solid #eee;
 }
@@ -831,12 +831,13 @@ code {
     margin: 10px 0;
 }
 .nytxt3_lny1 li {
-    font-size: 16px;
     line-height: 47px;
     height: 47px;
     overflow: hidden;
     border-bottom: 1px solid #eee;
-    padding: 0 23px;
+}
+.nytxt3_lny1 li:last-child {
+    border-bottom: 0;
 }
 .nytxt3_lny1 li span {
     width: 100px;
@@ -860,7 +861,7 @@ code {
     float: right;
 }
 .nytxt3_rny1 {
-    height: 180px;
+    min-height: 120px;
     width: 271px;
     border: 1px solid #eee;
     padding: 11px;
@@ -871,7 +872,7 @@ code {
 }
 .nytxt3_rny1 dt img {
     width: 130px;
-    height: 182px;
+    height: auto;
     border: 1px solid #eee;
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -884,9 +885,9 @@ code {
 .nytxt3_rny1 dd h4 {
     font-size: 16px;
     border-bottom: 1px solid #eee;
-    line-height: 40px;
+    line-height: 16px;
     padding: 0 10px;
-    height: 40px;
+    height: 26px;
     overflow: hidden;
     margin-bottom: 10px;
 }

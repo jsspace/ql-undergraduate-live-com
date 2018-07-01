@@ -85,7 +85,7 @@ class CourseController extends Controller
         return $this->render('search', ['coursemodels' => $coursemodels]);
     }
     
-    public function actionOpenDetail($courseid, $invite=0)
+    public function actionDetail($courseid, $invite=0)
     {
         //设置邀请人cookie
         $cookies = Yii::$app->response->cookies;
@@ -104,23 +104,19 @@ class CourseController extends Controller
         $courseModel->save();
         $courseDetail = array();
         $courseDetail['course'] = $courseModel;
-        $courseDetail['coursechild'] = array();
-        $chapters = CourseChapter::find()
+        $sections = CourseSection::find()
         ->where(['course_id' => $courseid])
         ->all();
-        $sections = CourseSection::find()
-        ->all();
-        $duration = 0;
-        foreach ($chapters as $chapterKey => $chapter) {
-            $courseDetail['coursechild'][$chapterKey]['chapter'] = $chapter;
-            $courseDetail['coursechild'][$chapterKey]['chapterchild'] = array();
-            foreach ($sections as $sectionsKey => $section) {
-                if ($section->chapter_id == $chapter->id) {
-                    $courseDetail['coursechild'][$chapterKey]['chapterchild'][$sectionsKey] = $section;
-                    $duration = $duration+$section->duration;
+        $video_url_free = '';
+        if (!Yii::$app->user->isGuest) {
+            foreach ($sections as $key => $section) {
+                if ($section->paid_free == 0) {
+                    $video_url_free = $section->video_url;
+                    break;
                 }
             }
         }
+        $courseDetail['sections'] = $sections;
         // 课程评价
         $course_comments = CourseComent::find()
         ->where(['course_id' => $courseid])
@@ -148,12 +144,24 @@ class CourseController extends Controller
         ->all();
         $studyids = array_column($studyids, 'userid');
         $studyids = array_unique($studyids);
-        return $this->render('open-detail', ['courseDetail' => $courseDetail, 'duration' => $duration, 'course_comments' => $course_comments, 'datas' => $datas, 'quas' => $quas, 'studyids' => $studyids]);
+        return $this->render('detail', ['courseDetail' => $courseDetail, 'video_url_free' => $video_url_free, 'course_comments' => $course_comments, 'datas' => $datas, 'quas' => $quas, 'studyids' => $studyids]);
     }
 
-    public function actionDetail()
+    public function actionTry()
     {
-        return $this->render('detail');
+        if (Yii::$app->user->isGuest) {
+            $result['status'] = 0;
+            $result['message'] = '请先登陆再观看课程';
+        } else {
+            $data = Yii::$app->request->Post();
+            $section_id = $data['section_id'];
+            $section = CourseSection::find()
+            ->where(['id' => $section_id])
+            ->one();
+            $result['status'] = 1;
+            $result['video_url'] = $section->video_url;
+        }
+        return json_encode($result);
     }
 
     public function actionEvaluate()

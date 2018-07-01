@@ -3,7 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\assets\AppAsset;
-use kartik\datetime\DateTimePicker; 
+use kartik\datetime\DateTimePicker;
+use backend\models\Lookup;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseSection */
@@ -17,9 +18,9 @@ AppAsset::addCss($this,'@web/css/chapter_section.css');
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'type')->dropDownList(['1'=>'网课', '0'=>'直播课', '2'=>'直播答疑']) ?>
+    <?= $form->field($model, 'type')->dropDownList(Lookup::items('video_type')) ?>
 
-    <?= $form->field($model, 'paid_free')->dropDownList(['1'=>'付费', '0'=>'免费']) ?>
+    <?= $form->field($model, 'paid_free')->dropDownList(Lookup::items('need_pay')) ?>
 
     <?= $form->field($model, 'video_url')->textInput(['maxlength' => true]) ?>
 
