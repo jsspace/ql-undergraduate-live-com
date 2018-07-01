@@ -1,6 +1,6 @@
 <?php
 
-use backend\models\CourseChapter;
+use backend\models\Course;
 use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -15,8 +15,8 @@ AppAsset::addCss($this,'@web/css/chapter_section.css');
         'model' => $model,
         'attributes' => [
             [
-                'attribute' => 'chapter_id',
-                'value' => CourseChapter::item($model->chapter_id),
+                'attribute' => 'course_id',
+                'value' => Course::item($model->course_id),
             ],
             'name',
             'video_url:url',

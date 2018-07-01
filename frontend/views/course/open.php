@@ -8,7 +8,7 @@ use yii\widgets\LinkPager;
 
 AppAsset::addCss($this,'@web/css/list.css');
 
-$this->title = '新课提醒';
+$this->title = '公开课';
 ?>
 <div class="container-course course-online">
     <div class="container-course-wrap">

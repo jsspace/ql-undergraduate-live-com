@@ -42,11 +42,19 @@ class CourseSectionController extends Controller
         ->where(['course_id' => $course_id])
         ->orderBy('position ASC')
         ->all();
+        $sectionsData = array();
+        foreach ($courseSections as $key => $value) {
+            $sectionsData[$key] = array();
+            $sectionsData[$key]['name'] = $value->name;
+            $sectionsData[$key]['id'] = $value->id;
+            $sectionsData[$key]['parent_id'] = '0';
+            $sectionsData[$key]['section_type'] = 'file';
+        }
         $course = Course::find()
         ->where(['id' => $course_id])
         ->one();
         return $this->render('index', [
-            'courseSections' => $courseSections,
+            'courseSections' => $sectionsData,
             'course' => $course,
         ]);
     }

@@ -7,23 +7,19 @@ use Yii;
 /**
  * This is the model class for table "{{%course_section}}".
  *
- * @property string $id
- * @property string $course_id
- * @property string $name
- * @property integer $position
- * @property integer $type
- * @property string $start_time
- * @property string $video_url
- * @property string $roomid
- * @property string $duration
- * @property string $playback_url 
- * @property integer $paid_free 
- * @property CourseChapter $chapter
+* @property string $course_id 所属课程
+* @property string $name 名称
+* @property int $position 排序
+* @property int $type 网课/直播课/直播答疑
+* @property string $start_time 开始时间
+* @property string $video_url 视频地址
+* @property string $roomid roomid
+* @property string $duration 时长
+* @property string $playback_url 回放地址
+* @property int $paid_free 收费/免费
  */
 class CourseSection extends \yii\db\ActiveRecord
 {
-    public $section_type;
-    public $parent_id;
     /**
      * @inheritdoc
      */
