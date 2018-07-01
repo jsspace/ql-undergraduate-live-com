@@ -279,6 +279,7 @@ h5 {
     float: left;
     font-size: 14px;
     color: #fff;
+    outline: none;
 }
 .topbtn1 {
     width: 21px;
