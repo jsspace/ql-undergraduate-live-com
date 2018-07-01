@@ -343,6 +343,7 @@ h5 {
     padding: 5px;
     background: #fff;
     margin-top: 5px;
+    box-sizing: border-box !important;
 }
 #footer .footer-bottom {
     width: 100%;
