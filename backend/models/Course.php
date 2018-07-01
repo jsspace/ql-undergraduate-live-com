@@ -105,9 +105,9 @@ class Course extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCourseChapters()
+    public function getCourseSections()
     {
-        return $this->hasMany(CourseChapter::className(), ['course_id' => 'id']);
+        return $this->hasMany(CourseSection::className(), ['course_id' => 'id']);
     }
 
     /**

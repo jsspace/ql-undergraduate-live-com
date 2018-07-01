@@ -16,8 +16,10 @@ $this->title = '公开课';
             <ul class="list">
                 <?php foreach ($courses as $course) { ?>
                     <li>
-                        <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">
+                        <a href="javascript: void(0)">
                             <div class="course-img">
+                                <div class="bg"></div>
+                                <span data-url="<?= $course->open_course_url ?>" class="video-play-btn"></span>
                                 <img class="course-pic" src="<?= $course->list_pic; ?>"/>
                             </div>
                             <span class="content-title"><?= $course->course_name; ?></span>
@@ -41,3 +43,12 @@ $this->title = '公开课';
         </div>
     </div>
 </div>
+<div class="video-layout _video-layout">
+    <div class="video-box _video-box">
+        <div class="_close-video-btn close-video-btn">
+            <img src="//static-cdn.ticwear.com/cmww/statics/img/product/mini/mini-confirm-close-btn.png">
+        </div>
+        <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen=""></iframe>
+    </div>
+</div>
+<script type="text/javascript" src="/js/course.js"></script>

@@ -53,12 +53,14 @@ class CourseController extends Controller
     {
         $courses = Course::find()
         ->where(['onuse' => 1])
+        ->andWhere(['type' => 1])
+        ->with('courseSections')
         ->orderBy('create_time desc');
-        $pages = new Pagination(['totalCount' => $courses->count()]);
+        $pages = new Pagination(['totalCount' => $courses->count(), 'pageSize' => '5']);
         $models = $courses->offset($pages->offset)
-        ->limit(12)
+        ->limit($pages->limit)
         ->all();
-        return $this->render('list', ['courses' => $models, 'pages' => $pages,]);
+        return $this->render('list', ['courses' => $models, 'pages' => $pages]);
     }
 
     public function actionOpen()
