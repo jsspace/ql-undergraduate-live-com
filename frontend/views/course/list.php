@@ -31,5 +31,13 @@ $this->title = '新课提醒';
         </dl>
         <?php } ?>
     </div>
-    <div class="page"><a href="#">首页</a><a href="#">&lt;</a><a href="#" class="pagenow">1</a><a href="#">2</a><a href="#">&gt;</a><a href="#">末页</a></div>
+    <div class="pagination-wrap">
+        <?php 
+            echo LinkPager::widget([
+                'pagination' => $pages,
+                'firstPageLabel'=>"首页",
+                'lastPageLabel'=>'尾页',
+            ]);
+        ?>
+    </div>
 </div>

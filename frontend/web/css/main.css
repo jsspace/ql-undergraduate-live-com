@@ -661,6 +661,25 @@ code {
     height: 100%;
     display: block;
 }
+.pagination-wrap {
+    text-align: center;
+}
+.pagination > li > a,
+.pagination > li > span {
+    color: #333;
+}
+.pagination>.active>a,
+.pagination>.active>span,
+.pagination>.active>a:hover,
+.pagination>.active>span:hover,
+.pagination>.active>a:focus,
+.pagination>.active>span:focus {
+    background-color: #b00015;
+    border-color: #b00015;
+}
+.pagination {
+    margin-top: 0;
+}
 .page {
     width: 100%;
     line-height: 30px;

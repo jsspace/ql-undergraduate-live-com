@@ -56,7 +56,7 @@ class CourseController extends Controller
         ->andWhere(['type' => 1])
         ->with('courseSections')
         ->orderBy('create_time desc');
-        $pages = new Pagination(['totalCount' => $courses->count(), 'pageSize' => '12']);
+        $pages = new Pagination(['totalCount' => $courses->count(), 'pageSize' => '5']);
         $models = $courses->offset($pages->offset)
         ->limit($pages->limit)
         ->all();
