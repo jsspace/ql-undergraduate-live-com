@@ -150,14 +150,14 @@
 }
 
 /* course detail */
-.course-detail-section {
+{
     width: 100%;
     background: #f2f3f5;
 }
-.course-detail-section img {
+img {
     max-width: 100%;
 }
-.course-detail-section .main-section {
+.main-section {
     width: 1180px;
     background: #fff;
     border-radius: 10px;
@@ -165,17 +165,17 @@
     margin: 0 auto 30px;
     overflow: hidden;
 }
-.course-detail-section .course-detail-left {
+.course-detail-left {
     width: 620px;
     height: 420px;
     float: left;
     position: relative;
     background-color: #000;
 }
-.course-detail-section .course-detail-left img {
+.course-detail-left img {
     height: auto !important;
 }
-.course-detail-section .course-detail-left video {
+.course-detail-left video {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -183,39 +183,39 @@
     left: 0;
     display: none;
 }
-.course-detail-section .course-detail-left img {
+.course-detail-left img {
     width: 100%;
     height: 100%;
 }
-.course-detail-section .course-detail-right {
+.course-detail-right {
     width: 450px;
     margin-left: 50px;
     float: left;
 }
-.course-detail-section .course-detail-title {
+.course-detail-title {
     font-size: 24px;
     text-align: left;
     line-height: 60px;
 }
-.course-detail-section .course-sub-title {
+.course-sub-title {
     font-size: 14px;
     text-align: left;
     color: #ff9933;
 }
-.course-detail-section .course-detail-right .course-price {
+.course-detail-right .course-price {
     padding-left: 20px;
     margin-bottom: 0;
     padding: 10px 0;
     color: #919191;
     font-size: 14px;
 }
-.course-detail-section .course-detail-right .price-tag {
+.course-detail-right .price-tag {
     display: inline-block;
     max-width: 100%;
     margin-bottom: 5px;
     font-weight: 700;
 }
-.course-detail-section .course-detail-right .price-highlight {
+.course-detail-right .price-highlight {
     font-size: 24px;
     color: #E1604C;
 }
@@ -249,17 +249,17 @@
     font-size: 16px;
     display: inline-block;
 }
-.course-detail-section .course-info {
+.course-info {
     padding-top: 50px;
     margin-bottom: 20px;
     font-size: 14px;
     text-align: left;
     color: #666;
 }
-.course-detail-section .info-list {
+.info-list {
     overflow: hidden;
 }
-.course-detail-section .info-list li {
+.info-list li {
     width: 150px;
     float: left;
     display: block;
@@ -268,11 +268,11 @@
     color: #666;
     text-align: left;
 }
-.course-detail-section .share-like {
+.share-like {
     margin-top: 30px;
     overflow: hidden;
 }
-.course-detail-section .share-like .share-list {
+.share-like .share-list {
     margin-right: 30px;
     float: left;
     display: block;
@@ -282,21 +282,21 @@
     text-align: left;
     cursor: pointer;
 }
-.course-detail-section .share-like .share-list a {
+.share-like .share-list a {
     color: #32b7fa;
 }
-.course-detail-section .kc-left {
+.kc-left {
     width: 855px;
     float: left;
 }
-.course-detail-section .kc-left .course-tag {
+.kc-left .course-tag {
     width: 100%;
     height: 50px;
     background: #F4F4F4;
     border-left: 1px solid #F4F4F4;
     padding-left: 1px;
 }
-.course-detail-section .kc-left .course-tag li {
+.kc-left .course-tag li {
     height: 48px;
     float: left;
     font-size: 14px;
@@ -306,21 +306,23 @@
     color: #555;
     border-right: 1px solid #dbdbdb;
 }
-.course-detail-section .kc-left .course-tag li.active {
+.kc-left .course-tag li.active {
     color: #FF2A2A;
     border-top: 2px solid #D83F2A;
 }
-.course-detail-section .course-tag-content {
+.course-tag-content {
     margin-top: 20px;
     width: 100%;
 }
-.course-detail-section .course-tag-content .tag-content {
+.course-tag-content .tag-content {
     display: none;
+    padding: 0 23px;
+    font-size: 16px;
 }
-.course-detail-section .course-tag-content .tag-content.active {
+.course-tag-content .tag-content.active {
     display: block;
 }
-.course-detail-section .data-ul li {
+.data-ul li {
     width: 100%;
     height: 60px;
     border-left: 4px solid red;
@@ -328,8 +330,8 @@
     background: #f6f6f6;
     margin-bottom: 20px;
 }
-.course-detail-section .data-ul li p,
-.course-detail-section .data-ul li .data-title {
+.data-ul li p,
+.data-ul li .data-title {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -362,10 +364,10 @@
     border: 1px solid #fd7863;
     margin-top: 20px;
 }
-.course-detail-section .chapter-title li {
+.chapter-title li {
     margin-bottom: 15px;
 }
-.course-detail-section .chapter-title-name {
+.chapter-title-name {
     height: 50px;
     border-left: 4px solid #ff686d;
     padding-left: 25px;
@@ -376,7 +378,7 @@
     background: #f2f3f5;
     cursor: pointer;
 }
-.course-detail-section .chapter-title li .chapter-title-name:after {
+.chapter-title li .chapter-title-name:after {
     display: block;
     content: "";
     background: url(../img/course-plus-icon.png) no-repeat center;
@@ -386,38 +388,38 @@
     float: right;
     margin-top: 15px;
 }
-.course-detail-section .chapter-title li.active .chapter-title-name:after {
+.chapter-title li.active .chapter-title-name:after {
     background: url(../img/course-minus-icon.png) no-repeat center;
 }
-.course-detail-section .chapter-title li .chapter-con {
+.chapter-title li .chapter-con {
     padding: 10px 35px 0 20px;
     border-bottom: 1px dashed #ddd;
     padding-bottom: 5px;
     display: none;
 }
-.course-detail-section .chapter-title li.active .chapter-con {
+.chapter-title li.active .chapter-con {
     display: block;
 }
-.course-detail-section .chapter-con li {
+.chapter-con li {
     height: 35px;
     line-height: 35px;
     padding-left: 40px;
     margin-bottom: 0;
 }
-.course-detail-section .chapter-con li a {
+.chapter-con li a {
     display: inline-block;
     font-size: 14px;
     color: #444444;
 }
-.course-detail-section .chapter-con li a:hover {
+.chapter-con li a:hover {
     color: #e3383e;
 }
-.course-detail-section .chapter-list-time {
+.chapter-list-time {
     font-size: 14px;
     color: #e3383e;
     float: right;
 }
-.course-detail-section .chapter-list-time .time-tag {
+.chapter-list-time .time-tag {
     font-size: 12px;
     color: #0099ff;
     display: inline-block;
@@ -442,7 +444,7 @@
     display: inline-block;
     vertical-align: text-bottom;
 }
-.course-detail-section .kc-right {
+.kc-right {
     width: 270px;
     margin-left: 10px;
     float: right;
@@ -450,62 +452,62 @@
     border-radius: 5px;
     padding: 15px;
 }
-.course-detail-section .kc-right.kc-right-student {
+.kc-right.kc-right-student {
     margin-top: 20px;
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;
     clear: both;
 }
-.course-detail-section .kc-right-student .student-title {
+.kc-right-student .student-title {
     font-size: 18px;
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
     text-indent: 15px;
 }
-.course-detail-section .student-list {
+.student-list {
     overflow: hidden;
     padding: 8px 8px 0;
 }
-.course-detail-section .student-list li {
+.student-list li {
     float: left;
     width: 23.5%;
     margin-right: 2%;
     margin-bottom: 5px;
     text-align: center;
 }
-.course-detail-section .student-list li:nth-child(4n) {
+.student-list li:nth-child(4n) {
     margin-right: 0;
 }
-.course-detail-section .student-img {
+.student-img {
     width: 100%;
     margin-bottom: 8px;
 }
-.course-detail-section .student-img img {
+.student-img img {
     width: 85%;
 }
-.course-detail-section .student-name {
+.student-name {
     font-size: 12px;
     width: 100%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
-.course-detail-section .teacher-show {
+.teacher-show {
     overflow: hidden;
 }
-.course-detail-section .teacher-img {
+.teacher-img {
     width: 85px;
     height: 85px;
     border-radius: 50%;
     float: left;
 }
-.course-detail-section .teacher-img img {
+.teacher-img img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
 }
-.course-detail-section .teacher-detail {
+.teacher-detail {
     width: 140px;
     padding-top: 15px;
     margin-left: 10px;
@@ -513,7 +515,7 @@
     font-size: 16px;
     float: left;
 }
-.course-detail-section .teacher-detail .view-btn {
+.teacher-detail .view-btn {
     border-radius: 5px;
     text-align: center;
     background: #FF686D;
@@ -524,7 +526,7 @@
     display: block;
     font-size: 14px;
 }
-.course-detail-section .teacher-tag {
+.teacher-tag {
     padding: 5px 10px;
     text-align: center;
     color: #fff;
@@ -535,7 +537,7 @@
     margin-top: 15px;
     font-size: 12px;
 }
-.course-detail-section .teacher-info {
+.teacher-info {
     font-size: 14px;
     line-height: 20px;
     text-align: left;
@@ -543,7 +545,7 @@
     margin-top: 15px;
     clear: both;
 }
-.course-detail-section .evaluate-list li {
+.evaluate-list li {
     width: 100%;
     text-align: left;
     font-size: 12px;
@@ -554,46 +556,46 @@
     border-bottom: 1px solid #E6E6E6;
     overflow: hidden;
 }
-.course-detail-section .evaluate-list .user-info {
+.evaluate-list .user-info {
     width: 100px;
     float: left;
     text-align: center;
 }
-.course-detail-section .evaluate-list .user-img {
+.evaluate-list .user-img {
     width: 35px;
     height: 35px;
     padding: 0;
     margin: 0 auto;
 }
-.course-detail-section .evaluate-list .user-evaluate {
+.evaluate-list .user-evaluate {
     width: 750px;
     float: left;
     text-align: left;
 }
-.course-detail-section .evaluate-list .evaluate-info {
+.evaluate-list .evaluate-info {
     color: #666;
     width: 100%;
     display: block;
     font-size: 14px;
 }
-.course-detail-section .evaluate-list .evaluate-time {
+.evaluate-list .evaluate-time {
     width: 100%;
     height: 20px;
     margin-top: 5px;
     font-size: 12px;
     color: #999;
 }
-.course-detail-section .user-question-list {
+.user-question-list {
     margin-top: 75px;
 }
-.course-detail-section .user-question-list li {
+.user-question-list li {
     padding: 15px 0;
     border-bottom: 1px solid #dfdfdf;
 }
-.course-detail-section .user-question-list li:last-child {
+.user-question-list li:last-child {
     border-bottom: 0;
 }
-.course-detail-section .user-question-list .question-icon {
+.user-question-list .question-icon {
     font-size: 12px;
     width: 20px;
     height: 20px;
@@ -605,12 +607,12 @@
     color: #fff;
     vertical-align: top;
 }
-.course-detail-section .user-question-list .question-date {
+.user-question-list .question-date {
     float: right;
     font-size: 12px;
     color: #777;
 }
-.course-detail-section .user-question-list .question-txt {
+.user-question-list .question-txt {
     max-width: 500px;
     display: inline-block;
     word-break: break-all;

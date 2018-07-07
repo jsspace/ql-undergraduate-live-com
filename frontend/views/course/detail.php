@@ -8,59 +8,180 @@ use backend\models\Course;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
 AppAsset::addCss($this,'@web/css/main.css');
+AppAsset::addCss($this,'@web/css/course.css');
 
 $this->title = '课程详情';
+$userid = Yii::$app->user->id;
+$course = $courseDetail['course'];
+$sections = $courseDetail['sections'];
+$share_title = '精品课程，超低优惠，快来学习吧！';
+$share_url = 'http://www.kaoben.top/course/detail?courseid='.$course->id.'&invite='.$userid;
+$news = array(
+    "PicUrl" =>'http://www.kaoben.top/img/share-logo.png',
+    "Description"=>"活到老，学到老，快来和大家一起学习吧！",
+    "Url" =>$share_url,
+    'title' => $share_title
+);
 ?>
-<div class="indexgg indexgg">
-    <dl>
-        <dt><img src="/images/lbicon1.png" />最新公告：2017年行政管理专业各科真题及答案汇编</dt>
-    </dl>
-</div>
+<input class="course-id _course-id" type="hidden" value="<?= $course->id; ?>"/>
+<input class="is_guest" type="hidden" value="<?= Yii::$app->user->isGuest; ?>"/>
 <div class="main cc" style="padding:35px 0;">
     <dl class="nytxt2">
         <dt>
-        <video src="http://jq22com.qiniudn.com/jq22-sp.mp4" controls="controls" loop="loop" x-webkit-airplay="true" webkit-playsinline="true"></video>
+        <video src="" controls="controls" loop="loop" x-webkit-airplay="true" webkit-playsinline="true" class="course-video"></video>
         </dt>
         <dd>
-            <h4>普通话语音与发声</h4>
-            <p class="bjxq1">价格： <code>￥680.00</code>    原价： <del>￥1000.00</del></p>
-            <p>1256974人正在学习</p>
-            <p>主讲：苏红</p>
-            <p class="bjxq2"><code class="xq2now">课堂学13次</code><code>随堂练13次</code><code>模拟考1次</code></p>
-            <p class="bjxq3"><span><a href="#">购买课程</a></span><code class="colorfff"><a href="#"><img src="/images/nyicon2.png" />分享</a></code><code class="colorfff"><a href="#"><img src="/images/nyicon2a.png" />收藏</a></code></p>
+            <h4><?= $course->course_name ?></h4>
+            <p class="bjxq1">价格： <code>￥<?= $course->discount ?></code>    原价： <del>￥<?= $course->price ?></del></p>
+            <p><?= $course->online ?>人正在学习</p>
+            <p>主讲：<?= User::item($course->teacher_id); ?></p>
+            <p class="bjxq2"><code class="xq2now">课堂学<?= count($sections) ?>次</code><code>随堂练<?= count($sections) ?>次</code><code>模拟考<?= $course->examination_time ?>次</code></p>
+            <p class="bjxq3">
+                <?php
+                    $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+                    $isschool = 0;
+                    if (array_key_exists('school',$roles_array)) {
+                        $isschool = 1;
+                    }
+                    $ismember = Course::ismember($course->id, Yii::$app->user->id);
+                    $ispay = Course::ispay($course->id, Yii::$app->user->id);
+                    if ($course->discount == 0) { ?>
+                        <span class="course-ispay-tag">公开课程</span>
+                    <?php }
+                    else if ($ismember == 1) { ?>
+                        <span class="course-ispay-tag">会员课程</span>
+                    <?php }
+                    else if ($ispay == 1 || $isschool == 1) { ?>
+                        <span class="course-ispay-tag">已购课程</span>
+                    <?php } else { ?>
+                        <span>
+                            <a class="quick-buy _quick-buy" href="javascript: void(0)">购买课程</a>
+                        </span>
+                        <span><a class="add-cart _add-cart" href="javascript: void(0)">加入购物车</a></span>
+                <?php } ?>
+                <code class="colorfff"><a href="javascript: void(0)"><img src="/images/nyicon2.png" />分享</a></code><code class="colorfff"><a href="javascript: void(0)" class="share-list collection-btn _collection-btn"><img src="/images/nyicon2a.png" />收藏</a></code></p>
         </dd>
     </dl>
     <div class="nytxt3 cc">
         <div class="nytxt3_l">
             <div class="nytxt3_lny1">
-                <dl class="cc">
-                    <dd><a href="#">课程介绍</a></dd>
-                    <dd class="kcnow"><a href="#">课堂学</a></dd>
-                    <dd><a href="#">随堂练</a></dd>
-                    <dd><a href="#">问老师</a></dd>
-                    <dd><a href="#">模拟考</a></dd>                    
-                    <dt><a href="#">班主任</a></dt>
+                <dl class="cc course-tag">
+                    <dd><a href="javascript: void(0)">课程介绍</a></dd>
+                    <dd class="kcnow"><a href="javascript: void(0)">课堂学</a></dd>
+                    <dd><a href="javascript: void(0)">随堂练</a></dd>
+                    <dd><a href="javascript: void(0)">问老师</a></dd>
+                    <dd><a href="javascript: void(0)">模拟考</a></dd>          
+                    <dt><a href="javascript: void(0)">班主任</a></dt>
                 </dl>
-                <ul class="color2">
-                    <li><code class="colorfff"><a href="#">免费试听</a></code><span>第一节</span>什么是普通话</li>
-                    <li><span>第一节</span>什么是普通话</li>
-                    <li><span>第一节</span>什么是普通话</li>
-                    <li><span>第一节</span>什么是普通话</li>
-                    <li><span>第一节</span>什么是普通话</li>
-                    <li><span>第一节</span>什么是普通话</li>
-                    <li><code class="colorfff"><a href="#">免费试听</a></code><span>第一节</span>什么是普通话</li>
-                </ul>
             </div>
-            <div class="page"><a href="#">&lt;</a><a href="#" class="pagenow">1</a><a href="#">2</a><a href="#">&gt;</a></div>
+            <div class="course-tag-content">
+                <div class="tag-content">
+                    <?= $course->des; ?>
+                </div>
+                <div class="tag-content active nytxt3_lny1">
+                    <ul class="color2">
+                        <?php foreach ($sections as $key => $section) { ?>
+                            <li>
+                                <?php if ($section->paid_free == 0) { ?>
+                                    <code class="colorfff try-listening" data="<?= $section->id ?>">
+                                        <a href="javascript: void(0)">免费试听</a>
+                                    </code>
+                                <?php } ?>
+                                <?= $section->name ?>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+                <div class="tag-content">
+                    <div class="course-evaluate">
+                        <textarea class="_course-question-content"></textarea>
+                        <button class="_course-question-btn">我要提问</button>
+                    </div>
+                    <?php if (count($quas) > 0) { ?>
+                    <ul class="user-question-list">
+                        <?php foreach ($quas as $key => $qu) { ?>
+                        <li>
+                            <div class="question-content">
+                                <p class="question-answer">
+                                    <span class="question-icon">问</span>
+                                    <span class="question-txt"><?= $qu->question ?></span>
+                                    <span class="question-date"><?= date('Y-m-d H:m:s', $qu->question_time) ?></span>
+                                </p>
+                                <p class="question-answer">
+                                    <span class="question-icon">答</span>
+                                    <span class="question-txt"><?= $qu->answer ?></span>
+                                    <span class="question-date"><?= date('Y-m-d H:i:s', $qu->answer_time) ?></span>
+                                </p>
+                            </div>
+                        </li>
+                         <?php } ?>
+                    </ul>
+                    <?php } ?>
+                </div>
+                <div class="tag-content">
+                    <div class="course-evaluate">
+                        <textarea class="_course-evaluate-content"></textarea>
+                        <button class="_course-evaluate-btn">提交</button>
+                    </div>
+                    <?php if (count($course_comments) > 0) { ?>
+                    <ul class="evaluate-list _evaluate-list">
+                        <?php foreach ($course_comments as $course_comment) { ?>
+                            <li>
+                                <div class="user-info">
+                                    <p class="user-img"><img src="<?= User::getUserModel($course_comment->user_id)->picture; ?>"/></p>
+                                    <p class="user-name"><?= User::item($course_comment->user_id); ?></p>
+                                </div>
+                                <div class="user-evaluate">
+                                    <p class="evaluate-info"><?= $course_comment->content ?></p>
+                                    <p class="evaluate-time"><?= date('Y-m-d H:i:s', $course_comment->create_time) ?></p>
+                                </div>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                    <?php } ?>
+                </div>
+                <div class="tag-content">
+                    <?php if (count($datas) > 0) { ?>
+                        <ul class="list data-ul active">
+                            <?php foreach ($datas as $key => $course_data) { ?>
+                                <li>
+                                    <div class="right-con">
+                                        <p class="data-title">
+                                            <?php if ($course_data->url_type == 1) {
+                                                $url = Url::to(['data/detail', 'dataid' => $course_data->id]);
+                                                $target = '_self';
+                                            } else { 
+                                                $url = strip_tags($course_data->content);
+                                                $target = '_blank';
+                                            } ?>
+                                            <span><a class="data-title" target="<?= $target ?>" href="<?= $url ?>"><?= $course_data->name ?></a></span>
+                                        </p>
+                                        <p class="data-intro"><?= $course_data->summary ?></p>
+                                    </div>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    <?php } else { ?>
+                        <p>暂无</p>
+                    <?php } ?>
+                </div>
+            </div>
         </div>
         <div class="nytxt3_r">
             <dl class="nytxt3_rny1">
-                <dt><img src="/images/nypic2.jpg" width="130" height="180" /></dt>
+                <?php
+                    $teacher = User::getUserModel($course->teacher_id);
+                    $teacher_pictrue = '';
+                    if ($teacher) {
+                        $teacher_pictrue = $teacher->picture;
+                    }
+                ?>
+                <dt><img src="<?= $teacher_pictrue; ?>" width="130" height="180" /></dt>
                 <dd>
                     <h4>主讲老师</h4>
-                    <p class="rny1name">苏红</p>
-                    <p>中国传媒大学讲师</p>
-                    <p>博士，签约导师</p>
+                    <p class="rny1name"><?= User::item($course->teacher_id); ?></p>
+                    <p><?= User::getUserModel($course->teacher_id)->description; ?></p>
+                    <p><?= User::getUserModel($course->teacher_id)->office; ?></p>
                 </dd>
             </dl>
             <div class="nytxt3_rny2 cc">
@@ -79,3 +200,6 @@ $this->title = '课程详情';
         </div>
     </div>
 </div>
+<script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
+<script src="<?= Url::to('@web/skin/layer.js');?>"></script>
+<script src="<?= Url::to('@web/js/course-detail.js');?>"></script>
