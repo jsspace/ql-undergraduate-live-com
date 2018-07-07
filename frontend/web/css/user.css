@@ -427,7 +427,7 @@ label {
 }
 /* user coupon */
 .coupon-wrapper {
-    margin-top: 50px;
+    padding: 0 30px;
 }
 .coupon-wrapper.member-wrapper {
     margin-top: 20px;
@@ -443,9 +443,12 @@ label {
 .coupon-wrapper .coupon-title-line li,
 .coupon-wrapper .coupon-content-line p {
     float: left;
-    width: 25%;
+    width: 25% !important;
     text-align: center;
-    margin-bottom: 0;
+    height: auto;
+    border: none;
+    position: static;
+    margin: 0;
 }
 .coin-wrapper .coupon-title-line li,
 .coin-wrapper .coupon-content-line p {
@@ -474,10 +477,22 @@ label {
     padding: 10px 0;
     overflow: hidden;
     border-bottom: 1px solid #dfdfdf;
+    height: auto;
+    position: static;
+    margin: 0;
+    width: auto;
+    border-top: none;
+    float: none;
 }
-.user-wrapper .empty-content {
-    padding: 10px 0;
+.empty-content {
+    padding: 30px 0;
     text-align: center;
+    font-size: 14px;
+    color: #747474;
+}
+.empty-content a {
+    text-decoration: underline !important;
+    color: #448aca !important;
 }
 .user-course-details .btn-primary:hover {
     background-color: #40b3ff;

@@ -26,4 +26,19 @@ class AboutController extends Controller
     public function actionJoin() {
         return $this->render('join');
     }
+
+    // 常见问题FAQ静态页渲染
+    public function actionFaq() {
+        return $this->render('faq');
+    }
+
+    // 学员手册
+    public function actionStudentBook() {
+        return $this->render('student-book');
+    }
+
+    // 开学指导
+    public function actionStartGuid() {
+        return $this->render('start-guid');
+    }
 }
