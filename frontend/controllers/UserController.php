@@ -33,6 +33,9 @@ class UserController extends Controller
     /**
      * @inheritdoc
      */
+
+    public $layout = 'user-main';
+
     public function behaviors()
     {
         return [
@@ -73,13 +76,11 @@ class UserController extends Controller
     
     public function actionInfo()
     {
-        $this->layout = false;
         return $this->render('info');
     }
 
     public function actionAskTeacher()
     {
-        $this->layout = false;
         return $this->render('ask-teacher');
     }
 
