@@ -67,11 +67,10 @@ $news = array(
             <div class="nytxt3_lny1">
                 <dl class="cc course-tag">
                     <dd><a href="javascript: void(0)">课程介绍</a></dd>
-                    <dd class="kcnow"><a href="javascript: void(0)">课堂学</a></dd>
-                    <dd><a href="javascript: void(0)">随堂练</a></dd>
+                    <dd class="kcnow"><a href="javascript: void(0)">课堂入口</a></dd>
                     <dd><a href="javascript: void(0)">问老师</a></dd>
-                    <dd><a href="javascript: void(0)">模拟考</a></dd>          
-                    <dt><a href="javascript: void(0)">班主任</a></dt>
+                    <dd><a href="javascript: void(0)">错题本</a></dd>
+                    <dd><a href="javascript: void(0)">学情报告</a></dd>          
                 </dl>
             </div>
             <div class="course-tag-content">
@@ -79,15 +78,13 @@ $news = array(
                     <?= $course->des; ?>
                 </div>
                 <div class="tag-content active nytxt3_lny1">
-                    <ul class="color2">
+                    <ul class="chapter-title">
                         <?php foreach ($sections as $key => $section) { ?>
                             <li>
-                                <?php if ($section->paid_free == 0) { ?>
-                                    <code class="colorfff try-listening" data="<?= $section->id ?>">
-                                        <a href="javascript: void(0)">免费试听</a>
-                                    </code>
-                                <?php } ?>
-                                <?= $section->name ?>
+                                <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
+                                <div class="chapter-list-time">
+                                    <span class="time-con"><?= $section->duration ?></span>
+                                </div>
                             </li>
                         <?php } ?>
                     </ul>
@@ -119,51 +116,10 @@ $news = array(
                     <?php } ?>
                 </div>
                 <div class="tag-content">
-                    <div class="course-evaluate">
-                        <textarea class="_course-evaluate-content"></textarea>
-                        <button class="_course-evaluate-btn">提交</button>
-                    </div>
-                    <?php if (count($course_comments) > 0) { ?>
-                    <ul class="evaluate-list _evaluate-list">
-                        <?php foreach ($course_comments as $course_comment) { ?>
-                            <li>
-                                <div class="user-info">
-                                    <p class="user-img"><img src="<?= User::getUserModel($course_comment->user_id)->picture; ?>"/></p>
-                                    <p class="user-name"><?= User::item($course_comment->user_id); ?></p>
-                                </div>
-                                <div class="user-evaluate">
-                                    <p class="evaluate-info"><?= $course_comment->content ?></p>
-                                    <p class="evaluate-time"><?= date('Y-m-d H:i:s', $course_comment->create_time) ?></p>
-                                </div>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                    <?php } ?>
+                    错题本
                 </div>
                 <div class="tag-content">
-                    <?php if (count($datas) > 0) { ?>
-                        <ul class="list data-ul active">
-                            <?php foreach ($datas as $key => $course_data) { ?>
-                                <li>
-                                    <div class="right-con">
-                                        <p class="data-title">
-                                            <?php if ($course_data->url_type == 1) {
-                                                $url = Url::to(['data/detail', 'dataid' => $course_data->id]);
-                                                $target = '_self';
-                                            } else { 
-                                                $url = strip_tags($course_data->content);
-                                                $target = '_blank';
-                                            } ?>
-                                            <span><a class="data-title" target="<?= $target ?>" href="<?= $url ?>"><?= $course_data->name ?></a></span>
-                                        </p>
-                                        <p class="data-intro"><?= $course_data->summary ?></p>
-                                    </div>
-                                </li>
-                            <?php } ?>
-                        </ul>
-                    <?php } else { ?>
-                        <p>暂无</p>
-                    <?php } ?>
+                    学情报告
                 </div>
             </div>
         </div>
@@ -176,12 +132,27 @@ $news = array(
                         $teacher_pictrue = $teacher->picture;
                     }
                 ?>
-                <dt><img src="<?= $teacher_pictrue; ?>" width="130" height="180" /></dt>
+                <dt><img class="teacher-img" src="<?= $teacher_pictrue; ?>" /></dt>
                 <dd>
                     <h4>主讲老师</h4>
                     <p class="rny1name"><?= User::item($course->teacher_id); ?></p>
                     <p><?= User::getUserModel($course->teacher_id)->description; ?></p>
                     <p><?= User::getUserModel($course->teacher_id)->office; ?></p>
+                </dd>
+            </dl>
+            <dl class="nytxt3_rny1">
+                <?php
+                    $hteacher = User::getUserModel($course->head_teacher);
+                    $hteacher_pictrue = '';
+                    if ($hteacher) {
+                        $hteacher_pictrue = $hteacher->picture;
+                    }
+                ?>
+                <dt><img class="head-teacher-img" src="<?= $hteacher_pictrue; ?>" /></dt>
+                <dd>
+                    <h4>主讲老师</h4>
+                    <p class="rny1name"><?= User::item($course->head_teacher); ?></p>
+                    <p><img class="head-teacher-wechat" src="<?= $hteacher->wechat_img ?>" width="50" /></p>
                 </dd>
             </dl>
             <div class="nytxt3_rny2 cc">

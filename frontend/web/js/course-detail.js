@@ -164,34 +164,6 @@ var courseDetail = {
     videoNetEvent: function() {
         var self = this;
         /* 免费试听 */
-        $('.try-listening').on('click', function() {
-            var is_guest = $('.is_guest').val();
-            if (is_guest) {
-                layer.confirm('登录即可观看海量公开课程，更有众多精彩内容等你发现', {
-                  title: '请先登录',
-                  btn: ['确定','取消'] //按钮
-                }, function(){
-                  window.location.href = '/site/login';
-                });
-                return;
-            }
-            var section_id = $(this).attr('data');
-            $.ajax({
-                url: '/course/try',
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    section_id: section_id,
-                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
-                },
-                success: function(data) {
-                    if (data.status === 1) {
-                        $('.course-video').attr('src', data.video_url);
-                        $('.course-video')[0].play();
-                    }
-                }
-            });
-        });
         $('#course-video').on("play", function() {
             /* 获取当前播放位置 */
             $('#course-video').on('timeupdate', function() {
@@ -216,6 +188,16 @@ var courseDetail = {
             self.seconds = 0;*/
         });
         $('._net-class').on('click', function() {
+            var is_guest = $('.is_guest').val();
+            if (is_guest) {
+                layer.confirm('登录即可观看海量公开课程，更有众多精彩内容等你发现', {
+                  title: '请先登录',
+                  btn: ['确定','取消'] //按钮
+                }, function(){
+                  window.location.href = '/site/login';
+                });
+                return;
+            }
             self.section_id = $(this).attr('section-id');
             self.course_id = $('._course-id').val();
             $.ajax({

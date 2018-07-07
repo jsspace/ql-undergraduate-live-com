@@ -78,7 +78,7 @@ class Course extends \yii\db\ActiveRecord
             'online' => Yii::t('app', '在学人数'),
             'onuse' => Yii::t('app', '是否可用'),
             'create_time' => Yii::t('app', '课程创建时间'),
-            'head_teacher' => Yii::t('app', '辅导老师'),
+            'head_teacher' => Yii::t('app', '班主任'),
             'examination_time' => Yii::t('app', '模拟考次数'),
             'type' => Yii::t('app', '热门班级/公开课'),
             'open_course_url' => Yii::t('app', '公开课链接'),

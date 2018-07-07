@@ -21,8 +21,8 @@ AppAsset::addCss($this,'@web/css/chapter_section.css');
             ],
             'name',
             'video_url:url',
-            'roomid',
-            'playback_url:url',
+            //'roomid',
+            //'playback_url:url',
             [
                 'attribute' => 'paid_free',
                 'value' => Lookup::item('need_pay', $model->paid_free),
@@ -32,7 +32,7 @@ AppAsset::addCss($this,'@web/css/chapter_section.css');
                 'value' => Lookup::item('video_type', $model->type),
             ],
             'duration',
-            'start_time',
+            //'start_time',
             'position',
         ],
     ]) ?>
