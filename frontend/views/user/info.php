@@ -39,8 +39,8 @@ use backend\models\Cities;
     <div class="htsidebar">
         <h3 class="colorfff">个人中心</h3>
         <ul>
-            <li><a href="/user/class"><span><img src="/images/hticon3.png" /><cite><img src="/images/hticon3a.png" /></cite></span>我的班级</a></li>
-            <li class="htleftnow"><a href="/user/orders"><span><img src="/images/hticon4.png" /><cite><img src="/images/hticon4a.png" /></cite></span>我的订单</a></li>
+            <li class="htleftnow"><a href="/user/info"><span><img src="/images/hticon3.png" /><cite><img src="/images/hticon3a.png" /></cite></span>我的班级</a></li>
+            <li><a href="/user/orders"><span><img src="/images/hticon4.png" /><cite><img src="/images/hticon4a.png" /></cite></span>我的订单</a></li>
             <li><a href="/user/favorite"><span><img src="/images/hticon6.png" /><cite><img src="/images/hticon6a.png" /></cite></span>我的收藏</a></li>
             <li><a href="/user/coupon"><span><img src="/images/hticon7.png" /><cite><img src="/images/hticon7a.png" /></cite></span>我的奖励</a></li>
             <li><a href="#"><span><img src="/images/hticon9.png" /><cite><img src="/images/hticon9a.png" /></cite></span>邀请好友</a></li>
