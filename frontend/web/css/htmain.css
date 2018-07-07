@@ -24,7 +24,7 @@ h1,h2,h3,h4,h5{font-family:"Microsoft Yahei"; font-weight:400;}
 .colorfff a:active,.colorfff a:hover{color:#ff0;} 
 
 
-#httop{width:100%; height:99px; background:#e12b1c; border-bottom:1px solid #c7cbce; min-width: 1349px;}
+#httop{width:100%; height:99px; background:#e12b1c; min-width: 1349px;}
 #httop h1{width:389px; float:left;}
 #httop h1 img{width:389px; height:99px;}
 #httop ul{float:left;}
@@ -33,14 +33,14 @@ h1,h2,h3,h4,h5{font-family:"Microsoft Yahei"; font-weight:400;}
 #httop li a{height:80px; padding:19px 15px 0; display:block;}
 #httop dl{float:right;}
 #httop dd{float:left; height:99px; font-size:16px;}
-#httop dd.hthome{border-right:1px solid #c98286; padding-top:19px; height:80px; width:150px; font-size:14px; line-height:28px;}
-#httop dd.hthome img{width:60px; height:60px; float:left; border-radius:60px; -moz-border-radius:60px; -webkit-border-radius:60px;}
+#httop dd.hthome{border-right:1px solid #c98286; width:150px; font-size:14px; line-height:28px;}
+#httop dd.hthome img{width:60px; height:60px; margin-right: 5px; float:left; border-radius:60px; -moz-border-radius:60px; -webkit-border-radius:60px;}
 #httop dd.hthome span{width:85px; float:right;}
 #httop dd.hthome span p{height:28px; overflow:hidden;}
-#httop dd.htxx{background:url(images/ht_li.png) 85% center no-repeat; line-height:99px; width:80px; padding:0 10px; position:relative;}
+#httop dd.htxx{background:url(images/ht_li.png) 90% center no-repeat; line-height:99px; width:80px; padding:0 10px; position:relative;}
 #httop dd.htxx img{width:18px; height:18px; float:left; margin:40px 5px 0 0;}
 #httop dd.htxx code{height:22px; line-height:22px; background:#fcb322; border-radius:10px; position:absolute; top:22px; left:10px; display:inline-block; padding:0 10px;}
-#httop dd.htexit{width:75px; background:#e12b1c; height:99px; line-height:99px; padding-left:20px;}
+#httop dd.htexit{width:93px; background:#e12b1c; line-height:99px; padding-left:20px;}
 #httop dd.htexit img{width:15px; height:17px; float:left; margin:40px 10px 0 0;}
 #htbox{width:100%;overflow: hidden}
 .htsidebar{width:15%; float:left; background:#f9f7f7; padding-bottom:50px;}
@@ -63,10 +63,10 @@ h1,h2,h3,h4,h5{font-family:"Microsoft Yahei"; font-weight:400;}
 .htsidebar dd h4{font-size:14px; border-bottom:1px solid #e8e7e7; height:40px; line-height:40px;}
 .htsidebar dd h4 img{width:17px; height:17px; display:inline-block; vertical-align:middle; margin-right:5px;}
 .htsidebar dd p img{width:50%; margin:10px auto;}
-h2.htwx{height:60px; line-height:60px; background:#f4f5f6; font-size:16px; color:#448aca; width:98%; float:left; padding-left:2%;} 
+h2.htwx{height:60px; line-height:60px; background:#f4f5f6; font-size:16px; color:#448aca; width:100%; padding-left:2%;}
 h2.htwx a:link,h2.htwx a:visited{color:#448aca;}
 h2.htwx a:active,h2.htwx a:hover{color:#a30f0f;} 
-.htbox2{width:96%; float:left; padding:0 2%;}
+.htbox2{padding:0 2%;}
 .httxt1,.httxt2{width:100%; background:#fff; margin-top:30px; padding-bottom:28px;}
 .httxt1 h3.ht_tt1{height:55px; line-height:55px; background:#f0f3f9; text-indent:2em; font-size:16px;}
 .httxt1 dl{padding:25px 0 25px 30px;}
@@ -101,3 +101,14 @@ h2.htwx a:active,h2.htwx a:hover{color:#a30f0f;}
 .httxt2_an code{width:94px; height:38px; line-height:38px; display:inline-block; background:#0d9d57; font-size:14px; text-align:center; margin-left:10px;}
 .httxt2_an code a{height:100%; display:block;}
 .httxt2_an code:hover a{background:#337ae6; color:#fff;}
+
+.hear-right__bar {
+    float: right;
+    display: flex;
+    align-items: center;
+}
+
+.hthome {
+    display: flex;
+    align-items: center;
+}

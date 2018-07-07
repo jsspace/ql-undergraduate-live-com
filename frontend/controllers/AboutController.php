@@ -41,4 +41,9 @@ class AboutController extends Controller
     public function actionStartGuid() {
         return $this->render('start-guid');
     }
+
+    // 我的课表
+    public function actionTimetable() {
+        return $this->render('timetable');
+    }
 }

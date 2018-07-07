@@ -34,14 +34,14 @@ AppAsset::register($this);
 <div id="httop" class="colorfff cc">
     <h1><a href="/"><img src="/images/htlogo.png" /></a></h1>
     <ul>
-        <li><a href="#"><img src="/images/hticon1.png" />我的课表</a></li>
+        <li><a href="/about/timetable" target="_blank"><img src="/images/hticon1.png" />我的课表</a></li>
         <li><a href="#"><img src="/images/hticon1a.png" />热门班级</a></li>
         <li><a href="/course/open"><img src="/images/hticon1b.png" />公开课</a></li>
         <li><a href="#"><img src="/images/hticon1c.png" />个人资料</a></li>
         <li><a href="/about/how-to-study"><img src="/images/hticon1d.png" />如何上课</a></li>
         <li><a href="#"><img src="/images/hticon1e.png" />问老师</a></li>
     </ul>
-    <dl>
+    <dl class="hear-right__bar">
         <dd class="hthome"><img src="/images/htpic1.png" width="60" height="60" /><span><p><a href="#"><?= Yii::$app->user->identity->username || '尊敬的用户' ?></a></p><p><a href="/">官网首页</a></p></span></dd>
         <dd class="htxx"><a href="/user/message"><img src="/images/hticon2.png" />消息<code>8</code></a></dd>
         <dd class="htexit"><a href="<?= Url::to(['site/logout']) ?>"><img src="/images/hticon2a.png" />退出</a></dd>
@@ -50,9 +50,10 @@ AppAsset::register($this);
 <div id="htbox">
     <div class="htsidebar">
         <h3 class="colorfff">个人中心</h3>
-        <ul>
-            <li><a href="/user/class"><span><img src="/images/hticon3.png" /><cite><img src="/images/hticon3a.png" /></cite></span>我的班级</a></li>
-            <li class="htleftnow"><a href="/user/orders"><span><img src="/images/hticon4.png" /><cite><img src="/images/hticon4a.png" /></cite></span>我的订单</a></li>
+        <ul id="userNav">
+            <li><a href="/user/info"><span><img src="/images/hticon3.png" /><cite><img src="/images/hticon3a.png" /></cite></span>我的班级</a></li>
+            <li><a href="/user/orders"><span><img src="/images/hticon4.png" /><cite><img src="/images/hticon4a.png" /></cite></span>我的订单</a></li>
+            <li><a href="/cart/index" target="_blank"><span><img src="/images/shopping.png" /><cite><img src="/images/shoppinga.png" /></cite></span>购物车</a></li>
             <li><a href="/user/favorite"><span><img src="/images/hticon6.png" /><cite><img src="/images/hticon6a.png" /></cite></span>我的收藏</a></li>
             <li><a href="/user/coupon"><span><img src="/images/hticon7.png" /><cite><img src="/images/hticon7a.png" /></cite></span>我的奖励</a></li>
             <li><a href="#"><span><img src="/images/hticon9.png" /><cite><img src="/images/hticon9a.png" /></cite></span>邀请好友</a></li>
@@ -77,24 +78,21 @@ AppAsset::register($this);
     </div>
 </div>
 <script src="/js/jquery.js" type="text/javascript"></script>
-<script type="text/javascript">
-$(function(){
-    function qiehuan(qhan,qhshow,qhon){
-    $(qhan).click(function(){
-      $(qhan).removeClass(qhon);
-      $(this).addClass(qhon);
-      var i = $(this).index(qhan);
-      $(qhshow).eq(i).show().siblings(qhshow).hide();
-    });
-}
-qiehuan(".httxt1 dd",".httxt1 ul","htqhnow");
-
-$(".httxt2_show dl dt").click(function(){
-    $(".httxt2_show dl").removeClass("ktshow");
-    $(this).parent().addClass("ktshow");
-})
-});
+<script>
+    $(function () {
+        function activeNav() {
+            var pathname = location.pathname;
+            var navLink = $('#userNav').find('a');
+            navLink.each(function() {
+                if ($(this).attr('href') === pathname) {
+                    $(this).parents('li').addClass('htleftnow');
+                }
+            })
+        }
+        activeNav();
+    })
 </script>
+
 <?php $this->endBody() ?>
 </body>
 </html>

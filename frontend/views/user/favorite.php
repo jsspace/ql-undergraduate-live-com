@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\User;
 
+$this->title = '我的收藏';
 ?>
 <div class="htcontent">
     <h2 class="htwx cc"><a href="/">首页</a>&gt;<a href="#">我的收藏</a></h2>

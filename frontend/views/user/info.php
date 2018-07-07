@@ -4,6 +4,8 @@ use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\Provinces;
 use backend\models\Cities;
+
+$this->title = '我的班级';
 ?>
 <div class="htcontent">
     <h2 class="htwx cc"><a href="#">首页</a>&gt;<a href="#">我的班级</a></h2>
@@ -129,3 +131,21 @@ use backend\models\Cities;
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(function(){
+        function qiehuan(qhan,qhshow,qhon){
+            $(qhan).click(function(){
+                $(qhan).removeClass(qhon);
+                $(this).addClass(qhon);
+                var i = $(this).index(qhan);
+                $(qhshow).eq(i).show().siblings(qhshow).hide();
+            });
+        }
+        qiehuan(".httxt1 dd",".httxt1 ul","htqhnow");
+
+        $(".httxt2_show dl dt").click(function(){
+            $(".httxt2_show dl").removeClass("ktshow");
+            $(this).parent().addClass("ktshow");
+        })
+    });
+</script>
