@@ -212,12 +212,12 @@ var courseDetail = {
                 success: function(data) {
                     if (data.status == 0) {
                         window.location.href = '/site/login';
-                    } else if (data.status == 1 || data.status == 2 || data.status == 4) {
-                        $('._course-detail-left img').css('display', 'none');
-                        $('._course-detail-left video').css('display', 'block').attr('src', data.url);
+                    } else if (data.status == 1 || data.status == 2) {
                         /*播放之前重置self.seconds*/
                         //self.seconds = 0;
-                        $('._course-detail-left video').get(0).play();
+                        //$('._course-detail-left video').get(0).play();
+                        $('._video-layout').show();
+                        $('iframe').attr('src', data.url);
                         var tag = 'course'+self.course_id+'section'+self.section_id;
                         $('#course-video').get(0).currentTime = localStorage.getItem(tag);
                         /*self.study_log[self.section_id] = {};
@@ -225,10 +225,17 @@ var courseDetail = {
                         self.study_log[self.section_id].sectionId = self.section_id;*/
                         location.hash = 'view';
                     } else {
-                        alert(data.message);
+                        layer.open({
+                          title: '！购买提醒',
+                          content: '您尚未购买该课程，请先购买后再观看'
+                        });
                     }
                 }
             });
+        });
+        $('._close-video-btn').on('click', function() {
+            $('._video-layout').hide();
+            $('iframe').attr('src', '');
         });
     },
     countDown: function() {

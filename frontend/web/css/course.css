@@ -150,15 +150,14 @@
 }
 
 /* course detail */
-img {
-    max-width: 100%;
+.nytxt2 dt img {
+    width: 100%;
+    height: 100%;
 }
 .nytxt3_r .teacher-img,
-.nytxt3_r .head-teacher-img {
-    width: 130px;
-}
-.head-teacher-wechat {
-   height: 77px;
+.head-teacher-wechat  {
+    width: 134px;
+    height: 106px;
 }
 .main-section {
     width: 1180px;

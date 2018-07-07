@@ -228,20 +228,22 @@ class CourseController extends Controller
             } else {
                 $auth = new Auth(Yii::$app->params['access_key'], Yii::$app->params['secret_key']);
                 $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
-                $is_member = Course::ismember($course_id, Yii::$app->user->id);/*判断是否是该分类下的会员*/
-                if ($is_member == 1) {
+                //$is_member = Course::ismember($course_id, Yii::$app->user->id);
+                /*判断是否是该分类下的会员*/
+                /*if ($is_member == 1) {
                     $data['status'] = '4';
                     $data['message'] = '会员，允许观看';
                     $data['url'] = $video_url;
                     return json_encode($data);
-                }
-                $ispay = Course::ispay($course_id, Yii::$app->user->id);/*判断是否已经购买*/
-                $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+                }*/
+                $ispay = Course::ispay($course_id, Yii::$app->user->id);
+                /*判断是否已经购买*/
+                /*$roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
                 $isschool = 0;
                 if (array_key_exists('school',$roles_array)) {
                     $isschool = 1;
-                }
-                if ($ispay == 1 || $isschool == 1) {
+                }*/
+                if ($ispay == 1/* || $isschool == 1*/) {
                     $data['status'] = '2';
                     $data['message'] = '用户已经购买了该课程，允许观看';
                     $data['url'] = $video_url;
