@@ -154,7 +154,7 @@ h5 {
     cursor: pointer;
 }
 #topnav dd img {
-    width: 20px;
+    width: auto;
     height: 16px;
     float: left;
     margin: 6px 6px 0 0;
