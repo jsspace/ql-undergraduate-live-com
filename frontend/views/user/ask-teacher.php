@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\Provinces;
 use backend\models\Cities;
-
+AppAsset::addCss($this,'@web/css/ask-teacher.css');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,51 +61,15 @@ use backend\models\Cities;
         </dl>
     </div>
     <div class="htcontent">
-        <h2 class="htwx cc"><a href="#">首页</a>&gt;<a href="#">我的班级</a></h2>
+        <h2 class="htwx cc"><a href="#">首页</a>&gt;<a href="#">问老师</a></h2>
         <div class="htbox2">
             <div class="httxt1 cc">
-                <h3 class="ht_tt1">我的班级</h3>
-                <dl class="cc">
-                    <dd class="htqhnow">正在学</dd>
-                    <dd class="htqh2">已结课</dd>
-                </dl>
-                <ul>
-                    <li>
-                        <img src="/images/htpic2.jpg" width="298" height="108" />
-                        <h4>全能培训班</h4>
-                        <h5><img src="/images/htpic3.jpg" width="70" height="70" /><p>班主任</p></h5>
-                        <div class="tyny">
-                            <p><img src="/images/nyicon1.png" />课堂学（13）</p>
-                            <p><img src="/images/nyicon1a.png" />随堂练（13）</p>
-                            <p><img src="/images/nyicon1b.png" />问老师（18）</p>
-                            <p><img src="/images/nyicon1.png" />模拟考（1）</p>
-                            <p class="httx"><img src="/images/hticon10.png" />同学20</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/images/htpic2.jpg" width="298" height="108" />
-                        <h4>全能培训班</h4>
-                        <h5><img src="/images/htpic3.jpg" width="70" height="70" /><p>班主任</p></h5>
-                        <div class="tyny">
-                            <p><img src="/images/nyicon1.png" />课堂学（13）</p>
-                            <p><img src="/images/nyicon1a.png" />随堂练（13）</p>
-                            <p><img src="/images/nyicon1b.png" />问老师（18）</p>
-                            <p><img src="/images/nyicon1.png" />模拟考（1）</p>
-                            <p class="httx"><img src="/images/hticon10.png" />同学20</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/images/htpic2.jpg" width="298" height="108" />
-                        <h4>全能培训班</h4>
-                        <h5><img src="/images/htpic3.jpg" width="70" height="70" /><p>班主任</p></h5>
-                        <div class="tyny">
-                            <p><img src="/images/nyicon1.png" />课堂学（13）</p>
-                            <p><img src="/images/nyicon1a.png" />随堂练（13）</p>
-                            <p><img src="/images/nyicon1b.png" />问老师（18）</p>
-                            <p><img src="/images/nyicon1.png" />模拟考（1）</p>
-                            <p class="httx"><img src="/images/hticon10.png" />同学20</p>
-                        </div>
-                    </li>
+                <h3 class="ht_tt1">问老师</h3>
+                <ul class="course-list">
+                    <li>语文</li>
+                    <li>高数</li>
+                    <li>英语</li>
+                    <li>计算机</li>
                 </ul>
                 <ul style="display:none">
                     <li>
