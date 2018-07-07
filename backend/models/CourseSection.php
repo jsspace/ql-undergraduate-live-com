@@ -34,7 +34,7 @@ class CourseSection extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_id', 'name', 'video_url', 'duration', 'paid_free', 'roomid'], 'required'],
+            [['course_id', 'name', 'video_url', 'duration', 'paid_free'], 'required'],
             [['course_id', 'position', 'type', 'paid_free'], 'integer'],
             [['start_time'], 'safe'],
             [['name', 'video_url', 'playback_url'], 'string', 'max' => 255],
@@ -53,7 +53,7 @@ class CourseSection extends \yii\db\ActiveRecord
             'course_id' => Yii::t('app', '所属课程'),
             'name' => Yii::t('app', '名称'),
             'position' => Yii::t('app', '排序'),
-            'type' => Yii::t('app', '网课/直播课/直播答疑'),
+            'type' => Yii::t('app', '知识讲解/单元测验/模拟考试'),
             'start_time' => Yii::t('app', '开始时间'),
             'video_url' => Yii::t('app', '视频地址'),
             'roomid' => Yii::t('app', '房间号'),

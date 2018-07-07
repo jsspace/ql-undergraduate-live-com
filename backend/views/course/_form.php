@@ -56,7 +56,7 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <?= $form->field($model, 'teacher_id')->dropDownList($teachers) ?>
 
-    <!-- <?= $form->field($model, 'head_teacher')->dropDownList($head_teachers) ?> -->
+    <?= $form->field($model, 'head_teacher')->dropDownList($head_teachers) ?>
 
     <?= $form->field($model, 'list_pic')->widget(FileInput::classname(),
         [

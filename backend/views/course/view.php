@@ -52,6 +52,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'head_teacher',
                 'value' => User::item($model->head_teacher),
             ],
+            [
+                'attribute' => 'head_teacher',
+                'value' => User::item($model->head_teacher),
+            ],
             //'head_teacher',
             'price',
             'discount',
