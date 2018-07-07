@@ -42,7 +42,7 @@ h1,h2,h3,h4,h5{font-family:"Microsoft Yahei"; font-weight:400;}
 #httop dd.htxx code{height:22px; line-height:22px; background:#fcb322; border-radius:10px; position:absolute; top:22px; left:10px; display:inline-block; padding:0 10px;}
 #httop dd.htexit{width:75px; background:#e12b1c; height:99px; line-height:99px; padding-left:20px;}
 #httop dd.htexit img{width:15px; height:17px; float:left; margin:40px 10px 0 0;}
-#htbox{width:100%;}
+#htbox{width:100%;overflow: hidden}
 .htsidebar{width:15%; float:left; background:#f9f7f7; padding-bottom:50px;}
 .htcontent{width:85%; float:right;}
 .htsidebar h3{height:60px; line-height:60px; text-align:center; background:#425c8d; font-size:18px; color:#fff;}
@@ -70,9 +70,10 @@ h2.htwx a:active,h2.htwx a:hover{color:#a30f0f;}
 .httxt1,.httxt2{width:100%; background:#fff; margin-top:30px; padding-bottom:28px;}
 .httxt1 h3.ht_tt1{height:55px; line-height:55px; background:#f0f3f9; text-indent:2em; font-size:16px;}
 .httxt1 dl{padding:25px 0 25px 30px;}
-.httxt1 dd{height:35px; line-height:35px; width:85px; float:left; cursor:pointer; background:#edeef2; border-radius:5px 0 0 5px; -moz-border-radius:5px 0 0 5px; -webkit-border-radius:5px 0 0 5px; text-align:center; font-size:16px;}
+.httxt1 dd{height:35px; line-height:35px; width:85px; float:left; cursor:pointer; background:#edeef2; text-align:center; font-size:16px;}
+.httxt1 dd:first-child{border-radius:5px 0 0 5px; -moz-border-radius:5px 0 0 5px; -webkit-border-radius:5px 0 0 5px;}
+.httxt1 dd:last-child{border-radius:0 5px 5px 0; -moz-border-radius:0 5px 5px 0; -webkit-border-radius:0 5px 5px 0;}
 .httxt1 dd.htqhnow{background:#2a8b2a; cursor:pointer; color:#fff;}
-.httxt1 dd.htqh2{border-radius:0 5px 5px 0; -moz-border-radius:0 5px 5px 0; -webkit-border-radius:0 5px 5px 0;}
 .httxt1 li{width:298px; height:268px; border:1px solid #eee; position:relative; float:left; margin:0 30px;}
 .httxt1 li img{width:298px; height:108px;}
 .httxt1 li h4{font-size:18px; color:#fff; width:100%; top:20px; left:0; position:absolute; text-indent:2em;}
