@@ -48,7 +48,7 @@ class UserStudyLog extends \yii\db\ActiveRecord
             'duration' => Yii::t('app', '学习时长（分钟）'),
             'courseid' => Yii::t('app', '课程名'),
             'sectionid' => Yii::t('app', '章节名'),
-            'type' => Yii::t('app', '网课/直播课/直播答疑'),
+            'type' => Yii::t('app', '知识讲解/单元测验/模拟考试'),
         ];
     }
 

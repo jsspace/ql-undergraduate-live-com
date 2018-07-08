@@ -34,16 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => User::students(),
             ],
             [
-                'attribute' => '网课学习时长（分钟）',
+                'attribute' => '学习时长（分钟）',
                 'value'=> function ($model) {
                     $duration = UserStudyLog::find()
                     ->where(['userid'=>$model->userid])
-                    ->andWhere(['type'=>1])
+                    //->andWhere(['type'=>1])
                     ->sum('duration');
                     return $duration;
                 },
             ],
-            [
+            /*[
                 'attribute' => '直播课学习时长（分钟）',
                 'value'=> function ($model) {
                     $duration = UserStudyLog::find()
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ->sum('duration');
                     return $duration;
                 },
-            ],
+            ],*/
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
