@@ -185,7 +185,7 @@ class SiteController extends Controller
             
             $username = Yii::$app->user->identity->username; //登录账号
             $ip = Yii::$app->request->userIP; //登录用户主机IP
-            $token = md5(sprintf("%s&%s",$id,$ip));  //将用户登录时的时间、用户ID和IP联合加密成token存入表
+            $token = md5(sprintf("%s&%s",$id,$ip));  //将用户ID和IP联合加密成token存入表
             
             $session = Yii::$app->session;
             $session->set(md5(sprintf("%s&%s",$id,$username)),$token);  //将token存到session变量中
@@ -291,7 +291,7 @@ class SiteController extends Controller
                     
                     $username = Yii::$app->user->identity->username; //登录账号
                     $ip = Yii::$app->request->userIP; //登录用户主机IP
-                    $token = md5(sprintf("%s&%s&%s",time(),$id,$ip));  //将用户登录时的时间、用户ID和IP联合加密成token存入表
+                    $token = md5(sprintf("%s&%s",$id,$ip));  //将用户ID和IP联合加密成token存入表
                     
                     $session = Yii::$app->session;
                     $session->set(md5(sprintf("%s&%s",$id,$username)),$token);  //将token存到session变量中
