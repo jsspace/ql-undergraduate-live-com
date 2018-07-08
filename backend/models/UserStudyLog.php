@@ -14,13 +14,15 @@ use Yii;
  * @property string $courseid
  * @property string $sectionid
  * @property integer $type
-  * @property integer $current_time
+ * @property integer $current_time
+ * @property integer $iscomplete
  */
 class UserStudyLog extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
+
     public static function tableName()
     {
         return '{{%user_study_log}}';
@@ -32,7 +34,7 @@ class UserStudyLog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userid', 'start_time', 'duration', 'courseid', 'sectionid', 'type', 'current_time'], 'integer'],
+            [['userid', 'start_time', 'duration', 'courseid', 'sectionid', 'type', 'current_time', 'iscomplete'], 'integer'],
             [['start_time', 'duration', 'courseid', 'sectionid'], 'required'],
         ];
     }
@@ -51,6 +53,7 @@ class UserStudyLog extends \yii\db\ActiveRecord
             'sectionid' => Yii::t('app', '章节名'),
             'type' => Yii::t('app', '知识讲解/单元测验/模拟考试'),
             'current_time' => Yii::t('app', '观看位置'),
+            'iscomplete' => Yii::t('app', '是否看完'),
         ];
     }
 
@@ -61,5 +64,16 @@ class UserStudyLog extends \yii\db\ActiveRecord
     public static function find()
     {
         return new UserStudyLogQuery(get_called_class());
+    }
+    public static function iscomplete($courseid, $sectionid)
+    {
+        $userid = Yii::$app->user->id;
+        $study_log = UserStudyLog::find()
+        ->where(['userid' => $userid])
+        ->andWhere(['courseid' => $courseid])
+        ->andWhere(['sectionid' => $sectionid])
+        ->andWhere(['iscomplete' => 1])
+        ->all();
+        return $study_log;
     }
 }

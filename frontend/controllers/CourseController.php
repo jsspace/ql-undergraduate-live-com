@@ -286,7 +286,12 @@ class CourseController extends Controller
                     $course_id = $data['courseId'];
                     $section_id = $data['sectionId'];
                     $current_time = $data['current_time'];
-                    $type = 1;
+                    $section = CourseSection::find()
+                    ->where(['id' => $section_id])
+                    ->one();
+                    $seconds_arr = explode(':', $section->duration);
+                    $seconds = $seconds_arr[0]*60 + $seconds_arr[1];
+                    //$type = 1;
                     $start = strtotime(date('Y-m-d 00:00:00'));
                     $end = strtotime(date('Y-m-d H:i:s'));
                     $model = UserStudyLog::find()
@@ -305,6 +310,9 @@ class CourseController extends Controller
                         //$model->type = $type;
                     } else {
                         $model->duration = intval($model->duration)+1;
+                    }
+                    if ($current_time>=$seconds) {
+                        $model->iscomplete = 1;
                     }
                     $model->current_time = $current_time;
                     $model->save(false);
