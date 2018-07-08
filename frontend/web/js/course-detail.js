@@ -172,7 +172,7 @@ var courseDetail = {
                 localStorage.setItem(tag, currentTime);
             });
             /*启动定时器*/
-            self.count_down_int = window.setInterval(self.countDown, 60000);
+            self.count_down_int = window.setInterval(self.countDown, 1000);
             /*重置self.seconds*/
         });
         $('#course-video').on("pause", function() {
@@ -217,7 +217,8 @@ var courseDetail = {
                         //self.seconds = 0;
                         //$('._course-detail-left video').get(0).play();
                         $('._video-layout').show();
-                        $('iframe').attr('src', data.url);
+                        $('#course-video').attr('src', data.url);
+                        $('#course-video').get(0).play();
                         var tag = 'course'+self.course_id+'section'+self.section_id;
                         $('#course-video').get(0).currentTime = localStorage.getItem(tag);
                         /*self.study_log[self.section_id] = {};
@@ -226,7 +227,7 @@ var courseDetail = {
                         location.hash = 'view';
                     } else {
                         layer.open({
-                          title: '！购买提醒',
+                          title: '购买提醒',
                           content: '您尚未购买该课程，请先购买后再观看'
                         });
                     }
@@ -235,7 +236,7 @@ var courseDetail = {
         });
         $('._close-video-btn').on('click', function() {
             $('._video-layout').hide();
-            $('iframe').attr('src', '');
+            $('#course-video').get(0).pause();
         });
     },
     countDown: function() {
