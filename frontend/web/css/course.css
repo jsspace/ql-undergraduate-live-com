@@ -624,6 +624,35 @@
     height: 100px;
     width: 100px;
 }
+.tag-content .err-header {
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+.tag-content .err-course-title {
+    float: left;
+    color: orangered;
+    font-size: 18px;
+}
+
+.tag-content .err-course-date {
+    float: right;
+    margin-left: 20px;
+    font-size: 14px;
+    color: #999;
+}
+.tag-content .err-list {
+    padding-bottom: 60px;
+    margin-bottom: 20px;
+}
+.tag-content .err-list:not(:last-child) {
+    border-bottom: 1px dotted #ccc;
+}
+
+.tag-content .err-content {
+    color: #555;
+    line-height: 1.8;
+}
+
 /* share */
 .bdsharebuttonbox a {
     width: 32px;

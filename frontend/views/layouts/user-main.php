@@ -39,7 +39,7 @@ AppAsset::register($this);
         <li><a href="/course/open"><img src="/images/hticon1b.png" />公开课</a></li>
         <li><a href="#"><img src="/images/hticon1c.png" />个人资料</a></li>
         <li><a href="/about/how-to-study"><img src="/images/hticon1d.png" />如何上课</a></li>
-        <li><a href="#"><img src="/images/hticon1e.png" />问老师</a></li>
+        <li><a href="/user/ask-teacher"><img src="/images/hticon1e.png" />问老师</a></li>
     </ul>
     <dl class="hear-right__bar">
         <dd class="hthome"><img src="/images/htpic1.png" width="60" height="60" /><span><p><a href="#"><?= Yii::$app->user->identity->username || '尊敬的用户' ?></a></p><p><a href="/">官网首页</a></p></span></dd>
