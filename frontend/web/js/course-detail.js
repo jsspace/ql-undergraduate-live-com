@@ -17,6 +17,12 @@ var courseDetail = {
         self.evaluate();
         self.questionSubmit();
         self.videoNetEvent();
+        //window.onbeforeunload = self.windowEvent();
+        this.uploadBarCtr();
+        this.exerciseCtr();
+        this.answerCtr();
+        this.explainCtr();
+        this.uploadAnswer();
     },
     tagTab: function() {
         $(".course-tag dd").each(function(index) {
@@ -236,5 +242,139 @@ var courseDetail = {
             }
         });
     },
+    // 课程列表隐藏按钮
+    uploadBarCtr: function () {
+        var $uploadCtr = $('._upload-ctr');
+
+        $uploadCtr.on('click', function () {
+            var isShow = !$(this).parents('li').find('.upload-bar').is(':hidden');
+            if (!isShow) {
+                $(this).parents('li').find('.upload-bar').show();
+                $(this).addClass('active');
+                isShow = true;
+            } else {
+                $(this).parents('li').find('.upload-bar').hide();
+                $(this).removeClass('active');
+                isShow = false;
+            }
+        })
+    },
+    // 随堂练
+    exerciseCtr: function () {
+        var $exercise = $('._exercise');
+        $exercise.on('click', function () {
+            layer.open({
+                type: 1,
+                title: '随堂练习',
+                shadeClose: true,
+                offset: '50px',
+                area: ['60%', '80%'],
+                content: ' <ul class="open-content">\n' +
+                '                        <li class="err-list">\n' +
+                '                            <div class="err-header">\n' +
+                '                                <div class="err-course-title">知识点一：公文写作</div>\n' +
+                '                                <div class="err-course-date">张翼德老师</div>\n' +
+                '                                <div class="err-course-date">2018年7月10日</div>\n' +
+                '                            </div>\n' +
+                '                            <div class="err-content">\n' +
+                '                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。\n' +
+                '\n' +
+                '                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。\n' +
+                '\n' +
+                '                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。\n' +
+                '                            </div>\n' +
+                '                        </li>\n' +
+                '                        <li class="err-list">\n' +
+                '                            <div class="err-header">\n' +
+                '                                <div class="err-course-title">知识点一：公文写作</div>\n' +
+                '                                <div class="err-course-date">张翼德老师</div>\n' +
+                '                                <div class="err-course-date">2018年7月10日</div>\n' +
+                '                            </div>\n' +
+                '                            <div class="err-content">\n' +
+                '                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。\n' +
+                '\n' +
+                '                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。\n' +
+                '\n' +
+                '                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。\n' +
+                '                            </div>\n' +
+                '                        </li>\n' +
+                '                    </ul>'
+            });
+        })
+    },
+    // 习题答案
+    answerCtr: function () {
+        var $exercise = $('._answer');
+        $exercise.on('click', function () {
+            layer.open({
+                type: 1,
+                title: '习题答案',
+                shadeClose: true,
+                offset: '50px',
+                area: ['60%', '80%'],
+                content: '<ul class="open-content">\n' +
+                '                        <li class="err-list">\n' +
+                '                            <div class="err-header">\n' +
+                '                                <div class="err-course-title">知识点一：公文写作</div>\n' +
+                '                                <div class="err-course-date">张翼德老师</div>\n' +
+                '                                <div class="err-course-date">2018年7月10日</div>\n' +
+                '                            </div>\n' +
+                '                            <div class="err-content">\n' +
+                '                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。\n' +
+                '\n' +
+                '                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。\n' +
+                '\n' +
+                '                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。\n' +
+                '                            </div>\n' +
+                '                        </li>\n' +
+                '                        <li class="err-list">\n' +
+                '                            <div class="err-header">\n' +
+                '                                <div class="err-course-title">知识点一：公文写作</div>\n' +
+                '                                <div class="err-course-date">张翼德老师</div>\n' +
+                '                                <div class="err-course-date">2018年7月10日</div>\n' +
+                '                            </div>\n' +
+                '                            <div class="err-content">\n' +
+                '                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。\n' +
+                '\n' +
+                '                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。\n' +
+                '\n' +
+                '                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。\n' +
+                '                            </div>\n' +
+                '                        </li>\n' +
+                '                    </ul>'
+            });
+        })
+    },
+    // 习题讲解
+    explainCtr: function () {
+        $('._explain').on('click', function () {
+            $('._video-layout').show();
+            $('iframe').attr('src', 'http://static-cdn.ticwear.com/cmww/statics/video/ticwatche-publish.mp4');
+        });
+    },
+    // 上传答案
+    uploadAnswer: function () {
+        $('._upload-answer').on('click', function () {
+            layer.open({
+                type: 1,
+                title: '上传答案',
+                shadeClose: true,
+                offset: '50px',
+                btn: ['确定', '取消'],
+                yes: function () {
+                    return true;
+                },
+                area: ['60%', '80%'],
+                content: '<div class="open-content"><p class="open-tip">注意：答案一次可以上传多张，点击确认之后，不得修改</p>' +
+                '<ul class="el-upload-list el-upload-list--picture-card">' +
+                '<li class="el-upload-list__item is-uploading" tabindex="0">' +
+                '<img src="/images/logo.png" alt="" class="el-upload-list__item-thumbnail">' +
+                '</li>' +
+                '</ul>' +
+                '<div tabindex="0" class="el-upload el-upload--picture-card"><i class="el-icon-plus"></i><input type="file" name="file" class="el-upload__input"></div>' +
+                '</div>'
+            })
+        })
+    }
 };
 courseDetail.init();

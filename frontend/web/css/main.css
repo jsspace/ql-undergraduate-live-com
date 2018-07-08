@@ -89,7 +89,7 @@ input,
 button,
 cite,
 textarea {
-    font-family: "Microsoft Yahei";
+    font-family: "Microsoft Yahei", sans-serif;
 }
 cite {
     font-style: normal;
@@ -99,11 +99,11 @@ h2,
 h3,
 h4,
 h5 {
-    font-family: "Microsoft Yahei";
+    font-family: "Microsoft Yahei", sans-serif;
     font-weight: 400;
 }
 code {
-    padding: ;
+    padding: 2px;
     font-size: inherit;
     color: inherit;
     background-color: inherit;
@@ -832,7 +832,6 @@ code {
 }
 .nytxt3_lny1 li {
     line-height: 47px;
-    height: 47px;
     overflow: hidden;
     border-bottom: 1px solid #eee;
 }
