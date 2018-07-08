@@ -7,6 +7,7 @@ use backend\models\User;
 use backend\models\Course;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
+use backend\models\UserStudyLog;
 AppAsset::addCss($this,'@web/css/main.css');
 AppAsset::addCss($this,'@web/css/course.css');
 AppAsset::addCss($this,'@web/css/list.css');
@@ -90,7 +91,23 @@ $news = array(
                 </div>
                 <div class="tag-content active nytxt3_lny1">
                     <ul class="chapter-title">
-                        <?php foreach ($sections as $key => $section) { ?>
+                        <?php foreach ($sections as $key => $section) {
+                            /* 获取学员观看日志 */
+                            $study_log = UserStudyLog::find()
+                            ->where(['userid' => $userid])
+                            ->andWhere(['courseid' => $course->id])
+                            ->andWhere(['sectionid' => $section->id])
+                            ->orderBy('id desc')
+                            ->one();
+                            $current_time = 0;
+                            if ($study_log) {
+                                $current_time = $study_log->current_time;
+                            }
+                            $seconds_arr = explode(':', $section->duration);
+                            $seconds = $seconds_arr[0]*60 + $seconds_arr[1];
+                            $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
+                            print_r($percentage.'%');
+                        ?>
                             <li>
                                 <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
                                 <div class="chapter-list-time">
