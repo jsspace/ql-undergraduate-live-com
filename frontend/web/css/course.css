@@ -351,7 +351,6 @@
 .course-evaluate button {
     float: right;
     display: inline-block;
-    font-size: 22px;
     padding: 0;
     margin-bottom: 10px;
     line-height: 30px;
@@ -368,6 +367,51 @@
 }
 .chapter-title li {
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.chapter-title .play-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 47px;
+}
+.upload-bar {
+    overflow: hidden;
+    padding: 20px 36px;
+}
+.upload-btn {
+    padding: 5px 18px;
+    cursor: pointer;
+    display: inline;
+    float: left;
+    margin-right: 20px;
+    line-height: 22px;
+    border-radius: 6px;
+    background: #0d9d57;
+    color: #fff;
+    font-size: 14px;
+}
+.upload-btn:hover {
+    background: #398439;
+}
+.chapter-title-left {
+    display: flex;
+    align-items: center;
+}
+.play-icon {
+    padding: 5px 10px 5px 31px;
+    border: 1px solid #ddd;
+    background: url(/img/chapter-play-icon.png) no-repeat 9px center;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 5px;
+}
+
+.play-icon:hover {
+    border: 1px solid #ffa3a6;
+    color: #ffa3a6;
 }
 .chapter-title-name {
     height: 50px;
@@ -436,16 +480,22 @@
     display: inline-block;
     min-width: 70px;
 }
-.chapter-list-name:before {
-    content: '';
-    background: url(/img/chapter-play-icon.png) no-repeat;
-    height: 16px;
-    width: 16px;
-    background-size: cover;
-    margin-right: 10px;
+
+.chapter-list-ctrl {
+    width: 22px;
+    height: 22px;
+    background: url(images/htktan.png) 0 0 no-repeat;
+    cursor: pointer;
     display: inline-block;
-    vertical-align: text-bottom;
 }
+.chapter-list-ctrl.active {
+    background-position: 0 -22px;
+}
+
+.chapter-list-name {
+    margin-left: 12px;
+}
+
 .kc-right {
     width: 270px;
     margin-left: 10px;
@@ -624,35 +674,99 @@
     height: 100px;
     width: 100px;
 }
-.tag-content .err-header {
+.err-header {
     overflow: hidden;
     margin-bottom: 15px;
 }
-.tag-content .err-course-title {
+.err-course-title {
     float: left;
     color: orangered;
     font-size: 18px;
 }
 
-.tag-content .err-course-date {
+.err-course-date {
     float: right;
     margin-left: 20px;
     font-size: 14px;
     color: #999;
 }
-.tag-content .err-list {
+.err-list {
     padding-bottom: 60px;
     margin-bottom: 20px;
 }
-.tag-content .err-list:not(:last-child) {
+.err-list:not(:last-child) {
     border-bottom: 1px dotted #ccc;
 }
 
-.tag-content .err-content {
+.err-content {
     color: #555;
     line-height: 1.8;
 }
+.open-content {
+    padding: 20px;
+}
 
+.el-upload--picture-card {
+    background-color: #fbfdff;
+    border: 1px dashed #c0ccda;
+    border-radius: 6px;
+    box-sizing: border-box;
+    width: 148px;
+    height: 148px;
+    cursor: pointer;
+    line-height: 146px;
+    vertical-align: top;
+    position: relative;
+}
+.el-upload {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+}
+.el-upload__input {
+    display: none !important;
+}
+.el-icon-plus {
+    width: 28px;
+    height: 28px;
+    background: url("/images/add.png") no-repeat center;
+    background-size: 28px 28px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.el-upload--picture-card:hover, .el-upload:focus {
+    border-color: #409eff;
+    color: #409eff;
+}
+.el-upload-list--picture-card .el-upload-list__item {
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #c0ccda;
+    border-radius: 6px;
+    box-sizing: border-box;
+    width: 148px;
+    height: 148px;
+    margin: 0 8px 8px 0;
+    display: inline-block;
+    line-height: 148px;
+}
+.el-upload-list__item-thumbnail {
+    vertical-align: middle;
+    display: inline-block !important;
+    width: 100%;
+    height: auto;
+}
+.el-upload-list--picture-card {
+    margin: 0;
+    display: inline;
+    vertical-align: top;
+}
+.open-tip {
+    margin-bottom: 20px;
+}
 /* share */
 .bdsharebuttonbox a {
     width: 32px;

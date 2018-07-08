@@ -92,9 +92,20 @@ $news = array(
                     <ul class="chapter-title">
                         <?php foreach ($sections as $key => $section) { ?>
                             <li>
-                                <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
-                                <div class="chapter-list-time">
-                                    <span class="time-con"><?= $section->duration ?></span>
+                                <div class="play-bar">
+                                    <div class="chapter-title-left">
+                                        <div class="chapter-list-ctrl _upload-ctr"></div>
+                                        <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
+                                    </div>
+                                    <div class="chapter-list-time">
+                                        <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="play-icon"><?= $section->duration ?></a>
+                                    </div>
+                                </div>
+                                <div class="upload-bar" style="display: none">
+                                        <div class="upload-btn _exercise">随堂练习</div>
+                                        <div class="upload-btn _upload-answer">上传答题</div>
+                                        <div class="upload-btn _answer">习题答案</div>
+                                        <div class="upload-btn _explain">习题讲解</div>
                                 </div>
                             </li>
                         <?php } ?>
@@ -261,6 +272,7 @@ $news = array(
         <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen=""></iframe>
     </div>
 </div>
+
 <script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
 <script src="<?= Url::to('@web/skin/layer.js');?>"></script>
 <script src="<?= Url::to('@web/js/course-detail.js');?>"></script>
