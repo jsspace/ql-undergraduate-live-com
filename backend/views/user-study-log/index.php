@@ -32,7 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => User::students(),
             ],
             'start_time:datetime',
-            'duration',
+            [
+                'attribute' => 'duration',
+                'value'=> function ($model) {
+                    $format_number = number_format($model->duration/60, 2, ':', '');
+                    return $format_number;
+                },
+            ],
+            'current_time',
             [
                 'attribute' => 'courseid',
                 'value'=> function ($model) {
@@ -46,13 +53,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return CourseSection::item($model->sectionid);
                 }
             ],
-            [
+            /*[
                 'attribute' => 'type',
                 'value' => function ($model) {
                     return Lookup::item('video_type', $model->type);
                 },
                 'filter' => Lookup::items('video_type'),
-            ],
+            ],*/
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

@@ -14,6 +14,7 @@ use Yii;
  * @property string $courseid
  * @property string $sectionid
  * @property integer $type
+  * @property integer $current_time
  */
 class UserStudyLog extends \yii\db\ActiveRecord
 {
@@ -31,8 +32,8 @@ class UserStudyLog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userid', 'start_time', 'duration', 'courseid', 'sectionid', 'type'], 'integer'],
-            [['start_time', 'duration', 'courseid', 'sectionid', 'type'], 'required'],
+            [['userid', 'start_time', 'duration', 'courseid', 'sectionid', 'type', 'current_time'], 'integer'],
+            [['start_time', 'duration', 'courseid', 'sectionid'], 'required'],
         ];
     }
 
@@ -48,7 +49,8 @@ class UserStudyLog extends \yii\db\ActiveRecord
             'duration' => Yii::t('app', '学习时长（分钟）'),
             'courseid' => Yii::t('app', '课程名'),
             'sectionid' => Yii::t('app', '章节名'),
-            'type' => Yii::t('app', '网课/直播课/直播答疑'),
+            'type' => Yii::t('app', '知识讲解/单元测验/模拟考试'),
+            'current_time' => Yii::t('app', '观看位置'),
         ];
     }
 

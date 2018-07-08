@@ -7,6 +7,7 @@ use backend\models\User;
 use backend\models\Course;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
+use backend\models\UserStudyLog;
 AppAsset::addCss($this,'@web/css/main.css');
 AppAsset::addCss($this,'@web/css/course.css');
 AppAsset::addCss($this,'@web/css/list.css');
@@ -90,7 +91,23 @@ $news = array(
                 </div>
                 <div class="tag-content active nytxt3_lny1">
                     <ul class="chapter-title">
-                        <?php foreach ($sections as $key => $section) { ?>
+                        <?php foreach ($sections as $key => $section) {
+                            /* 获取学员观看日志 */
+                            $study_log = UserStudyLog::find()
+                            ->where(['userid' => $userid])
+                            ->andWhere(['courseid' => $course->id])
+                            ->andWhere(['sectionid' => $section->id])
+                            ->orderBy('id desc')
+                            ->one();
+                            $current_time = 0;
+                            if ($study_log) {
+                                $current_time = $study_log->current_time;
+                            }
+                            $seconds_arr = explode(':', $section->duration);
+                            $seconds = $seconds_arr[0]*60 + $seconds_arr[1];
+                            $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
+                            print_r($percentage.'%');
+                        ?>
                             <li>
                                 <div class="play-bar">
                                     <div class="chapter-title-left">
@@ -269,7 +286,8 @@ $news = array(
         <div class="_close-video-btn close-video-btn">
             <img src="//static-cdn.ticwear.com/cmww/statics/img/product/mini/mini-confirm-close-btn.png">
         </div>
-        <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen=""></iframe>
+        <!-- <iframe id="course-video" width="100%" height="100%" src="" frameborder="0" allowfullscreen=""></iframe> -->
+        <video id="course-video" width="100%" height="100%" controls="controls"></video>
     </div>
 </div>
 

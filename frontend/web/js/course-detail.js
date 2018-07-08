@@ -5,10 +5,9 @@ var courseDetail = {
     shortUrl: false,
     hideMore: false,
     count_down_int: 0,
-    //seconds: 0,
+    currentTime: 0,
     section_id: '',
     course_id: '',
-    //study_log: [],
     init: function() {
         var self = this;
         self.tagTab();
@@ -172,25 +171,13 @@ var courseDetail = {
         $('#course-video').on("play", function() {
             /* 获取当前播放位置 */
             $('#course-video').on('timeupdate', function() {
-                var currentTime = this.currentTime;
-                var tag = 'course'+self.course_id+'section'+self.section_id;
-                localStorage.setItem(tag, currentTime);
+                self.currentTime = this.currentTime;
             });
             /*启动定时器*/
-            self.count_down_int = window.setInterval(self.countDown, 60000);
-            /*重置self.seconds*/
+            self.count_down_int = window.setInterval(self.countDown, 1000);
         });
         $('#course-video').on("pause", function() {
-            //停止时关闭定时器
             window.clearInterval(self.count_down_int);
-            /*当前观看的秒数 self.seconds*/
-            /*if (typeof(self.study_log[self.section_id].duration) == 'undefined') {
-                self.study_log[self.section_id].duration = 0;
-            }
-            self.study_log[self.section_id].duration = self.study_log[self.section_id].duration + self.seconds;
-            var log = JSON.stringify(self.study_log);
-            localStorage.setItem("study_log", log);
-            self.seconds = 0;*/
         });
         $('._net-class').on('click', function() {
             var is_guest = $('.is_guest').val();
@@ -218,20 +205,13 @@ var courseDetail = {
                     if (data.status == 0) {
                         window.location.href = '/site/login';
                     } else if (data.status == 1 || data.status == 2) {
-                        /*播放之前重置self.seconds*/
-                        //self.seconds = 0;
-                        //$('._course-detail-left video').get(0).play();
                         $('._video-layout').show();
-                        $('iframe').attr('src', data.url);
-                        var tag = 'course'+self.course_id+'section'+self.section_id;
-                        $('#course-video').get(0).currentTime = localStorage.getItem(tag);
-                        /*self.study_log[self.section_id] = {};
-                        self.study_log[self.section_id].courseId = self.course_id;
-                        self.study_log[self.section_id].sectionId = self.section_id;*/
-                        location.hash = 'view';
+                        $('#course-video').attr('src', data.url);
+                        $('#course-video').get(0).play();
+                        $('#course-video').get(0).currentTime = data.current_time;
                     } else {
                         layer.open({
-                          title: '！购买提醒',
+                          title: '购买提醒',
                           content: '您尚未购买该课程，请先购买后再观看'
                         });
                     }
@@ -240,34 +220,12 @@ var courseDetail = {
         });
         $('._close-video-btn').on('click', function() {
             $('._video-layout').hide();
-            $('iframe').attr('src', '');
+            $('#course-video').get(0).pause();
         });
     },
     countDown: function() {
-        //courseDetail.seconds++;
         courseDetail.windowEvent();
     },
-    /*windowEvent: function() {
-        var self = this;
-        var study_log = localStorage.getItem('study_log');
-        if (study_log && study_log.length != 0) {
-            study_log = JSON.parse(study_log);
-            study_log = $.grep(study_log, function(n) {return $.trim(n).length > 0;});
-            $.ajax({
-                url: '/course/addnetlog',
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    userlog: study_log,
-                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
-                },
-                success: function(data) {
-                    localStorage.setItem("study_log", '');
-                    localStorage.returnmsg = data.msg;
-                }
-            });
-        }
-    },*/
     windowEvent: function() {
         var self = this;
         $.ajax({
@@ -277,6 +235,7 @@ var courseDetail = {
             data: {
                 courseId: self.course_id,
                 sectionId: self.section_id,
+                current_time: self.currentTime,
                 '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
             },
             success: function(data) {
@@ -415,7 +374,6 @@ var courseDetail = {
                 '<div tabindex="0" class="el-upload el-upload--picture-card"><i class="el-icon-plus"></i><input type="file" name="file" class="el-upload__input"></div>' +
                 '</div>'
             })
-            layer.close();
         })
     }
 };

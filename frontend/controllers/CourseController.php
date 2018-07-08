@@ -219,9 +219,22 @@ class CourseController extends Controller
         $section = CourseSection::find()
         ->where(['id' => $section_id])
         ->one();
+        $userid = Yii::$app->user->id;
+        /* 获取学员观看日志 */
+        $study_log = UserStudyLog::find()
+        ->where(['userid' => $userid])
+        ->andWhere(['courseid' => $course_id])
+        ->andWhere(['sectionid' => $section_id])
+        ->orderBy('id desc')
+        ->one();
+        $current_time = 0;
+        if ($study_log) {
+            $current_time = $study_log->current_time;
+        }
         if (!empty($section)) {
             if ($section->paid_free == 0) {
                 $data['status'] = 1;
+                $data['current_time'] = $current_time;
                 $data['message'] = '正在请求观看免费课程';
                 $data['url'] = $section->video_url;
                 return json_encode($data);
@@ -236,7 +249,7 @@ class CourseController extends Controller
                     $data['url'] = $video_url;
                     return json_encode($data);
                 }*/
-                $ispay = Course::ispay($course_id, Yii::$app->user->id);
+                $ispay = Course::ispay($course_id, $userid);
                 /*判断是否已经购买*/
                 /*$roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
                 $isschool = 0;
@@ -245,6 +258,7 @@ class CourseController extends Controller
                 }*/
                 if ($ispay == 1/* || $isschool == 1*/) {
                     $data['status'] = '2';
+                    $data['current_time'] = $current_time;
                     $data['message'] = '用户已经购买了该课程，允许观看';
                     $data['url'] = $video_url;
                 } else {
@@ -271,6 +285,7 @@ class CourseController extends Controller
                     //$section_id = $userlog['sectionId'];
                     $course_id = $data['courseId'];
                     $section_id = $data['sectionId'];
+                    $current_time = $data['current_time'];
                     $type = 1;
                     $start = strtotime(date('Y-m-d 00:00:00'));
                     $end = strtotime(date('Y-m-d H:i:s'));
@@ -287,10 +302,11 @@ class CourseController extends Controller
                         $model->duration = 1;
                         $model->courseid = $course_id;
                         $model->sectionid = $section_id;
-                        $model->type = $type;
+                        //$model->type = $type;
                     } else {
                         $model->duration = intval($model->duration)+1;
                     }
+                    $model->current_time = $current_time;
                     $model->save(false);
                 //}
                 $result['status'] = 2;
