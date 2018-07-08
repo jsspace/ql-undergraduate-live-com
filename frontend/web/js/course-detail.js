@@ -5,6 +5,7 @@ var courseDetail = {
     shortUrl: false,
     hideMore: false,
     count_down_int: 0,
+    currentTime: 0,
     //seconds: 0,
     section_id: '',
     course_id: '',
@@ -167,9 +168,9 @@ var courseDetail = {
         $('#course-video').on("play", function() {
             /* 获取当前播放位置 */
             $('#course-video').on('timeupdate', function() {
-                var currentTime = this.currentTime;
-                var tag = 'course'+self.course_id+'section'+self.section_id;
-                localStorage.setItem(tag, currentTime);
+                self.currentTime = this.currentTime;
+                /*var tag = 'course'+self.course_id+'section'+self.section_id;
+                localStorage.setItem(tag, self.currentTime);*/
             });
             /*启动定时器*/
             self.count_down_int = window.setInterval(self.countDown, 1000);
@@ -219,8 +220,9 @@ var courseDetail = {
                         $('._video-layout').show();
                         $('#course-video').attr('src', data.url);
                         $('#course-video').get(0).play();
-                        var tag = 'course'+self.course_id+'section'+self.section_id;
-                        $('#course-video').get(0).currentTime = localStorage.getItem(tag);
+                        $('#course-video').get(0).currentTime = data.current_time;
+                        /*var tag = 'course'+self.course_id+'section'+self.section_id;
+                        $('#course-video').get(0).currentTime = localStorage.getItem(tag);*/
                         /*self.study_log[self.section_id] = {};
                         self.study_log[self.section_id].courseId = self.course_id;
                         self.study_log[self.section_id].sectionId = self.section_id;*/
@@ -273,6 +275,7 @@ var courseDetail = {
             data: {
                 courseId: self.course_id,
                 sectionId: self.section_id,
+                current_time: self.currentTime,
                 '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
             },
             success: function(data) {
