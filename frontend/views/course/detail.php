@@ -9,11 +9,21 @@ use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
 AppAsset::addCss($this,'@web/css/main.css');
 AppAsset::addCss($this,'@web/css/course.css');
+AppAsset::addCss($this,'@web/css/list.css');
 
 $this->title = '课程详情';
 $userid = Yii::$app->user->id;
 $course = $courseDetail['course'];
 $sections = $courseDetail['sections'];
+$classrooms = 0; //课堂学
+$unit_test = 0; //单元测验
+foreach ($sections as $key => $section) {
+    if ($section->type == 1) {
+        $classrooms++;
+    } else if ($section->type == 0) {
+         $unit_test++;
+    }
+}
 $share_title = '精品课程，超低优惠，快来学习吧！';
 $share_url = 'http://www.kaoben.top/course/detail?courseid='.$course->id.'&invite='.$userid;
 $news = array(
@@ -28,14 +38,15 @@ $news = array(
 <div class="main cc" style="padding:35px 0;">
     <dl class="nytxt2">
         <dt>
-        <video src="" controls="controls" loop="loop" x-webkit-airplay="true" webkit-playsinline="true" class="course-video"></video>
+        <!-- <video src="" controls="controls" loop="loop" x-webkit-airplay="true" webkit-playsinline="true" class="course-video"></video> -->
+            <img src="<?= $course->home_pic ?>">
         </dt>
         <dd>
             <h4><?= $course->course_name ?></h4>
             <p class="bjxq1">价格： <code>￥<?= $course->discount ?></code>    原价： <del>￥<?= $course->price ?></del></p>
             <p><?= $course->online ?>人正在学习</p>
             <p>主讲：<?= User::item($course->teacher_id); ?></p>
-            <p class="bjxq2"><code class="xq2now">课堂学<?= count($sections) ?>次</code><code>随堂练<?= count($sections) ?>次</code><code>模拟考<?= $course->examination_time ?>次</code></p>
+            <p class="bjxq2"><code class="xq2now">课堂学<?= $classrooms ?>次</code><code>随堂练<?= $classrooms ?>次</code><code>模拟考<?= $course->examination_time ?>次</code></p>
             <p class="bjxq3">
                 <?php
                     $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
@@ -135,24 +146,23 @@ $news = array(
                 <dt><img class="teacher-img" src="<?= $teacher_pictrue; ?>" /></dt>
                 <dd>
                     <h4>主讲老师</h4>
-                    <p class="rny1name"><?= User::item($course->teacher_id); ?></p>
-                    <p><?= User::getUserModel($course->teacher_id)->description; ?></p>
-                    <p><?= User::getUserModel($course->teacher_id)->office; ?></p>
+                    <p class="rny1name"><?= $teacher->username; ?></p>
+                    <p><?= $teacher->description; ?></p>
+                    <p><?= $teacher->office; ?></p>
                 </dd>
             </dl>
             <dl class="nytxt3_rny1">
                 <?php
                     $hteacher = User::getUserModel($course->head_teacher);
-                    $hteacher_pictrue = '';
-                    if ($hteacher) {
-                        $hteacher_pictrue = $hteacher->picture;
-                    }
                 ?>
-                <dt><img class="head-teacher-img" src="<?= $hteacher_pictrue; ?>" /></dt>
+                <dt>
+                    <img class="head-teacher-wechat" src="<?= $hteacher->wechat_img ?>" />
+                </dt>
                 <dd>
-                    <h4>主讲老师</h4>
-                    <p class="rny1name"><?= User::item($course->head_teacher); ?></p>
-                    <p><img class="head-teacher-wechat" src="<?= $hteacher->wechat_img ?>" width="50" /></p>
+                    <h4>班主任</h4>
+                    <p class="rny1name"><?= $hteacher->username; ?></p>
+                    <p><?= $hteacher->description; ?></p>
+                    <p><?= $hteacher->office; ?></p>
                 </dd>
             </dl>
             <div class="nytxt3_rny2 cc">
@@ -169,6 +179,14 @@ $news = array(
                 </ul>
             </div>
         </div>
+    </div>
+</div>
+<div class="video-layout _video-layout">
+    <div class="video-box _video-box">
+        <div class="_close-video-btn close-video-btn">
+            <img src="//static-cdn.ticwear.com/cmww/statics/img/product/mini/mini-confirm-close-btn.png">
+        </div>
+        <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen=""></iframe>
     </div>
 </div>
 <script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
