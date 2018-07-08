@@ -127,10 +127,82 @@ $news = array(
                     <?php } ?>
                 </div>
                 <div class="tag-content">
-                    错题本
+                    <ul>
+                        <li class="err-list">
+                            <div class="err-header">
+                                <div class="err-course-title">知识点一：公文写作</div>
+                                <div class="err-course-date">张翼德老师</div>
+                                <div class="err-course-date">2018年7月10日</div>
+                            </div>
+                            <div class="err-content">
+                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。
+
+                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。
+
+                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。
+                            </div>
+                        </li>
+                        <li class="err-list">
+                            <div class="err-header">
+                                <div class="err-course-title">知识点一：公文写作</div>
+                                <div class="err-course-date">张翼德老师</div>
+                                <div class="err-course-date">2018年7月10日</div>
+                            </div>
+                            <div class="err-content">
+                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。
+
+                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。
+
+                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。
+                            </div>
+                        </li>
+                    </ul>
                 </div>
                 <div class="tag-content">
-                    学情报告
+                    <ul>
+                        <li class="err-list">
+                            <div class="err-header">
+                                <div class="err-course-title">知识点一：公文写作</div>
+                                <div class="err-course-date">张翼德老师</div>
+                                <div class="err-course-date">2018年7月10日</div>
+                            </div>
+                            <div class="err-content">
+                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。
+
+                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。
+
+                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。
+                            </div>
+                        </li>
+                        <li class="err-list">
+                            <div class="err-header">
+                                <div class="err-course-title">知识点一：公文写作</div>
+                                <div class="err-course-date">张翼德老师</div>
+                                <div class="err-course-date">2018年7月10日</div>
+                            </div>
+                            <div class="err-content">
+                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。
+
+                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。
+
+                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。
+                            </div>
+                        </li>
+                        <li class="err-list">
+                            <div class="err-header">
+                                <div class="err-course-title">知识点一：公文写作</div>
+                                <div class="err-course-date">张翼德老师</div>
+                                <div class="err-course-date">2018年7月10日</div>
+                            </div>
+                            <div class="err-content">
+                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。
+
+                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。
+
+                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
