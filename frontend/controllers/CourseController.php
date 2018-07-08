@@ -302,11 +302,11 @@ class CourseController extends Controller
                         $model->duration = 1;
                         $model->courseid = $course_id;
                         $model->sectionid = $section_id;
-                        $model->current_time = $current_time;
                         //$model->type = $type;
                     } else {
                         $model->duration = intval($model->duration)+1;
                     }
+                    $model->current_time = $current_time;
                     $model->save(false);
                 //}
                 $result['status'] = 2;
