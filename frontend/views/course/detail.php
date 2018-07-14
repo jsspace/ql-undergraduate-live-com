@@ -258,20 +258,21 @@ $news = array(
                     <p><?= $teacher->office; ?></p>
                 </dd>
             </dl>
-            <dl class="nytxt3_rny1">
-                <?php
-                    $hteacher = User::getUserModel($course->head_teacher);
-                ?>
-                <dt>
-                    <img class="head-teacher-wechat" src="<?= $hteacher->wechat_img ?>" />
-                </dt>
-                <dd>
-                    <h4>班主任</h4>
-                    <p class="rny1name"><?= $hteacher->username; ?></p>
-                    <p><?= $hteacher->description; ?></p>
-                    <p><?= $hteacher->office; ?></p>
-                </dd>
-            </dl>
+            <?php
+                $hteacher = User::getUserModel($course->head_teacher);
+                if (!empty($hteacher)) { ?>
+                <dl class="nytxt3_rny1">
+                    <dt>
+                        <img class="head-teacher-wechat" src="<?= $hteacher->wechat_img ?>" />
+                    </dt>
+                    <dd>
+                        <h4>班主任</h4>
+                        <p class="rny1name"><?= $hteacher->username; ?></p>
+                        <p><?= $hteacher->description; ?></p>
+                        <p><?= $hteacher->office; ?></p>
+                    </dd>
+                </dl>
+            <?php } ?>
             <div class="nytxt3_rny2 cc">
                 <h3>辅导老师</h3>
                 <ul>
