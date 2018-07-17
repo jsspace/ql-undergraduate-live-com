@@ -263,6 +263,19 @@ var courseDetail = {
     exerciseCtr: function () {
         var $exercise = $('._exercise');
         $exercise.on('click', function () {
+            /*$.ajax({
+                url: '/section-practice/',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    courseId: self.course_id,
+                    sectionId: self.section_id,
+                    current_time: self.currentTime,
+                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                },
+                success: function(data) {
+                }
+            });*/
             layer.open({
                 type: 1,
                 title: '随堂练习',

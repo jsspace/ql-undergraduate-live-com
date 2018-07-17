@@ -151,7 +151,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         <dl>
             <dt>
                 <img src="/images/student-pic-1.png" width="36" height="36" />
-                <h4>依依紫</h4>
+                <h4>商职院李飞</h4>
                 <p><em class="xingji2"></em><em></em><em></em><em></em><em></em></p>
             </dt>
             <dd>讲课内容紧凑、丰富，并附有大量例题和练习题，十分有利于同学们在较短时间内掌握课程内容。</dd>
@@ -159,7 +159,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         <dl>
             <dt>
                 <img src="/images/student-pic-2.png" width="36" height="36" />
-                <h4>依依紫</h4>
+                <h4>齐鲁工大刘佳</h4>
                 <p><em class="xingji2"></em><em></em><em></em><em></em><em></em></p>
             </dt>
             <dd>随堂练习太好了，老师批改及时，通过随堂练让我更扎实的掌握了课堂所学。</dd>
@@ -167,7 +167,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         <dl>
             <dt>
                 <img src="/images/student-pic-3.png" width="36" height="36" />
-                <h4>依依紫</h4>
+                <h4>青职院张果果</h4>
                 <p><em class="xingji2"></em><em></em><em></em><em></em><em></em></p>
             </dt>
             <dd>真没想到老师能这么及时的回复我，以后学习过程中遇到的难题再也不用愁了，直接通过都想学平台问老师呗。</dd>
@@ -175,7 +175,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         <dl>
             <dt>
                 <img src="/images/student-pic-4.png" width="36" height="36" />
-                <h4>依依紫</h4>
+                <h4>烟职院王龙</h4>
                 <p><em class="xingji2"></em><em></em><em></em><em></em><em></em></p>
             </dt>
             <dd>没想到在线学习比面授班感觉还好，提问能速回，还有专人给改作业，还有模拟考试，考虑的太周到了，以后上辅导班再也不用东北西跑了。</dd>
@@ -183,7 +183,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         <dl>
             <dt>
                 <img src="/images/student-pic-5.png" width="36" height="36" />
-                <h4>依依紫</h4>
+                <h4>齐鲁师院晴雯</h4>
                 <p><em class="xingji2"></em><em></em><em></em><em></em><em></em></p>
             </dt>
             <dd>本来还以为是传统的网络课件呢，学过以后才知道竟然还有专职班主任，一门课程还配备这么多辅导老师，提问简直是秒回，视频讲解真是精炼呀，基本没有废话，效率太高了，真是神了。</dd>
@@ -191,7 +191,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         <dl>
             <dt>
                 <img src="/images/student-pic-6.png" width="36" height="36" />
-                <h4>依依紫</h4>
+                <h4>经干院李立功</h4>
                 <p><em class="xingji2"></em><em></em><em></em><em></em><em></em></p>
             </dt>
             <dd>正愁面授班的培训费呢，“都想学”就来了，你的价格好亲民呀，像我这样农民家庭出身的孩子也能学得起，感谢“都想学”！</dd>
@@ -199,7 +199,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         <dl>
             <dt>
                 <img src="/images/student-pic-8.png" width="36" height="36" />
-                <h4>依依紫</h4>
+                <h4>农干院高燕</h4>
                 <p><em class="xingji2"></em><em></em><em></em><em></em><em></em></p>
             </dt>
             <dd>老师授课的方式非常适合我们，他根据本课程知识结构的特点，重点突出，层次分明...</dd>
@@ -207,7 +207,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         <dl>
             <dt>
                 <img src="/images/student-pic-7.png" width="36" height="36" />
-                <h4>依依紫</h4>
+                <h4>山传于欣欣</h4>
                 <p><em class="xingji2"></em><em></em><em></em><em></em><em></em></p>
             </dt>
             <dd>老师授课有条理，有重点，课堂内容充实，简单明了，使学生能够轻轻松松掌握知识。</dd>

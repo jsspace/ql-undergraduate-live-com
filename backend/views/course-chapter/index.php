@@ -201,7 +201,7 @@ function editChapter() {
             area: ['600px', '450px'],
             content: content,
             end: function() {
-                location.reload();
+                //location.reload();
             }
         });
     }

@@ -408,7 +408,10 @@
     -moz-border-radius: 12px;
     border-radius: 5px;
 }
-
+.haveLearn {
+    color: #f01400 !important;
+    margin-right: 10px;
+}
 .play-icon:hover {
     border: 1px solid #ffa3a6;
     color: #ffa3a6;

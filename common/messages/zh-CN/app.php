@@ -105,5 +105,6 @@ return [
     'Notices' => '公告管理',
     'Create Notice' => '创建公告',
     'Course Sections' => '课程小节',
-    'Create Course Section' => '创建课程小节'
+    'Create Course Section' => '创建课程小节',
+    'Create Section Practice' => '新建随堂练'
 ];

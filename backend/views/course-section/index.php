@@ -3,12 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use yii\helpers\Url;
-use frontend\assets\AppAsset;
-
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\CourseSectionSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+use yii\helpers\Url;
 
 $this->title = Yii::t('app', '课程章节');
 $this->params['breadcrumbs'][] = $this->title;
@@ -23,22 +19,28 @@ $this->params['breadcrumbs'][] = $this->title;
 <script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
 <script src="<?= Url::to('@web/js/lib/jstree.min.js');?>"></script>
 <script src="<?= Url::to('@web/skin/layer.js');?>"></script>
+
 <script type="text/javascript">
-  var sections = new Array();
-  <?php foreach ($courseSections as $key => $value) { ?>
-    sections.push(<?= json_encode($value) ?>);
-  <?php } ?>
-function parseSections(sections) {
+var sections_arr = new Array();
+<?php foreach ($sections as $key => $section) { ?>
+    sections_arr.push(<?= $section; ?>);
+<?php } ?>
+function parseSections(sections, parent) {
   var sectionArr = new Array();
   for(var c=0;c<sections.length;c++) {
       var section = sections[c];
-      var sectionEle = {'text':section['name'], 'type':section['section_type'], 'state':{'cid': section['id'], 'opened': true}};
-      sectionArr.push(sectionEle);
+      if (section['parent_id'] == parent) {
+          var sectionEle = {'text':section['name'], 'type':section['type'], 'state':{'cid': section['cid'],'opened': true}};
+          if (section['type'] == 'folder') {
+            sectionEle['children'] = parseSections(sections, section['cid']);
+          }
+          sectionArr.push(sectionEle);
+      }
   }
   return sectionArr;
 }
 
-var sectionArr = parseSections(sections);
+var sectionArr = parseSections(sections_arr, '0');
 
 $('#section_tree').jstree({
   'plugins': ['types', 'contextmenu', 'state', 'wholerow'], //, 'wholerow'
@@ -58,22 +60,51 @@ $('#section_tree').jstree({
           var cxtmenus = {};
           var type = this.get_type(node);
           if (type == "#") {
-              cxtmenus['add_file'] = {
+              cxtmenus['add_folder'] = {
                   "label" : "新建节",
+                  "icon" : "fa fa-folder-o",
+                  "action": function (data) {
+                    addFolder();
+                  }
+              };
+          } else if (type == "folder") {
+              cxtmenus['add_file'] = {
+                  "label" : "新建随堂练",
                   "icon" : "fa fa-file-o",
                   "action": function (data) {
                       addFile();
                   }
               };
-           } else if (type == "file") {
-             cxtmenus['view'] = {
+              cxtmenus['view'] = {
                   "label" : "查看",
                   "icon" : "fa fa-eye",
                   "action": function (data) {
                     viewSection();
                   }
               };
-
+              cxtmenus['edit'] = {
+                  "label" : "编辑",
+                  "icon" : "fa fa-edit",
+                  "action": function (data) {
+                      editSection();
+                  }
+              };
+              cxtmenus['delete'] = {
+                  "label" : "删除",
+                  "icon" : "fa fa-trash-o",
+                  "action": function (data) {
+                      deleteSection();
+                  }
+              };
+          }
+          else if (type == "file") {
+              cxtmenus['view'] = {
+                  "label" : "查看",
+                  "icon" : "fa fa-eye",
+                  "action": function (data) {
+                    viewSection();
+                  }
+              };
               cxtmenus['edit'] = {
                   "label" : "编辑",
                   "icon" : "fa fa-edit",
@@ -81,7 +112,6 @@ $('#section_tree').jstree({
                     editSection();
                   }
               };
-
               cxtmenus['delete'] = {
                   "label" : "删除",
                   "icon" : "fa fa-trash-o",
@@ -113,18 +143,42 @@ $('#section_tree').jstree({
 
 $.vakata.context.settings.hide_onmouseleave = 100;
 
+function addFolder() {
+  var cns = $('#section_tree').jstree('get_selected', true);
+  if (cns != null && cns.length > 0) {
+      var cn = cns[0];
+      var pid = '0';
+      layer.open({
+          type: 2,
+          title: '新建节',
+          shadeClose: false,
+          shade: [0.5, '#000'],
+          maxmin: false,
+          area: ['600px', '420px'],
+          content: '/course-section/create?course_id='+<?= $course->id; ?>,
+          end: function() {
+            location.reload();
+          }
+      });
+  }
+}
+
 function addFile() {
     var cns = $('#section_tree').jstree('get_selected', true);
-    console.log(cns);
     if (cns != null && cns.length > 0) {
+        var cn = cns[0];
+        var pid = '0';
+        if (cn.type == 'folder') {
+            pid = cn.state.cid;
+        }
         layer.open({
             type: 2,
-            title: '新建节',
+            title: '新建随堂练',
             shadeClose: false,
             shade: [0.5, '#000'],
             maxmin: false,
-            area: ['600px', '450px'],
-            content: '/course-section/create'+'?course_id='+<?= $course->id; ?>,
+            area: ['1080px', '80%'],
+            content: '/section-practice/create'+'?section_id='+pid+'&course_id='+<?= $course->id; ?>,
             end: function() {
                 location.reload();
             }
@@ -137,14 +191,19 @@ function editSection() {
     if (cns != null && cns.length > 0) {
         var cn = cns[0];
         var content = '';
-        content = '/course-section/update?id='+cn.state.cid;
+        console.log(cn);
+        if (cn.type == 'folder') {
+            content = '/course-section/update?id='+cn.state.cid;
+        } else {
+            content = '/section-practice/update?id='+cn.state.cid;
+        }
         layer.open({
             type: 2,
             title: '编辑',
             shadeClose: false,
             shade: [0.5, '#000'],
             maxmin: false,
-            area: ['600px', '450px'],
+            area: ['1080px', '80%'],
             content: content,
             end: function() {
                 location.reload();
@@ -157,14 +216,17 @@ function deleteSection() {
   var cns = $('#section_tree').jstree('get_selected', true);
   if (cns != null && cns.length > 0) {
       var cn = cns[0];
-      content = '/course-section/delete?id='+cn.state.cid;
+      if (cn.type == 'folder') {
+          content = '/course-section/delete';
+      } else {
+          content = '/section-practice/delete';
+      }
       //询问框
       layer.confirm('确定要删除吗？', {
           btn: ['确定','取消'] //按钮
       }, function(){
           $.ajax({
               url: content,
-
               type: 'get',
               data: {
                   id: cn.state.cid
@@ -179,19 +241,22 @@ function deleteSection() {
       });
   }
 }
-
 function viewSection() {
   var cns = $('#section_tree').jstree('get_selected', true);
   if (cns != null && cns.length > 0) {
       var cn = cns[0];
-      content = '/course-section/view?id='+cn.state.cid;
+      if (cn.type == 'folder') {
+         content = '/course-section/view?id='+cn.state.cid;
+      } else {
+         content = '/section-practice/view?id='+cn.state.cid;
+      }
       layer.open({
         type: 2,
         title: '查看',
         shadeClose: false,
         shade: [0.5, '#000'],
         maxmin: false,
-        area: ['600px', '450px'],
+        area: ['1080px', '80%'],
         content: content,
     });
   }

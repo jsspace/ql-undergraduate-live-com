@@ -34,7 +34,7 @@ $this->title = '热门班级';
                     <p><img src="/images/nyicon1a.png" />随堂练（<?= $classrooms ?>）</p>
                     <p><img src="/images/unit-test-icon.png" />单元测验（<?= $unit_test ?>）</p>
                     <p><img src="/images/mock-exam.png" />模拟考（<?= $course->examination_time; ?>）</p>
-                    <h5><span class="colorfff"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">体验一下</a></span><?= $course->online; ?>人正在学习</h5>
+                    <h5><span class="colorfff"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">进入学习</a></span><?= $course->online; ?>人正在学习</h5>
                 </div>
             </dd>
         </dl>

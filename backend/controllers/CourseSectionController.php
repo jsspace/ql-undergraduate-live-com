@@ -40,21 +40,34 @@ class CourseSectionController extends Controller
         $course_id = $request['course_id'];
         $courseSections = CourseSection::find()
         ->where(['course_id' => $course_id])
+        ->with('sectionPractices')
         ->orderBy('position ASC')
         ->all();
-        $sectionsData = array();
-        foreach ($courseSections as $key => $value) {
-            $sectionsData[$key] = array();
-            $sectionsData[$key]['name'] = $value->name;
-            $sectionsData[$key]['id'] = $value->id;
-            $sectionsData[$key]['parent_id'] = '0';
-            $sectionsData[$key]['section_type'] = 'file';
-        }
         $course = Course::find()
         ->where(['id' => $course_id])
         ->one();
+        $sections_arr = array();
+        $sections = array();
+        $practice_arr = array();
+        foreach ($courseSections as $key => $courseSection) {
+            $sections_arr[$key]=array();
+            $sections_arr[$key]['cid'] = $courseSection->id;
+            $sections_arr[$key]['parent_id'] = '0';
+            $sections_arr[$key]['name'] = $courseSection->name;
+            $sections_arr[$key]['type'] = 'folder';
+            $sections[] = json_encode($sections_arr[$key]);
+            $practices = $courseSection->sectionPractices;
+            foreach ($practices as $practicekey => $practice) {
+                $practice_arr[$practicekey]=array();
+                $practice_arr[$practicekey]['cid'] = $practice->id;
+                $practice_arr[$practicekey]['parent_id'] = $courseSection->id;
+                $practice_arr[$practicekey]['name'] = $practice->title;
+                $practice_arr[$practicekey]['type'] = 'file';
+                $sections[] = json_encode($practice_arr[$practicekey]);
+            }
+        }
         return $this->render('index', [
-            'courseSections' => $sectionsData,
+            'sections' => $sections,
             'course' => $course,
         ]);
     }

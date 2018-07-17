@@ -113,7 +113,6 @@ $news = array(
                                 $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
                                 $percentage = $percentage.'%';
                             }
-                            print_r($percentage);
                         ?>
                             <li>
                                 <div class="play-bar">
@@ -122,7 +121,8 @@ $news = array(
                                         <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
                                     </div>
                                     <div class="chapter-list-time">
-                                        <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="play-icon"><?= $section->duration ?></a>
+                                        <a href="javascript:void(0)" class="haveLearn">已学<?= $percentage ?></a>
+                                        <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="play-icon _net-class"><?= $section->duration ?></a>
                                     </div>
                                 </div>
                                 <div class="upload-bar" style="display: none">

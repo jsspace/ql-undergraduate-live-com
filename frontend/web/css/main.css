@@ -892,6 +892,8 @@ code {
     padding: 0 10px;
     color: #666;
     line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .nytxt3_rny1 dd p.rny1name {
     font-size: 16px;

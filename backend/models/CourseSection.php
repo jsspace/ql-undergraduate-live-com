@@ -17,6 +17,7 @@ use Yii;
 * @property string $duration 时长
 * @property string $playback_url 回放地址
 * @property int $paid_free 收费/免费
+* @property int $explain_video_url 习题讲解url
  */
 class CourseSection extends \yii\db\ActiveRecord
 {
@@ -37,7 +38,7 @@ class CourseSection extends \yii\db\ActiveRecord
             [['course_id', 'name', 'video_url', 'duration', 'paid_free'], 'required'],
             [['course_id', 'position', 'type', 'paid_free'], 'integer'],
             [['start_time'], 'safe'],
-            [['name', 'video_url', 'playback_url'], 'string', 'max' => 255],
+            [['name', 'video_url', 'playback_url', 'explain_video_url'], 'string', 'max' => 255],
             [['duration','roomid'], 'string', 'max' => 50],
             [['course_id'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_id' => 'id']],
         ];
@@ -55,11 +56,12 @@ class CourseSection extends \yii\db\ActiveRecord
             'position' => Yii::t('app', '排序'),
             'type' => Yii::t('app', '知识讲解/单元测验/模拟考试'),
             'start_time' => Yii::t('app', '开始时间'),
-            'video_url' => Yii::t('app', '视频地址'),
+            'video_url' => Yii::t('app', '课程视频地址'),
             'roomid' => Yii::t('app', '房间号'),
             'duration' => Yii::t('app', '时长（分钟）'),
             'playback_url' => Yii::t('app', '回放地址'), 
-            'paid_free' => Yii::t('app', '付费/免费'), 
+            'paid_free' => Yii::t('app', '付费/免费'),
+            'explain_video_url' => Yii::t('app', '习题讲解视频地址'), 
         ];
     }
 
@@ -69,6 +71,14 @@ class CourseSection extends \yii\db\ActiveRecord
     public function getCourse()
     {
         return $this->hasOne(Course::className(), ['id' => 'course_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSectionPractices()
+    {
+        return $this->hasMany(SectionPractice::className(), ['section_id' => 'id']);
     }
 
     /**

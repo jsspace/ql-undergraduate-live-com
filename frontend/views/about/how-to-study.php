@@ -9,7 +9,7 @@ AppAsset::addCss($this,'@web/css/how-to-study.css');
 
 $this->title = '如何上课';
 ?>
-<div class="banner" style="background:url(/images/ban1.jpg) center top no-repeat;">
+<div class="banner" style="background:url(/images/how-to-stydy-banner.png) center top no-repeat;height: 288px; overflow: hidden;">
     <dl>
         <dt>
             <p>这里不仅是课好……</p>
