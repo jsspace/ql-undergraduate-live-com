@@ -114,15 +114,15 @@ $news = array(
                                 $percentage = $percentage.'%';
                             }
                         ?>
-                            <li>
+                            <li section-id="<?= $section->id ?>">
                                 <div class="play-bar">
                                     <div class="chapter-title-left">
                                         <div class="chapter-list-ctrl _upload-ctr"></div>
-                                        <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
+                                        <a href="javascript:void(0)" target="_blank" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
                                     </div>
                                     <div class="chapter-list-time">
                                         <a href="javascript:void(0)" class="haveLearn">已学<?= $percentage ?></a>
-                                        <a href="javascript:void(0)" target="_blank" section-id="<?= $section->id ?>" class="play-icon _net-class"><?= $section->duration ?></a>
+                                        <a href="javascript:void(0)" target="_blank" class="play-icon _net-class"><?= $section->duration ?></a>
                                     </div>
                                 </div>
                                 <div class="upload-bar" style="display: none">
@@ -296,6 +296,7 @@ $news = array(
         </div>
         <!-- <iframe id="course-video" width="100%" height="100%" src="" frameborder="0" allowfullscreen=""></iframe> -->
         <video id="course-video" width="100%" height="100%" controls="controls"></video>
+        <video id="course-explain" width="100%" height="100%" controls="controls"></video>
     </div>
 </div>
 

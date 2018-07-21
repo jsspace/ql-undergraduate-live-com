@@ -7,7 +7,9 @@ var courseDetail = {
     count_down_int: 0,
     currentTime: 0,
     section_id: '',
-    course_id: '',
+    course_id: $('._course-id').val(),
+    is_guest: $('.is_guest').val(),
+    csrf_frontend: $('meta[name=csrf-token]').attr('content'),
     init: function() {
         var self = this;
         self.tagTab();
@@ -43,16 +45,16 @@ var courseDetail = {
         });
     },
     addCart: function() {
+        var self = this;
         $("._add-cart").on('click', function() {
-            var course_id = $("._course-id").val();
             $.ajax({
                 url: '/cart/add',
                 type: 'post',
                 dataType: "json",
                 data: {
-                    product_id: course_id,
+                    product_id: self.course_id,
                     type: "course",
-                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                    '_csrf-frontend': self.csrf_frontend
                 },
                 success: function(data) {
                     layer.msg(data.message);
@@ -65,16 +67,16 @@ var courseDetail = {
         });
     },
     quickBuy: function() {
+        var self = this;
         $("._quick-buy").on('click', function() {
-            var course_id = $("._course-id").val();
             $.ajax({
                 url: '/cart/add',
                 type: 'post',
                 dataType: "json",
                 data: {
-                    product_id: course_id,
+                    product_id: self.course_id,
                     type: "course",
-                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                    '_csrf-frontend': self.csrf_frontend
                 },
                 success: function(data) {
                     if (data.code == 2) {
@@ -88,15 +90,15 @@ var courseDetail = {
         });
     },
     collect: function() {
+        var self = this;
         $('._collection-btn').on('click', function() {
-            var course_id = $("._course-id").val();
             $.ajax({
                 url: '/collection/add',
                 type: 'post',
                 dataType: 'json',
                 data: {
-                    course_id: course_id,
-                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                    course_id: self.course_id,
+                    '_csrf-frontend': self.csrf_frontend
                 },
                 success: function(data) {
                     if (data.status == 1) {
@@ -112,17 +114,17 @@ var courseDetail = {
         });
     },
     evaluate: function() {
+        var self = this;
         $('._course-evaluate-btn').on('click', function() {
-            var course_id = $('._course-id').val();
             var content = $('._course-evaluate-content').val();
             $.ajax({
                 url: '/course/evaluate',
                 type: 'post',
                 dataType: 'json',
                 data: {
-                    course_id: course_id,
+                    course_id: self.course_id,
                     content: content,
-                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                    '_csrf-frontend': self.csrf_frontend
                 },
                 success: function(data) {
                     if (data.status == 'success') {
@@ -139,17 +141,17 @@ var courseDetail = {
         });
     },
     questionSubmit: function() {
+        var self = this;
         $('._course-question-btn').on('click', function() {
-            var course_id = $('._course-id').val();
             var content = $('._course-question-content').val();
             $.ajax({
                 url: '/course/ques',
                 type: 'post',
                 dataType: 'json',
                 data: {
-                    course_id: course_id,
+                    course_id: self.course_id,
                     content: content,
-                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                    '_csrf-frontend': self.csrf_frontend
                 },
                 success: function(data) {
                     if (data.status == 'success') {
@@ -180,8 +182,7 @@ var courseDetail = {
             window.clearInterval(self.count_down_int);
         });
         $('._net-class').on('click', function() {
-            var is_guest = $('.is_guest').val();
-            if (is_guest) {
+            if (self.is_guest) {
                 layer.confirm('登录即可观看海量公开课程，更有众多精彩内容等你发现', {
                   title: '请先登录',
                   btn: ['确定','取消'] //按钮
@@ -190,8 +191,7 @@ var courseDetail = {
                 });
                 return;
             }
-            self.section_id = $(this).attr('section-id');
-            self.course_id = $('._course-id').val();
+            self.section_id = $(this).parents('li').attr('section-id');
             $.ajax({
                 url: '/course/check',
                 type: 'post',
@@ -199,14 +199,15 @@ var courseDetail = {
                 data: {
                     section_id: self.section_id,
                     course_id: self.course_id,
-                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                    '_csrf-frontend': self.csrf_frontend
                 },
                 success: function(data) {
                     if (data.status == 0) {
                         window.location.href = '/site/login';
                     } else if (data.status == 1 || data.status == 2) {
                         $('._video-layout').show();
-                        $('#course-video').attr('src', data.url);
+                        $('#course-explain').hide().attr('src', '');
+                        $('#course-video').show().attr('src', data.url);
                         $('#course-video').get(0).play();
                         $('#course-video').get(0).currentTime = data.current_time;
                     } else {
@@ -220,6 +221,7 @@ var courseDetail = {
         });
         $('._close-video-btn').on('click', function() {
             $('._video-layout').hide();
+            $('#course-explain').get(0).pause();
             $('#course-video').get(0).pause();
         });
     },
@@ -236,7 +238,7 @@ var courseDetail = {
                 courseId: self.course_id,
                 sectionId: self.section_id,
                 current_time: self.currentTime,
-                '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                '_csrf-frontend': self.csrf_frontend
             },
             success: function(data) {
             }
@@ -261,108 +263,144 @@ var courseDetail = {
     },
     // 随堂练
     exerciseCtr: function () {
-        var $exercise = $('._exercise');
+        var self = this,
+            $exercise = $('._exercise');
         $exercise.on('click', function () {
-            /*$.ajax({
-                url: '/section-practice/',
+            if (self.is_guest) {
+                layer.confirm('登录后即可查看海量随堂练习，更有众多精彩内容等你发现', {
+                  title: '请先登录',
+                  btn: ['确定','取消'] //按钮
+                }, function(){
+                  window.location.href = '/site/login';
+                });
+                return;
+            }
+            let section_id = $(this).parents('li').attr('section-id');
+            $.ajax({
+                url: '/section-practice/get-practice',
                 type: 'post',
                 dataType: 'json',
                 data: {
                     courseId: self.course_id,
-                    sectionId: self.section_id,
-                    current_time: self.currentTime,
-                    '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+                    sectionId: section_id,
+                    '_csrf-frontend': self.csrf_frontend
                 },
                 success: function(data) {
+                    if (data.status == 3) {
+                        layer.msg(data.message);
+                    } else {
+                        var practices = data.practices;
+                        var content = ' <ul class="open-content">'
+                        for(var i = 0; i<practices.length; i++) {
+                            content += '<li class="err-list">\n' +
+                            '                <div class="err-header">\n' +
+                            '                     <div class="err-course-title">'+ practices[i].title +'</div>\n' +
+                            '                     <div class="err-course-date">'+ practices[i].create_time +'</div>\n' +
+                            '                </div>\n' +
+                            '                <div class="err-content">\n' + practices[i].problem_des + '</div>\n' +
+                            '           </li>\n';
+                        }
+                        content += '</ul>'
+                        layer.open({
+                            type: 1,
+                            title: '随堂练习',
+                            shadeClose: true,
+                            offset: '50px',
+                            area: ['60%', '80%'],
+                            content: content
+                        });
+                    }
                 }
-            });*/
-            layer.open({
-                type: 1,
-                title: '随堂练习',
-                shadeClose: true,
-                offset: '50px',
-                area: ['60%', '80%'],
-                content: ' <ul class="open-content">\n' +
-                '                        <li class="err-list">\n' +
-                '                            <div class="err-header">\n' +
-                '                                <div class="err-course-title">知识点一：公文写作</div>\n' +
-                '                                <div class="err-course-date">张翼德老师</div>\n' +
-                '                                <div class="err-course-date">2018年7月10日</div>\n' +
-                '                            </div>\n' +
-                '                            <div class="err-content">\n' +
-                '                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。\n' +
-                '\n' +
-                '                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。\n' +
-                '\n' +
-                '                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。\n' +
-                '                            </div>\n' +
-                '                        </li>\n' +
-                '                        <li class="err-list">\n' +
-                '                            <div class="err-header">\n' +
-                '                                <div class="err-course-title">知识点一：公文写作</div>\n' +
-                '                                <div class="err-course-date">张翼德老师</div>\n' +
-                '                                <div class="err-course-date">2018年7月10日</div>\n' +
-                '                            </div>\n' +
-                '                            <div class="err-content">\n' +
-                '                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。\n' +
-                '\n' +
-                '                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。\n' +
-                '\n' +
-                '                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。\n' +
-                '                            </div>\n' +
-                '                        </li>\n' +
-                '                    </ul>'
             });
         })
     },
     // 习题答案
     answerCtr: function () {
-        var $exercise = $('._answer');
+        var self = this,
+            $exercise = $('._answer');
         $exercise.on('click', function () {
-            layer.open({
-                type: 1,
-                title: '习题答案',
-                shadeClose: true,
-                offset: '50px',
-                area: ['60%', '80%'],
-                content: '<ul class="open-content">\n' +
-                '                        <li class="err-list">\n' +
-                '                            <div class="err-header">\n' +
-                '                                <div class="err-course-title">知识点一：公文写作</div>\n' +
-                '                                <div class="err-course-date">张翼德老师</div>\n' +
-                '                                <div class="err-course-date">2018年7月10日</div>\n' +
-                '                            </div>\n' +
-                '                            <div class="err-content">\n' +
-                '                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。\n' +
-                '\n' +
-                '                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。\n' +
-                '\n' +
-                '                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。\n' +
-                '                            </div>\n' +
-                '                        </li>\n' +
-                '                        <li class="err-list">\n' +
-                '                            <div class="err-header">\n' +
-                '                                <div class="err-course-title">知识点一：公文写作</div>\n' +
-                '                                <div class="err-course-date">张翼德老师</div>\n' +
-                '                                <div class="err-course-date">2018年7月10日</div>\n' +
-                '                            </div>\n' +
-                '                            <div class="err-content">\n' +
-                '                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。\n' +
-                '\n' +
-                '                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。\n' +
-                '\n' +
-                '                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。\n' +
-                '                            </div>\n' +
-                '                        </li>\n' +
-                '                    </ul>'
+            if (self.is_guest) {
+                layer.confirm('登录后即可查看海量习题答案，更有众多精彩内容等你发现', {
+                  title: '请先登录',
+                  btn: ['确定','取消'] //按钮
+                }, function(){
+                  window.location.href = '/site/login';
+                });
+                return;
+            }
+            let section_id = $(this).parents('li').attr('section-id');
+            $.ajax({
+                url: '/section-practice/get-practice',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    courseId: self.course_id,
+                    sectionId: section_id,
+                    '_csrf-frontend': self.csrf_frontend
+                },
+                success: function(data) {
+                    if (data.status == 3) {
+                        layer.msg(data.message);
+                    } else {
+                        var practices = data.practices;
+                        var content = ' <ul class="open-content">'
+                        for(var i = 0; i<practices.length; i++) {
+                            content += '<li class="err-list">\n' +
+                            '                <div class="err-header">\n' +
+                            '                     <div class="err-course-title">'+ practices[i].title +'</div>\n' +
+                            '                     <div class="err-course-date">'+ practices[i].create_time +'</div>\n' +
+                            '                </div>\n' +
+                            '                <div class="err-content">\n' + practices[i].answer + '</div>\n' +
+                            '           </li>\n';
+                        }
+                        content += '</ul>'
+                        layer.open({
+                            type: 1,
+                            title: '习题答案',
+                            shadeClose: true,
+                            offset: '50px',
+                            area: ['60%', '80%'],
+                            content: content
+                        });
+                    }
+                }
             });
         })
     },
     // 习题讲解
     explainCtr: function () {
+        var self = this;
         $('._explain').on('click', function () {
-            $('._video-layout').show();
-            $('iframe').attr('src', 'http://static-cdn.ticwear.com/cmww/statics/video/ticwatche-publish.mp4');
+            if (self.is_guest) {
+                layer.confirm('登录后即可查看习题讲解，更有众多精彩内容等你发现', {
+                  title: '请先登录',
+                  btn: ['确定','取消'] //按钮
+                }, function(){
+                  window.location.href = '/site/login';
+                });
+                return;
+            }
+            let section_id = $(this).parents('li').attr('section-id');
+            $.ajax({
+                url: '/section-practice/get-explain',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    courseId: self.course_id,
+                    sectionId: section_id,
+                    '_csrf-frontend': self.csrf_frontend
+                },
+                success: function(data) {
+                    if (data.status == 3) {
+                        layer.msg(data.message);
+                    } else {
+                        $('._video-layout').show();
+                        $('#course-video').hide().attr('src', '');
+                        $('#course-explain').show().attr('src', data.url);
+                        $('#course-explain').get(0).play();
+                    }
+                }
+            });
         });
     },
     // 上传答案
