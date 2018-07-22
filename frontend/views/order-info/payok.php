@@ -26,12 +26,6 @@ $this->title = '付款方式';
             </li>
         </ul>
     </div>
-    <?php if ($wallet_pay == 1) { ?>
-        <div class="wallet-pay-ok">
-            <p class="success-icon">支付成功!</p>
-            <p>您可以在<a href="/user/orders">个人中心-我的订单</a>中查看您的订单</p>
-        </div>
-    <?php } else { ?>
     <div class="order-payment-method payway-wrapper">
         <div class="inner-order">
             <div class="right-icon"><i class="icon ion-ios-checkmark-outline"></i></div>
@@ -63,5 +57,9 @@ $this->title = '付款方式';
             <a href="" class="btn">一次性支付</a>
         </div>
     </div>
-    <?php } ?>
 </div>
+<script type="text/javascript">
+    $('.go-back').on('click', function() {
+        window.history.back(-1);
+    });
+</script>

@@ -75,10 +75,10 @@ class OrderInfoController extends \yii\web\Controller
             return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $orderInfo->order_amount]);
         }
         $data = Yii::$app->request->Post();
-        if (!isset($data['coupon_ids']) || !isset($data['course_ids']) || !isset($data['course_package_ids'])) {
+        if (!isset($data['coupon_ids']) || !isset($data['course_ids'])/* || !isset($data['course_package_ids'])*/) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-        if (empty($data['course_ids']) && empty($data['course_package_ids'])) {
+        if (empty($data['course_ids'])/* && empty($data['course_package_ids'])*/) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
         $goods_amount = 0.00;
@@ -92,7 +92,7 @@ class OrderInfoController extends \yii\web\Controller
         ->all();
         $coupon_ids_str = '';
         foreach($coupons as $model) {
-            $coupon_ids_str .= $model->coupon_id;
+            $coupon_ids_str .= $model->coupon_id . ',';
             $coupon_money += $model->fee;
             //标记优惠券正在使用中
             $model->isuse = 1;
@@ -126,7 +126,7 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->save(false);
             $goods_amount += $model->discount;
         }
-        $course_package_ids = explode(',', $data['course_package_ids']);
+        /*$course_package_ids = explode(',', $data['course_package_ids']);
         //删除购物车中对应的条目
         Cart::deleteAll([
             'product_id' => $course_package_ids,
@@ -154,7 +154,7 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->type = 'course_package';
             $order_goods->save(false);
             $goods_amount += $model->discount;
-        }
+        }*/
         
         $course_ids_arr = explode(',', $courseids);
         $course_ids_str = implode(',', array_unique($course_ids_arr));
@@ -175,49 +175,12 @@ class OrderInfoController extends \yii\web\Controller
         } else {
             $order_amount = $goods_amount - $coupon_money;
         }
-        
-        
-        $pay_status = 0;
-        $bonus = 0;/*使用钱包金额*/
-        /*是否使用钱包*/
-        $wallet_pay = 0;/*默认钱包支付 标记为0*/
-        $use_wallet = $data['use_wallet'];
-        $coin = new Coin();
-        if ($use_wallet == 1) {
-            $coin->userid = Yii::$app->user->id;
-            $coin->card_id = $order_sn;
-            $coin->operation_time = time();
-            /*钱包余额*/
-            $my_wallet = $data['my_wallet'];
-            /*钱包金额够支付订单的*/
-            if ($order_amount <= $my_wallet) {
-                /*标记钱包支付*/
-                $wallet_pay = 1;
-                /*钱包中减去此次订单总额*/
-                $coin->income = -$order_amount;
-                $coin->balance = $my_wallet-$order_amount;
-                $coin->operation_detail = '购买课程花费'.$order_amount.'元';
-                $bonus = $order_amount;
-                $order_amount = 0;
-                $pay_status = 2;
-            } else {
-                $order_amount = $order_amount-$my_wallet;
-                $coin->income = -$my_wallet;
-                $coin->balance = 0;
-                $coin->operation_detail = '购买课程花费'.$my_wallet.'元';
-                $bonus = $my_wallet;
-            }
-            $coin->save(false);
-        }
         //添加订单信息
         $order_info = new OrderInfo();
-        if ($wallet_pay === 1) {
-            $order_info->pay_time = time();
-        }
         $order_info->order_sn = $order_sn;
         $order_info->user_id = Yii::$app->user->id;
         $order_info->order_status = 1;
-        $order_info->pay_status = $pay_status;
+        $order_info->pay_status = 0;
         $order_info->consignee = Yii::$app->user->identity->username;
         $order_info->mobile = Yii::$app->user->identity->phone;
         $order_info->email = Yii::$app->user->identity->email;
@@ -229,9 +192,9 @@ class OrderInfoController extends \yii\web\Controller
         $order_info->course_ids = $course_ids_str;
         $order_info->coupon_ids = $coupon_ids_str;
         $order_info->coupon_money = $coupon_money;
-        $order_info->bonus = $bonus;
+        /*$order_info->bonus = $bonus;*/
         $order_info->save(false);
-        return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount, 'wallet_pay' => $wallet_pay]);
+        return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount]);
     }
     
     public function actionAlipay($order_sn)

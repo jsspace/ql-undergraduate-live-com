@@ -49,14 +49,14 @@ class CartController extends Controller
         $sql .= ' on {{%course}}.teacher_id = {{%user}}.id order by {{%cart}}.created_at desc';
         $course_models = Yii::$app->db->createCommand($sql)
         ->queryAll();
-        $sql = 'select cart_id, {{%course_package}}.id as course_package_id, {{%course_package}}.name as course_name, list_pic, price, discount, username as teacher_name';
+        /*$sql = 'select cart_id, {{%course_package}}.id as course_package_id, {{%course_package}}.name as course_name, list_pic, price, discount, username as teacher_name';
         $sql .= ' from ({{%cart}} inner join {{%course_package}}';
         $sql .= ' on {{%cart}}.user_id = '.Yii::$app->user->id .' and {{%cart}}.product_id = {{%course_package}}.id ';
         $sql .= ' and {{%cart}}.type = "course_package") inner join {{%user}} ';
         $sql .= ' on {{%course_package}}.head_teacher = {{%user}}.id order by {{%cart}}.created_at desc';
         $course_package_models = Yii::$app->db->createCommand($sql)
-        ->queryAll();
-        return $this->render('index', ['course_models' => $course_models, 'course_package_models' => $course_package_models,]);
+        ->queryAll();*/
+        return $this->render('index', ['course_models' => $course_models/*, 'course_package_models' => $course_package_models,*/]);
     }
     
     public function actionAdd()
@@ -126,7 +126,7 @@ class CartController extends Controller
         //唯一订单号码（KB-YYYYMMDDHHIISSNNNNNNNNCC）
         $order_sn = $this->createOrderid();
         
-        $course_package_ids = explode(',', $post['course_package_ids']);
+        //$course_package_ids = explode(',', $post['course_package_ids']);
         $course_ids = explode(',', $post['course_ids']);
         $course_models = Course::find()
         ->where(['id' => $course_ids])
@@ -136,14 +136,14 @@ class CartController extends Controller
         foreach($course_models as $model) {
             $course_ids .= $model->id . ',';
         }
-        $course_package_models = CoursePackage::find()
+        /*$course_package_models = CoursePackage::find()
         ->where(['id' => $course_package_ids])
         ->andWhere(['onuse' => 1])
         ->all();
         $course_package_ids = '';
         foreach($course_package_models as $model) {
             $course_package_ids .= $model->id . ',';
-        }
+        }*/
         $coupons = Coupon::find()
         ->where(['user_id' => Yii::$app->user->id])
         ->andWhere(['isuse' => 0])
@@ -151,7 +151,7 @@ class CartController extends Controller
         ->all();
 
         /*金币余额*/
-        $coin = Coin::find()
+        /*$coin = Coin::find()
         ->where(['userid' => Yii::$app->user->id])
         ->orderBy('id desc')
         ->one();
@@ -159,15 +159,15 @@ class CartController extends Controller
             $balance = $coin->balance;
         } else {
             $balance = 0;
-        }
+        }*/
         return $this->render('shopping', [
             'course_models' => $course_models,
             'order_sn' => $order_sn,
             'course_ids' => $course_ids,
-            'course_package_models' => $course_package_models,
-            'course_package_ids' => $course_package_ids,
+            //'course_package_models' => $course_package_models,
+            //'course_package_ids' => $course_package_ids,
             'coupons' => $coupons,
-            'coin_balance' => $balance
+            //'coin_balance' => $balance
         ]);
     }
     

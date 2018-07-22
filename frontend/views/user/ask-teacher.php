@@ -9,10 +9,10 @@ AppAsset::addCss($this,'@web/css/ask-teacher.css');
 ?>
 
 <div class="htcontent">
-        <h2 class="htwx cc"><a href="#">首页</a>&gt;<a href="#">问老师</a></h2>
+        <h2 class="htwx cc"><a href="#">首页</a>&gt;<a href="#">直播答疑</a></h2>
         <div class="htbox2">
             <div class="httxt1 cc">
-                <h3 class="ht_tt1">问老师</h3>
+                <h3 class="ht_tt1">直播答疑</h3>
                 <div class="course-list">
                     <div>语文</div>
                     <div>数学</div>
@@ -20,7 +20,7 @@ AppAsset::addCss($this,'@web/css/ask-teacher.css');
                     <div>计算机</div>
                 </div>
             </div>
-            <div class="httxt2">
+            <!-- <div class="httxt2">
                 <ul class="cc">
                     <li>我的</li>
                     <li class="htktnow">全部</li>
@@ -34,9 +34,9 @@ AppAsset::addCss($this,'@web/css/ask-teacher.css');
                             </div>
                         </li>
                     </ul>
-
+            
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

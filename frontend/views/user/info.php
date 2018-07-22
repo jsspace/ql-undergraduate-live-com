@@ -93,42 +93,6 @@ $this->title = '我的班级';
                 </li>
             </ul>
         </div>
-        <div class="httxt2">
-            <ul class="cc">
-                <li>课堂学</li>
-                <li class="htktnow">随堂练</li>
-                <li>模拟考</li>
-                <li>问老师</li>
-                <li>学情报告</li>
-            </ul>
-            <div class="httxt2_show">
-                <div class="httxt2_an colorfff">
-                    <code><a href="#">上传答题</a></code><code><a href="#">查看批改</a></code><code><a href="#">查看讲解</a></code></code>
-                </div>
-                <h4>全能培训班共13次随堂练习，已完成3次!</h4>
-                <h5>随堂练：<span>(做练习时不用抄题，直接在答题纸上写答案)</span></h5>
-                <dl class="ktshow cc">
-                    <dt>课时03 指南针的奥秘</dt>
-                    <dd><img src="/images/htpic4.jpg" /></dd>
-                </dl>
-                <dl class="cc">
-                    <dt>课时03 指南针的奥秘</dt>
-                    <dd><img src="/images/htpic4.jpg" /></dd>
-                </dl>
-                <dl class="cc">
-                    <dt>课时03 指南针的奥秘</dt>
-                    <dd><img src="/images/htpic4.jpg" /></dd>
-                </dl>
-                <dl class="cc">
-                    <dt>课时03 指南针的奥秘</dt>
-                    <dd><img src="/images/htpic4.jpg" /></dd>
-                </dl>
-                <dl class="cc">
-                    <dt>课时03 指南针的奥秘</dt>
-                    <dd><img src="/images/htpic4.jpg" /></dd>
-                </dl>
-            </div>
-        </div>
     </div>
 </div>
 <script type="text/javascript">

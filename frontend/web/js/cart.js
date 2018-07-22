@@ -114,6 +114,9 @@ var cart = {
                 $("._delete-all").removeClass("delete-all");
             }
             $(".course-num").text(totalQuntity);
+            if (!totalPrice) {
+                totalPrice = 0;
+            }
             $(".course-price").text(totalPrice.toFixed(2));
         });
     },

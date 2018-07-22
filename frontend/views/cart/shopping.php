@@ -51,22 +51,7 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                             </div>
                         </div>
                     </li>
-                 <?php }
-                    foreach($course_package_models as $model) { 
-                        $total_price += $model->discount;
-                ?>
-                    <li class="course">
-                        <div class="cart-course-detail">
-                            <div class="cart-img">
-                                <img src="<?= $model->list_pic; ?>"/>
-                            </div>
-                            <div class="cart-txt">
-                                <span class="name"><?= $model->name ?></span>
-                                <span class="price">价格：￥<?= $model->discount ?></span>
-                            </div>
-                        </div>
-                    </li>
-                 <?php }?>
+                <?php } ?>
                 </ul>
                 <p class="total-summary">订单总额：<span class="price-high">￥<?= $total_price ?></span></p>
             </div>
@@ -77,26 +62,18 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                 <div class="payment-method">
                     <input type="radio" name="payment-method" checked="checked" />
                     <span>在线支付</span>
-                    <span class="payment-desc"> 选择在线支付订单，可使用钱包、优惠券抵消部分订单总额；在线支付成功后，系统自动为您开通课程权限。</span>
+                    <span class="payment-desc"> 选择在线支付订单，可使用优惠券抵消部分订单总额；在线支付成功后，系统自动为您开通课程权限。</span>
                 </div>
             </div>
         </div>
         <div class="order-payment-method discount">
             <div class="inner-order">
-                <h3>可使用钱包/优惠券</h3>
+                <h3>优惠券</h3>
                 <div class="discount-con">
                     <div class="tab-title">
-                        <span class="active">我的钱包</span>
-                        <span>优惠券</span>
+                        <span class="active">优惠券</span>
                     </div>
                     <ul class="tab-con">
-                        <li>
-                            <div class="payment-method">
-                                <input class="select-wallet" type="checkbox" name="payment-card" <?php if($coin_balance == 0) echo "disabled"; ?>/>
-                                <span>使用钱包支付</span>
-                                <span class="payment-desc"> 账户当前钱包余额：<strong class="card-font"><?= $coin_balance ?></strong>元。</span>
-                            </div>
-                        </li>
                         <li>
                             <?php if (empty($coupons)) {?>
                             <div class="no-discount">暂无可使用优惠券</div>
@@ -125,11 +102,8 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                 <div class="right">
                     <?php $form = ActiveForm::begin(['id' => 'order-confirm-form', 'action' => Url::to(['order-info/confirm_order','order_sn' => $order_sn])]); ?>
                     应付总额：<span class="price-high">￥<span class="_total-price"><?= $total_price ?></span></span>
-                    <?= Html::HiddenInput('course_package_ids', $course_package_ids, ['id' => 'course_package_ids']) ?>
                     <?= Html::HiddenInput('course_ids', $course_ids, ['id' => 'course_ids']) ?>
                     <?= Html::HiddenInput('coupon_ids', '', ['id' => 'coupon_ids']) ?>
-                    <?= Html::HiddenInput('my_wallet', $coin_balance, ['id' => 'my_wallet']) ?>
-                    <?= Html::HiddenInput('use_wallet', '0', ['class' => 'use_wallet _use_wallet']) ?>
                     <?= Html::submitButton('提交订单', ['class' => 'btn btn-confirm']) ?>
                     <?php ActiveForm::end(); ?>
                 </div>
@@ -137,9 +111,8 @@ AppAsset::addScript($this,'@web/js/shopping.js');
         </div>
     </div>
 </div>
-
 <script>
-    $(function () {
+    /*$(function () {
         $('.order-payment-method .tab-title span').each(function (index) {
             $(this).on('click', function () {
                 $(this).addClass('active').siblings('span').removeClass('active');
@@ -153,5 +126,5 @@ AppAsset::addScript($this,'@web/js/shopping.js');
         } else {
             $('._use_wallet').val(0);
         }
-    });
+    });*/
 </script>
