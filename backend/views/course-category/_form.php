@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
 use yii\helpers\Url;
 use kartik\file\FileInput;
+use backend\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseCategory */
@@ -17,6 +18,8 @@ use kartik\file\FileInput;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'tutor')->checkboxList(User::users('tutor'), ['value'=> explode(',', $model->tutor)]) ?>
 
     <?= $form->field($model, 'list_icon')->widget(FileInput::classname(),
         [

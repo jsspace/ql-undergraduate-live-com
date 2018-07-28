@@ -70,6 +70,9 @@ class CourseCategoryController extends Controller
         $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
 
         if ($model->load(Yii::$app->request->post())) {
+            $postData = Yii::$app->request->post();
+            $tutor = $postData['CourseCategory']['tutor'];
+            $model->tutor = implode(',', $tutor);
             $image_list = UploadedFile::getInstance($model, 'list_icon');
             $image_home = UploadedFile::getInstance($model, 'detail_icon');
             $image_home_left = UploadedFile::getInstance($model, 'home_icon');
@@ -145,6 +148,9 @@ class CourseCategoryController extends Controller
             mkdir($rootPath, 0777, true);
         }
         if ($model->load(Yii::$app->request->post())) {
+            $postData = Yii::$app->request->post();
+            $tutor = $postData['CourseCategory']['tutor'];
+            $model->tutor = implode(',', $tutor);
             $image_list = UploadedFile::getInstance($model, 'list_icon');
             $image_home = UploadedFile::getInstance($model, 'detail_icon');
             $image_home_left = UploadedFile::getInstance($model, 'home_icon');

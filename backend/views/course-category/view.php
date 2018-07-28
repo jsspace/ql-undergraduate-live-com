@@ -3,6 +3,7 @@
 use backend\models\CourseCategory;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use backend\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseCategory */
@@ -17,6 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'name',
+            [
+                'attribute' => 'tutor',
+                'value' => User::getUsernameByIds($model->tutor),
+            ],
             [
                 'attribute' => 'parent_id',
                 'value' => function ($model){

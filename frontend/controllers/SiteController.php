@@ -175,7 +175,7 @@ class SiteController extends Controller
     {
         if (!Yii::$app->user->isGuest) {
             //return $this->goHome();
-            return $this->redirect('/user/info');
+            return $this->goBack();
         }
 
         $model = new LoginForm();
@@ -193,7 +193,7 @@ class SiteController extends Controller
             
             $model->insertSession($id,$token);//将token存到tbl_admin_session
             //return $this->goHome();
-            return $this->redirect('/user/info');
+            return $this->goBack();
         } else {
             Yii::$app->user->setReturnUrl(Yii::$app->request->referrer);
             return $this->render('login', [
@@ -211,7 +211,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->goBack();
     }
 
     /**
@@ -299,7 +299,7 @@ class SiteController extends Controller
                     
                     LoginForm::insertSession($id,$token);//将token存到tbl_admin_session
                     //return $this->goHome();
-                    return $this->redirect('/user/info');
+                    return $this->goBack();
                 }
             }
         }

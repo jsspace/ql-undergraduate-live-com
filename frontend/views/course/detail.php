@@ -8,6 +8,7 @@ use backend\models\Course;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
 use backend\models\UserStudyLog;
+use backend\models\CourseCategory;
 AppAsset::addCss($this,'@web/css/main.css');
 AppAsset::addCss($this,'@web/css/course.css');
 AppAsset::addCss($this,'@web/css/list.css');
@@ -275,15 +276,19 @@ $news = array(
             <?php } ?>
             <div class="nytxt3_rny2 cc">
                 <h3>辅导老师</h3>
+                <?php
+                    $course_cat = CourseCategory::find()
+                    ->select('tutor')
+                    ->where(['id' => $course->category_name])
+                    ->one();
+                    $tutor_arr = explode(',', $course_cat->tutor)
+                ?>
                 <ul>
-                    <li><a href="#"><img src="/images/nypic3.jpg" width="63" height="84" /><p>susu</p></a></li>
-                    <li><a href="#"><img src="/images/nypic3.jpg" width="63" height="84" /><p>susu</p></a></li>
-                    <li><a href="#"><img src="/images/nypic3.jpg" width="63" height="84" /><p>susu</p></a></li>
-                    <li><a href="#"><img src="/images/nypic3.jpg" width="63" height="84" /><p>susu</p></a></li>
-                    <li><a href="#"><img src="/images/nypic3.jpg" width="63" height="84" /><p>susu</p></a></li>
-                    <li><a href="#"><img src="/images/nypic3.jpg" width="63" height="84" /><p>susu</p></a></li>
-                    <li><a href="#"><img src="/images/nypic3.jpg" width="63" height="84" /><p>susu</p></a></li>
-                    <li><a href="#"><img src="/images/nypic3.jpg" width="63" height="84" /><p>susu</p></a></li>
+                   <?php foreach ($tutor_arr as $key => $tutor) {
+                        $user = User::getUserModel($tutor);
+                    ?>
+                    <li><a href="#"><img src="<?= $user->picture ?>" width="63"/><p><?= $user->username ?></p></a></li>
+                    <?php } ?>
                 </ul>
             </div>
         </div>

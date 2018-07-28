@@ -14,10 +14,26 @@ AppAsset::addCss($this,'@web/css/ask-teacher.css');
             <div class="httxt1 cc">
                 <h3 class="ht_tt1">直播答疑</h3>
                 <div class="course-list">
-                    <div>语文</div>
-                    <div>数学</div>
-                    <div>英语</div>
-                    <div>计算机</div>
+                    <div class="chinese">
+                        <div class="bg"></div>
+                        <span>语文</span>
+                        <img src="/images/htwxpic1.jpg">
+                    </div>
+                    <div class="mathematics">
+                        <div class="bg"></div>
+                        <span>数学</span>
+                        <img src="/images/htwxpic1.jpg">
+                    </div>
+                    <div class="english">
+                        <div class="bg"></div>
+                        <span>英语</span>
+                        <img src="/images/htwxpic1.jpg">
+                    </div>
+                    <div class="computer">
+                        <div class="bg"></div>
+                        <span>计算机</span>
+                        <img src="/images/htwxpic1.jpg">
+                    </div>
                 </div>
             </div>
             <!-- <div class="httxt2">

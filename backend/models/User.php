@@ -178,7 +178,15 @@ class User extends \yii\db\ActiveRecord
             self::loadItem();
             return isset(self::$_item[$id]) ? self::$_item[$id] : false;
     }
-    
+    public static function getUsernameByIds($ids) {
+        $id_arr = explode(',', $ids);
+        $name_arr = [];
+        foreach ($id_arr as $key => $id) {
+            $name_arr[] = self::item($id);
+        }
+        $name_str = implode(',', $name_arr);
+        return $name_str;
+    }
     private static function loadItem()
     {
         $umodels = User::find()
