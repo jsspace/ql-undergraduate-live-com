@@ -162,3 +162,6 @@ h2.htwx a:active,h2.htwx a:hover{color:#a30f0f;}
 .course-list div:hover img {
     opacity: 1;
 }
+.open-course-list {
+    margin-top: 25px;
+}

@@ -151,6 +151,7 @@ class UserController extends Controller
         }
         $goodsid_arr = explode(',', $goodsids);
         $clist = Course::find()
+        ->with('courseSections')
         ->where(['in', 'id', $goodsid_arr])
         ->all();
         return $this->render('course', [

@@ -50,14 +50,22 @@
 .course-content .list li .course-img span {
     position: absolute;
     z-index: 2;
-    height: 60px;
-    width: 60px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     cursor: pointer;
+    height: 60px;
+    width: 60px;
+}
+.course-content .list li .course-img span.video-play-btn {
     background: url(/images/video-play-btn.png) no-repeat center;
     background-size: cover;
+}
+.course-content .list li .course-img span.quick-buy {
+    background: url(/images/buy-icon.png) no-repeat center;
+    background-size: 30px;
+    border-radius: 50%;
+    border: 2px solid #fff;
 }
 .video-layout {
     position: fixed;
@@ -151,7 +159,8 @@
     float: right;
     color: #50a9fd;
 }
-.course-time {
+.course-time,
+.course-price {
     float: right;
 }
 .pagination {

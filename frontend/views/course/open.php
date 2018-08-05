@@ -5,11 +5,13 @@ use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\User;
 use yii\widgets\LinkPager;
+use backend\models\Course;
 
 AppAsset::addCss($this,'@web/css/list.css');
 
 $this->title = '公开课';
 ?>
+<input class="is_guest" type="hidden" value="<?= Yii::$app->user->isGuest; ?>"/>
 <div class="container-course course-online">
     <div class="container-course-wrap">
         <div class="course-content">
@@ -19,7 +21,13 @@ $this->title = '公开课';
                         <a href="javascript: void(0)">
                             <div class="course-img">
                                 <div class="bg"></div>
-                                <span data-url="<?= $course->open_course_url ?>" class="video-play-btn"></span>
+                                <?php
+                                $ispay = Course::ispay($course->id, Yii::$app->user->id);
+                                if ($course->discount == 0 || $ispay == 1) { ?>
+                                    <span class="video-play-btn" data-value="<?= $course->id ?>"></span>
+                                <?php } else { ?>
+                                    <span class="quick-buy _quick-buy" data-value="<?= $course->id ?>"></span>
+                                <?php } ?>
                                 <img class="course-pic" src="<?= $course->list_pic; ?>"/>
                             </div>
                             <span class="content-title"><?= $course->course_name; ?></span>
@@ -28,6 +36,7 @@ $this->title = '公开课';
                         <div class="teacher-section">
                             <!-- <img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/> -->
                             <span class="teacher-name">主讲人：<?= User::item($course->teacher_id); ?></span>
+                            <span class="course-price">价格：<?= $course->discount; ?>元</span>
                         </div>
                     </li>
                 <?php } ?>

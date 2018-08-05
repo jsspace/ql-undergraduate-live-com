@@ -59,7 +59,7 @@ $news = array(
                     $ismember = Course::ismember($course->id, Yii::$app->user->id);
                     $ispay = Course::ispay($course->id, Yii::$app->user->id);
                     if ($course->discount == 0) { ?>
-                        <span class="course-ispay-tag">公开课程</span>
+                        <span class="course-ispay-tag">免费课程</span>
                     <?php }
                     else if ($ismember == 1) { ?>
                         <span class="course-ispay-tag">会员课程</span>
@@ -274,23 +274,25 @@ $news = array(
                     </dd>
                 </dl>
             <?php } ?>
+            <?php
+                $course_cat = CourseCategory::find()
+                ->select('tutor')
+                ->where(['id' => $course->category_name])
+                ->one();
+                $tutor_arr = explode(',', $course_cat->tutor);
+                if (count($tutor_arr) != 0) {
+            ?>
             <div class="nytxt3_rny2 cc">
                 <h3>辅导老师</h3>
-                <?php
-                    $course_cat = CourseCategory::find()
-                    ->select('tutor')
-                    ->where(['id' => $course->category_name])
-                    ->one();
-                    $tutor_arr = explode(',', $course_cat->tutor)
-                ?>
                 <ul>
                    <?php foreach ($tutor_arr as $key => $tutor) {
                         $user = User::getUserModel($tutor);
-                    ?>
-                    <li><a href="#"><img src="<?= $user->picture ?>" width="63"/><p><?= $user->username ?></p></a></li>
-                    <?php } ?>
+                        if (!empty($user)) { ?>
+                            <li><a href="#"><img src="<?= $user->picture ?>" width="63"/><p><?= $user->username ?></p></a></li>
+                    <?php } } ?>
                 </ul>
             </div>
+            <?php } ?>
         </div>
     </div>
 </div>

@@ -51,7 +51,7 @@ AppAsset::register($this);
     <div class="htsidebar">
         <h3 class="colorfff">个人中心</h3>
         <ul id="userNav">
-            <li><a href="/user/course"><span><img src="/images/hticon3.png" /><cite><img src="/images/hticon3a.png" /></cite></span>我的班级</a></li>
+            <li><a href="/user/course"><span><img src="/images/hticon3.png" /><cite><img src="/images/hticon3a.png" /></cite></span>我的课程</a></li>
             <li><a href="/user/orders"><span><img src="/images/hticon4.png" /><cite><img src="/images/hticon4a.png" /></cite></span>我的订单</a></li>
             <li><a href="/cart/index" target="_blank"><span><img src="/images/shopping.png" /><cite><img src="/images/shoppinga.png" /></cite></span>购物车</a></li>
             <li><a href="/user/favorite"><span><img src="/images/hticon6.png" /><cite><img src="/images/hticon6a.png" /></cite></span>我的收藏</a></li>

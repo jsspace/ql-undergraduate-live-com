@@ -270,6 +270,90 @@ class CourseController extends Controller
             }
         }
     }
+    public function actionGetOpenUrl()
+    {
+        if (Yii::$app->user->isGuest) {
+            $data['status'] = 0;
+            $data['message'] = '请先登陆再观看课程';
+            return json_encode($data);
+        }
+        $data = Yii::$app->request->Post();
+        $course_id = $data['course_id'];
+        
+        $course = Course::find()
+        ->where(['id' => $course_id])
+        ->select('open_course_url')
+        ->one();
+        $open_url = $course->open_course_url;
+        $data['status'] = 1;
+        $data['url'] = $open_url;
+        return json_encode($data);
+        
+    }
+    public function actionOpenCheck()
+    {
+        if (Yii::$app->user->isGuest) {
+            $data['status'] = 0;
+            $data['message'] = '请先登陆再观看课程';
+            return json_encode($data);
+        }
+        $data = Yii::$app->request->Post();
+        $section_id = $data['section_id'];
+        $course_id = $data['course_id'];
+        $section = CourseSection::find()
+        ->where(['id' => $section_id])
+        ->one();
+        $userid = Yii::$app->user->id;
+        /* 获取学员观看日志 */
+        $study_log = UserStudyLog::find()
+        ->where(['userid' => $userid])
+        ->andWhere(['courseid' => $course_id])
+        ->andWhere(['sectionid' => $section_id])
+        ->orderBy('id desc')
+        ->one();
+        $current_time = 0;
+        if ($study_log) {
+            $current_time = $study_log->current_time;
+        }
+        if (!empty($section)) {
+            if ($section->paid_free == 0) {
+                $data['status'] = 1;
+                $data['current_time'] = $current_time;
+                $data['message'] = '正在请求观看免费课程';
+                $data['url'] = $section->video_url;
+                return json_encode($data);
+            } else {
+                $auth = new Auth(Yii::$app->params['access_key'], Yii::$app->params['secret_key']);
+                $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
+                //$is_member = Course::ismember($course_id, Yii::$app->user->id);
+                /*判断是否是该分类下的会员*/
+                /*if ($is_member == 1) {
+                    $data['status'] = '4';
+                    $data['message'] = '会员，允许观看';
+                    $data['url'] = $video_url;
+                    return json_encode($data);
+                }*/
+                $ispay = Course::ispay($course_id, $userid);
+                /*判断是否已经购买*/
+                /*$roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+                $isschool = 0;
+                if (array_key_exists('school',$roles_array)) {
+                    $isschool = 1;
+                }*/
+                if ($ispay == 1/* || $isschool == 1*/) {
+                    $data['status'] = '2';
+                    $data['current_time'] = $current_time;
+                    $data['message'] = '用户已经购买了该课程，允许观看';
+                    $data['url'] = $video_url;
+                } else {
+                    $data['status'] = '3';
+                    $data['message'] = '您尚未购买该课程，请先购买后再观看';
+                    $data['url'] = '';
+                }
+                return json_encode($data);
+            }
+        }
+    }
     public function actionAddnetlog() {
         $result = array();
         if (!Yii::$app->user->isGuest) {

@@ -192,6 +192,7 @@ class OrderInfoController extends \yii\web\Controller
         $order_info->course_ids = $course_ids_str;
         $order_info->coupon_ids = $coupon_ids_str;
         $order_info->coupon_money = $coupon_money;
+        $order_info->invalid_time = time() + 3600 * 24 * 180;
         /*$order_info->bonus = $bonus;*/
         $order_info->save(false);
         return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount]);
