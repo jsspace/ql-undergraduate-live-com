@@ -57,7 +57,8 @@ $this->title = '公开课';
         <div class="_close-video-btn close-video-btn">
             <img src="//static-cdn.ticwear.com/cmww/statics/img/product/mini/mini-confirm-close-btn.png">
         </div>
-        <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen=""></iframe>
+        <!-- <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen=""></iframe> -->
+        <video id="course-video" width="100%" height="100%" controls="controls"></video>
     </div>
 </div>
 <script type="text/javascript" src="/js/course.js"></script>

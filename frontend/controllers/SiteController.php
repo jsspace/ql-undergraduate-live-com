@@ -42,7 +42,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'login'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -97,66 +97,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        /*正在直播列表*/
-        $course_list = Course::find()
-        ->select('id, course_name')
-        ->all();
-        $chapter_list = CourseChapter::find()
-        ->select('id, course_id')
-        ->all();
-        $sql = 'select * from {{%course_section}} where to_days(start_time) = to_days(now()) and type!=1 ORDER BY start_time ASC';
-        $section_list = Yii::$app->db->createCommand($sql)
-        ->queryAll();
-        $live_ing = array();
-        $live_will = array();
-        foreach ($course_list as $course) {
-            foreach ($chapter_list as $key => $chapter) {
-                if ($chapter->course_id == $course->id) {
-                    foreach ($section_list as $key => $section) {
-                        if ($chapter->id == $section['chapter_id']) {
-                            $end_time = date('Y-m-d H:i:s',strtotime($section['start_time']."+".$section['duration']." minute"));
-                            $end_simple = date('H:i', strtotime($section['start_time']."+".$section['duration']." minute"));
-                            $start_simple = date('H:i', strtotime($section['start_time']));
-                            $current_time = date('Y-m-d H:i:s');
-                            if ($current_time < $section['start_time']) {
-                                $live_will[$section['id']]['course_name'] = $course->course_name.'：'.$section['name'];
-                                $live_will[$section['id']]['live_url'] = $section['video_url'];
-                                $live_will[$section['id']]['start_time'] = $start_simple;
-                                $live_will[$section['id']]['end_time'] = $end_simple;
-                                $live_will[$section['id']]['course_id'] = $course->id;
-                            } else if ($current_time >= $section['start_time'] && $current_time < $end_time) {
-                                $live_ing[$section['id']]['course_name'] = $course->course_name.'：'.$section['name'];
-                                $live_ing[$section['id']]['live_url'] = $section['video_url'];
-                                $live_ing[$section['id']]['start_time'] = $start_simple;
-                                $live_ing[$section['id']]['end_time'] = $end_simple;
-                                $live_ing[$section['id']]['course_id'] = $course->id;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        /*课程->热门推荐*/
-        $hotcourses = Course::find()
-        ->orderBy('view desc')
-        ->limit(8)
-        ->all();
-        /*各大学院*/
-        $collegeCourses = Course::find()
-        ->orderBy('create_time desc')
-        ->all();
-        /*学习感言*/
-        $coments = Comment::find()
-        ->where(['check' => 1])
-        ->orderBy('create_time desc')
-        ->limit(6)
-        ->all();
-        /*友情链接*/
-        $flinks = FriendlyLinks::find()
-        ->orderBy('position asc')
-        ->all();
-        /*教师列表*/
-        $teachers = User::getUserByrole('teacher');
         /*公告*/
         $notices = Notice::find()
         ->orderBy([
@@ -164,7 +104,7 @@ class SiteController extends Controller
             'id' => SORT_DESC,
         ])
         ->all();
-        return $this->render('index', ['hotcourses' => $hotcourses, 'coments' => $coments, 'flinks' => $flinks, 'teachers' => $teachers, 'live_ing' => $live_ing, 'live_will' => $live_will, 'notices' => $notices]);
+        return $this->render('index', ['notices' => $notices]);
     }
     /**
      * Logs in a user.
@@ -173,13 +113,17 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        /* 已经登录返回首页 */
         if (!Yii::$app->user->isGuest) {
-            //return $this->goHome();
-            return $this->goBack();
+            if (strstr(Yii::$app->user->returnUrl, 'signup')) {
+                return $this->goHome();
+            } else {
+                return $this->goBack();
+            }
         }
-
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
             //使用session和表tbl_admin_session记录登录账号的token:time&id&ip,并进行MD5加密
             $id = Yii::$app->user->id;     //登录用户的ID
             
@@ -193,7 +137,11 @@ class SiteController extends Controller
             
             $model->insertSession($id,$token);//将token存到tbl_admin_session
             //return $this->goHome();
-            return $this->goBack();
+            if (strstr(Yii::$app->user->returnUrl, 'signup')) {
+                return $this->goHome();
+            } else {
+                return $this->goBack();
+            }
         } else {
             Yii::$app->user->setReturnUrl(Yii::$app->request->referrer);
             return $this->render('login', [

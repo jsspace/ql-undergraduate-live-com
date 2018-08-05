@@ -287,6 +287,19 @@ class CourseController extends Controller
         $open_url = $course->open_course_url;
         $data['status'] = 1;
         $data['url'] = $open_url;
+        /* 获取学员观看日志 */
+        $userid = Yii::$app->user->id;
+        $study_log = UserStudyLog::find()
+        ->where(['userid' => $userid])
+        ->andWhere(['courseid' => $course_id])
+        ->andWhere(['sectionid' => 1])
+        ->orderBy('id desc')
+        ->one();
+        $current_time = 0;
+        if ($study_log) {
+            $current_time = $study_log->current_time;
+        }
+        $data['current_time'] = $current_time;
         return json_encode($data);
         
     }
@@ -404,6 +417,43 @@ class CourseController extends Controller
                 $result['status'] = 2;
                 $result['msg'] = '保存成功';
             //}
+        } else {
+            $result['status'] = 0;//'游客
+            $result['msg'] = '游客';
+        }
+        return json_encode($result);
+    }
+    public function actionAddopenlog() {
+        $result = array();
+        if (!Yii::$app->user->isGuest) {
+            $data = Yii::$app->request->Post();
+            $userid = Yii::$app->user->id;
+            $net_type = $data['type'];
+            $course_id = $data['courseId'];
+            $current_time = $data['current_time'];
+            //$type = 1;
+            $start = strtotime(date('Y-m-d 00:00:00'));
+            $end = strtotime(date('Y-m-d H:i:s'));
+            $model = UserStudyLog::find()
+            ->where(['userid' => $userid])
+            ->andWhere(['courseid' => $course_id])
+            ->andWhere(['between', 'start_time', $start, $end])
+            ->one();
+            if (empty($model)) {
+                $model = new UserStudyLog();
+                $model->userid = $userid;
+                $model->start_time = time();
+                $model->duration = 1;
+                $model->courseid = $course_id;
+                $model->sectionid = 0;
+                $model->type = 'open';
+            } else {
+                $model->duration = intval($model->duration)+1;
+            }
+            $model->current_time = $current_time;
+            $model->save(false);
+            $result['status'] = 2;
+            $result['msg'] = '保存成功';
         } else {
             $result['status'] = 0;//'游客
             $result['msg'] = '游客';

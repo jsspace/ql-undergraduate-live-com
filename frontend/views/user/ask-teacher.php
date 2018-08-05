@@ -6,6 +6,9 @@ use frontend\assets\AppAsset;
 use backend\models\Provinces;
 use backend\models\Cities;
 AppAsset::addCss($this,'@web/css/ask-teacher.css');
+
+$this->title = '直播答疑';
+
 ?>
 
 <div class="htcontent">
