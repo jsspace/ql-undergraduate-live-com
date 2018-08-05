@@ -491,7 +491,7 @@
 }
 .order-payment-method .tab-title span {
     display: inline-block;
-    width: 100px;
+    width: 200px;
     padding: 10px 0;
     text-align: center;
     float: left;
@@ -501,11 +501,7 @@
     background: #fff;
 }
 .order-payment-method .tab-con li {
-    display: none;
     padding: 0 20px;
-}
-.order-payment-method .tab-con li:first-child {
-    display: block;
 }
 .order-payment-method .tab-con input[type='checkbox'] {
     width: 15px;

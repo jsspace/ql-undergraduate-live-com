@@ -9,7 +9,7 @@ use frontend\assets\AppAsset;
 AppAsset::addCss($this,'@web/css/order.css');
 
 $this->title = '订单详情';
-AppAsset::addScript($this,'@web/js/shopping.js');
+AppAsset::addScript($this,'@web/js/shopping.js?v='.time());
 ?> 
 <div class="order-wrapper order-detail-section">
     <div class="step-wrapper">
@@ -71,7 +71,7 @@ AppAsset::addScript($this,'@web/js/shopping.js');
                 <h3>优惠券</h3>
                 <div class="discount-con">
                     <div class="tab-title">
-                        <span class="active">优惠券</span>
+                        <span class="active">优惠券（不找零，不折现）</span>
                     </div>
                     <ul class="tab-con">
                         <li>

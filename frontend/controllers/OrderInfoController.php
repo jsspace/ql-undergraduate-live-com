@@ -162,7 +162,7 @@ class OrderInfoController extends \yii\web\Controller
         //查看此人是否是被邀请注册的
         $invite = Yii::$app->user->identity->invite;
         //查看是否是第一次购买
-        $order_count = OrderInfo::find()
+        /*$order_count = OrderInfo::find()
         ->andWhere(['user_id' => Yii::$app->user->id])
         ->andWhere(['pay_status' => 2])
         ->count();
@@ -174,13 +174,18 @@ class OrderInfoController extends \yii\web\Controller
             $order_amount = ((100 - $perc->code) / 100.00) * $goods_amount - $coupon_money;
         } else {
             $order_amount = $goods_amount - $coupon_money;
+        }*/
+        if ($goods_amount < $coupon_money) {
+            $order_amount = 0;
+        } else {
+            $order_amount = $goods_amount - $coupon_money;
         }
         //添加订单信息
         $order_info = new OrderInfo();
         $order_info->order_sn = $order_sn;
         $order_info->user_id = Yii::$app->user->id;
         $order_info->order_status = 1;
-        $order_info->pay_status = 0;
+        //$order_info->pay_status = 0;
         $order_info->consignee = Yii::$app->user->identity->username;
         $order_info->mobile = Yii::$app->user->identity->phone;
         $order_info->email = Yii::$app->user->identity->email;
@@ -194,8 +199,17 @@ class OrderInfoController extends \yii\web\Controller
         $order_info->coupon_money = $coupon_money;
         $order_info->invalid_time = time() + 3600 * 24 * 180;
         /*$order_info->bonus = $bonus;*/
+        if ($order_amount == 0) {
+            $order_info->pay_status = 2;
+        } else {
+            $order_info->pay_status = 0;
+        }
         $order_info->save(false);
-        return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount]);
+        if ($order_amount == 0) {
+            return $this->redirect('/user/orders');
+        } else {
+            return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount]);
+        }
     }
     
     public function actionAlipay($order_sn)

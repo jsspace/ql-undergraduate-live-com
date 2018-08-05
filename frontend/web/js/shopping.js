@@ -12,8 +12,13 @@ var cart = {
             if ($(this).is(':checked')) {
                 var discountId = $(this).attr("data-couponid");
                 var discountFee = Number($(this).siblings("._discount-fee").attr("discount-fee"));
-                $("._discount-price").show().find("i").text("￥" + discountFee);
-                $("._total-price").text(totalPrice - discountFee);
+                if (totalPrice <= discountFee) {
+                    $("._discount-price").show().find("i").text("￥" + totalPrice);
+                    $("._total-price").text(0);
+                } else {
+                    $("._discount-price").show().find("i").text("￥" + discountFee);
+                    $("._total-price").text(totalPrice - discountFee);
+                }
             } else {
                 discountId = "";
                 $("._discount-price").hide().find("i").text("￥0");
