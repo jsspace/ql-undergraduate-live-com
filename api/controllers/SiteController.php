@@ -28,100 +28,69 @@ class SiteController extends Controller
         foreach ($ads as $key => $ad) {
             $content = array(
                 'url' => $ad->url,
-                'img' => Url::to('@web'.$ad->img, true)
+                'img' => $ad->img
             );
             $ads_arr[] = $content;
         }
         $result['home_ads'] = $ads_arr;
-        /*直属学院*/
-        $colleges = CourseCategory::find()
-        ->orderBy('position asc')
-        ->all();
-        $colleges_arr = array();
-        foreach ($colleges as $key => $college) {
-            $content = array(
-                'id' => $college->id,
-                'name' => $college->name,
-                'icon' => Url::to('@web'.$college->list_icon, true)
-            );
-            $colleges_arr[] = $content;
-        }
-        $result['colleges'] = $colleges_arr;
 
-        /*课程->热门推荐*/
+        /*课程->热门班级*/
         $hotcourses = Course::find()
-        ->orderBy('view desc')
-        ->limit(3)
+        ->where(['type' => 1])
+        ->andWhere(['onuse' => 1])
+        ->with('courseSections')
+        ->orderBy('create_time desc')
+        ->limit(6)
         ->all();
+        foreach ($hotcourses as $course) {
+            $sections = $course->courseSections;
+            $classrooms = 0; //课堂学
+            $unit_test = 0; //单元测验
+            foreach ($sections as $key => $section) {
+                if ($section->type == 1) {
+                    $classrooms++;
+                } else if ($section->type == 0) {
+                     $unit_test++;
+                }
+            }
+        }
         $hotcourses_arr = array();
         foreach ($hotcourses as $key => $hotcourse) {
             $content = array(
                 'id' => $hotcourse->id,
                 'course_name' => $hotcourse->course_name,
-                'list_pic' => Url::to('@web'.$hotcourse->list_pic, true),
-                'discount' => $hotcourse->discount,
+                'course_intro' => $hotcourse->intro,
+                'classrooms' => $classrooms,
+                'practices' => $classrooms,
+                'unit_tests' => $unit_test,
+                'examination_time' => $hotcourse->examination_time,
                 'online' => $hotcourse->online
             );
             $hotcourses_arr[] = $content;
         }
-        $result['hotcourses'] = $hotcourses_arr;
+        $result['class_courses'] = $hotcourses_arr;
 
-        /*各大学院*/
-        $collegeCourses = Course::find()
+        /*课程->公开课*/
+        $opencourses = Course::find()
+        ->where(['type' => 2])
+        ->andWhere(['onuse' => 1])
         ->orderBy('create_time desc')
+        ->limit(6)
         ->all();
-        $course_cat = CourseCategory::find()
-        ->select('id,name')
-        ->orderBy('position asc')
-        ->all();
-        $collegeArr = array();
-        foreach ($course_cat as $cat_key => $cat) {
-            $college_content = array(
-                'catid' => $cat->id,
-                'college_name' => $cat->name
-            );
-            $count = 0;
-            foreach ($collegeCourses as $key => $collegeCourse) {
-                if ($count === 2) {
-                    break;
-                }
-                if ($cat->id == $collegeCourse->category_name) {
-                    $count = $count+1;
-                    $content = array(
-                        'id' => $collegeCourse->id,
-                        'course_name' => $collegeCourse->course_name,
-                        'list_pic' => Url::to('@web'.$collegeCourse->list_pic, true),
-                        'discount' => $collegeCourse->discount,
-                        'online' => $collegeCourse->online
-                    );
-                    $college_content['college_course'][] = $content;
-                }
-            }
-            if (!empty($college_content['college_course'])) {
-                $collegeArr[] = $college_content;
-            }
-        }
-        $result['college_course'] = $collegeArr;
-        /*教师列表*/
-        $teachers = User::getUserByrole('teacher');
-        $teachers_arr = array();
-        $tag = 0;
-        foreach ($teachers as $key => $teacher) {
-            if ($tag == 5) {
-                break;
-            }
+        $opencourses_arr = array();
+        foreach ($opencourses as $key => $opencourse) {
             $content = array(
-                'id' => $teacher->id,
-                'username' => $teacher->username,
-                'office' => $teacher->office,
-                'unit' => $teacher->unit,
-                'goodat' => $teacher->goodat,
-                'picture' => Url::to('@web'.$teacher->picture, true),
+                'id' => $opencourse->id,
+                'course_name' => $opencourse->course_name,
+                'list_pic' => $opencourse->list_pic,
+                'discount' => $opencourse->discount,
+                'create_time' => date('Y-m-d H:i:s', $opencourse->create_time),
+                'teacher_id' => User::item($opencourse->teacher_id),
             );
-            $teachers_arr[] = $content;
-            $tag++;
+            $opencourses_arr[] = $content;
         }
-        $result['teachers'] = $teachers_arr;
+        $result['open_courses'] = $opencourses_arr;
+
         return json_encode($result);
     }
 }

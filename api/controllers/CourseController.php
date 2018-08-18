@@ -173,7 +173,7 @@ class CourseController extends Controller
             'course_name' => $courseModel->course_name,
             'discount' => $courseModel->discount,
             'price' => $courseModel->price,
-            'home_pic' => Url::to('@web'.$courseModel->home_pic, true),
+            'home_pic' => $courseModel->home_pic,
             'teacher' => User::item($courseModel->teacher_id),
             'class' => $duration/60,
             'view' => $courseModel->view,

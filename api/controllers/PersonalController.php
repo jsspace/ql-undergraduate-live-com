@@ -143,7 +143,7 @@ class PersonalController extends ActiveController
                         'course_id' => $course->id,
                         'course_name' => $course->course_name,
                         'discount' => $course->discount,
-                        'list_pic' => Url::to('@web'.$course->list_pic, true)
+                        'list_pic' => $course->list_pic
                     );
                     $courses[] = $content;
                 }

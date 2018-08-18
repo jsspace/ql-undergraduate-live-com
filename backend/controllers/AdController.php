@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use components\helpers\QiniuUpload;
 
 /**
  * AdController implements the CRUD actions for Ad model.
@@ -77,7 +78,13 @@ class AdController extends Controller
                     mkdir($img_rootPath, 0777, true);
                 }
                 $file->saveAs($img_rootPath . $randName);
-                $model->img = '/'.Yii::$app->params['upload_img_dir'] . 'ad/' . $randName;
+                $folder = 'ad';
+                $result = QiniuUpload::uploadToQiniu($file, $img_rootPath . $randName, $folder);
+                //$model->img = '/'.Yii::$app->params['upload_img_dir'] . 'ad/' . $randName;
+                if (!empty($result)) {
+                    $model->img = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                    @unlink($img_rootPath . $randName);
+                }
             }
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -110,7 +117,13 @@ class AdController extends Controller
                     mkdir($img_rootPath, 0777, true);
                 }
                 $image->saveAs($img_rootPath . $randName);
-                $model->img = '/'.Yii::$app->params['upload_img_dir'] . 'ad/' . $randName;
+                $folder = 'ad';
+                $result = QiniuUpload::uploadToQiniu($image, $img_rootPath . $randName, $folder);
+                if (!empty($result)) {
+                    $model->img = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                    @unlink($img_rootPath . $randName);
+                }
+                //$model->img = '/'.Yii::$app->params['upload_img_dir'] . 'ad/' . $randName;
             } else {
                 $model->img = $old_img;
             }
