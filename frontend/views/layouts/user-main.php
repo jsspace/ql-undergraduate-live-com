@@ -43,7 +43,19 @@ AppAsset::register($this);
     </ul>
     <dl class="hear-right__bar">
         <dd class="hthome"><img src="/images/htpic1.png" width="60" height="60" /><span><p><a href="#"><?= Yii::$app->user->identity->username || '尊敬的用户' ?></a></p><p><a href="/">官网首页</a></p></span></dd>
-        <dd class="htxx"><a href="/user/message"><img src="/images/hticon2.png" />消息<code>8</code></a></dd>
+        <dd class="htxx"><a href="/user/message"><img src="/images/hticon2.png" />消息
+        <?php
+            if(!Yii::$app->user->isGuest) {
+                $read_models = Read::find()
+                ->where(['userid' => Yii::$app->user->id])
+                ->andWhere(['status' => 0])
+                ->all();
+                if (!empty($read_models)) { ?>
+                <code><?= count($read_models) ?></code>
+        <?php }
+            }
+        ?>
+        </a></dd>
         <dd class="htexit"><a href="<?= Url::to(['site/logout']) ?>"><img src="/images/hticon2a.png" />退出</a></dd>
     </dl>
 </div>

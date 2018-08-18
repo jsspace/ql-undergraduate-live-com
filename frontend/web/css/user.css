@@ -10,8 +10,8 @@
     color: white;
 }
 .user-wrapper {
-    width: 1180px;
-    margin: 0 auto;
+    width: 85%;
+    float: right;
 }
 .user-wrapper .left-menu {
     width: 225px;
@@ -86,9 +86,7 @@
 }
 .user-wrapper .right-content {
     background: #fff;
-    width: 890px;
     padding: 30px;
-    float: right;
     min-height: 566px;
     margin-bottom: 30px;
 }
@@ -145,6 +143,7 @@ label {
     padding: 0 0 15px;
     border-bottom: 1px solid #dfdfdf;
     color: #777;
+    margin-bottom: 10px;
 }
 .user-course-list li {
     padding: 9px 9px 15px;
@@ -380,6 +379,9 @@ label {
 }
 .order-list .order-status a {
     color: #e12b1c;
+    padding: 5px 15px;
+    border: 1px solid #e12b1c;
+    border-radius: 5px;
 }
 /* user question */
 .user-question-list {
@@ -590,6 +592,11 @@ label {
 .message-list li {
     padding: 18px 0;
     border-bottom: 1px solid #dfdfdf;
+    width: auto;
+    height: auto;
+    border: none;
+    float: none;
+    margin: 0;
 }
 .message-list .msg-date {
     float: right;
@@ -613,6 +620,17 @@ label {
 }
 .message-list dl {
     margin: 0;
+    padding: 0 30px 0 30px;
+}
+.message-list dl dd {
+    height: auto;
+    line-height: inherit;
+    width: auto;
+    float: none;
+    cursor: pointer;
+    background: none;
+    text-align: inherit;
+    font-size: inherit;
 }
 .message-list .msg-con {
     width: 70%;
@@ -629,6 +647,8 @@ label {
     display: inline-block;
     margin-left: 10px;
     vertical-align: middle;
+    float: right;
+    margin-top: 10px;
 }
 .user-right-title a {
     color: #009aff;
