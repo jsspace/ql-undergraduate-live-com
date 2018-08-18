@@ -134,12 +134,11 @@ class CourseController extends Controller
         ->orderBy('id desc')
         ->andWhere(['check' => 1])
         ->all();
-        /* 获取前12个学员 */
+        /* 获取所有学员 */
         $studyids = UserStudyLog::find()
         ->select('userid')
         ->where(['courseid' => $courseid])
         ->orderBy('start_time desc')
-        ->limit(12)
         ->asArray()
         ->all();
         $studyids = array_column($studyids, 'userid');
@@ -292,7 +291,6 @@ class CourseController extends Controller
         $study_log = UserStudyLog::find()
         ->where(['userid' => $userid])
         ->andWhere(['courseid' => $course_id])
-        ->andWhere(['sectionid' => 1])
         ->orderBy('id desc')
         ->one();
         $current_time = 0;
@@ -301,7 +299,6 @@ class CourseController extends Controller
         }
         $data['current_time'] = $current_time;
         return json_encode($data);
-        
     }
     public function actionOpenCheck()
     {

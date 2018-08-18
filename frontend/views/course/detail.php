@@ -293,6 +293,19 @@ $news = array(
                 </ul>
             </div>
             <?php } ?>
+            <div class="kc-right kc-right-student">
+                <p class="student-title"><?= count($studyids) ?>人在学习该课程</p>
+                <ul class="student-list">
+                    <?php foreach ($studyids as $key => $studyid) { ?>
+                        <li>
+                            <p class="student-img">
+                                <img src="<?= User::getUserModel($studyid)->picture; ?>"/>
+                            </p>
+                            <p class="student-name"><?= User::item($studyid) ?></p>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

@@ -154,6 +154,7 @@ class UserController extends Controller
         ->with('courseSections')
         ->where(['in', 'id', $goodsid_arr])
         ->all();
+
         return $this->render('course', [
             'clist' => $clist,
             'course_invalid_time' => $course_invalid_time

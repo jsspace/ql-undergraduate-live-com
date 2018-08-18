@@ -5,6 +5,7 @@ use frontend\assets\AppAsset;
 use backend\models\Provinces;
 use backend\models\Cities;
 use backend\models\User;
+use backend\models\UserStudyLog;
 
 $this->title = '我的课程';
 AppAsset::addCss($this,'@web/css/list.css');
@@ -32,18 +33,34 @@ AppAsset::addCss($this,'@web/css/list.css');
                                  $unit_test++;
                             }
                         }
+
+                        $studyids = UserStudyLog::find()
+                        ->select('userid')
+                        ->where(['courseid' => $course->id])
+                        ->orderBy('start_time desc')
+                        ->asArray()
+                        ->all();
+                        $studyids = array_column($studyids, 'userid');
+                        $studyids = array_unique($studyids);
+                        $classmates = count($studyids);
                 ?>
                     <li>
-                        <img src="/images/htpic2.jpg" width="298" height="108" />
-                        <h4><?= $course->course_name ?></h4>
-                        <h5><img src="/images/htpic3.jpg" width="70" height="70" /><p>班主任</p></h5>
-                        <div class="tyny">
-                            <p><img src="/images/nyicon1.png" />课堂学（<?= $classrooms ?>）</p>
-                            <p><img src="/images/nyicon1a.png" />随堂练（<?= $classrooms ?>）</p>
-                            <p><img src="/images/nyicon1b.png" />单元测验（<?= $unit_test ?>）</p>
-                            <p><img src="/images/nyicon1.png" />模拟考（<?= $course->examination_time; ?>）</p>
-                            <p class="httx"><img src="/images/hticon10.png" />同学20</p>
-                        </div>
+                        <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>" target='_blank'>
+                            <img src="/images/htpic2.jpg" width="298" height="108" />
+                            <h4><?= $course->course_name ?></h4>
+                            <h5>
+                                <a href="<?= Url::to(['teacher/detail', 'userid' => $course->head_teacher]) ?>" target='_blank'>
+                                    <img src="/images/htpic3.jpg" width="70" height="70" /><p>班主任</p>
+                                </a>
+                            </h5>
+                            <div class="tyny">
+                                <p><img src="/images/nyicon1.png" />课堂学（<?= $classrooms ?>）</p>
+                                <p><img src="/images/nyicon1a.png" />随堂练（<?= $classrooms ?>）</p>
+                                <p><img src="/images/nyicon1b.png" />单元测验（<?= $unit_test ?>）</p>
+                                <p><img src="/images/nyicon1.png" />模拟考（<?= $course->examination_time; ?>）</p>
+                                <p class="httx"><img src="/images/hticon10.png" />同学<?= $classmates ?></p>
+                            </div>
+                        </a>
                     </li>
                 <?php } } ?>
             </ul>
@@ -60,18 +77,34 @@ AppAsset::addCss($this,'@web/css/list.css');
                                  $unit_test++;
                             }
                         }
+
+                        $studyids = UserStudyLog::find()
+                        ->select('userid')
+                        ->where(['courseid' => $course->id])
+                        ->orderBy('start_time desc')
+                        ->asArray()
+                        ->all();
+                        $studyids = array_column($studyids, 'userid');
+                        $studyids = array_unique($studyids);
+                        $classmates = count($studyids);
                 ?>
                     <li>
-                        <img src="/images/htpic2.jpg" width="298" height="108" />
-                        <h4><?= $course->course_name ?></h4>
-                        <h5><img src="/images/htpic3.jpg" width="70" height="70" /><p>班主任</p></h5>
-                        <div class="tyny">
-                            <p><img src="/images/nyicon1.png" />课堂学（<?= $classrooms ?>）</p>
-                            <p><img src="/images/nyicon1a.png" />随堂练（<?= $classrooms ?>）</p>
-                            <p><img src="/images/nyicon1b.png" />单元测验（<?= $unit_test ?>）</p>
-                            <p><img src="/images/nyicon1.png" />模拟考（<?= $course->examination_time; ?>）</p>
-                            <p class="httx"><img src="/images/hticon10.png" />同学20</p>
-                        </div>
+                        <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>" target='_blank'>
+                            <img src="/images/htpic2.jpg" width="298" height="108" />
+                            <h4><?= $course->course_name ?></h4>
+                            <h5>
+                                <a href="<?= Url::to(['teacher/detail', 'userid' => $course->head_teacher]) ?>" target='_blank'>
+                                    <img src="/images/htpic3.jpg" width="70" height="70" /><p>班主任</p>
+                                </a>
+                            </h5>
+                            <div class="tyny">
+                                <p><img src="/images/nyicon1.png" />课堂学（<?= $classrooms ?>）</p>
+                                <p><img src="/images/nyicon1a.png" />随堂练（<?= $classrooms ?>）</p>
+                                <p><img src="/images/nyicon1b.png" />单元测验（<?= $unit_test ?>）</p>
+                                <p><img src="/images/nyicon1.png" />模拟考（<?= $course->examination_time; ?>）</p>
+                                <p class="httx"><img src="/images/hticon10.png" />同学<?= $classmates ?></p>
+                            </div>
+                        </a>
                     </li>
                 <?php } } ?>
             </ul>
@@ -102,6 +135,15 @@ AppAsset::addCss($this,'@web/css/list.css');
         </div>
     </div>
 </div>
+<div class="video-layout _video-layout">
+    <div class="video-box _video-box">
+        <div class="_close-video-btn close-video-btn">
+            <img src="//static-cdn.ticwear.com/cmww/statics/img/product/mini/mini-confirm-close-btn.png">
+        </div>
+        <!-- <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen=""></iframe> -->
+        <video id="course-video" width="100%" height="100%" controls="controls"></video>
+    </div>
+</div>
 <script type="text/javascript">
     $(function(){
         function qiehuan(qhan,qhshow,qhon){
@@ -120,3 +162,5 @@ AppAsset::addCss($this,'@web/css/list.css');
         })
     });
 </script>
+<script src="<?= Url::to('@web/skin/layer.js');?>"></script>
+<script type="text/javascript" src="/js/course.js"></script>

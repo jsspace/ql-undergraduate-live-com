@@ -500,9 +500,7 @@
 }
 
 .kc-right {
-    width: 270px;
-    margin-left: 10px;
-    float: right;
+    width: 271px;
     border: 1px solid #E6E6E6;
     border-radius: 5px;
     padding: 15px;
@@ -539,7 +537,8 @@
     margin-bottom: 8px;
 }
 .student-img img {
-    width: 85%;
+    /* width: 85%; */
+    height: 40px;
 }
 .student-name {
     font-size: 12px;

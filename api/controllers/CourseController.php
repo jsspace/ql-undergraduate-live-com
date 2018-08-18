@@ -180,7 +180,8 @@ class CourseController extends Controller
             'collection' => $courseModel->collection,
             'online' => $courseModel->online,
             'intro' => $courseModel->des,
-            'ispay' => $tag
+            'ispay' => $tag,
+            'course_type' => $courseModel->type
         );
         $courseDetail['course'] = $course;
         //课程教师

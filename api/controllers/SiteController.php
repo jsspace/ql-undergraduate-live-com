@@ -59,6 +59,7 @@ class SiteController extends Controller
             $content = array(
                 'id' => $hotcourse->id,
                 'course_name' => $hotcourse->course_name,
+                'list_pic' => $hotcourse->list_pic,
                 'course_intro' => $hotcourse->intro,
                 'classrooms' => $classrooms,
                 'practices' => $classrooms,
