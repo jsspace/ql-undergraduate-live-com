@@ -309,4 +309,4 @@ $news = array(
 
 <script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
 <script src="<?= Url::to('@web/skin/layer.js');?>"></script>
-<script src="<?= Url::to('@web/js/course-detail.js');?>"></script>
+<script src="<?= Url::to('@web/js/course-detail.js?v=1');?>"></script>

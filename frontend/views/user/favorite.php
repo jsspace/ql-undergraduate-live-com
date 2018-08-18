@@ -24,6 +24,7 @@ $this->title = '我的收藏';
                         <div class="row">主讲老师: <?= User::item($course->teacher_id); ?></div>
                         <div class="row">
                             <div class="btns">
+                                <input type="hidden" name="" value="<?= $course->id ?>">
                                 <a class="btn btn-primary _quick-buy" target="_blank" href="javascript:void(0);">立即购买</a>
                                 <input class="course-id _course-id" type="hidden" value="<?= $course->id; ?>"/>
                                 <a class="btn btn-default unfavorite _unfavorite" href="javascript:void(0);"
@@ -40,3 +41,29 @@ $this->title = '我的收藏';
         </div>
     </div>
 </div>
+<script src="<?= Url::to('@web/js/course-detail.js');?>"></script>
+<script type="text/javascript">
+    $('._unfavorite').on('click', function() {
+        var self = this;
+        var course_id = $(this).attr('data-id');
+        var favor = $(this).attr('data-favor');
+        $.ajax({
+            url: '/user/unfavorite',
+            type: 'post',
+            data: {
+                'course_id': course_id,
+                'favor': favor,
+                '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
+            },
+            success: function (data) {
+                if (favor == "1") {
+                    $(self).html('收藏');
+                    $(self).attr('data-favor', 0);
+                } else {
+                    $(self).html('取消收藏');
+                    $(self).attr('data-favor', 1);
+                }
+            }
+        });
+    });
+</script>

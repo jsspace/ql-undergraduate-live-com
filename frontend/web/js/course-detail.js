@@ -102,7 +102,8 @@ var courseDetail = {
                 },
                 success: function(data) {
                     if (data.status == 1) {
-                        $('._collection-num').html(Number($('._collection-num').html()) + 1);
+                        $('._collection-btn img').attr('src', '/img/collection-icon.png');
+                        //$('._collection-num').html(Number($('._collection-num').html()) + 1);
                         layer.msg(data.message, { icon: 6 });
                     } else if (data.status == 2) {
                         layer.msg(data.message, { icon: 6 });

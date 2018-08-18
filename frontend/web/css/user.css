@@ -151,12 +151,18 @@ label {
     margin-bottom: 10px;
     overflow: hidden;
     width: 276px;
-    height: 285px;
+    height: 270px;
     float: left;
     margin-bottom: 20px;
 }
+.user-course-list li a.user-course-img {
+    height: 140px;
+    display: inline-block;
+    overflow: hidden;
+}
 .user-course-list li img {
     width: 100%;
+    height: auto;
 }
 .user-course-list li:hover {
     border-color: #dfdfdf;
@@ -174,9 +180,10 @@ label {
     width: 258px;
     transition: all .3s;
     overflow: hidden;
+
 }
 .user-course-list li:hover .user-course-details {
-    margin-top: -55px;
+    margin-top: -20px;
     height: 160px;
 }
 .user-course-details a {
