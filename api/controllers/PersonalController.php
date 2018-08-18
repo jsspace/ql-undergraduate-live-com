@@ -114,7 +114,7 @@ class PersonalController extends ActiveController
                 'course_name' => $course->course_name,
                 'discount' => $course->discount,
                 'invalid_time' => date('Y-m-d',$course_invalid_time[$course->id]),
-                'list_pic' => Url::to('@web'.$course->list_pic, true)
+                'list_pic' => $course->list_pic
             );
             $result[] = $content;
         }
