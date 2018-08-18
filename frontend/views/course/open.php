@@ -61,4 +61,5 @@ $this->title = '公开课';
         <video id="course-video" width="100%" height="100%" controls="controls"></video>
     </div>
 </div>
+<script src="<?= Url::to('@web/skin/layer.js');?>"></script>
 <script type="text/javascript" src="/js/course.js"></script>
