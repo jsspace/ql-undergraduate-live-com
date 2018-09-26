@@ -32,6 +32,7 @@ use Yii;
  * @property double $percentage
  * @property string $cityid
  * @property string $provinceid
+ * @property integer $schoolid
  * @property string $bank
  * @property string $bank_username
  * @property string $bankc_card
@@ -54,8 +55,8 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'email', 'phone'], 'required'],
-            [['status', 'created_at', 'updated_at', 'gender', 'invite', 'expire_at'], 'integer'],
+            [['username', 'phone'], 'required'],
+            [['status', 'created_at', 'updated_at', 'gender', 'invite', 'expire_at', 'schoolid'], 'integer'],
             [['intro', 'password'], 'string'],
             [['percentage'], 'number'],
             [['username', 'auth_key'], 'string', 'max' => 32],
@@ -100,6 +101,7 @@ class User extends \yii\db\ActiveRecord
             'percentage' => Yii::t('app', '提成比例'),
             'cityid' => Yii::t('app', '地级市'),
             'provinceid' => Yii::t('app', '省份'),
+            'schoolid' => Yii::t('app', '学校'),
             'bank' => Yii::t('app', '银行名称'),
             'bank_username' => Yii::t('app', '账户名'),
             'bankc_card' => Yii::t('app', '银行卡帐号'),

@@ -84,6 +84,11 @@ class UserController extends Controller
         return $this->render('ask-teacher');
     }
 
+    public function actionTimetable()
+    {
+        return $this->render('timetable');
+    }
+
     public function actionEdit()
     {
         $model = $this->findModel(Yii::$app->user->id);
@@ -346,5 +351,9 @@ class UserController extends Controller
             }
         }
         return $this->render('change-password');
+    }
+    public function actionInvitation()
+    {
+        return $this->render('invitation');
     }
 }

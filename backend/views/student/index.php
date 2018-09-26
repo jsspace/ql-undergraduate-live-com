@@ -6,6 +6,7 @@ use yii\widgets\Pjax;
 use backend\models\User;
 use backend\models\Provinces;
 use backend\models\Cities;
+use backend\models\ShandongSchool;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\StudentSearch */
@@ -47,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'provinceid',
                 'value' => function ($data) {
-                return Provinces::item($data->provinceid);
+                    return Provinces::item($data->provinceid);
                 },
                 'filter'=>Provinces::items(),
             ],
@@ -57,6 +58,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Cities::item($data->cityid);
                 },
                 'filter'=>Cities::items($searchModel->provinceid),
+            ],
+            [
+                'attribute' => 'schoolid',
+                'value' => function ($model) {
+                    return ShandongSchool::item($model->schoolid);
+                },
+                'filter'=>ShandongSchool::items(),
             ],
             // 'description',
             // 'unit',

@@ -25,6 +25,7 @@ var courseDetail = {
         this.answerCtr();
         this.explainCtr();
         this.uploadAnswer();
+        this.examEvent();
     },
     tagTab: function() {
         $(".course-tag dd").each(function(index) {
@@ -260,6 +261,60 @@ var courseDetail = {
                 $(this).removeClass('active');
                 isShow = false;
             }
+        })
+    },
+    // 错题本和课堂测试
+    examEvent: function () {
+        var self = this,
+            $exam = $('._exam'),
+            $exam_error = $('._exam-error');
+        $exam.on('click', function () {
+            if (self.is_guest) {
+                layer.confirm('登录后即可进行课堂测试', {
+                  title: '请先登录',
+                  btn: ['确定','取消'] //按钮
+                }, function(){
+                  window.location.href = '/site/login';
+                });
+                return;
+            }
+            let section_id = $(this).parents('li').attr('section-id');
+            /*$.ajax({
+                url: '/section-practice/get-practice',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    courseId: self.course_id,
+                    sectionId: section_id,
+                    '_csrf-frontend': self.csrf_frontend
+                },
+                success: function(data) {
+                }
+            });*/
+        });
+        $exam_error.on('click', function () {
+            if (self.is_guest) {
+                layer.confirm('登录后即可查看错题本', {
+                  title: '请先登录',
+                  btn: ['确定','取消'] //按钮
+                }, function(){
+                  window.location.href = '/site/login';
+                });
+                return;
+            }
+            let section_id = $(this).parents('li').attr('section-id');
+            /*$.ajax({
+                url: '/section-practice/get-practice',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    courseId: self.course_id,
+                    sectionId: section_id,
+                    '_csrf-frontend': self.csrf_frontend
+                },
+                success: function(data) {
+                }
+            });*/
         })
     },
     // 随堂练

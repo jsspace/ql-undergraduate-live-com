@@ -34,10 +34,10 @@ AppAsset::register($this);
 <div id="httop" class="colorfff cc">
     <h1><a href="/"><img src="/images/logo-user.png" /></a></h1>
     <ul>
-        <li><a href="/about/timetable" target="_blank"><img src="/images/hticon1.png" />备考规划</a></li>
+        <li><a href="/user/timetable"><img src="/images/hticon1.png" />备考规划</a></li>
         <li><a href="/course/list" target="_blank"><img src="/images/hticon1a.png" />热门班级</a></li>
         <li><a href="/course/open" target="_blank"><img src="/images/hticon1b.png" />公开课</a></li>
-        <li><a href="#"><img src="/images/hticon1c.png" />个人资料</a></li>
+        <li><a href="/user/info"><img src="/images/hticon1c.png" />个人资料</a></li>
         <li><a href="/about/how-to-study" target="_blank"><img src="/images/hticon1d.png" />如何上课</a></li>
         <li><a href="/user/ask-teacher"><img src="/images/hticon1e.png" />直播答疑</a></li>
     </ul>
@@ -68,7 +68,7 @@ AppAsset::register($this);
             <li><a href="/cart/index" target="_blank"><span><img src="/images/shopping.png" /><cite><img src="/images/shoppinga.png" /></cite></span>购物车</a></li>
             <li><a href="/user/favorite"><span><img src="/images/hticon6.png" /><cite><img src="/images/hticon6a.png" /></cite></span>我的收藏</a></li>
             <li><a href="/user/coupon"><span><img src="/images/hticon7.png" /><cite><img src="/images/hticon7a.png" /></cite></span>我的奖励</a></li>
-            <li><a href="#"><span><img src="/images/hticon9.png" /><cite><img src="/images/hticon9a.png" /></cite></span>邀请好友</a></li>
+            <li><a href="/user/invitation"><span><img src="/images/hticon9.png" /><cite><img src="/images/hticon9a.png" /></cite></span>邀请好友</a></li>
         </ul>
         <dl>
             <!-- <dt>

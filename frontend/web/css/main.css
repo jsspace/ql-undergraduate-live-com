@@ -860,7 +860,7 @@ code {
     float: right;
 }
 .nytxt3_rny1 {
-    min-height: 120px;
+    min-height: 140px;
     width: 271px;
     border: 1px solid #eee;
     padding: 11px;
@@ -894,6 +894,7 @@ code {
     line-height: 24px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .nytxt3_rny1 dd p.rny1name {
     font-size: 16px;
@@ -912,13 +913,13 @@ code {
     border-bottom: 1px solid #eee;
 }
 .nytxt3_rny2 li {
-    width: 63px;
+    width: auto;
     float: left;
     text-align: center;
     padding: 10px 2px 0;
 }
 .nytxt3_rny2 li img {
-    width: 63px;
+    width: auto;
     height: 84px;
     border-radius: 5px;
     -moz-border-radius: 5px;

@@ -17,6 +17,8 @@ class SignupForm extends Model
     public $smscode;
     public $password;
     public $invite;
+    public $cityid;
+    public $schoolid;
 
 
     /**
@@ -52,6 +54,10 @@ class SignupForm extends Model
             ['password', 'string', 'min' => 6],
             
             ['invite', 'integer'],
+
+            ['cityid', 'required'],
+            ['schoolid', 'required'],
+
         ];
     }
     
@@ -83,6 +89,8 @@ class SignupForm extends Model
             'wechat' => Yii::t('app', '微信号'),
             'wechat_img' => Yii::t('app', '微信二维码'),
             'percentage' => Yii::t('app', '提成比例'),
+            'cityid' => Yii::t('app', '地区'),
+            'schoolid' => Yii::t('app', '学校')
         ];
     }
     
@@ -148,7 +156,9 @@ class SignupForm extends Model
         
         $user = new User();
         $user->username = $this->username;
-        $user->email = $this->email;
+        $user->cityid = $this->cityid;
+        $user->schoolid = $this->schoolid;
+        //$user->email = $this->email;
         $user->phone = $this->phone;
         $user->invite = $this->invite;
         $user->setPassword($this->password);

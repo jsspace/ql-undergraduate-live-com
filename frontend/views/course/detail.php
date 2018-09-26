@@ -72,7 +72,10 @@ $news = array(
                         </span>
                         <span><a class="add-cart _add-cart" href="javascript: void(0)">加入购物车</a></span>
                 <?php } ?>
-                <code class="colorfff"><a href="javascript: void(0)"><img src="/images/nyicon2.png" />分享</a></code><code class="colorfff"><a href="javascript: void(0)" class="share-list collection-btn _collection-btn"><img src="/images/nyicon2a.png" />收藏</a></code></p>
+                <!-- <code class="colorfff"><a href="javascript: void(0)"><img src="/images/nyicon2.png" />分享</a></code> -->
+                <code class="colorfff">
+                    <a href="javascript: void(0)" class="share-list collection-btn _collection-btn"><img src="/images/nyicon2a.png" />收藏</a>
+                </code></p>
         </dd>
     </dl>
     <div class="nytxt3 cc">
@@ -80,10 +83,14 @@ $news = array(
             <div class="nytxt3_lny1">
                 <dl class="cc course-tag">
                     <dd><a href="javascript: void(0)">课程介绍</a></dd>
+                    <?php 
+                        if ($course->type === 1) {
+                    ?>
                     <dd class="kcnow"><a href="javascript: void(0)">课堂入口</a></dd>
-                    <dd><a href="javascript: void(0)">问老师</a></dd>
+                    <!-- <dd><a href="javascript: void(0)">问老师</a></dd> -->
                     <dd><a href="javascript: void(0)">错题本</a></dd>
-                    <dd><a href="javascript: void(0)">学情报告</a></dd>          
+                    <dd><a href="javascript: void(0)">学情报告</a></dd>
+                    <?php } ?>
                 </dl>
             </div>
             <div class="course-tag-content">
@@ -127,16 +134,18 @@ $news = array(
                                     </div>
                                 </div>
                                 <div class="upload-bar" style="display: none">
-                                        <div class="upload-btn _exercise">随堂练习</div>
-                                        <div class="upload-btn _upload-answer">上传答题</div>
-                                        <div class="upload-btn _answer">习题答案</div>
-                                        <div class="upload-btn _explain">习题讲解</div>
+                                    <div class="upload-btn _exam">课堂测试/查看答卷</div>
+                                    <div class="upload-btn _exam-error">错题本</div>
+                                    <!-- <div class="upload-btn _exercise">随堂练习</div>
+                                    <div class="upload-btn _upload-answer">上传答题</div>
+                                    <div class="upload-btn _answer">习题答案</div>
+                                    <div class="upload-btn _explain">习题讲解</div> -->
                                 </div>
                             </li>
                         <?php } ?>
                     </ul>
                 </div>
-                <div class="tag-content">
+                <!-- <div class="tag-content">
                     <div class="course-evaluate">
                         <textarea class="_course-question-content"></textarea>
                         <button class="_course-question-btn">我要提问</button>
@@ -161,82 +170,40 @@ $news = array(
                          <?php } ?>
                     </ul>
                     <?php } ?>
-                </div>
+                </div> -->
                 <div class="tag-content">
-                    <ul>
-                        <li class="err-list">
-                            <div class="err-header">
-                                <div class="err-course-title">知识点一：公文写作</div>
-                                <div class="err-course-date">张翼德老师</div>
-                                <div class="err-course-date">2018年7月10日</div>
-                            </div>
-                            <div class="err-content">
-                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。
-
-                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。
-
-                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。
-                            </div>
-                        </li>
-                        <li class="err-list">
-                            <div class="err-header">
-                                <div class="err-course-title">知识点一：公文写作</div>
-                                <div class="err-course-date">张翼德老师</div>
-                                <div class="err-course-date">2018年7月10日</div>
-                            </div>
-                            <div class="err-content">
-                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。
-
-                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。
-
-                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。
-                            </div>
-                        </li>
-                    </ul>
+                    <table class="gridtable">
+                        <tr>
+                            <th>节次</th>
+                            <th>错题本</th>
+                        </tr>
+                        <tr>
+                            <td>第一节：升本政策解读</td>
+                            <td><a href="www.baidu.com" target="_blank">第一节错题本</a></td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="tag-content">
-                    <ul>
-                        <li class="err-list">
-                            <div class="err-header">
-                                <div class="err-course-title">知识点一：公文写作</div>
-                                <div class="err-course-date">张翼德老师</div>
-                                <div class="err-course-date">2018年7月10日</div>
-                            </div>
-                            <div class="err-content">
-                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。
-
-                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。
-
-                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。
-                            </div>
+                <div class="tag-content xueqing">
+                    <h4 class="xueqing-title"><?= $course->course_name ?>（正确大于80%为优秀，60%--80%为良好，小于60%为一般）</h4>
+                    <p>共计 <label>60</label> 次考试，你参加考试 <label>4</label> 次，还有 <label>56</label> 次未考;</p>
+                    <p>正确率：<label>89%</label>，超过了 <label>78%</label> 的同学，你的总评为优秀</p>
+                    <h4 class="xueqing-title">详细列表：</h4>
+                    <ul class="xueqing-list">
+                        <li>
+                            <span>第一讲：虚拟语气</span>
+                            <label>84分</label>
                         </li>
-                        <li class="err-list">
-                            <div class="err-header">
-                                <div class="err-course-title">知识点一：公文写作</div>
-                                <div class="err-course-date">张翼德老师</div>
-                                <div class="err-course-date">2018年7月10日</div>
-                            </div>
-                            <div class="err-content">
-                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。
-
-                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。
-
-                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。
-                            </div>
+                        <li>
+                            <span>第二讲：倒装句</span>
+                            <label>84分</label>
                         </li>
-                        <li class="err-list">
-                            <div class="err-header">
-                                <div class="err-course-title">知识点一：公文写作</div>
-                                <div class="err-course-date">张翼德老师</div>
-                                <div class="err-course-date">2018年7月10日</div>
-                            </div>
-                            <div class="err-content">
-                                7月4日，当尚处于点映期的《我不是药神》在豆瓣出分时，不少人是吃惊的。
-
-                                一惊讶时间，由于点映规模有限，大多数电影都无法在此期间达到足够的有效分数。
-
-                                二惊讶于分数本身，对于在豆瓣拿7、8分较难的国产电影来说，9.0简直是个天文数字，上一部9分以上的国产电影还要追溯到2002年的《无间道》。
-                            </div>
+                        <li>
+                            <span>第三讲：分词</span>
+                            <label>60分</label>
+                        </li>
+                        <li>
+                            <span>第四讲：状语从句</span>
+                            <label>95分</label>
                         </li>
                     </ul>
                 </div>

@@ -106,5 +106,7 @@ return [
     'Create Notice' => '创建公告',
     'Course Sections' => '课程小节',
     'Create Course Section' => '创建课程小节',
-    'Create Section Practice' => '新建随堂练'
+    'Create Section Practice' => '新建随堂练',
+    'Shandong Schools' => '山东高校',
+    'Create Shandong School' => '创建'
 ];

@@ -143,3 +143,12 @@
     background-color: #E6393F;
     border: 0;
 }
+.form-control:focus,
+.has-error .form-control,
+.has-error .form-control:focus,
+.has-success .form-control,
+.has-success .form-control:focus {
+    border-color: #ccc;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}

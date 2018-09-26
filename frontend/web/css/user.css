@@ -9,47 +9,43 @@
     border-color: #008ae6;
     color: white;
 }
-.user-wrapper {
-    width: 85%;
-    float: right;
-}
-.user-wrapper .left-menu {
+.left-menu {
     width: 225px;
     background: #fff;
     padding-bottom: 70px;
     margin-bottom: 30px;
     float: left;
 }
-.user-wrapper .left-menu .topinfo .pic {
+.left-menu .topinfo .pic {
     border-radius: 50%;
     width: 70px;
 }
-.user-wrapper .left-menu a {
+.left-menu a {
     color: #333;
 }
-.user-wrapper .topinfo {
+.topinfo {
     padding: 30px 20px 0;
     text-align: center;
 }
-.user-wrapper .topinfo .company {
+.topinfo .company {
     font-size: 14px;
     color: #999;
     margin-bottom: 25px;
 }
-.user-wrapper .btn a {
+.btn a {
     font-size: 13px;
     margin-right: 8px;
 }
-.user-wrapper .btn a i {
+.btn a i {
     margin-right: 3px;
 }
-.user-wrapper .btn a i.ion-edit:before {
+.btn a i.ion-edit:before {
     font-size: 15px;
 }
-.user-wrapper .left-menu .menu {
+.left-menu .menu {
     margin-top: 20px;
 }
-.user-wrapper .left-menu .menu a {
+.left-menu .menu a {
     display: block;
     font-size: 16px;
     color: #4a4a4a;
@@ -58,7 +54,7 @@
     line-height: 50px;
     padding-left: 60px;
 }
-.user-wrapper .left-menu .menu a span {
+.left-menu .menu a span {
     display: inline-block;
     width: 25px;
     height: 15px;
@@ -71,43 +67,46 @@
     color: #fff;
     text-align: center;
 }
-.user-wrapper .left-menu .menu a.active,
-.user-wrapper .left-menu .menu a:hover {
+.left-menu .menu a.active,
+.left-menu .menu a:hover {
     color: #009aff;
 }
-.user-wrapper .left-menu .menu a i {
+.left-menu .menu a i {
     margin-right: 10px;
     width: 16px;
     display: inline-block;
 }
-.user-wrapper .left-menu .menu a.active i:before,
-.user-wrapper .left-menu .menu a:hover i:before {
+.left-menu .menu a.active i:before,
+.left-menu .menu a:hover i:before {
     color: #009aff;
 }
-.user-wrapper .right-content {
+.right-content {
     background: #fff;
     padding: 30px;
     min-height: 566px;
     margin-bottom: 30px;
 }
-.user-wrapper .info-wrapper {
+.info-wrapper {
     padding: 30px;
 }
-.user-wrapper .info-wrapper p {
+.info-wrapper p {
     margin-bottom: 20px;
     font-size: 15px;
 }
-.user-wrapper .info-wrapper .info-label {
+.info-wrapper p img {
+    display: inline-block;
+}
+.info-wrapper .info-label {
     display: inline-block;
     width: 80px;
     margin-right: 10px;
     text-align: right;
 }
-.user-wrapper .info-wrapper .info-img img {
+.info-wrapper .info-img img {
     width: 70px;
     border-radius: 50%;
 }
-.user-wrapper .info-wrapper .edit-btn {
+.info-wrapper .edit-btn {
     display: block;
     width: 150px;
     height: 40px;
@@ -119,7 +118,7 @@
     margin-left: 30px;
     margin-top: 40px;
 }
-.user-wrapper input {
+input {
     display: inline-block;
     width: 350px;
     height: 35px;

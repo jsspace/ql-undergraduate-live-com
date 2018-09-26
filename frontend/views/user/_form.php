@@ -14,20 +14,17 @@ use backend\models\Cities;
 <div class="user-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <p class="hint picture-hint">（请上传220x220尺寸的图片）</p>
     <?= $form->field($model, 'picture')->widget(FileInput::classname(),
         [
             'options' => ['accept' => 'image/png,image/jpeg'],
             'pluginOptions' => [
                 'showPreview' => true,
-                'showCaption' => true,
-                'showRemove' => true,
-                'showUpload' => false,
                 'initialPreview' => [
                     $model->picture ? Html::img($model->picture, $options = ['width' => '100px']) : null,
                 ]
             ],
         ]) ?>
-	<p class="hint picture-hint">（请上传220x220尺寸的图片）</p>
     
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 

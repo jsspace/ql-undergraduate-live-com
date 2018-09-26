@@ -157,7 +157,7 @@
 .nytxt3_r .teacher-img,
 .head-teacher-wechat  {
     width: 134px;
-    height: 106px;
+    height: auto;
 }
 .main-section {
     width: 1180px;
@@ -323,6 +323,42 @@
 }
 .course-tag-content .tag-content.active {
     display: block;
+}
+.tag-content .xueqing-title {
+    margin-bottom: 15px;
+    margin-top: 20px;
+}
+.tag-content .xueqing-list span {
+    min-width: 150px;
+    display: inline-block;
+}
+.tag-content .xueqing-list li {
+    line-height: 38px;
+}
+.tag-content.xueqing label {
+    color: #de2a1b;
+}
+table.gridtable {
+    font-family: verdana,arial,sans-serif;
+    font-size:11px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #666666;
+    border-collapse: collapse;
+}
+table.gridtable th {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #eee;
+    background-color: #dedede;
+}
+table.gridtable td {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #eee;
+    background-color: #ffffff;
 }
 .data-ul li {
     width: 100%;
@@ -511,6 +547,7 @@
     padding-right: 0;
     padding-bottom: 0;
     clear: both;
+    width: 292px;
 }
 .kc-right-student .student-title {
     font-size: 18px;
