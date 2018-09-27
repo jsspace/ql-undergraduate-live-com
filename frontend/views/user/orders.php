@@ -11,7 +11,7 @@ use backend\models\OrderGoods;
 $this->title = '我的订单';
 ?>
 <div class="htcontent">
-    <h2 class="htwx cc"><a href="#">首页</a>&gt;<a href="#">我的订单</a></h2>
+    <h2 class="htwx cc"><a href="/">首页</a>&gt;<a href="#">我的订单</a></h2>
     <div class="status-select-wrapper _order-status">
         <p class="current-status">全部状态</p>
         <ul class="status-list">

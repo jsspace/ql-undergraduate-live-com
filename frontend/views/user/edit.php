@@ -10,7 +10,7 @@ $this->title = '个人中心';
 ?>
 
 <div class="htcontent">
-    <h2 class="htwx cc"><a href="#">首页</a>&gt;<a href="#">个人资料</a></h2>
+    <h2 class="htwx cc"><a href="/">首页</a>&gt;<a href="#">个人资料</a></h2>
     <div class="htbox2">
         <div class="httxt1 cc">
             <div class="user-update">

@@ -5,13 +5,14 @@ use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\Provinces;
 use backend\models\Cities;
+use backend\models\ShandongSchool;
 
 AppAsset::addCss($this,'@web/css/user.css');
 
 $this->title = '个人中心';
 ?>
 <div class="htcontent">
-    <h2 class="htwx cc"><a href="#">首页</a>&gt;<a href="#">个人资料</a></h2>
+    <h2 class="htwx cc"><a href="/">首页</a>&gt;<a href="#">个人资料</a></h2>
     <div class="htbox2">
         <div class="httxt1 cc">
             <h3 class="ht_tt1">个人资料</h3>
@@ -30,12 +31,12 @@ $this->title = '个人中心';
                         <span class="info-txt"><?= Yii::$app->user->identity->phone; ?></span>
                     </p>
                     <p class="info-phone">
-                        <span class="info-label">省份：</span>
-                        <span class="info-txt"><?= Provinces::item(Yii::$app->user->identity->provinceid) ?></span>
-                    </p>
-                    <p class="info-phone">
                         <span class="info-label">地级市：</span>
                         <span class="info-txt"><?= Cities::item(Yii::$app->user->identity->cityid) ?></span>
+                    </p>
+                    <p class="info-phone">
+                        <span class="info-label">学校：</span>
+                        <span class="info-txt"><?= ShandongSchool::item(Yii::$app->user->identity->schoolid) ?></span>
                     </p>
                     <p class="info-email">
                         <span class="info-label">邮箱：</span>

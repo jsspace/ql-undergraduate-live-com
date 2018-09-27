@@ -42,7 +42,7 @@ AppAsset::register($this);
         <li><a href="/user/ask-teacher"><img src="/images/hticon1e.png" />直播答疑</a></li>
     </ul>
     <dl class="hear-right__bar">
-        <dd class="hthome"><img src="/images/htpic1.png" width="60" height="60" /><span><p><a href="#"><?= Yii::$app->user->identity->username || '尊敬的用户' ?></a></p><p><a href="/">官网首页</a></p></span></dd>
+        <dd class="hthome"><img src="<?= Yii::$app->user->identity->picture ?>" width="60" height="60" /><span><p><a href="#"><?= Yii::$app->user->identity->username || '尊敬的用户' ?></a></p><p><a href="/">官网首页</a></p></span></dd>
         <dd class="htxx"><a href="/user/message"><img src="/images/hticon2.png" />消息
         <?php
             if(!Yii::$app->user->isGuest) {

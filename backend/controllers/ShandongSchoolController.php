@@ -125,13 +125,4 @@ class ShandongSchoolController extends Controller
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    public function actionSchools()
-    {
-        $post = Yii::$app->request->post();
-        $cityid = $post['cityid'];
-        $model = ShandongSchool::schools($cityid);
-        foreach($model as $id => $name) {
-            echo Html::tag('option', Html::encode($name), array('value' => $id));
-        }
-    }
 }

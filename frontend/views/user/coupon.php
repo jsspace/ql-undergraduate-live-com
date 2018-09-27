@@ -11,7 +11,7 @@ $this->title = '我的奖励';
 ?>
 
     <div class="htcontent">
-        <h2 class="htwx cc"><a href="#">首页</a>&gt;<a href="#">我的奖励</a></h2>
+        <h2 class="htwx cc"><a href="/">首页</a>&gt;<a href="#">我的奖励</a></h2>
         <div class="htbox2">
             <div class="httxt1 cc">
                 <h3 class="ht_tt1">我的奖励</h3>

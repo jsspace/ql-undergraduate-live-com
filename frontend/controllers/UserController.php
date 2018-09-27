@@ -24,6 +24,7 @@ use backend\models\CourseCategory;
 use backend\models\Cities;
 use backend\models\Read;
 use yii\helpers\Html;
+use components\helpers\QiniuUpload;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -97,7 +98,6 @@ class UserController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
             $file = UploadedFile::getInstance($model, 'picture');
-             
             if ($file) {
                 $ext = $file->getExtension();
                 $randName = time() . rand(1000, 9999) . '.' . $ext;
@@ -106,7 +106,12 @@ class UserController extends Controller
                     mkdir($img_rootPath, 0777, true);
                 }
                 $file->saveAs($img_rootPath . $randName);
-                $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
+                $folder = 'head_img';
+                $result = QiniuUpload::uploadToQiniu($file, $img_rootPath . $randName, $folder);
+                if (!empty($result)) {
+                    $model->picture = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                    @unlink($img_rootPath . $randName);
+                }
             } else {
                 $model->picture = $old_picture;
             }

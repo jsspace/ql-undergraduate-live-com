@@ -99,7 +99,7 @@ class User extends \yii\db\ActiveRecord
             'wechat' => Yii::t('app', '微信号'),
             'wechat_img' => Yii::t('app', '微信二维码'),
             'percentage' => Yii::t('app', '提成比例'),
-            'cityid' => Yii::t('app', '地级市'),
+            'cityid' => Yii::t('app', '地区'),
             'provinceid' => Yii::t('app', '省份'),
             'schoolid' => Yii::t('app', '学校'),
             'bank' => Yii::t('app', '银行名称'),

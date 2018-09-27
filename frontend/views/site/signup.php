@@ -63,6 +63,7 @@ function getSchools(cityid) {
         method: "post",
         data: {_csrf:csrfToken, cityid:cityid},
         success: function (data) {
+            $("#signupform-schoolid").html("<option value=>- 请选择学校 -</option>");
             $("#signupform-schoolid").append(data);
         }
     });

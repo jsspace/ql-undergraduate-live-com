@@ -12,7 +12,7 @@ AppAsset::addCss($this,'@web/css/list.css');
 
 ?>
 <div class="htcontent">
-    <h2 class="htwx cc"><a href="#">首页</a>&gt;<a href="#">我的课程</a></h2>
+    <h2 class="htwx cc"><a href="/">首页</a>&gt;<a href="#">我的课程</a></h2>
     <div class="htbox2">
         <div class="httxt1 cc">
             <h3 class="ht_tt1">我的班级</h3>
