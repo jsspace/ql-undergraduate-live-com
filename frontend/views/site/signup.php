@@ -23,8 +23,6 @@ $this->title = 'Signup';
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'class' => "form-control signup-input", 'placeholder' => "用户名"]) ?>
 
-                <!-- <?= $form->field($model, 'email')->textInput(['class' => "form-control signup-input email", 'placeholder' => "邮箱"]) ?> -->
-
                 <?= $form->field($model, 'password')->passwordInput(['class' => "form-control signup-input", 'placeholder' => "密码"]) ?>
 
                 <?= $form->field($model, 'cityid')->dropDownList(Cities::items('370000'), [
