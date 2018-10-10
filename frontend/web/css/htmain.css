@@ -33,9 +33,9 @@ h1,h2,h3,h4,h5{font-family:"Microsoft Yahei"; font-weight:400;}
 #httop li a{height:80px; padding:19px 15px 0; display:block;}
 #httop dl{float:right;}
 #httop dd{float:left; height:99px; font-size:16px;}
-#httop dd.hthome{border-right:1px solid #c98286; width:150px; font-size:14px; line-height:28px;}
+#httop dd.hthome{border-right:1px solid #c98286; font-size:14px; line-height:28px;padding-right: 10px;}
 #httop dd.hthome img{width:60px; height:60px; margin-right: 5px; float:left; border-radius:60px; -moz-border-radius:60px; -webkit-border-radius:60px;}
-#httop dd.hthome span{width:85px; float:right;}
+#httop dd.hthome span{float:right;}
 #httop dd.hthome span p{height:28px; overflow:hidden;}
 #httop dd.htxx{background:url(images/ht_li.png) 90% center no-repeat; line-height:99px; width:80px; padding:0 10px; position:relative;}
 #httop dd.htxx img{width:18px; height:18px; float:left; margin:40px 5px 0 0;}

@@ -12,7 +12,7 @@ use backend\models\AuthAssignment;
 class SignupForm extends Model
 {
     public $username;
-    public $email;
+    //public $email;
     public $phone;
     public $smscode;
     public $password;
@@ -32,11 +32,11 @@ class SignupForm extends Model
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => '此用户名已经被占用了。'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
-            ['email', 'trim'],
+            /*['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => '此邮箱已经被使用了。'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => '此邮箱已经被使用了。'],*/
             
             ['phone', 'trim'],
             ['phone', 'required'],
@@ -56,8 +56,7 @@ class SignupForm extends Model
             ['invite', 'integer'],
 
             ['cityid', 'required'],
-            ['schoolid', 'required'],
-
+            ['schoolid', 'required']
         ];
     }
     
@@ -72,7 +71,7 @@ class SignupForm extends Model
             'auth_key' => Yii::t('app', 'Auth Key'),
             'password_hash' => Yii::t('app', '密码'),
             'password_reset_token' => Yii::t('app', 'Password Reset Token'),
-            'email' => Yii::t('app', '邮箱'),
+            //'email' => Yii::t('app', '邮箱'),
             'status' => Yii::t('app', '状态'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),

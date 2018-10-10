@@ -52,7 +52,7 @@ AppAsset::register($this);
                     <a href="/cart/index"><img src="/images/cart-icon.png"/>购物车</a>
                 </span>
                 <span class="topli">你好，
-                    <a href="<?= Url::to(['user/course']) ?>" class="topcol2 username"><?= Yii::$app->user->identity->username || '尊敬的用户' ?></a>
+                    <a href="<?= Url::to(['user/course']) ?>" class="topcol2 username"><?= Yii::$app->user->identity->username ? Yii::$app->user->identity->username : '尊敬的用户' ?></a>
                     <a href="<?= Url::to(['user/course']) ?>" class="topcol2">会员中心</a>
                 </span>
                 <span>

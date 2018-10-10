@@ -53,23 +53,28 @@ var courseFunc = {
             });
         });
         $('._quick-buy').on('click', function() {
-            course_id = $(this).attr('data-value');
-            $.ajax({
-                url: '/cart/add',
-                type: 'post',
-                dataType: "json",
-                data: {
-                    product_id: course_id,
-                    type: "course",
-                    '_csrf-frontend': self.csrf_frontend
-                },
-                success: function(data) {
-                    if (data.code == 2) {
-                        location.href = '/site/login';
-                    } else if (data.code == 0 || data.code == 3) {
-                        location.href = '/cart/index';
-                    }
-                }
+            var that = this;
+            layer.confirm('购买后即可观看，是否加入购物车？', {
+              btn: ['确定','取消'] //按钮
+            }, function(){
+              course_id = $(that).attr('data-value');
+              $.ajax({
+                  url: '/cart/add',
+                  type: 'post',
+                  dataType: "json",
+                  data: {
+                      product_id: course_id,
+                      type: "course",
+                      '_csrf-frontend': self.csrf_frontend
+                  },
+                  success: function(data) {
+                      if (data.code == 2) {
+                          location.href = '/site/login';
+                      } else if (data.code == 0 || data.code == 3) {
+                          location.href = '/cart/index';
+                      }
+                  }
+              });
             });
         });
         $('._close-video-btn').on('click', function() {
