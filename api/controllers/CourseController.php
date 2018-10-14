@@ -353,4 +353,21 @@ class CourseController extends Controller
             }
         }
     }
+    public function actionNodes() {
+        $course_nodes = CourseCategory::find()
+        ->select('id, name')
+        ->where(['not like', 'name', '公开课'])
+        ->with([
+            'courses' => function ($query){
+                $query->select('id, course_name, category_name')
+                ->where(['type' => 1])
+                ->with(['courseSections' => function ($query) {
+                    $query->select('id, name, course_id');
+                }]);
+            }
+        ])
+        ->asArray()
+        ->all();
+        return json_encode($course_nodes);
+    }
 }

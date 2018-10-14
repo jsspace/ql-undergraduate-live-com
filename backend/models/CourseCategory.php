@@ -19,6 +19,7 @@ use Yii;
  * @property CourseCategory $parent
  * @property CourseCategory[] $courseCategories
  * @property HotCategory[] $hotCategories
+ * @property Course[] $courses
  */
 class CourseCategory extends \yii\db\ActiveRecord
 {
@@ -68,6 +69,11 @@ class CourseCategory extends \yii\db\ActiveRecord
     public function getParent()
     {
         return $this->hasOne(CourseCategory::className(), ['id' => 'parent_id']);
+    }
+
+    public function getCourses()
+    {
+        return $this->hasMany(Course::className(), ['category_name' => 'id']);
     }
 
     /**

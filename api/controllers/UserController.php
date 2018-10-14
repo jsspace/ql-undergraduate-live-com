@@ -169,7 +169,11 @@ class UserController extends ActiveController
         } else {
             $result = array(
                 'status' => 1,
-                'message' => '已登录'
+                'message' => '已登录',
+                'user' => array(
+                    'username' => $user->username,
+                    'userid' => $user->id
+                )
             );
         }
         return $result;

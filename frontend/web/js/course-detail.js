@@ -278,8 +278,8 @@ var courseDetail = {
                 });
                 return;
             }
-            let section_id = $(this).parents('li').attr('section-id');
-            /*$.ajax({
+            /*let section_id = $(this).parents('li').attr('section-id');
+            $.ajax({
                 url: '/section-practice/get-practice',
                 type: 'post',
                 dataType: 'json',

@@ -16,7 +16,7 @@ use Yii;
  * @property int $teacher_id 授课教师
  * @property string $price 价格
  * @property string $discount 优惠价格
- * @property string $category_name 课程分类
+ * @property CourseCategory $categoryName
  * @property string $des 课程详情
  * @property int $view 浏览次数
  * @property int $collection 收藏次数
@@ -46,12 +46,13 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_name', 'teacher_id', 'price', 'discount', 'category_name', 'des', 'type', 'intro'], 'required'],
+            [['course_name', 'teacher_id', 'price', 'discount', 'des', 'type', 'intro'], 'required'],
             [['list_pic'], 'required', 'on'=> 'create'],
-            [['view', 'collection', 'share', 'online', 'onuse', 'create_time', 'examination_time'], 'integer'],
+            [['category_name', 'view', 'collection', 'share', 'online', 'onuse', 'create_time', 'examination_time'], 'integer'],
             [['price', 'discount'], 'number'],
             [['des'], 'string'],
             [['course_name', 'list_pic', 'home_pic', 'category_name', 'head_teacher', 'open_course_url', 'intro'], 'string', 'max' => 255],
+            [['category_name'], 'exist', 'skipOnError' => true, 'targetClass' => CourseCategory::className(), 'targetAttribute' => ['category_name' => 'id']]
             // [['teacher_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],
             // [['head_teacher'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['head_teacher' => 'id']],
         ];
@@ -93,6 +94,15 @@ class Course extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'teacher_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+
+    public function getCategoryName()
+   {
+       return $this->hasOne(CourseCategory::className(), ['id' => 'category_name']);
+   }
 
     /**
      * @return \yii\db\ActiveQuery
