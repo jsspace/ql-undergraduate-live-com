@@ -103,7 +103,8 @@ return [
                         'GET college' => 'college',
                         'GET list' => 'list',
                         'GET detail' => 'detail',
-                        'POST check' => 'check'
+                        'POST check' => 'check',
+                        'GET nodes' => 'nodes',
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
