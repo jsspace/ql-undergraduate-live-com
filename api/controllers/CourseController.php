@@ -16,6 +16,7 @@ use backend\models\Data;
 use backend\models\Quas;
 use backend\models\UserStudyLog;
 use Qiniu\Auth;
+use yii\data\Pagination;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -354,6 +355,9 @@ class CourseController extends Controller
         }
     }
     public function actionNodes() {
+        $get = Yii::$app->request->get();
+        $pageSize = $get['pernumber'];
+        $page = $get['page'];
         $course_nodes = CourseCategory::find()
         ->select('id, name')
         ->where(['not like', 'name', '公开课'])
@@ -365,9 +369,16 @@ class CourseController extends Controller
                     $query->select('id, name, course_id');
                 }]);
             }
-        ])
+        ]);
+        //实例化分页类,带上参数(总条数,每页显示条数)
+        $pages = new Pagination(['totalCount' =>$course_nodes->count(), 'pageSize' => $pageSize]);
+        $model = $course_nodes->offset($pages->offset)->limit($pages->limit)
         ->asArray()
         ->all();
-        return json_encode($course_nodes);
+        $result = [
+            'pageCount' => ceil($course_nodes->count()/$pageSize),
+            'course_nodes' => $model
+        ];
+        return json_encode($result);
     }
 }
