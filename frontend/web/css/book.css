@@ -1,0 +1,16 @@
+.book-content {
+    clear: both;
+    overflow: hidden;
+    width: 1200px;
+    margin: 20px auto;
+}
+.book-content ul li {
+    width: 280px;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #ededed;
+}
+.book-content ul li img {
+    width: 100%;
+}

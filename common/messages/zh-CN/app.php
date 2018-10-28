@@ -108,5 +108,8 @@ return [
     'Create Course Section' => '创建课程小节',
     'Create Section Practice' => '新建随堂练',
     'Shandong Schools' => '山东高校',
-    'Create Shandong School' => '创建'
+    'Create Shandong School' => '创建',
+    'Books' => '图书列表',
+    'Create Book' => '创建图书',
+    'Book Orders' => '图书预定列表'
 ];

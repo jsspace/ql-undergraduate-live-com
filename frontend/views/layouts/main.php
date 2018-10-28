@@ -75,6 +75,7 @@ AppAsset::register($this);
                 <li><a href="/">首页</a></li>
                 <li><a href="/course/list">热门班级</a></li>
                 <li><a href="/course/open">公开课</a></li>
+                <li><a href="/book/list">应考必备</a></li>
                 <li><a href="/teacher/intro">教师团队</a></li>
                 <li><a href="/about/how-to-study">如何上课</a></li>
                 <li><a href="/user/ask-teacher">直播答疑</a></li>
