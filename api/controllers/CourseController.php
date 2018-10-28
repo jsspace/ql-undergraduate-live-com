@@ -372,13 +372,23 @@ class CourseController extends Controller
         ]);
         //实例化分页类,带上参数(总条数,每页显示条数)
         $pages = new Pagination(['totalCount' =>$course_nodes->count(), 'pageSize' => $pageSize]);
-        $model = $course_nodes->offset($pages->offset)->limit($pages->limit)
-        ->asArray()
+        $models = $course_nodes->offset($pages->offset)->limit($pages->limit)
         ->all();
-        $result = [
-            'pageCount' => ceil($course_nodes->count()/$pageSize),
-            'course_nodes' => $model
-        ];
-        return json_encode($result);
+        $datas = array();
+        foreach ($models as $key => $model) {
+            foreach ($model->courses as $key => $course) {
+                foreach ($course->courseSections as $key => $section) {
+                    $data = array();
+                    $data['subid'] = $model->id;
+                    $data['subname'] = $model->name;
+                    $data['courseid'] = $course->id;
+                    $data['coursename'] = $course->course_name;
+                    $data['sectionid'] = $section->id;
+                    $data['name'] = $section->name;
+                    $datas[] = $data;
+                }
+            }
+        }
+        return json_encode($datas);
     }
 }
