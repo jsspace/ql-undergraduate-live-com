@@ -358,6 +358,8 @@ class CourseController extends Controller
         $get = Yii::$app->request->get();
         $pageSize = $get['pernumber'];
         $page = $get['page'];
+        $courseSection = CourseSection::find()
+        ->all();
         $course_nodes = CourseCategory::find()
         ->select('id, name')
         ->where(['not like', 'name', '公开课'])
@@ -389,6 +391,10 @@ class CourseController extends Controller
                 }
             }
         }
-        return json_encode($datas);
+        $result = array(
+            'data' => $datas,
+            'sectionsCount' => count($courseSection)
+        );
+        return json_encode($result);
     }
 }
