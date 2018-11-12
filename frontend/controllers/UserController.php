@@ -25,6 +25,7 @@ use backend\models\Cities;
 use backend\models\Read;
 use yii\helpers\Html;
 use components\helpers\QiniuUpload;
+use backend\models\BookOrder;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -217,6 +218,19 @@ class UserController extends Controller
             'all_orders' => $all_orders
         ]);
     }
+
+    public function actionBooks()
+    {
+        //所有图书
+        $all_books = BookOrder::find()
+        ->where(['userid' => Yii::$app->user->id])
+        ->orderBy('id desc')
+        ->all();
+        return $this->render('books', [
+            'all_books' => $all_books
+        ]);
+    }
+
     public function actionQnas()
     {
         $all_quas = Quas::find()

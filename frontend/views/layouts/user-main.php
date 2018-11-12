@@ -72,6 +72,7 @@ AppAsset::register($this);
         <ul id="userNav">
             <li><a href="/user/course"><span><img src="/images/hticon3.png" /><cite><img src="/images/hticon3a.png" /></cite></span>我的课程</a></li>
             <li><a href="/user/orders"><span><img src="/images/hticon4.png" /><cite><img src="/images/hticon4a.png" /></cite></span>我的订单</a></li>
+            <li><a href="/user/books"><span><img src="/images/order.png" /><cite><img src="/images/order_hover.png" /></cite></span>我的预定</a></li>
             <li><a href="/cart/index" target="_blank"><span><img src="/images/shopping.png" /><cite><img src="/images/shoppinga.png" /></cite></span>购物车</a></li>
             <li><a href="/user/favorite"><span><img src="/images/hticon6.png" /><cite><img src="/images/hticon6a.png" /></cite></span>我的收藏</a></li>
             <li><a href="/user/coupon"><span><img src="/images/hticon7.png" /><cite><img src="/images/hticon7a.png" /></cite></span>我的奖励</a></li>

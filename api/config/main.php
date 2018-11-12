@@ -105,6 +105,7 @@ return [
                         'GET detail' => 'detail',
                         'POST check' => 'check',
                         'GET nodes' => 'nodes',
+                        'GET all-nodes' => 'all-nodes'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
