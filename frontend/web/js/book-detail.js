@@ -23,22 +23,32 @@ var bookDetail = {
                 alert('请输入订阅数目');
                 return;
             }
-            $.ajax({
-                url: '/book/order',
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    book_id: self.book_id,
-                    order_book_num: order_book_num,
-                    '_csrf-frontend': self.csrf_frontend
-                },
-                success: function(data) {
-                    if (data.status == 200) {
-                        alert('订阅成功，您可前往个人中心我的订阅模块查看详情');
-                    } else {
-                        alert('服务器繁忙，请稍后再试');
+            layer.confirm('确定要预定'+order_book_num+'本【' + $('.book-name').html() + '】么', {
+              btn: ['确定','取消']
+            }, function(){
+                $.ajax({
+                    url: '/book/order',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        book_id: self.book_id,
+                        order_book_num: order_book_num,
+                        '_csrf-frontend': self.csrf_frontend
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            layer.msg('预定成功', {icon: 1});
+                        } else {
+                            layer.msg('服务繁忙，请稍后再试~', {
+                                time: 1000,
+                            });
+                        }
                     }
-                }
+                });
+            }, function(){
+              layer.msg('已取消~', {
+                time: 1000,
+              });
             });
         });
     },

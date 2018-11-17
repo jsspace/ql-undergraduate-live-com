@@ -18,7 +18,7 @@ $this->title = '图书详情';
             <img src="<?= $book->pictrue ?>">
         </dt>
         <dd>
-            <h4><?= $book->name ?></h4>
+            <h4 class="book-name"><?= $book->name ?></h4>
             <p><?= $book->intro ?></p>
             <div class="order-book">
                 <input type="text" name="" class="order-book-num" placeholder="预定本数" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="1">本
@@ -41,4 +41,5 @@ $this->title = '图书详情';
         </div>
     </div>
 </div>
+<script src="<?= Url::to('@web/skin/layer.js');?>"></script>
 <script src="<?= Url::to('@web/js/book-detail.js');?>"></script>
