@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'teacher_id',
-                'value' => User::item($model->teacher_id),
+                'value' => User::getUsernameByIds($model->teacher_id),
             ],
             //'teacher_id',
             [

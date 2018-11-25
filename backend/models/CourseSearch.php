@@ -18,8 +18,8 @@ class CourseSearch extends Course
     public function rules()
     {
         return [
-            [['id', 'teacher_id', 'view', 'collection', 'share', 'online', 'create_time', 'examination_time', 'type'], 'integer'],
-            [['course_name', 'list_pic', 'home_pic', 'category_name', 'des', 'head_teacher'], 'safe'],
+            [['id','view', 'collection', 'share', 'online', 'create_time', 'examination_time', 'type'], 'integer'],
+            [['course_name', 'list_pic', 'home_pic', 'category_name', 'des', 'head_teacher', 'teacher_id'], 'safe'],
             [['price', 'discount'], 'number'],
         ];
     }
@@ -58,11 +58,9 @@ class CourseSearch extends Course
             // $query->where('0=1');
             return $dataProvider;
         }
-
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'teacher_id' => $this->teacher_id,
             'price' => $this->price,
             'discount' => $this->discount,
             'view' => $this->view,
@@ -72,10 +70,11 @@ class CourseSearch extends Course
             'onuse' => $this->onuse,
             'create_time' => $this->create_time,
             'examination_time' => $this->examination_time,
-            'type' => $this->type,
+            'type' => $this->type
         ]);
 
         $query->andFilterWhere(['like', 'course_name', $this->course_name])
+            ->andFilterWhere(['like', 'teacher_id', $this->teacher_id])
             ->andFilterWhere(['like', 'list_pic', $this->list_pic])
             ->andFilterWhere(['like', 'home_pic', $this->home_pic])
             ->andFilterWhere(['like', 'category_name', $this->category_name])

@@ -13,7 +13,7 @@ use Yii;
  * @property string $course_name 课程名字
  * @property string $list_pic 列表图片
  * @property string $home_pic 封面图片
- * @property int $teacher_id 授课教师
+ * @property string $teacher_id 授课教师
  * @property string $price 价格
  * @property string $discount 优惠价格
  * @property CourseCategory $categoryName
@@ -51,6 +51,7 @@ class Course extends \yii\db\ActiveRecord
             [['category_name', 'view', 'collection', 'share', 'online', 'onuse', 'create_time', 'examination_time'], 'integer'],
             [['price', 'discount'], 'number'],
             [['des'], 'string'],
+            [['teacher_id'], 'string', 'max' => 255],
             [['course_name', 'list_pic', 'home_pic', 'category_name', 'head_teacher', 'open_course_url', 'intro'], 'string', 'max' => 255],
             [['category_name'], 'exist', 'skipOnError' => true, 'targetClass' => CourseCategory::className(), 'targetAttribute' => ['category_name' => 'id']]
             // [['teacher_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],

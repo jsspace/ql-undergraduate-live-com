@@ -213,4 +213,18 @@ class UserController extends Controller
         $data = curl_exec($ch);
         return $data;
     }
+
+    public function actionGetTeacher()
+    {
+        $request = Yii::$app->request->post();
+        $keywords = $request['keywords'];
+        $users= User::find()
+        ->where(['like', 'username', $keywords])
+        ->all();
+        $data = '';
+        foreach ($users as $user) {
+            $data.='<span class="tag" data-value='.$user->id.'>'.$user->username.'<span class="remove"></span></span>';
+        }
+        return $data;
+    }
 }

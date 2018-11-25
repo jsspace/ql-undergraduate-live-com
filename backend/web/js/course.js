@@ -2,55 +2,57 @@ var course = {
     init : function () {
         var that = this;
         that.courseEvent();
-        that.coursePackageEvent();
-        that.courseNewsEvent();
+        //that.coursePackageEvent();
+        //that.courseNewsEvent();
         if ($('#course-type').val() == 2) {
             $('.field-course-open_course_url').show();
         }
     },
     courseEvent: function () {
-        $('#course-category_name').bind('input propertychange', function() { 
+        $('#course-teacher_id').bind('input propertychange', function() { 
             var keywords = $(this).val();
             $.ajax({
-                url: '/course/getcategory',
+                url: '/user/get-teacher',
                 type: 'post',
                 data: {
                     keywords: keywords,
                     '_csrf': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {
-                    $('._ccategory-result').css('display','block').html(data);
+                    $('.teacher-result').css('display','block').html(data);
                 }
             });
         });
-        $('._ccategory-result').on('click', 'span', function() {
-            var catname = $('._hidden-course-category-name').val();
-            var catnamearr = catname.split(',');
+        
+        $('._teacher-result').on('click', 'span', function() {
+            var teachers = $('._hidden-teacher-id').val();
+            var namearr = teachers.split(',');
             var current_name = $(this).attr('data-value');
-            var index = $.inArray(current_name, catnamearr);
+            var index = $.inArray(current_name, namearr);
             if (index>-1) {
                 alert('已选');
+                $('._teacher-result').css('display', 'none');
                 return;
             } else {
-                if (catname!='') {
-                    $('._hidden-course-category-name').val(catname+','+current_name);
+                if (teachers!='') {
+                    $('._hidden-teacher-id').val(teachers+','+current_name);
                 } else {
-                    $('._hidden-course-category-name').val(current_name);
+                    $('._hidden-teacher-id').val(current_name);
                 }
-                $('._course-category').append($(this));
-                $('._ccategory-wrap input').val('');
-                $('._ccategory-result').css('display', 'none');
+                $('._course-teacher').append($(this));
+                $('._teacher-wrap input').val('');
+                $('._teacher-result').css('display', 'none');
             }
         });
-        $('._ccategory-wrap').on('click', function() {
+        $('._teacher-wrap').on('click', function() {
             $(this).find("input").focus();
         });
-        $('._course-category').on('click', 'span.remove', function() {
-            var catename = $('._hidden-course-category-name').val();
-            var catenamearr = catename.split(',');
-            catenamearr.pop();
-            catename = catenamearr.join(',');
-            $('._hidden-course-category-name').val(catename);
+        $('.course-teacher').on('click', 'span.remove', function() {
+            var teachers = $('._hidden-teacher-id').val();
+            var teachersarr = teachers.split(',');
+            teachersarr.pop();
+            teachers = teachersarr.join(',');
+            $('._hidden-teacher-id').val(teachers);
             $(this).parent().remove();
         });
         $('#course-type').change(function() {

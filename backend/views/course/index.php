@@ -54,7 +54,7 @@ $this->title = Yii::t('app', '课程列表');
             [
                 'attribute' => 'teacher_id',
                 'value'=> function ($model) {
-                    return User::item($model->teacher_id);
+                    return User::getUsernameByIds($model->teacher_id);
                 },
                 'filter' => User::users('teacher'),
             ],

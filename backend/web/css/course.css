@@ -1,13 +1,15 @@
 .course-category-wrap,
 .package-category-wrap,
 .package-course-wrap,
-.course-news-wrap {
+.course-news-wrap,
+.course-teacher-wrap {
     position: relative;
 }
 .ccategory-result,
 .pcategory-result,
 .course-result,
-.newscourse-result {
+.newscourse-result,
+.teacher-result {
     position: absolute;
     top: 0;
     left: 0;
@@ -20,7 +22,8 @@
 .ccategory-result span.tag,
 .pcategory-result span.tag,
 .course-result span.tag,
-.newscourse-result span.tag {
+.newscourse-result span.tag,
+.teacher-result span.tag {
     display: block;
     padding: 6px 88px 6px 6px;
     cursor: pointer;
@@ -29,7 +32,8 @@
 .package-category-wrap .pcategory-wrap,
 .course-category-wrap .ccategory-wrap,
 .package-course-wrap .course-wrap,
-.course-news-wrap .course-wrap {
+.course-news-wrap .course-wrap,
+.course-teacher-wrap .teacher-wrap {
     padding: 0;
     height: auto;
     min-height: 34px;
@@ -38,7 +42,8 @@
 .package-category span.tag,
 .course-category span.tag,
 .pcourse-course span.tag,
-.course-course span.tag {
+.course-course span.tag,
+.course-teacher span.tag {
     border: 1px solid #ccc;
     margin-bottom: 2px;
     padding: 0px 8px;
@@ -52,21 +57,24 @@
 .package-category span.remove,
 .course-category span.remove,
 .pcourse-course span.remove,
-.course-course span.remove {
+.course-course span.remove,
+.course-teacher span.remove {
     margin-left: 8px;
     cursor: pointer;
 }
 .package-category span.remove:after,
 .course-category span.remove:after,
 .pcourse-course span.remove:after,
-.course-course span.remove:after {
+.course-course span.remove:after,
+.course-teacher span.remove:after {
     content: "x";
     padding: 0px 2px;
 }
 .pcategory-wrap input,
 .ccategory-wrap input,
 .package-course-wrap .course-wrap input,
-.course-news-wrap .course-wrap input {
+.course-news-wrap .course-wrap input,
+.course-teacher-wrap .teacher-wrap input {
     height: 32px;
     border: none;
     outline: none;
@@ -75,7 +83,8 @@
 .package-category-wrap ._hidden-package-category-name,
 .course-category-wrap ._hidden-course-category-name,
 .package-course-wrap .hidden-course-id,
-.course-news-wrap .hidden-course-id {
+.course-news-wrap .hidden-course-id,
+.course-teacher-wrap .hidden-teacher-id {
     display: none;
 }
 .field-course-open_course_url {

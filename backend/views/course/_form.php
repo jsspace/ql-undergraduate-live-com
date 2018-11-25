@@ -31,30 +31,29 @@ AppAsset::addCss($this, '@web/css/course.css');
     
     <?= $form->field($model, 'examination_time')->textInput() ?>
 
-    <!-- <div class="course-category-wrap">
-        <div class="form-group field-course-category_name required">
-            <label class="control-label" for="course-category_name">课程分类</label>
-            <input type="text" name="Course[category_name]" class="hidden-course-category-name _hidden-course-category-name" value="<?= $model->category_name; ?>">
-            <div class="ccategory-wrap _ccategory-wrap form-control">
-                <div class="course-category _course-category">
+    <div class="course-teacher-wrap">
+        <div class="form-group field-course-teacher_id required">
+            <label class="control-label" for="course-teacher_id">授课教师</label>
+            <input type="text" name="Course[teacher_id]" class="hidden-teacher-id _hidden-teacher-id" value="<?= $model->teacher_id; ?>">
+            <div class="teacher-wrap _teacher-wrap form-control">
+                <div class="course-teacher _course-teacher">
                     <?php
-                        if (!empty($model->category_name)) {
-                            $categorys = explode(',',$model->category_name);
+                        if (!empty($model->teacher_id)) {
+                            $teachers = explode(',',$model->teacher_id);
                             $data = '';
-                            foreach ($categorys as $category) {
-                                $data.='<span class="tag" data-value='.$category.'>'.CourseCategory::item($category).'<span class="remove"></span></span>';
+                            foreach ($teachers as $teacher) {
+                                $data.='<span class="tag" data-value='.$teacher.'>'.User::item($teacher).'<span class="remove"></span></span>';
                             }
                             echo $data;
                         }
                     ?>
                 </div>
-                <input type="text" id="course-category_name" value="" maxlength="255" autocomplete="off" aria-invalid="false">
+                <input type="text" id="course-teacher_id">
             </div>
+            <div class="help-block"></div>
         </div>
-        <div class="ccategory-result _ccategory-result"></div>
-    </div> -->
-
-    <?= $form->field($model, 'teacher_id')->dropDownList($teachers) ?>
+        <div class="teacher-result _teacher-result"></div>
+    </div>
 
     <?= $form->field($model, 'head_teacher')->dropDownList($head_teachers) ?>
 

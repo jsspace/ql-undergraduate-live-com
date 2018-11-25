@@ -212,6 +212,11 @@ $news = array(
         <div class="nytxt3_r">
             <dl class="nytxt3_rny1">
                 <?php
+                    $id_arr = explode(',', $course->teacher_id);
+                    $name_arr = [];
+                    foreach ($id_arr as $key => $id) {
+                        $name_arr[] = self::item($id);
+                    }
                     $teacher = User::getUserModel($course->teacher_id);
                     $teacher_pictrue = '';
                     if ($teacher) {

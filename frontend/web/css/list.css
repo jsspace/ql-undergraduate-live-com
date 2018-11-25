@@ -30,6 +30,7 @@
 }
 .course-content .list li .course-img {
     width: 280px;
+    min-height: 180px;
     height: auto;
     cursor: pointer;
     overflow: hidden;
