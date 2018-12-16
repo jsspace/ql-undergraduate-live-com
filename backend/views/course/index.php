@@ -14,7 +14,7 @@ use backend\models\Lookup;
 $this->title = Yii::t('app', '课程列表');
 ?>
 <div class="section course-index">
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
         <?= Html::a(Yii::t('app', '新建课程'), ['create'], ['class' => 'btn btn-default create-class']) ?>
     </p>
@@ -31,8 +31,8 @@ $this->title = Yii::t('app', '课程列表');
                     if ($model->type == 2) {
                         return '';
                     } else {
-                        $url = Url::to(['course-section/index', 'course_id' => $model->id]);
-                        return Html::a('编辑章节', $url);
+                        $url = Url::to(['course-chapter/index', 'course_id' => $model->id]);
+                        return Html::a('编辑 单元/节次/知识点', $url);
                     }
                 }
             ],
@@ -58,12 +58,12 @@ $this->title = Yii::t('app', '课程列表');
                 },
                 'filter' => User::users('teacher'),
             ],
-            'price',
+            //'price',
             'discount',
-            'view',
-            'collection',
-            'share',
-            'online',
+            //'view',
+            //'collection',
+            //'share',
+            'online'
             /*[
                 'attribute' => 'onuse',
                 'value'=> function ($model) {
@@ -72,12 +72,17 @@ $this->title = Yii::t('app', '课程列表');
                 'filter' => [1=>'可用',0=>'不可用' ],
             ],*/
             // 'create_time:datetime',
-            [
-                'attribute' => 'head_teacher',
-                'value'=> function ($model) {
-                    return User::item($model->head_teacher);
-                }
-            ],
+            // [
+            //     'attribute' => 'head_teacher',
+            //     'value'=> function ($model) {
+            //         return User::item($model->head_teacher);
+            //     }
+            // ],
         ],
     ]); ?>
 </div>
+<style type="text/css">
+    .content-wrapper {
+        overflow: auto;
+    }
+</style>

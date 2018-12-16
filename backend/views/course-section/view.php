@@ -1,39 +1,33 @@
 <?php
 
-use backend\models\Course;
-use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use backend\models\Lookup;
+use backend\models\CourseChapter;
+
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseSection */
 
-AppAsset::addCss($this,'@web/css/chapter_section.css');
-
+$this->title = $model->name;
 ?>
+<style type="text/css">
+    .main-header,
+    .main-sidebar,
+    .main-footer,
+    .content-header {
+        display: none;
+    }
+</style>
 <div class="course-section-view">
+
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            [
-                'attribute' => 'course_id',
-                'value' => Course::item($model->course_id),
-            ],
+            // 'id',
             'name',
-            'video_url:url',
-            'explain_video_url:url',
-            //'roomid',
-            //'playback_url:url',
             [
-                'attribute' => 'paid_free',
-                'value' => Lookup::item('need_pay', $model->paid_free),
+                'attribute' => 'chapter_id',
+                'value' => CourseChapter::item($model->chapter_id),
             ],
-            [
-                'attribute' => 'type',
-                'value' => Lookup::item('video_type', $model->type),
-            ],
-            'duration',
-            //'start_time',
             'position',
         ],
     ]) ?>

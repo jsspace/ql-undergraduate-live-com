@@ -8,9 +8,9 @@ use Yii;
  * This is the model class for table "{{%course_chapter}}".
  *
  * @property string $id
- * @property string $course_id
- * @property string $name
- * @property integer $position
+ * @property string $course_id 所属课程
+ * @property string $name 单元名称
+ * @property int $position 排序
  *
  * @property Course $course
  * @property CourseSection[] $courseSections
@@ -46,7 +46,7 @@ class CourseChapter extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'course_id' => Yii::t('app', '所属课程'),
-            'name' => Yii::t('app', '名称'),
+            'name' => Yii::t('app', '单元名称'),
             'position' => Yii::t('app', '排序'),
         ];
     }
@@ -76,19 +76,18 @@ class CourseChapter extends \yii\db\ActiveRecord
         return new CourseChapterQuery(get_called_class());
     }
 
-    private static $_item = array();
+    private static $_items=array();
     public static function item($id)
     {
-        if(!isset(self::$_item[$id]))
-            self::loadItem();
-            return isset(self::$_item[$id]) ? self::$_item[$id] : false;
+        if(!isset(self::$_items[$id]))
+            self::loadItems();
+            return isset(self::$_items[$id]) ? self::$_items[$id] : false;
     }
-    private static function loadItem()
-    {
-        $models=self::find()
+    public static function loadItems() {
+        $models = self::find()
         ->all();
         foreach ($models as $model) {
-            self::$_item[$model->id] = $model->name;
+            self::$_items[$model->id] = $model->name;
         }
     }
 }

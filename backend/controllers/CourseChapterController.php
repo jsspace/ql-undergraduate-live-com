@@ -6,9 +6,9 @@ use Yii;
 use backend\models\Course;
 use backend\models\CourseChapter;
 use backend\models\CourseChapterSearch;
-use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
  * CourseChapterController implements the CRUD actions for CourseChapter model.
@@ -34,40 +34,64 @@ class CourseChapterController extends Controller
      * Lists all CourseChapter models.
      * @return mixed
      */
+
     public function actionIndex()
     {
         $request = Yii::$app->request->queryParams;
         $course_id = $request['course_id'];
         $coursechapters = CourseChapter::find()
         ->where(['course_id' => $course_id])
-        ->with('courseSections')
+        ->with([
+            'courseSections' => function($query) {
+                $query->orderBy('position ASC')
+                ->with(['courseSectionPoints' => function($query) {
+                    $query->orderBy('position ASC');
+                }]);
+            }
+        ])
         ->orderBy('position ASC')
         ->all();
+
         $course = Course::find()
         ->where(['id' => $course_id])
         ->one();
-        $chapters_arr = array();
-        $sections_arr = array();
+
         $chapters = array();
+
         foreach ($coursechapters as $key => $coursechapter) {
-            $chapters_arr[$key]=array();
-            $chapters_arr[$key]['chapter_id'] = $coursechapter->id;
-            $chapters_arr[$key]['parent_id'] = '0';
-            $chapters_arr[$key]['name'] = $coursechapter->name;
-            $chapters_arr[$key]['chapter_type'] = 'folder';
-            $chapters[] = json_encode($chapters_arr[$key]);
-            $sections = $coursechapter->courseSections;
-            foreach ($sections as $sectionkey => $section) {
-                $sections_arr[$sectionkey]=array();
-                $sections_arr[$sectionkey]['chapter_id'] = $section->id;
-                $sections_arr[$sectionkey]['parent_id'] = $coursechapter->id;
-                $sections_arr[$sectionkey]['name'] = $section->name;
-                $sections_arr[$sectionkey]['chapter_type'] = 'file';
-                $chapters[] = json_encode($sections_arr[$sectionkey]);
+            $chapters_arr=array();
+            $chapters_arr['state']['cid'] = $coursechapter->id;
+            $chapters_arr['state']['opened'] = true;
+            $chapters_arr['text'] = $coursechapter->name;
+            $chapters_arr['type'] = 'chapter';
+            $chapters_arr['children'] = array();
+            if (!empty($coursechapter->courseSections)) {
+                $sections = $coursechapter->courseSections;
+                foreach ($sections as $sectionkey => $section) {
+                    $sections_arr = array();
+                    $sections_arr['state']['cid'] = $section->id;
+                    $sections_arr['state']['opened'] = true;
+                    $sections_arr['text'] = $section->name;
+                    $sections_arr['type'] = 'section';
+                    $sections_arr['children'] = array();
+                    if (!empty($section->courseSectionPoints)) {
+                        $points = $section->courseSectionPoints;
+                        foreach ($points as $pointkey => $point) {
+                            $points_arr=array();
+                            $points_arr['state']['cid'] = $point->id;
+                            $points_arr['state']['opened'] = true;
+                            $points_arr['text'] = $point->name;
+                            $points_arr['type'] = 'point';
+                            $sections_arr['children'][] = $points_arr;
+                        }
+                    }
+                    $chapters_arr['children'][] = $sections_arr;
+                }
             }
+            $chapters[] = $chapters_arr;
         }
         return $this->render('index', [
-            'chapters' => $chapters,
+            'chapters' => json_encode($chapters),
             'course' => $course,
         ]);
     }
@@ -76,6 +100,7 @@ class CourseChapterController extends Controller
      * Displays a single CourseChapter model.
      * @param string $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
@@ -92,16 +117,18 @@ class CourseChapterController extends Controller
     public function actionCreate()
     {
         $model = new CourseChapter();
+
         $request = Yii::$app->request->queryParams;
         $course_id = $request['course_id'];
         $model->course_id = $course_id;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -109,6 +136,7 @@ class CourseChapterController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
@@ -116,11 +144,11 @@ class CourseChapterController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -128,6 +156,7 @@ class CourseChapterController extends Controller
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
@@ -147,8 +176,8 @@ class CourseChapterController extends Controller
     {
         if (($model = CourseChapter::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 }

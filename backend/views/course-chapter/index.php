@@ -27,34 +27,19 @@ $this->params['breadcrumbs'][] = $this->title;
 <script src="<?= Url::to('@web/skin/layer.js');?>"></script>
 
 <script type="text/javascript">
-  var chapters = new Array();
-  <?php foreach ($chapters as $key => $value) { ?>
-    chapters.push(<?= $value; ?>);
-  <?php } ?>
-function parseChapters(chapters, parent) {
-  var chapterArr = new Array();
-  for(var c=0;c<chapters.length;c++) {
-      var chapter = chapters[c];
-      if (chapter['parent_id'] == parent) {
-          var chapterEle = {'text':chapter['name'], 'type':chapter['chapter_type'], 'state':{'cid': chapter['chapter_id'],'opened': true}};
-          if (chapter['chapter_type'] == 'folder') {
-            chapterEle['children'] = parseChapters(chapters, chapter['chapter_id']);
-          }
-          chapterArr.push(chapterEle);
-      }
-  }
-  return chapterArr;
-}
 
-var chapterArr = parseChapters(chapters, '0');
+var chapterArr = JSON.parse(<?= json_encode($chapters); ?>);
 
 $('#chapter_tree').jstree({
   'plugins': ['types', 'contextmenu', 'state', 'wholerow'], //, 'wholerow'
   'types': {
-      "folder" : {
+      "chapter" : {
           "icon" : "fa fa-folder-o"
       },
-      "file" : {
+      "section" : {
+          "icon" : "fa fa-folder-o"
+      },
+      "point" : {
           "icon" : "fa fa-file"
       },
       "default" : {
@@ -66,19 +51,19 @@ $('#chapter_tree').jstree({
           var cxtmenus = {};
           var type = this.get_type(node);
           if (type == "#") {
-              cxtmenus['add_folder'] = {
-                  "label" : "新建章",
+              cxtmenus['add_unit'] = {
+                  "label" : "新建单元",
                   "icon" : "fa fa-folder-o",
                   "action": function (data) {
-                    addFolder();
+                    addUnit();
                   }
               };
-          } else if (type == "folder") {
-              cxtmenus['add_file'] = {
+          } else if (type == "chapter") {
+              cxtmenus['add_section'] = {
                   "label" : "新建节",
                   "icon" : "fa fa-file-o",
                   "action": function (data) {
-                      addFile();
+                      addSection();
                   }
               };
 
@@ -97,8 +82,31 @@ $('#chapter_tree').jstree({
                       deleteChapter();
                   }
               };
-          }
-          else if (type == "file") {
+          } else if (type == "section") {
+              cxtmenus['add_point'] = {
+                  "label" : "新建知识点",
+                  "icon" : "fa fa-file-o",
+                  "action": function (data) {
+                      addPoint();
+                  }
+              };
+
+              cxtmenus['edit'] = {
+                  "label" : "编辑",
+                  "icon" : "fa fa-edit",
+                  "action": function (data) {
+                      editChapter();
+                  }
+              };
+
+              cxtmenus['delete'] = {
+                  "label" : "删除",
+                  "icon" : "fa fa-trash-o",
+                  "action": function (data) {
+                      deleteChapter();
+                  }
+              };
+          } else if (type == "point") {
               cxtmenus['edit'] = {
                   "label" : "编辑",
                   "icon" : "fa fa-edit",
@@ -138,18 +146,16 @@ $('#chapter_tree').jstree({
 
 $.vakata.context.settings.hide_onmouseleave = 100;
 
-function addFolder() {
+function addUnit() {
   var cns = $('#chapter_tree').jstree('get_selected', true);
   if (cns != null && cns.length > 0) {
-      var cn = cns[0];
-      var pid = '0';
       layer.open({
           type: 2,
-          title: '新建章',
+          title: '新建单元',
           shadeClose: false,
           shade: [0.5, '#000'],
           maxmin: false,
-          area: ['600px', '420px'],
+          area: ['600px', '320px'],
           content: '/course-chapter/create?course_id='+<?= $course->id; ?>,
           end: function() {
             location.reload();
@@ -158,26 +164,42 @@ function addFolder() {
   }
 }
 
-function addFile() {
+function addSection() {
     var cns = $('#chapter_tree').jstree('get_selected', true);
     if (cns != null && cns.length > 0) {
-        var cn = cns[0];
-        var pid = '0';
-        if (cn.type == 'folder') {
+        var cn = cns[0],
             pid = cn.state.cid;
-        }
         layer.open({
             type: 2,
             title: '新建节',
             shadeClose: false,
             shade: [0.5, '#000'],
             maxmin: false,
-            area: ['600px', '450px'],
+            area: ['600px', '320px'],
             content: '/course-section/create'+'?chapter_id='+pid,
             end: function() {
                 location.reload();
             }
-            /*content: '/course-section/create'+'?chapter_type=1&chapter_id='+pid+'&course_id=17',*/
+        });
+    }
+}
+
+function addPoint() {
+    var cns = $('#chapter_tree').jstree('get_selected', true);
+    if (cns != null && cns.length > 0) {
+        var cn = cns[0],
+            pid = cn.state.cid;
+        layer.open({
+            type: 2,
+            title: '新建知识点',
+            shadeClose: false,
+            shade: [0.5, '#000'],
+            maxmin: false,
+            area: ['600px', '520px'],
+            content: '/course-section-points/create'+'?section_id='+pid,
+            end: function() {
+                location.reload();
+            }
         });
     }
 }
@@ -185,12 +207,17 @@ function addFile() {
 function editChapter() {
     var cns = $('#chapter_tree').jstree('get_selected', true);
     if (cns != null && cns.length > 0) {
+        console.log(cns)
         var cn = cns[0];
-        var content = '';
-        if (cn.type == 'folder') {
+        var content = '',
+            width = '320px';
+        if (cn.type == 'chapter') {
             content = '/course-chapter/update?id='+cn.state.cid;
-        } else {
+        } else if (cn.type == 'section') {
             content = '/course-section/update?id='+cn.state.cid;
+        } else if (cn.type == 'point') {
+            content = '/course-section-points/update?id='+cn.state.cid;
+            width = '520px';
         }
         layer.open({
             type: 2,
@@ -198,10 +225,10 @@ function editChapter() {
             shadeClose: false,
             shade: [0.5, '#000'],
             maxmin: false,
-            area: ['600px', '450px'],
+            area: ['600px', width],
             content: content,
             end: function() {
-                //location.reload();
+                location.reload();
             }
         });
     }
@@ -211,10 +238,12 @@ function deleteChapter() {
   var cns = $('#chapter_tree').jstree('get_selected', true);
   if (cns != null && cns.length > 0) {
       var cn = cns[0];
-      if (cn.type == 'folder') {
+      if (cn.type == 'chapter') {
           content = '/course-chapter/delete';
-      } else {
+      } else if (cn.type == 'section') {
           content = '/course-section/delete';
+      } else if (cn.type == 'point') {
+          content = '/course-section-points/delete';
       }
       //询问框
       layer.confirm('确定要删除吗？', {

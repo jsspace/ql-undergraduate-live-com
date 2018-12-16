@@ -3,16 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\CourseSection;
-use backend\models\CourseSectionSearch;
+use backend\models\CourseSectionPoints;
+use backend\models\CourseSectionPointsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CourseSectionController implements the CRUD actions for CourseSection model.
+ * CourseSectionPointsController implements the CRUD actions for CourseSectionPoints model.
  */
-class CourseSectionController extends Controller
+class CourseSectionPointsController extends Controller
 {
     /**
      * @inheritdoc
@@ -23,19 +23,19 @@ class CourseSectionController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST','GET'],
+                    'delete' => ['POST', 'GET'],
                 ],
             ],
         ];
     }
 
     /**
-     * Lists all CourseSection models.
+     * Lists all CourseSectionPoints models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CourseSectionSearch();
+        $searchModel = new CourseSectionPointsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class CourseSectionController extends Controller
     }
 
     /**
-     * Displays a single CourseSection model.
+     * Displays a single CourseSectionPoints model.
      * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,17 +58,17 @@ class CourseSectionController extends Controller
     }
 
     /**
-     * Creates a new CourseSection model.
+     * Creates a new CourseSectionPoints model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new CourseSection();
+        $model = new CourseSectionPoints();
 
         $request = Yii::$app->request->queryParams;
-        $chapter_id = $request['chapter_id'];
-        $model->chapter_id = $chapter_id;
+        $section_id = $request['section_id'];
+        $model->section_id = $section_id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -80,7 +80,7 @@ class CourseSectionController extends Controller
     }
 
     /**
-     * Updates an existing CourseSection model.
+     * Updates an existing CourseSectionPoints model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -100,7 +100,7 @@ class CourseSectionController extends Controller
     }
 
     /**
-     * Deletes an existing CourseSection model.
+     * Deletes an existing CourseSectionPoints model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -114,15 +114,15 @@ class CourseSectionController extends Controller
     }
 
     /**
-     * Finds the CourseSection model based on its primary key value.
+     * Finds the CourseSectionPoints model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return CourseSection the loaded model
+     * @return CourseSectionPoints the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = CourseSection::findOne($id)) !== null) {
+        if (($model = CourseSectionPoints::findOne($id)) !== null) {
             return $model;
         }
 

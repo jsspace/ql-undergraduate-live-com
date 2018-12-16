@@ -19,3 +19,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     ]) ?>
 
 </div>
+<style type="text/css">
+    .main-sidebar {
+        display: none;
+    }
+    .content-wrapper,
+    .main-footer {
+        margin-left: 0;
+    }
+</style>

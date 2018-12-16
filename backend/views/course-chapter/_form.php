@@ -2,13 +2,21 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\CourseChapter */
 /* @var $form yii\widgets\ActiveForm */
-AppAsset::addCss($this,'@web/css/chapter_section.css');
 ?>
+
+<style type="text/css">
+	.main-header,
+	.main-sidebar,
+	.main-footer,
+	.content-header {
+		display: none;
+	}
+</style>
+
 <div class="course-chapter-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -18,7 +26,7 @@ AppAsset::addCss($this,'@web/css/chapter_section.css');
     <?= $form->field($model, 'position')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

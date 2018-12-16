@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use backend\models\CourseChapter;
 
 /**
- * CourseChapterSearch represents the model behind the search form about `backend\models\CourseChapter`.
+ * CourseChapterSearch represents the model behind the search form of `backend\models\CourseChapter`.
  */
 class CourseChapterSearch extends CourseChapter
 {

@@ -842,3 +842,53 @@ table.gridtable td {
     background-size: 28px auto;
     margin-top: -2px !important;
 }
+/* 主讲教师 */
+.nytxt3_rny1 {
+    min-height: 140px;
+    width: 271px;
+    border: 1px solid #eee;
+    padding: 11px;
+}
+.nytxt3_rny1 .teacher-item {
+    display: flex;
+    align-items: center;
+}
+.nytxt3_rny1 .teacher-item + .teacher-item {
+    margin-top: 10px;
+}
+.nytxt3_rny1 .teacher-item .left {
+    width: 132px;
+    float: left;
+    max-height: 100px;
+    overflow: hidden;
+}
+.nytxt3_rny1 .teacher-item .left img {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.nytxt3_rny1 .teacher-item .right {
+    width: 125px;
+    float: right;
+}
+.nytxt3_rny1 h4 {
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    line-height: 16px;
+    padding: 0 10px;
+    height: 26px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.nytxt3_rny1 .teacher-item .right p {
+    padding: 0 10px;
+    color: #666;
+    line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.nytxt3_rny1 .teacher-item .right p.rny1name {
+    font-size: 16px;
+}

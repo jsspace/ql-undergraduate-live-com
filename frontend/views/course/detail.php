@@ -210,28 +210,30 @@ $news = array(
             </div>
         </div>
         <div class="nytxt3_r">
-            <dl class="nytxt3_rny1">
+            <div class="nytxt3_rny1">
+                <h4>主讲老师</h4>
                 <?php
                     $id_arr = explode(',', $course->teacher_id);
-                    $name_arr = [];
                     foreach ($id_arr as $key => $id) {
-                        $name_arr[] = self::item($id);
-                    }
-                    $teacher = User::getUserModel($course->teacher_id);
-                    $teacher_pictrue = '';
-                    if ($teacher) {
-                        $teacher_pictrue = $teacher->picture;
-                    }
-                ?>
-                <dt><img class="teacher-img" src="<?= $teacher_pictrue; ?>" /></dt>
-                <dd>
-                    <h4>主讲老师</h4>
-                    <p class="rny1name"><?= $teacher->username; ?></p>
-                    <p><?= $teacher->description; ?></p>
-                    <p><?= $teacher->office; ?></p>
-                </dd>
-            </dl>
-            <?php
+                        $teacher = User::getUserModel($id);
+                        $teacher_pictrue = '';
+                        if ($teacher) {
+                            $teacher_pictrue = $teacher->picture;
+                        }
+                    ?>
+                        <div class="teacher-item">
+                            <div class="left">
+                                <img class="teacher-img" src="<?= $teacher_pictrue; ?>" />
+                            </div>
+                            <div class="right">
+                                <p class="rny1name" title="<?= $teacher->username; ?>"><?= $teacher->username; ?></p>
+                                <p title="<?= $teacher->description; ?>"><?= $teacher->description; ?></p>
+                                <p title="<?= $teacher->office; ?>"><?= $teacher->office; ?></p>
+                            </div>
+                        </div>
+                <?php } ?>
+            </div>
+            <!-- <?php
                 $hteacher = User::getUserModel($course->head_teacher);
                 if (!empty($hteacher)) { ?>
                 <dl class="nytxt3_rny1">
@@ -279,7 +281,7 @@ $news = array(
                         </li>
                     <?php } } ?>
                 </ul>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

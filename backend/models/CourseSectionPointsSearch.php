@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\CourseSection;
+use backend\models\CourseSectionPoints;
 
 /**
- * CourseSectionSearch represents the model behind the search form of `backend\models\CourseSection`.
+ * CourseSectionPointsSearch represents the model behind the search form of `backend\models\CourseSectionPoints`.
  */
-class CourseSectionSearch extends CourseSection
+class CourseSectionPointsSearch extends CourseSectionPoints
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class CourseSectionSearch extends CourseSection
     public function rules()
     {
         return [
-            [['id', 'chapter_id', 'position'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'position', 'type', 'section_id'], 'integer'],
+            [['name', 'start_time', 'explain_video_url', 'video_url', 'roomid', 'duration', 'playback_url', 'paid_free'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class CourseSectionSearch extends CourseSection
      */
     public function search($params)
     {
-        $query = CourseSection::find();
+        $query = CourseSectionPoints::find();
 
         // add conditions that should always apply here
 
@@ -60,11 +60,19 @@ class CourseSectionSearch extends CourseSection
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'chapter_id' => $this->chapter_id,
             'position' => $this->position,
+            'type' => $this->type,
+            'start_time' => $this->start_time,
+            'section_id' => $this->section_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'explain_video_url', $this->explain_video_url])
+            ->andFilterWhere(['like', 'video_url', $this->video_url])
+            ->andFilterWhere(['like', 'roomid', $this->roomid])
+            ->andFilterWhere(['like', 'duration', $this->duration])
+            ->andFilterWhere(['like', 'playback_url', $this->playback_url])
+            ->andFilterWhere(['like', 'paid_free', $this->paid_free]);
 
         return $dataProvider;
     }

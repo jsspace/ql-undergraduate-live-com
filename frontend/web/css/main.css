@@ -858,46 +858,6 @@ code {
     width: 295px;
     float: right;
 }
-.nytxt3_rny1 {
-    min-height: 140px;
-    width: 271px;
-    border: 1px solid #eee;
-    padding: 11px;
-}
-.nytxt3_rny1 dt {
-    width: 132px;
-    float: left;
-}
-.nytxt3_rny1 dt img {
-    border: 1px solid #eee;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-}
-.nytxt3_rny1 dd {
-    width: 125px;
-    float: right;
-}
-.nytxt3_rny1 dd h4 {
-    font-size: 16px;
-    border-bottom: 1px solid #eee;
-    line-height: 16px;
-    padding: 0 10px;
-    height: 26px;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-.nytxt3_rny1 dd p {
-    padding: 0 10px;
-    color: #666;
-    line-height: 24px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.nytxt3_rny1 dd p.rny1name {
-    font-size: 16px;
-}
 .nytxt3_rny2 {
     width: 271px;
     border: 1px solid #eee;

@@ -7,7 +7,9 @@ use yii\helpers\Html;
 
 ?>
 <div class="course-section-update">
+
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
+
 </div>

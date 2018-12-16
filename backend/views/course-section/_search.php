@@ -13,23 +13,18 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'options' => [
+            'data-pjax' => 1
+        ],
     ]); ?>
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'chapter_id') ?>
-
     <?= $form->field($model, 'name') ?>
 
+    <?= $form->field($model, 'chapter_id') ?>
+
     <?= $form->field($model, 'position') ?>
-
-    <?= $form->field($model, 'type') ?>
-
-    <?php // echo $form->field($model, 'start_time') ?>
-
-    <?php // echo $form->field($model, 'video_url') ?>
-
-    <?php // echo $form->field($model, 'duration') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
