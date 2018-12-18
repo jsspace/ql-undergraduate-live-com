@@ -15,25 +15,18 @@ AppAsset::addCss($this,'@web/css/list.css');
 
 $this->title = '课程详情';
 $userid = Yii::$app->user->id;
-$course = $courseDetail['course'];
-$sections = $courseDetail['sections'];
+$chapters = $course->courseChapters;
 $classrooms = 0; //课堂学
-$unit_test = 0; //单元测验
-foreach ($sections as $key => $section) {
-    if ($section->type == 1) {
-        $classrooms++;
-    } else if ($section->type == 0) {
-         $unit_test++;
+$homeworks = 0; //随堂练（作业）
+$unit_test = count($chapters); //单元测验
+foreach ($chapters as $key => $chapter) {
+    $sections = $chapter->courseSections;
+    $homeworks += count($sections);
+    foreach ($sections as $key => $section) {
+        $points = $section->courseSectionPoints;
+        $classrooms += count($points);
     }
 }
-$share_title = '精品课程，超低优惠，快来学习吧！';
-$share_url = 'http://www.kaoben.top/course/detail?courseid='.$course->id.'&invite='.$userid;
-$news = array(
-    "PicUrl" =>'http://www.kaoben.top/img/share-logo.png',
-    "Description"=>"活到老，学到老，快来和大家一起学习吧！",
-    "Url" =>$share_url,
-    'title' => $share_title
-);
 ?>
 <input class="course-id _course-id" type="hidden" value="<?= $course->id; ?>"/>
 <input class="is_guest" type="hidden" value="<?= Yii::$app->user->isGuest; ?>"/>
@@ -44,11 +37,11 @@ $news = array(
             <img src="<?= $course->home_pic ?>">
         </dt>
         <dd>
-            <h4><?= $course->course_name ?></h4>
+            <h4 title="<?= $course->course_name ?>"><?= $course->course_name ?></h4>
             <p class="bjxq1">价格： <code>￥<?= $course->discount ?></code>    原价： <del>￥<?= $course->price ?></del></p>
             <p><?= $course->online ?>人正在学习</p>
             <p>主讲：<?= User::item($course->teacher_id); ?></p>
-            <p class="bjxq2"><code class="xq2now">课堂学<?= $classrooms ?>次</code><code>随堂练<?= $classrooms ?>次</code><code>模拟考<?= $course->examination_time ?>次</code></p>
+            <p class="bjxq2"><code class="xq2now">课堂学<?= $classrooms ?>次</code><code>随堂练<?= $homeworks ?>次</code><code>单元测试<?= $unit_test ?>次</code></p>
             <p class="bjxq3">
                 <?php
                     $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
@@ -98,79 +91,26 @@ $news = array(
                     <?= $course->des; ?>
                 </div>
                 <div class="tag-content active nytxt3_lny1">
-                    <ul class="chapter-title">
-                        <?php foreach ($sections as $key => $section) {
-                            /* 判断是否观看完 */
-                            $study_log_complete = UserStudyLog::iscomplete($course->id, $section->id);
-                            if ($study_log_complete) {
-                                $percentage = '100%';
-                            } else {
-                                /* 获取学员观看日志 */
-                                $study_log = UserStudyLog::find()
-                                ->where(['userid' => $userid])
-                                ->andWhere(['courseid' => $course->id])
-                                ->andWhere(['sectionid' => $section->id])
-                                ->orderBy('id desc')
-                                ->one();
-                                $current_time = 0;
-                                if ($study_log) {
-                                    $current_time = $study_log->current_time;
-                                }
-                                $seconds_arr = explode(':', $section->duration);
-                                $seconds = $seconds_arr[0]*60 + $seconds_arr[1];
-                                $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
-                                $percentage = $percentage.'%';
-                            }
-                        ?>
-                            <li section-id="<?= $section->id ?>">
-                                <div class="play-bar">
-                                    <div class="chapter-title-left">
-                                        <div class="chapter-list-ctrl _upload-ctr"></div>
-                                        <a href="javascript:void(0)" target="_blank" class="chapter-list-name net-class _net-class"><?= $section->name ?></a>
-                                    </div>
-                                    <div class="chapter-list-time">
-                                        <a href="javascript:void(0)" class="haveLearn">已学<?= $percentage ?></a>
-                                        <a href="javascript:void(0)" target="_blank" class="play-icon _net-class"><?= $section->duration ?></a>
-                                    </div>
-                                </div>
-                                <div class="upload-bar" style="display: none">
-                                    <div class="upload-btn _exam">课堂测试/查看答卷</div>
-                                    <div class="upload-btn _exam-error">错题本</div>
-                                    <!-- <div class="upload-btn _exercise">随堂练习</div>
-                                    <div class="upload-btn _upload-answer">上传答题</div>
-                                    <div class="upload-btn _answer">习题答案</div>
-                                    <div class="upload-btn _explain">习题讲解</div> -->
-                                </div>
+                    <div class="chapter-item">
+                        <h3 class="chapter-title">第1单元 课程介绍</h3>
+                        <ul>
+                            <li class="section-list">
+                                <h3 class="section-title">第1节 对课程整体进行介绍</h3>
+                                <ul>
+                                    <li class="point-list _net-class">
+                                        <div class="left">
+                                            <a href="javascript:void(0)" target="_blank" class="chapter-list-name net-class">知识点1</a>
+                                        </div>
+                                        <div class="right">
+                                            <a href="javascript:void(0)" class="haveLearn">已学<?= 30 ?></a>
+                                            <a href="javascript:void(0)" target="_blank" class="play-icon"><?= 20 ?></a>
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
-                        <?php } ?>
-                    </ul>
-                </div>
-                <!-- <div class="tag-content">
-                    <div class="course-evaluate">
-                        <textarea class="_course-question-content"></textarea>
-                        <button class="_course-question-btn">我要提问</button>
+                        </ul>
                     </div>
-                    <?php if (count($quas) > 0) { ?>
-                    <ul class="user-question-list">
-                        <?php foreach ($quas as $key => $qu) { ?>
-                        <li>
-                            <div class="question-content">
-                                <p class="question-answer">
-                                    <span class="question-icon">问</span>
-                                    <span class="question-txt"><?= $qu->question ?></span>
-                                    <span class="question-date"><?= date('Y-m-d H:m:s', $qu->question_time) ?></span>
-                                </p>
-                                <p class="question-answer">
-                                    <span class="question-icon">答</span>
-                                    <span class="question-txt"><?= $qu->answer ?></span>
-                                    <span class="question-date"><?= date('Y-m-d H:i:s', $qu->answer_time) ?></span>
-                                </p>
-                            </div>
-                        </li>
-                         <?php } ?>
-                    </ul>
-                    <?php } ?>
-                </div> -->
+                </div>
                 <div class="tag-content">
                     <table class="gridtable">
                         <tr>
@@ -233,55 +173,6 @@ $news = array(
                         </div>
                 <?php } ?>
             </div>
-            <!-- <?php
-                $hteacher = User::getUserModel($course->head_teacher);
-                if (!empty($hteacher)) { ?>
-                <dl class="nytxt3_rny1">
-                    <dt>
-                        <img class="head-teacher-wechat" src="<?= $hteacher->wechat_img ?>" />
-                    </dt>
-                    <dd>
-                        <h4>班主任</h4>
-                        <p class="rny1name"><?= $hteacher->username; ?></p>
-                        <p><?= $hteacher->description; ?></p>
-                        <p><?= $hteacher->office; ?></p>
-                    </dd>
-                </dl>
-            <?php } ?>
-            <?php
-                $course_cat = CourseCategory::find()
-                ->select('tutor')
-                ->where(['id' => $course->category_name])
-                ->one();
-                $tutor_arr = explode(',', $course_cat->tutor);
-                if (count($tutor_arr) != 0) {
-            ?>
-            <div class="nytxt3_rny2 cc">
-                <h3>辅导老师</h3>
-                <ul>
-                   <?php foreach ($tutor_arr as $key => $tutor) {
-                        $user = User::getUserModel($tutor);
-                        if (!empty($user)) { ?>
-                            <li><a href="#"><img src="<?= $user->picture ?>" width="63"/><p><?= $user->username ?></p></a></li>
-                    <?php } } ?>
-                </ul>
-            </div>
-            <?php } ?>
-            <div class="kc-right kc-right-student">
-                <p class="student-title"><?= count($studyids) ?>人在学习该课程</p>
-                <ul class="student-list">
-                    <?php foreach ($studyids as $key => $studyid) { 
-                        if (!empty(User::getUserModel($studyid))) {
-                    ?>
-                        <li>
-                            <p class="student-img">
-                                <img src="<?= User::getUserModel($studyid)->picture; ?>"/>
-                            </p>
-                            <p class="student-name"><?= User::item($studyid) ?></p>
-                        </li>
-                    <?php } } ?>
-                </ul>
-            </div> -->
         </div>
     </div>
 </div>

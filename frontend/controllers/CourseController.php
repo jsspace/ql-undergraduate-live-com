@@ -54,7 +54,13 @@ class CourseController extends Controller
         $courses = Course::find()
         ->where(['onuse' => 1])
         ->andWhere(['type' => 1])
-        ->with('courseSections')
+        ->with([
+            'courseChapters' => function($query) {
+                $query->with(['courseSections' => function($query) {
+                    $query->with('courseSectionPoints');
+                }]);
+            }
+        ])
         ->orderBy('create_time desc');
         $pages = new Pagination(['totalCount' => $courses->count(), 'pageSize' => '5']);
         $models = $courses->offset($pages->offset)
@@ -98,52 +104,44 @@ class CourseController extends Controller
         }
         $courseModel = Course::find()
         ->where(['id' => $courseid])
+        ->with([
+            'courseChapters' => function($query) {
+                $query->with(['courseSections' => function($query) {
+                    $query->with('courseSectionPoints');
+                }]);
+            }
+        ])
         ->one();
         //浏览次数加1
         $courseModel->view = $courseModel->view+1;
         $courseModel->save();
-        $courseDetail = array();
-        $courseDetail['course'] = $courseModel;
-        $sections = CourseSection::find()
-        ->where(['course_id' => $courseid])
-        ->all();
-        $video_url_free = '';
-        if (!Yii::$app->user->isGuest) {
-            foreach ($sections as $key => $section) {
-                if ($section->paid_free == 0) {
-                    $video_url_free = $section->video_url;
-                    break;
-                }
-            }
-        }
-        $courseDetail['sections'] = $sections;
         // 课程评价
-        $course_comments = CourseComent::find()
-        ->where(['course_id' => $courseid])
-        ->andWhere(['check' => 1])
-        ->orderBy('id desc')
-        ->all();
+        // $course_comments = CourseComent::find()
+        // ->where(['course_id' => $courseid])
+        // ->andWhere(['check' => 1])
+        // ->orderBy('id desc')
+        // ->all();
         //课程资料
-        $datas = Data::find()
-        ->where(['course_id' => $courseid])
-        ->orderBy('id desc')
-        ->all();
+        // $datas = Data::find()
+        // ->where(['course_id' => $courseid])
+        // ->orderBy('id desc')
+        // ->all();
         /* 教师答疑 */
-        $quas = Quas::find()
-        ->where(['course_id' => $courseid])
-        ->orderBy('id desc')
-        ->andWhere(['check' => 1])
-        ->all();
+        // $quas = Quas::find()
+        // ->where(['course_id' => $courseid])
+        // ->orderBy('id desc')
+        // ->andWhere(['check' => 1])
+        // ->all();
         /* 获取所有学员 */
-        $studyids = UserStudyLog::find()
-        ->select('userid')
-        ->where(['courseid' => $courseid])
-        ->orderBy('start_time desc')
-        ->asArray()
-        ->all();
-        $studyids = array_column($studyids, 'userid');
-        $studyids = array_unique($studyids);
-        return $this->render('detail', ['courseDetail' => $courseDetail, 'video_url_free' => $video_url_free, 'course_comments' => $course_comments, 'datas' => $datas, 'quas' => $quas, 'studyids' => $studyids]);
+        // $studyids = UserStudyLog::find()
+        // ->select('userid')
+        // ->where(['courseid' => $courseid])
+        // ->orderBy('start_time desc')
+        // ->asArray()
+        // ->all();
+        // $studyids = array_column($studyids, 'userid');
+        // $studyids = array_unique($studyids);
+        return $this->render('detail', ['course' => $courseModel]);
     }
 
     public function actionTry()
