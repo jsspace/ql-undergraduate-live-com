@@ -550,19 +550,21 @@
     border-radius: 12px;
 }
 .chapter-item h3 {
-    font-size: 16px;
     line-height: 24px;
 }
 .chapter-item h3.chapter-title {
     font-weight: 700;
     color: #1c1f21;
+    font-size: 17px;
 }
 .chapter-item h3.section-title {
     font-weight: 500;
-    color: #545c63;
+    color: #1a1a1b;
+    font-size: 15px;
 }
 .chapter-item .section-list {
     padding-left: 12px;
+    margin-bottom: 10px;
 }
 .chapter-item .point-list {
     font-size: 12px;
@@ -570,6 +572,9 @@
     border-bottom: 0;
     padding: 0 12px;
     cursor: pointer;
+}
+.chapter-item .point-list .chapter-list-name {
+    color: #757272;
 }
 .chapter-item .point-list:hover {
     background: rgba(242,13,13,.05);

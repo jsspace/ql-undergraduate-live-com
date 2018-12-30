@@ -12,7 +12,7 @@ use Yii;
  * @property integer $start_time
  * @property integer $duration
  * @property string $courseid
- * @property string $sectionid
+ * @property string $pointid
  * @property integer $type
  * @property integer $current_time
  * @property integer $iscomplete
@@ -34,8 +34,8 @@ class UserStudyLog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userid', 'start_time', 'duration', 'courseid', 'sectionid', 'type', 'current_time', 'iscomplete'], 'integer'],
-            [['start_time', 'duration', 'courseid', 'sectionid'], 'required'],
+            [['userid', 'start_time', 'duration', 'courseid', 'pointid', 'type', 'current_time', 'iscomplete'], 'integer'],
+            [['start_time', 'duration', 'courseid', 'pointid'], 'required'],
         ];
     }
 
@@ -50,7 +50,7 @@ class UserStudyLog extends \yii\db\ActiveRecord
             'start_time' => Yii::t('app', '学习时间'),
             'duration' => Yii::t('app', '学习时长（分钟）'),
             'courseid' => Yii::t('app', '课程名'),
-            'sectionid' => Yii::t('app', '章节名'),
+            'pointid' => Yii::t('app', '知识点'),
             'type' => Yii::t('app', '知识讲解/单元测验/模拟考试'),
             'current_time' => Yii::t('app', '观看位置'),
             'iscomplete' => Yii::t('app', '是否看完'),
@@ -65,13 +65,13 @@ class UserStudyLog extends \yii\db\ActiveRecord
     {
         return new UserStudyLogQuery(get_called_class());
     }
-    public static function iscomplete($courseid, $sectionid)
+    public static function iscomplete($courseid, $pointid)
     {
         $userid = Yii::$app->user->id;
         $study_log = UserStudyLog::find()
         ->where(['userid' => $userid])
         ->andWhere(['courseid' => $courseid])
-        ->andWhere(['sectionid' => $sectionid])
+        ->andWhere(['pointid' => $pointid])
         ->andWhere(['iscomplete' => 1])
         ->all();
         return $study_log;

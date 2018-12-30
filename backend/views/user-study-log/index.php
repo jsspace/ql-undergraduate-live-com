@@ -6,7 +6,7 @@ use yii\widgets\Pjax;
 use backend\models\User;
 use backend\models\Course;
 use backend\models\Lookup;
-use backend\models\CourseSection;
+use backend\models\CourseSectionPoints;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserStudyLogSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -48,9 +48,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => Course::allItems(),
             ],
             [
-                'attribute' => 'sectionid',
+                'attribute' => 'pointid',
                 'value'=> function ($model) {
-                    return CourseSection::item($model->sectionid);
+                    return CourseSectionPoints::item($model->pointid);
                 }
             ],
             /*[

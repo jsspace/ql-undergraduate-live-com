@@ -9,6 +9,7 @@ use backend\models\CourseCategory;
 use backend\models\Course;
 use backend\models\CourseChapter;
 use backend\models\CourseSection;
+use backend\models\CourseSectionPoints;
 use backend\models\CourseComent;
 use backend\models\CoursePackage;
 use backend\models\Data;
@@ -211,33 +212,31 @@ class CourseController extends Controller
             return json_encode($data);
         }
         $data = Yii::$app->request->Post();
-        $section_id = $data['section_id'];
+        $point_id = $data['point_id'];
         $course_id = $data['course_id'];
-        $section = CourseSection::find()
-        ->where(['id' => $section_id])
+        $point = CourseSectionPoints::find()
+        ->where(['id' => $point_id])
         ->one();
         $userid = Yii::$app->user->id;
         /* 获取学员观看日志 */
         $study_log = UserStudyLog::find()
         ->where(['userid' => $userid])
         ->andWhere(['courseid' => $course_id])
-        ->andWhere(['sectionid' => $section_id])
+        ->andWhere(['pointid' => $point_id])
         ->orderBy('id desc')
         ->one();
         $current_time = 0;
         if ($study_log) {
             $current_time = $study_log->current_time;
         }
-        if (!empty($section)) {
-            if ($section->paid_free == 0) {
+        if (!empty($point)) {
+            if ($point->paid_free == 0) {
                 $data['status'] = 1;
                 $data['current_time'] = $current_time;
                 $data['message'] = '正在请求观看免费课程';
-                $data['url'] = $section->video_url;
+                $data['url'] = $point->video_url;
                 return json_encode($data);
             } else {
-                $auth = new Auth(Yii::$app->params['access_key'], Yii::$app->params['secret_key']);
-                $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
                 //$is_member = Course::ismember($course_id, Yii::$app->user->id);
                 /*判断是否是该分类下的会员*/
                 /*if ($is_member == 1) {
@@ -254,6 +253,8 @@ class CourseController extends Controller
                     $isschool = 1;
                 }*/
                 if ($ispay == 1/* || $isschool == 1*/) {
+                    $auth = new Auth(Yii::$app->params['access_key'], Yii::$app->params['secret_key']);
+                    $video_url = $auth->privateDownloadUrl($point->video_url, $expires = 3600);
                     $data['status'] = '2';
                     $data['current_time'] = $current_time;
                     $data['message'] = '用户已经购买了该课程，允许观看';
@@ -376,20 +377,20 @@ class CourseController extends Controller
                     //$course_id = $userlog['courseId'];
                     //$section_id = $userlog['sectionId'];
                     $course_id = $data['courseId'];
-                    $section_id = $data['sectionId'];
+                    $point_id = $data['pointId'];
                     $current_time = $data['current_time'];
-                    $section = CourseSection::find()
-                    ->where(['id' => $section_id])
+                    $point = CourseSectionPoints::find()
+                    ->where(['id' => $point_id])
                     ->one();
-                    $seconds_arr = explode(':', $section->duration);
-                    $seconds = $seconds_arr[0]*60 + $seconds_arr[1];
+                    $points_arr = explode(':', $point->duration);
+                    $seconds = $points_arr[0]*60 + $points_arr[1];
                     //$type = 1;
                     $start = strtotime(date('Y-m-d 00:00:00'));
                     $end = strtotime(date('Y-m-d H:i:s'));
                     $model = UserStudyLog::find()
                     ->where(['userid' => $userid])
                     ->andWhere(['courseid' => $course_id])
-                    ->andWhere(['sectionid' => $section_id])
+                    ->andWhere(['pointid' => $point_id])
                     ->andWhere(['between', 'start_time', $start, $end])
                     ->one();
                     if (empty($model)) {
@@ -398,7 +399,7 @@ class CourseController extends Controller
                         $model->start_time = time();
                         $model->duration = 1;
                         $model->courseid = $course_id;
-                        $model->sectionid = $section_id;
+                        $model->pointid = $point_id;
                         //$model->type = $type;
                     } else {
                         $model->duration = intval($model->duration)+1;

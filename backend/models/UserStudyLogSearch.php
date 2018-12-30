@@ -18,7 +18,7 @@ class UserStudyLogSearch extends UserStudyLog
     public function rules()
     {
         return [
-            [['id', 'userid', 'start_time', 'duration', 'courseid', 'sectionid', 'type'], 'integer'],
+            [['id', 'userid', 'start_time', 'duration', 'courseid', 'pointid', 'type'], 'integer'],
         ];
     }
 
@@ -64,7 +64,7 @@ class UserStudyLogSearch extends UserStudyLog
             'start_time' => $this->start_time,
             'duration' => $this->duration,
             'courseid' => $this->courseid,
-            'sectionid' => $this->sectionid,
+            'pointid' => $this->pointid,
             'type' => $this->type,
         ]);
 

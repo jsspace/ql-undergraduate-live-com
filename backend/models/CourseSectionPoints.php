@@ -85,4 +85,19 @@ class CourseSectionPoints extends \yii\db\ActiveRecord
     {
         return new CourseSectionPointsQuery(get_called_class());
     }
+
+    private static $_items=array();
+    public static function item($id)
+    {
+        if(!isset(self::$_items[$id]))
+            self::loadItems();
+            return isset(self::$_items[$id]) ? self::$_items[$id] : false;
+    }
+    public static function loadItems() {
+        $models = self::find()
+        ->all();
+        foreach ($models as $model) {
+            self::$_items[$model->id] = $model->name;
+        }
+    }
 }

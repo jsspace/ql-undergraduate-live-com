@@ -91,25 +91,53 @@ foreach ($chapters as $key => $chapter) {
                     <?= $course->des; ?>
                 </div>
                 <div class="tag-content active nytxt3_lny1">
-                    <div class="chapter-item">
-                        <h3 class="chapter-title">第1单元 课程介绍</h3>
-                        <ul>
-                            <li class="section-list">
-                                <h3 class="section-title">第1节 对课程整体进行介绍</h3>
-                                <ul>
-                                    <li class="point-list _net-class">
-                                        <div class="left">
-                                            <a href="javascript:void(0)" target="_blank" class="chapter-list-name net-class">知识点1</a>
-                                        </div>
-                                        <div class="right">
-                                            <a href="javascript:void(0)" class="haveLearn">已学<?= 30 ?></a>
-                                            <a href="javascript:void(0)" target="_blank" class="play-icon"><?= 20 ?></a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                    <?php foreach ($chapters as $key => $chapter) { ?>
+                        <div class="chapter-item">
+                            <h3 class="chapter-title"><?= $chapter->name ?></h3>
+                            <ul>
+                                <?php foreach ($chapter->courseSections as $key => $section) { ?>
+                                <li class="section-list">
+                                    <h3 class="section-title"><?= $section->name ?></h3>
+                                    <ul>
+                                         <?php foreach ($section->courseSectionPoints as $key => $point) {
+                                        /* 判断是否观看完 */
+                                        $study_log_complete = UserStudyLog::iscomplete($course->id, $point->id);
+                                        if ($study_log_complete) {
+                                            $percentage = '100%';
+                                        } else {
+                                            /* 获取学员观看日志 */
+                                            $study_log = UserStudyLog::find()
+                                            ->where(['userid' => $userid])
+                                            ->andWhere(['courseid' => $course->id])
+                                            ->andWhere(['pointid' => $point->id])
+                                            ->orderBy('id desc')
+                                            ->one();
+                                            $current_time = 0;
+                                            if ($study_log) {
+                                                $current_time = $study_log->current_time;
+                                            }
+                                            $points_arr = explode(':', $point->duration);
+                                            $seconds = $points_arr[0]*60 + $points_arr[1];
+                                            $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
+                                            $percentage = $percentage.'%';
+                                        }
+                                        ?>
+                                        <li class="point-list _net-class" data-value="<?= $point->id ?>">
+                                            <div class="left">
+                                                <a href="javascript:void(0)" target="_blank" class="chapter-list-name net-class"><?=$point->name ?></a>
+                                            </div>
+                                            <div class="right">
+                                                <a href="javascript:void(0)" class="haveLearn">已学<?= $percentage ?></a>
+                                                <a href="javascript:void(0)" target="_blank" class="play-icon"><?= $point->duration ?></a>
+                                            </div>
+                                        </li>
+                                        <?php } ?>
+                                    </ul>
+                                </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
                 </div>
                 <div class="tag-content">
                     <table class="gridtable">

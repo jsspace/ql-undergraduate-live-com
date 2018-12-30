@@ -6,7 +6,7 @@ var courseDetail = {
     hideMore: false,
     count_down_int: 0,
     currentTime: 0,
-    section_id: '',
+    point_id: '',
     course_id: $('._course-id').val(),
     is_guest: $('.is_guest').val(),
     csrf_frontend: $('meta[name=csrf-token]').attr('content'),
@@ -193,13 +193,13 @@ var courseDetail = {
                 });
                 return;
             }
-            self.section_id = $(this).parents('li').attr('section-id');
+            self.point_id = $(this).attr('data-value');
             $.ajax({
                 url: '/course/check',
                 type: 'post',
                 dataType: 'json',
                 data: {
-                    section_id: self.section_id,
+                    point_id: self.point_id,
                     course_id: self.course_id,
                     '_csrf-frontend': self.csrf_frontend
                 },
@@ -238,7 +238,7 @@ var courseDetail = {
             dataType: 'json',
             data: {
                 courseId: self.course_id,
-                sectionId: self.section_id,
+                pointId: self.point_id,
                 current_time: self.currentTime,
                 '_csrf-frontend': self.csrf_frontend
             },
