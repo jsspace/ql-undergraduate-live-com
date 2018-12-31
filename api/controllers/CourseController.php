@@ -358,7 +358,7 @@ class CourseController extends Controller
         $get = Yii::$app->request->get();
         $pageSize = $get['pernumber'];
         $page = $get['page'];
-        $courseSection = CourseSection::find()
+        $courseChapter = CourseChapter::find()
         ->all();
         $course_nodes = CourseCategory::find()
         ->select('id, name')
@@ -367,7 +367,7 @@ class CourseController extends Controller
             'courses' => function ($query){
                 $query->select('id, course_name, category_name')
                 ->where(['type' => 1])
-                ->with(['courseSections' => function ($query) {
+                ->with(['courseChapters' => function ($query) {
                     $query->select('id, name, course_id');
                 }]);
             }
@@ -379,21 +379,21 @@ class CourseController extends Controller
         $datas = array();
         foreach ($models as $key => $model) {
             foreach ($model->courses as $key => $course) {
-                foreach ($course->courseSections as $key => $section) {
+                foreach ($course->courseChapters as $key => $chapter) {
                     $data = array();
                     $data['subid'] = $model->id;
                     $data['subname'] = $model->name;
                     $data['courseid'] = $course->id;
                     $data['coursename'] = $course->course_name;
-                    $data['sectionid'] = $section->id;
-                    $data['name'] = $section->name;
+                    $data['sectionid'] = $chapter->id;
+                    $data['name'] = $chapter->name;
                     $datas[] = $data;
                 }
             }
         }
         $result = array(
             'data' => $datas,
-            'sectionsCount' => count($courseSection)
+            'sectionsCount' => count($courseChapter)
         );
         return json_encode($result);
     }
@@ -405,7 +405,7 @@ class CourseController extends Controller
             'courses' => function ($query){
                 $query->select('id, course_name, category_name')
                 ->where(['type' => 1])
-                ->with(['courseSections' => function ($query) {
+                ->with(['courseChapters' => function ($query) {
                     $query->select('id, name, course_id');
                 }]);
             }
