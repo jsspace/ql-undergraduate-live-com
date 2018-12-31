@@ -306,19 +306,50 @@
 .course-tag-content .tag-content.active {
     display: block;
 }
-.tag-content .xueqing-title {
-    margin-bottom: 15px;
-    margin-top: 20px;
+.tag-content.xueqing {
+    border: 1px solid #ececec;
+    border-radius: 4px;
 }
-.tag-content .xueqing-list span {
-    min-width: 150px;
-    display: inline-block;
+.tag-content.xueqing ul {
+    display: flex;
+    color: #757272;
 }
-.tag-content .xueqing-list li {
-    line-height: 38px;
+.tag-content.xueqing ul.title {
+    background: rgba(242,13,13,.1);
+    color: #f20d0d;
 }
-.tag-content.xueqing label {
-    color: #de2a1b;
+.tag-content.xueqing ul.title li + li:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 1px;
+    height: 20px;
+    background: rgba(242,13,13,.1);
+}
+.tag-content.xueqing ul li {
+    height: 48px;
+    line-height: 48px;
+    padding: 0 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+}
+.tag-content.xueqing ul li:nth-child(1) {
+    width: 30%;
+}
+.tag-content.xueqing ul li:nth-child(2) {
+    width: 30%;
+}
+.tag-content.xueqing ul li:nth-child(3) {
+    width: 10%;
+}
+.tag-content.xueqing ul li:nth-child(4) {
+    width: 15%;
+}
+.tag-content.xueqing ul li:nth-child(5) {
+    width: 15%;
 }
 .play-icon {
     padding: 5px 10px 5px 31px;

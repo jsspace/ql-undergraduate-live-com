@@ -81,7 +81,6 @@ foreach ($chapters as $key => $chapter) {
                     ?>
                     <dd class="kcnow"><a href="javascript: void(0)">课堂入口</a></dd>
                     <!-- <dd><a href="javascript: void(0)">问老师</a></dd> -->
-                    <dd><a href="javascript: void(0)">错题本</a></dd>
                     <dd><a href="javascript: void(0)">学情报告</a></dd>
                     <?php } ?>
                 </dl>
@@ -139,40 +138,20 @@ foreach ($chapters as $key => $chapter) {
                         </div>
                     <?php } ?>
                 </div>
-                <div class="tag-content">
-                    <table class="gridtable">
-                        <tr>
-                            <th>节次</th>
-                            <th>错题本</th>
-                        </tr>
-                        <tr>
-                            <td>第一节：升本政策解读</td>
-                            <td><a href="www.baidu.com" target="_blank">第一节错题本</a></td>
-                        </tr>
-                    </table>
-                </div>
                 <div class="tag-content xueqing">
-                    <h4 class="xueqing-title"><?= $course->course_name ?>（正确大于80%为优秀，60%--80%为良好，小于60%为一般）</h4>
-                    <p>共计 <label>60</label> 次考试，你参加考试 <label>4</label> 次，还有 <label>56</label> 次未考;</p>
-                    <p>正确率：<label>89%</label>，超过了 <label>78%</label> 的同学，你的总评为优秀</p>
-                    <h4 class="xueqing-title">详细列表：</h4>
-                    <ul class="xueqing-list">
-                        <li>
-                            <span>第一讲：虚拟语气</span>
-                            <label>84分</label>
-                        </li>
-                        <li>
-                            <span>第二讲：倒装句</span>
-                            <label>84分</label>
-                        </li>
-                        <li>
-                            <span>第三讲：分词</span>
-                            <label>60分</label>
-                        </li>
-                        <li>
-                            <span>第四讲：状语从句</span>
-                            <label>95分</label>
-                        </li>
+                    <ul class="title">
+                        <li>单元</li>
+                        <li>试卷名称</li>
+                        <li>得分</li>
+                        <li>状态</li>
+                        <li>操作</li>
+                    </ul>
+                    <ul>
+                        <li title="">第一单元：函数状态连续</li>
+                        <li title="">函数极限连续单元测试</li>
+                        <li>90</li>
+                        <li>已通关</li>
+                        <li>查看试卷</li>
                     </ul>
                 </div>
             </div>
