@@ -310,6 +310,13 @@
     border: 1px solid #ececec;
     border-radius: 4px;
 }
+.tag-content.xueqing p {
+    padding: 20px;
+}
+.tag-content.xueqing p label {
+    margin-right: 20px;
+    color: #494747;
+}
 .tag-content.xueqing ul {
     display: flex;
     color: #757272;
@@ -335,6 +342,12 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     position: relative;
+}
+.tag-content.xueqing ul li span.status-nopass {
+    color: #f20d0d;
+}
+.tag-content.xueqing ul li a.answer-url {
+    color: blue;
 }
 .tag-content.xueqing ul li:nth-child(1) {
     width: 30%;

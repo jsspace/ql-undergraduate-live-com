@@ -139,6 +139,20 @@ foreach ($chapters as $key => $chapter) {
                     <?php } ?>
                 </div>
                 <div class="tag-content xueqing">
+                    <?php 
+                        // 获取学情
+                        $curl = curl_init();
+                        curl_setopt($curl, CURLOPT_URL, "https://exam.kaoben.top/?r=apitest/getexambyuser&userid=$userid&courseid=$course->id");
+                        curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);
+                        $xueqing = curl_exec($curl);
+                        curl_close($curl); 
+                        $xueqing = json_decode($xueqing);
+                        $access_token = Yii::$app->user->identity->access_token;
+                    ?>
+                    <p>
+                        <span>应考：</span><label><?=$xueqing->examnum?>（次）</label>
+                        <span>过关：</span><label><?=$xueqing->examuser?>（次）</label>
+                    </p>
                     <ul class="title">
                         <li>单元</li>
                         <li>试卷名称</li>
@@ -146,13 +160,41 @@ foreach ($chapters as $key => $chapter) {
                         <li>状态</li>
                         <li>操作</li>
                     </ul>
-                    <ul>
-                        <li title="">第一单元：函数状态连续</li>
-                        <li title="">函数极限连续单元测试</li>
-                        <li>90</li>
-                        <li>已通关</li>
-                        <li>查看试卷</li>
-                    </ul>
+                    <?php foreach ($xueqing->list as $key => $value) {
+                        if ($value->status === 1) {
+                            $statusClass = 'status-pass';
+                            $statusText = '已通关';
+                            $viewText = '查看答卷';
+                            $viewClass='';
+                            $examUrl = $value->link.'&access-token='.$access_token;
+                        } else if ($value->status === 2) {
+                            $statusClass = 'status-nopass';
+                            $statusText = '未通关';
+                            $viewText = '立即答题';
+                            $viewClass='answer-url';
+                            $examUrl = $value->link.'&access-token='.$access_token;
+                        } else {
+                            $statusClass = 'status-ing';
+                            $statusText = '批阅中';
+                            $viewText = '请耐心等待';
+                            $viewClass='';
+                            $examUrl = 'javascript: void(0)';
+                        }
+                    ?>
+                        <ul>
+                            <li title="<?=$value->chapterName?>"><?=$value->chapterName?></li>
+                            <li title="<?=$value->examName?>"><?=$value->examName?></li>
+                            <li>
+                                <span class="<?=$statusClass?>"><?=$value->score?></span>
+                            </li>
+                            <li>
+                                <span class="<?=$statusClass?>"><?=$statusText?></span>
+                            </li>
+                            <li>
+                                <a class="<?=$viewClass?>" target="_blank" href="<?=$examUrl?>"><?=$viewText?></a>
+                            </li>
+                        </ul>
+                    <?php } ?>
                 </div>
             </div>
         </div>
