@@ -140,14 +140,16 @@ foreach ($chapters as $key => $chapter) {
                 </div>
                 <div class="tag-content xueqing">
                     <?php 
-                        // 获取学情
-                        $curl = curl_init();
-                        curl_setopt($curl, CURLOPT_URL, "https://exam.kaoben.top/?r=apitest/getexambyuser&userid=$userid&courseid=$course->id");
-                        curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);
-                        $xueqing = curl_exec($curl);
-                        curl_close($curl); 
-                        $xueqing = json_decode($xueqing);
-                        $access_token = Yii::$app->user->identity->access_token;
+                        $access_token = '';
+                        if (!empty(Yii::$app->user->identity)) {
+                            $access_token = Yii::$app->user->identity->access_token;
+                            // 获取学情
+                            $curl = curl_init();
+                            curl_setopt($curl, CURLOPT_URL, "https://exam.kaoben.top/?r=apitest/getexambyuser&userid=$userid&courseid=$course->id");
+                            curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);
+                            $xueqing = curl_exec($curl);
+                            curl_close($curl); 
+                            $xueqing = json_decode($xueqing);
                     ?>
                     <p>
                         <span>应考：</span><label><?=$xueqing->examnum?>（次）</label>
@@ -195,6 +197,9 @@ foreach ($chapters as $key => $chapter) {
                             </li>
                         </ul>
                     <?php } ?>
+                <?php } else { ?>
+                    <div class="no-login">登录后可见~</div>
+                <?php } ?>
                 </div>
             </div>
         </div>
