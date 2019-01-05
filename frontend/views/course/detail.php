@@ -168,13 +168,13 @@ foreach ($chapters as $key => $chapter) {
                             $statusText = '已通关';
                             $viewText = '查看答卷';
                             $viewClass='';
-                            $examUrl = $value->link.'&access-token='.$access_token;
+                            $examUrl = $value->link.'&token='.$access_token;
                         } else if ($value->status === 2) {
                             $statusClass = 'status-nopass';
                             $statusText = '未通关';
                             $viewText = '立即答题';
                             $viewClass='answer-url';
-                            $examUrl = $value->link.'&access-token='.$access_token;
+                            $examUrl = $value->link.'&token='.$access_token;
                         } else {
                             $statusClass = 'status-ing';
                             $statusText = '批阅中';
