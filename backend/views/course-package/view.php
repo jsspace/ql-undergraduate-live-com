@@ -19,10 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'name',
             [
-                'attribute' => 'category_name',
-                'value' => CourseCategory::getNames($model->category_name),
-            ],
-            [
                 'attribute' => 'course',
                 'value' => Course::items($model->course),
             ],

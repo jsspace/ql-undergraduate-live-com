@@ -13,7 +13,6 @@
     margin-left: 30px;
 }
 .order-wrapper li {
-    clear: both;
     padding: 0;
     overflow: hidden;
     margin: 10px 0;
@@ -312,15 +311,15 @@
     float: left;
 }
 .order-detail-wrapper .name {
-    font-size: 18px;
+    font-size: 16px;
     display: block;
-    padding-top: 15px;
+    margin-bottom: 10px;
+    color: #777;
 }
 .order-detail-wrapper .price {
     font-size: 16px;
-    margin-top: 15px;
     display: block;
-    color: #444;
+    color: #E1604C;
 }
 .order-detail-wrapper .total-summary {
     font-size: 14px;
@@ -482,6 +481,29 @@
     border: 1px solid #f6f6f6;
     margin-top: 15px;
 }
+.discount-con .tab-con {
+    overflow: hidden;
+}
+.discount-con .tab-con-coin {
+    padding: 20px;
+}
+.discount-con .tab-con-coin label {
+    margin-right: 5px;
+    color: salmon;
+}
+.discount-con .select {
+    margin-right: 20px;
+    float: left;
+    text-align: right;
+}
+.discount-con .select p {
+    font-size: 16px;
+    color: #605d5d;
+    font-weight: bold;
+}
+.discount-con .select img {
+    width: 100px;
+}
 .order-payment-method .tab-title {
     width: 100%;
     background: #f6f6f6;
@@ -491,11 +513,11 @@
 }
 .order-payment-method .tab-title span {
     display: inline-block;
-    width: 200px;
-    padding: 10px 0;
+    padding: 10px;
     text-align: center;
     float: left;
     cursor: pointer;
+    color: #939191;
 }
 .order-payment-method .tab-title span.active {
     background: #fff;

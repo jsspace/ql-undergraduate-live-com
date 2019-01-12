@@ -5,7 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
 use backend\models\User;
-use backend\models\CourseCategory;
+use backend\models\Course;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CoursePackageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -24,27 +24,27 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\ActionColumn'],
-            /*[
-                'label'=>'课程',
-                'format'=>'raw',
-                'value' => function($model){
-                    $url = Url::to(['course-package/editcourse', 'package_id' => $model->id]);
-                    return Html::a('编辑课程', $url);
-                }
-            ],*/
             'name',
             [
-                'attribute' => 'category_name',
-                'value'=> function ($model) {
-                    return CourseCategory::getNames($model->category_name);
+                'label'=>'课程',
+                'format'=>'raw',
+                'value' => function($model) {
+                    if (!empty($model->course)) {
+                        $courses = explode(',',$model->course);
+                        $data = '';
+                        foreach ($courses as $course) {
+                            $data.=Course::item($course).'<br>';
+                        }
+                        return $data;
+                    }
                 }
             ],
             'price',
             'discount',
-            'view',
-            'collection',
-            'share',
-            'online',
+            //'view',
+            //'collection',
+            //'share',
+            //'online',
             [
                 'attribute' => 'onuse',
                 'value'=> function ($model) {

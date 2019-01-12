@@ -39,7 +39,7 @@ AppAsset::addScript($this,'@web/js/cart.js');
             <span class="operation">操作</span>
         </div>
         <div class="cart-tbody">
-        	<?php if (empty($course_models)/* && empty($course_package_models)*/) {?>
+        	<?php if (empty($course_models) && empty($course_package_models)) {?>
             <div class="empty-tbody">
                 您的购物车空空如也，想提升自己的技能，赶紧去<a href="/course/list" class="go-link">挑选课程&gt;&gt;</a>
             </div>
@@ -63,21 +63,21 @@ AppAsset::addScript($this,'@web/js/cart.js');
                         $str .= '<a href="javascript:void(0)" class="delete-operation _delete-operation">删除</a>';
                         $str .= '</li>';
                     }
-                    /*foreach($course_package_models as $model) {
+                    foreach($course_package_models as $model) {
                         $str .= '<li class="course_package" data-course-package-id=' . $model['course_package_id'] . '>';
                         $str .= '<div class="select select-course"><input data-cart-id="'.$model['cart_id'].'" type="checkbox"/></div>';
                         $str .= '<div class="cart-course-detail">';
                         $str .= "<p class='cart-img'><a href='". Url::to(['package/detail', 'pid' => $model['course_package_id']])."' target='_blank'><img src='".$model['list_pic']."'/></a></p>";
                         $str .= '<p class="cart-txt">';
                         $str .= "<a href='". Url::to(['package/detail', 'pid' => $model['course_package_id']])."' target='_blank' class='name'>".$model['course_name']."（套餐）</a>";
-                        $str .= "<span class='teacher'>班主任：".$model['teacher_name']."</span>";
+                        // $str .= "<span class='teacher'>班主任：".$model['teacher_name']."</span>";
                         $str .= '</p>';
                         $str .= '</div>';
                         $str .= '<div class="cart-quantity">1</div>';
                         $str .= "<div class='cart-price'>￥<span>".$model['discount']."</span></div>";
                         $str .= '<a href="javascript:void(0)" class="delete-operation _delete-operation">删除</a>';
                         $str .= '</li>';
-                    }*/
+                    }
                     echo $str;
                 ?>
                 </ul>
@@ -94,7 +94,7 @@ AppAsset::addScript($this,'@web/js/cart.js');
                 <p class="pro-count"><span class="price-high course-num">0</span>件商品</p>
                 <p class="pro-count">订单总额:￥<span class="price-high course-price">0.00</span></p>
                 <?= Html::HiddenInput('course_ids', '', ['id' => 'course_ids']) ?>
-                <!-- <?= Html::HiddenInput('course_package_ids', '', ['id' => 'course_package_ids']) ?> -->
+                <?= Html::HiddenInput('course_package_ids', '', ['id' => 'course_package_ids']) ?>
                 <?= Html::submitButton('去结算', ['class' => 'btn btn-buy disabled']) ?>
                 <?php ActiveForm::end(); ?>
             </div>

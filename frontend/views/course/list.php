@@ -32,11 +32,16 @@ $this->title = '热门班级';
                 <h4><?= $course->course_name; ?></h4>
                 <p class="bjms"><?= $course->intro; ?></p>
                 <div class="tyny">
-                    <p><img src="/images/nyicon1.png" />课堂学（<?= $classrooms ?>）</p>
-                    <p><img src="/images/nyicon1a.png" />随堂练（<?= $homeworks ?>）</p>
-                    <p><img src="/images/unit-test-icon.png" />单元测验（<?= $unit_test ?>）</p>
-                    <p><img src="/images/mock-exam.png" />模拟考（<?= $course->examination_time; ?>）</p>
-                    <h5><span class="colorfff"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">进入学习</a></span><?= $course->online; ?>人正在学习</h5>
+                    <p><img src="/images/nyicon1.png" />视频（<?= $classrooms ?>）讲</p>
+                    <p><img src="/images/nyicon1a.png" />作业（<?= $homeworks ?>）次</p>
+                    <p><img src="/images/unit-test-icon.png" />测试（<?= $unit_test ?>）次</p>
+                    <!-- <p><img src="/images/mock-exam.png" />模拟考（<?= $course->examination_time; ?>）</p> -->
+                    <h5>
+                        <span class="colorfff">
+                            <a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>">进入学习</a>
+                        </span>
+                        课程已更新至<?= $classrooms ?>讲
+                    </h5>
                 </div>
             </dd>
         </dl>

@@ -2,7 +2,7 @@ var course = {
     init : function () {
         var that = this;
         that.courseEvent();
-        //that.coursePackageEvent();
+        that.coursePackageEvent();
         //that.courseNewsEvent();
         if ($('#course-type').val() == 2) {
             $('.field-course-open_course_url').show();
@@ -64,63 +64,61 @@ var course = {
         });
     },
     coursePackageEvent: function () {
-        /*$('._pcategory-result').on('click', 'span', function() {
-            var catname = $('._hidden-package-category-name').val();
-            var catnamearr = catname.split(',');
-            var current_name = $(this).attr('data-value');
-            var index = $.inArray(current_name, catnamearr);
-            if (index>-1) {
-                alert('已选');
-                return;
-            } else {
-                if (catname!='') {
-                    $('._hidden-package-category-name').val(catname+','+current_name);
-                } else {
-                    $('._hidden-package-category-name').val(current_name);
-                }
-                $('._package-category').append($(this));
-                $('._pcategory-wrap input').val('');
-                $('._pcategory-result').css('display', 'none');
-            }
-        });*/
-        /*$('._pcategory-wrap').on('click', function() {
-            $(this).find("input").focus();
-        });*/
-        /*$('._package-category').on('click', 'span.remove', function() {
-            var catename = $('._hidden-package-category-name').val();
-            var catenamearr = catename.split(',');
-            catenamearr.pop();
-            catename = catenamearr.join(',');
-            $('._hidden-package-category-name').val(catename);
-            $(this).parent().remove();
-        });*/
-        /*$('#coursepackage-category_name').bind('input propertychange', function() {
-            var keywords = $(this).val();
-            $.ajax({
-                url: '/course-package/getcategory',
-                type: 'post',
-                data: {
-                    keywords: keywords,
-                    '_csrf': $('meta[name=csrf-token]').attr('content')
-                },
-                success: function (data) {
-                    $('._pcategory-result').css('display','block').html(data);
-                }
-            });
-        });*/
-        $('#coursepackage-category_name').change(function() {
-            $('._pcourse-course').html('');
-            $('.hidden-course-id').val('');
-        })
+        // $('._pcategory-result').on('click', 'span', function() {
+        //     var catname = $('._hidden-package-category-name').val();
+        //     var catnamearr = catname.split(',');
+        //     var current_name = $(this).attr('data-value');
+        //     var index = $.inArray(current_name, catnamearr);
+        //     if (index>-1) {
+        //         alert('已选');
+        //         return;
+        //     } else {
+        //         if (catname!='') {
+        //             $('._hidden-package-category-name').val(catname+','+current_name);
+        //         } else {
+        //             $('._hidden-package-category-name').val(current_name);
+        //         }
+        //         $('._package-category').append($(this));
+        //         $('._pcategory-wrap input').val('');
+        //         $('._pcategory-result').css('display', 'none');
+        //     }
+        // });
+        // $('._pcategory-wrap').on('click', function() {
+        //     $(this).find("input").focus();
+        // });
+        // $('._package-category').on('click', 'span.remove', function() {
+        //     var catename = $('._hidden-package-category-name').val();
+        //     var catenamearr = catename.split(',');
+        //     catenamearr.pop();
+        //     catename = catenamearr.join(',');
+        //     $('._hidden-package-category-name').val(catename);
+        //     $(this).parent().remove();
+        // });
+        // $('#coursepackage-category_name').bind('input propertychange', function() {
+        //     var keywords = $(this).val();
+        //     $.ajax({
+        //         url: '/course-package/getcategory',
+        //         type: 'post',
+        //         data: {
+        //             keywords: keywords,
+        //             '_csrf': $('meta[name=csrf-token]').attr('content')
+        //         },
+        //         success: function (data) {
+        //             $('._pcategory-result').css('display','block').html(data);
+        //         }
+        //     });
+        // });
+        // $('#coursepackage-category_name').change(function() {
+        //     $('._pcourse-course').html('');
+        //     $('.hidden-course-id').val('');
+        // })
         $('#coursepackage-course').bind('input propertychange', function() {
             var keywords = $(this).val();
-            var college = $('#coursepackage-category_name').val();
             $.ajax({
                 url: '/course-package/getcourse',
                 type: 'post',
                 data: {
                     keywords: keywords,
-                    college: college,
                     '_csrf': $('meta[name=csrf-token]').attr('content')
                 },
                 success: function (data) {

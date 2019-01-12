@@ -29,37 +29,11 @@ class PackageController extends Controller
     
     
     public function actionList()
-    {
-        $catModels = CoursePackageCategory::find()
-        ->all();
-        
+    { 
         $packagemodels = CoursePackage::find()
         ->where(['onuse' => 1])
         ->all();
-
-        $firArr = array();
-
-        foreach ($catModels as $catModelKey => $catModel) {
-            if ($catModel->parent_id == 0) {
-                $firArr[$catModelKey] = array();
-                $firArr[$catModelKey]['firModel'] = $catModel;
-                $firArr[$catModelKey]['child'] = array();
-                foreach ($catModels as $subModelKey => $subModel) {
-                    if ($subModel->parent_id == $catModel->id) {
-                        $firArr[$catModelKey]['child'][$subModelKey] = array();
-                        $firArr[$catModelKey]['child'][$subModelKey]['submodel'] = $subModel;
-                        $firArr[$catModelKey]['child'][$subModelKey]['package'] = array();
-                        foreach ($packagemodels as $packageKey => $packagemodel) {
-                            if(strstr($packagemodel->category_name, $subModel->name) != false)
-                            {
-                                $firArr[$catModelKey]['child'][$subModelKey]['package'][$packageKey] = $packagemodel;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return $this->render('list', ['packageLists' => $firArr]);
+        return $this->render('list', ['packageLists' => $packagemodels]);
     }
     
     public function actionDetail()

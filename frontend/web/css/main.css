@@ -225,7 +225,7 @@ code {
 }
 #topmenu dd {
     float: right;
-    width: 218px;
+    width: 132px;
     padding: 4px 15px;
     height: 30px;
     margin: 11px 45px 0 0;
@@ -236,7 +236,7 @@ code {
     -webkit-border-radius: 30px;
 }
 .topinput1 {
-    width: 190px;
+    width: 105px;
     height: 30px;
     line-height: 30px;
     background: none;
@@ -807,10 +807,8 @@ code {
     width: 108px;
     height: 41px;
     line-height: 41px;
-    background: #fafafa;
     margin-right: 3px;
     text-align: center;
-    border: 1px solid #eee;
     border-bottom: 0;
     float: left;
     font-size: 18px;
@@ -821,7 +819,6 @@ code {
 }
 .nytxt3_lny1 dd:hover a,
 .nytxt3_lny1 dd.kcnow a {
-    background: #f3f6fd;
     color: #f20d0d;
 }
 .nytxt3_lny1 dt {

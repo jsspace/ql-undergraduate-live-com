@@ -92,13 +92,13 @@ class CourseController extends Controller
                 $result = QiniuUpload::uploadToQiniu($image_list, $rootPath . $listrandName, $folder);
                 if (!empty($result)) {
                     $model->list_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
-                    @unlink($rootPath . $listrandName);
                 }
+                @unlink($rootPath . $listrandName);
                 $result = QiniuUpload::uploadToQiniu($image_home, $rootPath . $homerandName, $folder);
                 if (!empty($result)) {
                     $model->home_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
-                    @unlink($rootPath . $homerandName);
                 }
+                @unlink($rootPath . $homerandName);
                 /*浏览次数 收藏次数 分享次数 在学人数 设置500-600之间的随机数*/
                 $model->view = rand(800, 1200);
                 $model->collection = rand(400, 500);
@@ -160,8 +160,8 @@ class CourseController extends Controller
             $result = QiniuUpload::uploadToQiniu($uploadedFile, $uploadPath, $folder);
             if (!empty($result)) {
                 $url = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
-                @unlink($uploadPath);
             }
+            @unlink($uploadPath);
             if(!$move)
             {
                 $message = "移动图片失败，请检查文件夹的权限！";
@@ -202,8 +202,8 @@ class CourseController extends Controller
                 $result = QiniuUpload::uploadToQiniu($image_list, $listrootPath . $listrandName, $folder);
                 if (!empty($result)) {
                     $model->list_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
-                    @unlink($listrootPath . $listrandName);
                 }
+                @unlink($listrootPath . $listrandName);
             } else {
                 $model->list_pic = $oldlist_path;
             }
@@ -218,8 +218,8 @@ class CourseController extends Controller
                 $result = QiniuUpload::uploadToQiniu($image_home, $homerootPath . $homerandName, $folder);
                 if (!empty($result)) {
                     $model->home_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
-                    @unlink($homerootPath . $homerandName);
                 }
+                @unlink($homerootPath . $homerandName);
             }  else {
                 $model->home_pic = $oldhome_path;
             }

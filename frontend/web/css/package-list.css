@@ -1,0 +1,77 @@
+a:hover {
+	color: inherit;
+}
+.container-package {
+	padding-top: 0;
+	width: 1180px;
+	margin: 0 auto;
+}
+.container-package ul {
+    margin-top: 20px;
+    overflow: hidden;
+}
+.container-package ul li {
+	width: 380px;
+	float: left;
+	margin-bottom: 30px;
+	border: none;
+}
+.container-package ul li + li {
+	margin-left: 20px;
+}
+.container-package .course-img {
+	width: 380px;
+    min-height: 180px;
+    height: auto;
+    cursor: pointer;
+    overflow: hidden;
+    margin-bottom: 10px;
+    position: relative;
+}
+.container-package .course-img .bg {
+	position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(0, 0, 0);
+    opacity: 0.1;
+    z-index: 1;
+    transition: all 1s;
+}
+.container-package .course-img img {
+	height: 100%;
+    width: 100%;
+}
+.container-package .content-title {
+	font-size: 15px;
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	margin: 10px 0;
+	color: #777779;
+	text-align: left;
+}
+.container-package .course-time,
+.container-package .online {
+    float: right;
+}
+.container-package .online {
+	display: flex;
+    align-items: center;
+}
+.container-package .online:before {
+	content: "";
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	background: url(/img/online-people.png) no-repeat;
+	margin-right: 5px;
+	background-size: 100%;
+}
+.container-package .price-online {
+	margin-top: 10px;
+}
+.container-package .price {
+	color: #F01414;
+	font-weight: bold;
+}

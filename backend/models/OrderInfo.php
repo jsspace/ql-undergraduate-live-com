@@ -35,6 +35,8 @@ use Yii;
  * @property string $course_ids
  * @property string $coupon_ids
  * @property string $coupon_money
+ * @property integer $gift_coins
+ * @property string $gift_books
  */
 class OrderInfo extends \yii\db\ActiveRecord
 {
@@ -53,9 +55,9 @@ class OrderInfo extends \yii\db\ActiveRecord
     {
         return [
             [['order_sn', 'add_time', 'course_ids'], 'required'],
-            [['user_id', 'order_status', 'pay_status', 'integral', 'add_time', 'confirm_time', 'bonus_id', 'is_separate', 'parent_id'], 'integer'],
+            [['user_id', 'order_status', 'pay_status', 'integral', 'add_time', 'confirm_time', 'bonus_id', 'is_separate', 'parent_id', 'gift_coins'], 'integer'],
             [['goods_amount', 'pay_fee', 'money_paid', 'integral_money', 'bonus', 'order_amount', 'discount', 'coupon_money'], 'number'],
-            [['order_sn', 'pay_id', 'course_ids'], 'string', 'max' => 200],
+            [['order_sn', 'pay_id', 'course_ids', 'gift_books'], 'string', 'max' => 200],
             [['consignee', 'mobile', 'email'], 'string', 'max' => 60],
             [['pay_name'], 'string', 'max' => 120],
             [['coupon_ids'], 'string', 'max' => 100],
@@ -97,6 +99,8 @@ class OrderInfo extends \yii\db\ActiveRecord
             'course_ids' => Yii::t('app', '课程id'),
             'coupon_ids' => Yii::t('app', '优惠券id'),
             'coupon_money' => Yii::t('app', '优惠券金额'),
+            'gift_books' => Yii::t('app', '赠送的图书'),
+            'gift_coins' => Yii::t('app', '赠送的金币')
         ];
     }
 

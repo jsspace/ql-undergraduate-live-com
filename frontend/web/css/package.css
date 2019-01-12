@@ -71,6 +71,9 @@ a {
     margin-left: 70%;
     box-sizing: border-box;
 }
+.package-detail-section .right-package .package-detail {
+    margin-top: 20px;
+}
 .package-detail-section .right-package .package-name {
     font-size: 21px;
 }
@@ -139,7 +142,7 @@ a {
     background: none;
 }
 .package-detail-section .bottom-package .left-section {
-    width: 75%;
+    width: 100%;
     float: left;
     background: #fff;
     margin: 20px 2% 0 0;
@@ -202,9 +205,12 @@ a {
 }
 .package-detail-section .bottom-package .price {
     position: absolute;
-    top: 25px;
+    top: 40px;
     right: 80px;
     font-size: 18px;
+}
+.package-detail-section .bottom-package .price-num {
+    color: #E1604C;
 }
 /* .package-detail-section .bottom-package .price:after {
     content: "";

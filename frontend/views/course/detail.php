@@ -39,9 +39,11 @@ foreach ($chapters as $key => $chapter) {
         <dd>
             <h4 title="<?= $course->course_name ?>"><?= $course->course_name ?></h4>
             <p class="bjxq1">价格： <code>￥<?= $course->discount ?></code>    原价： <del>￥<?= $course->price ?></del></p>
-            <p><?= $course->online ?>人正在学习</p>
-            <p>主讲：<?= User::item($course->teacher_id); ?></p>
-            <p class="bjxq2"><code class="xq2now">课堂学<?= $classrooms ?>次</code><code>随堂练<?= $homeworks ?>次</code><code>单元测试<?= $unit_test ?>次</code></p>
+            <p class="valid-date">课程有效期至2020年3月20日</p>
+            <p class="course-update-tip">课程已更新至<?= $classrooms ?>讲</p>
+            <!-- <p><?= $course->online ?>人正在学习</p> -->
+            <!-- <p>主讲：<?= User::item($course->teacher_id); ?></p> -->
+            <p class="bjxq2"><code class="xq2now">视频<?= $classrooms ?>讲</code><code>作业<?= $homeworks ?>次</code><code>测试<?= $unit_test ?>次</code></p>
             <p class="bjxq3">
                 <?php
                     $roles_array = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
@@ -76,13 +78,10 @@ foreach ($chapters as $key => $chapter) {
             <div class="nytxt3_lny1">
                 <dl class="cc course-tag">
                     <dd><a href="javascript: void(0)">课程介绍</a></dd>
-                    <?php 
-                        if ($course->type === 1) {
-                    ?>
-                    <dd class="kcnow"><a href="javascript: void(0)">课堂入口</a></dd>
-                    <!-- <dd><a href="javascript: void(0)">问老师</a></dd> -->
-                    <dd><a href="javascript: void(0)">学情报告</a></dd>
-                    <?php } ?>
+                    <dd class="kcnow"><a href="javascript: void(0)">视频</a></dd>
+                    <dd><a href="javascript: void(0)">作业</a></dd>
+                    <dd><a href="javascript: void(0)">测试</a></dd>
+                    <dd><a href="javascript: void(0)">答疑</a></dd>
                 </dl>
             </div>
             <div class="course-tag-content">
@@ -137,6 +136,9 @@ foreach ($chapters as $key => $chapter) {
                             </ul>
                         </div>
                     <?php } ?>
+                </div>
+                <div  class="tag-content nytxt3_lny1">
+                    作业
                 </div>
                 <div class="tag-content xueqing">
                     <?php 
@@ -200,6 +202,9 @@ foreach ($chapters as $key => $chapter) {
                 <?php } else { ?>
                     <div class="no-login">登录后可见~</div>
                 <?php } ?>
+                </div>
+                <div  class="tag-content nytxt3_lny1">
+                    答疑
                 </div>
             </div>
         </div>

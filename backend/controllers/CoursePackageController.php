@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
+use components\helpers\QiniuUpload;
 
 /**
  * CoursePackageController implements the CRUD actions for CoursePackage model.
@@ -84,8 +85,18 @@ class CoursePackageController extends Controller
                 }
                 $image_list->saveAs($rootPath . $listrandName);
                 $image_home->saveAs($rootPath . $homerandName);
-                $model->list_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course-package/' . $listrandName;
-                $model->home_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course-package/' . $homerandName;
+
+                $folder = 'course-package';
+                $result = QiniuUpload::uploadToQiniu($image_list, $rootPath . $listrandName, $folder);
+                if (!empty($result)) {
+                    $model->list_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                }
+                @unlink($rootPath . $listrandName);
+                $result = QiniuUpload::uploadToQiniu($image_home, $rootPath . $homerandName, $folder);
+                if (!empty($result)) {
+                    $model->home_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                }
+                @unlink($rootPath . $homerandName);
             }
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -132,6 +143,12 @@ class CoursePackageController extends Controller
             $message = '';
             $uploadPath .= $file;
             $move = $uploadedFile->saveAs($uploadPath);
+            $folder = 'upload/img/ckeditor';
+            $result = QiniuUpload::uploadToQiniu($uploadedFile, $uploadPath, $folder);
+            if (!empty($result)) {
+                $url = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+            }
+            @unlink($uploadPath);
             if(!$move)
             {
                 $message = "移动图片失败，请检查文件夹的权限！";
@@ -157,6 +174,7 @@ class CoursePackageController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $image_list = UploadedFile::getInstance($model, 'list_pic');
             $image_home = UploadedFile::getInstance($model, 'home_pic');
+            $folder = 'course-package';
             if ($image_list) {
                 $list_ext = $image_list->getExtension();
                 $listrandName = time() . rand(1000, 9999) . '.' . $list_ext;
@@ -165,8 +183,11 @@ class CoursePackageController extends Controller
                     mkdir($listrootPath, 0777, true);
                 }
                 $image_list->saveAs($listrootPath . $listrandName);
-                $model->list_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course-package/' . $listrandName;
-                @unlink(Yii::getAlias("@frontend")."/web/" . $oldlist_path);
+                $result = QiniuUpload::uploadToQiniu($image_list, $listrootPath . $listrandName, $folder);
+                if (!empty($result)) {
+                    $model->list_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                }
+                @unlink($listrootPath . $listrandName);
             } else {
                 $model->list_pic = $oldlist_path;
             }
@@ -178,8 +199,11 @@ class CoursePackageController extends Controller
                     mkdir($homerootPath, 0777, true);
                 }
                 $image_home->saveAs($homerootPath . $homerandName);
-                $model->home_pic = '/'.Yii::$app->params['upload_img_dir'] . 'course-package/' . $homerandName;
-                @unlink(Yii::getAlias("@frontend")."/web/" . $oldhome_path);
+                $result = QiniuUpload::uploadToQiniu($image_home, $homerootPath . $homerandName, $folder);
+                if (!empty($result)) {
+                    $model->home_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                }
+                @unlink($homerootPath . $homerandName);
             }  else {
                 $model->home_pic = $oldhome_path;
             }
@@ -245,10 +269,8 @@ class CoursePackageController extends Controller
     {
         $request = Yii::$app->request->post();
         $keywords = $request['keywords'];
-        $college = $request['college'];
         $courses= Course::find()
-        ->where(['category_name' => $college])
-        ->andWhere(['like', 'course_name', $keywords])
+        ->where(['like', 'course_name', $keywords])
         ->all();
         $data = '';
         foreach ($courses as $course) {

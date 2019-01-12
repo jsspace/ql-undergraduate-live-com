@@ -49,14 +49,14 @@ class CartController extends Controller
         $sql .= ' on {{%course}}.teacher_id = {{%user}}.id order by {{%cart}}.created_at desc';
         $course_models = Yii::$app->db->createCommand($sql)
         ->queryAll();
-        /*$sql = 'select cart_id, {{%course_package}}.id as course_package_id, {{%course_package}}.name as course_name, list_pic, price, discount, username as teacher_name';
+        $sql = 'select cart_id, {{%course_package}}.id as course_package_id, {{%course_package}}.name as course_name, list_pic, price, discount';
         $sql .= ' from ({{%cart}} inner join {{%course_package}}';
         $sql .= ' on {{%cart}}.user_id = '.Yii::$app->user->id .' and {{%cart}}.product_id = {{%course_package}}.id ';
-        $sql .= ' and {{%cart}}.type = "course_package") inner join {{%user}} ';
-        $sql .= ' on {{%course_package}}.head_teacher = {{%user}}.id order by {{%cart}}.created_at desc';
+        $sql .= ' and {{%cart}}.type = "course_package")';
+        $sql .= ' order by {{%cart}}.created_at desc';
         $course_package_models = Yii::$app->db->createCommand($sql)
-        ->queryAll();*/
-        return $this->render('index', ['course_models' => $course_models/*, 'course_package_models' => $course_package_models,*/]);
+        ->queryAll();
+        return $this->render('index', ['course_models' => $course_models, 'course_package_models' => $course_package_models]);
     }
     
     public function actionAdd()
@@ -121,34 +121,49 @@ class CartController extends Controller
     
     public function actionShopping()
     {
+
         $post = Yii::$app->request->Post();
         
         //唯一订单号码（KB-YYYYMMDDHHIISSNNNNNNNNCC）
         $order_sn = $this->createOrderid();
-        
-        //$course_package_ids = explode(',', $post['course_package_ids']);
+
+        if ($post['course_ids'] === '' && $post['course_package_ids'] === '') {
+            return $this->redirect(Url::to(['cart/index']));
+        }
+
+        $displayCoins = 0;
+
+        $course_package_ids = explode(',', $post['course_package_ids']);
+        $course_package_ids = array_filter($course_package_ids);
+        $displayCoins = $displayCoins + count($course_package_ids)*400;
+
         $course_ids = explode(',', $post['course_ids']);
+        $course_ids = array_filter($course_ids);
+        $displayCoins = $displayCoins + count($course_ids)*100;
+       
         $course_models = Course::find()
         ->where(['id' => $course_ids])
         ->andWhere(['onuse' => 1])
         ->all();
         $course_ids = '';
+        $category_ids = array();
         foreach($course_models as $model) {
             $course_ids .= $model->id . ',';
+            array_push($category_ids, $model->category_name);
         }
-        /*$course_package_models = CoursePackage::find()
+        $course_package_models = CoursePackage::find()
         ->where(['id' => $course_package_ids])
         ->andWhere(['onuse' => 1])
         ->all();
         $course_package_ids = '';
         foreach($course_package_models as $model) {
             $course_package_ids .= $model->id . ',';
-        }*/
-        $coupons = Coupon::find()
-        ->where(['user_id' => Yii::$app->user->id])
-        ->andWhere(['isuse' => 0])
-        ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
-        ->all();
+        }
+        // $coupons = Coupon::find()
+        // ->where(['user_id' => Yii::$app->user->id])
+        // ->andWhere(['isuse' => 0])
+        // ->andWhere(['>', 'end_time', date('Y-m-d H:i:s', time())])
+        // ->all();
 
         /*金币余额*/
         /*$coin = Coin::find()
@@ -164,10 +179,12 @@ class CartController extends Controller
             'course_models' => $course_models,
             'order_sn' => $order_sn,
             'course_ids' => $course_ids,
-            //'course_package_models' => $course_package_models,
-            //'course_package_ids' => $course_package_ids,
-            'coupons' => $coupons,
-            //'coin_balance' => $balance
+            'course_package_models' => $course_package_models,
+            'course_package_ids' => $course_package_ids,
+            'category_ids' => $category_ids,
+            'displayCoins' => $displayCoins
+            // 'coupons' => $coupons,
+            // 'coin_balance' => $balance
         ]);
     }
     

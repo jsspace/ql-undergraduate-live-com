@@ -9,7 +9,10 @@
     float: left;
     margin-right: 20px;
     margin-bottom: 30px;
+    text-align: center;
+    border: 1px solid #d5c7c7;
+    border-radius: 4px;
 }
 .book-content ul li img {
-    width: 100%;
+    width: 80%;
 }

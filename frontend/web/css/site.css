@@ -259,7 +259,7 @@ h5 {
 }
 #topmenu dd {
     float: right;
-    width: 218px;
+    width: 132px;
     padding: 4px 15px;
     height: 30px;
     margin: 11px 45px 0 0;
@@ -271,7 +271,7 @@ h5 {
     box-sizing: content-box;
 }
 .topinput1 {
-    width: 190px;
+    width: 105px;
     height: 30px;
     line-height: 30px;
     background: none;

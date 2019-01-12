@@ -17,7 +17,6 @@ use Yii;
  * @property string $home_pic
  * @property string $price
  * @property string $discount
- * @property string $category_name
  * @property string $intro
  * @property string $des
  * @property integer $view
@@ -44,12 +43,12 @@ class CoursePackage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price', 'discount', 'category_name', 'des', 'intro', 'head_teacher'], 'required'],
+            [['name', 'price', 'discount', 'des', 'intro'], 'required'],
             [['list_pic', 'home_pic'], 'required', 'on'=> 'create'],
             [['price', 'discount'], 'number'],
             [['des','intro'], 'string'],
             [['view', 'collection', 'share', 'online', 'onuse', 'create_time'], 'integer'],
-            [['name', 'course', 'list_pic', 'home_pic', 'category_name'], 'string', 'max' => 255],
+            [['name', 'course', 'list_pic', 'home_pic'], 'string', 'max' => 255],
         ];
     }
 
@@ -60,21 +59,20 @@ class CoursePackage extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', '班级名字'),
+            'name' => Yii::t('app', '套餐名字'),
             'course' => Yii::t('app', '课程'),
             'list_pic' => Yii::t('app', '列表图片'),
             'home_pic' => Yii::t('app', '封面图片'),
             'price' => Yii::t('app', '价格'),
             'discount' => Yii::t('app', '优惠价格'),
-            'category_name' => Yii::t('app', '学院'),
-            'des' => Yii::t('app', '班级详情'),
-            'intro' => Yii::t('app', '班级简介'),
+            'des' => Yii::t('app', '套餐详情'),
+            'intro' => Yii::t('app', '套餐简介'),
             'view' => Yii::t('app', '浏览次数'),
             'collection' => Yii::t('app', '收藏次数'),
             'share' => Yii::t('app', '分享次数'),
             'online' => Yii::t('app', '在学人数'),
             'onuse' => Yii::t('app', '是否可用'),
-            'create_time' => Yii::t('app', '班级创建时间'),
+            'create_time' => Yii::t('app', '套餐创建时间'),
             'head_teacher' => Yii::t('app', '班主任'),
         ];
     }
@@ -99,7 +97,7 @@ class CoursePackage extends \yii\db\ActiveRecord
             return false;
         }
     }
-    /* 获取所有班级列表 */
+    /* 获取所有套餐列表 */
     private static $_items=array();
 
     public static function items()
@@ -125,7 +123,7 @@ class CoursePackage extends \yii\db\ActiveRecord
             self::$_items['alluser'] = '全部学员';
         }*/
         self::$_items['alluser'] = '全部学员';
-        self::$_items['allclass'] = '全部班级';
+        self::$_items['allclass'] = '全部套餐';
         $models=self::find()
         ->all();
         foreach($models as $model) {
@@ -165,13 +163,14 @@ class CoursePackage extends \yii\db\ActiveRecord
         $current_time = time();
         $package_invalid_time = [];
         foreach ($orderinfo_models as $orderinfo_model) {
-            //支付订单后6个月之内有效
-            $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 180;
+            //订单2020-3-20失效
+            // $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 180;
+            $invalid_time = strtotime('2020-3-20');
             if ($invalid_time > $current_time) {
                 $order_sns[] = $orderinfo_model->order_sn;
             }
         }
-        //去订单详情表查找班级详细信息
+        //去订单详情表查找套餐详细信息
         $order_goods_models = OrderGoods::find()
         ->where(['order_sn' => $order_sns])
         ->andWhere(['type' => 'course_package'])
@@ -214,13 +213,14 @@ class CoursePackage extends \yii\db\ActiveRecord
         $order_sns = [];
         $current_time = time();
         foreach ($orderinfo_models as $orderinfo_model) {
-            //支付订单后6个月之内有效
-            $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 180;
+            //订单2020-3-20失效
+            // $invalid_time = $orderinfo_model->pay_time + 3600 * 24 * 180;
+            $invalid_time = strtotime('2020-3-20');
             if ($invalid_time > $current_time) {
                 $order_sns[] = $orderinfo_model->order_sn;
             }
         }
-        //去订单详情表查找班级详细信息
+        //去订单详情表查找套餐详细信息
         $order_goods_models = OrderGoods::find()
         ->where(['order_sn' => $order_sns])
         ->andWhere(['type' => 'course_package'])

@@ -2,7 +2,6 @@
 
 use backend\assets\AppAsset;
 use backend\models\Course;
-use backend\models\CourseCategory;
 use dosamigos\ckeditor\CKEditor;
 use kartik\file\FileInput;
 use yii\helpers\ArrayHelper;
@@ -23,29 +22,6 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <!-- <div class="package-category-wrap">
-        <div class="form-group field-coursepackage-category_name required">
-            <label class="control-label" for="coursepackage-category_name">所属学院</label>
-            <input type="text" name="CoursePackage[category_name]" class="hidden-package-category-name _hidden-package-category-name" value="<?= $model->category_name; ?>">
-            <div class="pcategory-wrap _pcategory-wrap form-control">
-                <div class="package-category _package-category">
-                    <?php
-                        if (!empty($model->category_name)) {
-                            $categorys = explode(',',$model->category_name);
-                            $data = '';
-                            foreach ($categorys as $category) {
-                                $data.='<span class="tag" data-value='.$category.'>'.CourseCategory::item($category).'<span class="remove"></span></span>';
-                            }
-                            echo $data;
-                        }
-                    ?>
-                </div>
-                <input type="text" id="coursepackage-category_name" value="" maxlength="255" autocomplete="off" aria-invalid="false">
-            </div>
-        </div>
-        <div class="pcategory-result _pcategory-result"></div>
-    </div> -->
-    <?= $form->field($model, 'category_name')->dropDownList(CourseCategory::items()) ?>
     <div class="package-course-wrap">
         <div class="form-group field-coursepackage-course has-success">
             <label class="control-label" for="coursepackage-course">课程</label>

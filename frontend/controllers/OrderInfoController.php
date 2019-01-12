@@ -75,14 +75,15 @@ class OrderInfoController extends \yii\web\Controller
             return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $orderInfo->order_amount]);
         }
         $data = Yii::$app->request->Post();
-        if (!isset($data['coupon_ids']) || !isset($data['course_ids'])/* || !isset($data['course_package_ids'])*/) {
+        // if (!isset($data['coupon_ids']) || !isset($data['course_ids']) || !isset($data['course_package_ids'])) {
+        if (!isset($data['course_ids']) && !isset($data['course_package_ids'])) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-        if (empty($data['course_ids'])/* && empty($data['course_package_ids'])*/) {
+        if (empty($data['course_ids']) && empty($data['course_package_ids'])) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
         $goods_amount = 0.00;
-        $coupon_ids = explode(',', $data['coupon_ids']);
+        /* $coupon_ids = explode(',', $data['coupon_ids']);
         $coupon_money = 0.00;
         $coupons = Coupon::find()
         ->where(['user_id' => Yii::$app->user->id])
@@ -98,7 +99,7 @@ class OrderInfoController extends \yii\web\Controller
             $model->isuse = 1;
             $model->save(false);
         }
-        
+        */
         $course_ids = explode(',', $data['course_ids']);
         //删除购物车中对应的条目
         Cart::deleteAll([
@@ -126,7 +127,7 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->save(false);
             $goods_amount += $model->discount;
         }
-        /*$course_package_ids = explode(',', $data['course_package_ids']);
+        $course_package_ids = explode(',', $data['course_package_ids']);
         //删除购物车中对应的条目
         Cart::deleteAll([
             'product_id' => $course_package_ids,
@@ -154,13 +155,13 @@ class OrderInfoController extends \yii\web\Controller
             $order_goods->type = 'course_package';
             $order_goods->save(false);
             $goods_amount += $model->discount;
-        }*/
+        }
         
         $course_ids_arr = explode(',', $courseids);
         $course_ids_str = implode(',', array_unique($course_ids_arr));
         
         //查看此人是否是被邀请注册的
-        $invite = Yii::$app->user->identity->invite;
+        // $invite = Yii::$app->user->identity->invite;
         //查看是否是第一次购买
         /*$order_count = OrderInfo::find()
         ->andWhere(['user_id' => Yii::$app->user->id])
@@ -174,12 +175,13 @@ class OrderInfoController extends \yii\web\Controller
             $order_amount = ((100 - $perc->code) / 100.00) * $goods_amount - $coupon_money;
         } else {
             $order_amount = $goods_amount - $coupon_money;
-        }*/
+        }
         if ($goods_amount < $coupon_money) {
             $order_amount = 0;
         } else {
             $order_amount = $goods_amount - $coupon_money;
-        }
+        }*/
+        $order_amount = $goods_amount;
         //添加订单信息
         $order_info = new OrderInfo();
         $order_info->order_sn = $order_sn;
@@ -195,9 +197,14 @@ class OrderInfoController extends \yii\web\Controller
         $order_info->order_amount = $order_amount;
         $order_info->add_time = time();
         $order_info->course_ids = $course_ids_str;
-        $order_info->coupon_ids = $coupon_ids_str;
-        $order_info->coupon_money = $coupon_money;
-        $order_info->invalid_time = time() + 3600 * 24 * 180;
+        $gift_books = explode(",",$data['gift_books']);
+        $gift_books = array_filter($gift_books);
+        $order_info->gift_books = implode(',', $gift_books);
+        $order_info->gift_coins = $data['gift_coins'];
+        // $order_info->coupon_ids = $coupon_ids_str;
+        // $order_info->coupon_money = $coupon_money;
+        // $order_info->invalid_time = time() + 3600 * 24 * 180;
+         $order_info->invalid_time = strtotime('2020-3-20');
         /*$order_info->bonus = $bonus;*/
         if ($order_amount == 0) {
             $order_info->pay_status = 2;
