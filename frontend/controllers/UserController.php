@@ -162,7 +162,13 @@ class UserController extends Controller
         }
         $goodsid_arr = explode(',', $goodsids);
         $clist = Course::find()
-        ->with('courseSections')
+        ->with([
+            'courseChapters' => function($query) {
+                $query->with(['courseSections' => function($query) {
+                    $query->with('courseSectionPoints');
+                }]);
+            }
+        ])
         ->where(['in', 'id', $goodsid_arr])
         ->all();
 

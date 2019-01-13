@@ -6,7 +6,7 @@ use frontend\assets\AppAsset;
 use backend\models\Course;
 use backend\models\OrderInfo;
 use backend\models\OrderGoods;
-/*use backend\models\CoursePackage;*/
+use backend\models\CoursePackage;
 
 $this->title = '我的订单';
 ?>
@@ -56,18 +56,20 @@ $this->title = '我的订单';
                                         ->where(['id' => $goods_item->goods_id])
                                         ->one();
                                         $course_name = $course->course_name;
-                                    }/* else if ($goods_item->type == 'course_package') { 
+                                        $url = '/course/detail?courseid=' . $course->id;
+                                    } else if ($goods_item->type == 'course_package') { 
                                         $course = CoursePackage::find()
                                         ->where(['id' => $goods_item->goods_id])
                                         ->one();
                                         $course_name = $course->name;
-                                    }*/
+                                        $url = '/package/detail?pid=' . $course->id;
+                                    }
                                     
-                               if ($course) {
+                               if (!empty($course)) {
                                 ?>
                                 <div class="order-content">
-                                    <p class="course-img"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>"><img src="<?= $course->list_pic ?>"/></a></p>
-                                    <p class="course-name"><a href="<?= Url::to(['course/detail', 'courseid' => $course->id]) ?>"><?= $course_name ?></a></p>
+                                    <p class="course-img"><a href="<?= $url ?>"><img src="<?= $course->list_pic ?>"/></a></p>
+                                    <p class="course-name"><a href="<?= $url ?>"><?= $course_name ?></a></p>
                                     <p class="course-quantity">&times; 1</p>
                                     <p class="order-price">
                                         <span class="total-price">总额：￥<?= $course->discount ?></span>
