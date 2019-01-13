@@ -43,18 +43,18 @@ $weekarray=array("日","一","二","三","四","五","六");
     <ul class="indextxt1 cc">
         <li>
             <img src="/images/txt1_icon1.png" />
-            <h4>三种班型</h4>
-            <p>每门课程均开设强化、串讲、冲刺三个班型，将分别在不同时间段推出；</p>
+            <h4>知识精讲</h4>
+            <p>名师名校因材施教，言简意赅，内容紧扣大纲，高度浓缩精华；</p>
         </li>
         <li>
             <img src="/images/txt1_icon2.png" />
-            <h4>按知识点设计</h4>
-            <p>课程内容紧扣考试重点，抛弃与考试无关内容</p>
+            <h4>同步训练</h4>
+            <p>资深专家教研，深入研究真题，把握考试重点，训练内容直击考点；</p>
         </li>
         <li>
             <img src="/images/txt1_icon3.png" />
-            <h4>模拟考试</h4>
-            <p>每种班型均有模拟考试，内容有往年命题教师设计</p>
+            <h4>通关测试</h4>
+            <p>总结考试规律，预测命题趋势，真人批阅，记录错题，掌握学情；</p>
         </li>
     </ul>
 </div>
@@ -81,7 +81,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><a href="javascript:void(0)"><img src="/images/indexpic3b.jpg" /><p>答疑辅导老师：答疑老师全天候（早6:00—晚10:00）在线，针对疑问即时回复。</p></a></div>
                     <div class="swiper-slide"><a href="javascript:void(0)"><img src="/images/indexpic3.jpg" /><p>专职班主任：班主任专门负责学员管理与服务，当你遇到一切与平台学习有关的困难，班主任都会帮你解决。</p></a></div>
-                    <div class="swiper-slide"><a href="javascript:void(0)"><img src="/images/indexpic3a.jpg" /><p>作业批改老师：老师来自高校教师及知名院校相关专业研究生，作业批阅及时。</p></a></div>
+                    <div class="swiper-slide"><a href="javascript:void(0)"><img src="/images/indexpic3a.jpg" /><p>阅卷老师：老师来自高校教师及知名院校相关专业研究生，试卷批阅准确即时。</p></a></div>
                 </div>
             </div>
             <div class="swiper-button-prev"></div>
@@ -91,7 +91,7 @@ $weekarray=array("日","一","二","三","四","五","六");
 </div>
 <div class="main cc">
     <div class="indextt1a indextt1">
-        <h3>课堂形式丰富多样<p>课堂由精讲视频、课堂练习、练习批改、讲解、答疑辅导五部分组成</p><em></em></h3>All want to learn three pairs of a gang
+        <h3>课堂形式丰富多样<p>课堂由精讲视频、课堂练习、答卷批阅、讲解、答疑辅导五部分组成</p><em></em></h3>All want to learn three pairs of a gang
     </div>
     <ul class="indextxt4 cc">
         <li>
@@ -120,7 +120,7 @@ $weekarray=array("日","一","二","三","四","五","六");
         <img src="/images/txt4_icon3.png" width="52" height="52" />
         </span>
         <h4>专人批改</h4>
-        <p>作业辅导老师全天恭候，即时批改作业，系统生成学情报告</p>
+        <p>辅导老师全天恭候，即时批改答卷，系统生成学情报告</p>
         </a>
         </li>
         <li class="txt4li4"></li>
@@ -162,7 +162,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                 <h4>齐鲁工大刘佳</h4>
                 <p><em class="xingji2"></em><em></em><em></em><em></em><em></em></p>
             </dt>
-            <dd>随堂练习太好了，老师批改及时，通过随堂练让我更扎实的掌握了课堂所学。</dd>
+            <dd>单元测验太好了，老师批改及时，通过单元测验让我找到了薄弱环节。</dd>
         </dl>
         <dl>
             <dt>
@@ -178,7 +178,7 @@ $weekarray=array("日","一","二","三","四","五","六");
                 <h4>烟职院王龙</h4>
                 <p><em class="xingji2"></em><em></em><em></em><em></em><em></em></p>
             </dt>
-            <dd>没想到在线学习比面授班感觉还好，提问能速回，还有专人给改作业，还有模拟考试，考虑的太周到了，以后上辅导班再也不用东北西跑了。</dd>
+            <dd>没想到在线学习比面授班感觉还好，提问能速回，还有专人给改答卷，还有课堂练习，考虑的太周到了，以后上辅导班再也不用东北西跑了。</dd>
         </dl>
         <dl>
             <dt>
