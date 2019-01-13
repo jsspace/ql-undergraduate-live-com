@@ -1,26 +1,29 @@
 .nytxt2 {
     position: relative;
-    border: 15px solid #264863;
+    background-color: inherit;
 }
 .nytxt2 dt {
     width: auto;
     float: none;
     display: inline-block;
+    background-color: white;
+    width: 370px;
 }
 .nytxt2 dd {
     float: none;
     display: inline-block;
     position: absolute;
-    padding-left: 40px;
     padding-top: 40px;
     height: 100%;
 }
 .nytxt2 dd p {
     font-size: 16px;
     line-height: 25px;
+    color: #605c5c;
 }
 .nytxt2 dt img {
-    min-width: 370px;
+    max-height: 370px;
+    width: auto;
 }
 .order-book {
     position: absolute;
@@ -33,12 +36,10 @@
     width: 157px;
     height: 39px;
     line-height: 35px;
-    border: 1px solid #fff;
-    border-radius: 10px;
+    border-radius: 6px;
     text-align: center;
     display: inline-block;
-    color: #0f88e7;
-    margin-left: 10px;
+    background-color: #0f88e7;
 }
 .order-book-num {
     width: 100px;
@@ -53,4 +54,21 @@
 }
 .course-tag-content .tag-content {
     display: block;
+}
+.nytxt2 dd h4 {
+    color: #2b333b;
+    font-weight: bold;
+}
+.price-wrap {
+    margin-top: 15px;
+}
+.order-price {
+    color: #f01414;
+}
+.price {
+    text-decoration: line-through;
+    color: #605c5c;
+}
+.nytxt3_l {
+    width: 100%;
 }

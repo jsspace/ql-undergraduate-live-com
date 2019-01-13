@@ -10,6 +10,7 @@ use Yii;
  * @property string $id
  * @property string $name 书名
  * @property string $price 价格
+ * @property string $order_price 预定价格
  * @property string $publisher 出版社
  * @property int $publish_time 出版时间
  * @property string $author 作者
@@ -34,7 +35,7 @@ class Book extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['price'], 'number'],
+            [['price', 'order_price'], 'number'],
             [['publish_time', 'category'], 'integer'],
             [['intro', 'des'], 'required'],
             [['intro', 'des'], 'string'],
@@ -51,6 +52,7 @@ class Book extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', '书名'),
             'price' => Yii::t('app', '价格'),
+            'order_price' => Yii::t('app', '预定价格'),
             'publisher' => Yii::t('app', '出版社'),
             'publish_time' => Yii::t('app', '出版时间'),
             'author' => Yii::t('app', '作者'),

@@ -18,6 +18,10 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'order_price')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'category')->dropDownList($categorys) ?>
 
     <?= $form->field($model, 'pictrue')->widget(FileInput::classname(),
@@ -33,10 +37,8 @@ use yii\helpers\Url;
                 ]
             ],
         ]) ?>
-
-    <!-- <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
     
-    <?= $form->field($model, 'publisher')->textInput(['maxlength' => true]) ?>
+    <!-- <?= $form->field($model, 'publisher')->textInput(['maxlength' => true]) ?>
     
     <?= $form->field($model, 'author')->textInput(['maxlength' => true]) ?> -->
 

@@ -10,9 +10,37 @@
     margin-right: 20px;
     margin-bottom: 30px;
     text-align: center;
-    border: 1px solid #d5c7c7;
     border-radius: 4px;
+    position: relative;
+}
+.book-content ul li p {
+    text-align: left;
+    padding: 0 20px;
+}
+.book-content ul li .book-name {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #2b333b;
+    font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.book-content ul li .price-wrap {
+    margin-bottom: 20px;
+}
+.book-content ul li .order-price {
+    color: #f01414;
+    margin-right: 4px;
+}
+.book-content ul li .price {
+    text-decoration: line-through;
 }
 .book-content ul li img {
-    width: 80%;
+    width: 50%;
+    margin-top: 20px;
+}
+.book-content a:hover {
+    color: inherit;
 }

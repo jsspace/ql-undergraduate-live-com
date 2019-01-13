@@ -15,6 +15,11 @@ $this->title = '应考必备';
             <li>
                 <a href="<?= Url::to(['book/detail', 'bookid' => $book->id]) ?>">
                     <img src="<?= $book->pictrue ?>">
+                    <p class="book-name"><?=$book->name ?></p>
+                    <p class="price-wrap">
+                        <span class="order-price">￥<?=$book->order_price ?></span>
+                        <span class="price">￥<?=$book->price ?></span>
+                    </p>
                 </a>
             </li>
         <?php } ?>

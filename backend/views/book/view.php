@@ -28,7 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'name',
-            //'price',
+            'price',
+            'order_price',
             //'publisher',
             //'publish_time:datetime',
             //'author',

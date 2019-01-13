@@ -20,8 +20,13 @@ $this->title = '图书详情';
         <dd>
             <h4 class="book-name"><?= $book->name ?></h4>
             <p><?= $book->intro ?></p>
+            <div class="price-wrap">
+                <span class="order-price">￥<?=$book->order_price ?></span>
+                <span class="price">￥<?=$book->price ?></span>
+            </div>
             <div class="order-book">
-                <input type="text" name="" class="order-book-num" placeholder="预定本数" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="1">本
+                <!-- <input type="text" name="" class="order-book-num" placeholder="预定本数" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="1">本 -->
+                <input type="hidden" name="" class="order-book-num" placeholder="预定本数" value="1">
                 <span class="order-book-btn">我要预定</span>
             </div>
         </dd>
