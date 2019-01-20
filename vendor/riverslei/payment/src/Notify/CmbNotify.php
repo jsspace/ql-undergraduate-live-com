@@ -140,7 +140,7 @@ class CmbNotify extends NotifyStrategy
             header('HTTP/1.1 200 OK');
             return $msg;
         } else {
-            header('HTTP/1.1 503 Service Unavailable');
+            header('HTTP/1.1 503 service Unavailable');
             return $msg;
         }
     }

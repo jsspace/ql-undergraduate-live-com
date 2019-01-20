@@ -32,7 +32,7 @@ class RegisterListenersPass implements CompilerPassInterface
     private $hotPathTagName;
 
     /**
-     * @param string $dispatcherService Service name of the event dispatcher in processed container
+     * @param string $dispatcherService service name of the event dispatcher in processed container
      * @param string $listenerTag       Tag name used for listener
      * @param string $subscriberTag     Tag name used for subscribers
      */
@@ -64,7 +64,7 @@ class RegisterListenersPass implements CompilerPassInterface
                 $priority = isset($event['priority']) ? $event['priority'] : 0;
 
                 if (!isset($event['event'])) {
-                    throw new InvalidArgumentException(sprintf('Service "%s" must define the "event" attribute on "%s" tags.', $id, $this->listenerTag));
+                    throw new InvalidArgumentException(sprintf('service "%s" must define the "event" attribute on "%s" tags.', $id, $this->listenerTag));
                 }
 
                 if (!isset($event['method'])) {
@@ -95,7 +95,7 @@ class RegisterListenersPass implements CompilerPassInterface
                 throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $class, $id));
             }
             if (!$r->isSubclassOf(EventSubscriberInterface::class)) {
-                throw new InvalidArgumentException(sprintf('Service "%s" must implement interface "%s".', $id, EventSubscriberInterface::class));
+                throw new InvalidArgumentException(sprintf('service "%s" must implement interface "%s".', $id, EventSubscriberInterface::class));
             }
             $class = $r->name;
 

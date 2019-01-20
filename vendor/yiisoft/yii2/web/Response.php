@@ -221,7 +221,7 @@ class Response extends \yii\base\Response
         500 => 'Internal Server Error',
         501 => 'Not Implemented',
         502 => 'Bad Gateway or Proxy Error',
-        503 => 'Service Unavailable',
+        503 => 'service Unavailable',
         504 => 'Gateway Time-out',
         505 => 'HTTP Version not supported',
         507 => 'Insufficient storage',

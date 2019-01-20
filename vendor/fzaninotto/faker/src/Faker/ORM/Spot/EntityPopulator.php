@@ -9,7 +9,7 @@ use Spot\Mapper;
 use Spot\Relation\BelongsTo;
 
 /**
- * Service class for populating a table through a Spot Entity class.
+ * service class for populating a table through a Spot Entity class.
  */
 class EntityPopulator
 {

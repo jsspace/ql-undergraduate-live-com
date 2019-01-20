@@ -20,6 +20,7 @@ use backend\models\Read;
         <a href="<?= Url::to(['user/member']) ?>"><i class="icon ion-android-calendar"></i>我的会员</a>
         <a href="<?= Url::to(['user/orders']) ?>" class="a4 "><i class="icon ion-ios-list-outline"></i>我的订单</a>
         <a href="<?= Url::to(['user/coin']) ?>"><i class="icon ion-ios-pricetags-outline"></i>我的钱包</a>
+        <a href="<?= Url::to(['user/gold-log']) ?>"><i class="icon ion-ios-pricetags-outline"></i>我的金币</a>
         <a href="<?= Url::to(['user/coupon']) ?>"><i class="icon ion-ios-rose-outline"></i>我的优惠券</a>
         <a href="<?= Url::to(['user/favorite']) ?>" class="a4 "><i class="icon ion-ios-star-outline"></i>我的收藏</a>
         <a href="<?= Url::to(['user/qnas']) ?>"><i class="icon ion-ios-help-outline"></i>我的提问</a>

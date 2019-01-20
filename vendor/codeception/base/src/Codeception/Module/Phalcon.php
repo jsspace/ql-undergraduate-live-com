@@ -423,7 +423,7 @@ class Phalcon extends Framework implements ActiveRecord, PartedModule
      * Resolves the service based on its configuration from Phalcon's DI container
      * Recommended to use for unit testing.
      *
-     * @param string $service    Service name
+     * @param string $service    service name
      * @param array  $parameters Parameters [Optional]
      * @return mixed
      * @part services
@@ -431,7 +431,7 @@ class Phalcon extends Framework implements ActiveRecord, PartedModule
     public function grabServiceFromContainer($service, array $parameters = [])
     {
         if (!$this->di->has($service)) {
-            $this->fail("Service $service is not available in container");
+            $this->fail("service $service is not available in container");
         }
 
         return $this->di->get($service, $parameters);
@@ -442,7 +442,7 @@ class Phalcon extends Framework implements ActiveRecord, PartedModule
      *
      * Note: Deprecated. Will be removed in Codeception 2.3.
      *
-     * @param string $service    Service name
+     * @param string $service    service name
      * @param array  $parameters Parameters [Optional]
      * @return mixed
      * @part services

@@ -5,7 +5,7 @@ namespace Faker\ORM\Mandango;
 use Mandango\Mandango;
 
 /**
- * Service class for populating a database using Mandango.
+ * service class for populating a database using Mandango.
  * A Populator can populate several tables using ActiveRecord classes.
  */
 class Populator

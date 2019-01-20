@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 
 /**
- * Service class for populating a table through a Doctrine Entity class.
+ * service class for populating a table through a Doctrine Entity class.
  */
 class EntityPopulator
 {

@@ -6,7 +6,7 @@ namespace Faker\ORM\Spot;
 use Spot\Locator;
 
 /**
- * Service class for populating a database using the Spot ORM.
+ * service class for populating a database using the Spot ORM.
  */
 class Populator
 {

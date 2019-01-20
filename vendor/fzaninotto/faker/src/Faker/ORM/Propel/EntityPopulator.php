@@ -6,7 +6,7 @@ use \Faker\Provider\Base;
 use \ColumnMap;
 
 /**
- * Service class for populating a table through a Propel ActiveRecord class.
+ * service class for populating a table through a Propel ActiveRecord class.
  */
 class EntityPopulator
 {
