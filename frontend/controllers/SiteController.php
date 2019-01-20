@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 header('Content-type:text/json');
+use backend\models\GoldLog;
+use common\service\GoldService;
 use Yii;
 use backend\models\Course;
 use common\models\LoginForm;
@@ -219,8 +221,13 @@ class SiteController extends Controller
                 $coupon->start_time = date('Y-m-d H:i:s', time());
                 $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
                 $coupon->save();
+                // 赠送学员金币
+                $gold_service = new GoldService();
+                $user_point = 20;
                 //如果邀请人是学员，给邀请人添加优惠券
                 if (!empty($invite)) {
+                    // 接收邀请再加100金币
+                    $user_point = $user_point + 100;
                     $roles_model = Yii::$app->authManager->getAssignments($invite);
                     if (isset($roles_model['student'])) {
                         $coupon = new Coupon();
@@ -231,8 +238,12 @@ class SiteController extends Controller
                         $coupon->start_time = date('Y-m-d H:i:s', time());
                         $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
                         $coupon->save();
+                        // 推荐新人赠送100金币 operation_type = 2
+                        $gold_service->changeUserGold(100, $invite, 2);
                     }
                 }
+                // 新人注册赠送金币 operation_type 3
+                $gold_service->changeUserGold($user_point, $invite, 3);
                 if (Yii::$app->getUser()->login($user)) {
                     //使用session和表tbl_admin_session记录登录账号的token:time&id&ip,并进行MD5加密
                     $id = Yii::$app->user->id;     //登录用户的ID

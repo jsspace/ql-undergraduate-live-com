@@ -20,6 +20,7 @@ class GoldService
          '3' => '用户被推荐赠送金币',
          '4' => '用户注册赠送金币',
          '5' => '用户完成任务奖励金币',
+         '6' => '用户购买课程赠送金币',
          '-1' => '用户消费金币',
          '-2' => '用户兑换金币'
     ];
@@ -33,7 +34,7 @@ class GoldService
      * @param $operation_type 操作类型
      */
 
-    public  function changeUserGold($point, $user_id, $user_type, $operation_type)
+    public  function changeUserGold($point, $user_id, $operation_type)
     {
         //校验数据格式
         if(preg_match("/^\d*$/",$point)){
@@ -57,7 +58,6 @@ class GoldService
                 // 插入锁等待交易完成
                 $new_gold_lock = new GoldLock();
                 $new_gold_lock->userid = $user_id;
-                $new_gold_lock->user_type = $user_type;
                 $new_gold_lock->operation_time = time();
                 if($new_gold_lock->save()){
                     // 插入新的交易记录
@@ -82,7 +82,6 @@ class GoldService
                         $gold_log->gold_balance = $point;
                     }
                     $gold_log->userid = $user_id;
-                    $gold_log->user_type = $user_type;
                     $gold_log->point = $point;
                     $gold_log->operation_time = time();
                     $gold_log->operation_type = $operation_type;
