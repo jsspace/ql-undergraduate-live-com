@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\controllers;
+use backend\models\GoldLog;
 use Yii;
 use yii\web\Controller;
 use backend\models\Card;
@@ -35,19 +36,34 @@ class CardController extends Controller
         parent::beforeAction($action);
         return true;
     }
+//    public function actionIndex()
+//    {
+//        $coin = Coin::find()
+//        ->where(['userid' => Yii::$app->user->id])
+//        ->orderBy('id desc')
+//        ->one();
+//        if (!empty($coin)) {
+//            $balance = $coin->balance;
+//        } else {
+//            $balance = 0;
+//        }
+//        return $this->render('index', ['coin_balance' => $balance]);
+//    }
+
     public function actionIndex()
     {
-        $coin = Coin::find()
-        ->where(['userid' => Yii::$app->user->id])
-        ->orderBy('id desc')
-        ->one();
-        if (!empty($coin)) {
-            $balance = $coin->balance;
+        $gold_log = GoldLog::find()
+            ->where(['userid' => Yii::$app->user->id])
+            ->orderBy('id desc')
+            ->one();
+        if (!empty($gold_log)) {
+            $gold_balance = $gold_log->gold_balance;
         } else {
-            $balance = 0;
+            $gold_balance = 0;
         }
-        return $this->render('index', ['coin_balance' => $balance]);
+        return $this->render('index', ['gold_balance' => $gold_balance]);
     }
+
     /*充值*/
     public function actionRecharge()
     {
