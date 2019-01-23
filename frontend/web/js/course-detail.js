@@ -7,6 +7,7 @@ var courseDetail = {
     count_down_int: 0,
     currentTime: 0,
     point_id: '',
+    section_id:  '',
     course_id: $('._course-id').val(),
     is_guest: $('.is_guest').val(),
     csrf_frontend: $('meta[name=csrf-token]').attr('content'),
@@ -26,7 +27,50 @@ var courseDetail = {
         this.explainCtr();
         this.uploadAnswer();
         this.examEvent();
+        this.homeworkEvent();
+        this.homeworkVideoEvent();
     },
+
+    homeworkVideoEvent: function() {
+        $('#explain').on('click', function () {
+            var src = $(this).attr('video_src');
+            $('._video-layout').show();
+            $('#course-explain').hide().attr('src', '');
+            $('#course-video').show().attr('src', src);
+            $('#course-video').get(0).play();
+        })
+    },
+
+    homeworkEvent: function () {
+
+        $('body').on('change', '#fileloader', function () {
+            var fileArray = document.getElementById('fileloader').files;
+            var formData = new FormData();
+            for (var i = 0; i < fileArray.length; i++) {
+                formData.append('file' + i, fileArray[i])
+            }
+            // formData.append('files', fileArray[0]);
+            formData.append('_csrf-frontend', $('meta[name=csrf-token]').attr('content'));
+            formData.append('count', fileArray.length);
+            formData.append('section_id', section_id);
+            alert(section_id);
+            formData.append('course_id', $('._course-id').val());
+            console.log(fileArray)
+            $.ajax({
+                url: "/course/homework",
+                type: "post",
+                data: formData,
+                async: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+
+                }
+            })
+
+        })
+    },
+
     tagTab: function() {
         $(".course-tag dd").each(function(index) {
             $(this).on("click", function() {

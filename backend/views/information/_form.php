@@ -6,34 +6,29 @@ use dosamigos\ckeditor\CKEditor;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\CourseSection */
+/* @var $model backend\models\Information */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<style type="text/css">
-	.main-header,
-	.main-sidebar,
-	.main-footer,
-	.content-header {
-		display: none;
-	}
-</style>
-<div class="course-section-form">
+
+<div class="information-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'position')->textInput() ?>
+    <?= $form->field($model, 'author')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'explain_video_url')->textInput() ?>
-
-    <?= $form->field($model, 'homework')->widget(CKEditor::className(), [
+    <?= $form->field($model, 'content')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],
         'preset' => 'full',
         'clientOptions' => [
             'filebrowserUploadUrl' => Url::to(['course/uploadimg'], true)
         ],
     ]) ?>
+
+    <?= $form->field($model, 'cover_pic')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'release_time')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

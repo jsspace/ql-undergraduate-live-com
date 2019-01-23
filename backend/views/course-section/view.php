@@ -29,6 +29,8 @@ $this->title = $model->name;
                 'value' => CourseChapter::item($model->chapter_id),
             ],
             'position',
+            'homework',
+            'explain_video_url',
         ],
     ]) ?>
 
