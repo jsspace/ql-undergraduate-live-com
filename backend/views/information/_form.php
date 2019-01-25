@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
+use kartik\file\FileInput;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -26,9 +27,22 @@ use yii\helpers\Url;
         ],
     ]) ?>
 
-    <?= $form->field($model, 'cover_pic')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'release_time')->textInput() ?>
+    <?= $form->field($model, 'cover_pic')->widget(FileInput::classname(),
+        [
+            'options' => ['accept' => 'image/png,image/jpeg'],
+            'pluginOptions' => [
+                'showPreview' => true,
+                'showCaption' => true,
+                'showRemove' => true,
+                'showUpload' => false,
+                'initialPreview' => [
+                    $model->cover_pic ? Html::img($model->cover_pic, $options = ['width' => '170px']) : null,
+                ]
+            ],
+        ]) ?>
+
+    <?= $form->field($model, 'release_time')->textInput(['value' => date('Y-m-d H:i:s',time())]) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
