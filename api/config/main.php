@@ -109,6 +109,13 @@ return [
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'package',
+                    'extraPatterns' => [
+                        'GET list' => 'list',
+                        'GET detail' => 'detail'
+                    ]
+                ],
+                ['class' => 'yii\rest\UrlRule',
                     'controller' => 'order',
                     'pluralize'=>false,
                     'extraPatterns' => [

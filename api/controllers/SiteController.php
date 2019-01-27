@@ -7,8 +7,10 @@ use yii\web\Controller;
 use backend\models\Ad;
 use backend\models\CourseCategory;
 use backend\models\Course;
-use backend\models\User;
+use common\models\User;
 use yii\helpers\Url;
+use backend\models\Notice;
+use backend\models\UserStudyLog;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -17,80 +19,53 @@ class SiteController extends Controller
 {
     public function actionIndex()
     {
-        $result = array();
         /* 广告位 */
         $ads = Ad::find()
         ->where(['online' => 1])
         ->andWhere(['ismobile' => 1])
         ->orderBy('position')
+        ->asArray()
         ->all();
-        $ads_arr = array();
-        foreach ($ads as $key => $ad) {
-            $content = array(
-                'url' => $ad->url,
-                'img' => $ad->img
-            );
-            $ads_arr[] = $content;
-        }
-        $result['home_ads'] = $ads_arr;
 
-        /*课程->热门班级*/
-        $hotcourses = Course::find()
-        ->where(['type' => 1])
-        ->andWhere(['onuse' => 1])
-        ->with('courseSections')
-        ->orderBy('create_time desc')
-        ->limit(6)
+        // 公告
+        $notices = Notice::find()
+        ->orderBy([
+            'position' => SORT_ASC,
+            'id' => SORT_DESC,
+        ])
+        ->asArray()
         ->all();
-        foreach ($hotcourses as $course) {
-            $sections = $course->courseSections;
-            $classrooms = 0; //课堂学
-            $unit_test = 0; //单元测验
-            foreach ($sections as $key => $section) {
-                if ($section->type == 1) {
-                    $classrooms++;
-                } else if ($section->type == 0) {
-                     $unit_test++;
-                }
+
+        $result = array(
+            'ads' => $ads,
+            'notices' => $notices
+        );
+
+        // 资讯
+
+        // 最近在学
+        $get = Yii::$app->request->get();
+        if (isset($get['access-token'])) {
+            $access_token = $get['access-token'];
+            $user = User::findIdentityByAccessToken($access_token);
+            if (!empty($user)) {
+                $user_id = $user->id;
+                $log = UserStudyLog::find()
+                ->where(['userid' => $user_id])
+                ->orderBy('start_time desc')
+                ->one();
+                $course_id = $log->courseid;
+                $course = Course::find()
+                ->where(['id' => $course_id])
+                ->one();
+                $result['course'] = array(
+                    'id' => $course->id,
+                    'pic' => $course->list_pic,
+                    'name' => $course->course_name,
+                    'intro' => $course->intro
+                );
             }
         }
-        $hotcourses_arr = array();
-        foreach ($hotcourses as $key => $hotcourse) {
-            $content = array(
-                'id' => $hotcourse->id,
-                'course_name' => $hotcourse->course_name,
-                'list_pic' => $hotcourse->list_pic,
-                'course_intro' => $hotcourse->intro,
-                'classrooms' => $classrooms,
-                'practices' => $classrooms,
-                'unit_tests' => $unit_test,
-                'examination_time' => $hotcourse->examination_time,
-                'online' => $hotcourse->online
-            );
-            $hotcourses_arr[] = $content;
-        }
-        $result['class_courses'] = $hotcourses_arr;
-
-        /*课程->公开课*/
-        $opencourses = Course::find()
-        ->where(['type' => 2])
-        ->andWhere(['onuse' => 1])
-        ->orderBy('create_time desc')
-        ->limit(6)
-        ->all();
-        $opencourses_arr = array();
-        foreach ($opencourses as $key => $opencourse) {
-            $content = array(
-                'id' => $opencourse->id,
-                'course_name' => $opencourse->course_name,
-                'list_pic' => $opencourse->list_pic,
-                'discount' => $opencourse->discount,
-                'create_time' => date('Y-m-d H:i:s', $opencourse->create_time),
-                'teacher_id' => User::item($opencourse->teacher_id),
-            );
-            $opencourses_arr[] = $content;
-        }
-        $result['open_courses'] = $opencourses_arr;
 
         return json_encode($result);
     }

@@ -23,61 +23,6 @@ use yii\data\Pagination;
  */
 class CourseController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-
-    public function actionCollege()
-    {
-        $cat = Yii::$app->request->get('cat');
-        $catModel = CourseCategory::find()
-        ->where(['id' => $cat])
-        ->one();
-        $coursemodels = Course::find()
-        ->where(['onuse' => 1])
-        ->all();
-        // $classes = CoursePackage::find()
-        // ->where(['onuse' => 1])
-        // ->all();
-        $collegeArr = array();
-        $college_intro = array(
-            'des' => $catModel->des,
-            'name' => $catModel->name
-        );
-        $collegeArr['college_intro'] = $college_intro;
-        $teachers = array();
-        foreach ($coursemodels as $key => $coursemodel) {
-            $categoryids = explode(',', $coursemodel->category_name);
-            if (in_array($catModel->id, $categoryids)) {
-                $content = array(
-                    'id' => $coursemodel->id,
-                    'course_name' => $coursemodel->course_name,
-                    'list_pic' => Url::to('@web'.$coursemodel->list_pic, true),
-                    'discount' => $coursemodel->discount,
-                    'online' => $coursemodel->online
-                );
-                $collegeArr['college_course'][] = $content;
-                $teachers[] = $coursemodel->teacher_id;
-            }
-        }
-        if (!empty($teachers)) {
-            $teachers = array_unique($teachers);
-            $collegeArr["college_teacher"] = array();
-            foreach ($teachers as $key => $teacher) {
-                $teacher = User::getUserModel($teacher);
-                $content = array(
-                    'id' => $teacher->id,
-                    'username' => $teacher->username,
-                    'office' => $teacher->office,
-                    'unit' => $teacher->unit,
-                    'goodat' => $teacher->goodat,
-                    'picture' => Url::to('@web'.$teacher->picture, true)
-                );
-                $collegeArr["college_teacher"][] = $content;
-            }
-        }
-        return json_encode($collegeArr);
-    }
     public function actionList()
     {
         $courses = Course::find()
