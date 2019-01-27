@@ -2679,7 +2679,7 @@ EOT;
     method other than by check or money order.
 
     The Project Gutenberg Literary Archive Foundation has been approved by
-    the US Internal Revenue Service as a 501(c)(3) organization with EIN
+    the US Internal Revenue service as a 501(c)(3) organization with EIN
     [Employee Identification Number] 64-622154.  Donations are
     tax-deductible to the maximum extent permitted by law.  As fund-raising
     requirements for other states are met, additions to this list will be

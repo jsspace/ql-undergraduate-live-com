@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use backend\models\GoldLog;
 use Yii;
 use backend\models\Course;
 use backend\models\OrderGoods;
@@ -26,6 +27,7 @@ use backend\models\Read;
 use yii\helpers\Html;
 use components\helpers\QiniuUpload;
 use backend\models\BookOrder;
+use common\service\GoldService;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -273,6 +275,22 @@ class UserController extends Controller
         ->all();
         return $this->render('coin', [
             'coins' => $coins,
+        ]);
+    }
+    //获取用户金币流水记录
+    public function actionGoldLog()
+    {
+        //测试
+        $cheShi = new GoldService();
+        $result = $cheShi->changeUserGold(10,2,3,2 );
+        echo $result;
+        die;
+        $goldLogs = GoldLog::find()
+            ->where(['userid' => Yii::$app->user->id])
+            ->orderBy('id desc')
+            ->all();
+        return $this->render('gold-log', [
+            'goldLogs' => $goldLogs,
         ]);
     }
     public function actionMember()

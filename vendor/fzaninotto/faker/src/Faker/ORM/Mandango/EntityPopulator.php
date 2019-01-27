@@ -6,7 +6,7 @@ use Mandango\Mandango;
 use Faker\Provider\Base;
 
 /**
- * Service class for populating a table through a Mandango ActiveRecord class.
+ * service class for populating a table through a Mandango ActiveRecord class.
  */
 class EntityPopulator
 {

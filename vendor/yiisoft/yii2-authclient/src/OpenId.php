@@ -396,7 +396,7 @@ class OpenId extends BaseClient
                     Found an XRDS document, now let's find the server, and optionally delegate.*/
                     $content = $this->sendRequest($url, 'GET');
 
-                    preg_match_all('#<Service.*?>(.*?)</Service>#s', $content, $m);
+                    preg_match_all('#<service.*?>(.*?)</service>#s', $content, $m);
                     foreach ($m[1] as $content) {
                         $content = ' ' . $content; // The space is added, so that strpos doesn't return 0.
 

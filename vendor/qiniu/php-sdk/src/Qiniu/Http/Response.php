@@ -66,7 +66,7 @@ final class Response
         500 => 'Internal Server Error',
         501 => 'Not Implemented',
         502 => 'Bad Gateway',
-        503 => 'Service Unavailable',
+        503 => 'service Unavailable',
         504 => 'Gateway Timeout',
         505 => 'HTTP Version Not Supported',
         506 => 'Variant Also Negotiates (Experimental)',

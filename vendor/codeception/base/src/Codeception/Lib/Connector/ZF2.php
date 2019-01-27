@@ -142,7 +142,7 @@ class ZF2 extends Client
         $serviceManager = $this->application->getServiceManager();
 
         if (!$serviceManager->has($service)) {
-            throw new \PHPUnit\Framework\AssertionFailedError("Service $service is not available in container");
+            throw new \PHPUnit\Framework\AssertionFailedError("service $service is not available in container");
         }
 
         if ($service === 'Doctrine\ORM\EntityManager' && !isset($this->persistentServiceManager)) {

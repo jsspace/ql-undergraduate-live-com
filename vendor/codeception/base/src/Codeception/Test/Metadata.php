@@ -171,7 +171,7 @@ class Metadata
     public function getService($service)
     {
         if (!isset($this->services[$service])) {
-            throw new InjectionException("Service $service is not defined and can't be accessed from a test");
+            throw new InjectionException("service $service is not defined and can't be accessed from a test");
         }
         return $this->services[$service];
     }

@@ -2315,7 +2315,7 @@ Ki ez a jóbarát, aki elgáncsolta, hogy kishíján betörte a fejét?
 - Maga tudja, hogy ki vagyok?
 - Hogyne. St. Antonio herceg!
 - Kicsoda ön...
-- Az Intelligence Service embere. Ha nem követ el ostobaságot, akkor minden rendben lesz. A legkisebb hiba romlásba dönti magát, a hozzátartozóit és a szigetországot.
+- Az Intelligence service embere. Ha nem követ el ostobaságot, akkor minden rendben lesz. A legkisebb hiba romlásba dönti magát, a hozzátartozóit és a szigetországot.
 - Mit kell tennem?
 - Semmit. Csak ne leplezze le magát. Ússzon az árral, és minden jó lesz... Én mindig a közelében vagyok... Úgy, ahogy eddig... Bízzon bennem, fiam...
 - Kicsoda maga?
@@ -2907,7 +2907,7 @@ Egyszer csak leesett a magasból egy összegyűrt írás. És leesett a kő pere
 Az írást eltette. Sokkal jobban érdekelte a szemüveg. Ezt leejtette az illető, amikor az üreg fölé hajolt. Szinte lángolt a teste, de mégis megkísérelte, hogy gondolkozzék. Hol látta ezt a zsinóros üveget?... Ki hord ilyen kispolgári drótcsíptetőt az alvilágban?
 Buzgó Mócsing! Az igazi Trebitsch! Ő A Titkos Szolgálat embere! Kétségtelen! Buzgó Mócsing megszólította, amikor az első nap ott ácsorgott a kardnyelő körül!
 Igaz, hogy eladta a Tulipánnak (két és fél dollárért), de talán később kiszabadította volna... Zseniális tettető ez az ember...
-Most... meg kell tudni biztosan, hogy a szemüveg az övé-e. Akkor kétségtelen, hogy az igazi Trebitsch az Intelligence Service embere!
+Most... meg kell tudni biztosan, hogy a szemüveg az övé-e. Akkor kétségtelen, hogy az igazi Trebitsch az Intelligence service embere!
 ...A szemhéjai forrón szúrtak, és a nyelve hasadozott... A levelet apró darabokra tépte, és falat kapart rá... Azután újra elájult.
 3
 Közben Alvarez kétlaki életének úribb felét élte az Orientál Szálló teraszán. Innen látszik a tenger és a sok-sok pálma. Egy amerikai úrral beszélgetnek. A roppant selyemernyő árnya alatt is éget a forróság.

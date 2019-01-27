@@ -6,7 +6,7 @@ use Propel\Runtime\Propel;
 use Propel\Runtime\ServiceContainer\ServiceContainerInterface;
 
 /**
- * Service class for populating a database using the Propel ORM.
+ * service class for populating a database using the Propel ORM.
  * A Populator can populate several tables using ActiveRecord classes.
  */
 class Populator

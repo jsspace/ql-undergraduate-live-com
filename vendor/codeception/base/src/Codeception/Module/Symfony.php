@@ -489,7 +489,7 @@ class Symfony extends Framework implements DoctrineProvider, PartedModule
     {
         $container = $this->_getContainer();
         if (!$container->has($service)) {
-            $this->fail("Service $service is not available in container");
+            $this->fail("service $service is not available in container");
         }
         return $container->get($service);
     }

@@ -108,7 +108,7 @@ class ZendExpressive extends Framework implements DoctrineProvider
     {
         $service = 'Doctrine\ORM\EntityManager';
         if (!$this->container->has($service)) {
-            throw new \PHPUnit\Framework\AssertionFailedError("Service $service is not available in container");
+            throw new \PHPUnit\Framework\AssertionFailedError("service $service is not available in container");
         }
 
         return $this->container->get('Doctrine\ORM\EntityManager');

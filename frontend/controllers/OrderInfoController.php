@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\controllers;
+use common\service\GoldService;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -201,6 +202,10 @@ class OrderInfoController extends \yii\web\Controller
         $gift_books = array_filter($gift_books);
         $order_info->gift_books = implode(',', $gift_books);
         $order_info->gift_coins = $data['gift_coins'];
+        // 购买课程赠送金币
+        $gold_service = new GoldService();
+        $gold_service->changeUserGold($data['gift_coins'], Yii::$app->user->id, 6);
+
         // $order_info->coupon_ids = $coupon_ids_str;
         // $order_info->coupon_money = $coupon_money;
         // $order_info->invalid_time = time() + 3600 * 24 * 180;

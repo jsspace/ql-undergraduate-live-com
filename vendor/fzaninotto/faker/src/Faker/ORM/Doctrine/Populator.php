@@ -5,7 +5,7 @@ namespace Faker\ORM\Doctrine;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
- * Service class for populating a database using the Doctrine ORM or ODM.
+ * service class for populating a database using the Doctrine ORM or ODM.
  * A Populator can populate several tables using ActiveRecord classes.
  */
 class Populator

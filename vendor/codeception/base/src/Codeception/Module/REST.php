@@ -372,7 +372,7 @@ EOF;
                 throw new ConfigurationException('AWS Secret is not set');
             }
             if (!isset($config['service'])) {
-                throw new ConfigurationException('AWS Service is not set');
+                throw new ConfigurationException('AWS service is not set');
             }
             if (!isset($config['region'])) {
                 throw new ConfigurationException('AWS Region is not set');

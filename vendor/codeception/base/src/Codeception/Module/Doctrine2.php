@@ -12,7 +12,7 @@ use Codeception\Util\Stub;
 /**
  * Access the database using [Doctrine2 ORM](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/).
  *
- * When used with Zend Framework 2 or Symfony2, Doctrine's Entity Manager is automatically retrieved from Service Locator.
+ * When used with Zend Framework 2 or Symfony2, Doctrine's Entity Manager is automatically retrieved from service Locator.
  * Set up your `functional.suite.yml` like this:
  *
  * ```
