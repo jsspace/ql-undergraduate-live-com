@@ -35,8 +35,13 @@ function check() {
         },
         success: function(data) {
             if (data.trade_state == "SUCCESS") {
-            	alert("订单支付成功,即将跳转...");
-                window.location.href = "<?= Url::to(['user/orders']) ?>";
+                if(data.buy_gold){
+                    alert("订单支付成功,即将跳转...");
+                    window.location.href = "<?= Url::to(['user/gold-log']) ?>";
+                }else{
+                    alert("订单支付成功,即将跳转...");
+                    window.location.href = "<?= Url::to(['user/orders']) ?>";
+                }
             }
         }
     });

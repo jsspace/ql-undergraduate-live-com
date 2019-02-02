@@ -7,11 +7,12 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\bootstrap\ActiveForm;
 use frontend\assets\AppAsset;
 
 AppAsset::addCss($this,'@web/css/card.css');
 
-$this->title = '钱包充值';
+$this->title = '金币充值';
 ?>
 <div class="card-wrapper">
     <div class="card-form">
@@ -28,86 +29,70 @@ $this->title = '钱包充值';
                     <span class="user-info">
                         <img src="<?= Yii::$app->user->identity->picture; ?>"/>
                         <em><?= Yii::$app->user->identity->username ?></em>
-                        <strong>当前余额：<i><?= $coin_balance ?></i>元</strong>
+                        <strong>当前金币数量：<i><?= $gold_balance ?></i>个</strong>
                     </span>
                 <?php } ?>
             </p>
-            <p class="card-section">
+            <?php if ( !(Yii::$app->user->isGuest)) { ?>
+            <p class="" style="margin-bottom: 15px;"><span style="color:red ">1</span>元人民币可兑换<span style="color:red ">10</span>个金币</p>
+            <div>
+                <?php $form = ActiveForm::begin(['id' => 'coin-buy-form', 'action' => Url::to(['card/buy'])]); ?>
+                <p class="card-section">
                 <span class="div-ele">
-                    <input type="text" placeholder="请输入16位学习卡卡号" id="cardNum">
-                    <span class="empty-tip num-empty">请输入16位学习卡卡号</span>
+                    <input type="text" placeholder="请输入购买金币数量(10整数倍)" name="gold_num" id="goldNum">
+                    <span class="empty-tip num-empty">请输入购买金币数量(10的整数倍),当前输入有误</span>
                 </span>
-                <span class="div-ele">
-                    <input type="text" placeholder="请输入8位学习卡密码" id="cardPwd">
-                    <span class="empty-tip pwd-empty">请输入8位学习卡密码</span>
-                </span>
-                <a href="javascript:void(0)" class="submit-btn <?php if (Yii::$app->user->isGuest) { ?> disabled-submit <?php } ?>">提交充值</a>
-                <a href="/card/howto" class="card-link">如何使用钱包购买课程？</a>
-            </p>
+                <?= Html::submitButton('提交订单', ['class' => 'submit-btn checkRule']) ?>
+                </p>
+                <?php ActiveForm::end(); ?>
+            </div>
+            <?php } ?>
         </div>
     </div>
     <div class="deposit-step">
         <dl class="wp">
-            <dt>充值流程<i></i></dt>
+            <dt>购买流程<i></i></dt>
             <dd><i>1</i>
                 注册成为网站会员<br>(已注册用户请直接登录)
             </dd>
             <dd><i>2</i>
-                输入框输入学习卡号及密码<br>
-                并提交充值
+                输入框输入需购买的金币数量<br>
+                并提交购买
             </dd>
             <dd class="last"><i>3</i><span>充值成功</span></dd>
         </dl>
     </div>
 </div>
+
 <script type="text/javascript" src="/skin/layer.js"></script>
 <script>
     $(function () {
-        $('.submit-btn').on('click', function (e) {
+        $('.checkRule').on('click', function (e) {
             if ($(this).hasClass('disabled-submit')) {
                 e.preventDefault();
             } else {
-                var cardNum = $('#cardNum').val();
-                var cardPwd = $('#cardPwd').val();
-                if (!cardNum) {
+                var numCheck = 0;
+                var goldNum = $('#goldNum').val();
+                if (!goldNum) {
+                     numCheck = numCheck + 1;
+                }
+                // 校验规则
+                var rules = /^\+?[1-9][0-9]*$/;　　//正整数
+                if(!rules.test(goldNum)){
+                    numCheck = numCheck + 1;
+                }
+                var isTen=goldNum%10;
+                if(isTen!==0){
+                    numCheck = numCheck + 1;
+                }
+                if(numCheck !==0){
                     $('.num-empty').show();
-                    $('#cardNum').focus();
+                    $('#goldNum').focus();
                     return false;
-                } else {
+                }else{
                     $('.num-empty').hide();
+                    return true;
                 }
-                if (!cardPwd) {
-                    $('.pwd-empty').show();
-                    $('#cardPwd').focus();
-                    return false;
-                } else {
-                    $('.pwd-empty').hide();
-                }
-                $.ajax({
-                    url: '/card/recharge',
-                    type: 'post',
-                    dataType:"json",
-                    data: {
-                        'card_id': cardNum,
-                        'card_pass': cardPwd,
-                        '_csrf-frontend': $('meta[name=csrf-token]').attr('content')
-                    },
-                    success: function (data) {
-                        if (data.status == 'success') {
-                            layer.alert(data.message, {
-                                icon: 1,
-                                yes: function() {
-                                    window.location.href = '/user/coin';
-                                }
-                            });
-                        } else {
-                            layer.alert(data.message, {icon: 5});
-                        }
-                    },
-                    error: function () {
-                        console.log('error')
-                    }
-                });
             }
         });
     });

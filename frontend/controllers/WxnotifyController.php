@@ -1,6 +1,8 @@
 <?php
 
 namespace frontend\controllers;
+use backend\models\GoldOrderInfo;
+use common\service\GoldService;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -62,6 +64,80 @@ class WxnotifyController extends \yii\web\Controller
         return parent::beforeAction($action);
     }
 
+
+
+
+    public function actionGold()
+    {
+        error_log('file:'.__FILE__.'  line:'.__LINE__);
+        //获取通知的数据
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        error_log('file:'.__FILE__.'  line:'.__LINE__.'   xml:'.$xml);
+        //如果返回成功则验证签名
+        //try {
+        $result = $this->fromXml($xml);
+        if($result['return_code'] == 'SUCCESS')
+        {
+            $sign = $this->sign($result);
+            if($sign == $result['sign'])
+            {
+                if ($result['result_code'] == 'SUCCESS') {
+                    //商户订单号
+                    $out_trade_no = $result['out_trade_no'];
+                    //微信支付订单号
+                    $transaction_id = $result['transaction_id'];
+                    //交易类型
+                    $trade_type = $result['trade_type'];
+                    //支付金额(单位：分)
+                    $total_fee = $result['total_fee']/100.00;
+                    //支付完成时间
+                    $time_end = $result['time_end'];
+
+                    $order_info = GoldOrderInfo::find()
+                        ->where(['order_sn' => $out_trade_no])
+                        ->andWhere(['order_status' => 1])
+                        ->andWhere(['pay_status' => 0])
+                        ->one();
+
+                    if (!empty($order_info) && ($order_info->order_amount == $total_fee)) {
+                        $order_info->pay_id = $transaction_id;
+                        $order_info->pay_name = '微信支付';
+                        $order_info->money_paid = intval($total_fee);
+                        //再次计算金币的数量
+                        $gold_num = intval($total_fee * 10);
+                        $order_info->gold_num = $gold_num;
+                        $order_info->pay_status = 2;
+                        $order_info->pay_time = time();
+                        $order_info->save(false);
+                        // 赠送金币
+                        $goldService = new GoldService();
+                        $goldService->changeUserGold($gold_num, $order_info->user_id, '1');
+
+                    } else {
+                        $err_str = 'money is not right, $result: ' . json_encode($result);
+                        $err_str .= ' file: ' . __FILE__ . ' line: ' . __LINE__ . PHP_EOL;
+                        error_log($err_str);
+                        return false;
+                    }
+                    //订单状态已更新，直接返回
+                    return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+
+                } else {
+                    $return_msg = $result['err_code'].':'.$result['err_code_des'];
+                    error_log($return_msg);
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     
     public function actionIndex()

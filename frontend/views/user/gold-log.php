@@ -23,15 +23,15 @@ $this->title = '个人中心';
         <p class="user-right-title">我的金币</p>
         <p class="coin-con">
             <span class="coin-left">
-                钱包余额：<?php
+                金币余额：<?php
                 if (!empty($goldLogs[0])) {
                     echo $goldLogs[0]->gold_balance;
                 } else {
                     echo 0;
                 }
-                ?>元&nbsp;&nbsp;&nbsp;&nbsp;<a href="/card">充值金币</a>
+                ?>个&nbsp;&nbsp;&nbsp;&nbsp;<a href="/card">充值金币</a>
             </span>
-            <span class="coin-right">不知道如何充值或使用钱包？<a href="/card/howto">请戳这里</a></span>
+<!--            <span class="coin-right">不知道如何充值或使用钱包？<a href="/card/howto">请戳这里</a></span>-->
         </p>
         <div class="coupon-wrapper coin-wrapper">
             <ul class="coupon-title-line">

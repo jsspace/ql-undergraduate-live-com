@@ -32,8 +32,8 @@ class GoldLog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userid', 'user_type', 'point', 'gold_balance', 'operation_type', 'operation_detail', 'operation_time'], 'required'],
-            [['userid', 'user_type', 'operation_type', 'operation_time'], 'integer'],
+            [['userid',  'point', 'gold_balance', 'operation_type', 'operation_detail', 'operation_time'], 'required'],
+            [['userid',  'operation_type', 'operation_time'], 'integer'],
             [['point', 'gold_balance'], 'number'],
             [['operation_detail'], 'string'],
         ];

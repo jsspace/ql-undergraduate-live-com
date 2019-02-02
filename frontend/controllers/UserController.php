@@ -280,11 +280,6 @@ class UserController extends Controller
     //获取用户金币流水记录
     public function actionGoldLog()
     {
-        //测试
-        $cheShi = new GoldService();
-        $result = $cheShi->changeUserGold(10,2,3,2 );
-        echo $result;
-        die;
         $goldLogs = GoldLog::find()
             ->where(['userid' => Yii::$app->user->id])
             ->orderBy('id desc')

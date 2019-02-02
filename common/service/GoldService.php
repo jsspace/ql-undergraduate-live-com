@@ -4,6 +4,7 @@ namespace common\service;
 use backend\models\GoldLog;
 use backend\models\GoldLock;
 use Yii;
+use yii\db\Exception;
 
 /**
  * Created by PhpStorm.
@@ -45,8 +46,6 @@ class GoldService
         }else{
             return false;
         }
-        // 开启事务
-        $transaction = Yii::$app->db->beginTransaction();
         try{
             $gold_lock = GoldLock::find()
                 ->where(['userid' => $user_id])
@@ -58,52 +57,67 @@ class GoldService
                 // 插入锁等待交易完成
                 $new_gold_lock = new GoldLock();
                 $new_gold_lock->userid = $user_id;
+                $new_gold_lock->user_type = 3;
                 $new_gold_lock->operation_time = time();
                 if($new_gold_lock->save()){
-                    // 插入新的交易记录
-                    $gold_log = new GoldLog();
-                    // 获取用户最新的充值记录
-                    $old_gold_logs = GoldLog::find()
-                        ->where(['userid' => $user_id])
-                        ->orderBy('id desc')
-                        ->all();
-                    if(!empty($old_gold_logs)){
-                        $old_balance = $old_gold_logs[0]['balance'];
-                        if($operation_type < 0){
-                            if($old_balance - $point < 0){
-                                return false;
-                            }else{
-                                $gold_log->gold_balance = $old_balance - $point;
-                            }
-                        }else{
-                            $gold_log->gold_balance = $old_balance + $point;
-                        }
-                    }else{
-                        $gold_log->gold_balance = $point;
-                    }
-                    $gold_log->userid = $user_id;
-                    $gold_log->point = $point;
-                    $gold_log->operation_time = time();
-                    $gold_log->operation_type = $operation_type;
-                    $gold_log->operation_detail = $this->operation_detail[$operation_type.''];
-                    if($gold_log -> save()){
-                        // 删除锁
-                        GoldLock::find()
-                            ->where(['userid' => $user_id])
-                            ->one()
-                            ->delete();
-                        $transaction->commit();
-                        return true;
-                    }else{
-                        $transaction->rollBack();
-                        return false;
-                    }
+                    $this->deleteGoldLock($user_id);
+                    return $this->saveChangeUserGold($point, $user_id, $operation_type);
                 }else{
+                    $this->deleteGoldLock($user_id);
                     return false;
                 }
             }
         }catch (\Exception $e) {
-            $transaction->rollBack();
+            $this->deleteGoldLock($user_id);
+            return false;
+        }
+    }
+
+    public function deleteGoldLock($user_id){
+        GoldLock::find()
+            ->where(['userid' => $user_id])
+            ->one()
+            ->delete();
+    }
+
+    public function saveChangeUserGold($point, $user_id, $operation_type){
+        try{
+            // 开启事务
+            $transaction = Yii::$app->db->beginTransaction();
+            // 插入新的交易记录
+            $gold_log = new GoldLog();
+            // 获取用户最新的充值记录
+            $old_gold_logs = GoldLog::find()
+                ->where(['userid' => $user_id])
+                ->orderBy('id desc')
+                ->all();
+            if(!empty($old_gold_logs)){
+                $old_balance = $old_gold_logs[0]['gold_balance'];
+                if($operation_type < 0){
+                    if($old_balance - $point < 0){
+                        return false;
+                    }else{
+                        $gold_log->gold_balance = $old_balance - $point;
+                    }
+                }else{
+                    $gold_log->gold_balance = $old_balance + $point;
+                }
+            }else{
+                $gold_log->gold_balance = $point;
+            }
+            $gold_log->userid = $user_id;
+            $gold_log->point = $point;
+            $gold_log->operation_time = time();
+            $gold_log->operation_type = $operation_type;
+            $gold_log->operation_detail = $this->operation_detail[$operation_type.''];
+            if($gold_log -> save()){
+                $transaction->commit();
+                return true;
+            }else{
+                $transaction->rollBack();
+                return false;
+            }
+        }catch (\Exception $e){
             return false;
         }
 
