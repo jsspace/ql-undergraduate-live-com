@@ -45,12 +45,12 @@ class UserHomework extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'course_id' => Yii::t('app', '对应课程id'),
-            'section_id' => Yii::t('app', '节次id'),
-            'pic_url' => Yii::t('app', '提交作业图片url'),
+            'course_id' => Yii::t('app', '对应课程'),
+            'section_id' => Yii::t('app', '节次'),
+            'pic_url' => Yii::t('app', '提交作业图片'),
             'status' => Yii::t('app', '状态'),
             'submit_time' => Yii::t('app', '提交时间'),
-            'user_id' => Yii::t('app', '用户id'),
+            'user_id' => Yii::t('app', '用户'),
         ];
     }
 

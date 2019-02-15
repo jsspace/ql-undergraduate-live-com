@@ -71,4 +71,29 @@ class UserHomeworkSearch extends UserHomework
 
         return $dataProvider;
     }
+
+    public function totalsearch($params)
+    {
+        $query = UserHomework::find()
+            ->groupBy(['user_id', 'course_id']);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+        ]);
+
+        return $dataProvider;
+    }
+
 }

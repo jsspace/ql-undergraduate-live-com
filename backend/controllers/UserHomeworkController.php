@@ -109,6 +109,16 @@ class UserHomeworkController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionStatistic()
+    {
+        $searchModel = new UserHomeworkSearch();
+        $dataProvider = $searchModel->totalsearch(Yii::$app->request->queryParams);
+        return $this->render('statistic', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Finds the UserHomework model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

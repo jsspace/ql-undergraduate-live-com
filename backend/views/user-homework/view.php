@@ -41,7 +41,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'section_id',
                 'value' => CourseSection::item($model->section_id)
             ],
-            'pic_url:ntext',
+
+            [
+                'attribute' => 'pic_url',
+                'format' => 'raw',
+                'value' => function($model) {
+                    $images = '';
+                    $pics = explode(';', $model->pic_url);
+                    for ($i = 0; $i < count($pics); $i++) {
+                        $images = $images.Html::img($pics[$i], ['width' => 300, 'height' => 220, 'alt' => $pics[$i]]);
+                    }
+                    return $images;
+                },
+            ],
             [
                 'attribute' => 'status',
                 'value' => Lookup::item('homework_status', $model->status)

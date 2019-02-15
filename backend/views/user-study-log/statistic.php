@@ -31,7 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=> function ($model) {
                     return User::item($model->userid);
                 },
-                'filter' => User::students(),
             ],
             [
                 'attribute' => '学习时长（分钟）',

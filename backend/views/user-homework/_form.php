@@ -22,6 +22,24 @@ use backend\models\User;
 
     <?= $form->field($model, 'pic_url')->textarea(['rows' => 6, 'disabled'=>'disabled']) ?>
 
+    <?=\yii\widgets\DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            [
+                'attribute' => 'pic_url',
+                'format' => 'raw',
+                'value' => function($model) {
+                    $images = '';
+                    $pics = explode(';', $model->pic_url);
+                    for ($i = 0; $i < count($pics); $i++) {
+                        $images = $images.Html::img($pics[$i], ['width' => 300, 'height' => 220, 'alt' => $pics[$i]]);
+                    }
+                    return $images;
+                },
+            ],
+        ]
+    ]) ?>
+
     <?= $form->field($model, 'status')->dropDownList(
             Lookup::items('homework_status')) ?>
 

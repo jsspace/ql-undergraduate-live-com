@@ -236,7 +236,12 @@ foreach ($chapters as $key => $chapter) {
                             $flag = false;
                             $homework_info = '';
                             $homework_info = UserHomework::find()
-                            ->where(['user_id' => $userid, 'section_id' => $section->id])->one();
+                            ->where(['user_id' => $userid, 'section_id' => $section->id, 'submit_time'=>
+                                UserHomework::find()->where(['user_id' => $userid, 'section_id' => $section->id])->max('submit_time')])->one();
+//                            $homework_info = UserHomework::findOne([
+//                                'user_id' => $userid,
+//                                'section_id' => $section->id
+//                            ]);
                             if (!empty($homework_info)){
                                 $flag = true;
                             }
@@ -246,7 +251,7 @@ foreach ($chapters as $key => $chapter) {
                                 <li><?=$section->name ?></li>
                                 <li><?=$section->homework ?></li>
                                 <li>
-                                        <?php if ($flag){ ?>
+                                        <?php if ($flag and $homework_info->status!=3){ ?>
                                             <?php $imgs=explode(';', $homework_info->pic_url);
                                                     $imgs = array_filter($imgs);
                                                    foreach ($imgs as $img){
@@ -345,5 +350,11 @@ foreach ($chapters as $key => $chapter) {
         }
     }
 
-
+    function homeworkVideoEvent() {
+        var src = $(this).attr('video_src');
+        $('._video-layout').show();
+        $('#course-explain').hide().attr('src', '');
+        $('#course-video').show().attr('src', src);
+        $('#course-video').get(0).play();
+    }
 </script>

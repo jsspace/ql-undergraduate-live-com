@@ -467,6 +467,9 @@ class CourseController extends Controller
         $section_id = $data['section_id'];
         $course_id = $data['course_id'];
 
+        // 假设提交的作业未审核通过，则先删除原先提交的作业
+
+
         $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
         $model = new UserHomework();
         $model->user_id = $userid;
