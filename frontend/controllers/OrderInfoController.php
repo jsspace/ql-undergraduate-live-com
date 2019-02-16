@@ -366,120 +366,6 @@ class OrderInfoController extends \yii\web\Controller
         }
     }
 
-    /**
-     * 金币支付回调接口
-     */
-    public function actionAlinotify2()
-    {
-        $data = Yii::$app->request->Post();
-        $arr=$data;
-        //获取配置信息
-        $config = Yii::$app->params['alipay'];
-        $alipaySevice = new \AlipayTradeService($config);
-        $alipaySevice->writeLog(var_export($data,true));
-        $result = $alipaySevice->check($arr);
-
-        /* 实际验证过程建议商户添加以下校验。
-         1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-         2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
-         3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
-         4、验证app_id是否为该商户本身。
-         */
-        if($result) {//验证成功
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //请在这里加上商户的业务逻辑程序代
-
-            //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
-            //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
-            //商户订单号
-            $out_trade_no = $data['out_trade_no'];
-            //支付宝交易号
-            $trade_no = $data['trade_no'];
-            //交易状态
-            $trade_status = $data['trade_status'];
-            //支付金额
-            $total_amount = $data['total_amount'];
-            //支付宝交易号
-            $trade_no = $data['trade_no'];
-
-            if ($data['trade_status'] == 'TRADE_FINISHED') {
-                //判断该笔订单是否在商户网站中已经做过处理
-                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-                //请务必判断请求时的total_amount与通知时获取的total_fee为一致的
-                //如果有做过处理，不执行商户的业务程序
-                //注意：
-                //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
-                $order_info = GoldOrderInfo::find()
-                    ->where(['order_sn' => $out_trade_no])
-                    ->andWhere(['order_status' => 1])
-                    ->one();
-                if (!empty($order_info) && $order_info->order_amount == $total_amount) {
-                    if ($order_info->pay_status == 0) {
-                        //给邀请人发送奖励金额
-                        $order_info->pay_id = $trade_no;
-                        $order_info->pay_name = '支付宝支付';
-                        $order_info->money_paid = $total_amount;
-                        //再次计算金币的数量
-                        $gold_num = $total_amount * 1000;
-                        $order_info->gold_num = $gold_num;
-                        $order_info->pay_status = 2;
-                        $order_info->pay_time = time();
-                        $order_info->save(false);
-                        // 赠送金币
-                        $goldService = new GoldService();
-                        $goldService->changeUserGold($gold_num, $order_info->user_id, '1');
-                    }
-                }
-            } else if ($data['trade_status'] == 'TRADE_SUCCESS') {
-                //判断该笔订单是否在商户网站中已经做过处理
-                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-                //请务必判断请求时的total_amount与通知时获取的total_fee为一致的
-                //如果有做过处理，不执行商户的业务程序
-                //注意：
-                //付款完成后，支付宝系统发送该交易状态通知
-                $order_info = GoldOrderInfo::find()
-                    ->where(['order_sn' => $out_trade_no])
-                    ->andWhere(['pay_status' => 0])
-                    ->andWhere(['order_status' => 1])
-                    ->one();
-                if (!empty($order_info) && $order_info->order_amount == $total_amount) {
-
-                    $order_info->pay_id = $trade_no;
-                    $order_info->pay_name = '支付宝支付';
-                    $order_info->money_paid = $total_amount;
-                    //再次计算金币的数量
-                    $gold_num = $total_amount * 10;
-                    $order_info->gold_num = $gold_num;
-                    $order_info->pay_status = 2;
-                    $order_info->pay_time = time();
-                    $order_info->save(false);
-                    // 赠送金币
-                    $goldService = new GoldService();
-                    $goldService->changeUserGold($gold_num, $order_info->user_id, '1');
-
-                }
-
-            } else if ($data['trade_status'] == 'TRADE_CLOSED') {
-                $order_info = GoldOrderInfo::find()
-                    ->where(['order_sn' => $out_trade_no])
-                    ->andWhere(['order_status' => 1])
-                    ->one();
-                if (!empty($order_info) && $order_info->order_amount == $total_amount) {
-                    //取消订单
-                    $order_info->pay_id = $trade_no;
-                    $order_info->pay_name = '支付宝支付';
-                    $order_info->order_status = 2;
-                    $order_info->pay_status = 0;
-                    $order_info->invalid_time = time();
-                    $order_info->save(false);
-                }
-            }
-            //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
-            echo "success";	//请不要修改或删除
-        }else {
-            echo "fail";
-        }
-    }
 
     public function actionGold_wxpay($order_sn)
     {
@@ -615,6 +501,30 @@ class OrderInfoController extends \yii\web\Controller
                             );
                     }
                 }
+                //金币的回调处理
+                $gold_order_info = GoldOrderInfo::find()
+                    ->where(['order_sn' => $out_trade_no])
+                    ->andWhere(['order_status' => 1])
+                    ->one();
+                if (!empty($gold_order_info) && $gold_order_info->order_amount == $total_amount) {
+                    if ($gold_order_info->pay_status == 0) {
+                        //给邀请人发送奖励金额
+                        $gold_order_info->pay_id = $trade_no;
+                        $gold_order_info->pay_name = '支付宝支付';
+                        $gold_order_info->money_paid = $total_amount;
+                        //再次计算金币的数量
+                        $gold_num = $total_amount * 1000;
+                        $gold_order_info->gold_num = $gold_num;
+                        $gold_order_info->pay_status = 2;
+                        $gold_order_info->pay_time = time();
+                        $gold_order_info->save(false);
+                        // 赠送金币
+                        $goldService = new GoldService();
+                        $goldService->changeUserGold($gold_num, $gold_order_info->user_id, '1');
+                    }
+                }
+
+
             } else if ($data['trade_status'] == 'TRADE_SUCCESS') {
                 //判断该笔订单是否在商户网站中已经做过处理
                 //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
@@ -672,6 +582,28 @@ class OrderInfoController extends \yii\web\Controller
                         ]
                         );
                 }
+
+                $gold_order_info = GoldOrderInfo::find()
+                    ->where(['order_sn' => $out_trade_no])
+                    ->andWhere(['pay_status' => 0])
+                    ->andWhere(['order_status' => 1])
+                    ->one();
+                if (!empty($gold_order_info) && $gold_order_info->order_amount == $total_amount) {
+
+                    $gold_order_info->pay_id = $trade_no;
+                    $gold_order_info->pay_name = '支付宝支付';
+                    $gold_order_info->money_paid = $total_amount;
+                    //再次计算金币的数量
+                    $gold_num = $total_amount * 1000;
+                    $gold_order_info->gold_num = $gold_num;
+                    $gold_order_info->pay_status = 2;
+                    $gold_order_info->pay_time = time();
+                    $gold_order_info->save(false);
+                    // 赠送金币
+                    $goldService = new GoldService();
+                    $goldService->changeUserGold($gold_num, $gold_order_info->user_id, '1');
+
+                }
                 
             } else if ($data['trade_status'] == 'TRADE_CLOSED') {
                 $order_info = OrderInfo::find()
@@ -694,6 +626,21 @@ class OrderInfoController extends \yii\web\Controller
                             'coupon_id' => explode(',', $order_info->coupon_ids),
                         ]
                         );
+                }
+
+                $gold_order_info = GoldOrderInfo::find()
+                    ->where(['order_sn' => $out_trade_no])
+                    ->andWhere(['order_status' => 1])
+                    ->one();
+                if (!empty($gold_order_info) && $gold_order_info->order_amount == $total_amount) {
+                    //取消订单
+                    $gold_order_info->pay_id = $trade_no;
+                    $gold_order_info->pay_name = '支付宝支付';
+                    $gold_order_info->order_status = 2;
+                    $gold_order_info->pay_status = 0;
+                    $gold_order_info->invalid_time = time();
+                    $gold_order_info->save(false);
+                    
                 }
             }
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——

@@ -25,7 +25,7 @@ return [
         'return_url' => "http://www.kaoben.top/user/orders",
 
         //本地测试环境
-        'gold_notify_url' => "http://www.kaoben.top/order-info/alinotify2",
+        'gold_notify_url' => "http://www.kaoben.top/order-info/alinotify",
         // 金币支付成功跳转url
         'gold_return_url' => "http://www.kaoben.top/user/gold-log",
 
