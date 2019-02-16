@@ -247,7 +247,7 @@ class OrderInfoController extends \yii\web\Controller
 
         $need_money = (int)$data['money'];
         $gold_num = (int)$data['gold_num'];
-        $need_money = 0.1; //测试使用
+        //$need_money = 0.1; //测试使用
         // 需要再次校验金币是否与金额关系是否正确
         $order_info->money_paid= 0;
         $order_info->gold_num = $gold_num;
@@ -513,7 +513,7 @@ class OrderInfoController extends \yii\web\Controller
                         $gold_order_info->pay_name = '支付宝支付';
                         $gold_order_info->money_paid = $total_amount;
                         //再次计算金币的数量
-                        $gold_num = $total_amount * 1000;
+                        $gold_num = $total_amount * 10;
                         $gold_order_info->gold_num = $gold_num;
                         $gold_order_info->pay_status = 2;
                         $gold_order_info->pay_time = time();
@@ -594,7 +594,7 @@ class OrderInfoController extends \yii\web\Controller
                     $gold_order_info->pay_name = '支付宝支付';
                     $gold_order_info->money_paid = $total_amount;
                     //再次计算金币的数量
-                    $gold_num = $total_amount * 1000;
+                    $gold_num = $total_amount * 10;
                     $gold_order_info->gold_num = $gold_num;
                     $gold_order_info->pay_status = 2;
                     $gold_order_info->pay_time = time();
