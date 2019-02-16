@@ -48,8 +48,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model) {
                     $images = '';
                     $pics = explode(';', $model->pic_url);
-                    for ($i = 0; $i < count($pics); $i++) {
-                        $images = $images.Html::img($pics[$i], ['width' => 300, 'height' => 220, 'alt' => $pics[$i]]);
+                    $pics = array_filter($pics);
+                    foreach ($pics as $pic) {
+                        $images = $images.Html::img($pic, ['height' => 40]);
                     }
                     return $images;
                 },
