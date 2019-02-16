@@ -371,6 +371,80 @@
 .tag-content.xueqing ul li:nth-child(5) {
     width: 15%;
 }
+
+.tag-content.zuoye {
+    border: 1px solid #ececec;
+    border-radius: 4px;
+}
+.tag-content.zuoye .no-login {
+    padding: 20px;
+}
+.tag-content.zuoye > p {
+    padding: 20px;
+}
+.tag-content.zuoye p label {
+    margin-right: 20px;
+    color: #494747;
+}
+.tag-content.zuoye ul {
+    display: flex;
+    color: #757272;
+}
+.tag-content.zuoye ul.title {
+    background: rgba(242,13,13,.1);
+    color: #f20d0d;
+}
+.tag-content.zuoye ul.title li + li:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 1px;
+    height: 20px;
+    background: rgba(242,13,13,.1);
+}
+.tag-content.zuoye ul li {
+    padding: 0 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+}
+.tag-content.zuoye ul li p {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.tag-content.zuoye ul li span.status-nopass {
+    color: #f20d0d;
+}
+.tag-content.zuoye ul li a.answer-url {
+    color: blue;
+}
+.tag-content.zuoye ul li:nth-child(1) {
+    width: 20%;
+}
+.tag-content.zuoye ul li:nth-child(2) {
+    width: 20%;
+}
+.tag-content.zuoye ul li:nth-child(3) {
+    width: 10%;
+}
+.tag-content.zuoye ul li:nth-child(4) {
+    width: 15%;
+}
+.tag-content.zuoye ul li:nth-child(5) {
+    width: 10%;
+}
+.tag-content.zuoye ul li:nth-child(6) {
+    width: 25%;
+}
+
 .play-icon {
     padding: 5px 10px 5px 31px;
     border: 1px solid #ddd;
@@ -642,4 +716,15 @@
 }
 .chapter-item .point-list .right {
     float: right;
+}
+
+/*作业模块*/
+.zuoye_button {
+    height: 30px;
+    font-size: 12px;
+    padding: 0 5px;
+    border-radius: 4px;
+    outline: none;
+    border: 0;
+    line-height: 30px;
 }

@@ -13,7 +13,7 @@ use Yii;
  */
 class QiniuUpload
 {
-    public static function uploadToQiniu($image, $filePath, $folder) {
+    public static function uploadToQiniu($image, $filePath, $folder, $ext='jpg') {
         // $filePath 要上传文件的本地路径
         // 初始化签权对象
         $auth = new Auth(Yii::$app->params['access_key'], Yii::$app->params['secret_key']);
@@ -26,7 +26,10 @@ class QiniuUpload
         $uploadMgr = new UploadManager();
 
         // 上传到七牛后保存的文件名
-        $ext = $image->getExtension();
+        if ($ext == null) {
+            $ext = $image->getExtension();
+        }
+//        $ext = $image->getExtension();
         $key = $folder . '/' . time() . rand(1000, 9999) . '.' . $ext;
 
         $response = $uploadMgr->putFile($token, $key, $filePath);

@@ -210,14 +210,15 @@ function editChapter() {
         console.log(cns)
         var cn = cns[0];
         var content = '',
-            width = '320px';
+            height = '320px';
         if (cn.type == 'chapter') {
             content = '/course-chapter/update?id='+cn.state.cid;
         } else if (cn.type == 'section') {
             content = '/course-section/update?id='+cn.state.cid;
+            height = '500px';
         } else if (cn.type == 'point') {
             content = '/course-section-points/update?id='+cn.state.cid;
-            width = '520px';
+            height = '520px';
         }
         layer.open({
             type: 2,
@@ -225,7 +226,7 @@ function editChapter() {
             shadeClose: false,
             shade: [0.5, '#000'],
             maxmin: false,
-            area: ['600px', width],
+            area: ['600px', height],
             content: content,
             end: function() {
                 location.reload();

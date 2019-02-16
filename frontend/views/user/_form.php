@@ -72,7 +72,7 @@ use backend\models\ShandongSchool;
         <p class="hint picture-hint">请上传220x220尺寸的图片</p>
         <a href="javascript:void(0);" class="upload-picture">
             上传头像
-            <?= $form->field($model, 'picture')->fileInput() ?>
+             <?= $form->field($model, 'picture')->fileInput() ?>
         </a>
         <img class="avatar-img" src="<?= $model->picture ? $model->picture : '/img/avatar.png' ?>">
     </div>

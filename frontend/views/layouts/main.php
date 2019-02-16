@@ -79,7 +79,7 @@ AppAsset::register($this);
                 <li><a href="/book/list">图书</a></li>
                 <li><a href="/teacher/intro">教师团队</a></li>
                 <li><a href="/about/how-to-study">如何上课</a></li>
-                <li><a href="/user/ask-teacher">升本资讯</a></li>
+                <li><a href="/information/list">升本资讯</a> </li>
             </ul>
         </dt>
         <dd>

@@ -5,10 +5,14 @@ use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use backend\models\User;
 use backend\models\Course;
+use backend\models\UserHomework;
+use yii\widgets\ActiveForm;
+use kartik\file\FileInput;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
 use backend\models\UserStudyLog;
 use backend\models\CourseCategory;
+use backend\models\Lookup;
 AppAsset::addCss($this,'@web/css/main.css');
 AppAsset::addCss($this,'@web/css/course.css');
 AppAsset::addCss($this,'@web/css/list.css');
@@ -19,12 +23,18 @@ $chapters = $course->courseChapters;
 $classrooms = 0; //课堂学
 $homeworks = 0; //随堂练（作业）
 $unit_test = count($chapters); //单元测验
+$sections = '';
+$homework_submit_count = 0;
+$imgs = '';
+$homework_info = '';
 foreach ($chapters as $key => $chapter) {
     $sections = $chapter->courseSections;
     $homeworks += count($sections);
     foreach ($sections as $key => $section) {
         $points = $section->courseSectionPoints;
         $classrooms += count($points);
+        $temp = UserHomework::find()->where(['user_id' => $userid, 'section_id' => $section->id, 'status' => 2])->one();
+        if ($temp) {$homework_submit_count = $homework_submit_count + 1;}
     }
 }
 ?>
@@ -78,17 +88,21 @@ foreach ($chapters as $key => $chapter) {
             <div class="nytxt3_lny1">
                 <dl class="cc course-tag">
                     <dd><a href="javascript: void(0)">课程介绍</a></dd>
-                    <dd class="kcnow"><a href="javascript: void(0)">视频</a></dd>
-                    <dd><a href="javascript: void(0)">作业</a></dd>
-                    <dd><a href="javascript: void(0)">测试</a></dd>
+                    <dd class="kcnow"><a href="javascript: void(0)">课堂视频</a></dd>
+                    <?php 
+                        if ($course->type === 1) {
+                    ?>
+                    <dd><a href="javascript: void(0)">课堂作业</a></dd>
+                    <dd><a href="javascript: void(0)">单元测试</a></dd>
                     <dd><a href="javascript: void(0)">答疑</a></dd>
+                    <?php } ?>
                 </dl>
             </div>
             <div class="course-tag-content">
                 <div class="tag-content">
                     <?= $course->des; ?>
                 </div>
-                <div class="tag-content active nytxt3_lny1">
+                <div class="tag-content nytxt3_lny1 active">
                     <?php foreach ($chapters as $key => $chapter) { ?>
                         <div class="chapter-item">
                             <h3 class="chapter-title"><?= $chapter->name ?></h3>
@@ -137,8 +151,71 @@ foreach ($chapters as $key => $chapter) {
                         </div>
                     <?php } ?>
                 </div>
-                <div  class="tag-content nytxt3_lny1">
-                    作业
+                <div class="tag-content zuoye">
+
+                    <?php if (!empty(Yii::$app->user->identity)){ ?>
+                    <p>
+                        <span>应交：</span><label><?=$homeworks?>（次）</label>
+                        <span>实交：</span><label><?=$homework_submit_count ?>（次）</label>
+                    </p>
+                    <?php } ?>
+
+                    <ul class="title">
+                        <li>节次</li>
+                        <li>作业任务</li>
+                        <li>提交作业</li>
+                        <li>作业讲解</li>
+                        <li>状态</li>
+                        <li>提交时间</li>
+                    </ul>
+                    <?php
+                    foreach ($chapters as $key => $chapter) {
+                        foreach ($chapter->courseSections as $key => $section) {
+                            $flag = false;
+                            $homework_info = '';
+                            $homework_info = UserHomework::find()
+                            ->where(['user_id' => $userid, 'section_id' => $section->id, 'submit_time'=>
+                                UserHomework::find()->where(['user_id' => $userid, 'section_id' => $section->id])->max('submit_time')])->one();
+                            if (!empty($homework_info)){
+                                $flag = true;
+                            }
+
+                    ?>
+                            <ul>
+                                <li><?=$section->name ?></li>
+                                <li><?=$section->homework ?></li>
+                                <li>
+                                        <?php if ($flag and $homework_info->status!=3){ ?>
+                                            <?php $imgs=explode(';', $homework_info->pic_url);
+                                                    $imgs = array_filter($imgs);
+                                                   foreach ($imgs as $img){
+
+                                            ?>
+                                            <img style="width: 60px; display: block" src="<?=$img ?>">
+                                        <?php }}else{ $disabled = ''; if (empty($section->homework)) {$disabled = 'disabled';}?>
+                                            <button <?=$disabled ?> class="zuoye_button" onclick="tips(<?=$section->id ?>, <?=$userid ?>);" >作业上传</button>
+                                        <?php } ?>
+                                </li>
+                                <li>
+                                    <a id="explain" video_src="<?=$section->explain_video_url ?>">作业讲解</a>
+                                </li>
+                                <li>
+                                    <?php if ($homework_info) {?>
+                                    <?=Lookup::item('homework_status', $homework_info->status) ?>
+                                    <?php }else {?>
+                                    未提交
+                                    <?php } ?>
+                                </li>
+                                <li>
+                                    <?php if ($homework_info) {?>
+                                    <?=$homework_info->submit_time ?>
+                                    <?php }else {?>
+                                        --
+                                    <?php } ?>
+                                </li>
+                            </ul>
+                    <?php } }?>
+
                 </div>
                 <div class="tag-content xueqing">
                     <?php 
@@ -203,7 +280,7 @@ foreach ($chapters as $key => $chapter) {
                     <div class="no-login">登录后可见~</div>
                 <?php } ?>
                 </div>
-                <div  class="tag-content nytxt3_lny1">
+                <div class="tag-content">
                     答疑
                 </div>
             </div>
@@ -235,6 +312,7 @@ foreach ($chapters as $key => $chapter) {
         </div>
     </div>
 </div>
+
 <div class="video-layout _video-layout">
     <div class="video-box _video-box">
         <div class="_close-video-btn close-video-btn">
@@ -243,9 +321,39 @@ foreach ($chapters as $key => $chapter) {
         <!-- <iframe id="course-video" width="100%" height="100%" src="" frameborder="0" allowfullscreen=""></iframe> -->
         <video id="course-video" width="100%" height="100%" controls="controls"></video>
         <video id="course-explain" width="100%" height="100%" controls="controls"></video>
-    </div>
 </div>
 
 <script src="<?= Url::to('@web/js/lib/jquery.min.js');?>"></script>
 <script src="<?= Url::to('@web/skin/layer.js');?>"></script>
 <script src="<?= Url::to('@web/js/course-detail.js?v=1');?>"></script>
+<script type="text/javascript">
+    var section_id = '';
+    function tips(sec_id, user_id) {
+        if (user_id == null) {
+            window.location.href = '/site/login';
+        } else {
+            section_id = sec_id;
+            upload_select = '<div>\n' +
+                '<input type="file" id="fileloader"  name="file" multiple />\n' +
+                '</div>';
+            layer.open({
+                title: '请选择要上传的作业',
+                type: 1,
+                skin: 'layui-layer-demo', //样式类名
+                closeBtn: 1, //不显示关闭按钮
+                anim: 2,
+                shadeClose: true, //开启遮罩关闭
+                content: upload_select,
+                area: ['500px', '300px']
+            });
+        }
+    }
+
+    function homeworkVideoEvent() {
+        var src = $(this).attr('video_src');
+        $('._video-layout').show();
+        $('#course-explain').hide().attr('src', '');
+        $('#course-video').show().attr('src', src);
+        $('#course-video').get(0).play();
+    }
+</script>
