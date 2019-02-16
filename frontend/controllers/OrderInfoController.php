@@ -640,7 +640,7 @@ class OrderInfoController extends \yii\web\Controller
                     $gold_order_info->pay_status = 0;
                     $gold_order_info->invalid_time = time();
                     $gold_order_info->save(false);
-                    
+
                 }
             }
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
