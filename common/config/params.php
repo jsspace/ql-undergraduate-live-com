@@ -25,9 +25,9 @@ return [
         'return_url' => "http://www.kaoben.top/user/orders",
 
         //本地测试环境
-        'gold_notify_url' => "http://192.168.1.14:8089/order-info/gold_alinotify",
+        'gold_notify_url' => "http://www.kaoben.top/order-info/alinotify2",
         // 金币支付成功跳转url
-        'gold_return_url' => "http://192.168.1.14:8089/user/gold-log",
+        'gold_return_url' => "http://www.kaoben.top/user/gold-log",
 
         //编码格式
         'charset' => "UTF-8",
@@ -41,9 +41,10 @@ return [
     'wxpay' => [
         //异步通知地址
         'notify_url' => "https://www.kaoben.top/wxnotify/index",
-        //'gold_notify_url' => "https://www.kaoben.top/wxnotify/gold",
+
+        'gold_notify_url' => "https://www.kaoben.top/wxnotify/gold",
         //本地测试
-        'gold_notify_url' => "http://192.168.1.14:8089/wxnotify/gold",
+        //'gold_notify_url' => "http://192.168.1.14:8089/wxnotify/gold",
         // 获取session_key, openid接口
         'jscode2session_url' => "https://api.weixin.qq.com/sns/jscode2session?appid=$xcx_appid&secret=$xcx_secret&js_code=%s&grant_type=authorization_code",
     ],

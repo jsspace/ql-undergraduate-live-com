@@ -247,7 +247,7 @@ class OrderInfoController extends \yii\web\Controller
 
         $need_money = (int)$data['money'];
         $gold_num = (int)$data['gold_num'];
-        //$need_money = 0.1; 测试用
+        $need_money = 0.1; //测试使用
         // 需要再次校验金币是否与金额关系是否正确
         $order_info->money_paid= 0;
         $order_info->gold_num = $gold_num;
@@ -369,7 +369,7 @@ class OrderInfoController extends \yii\web\Controller
     /**
      * 金币支付回调接口
      */
-    public function actionGold_alinotify()
+    public function actionAlinotify2()
     {
         $data = Yii::$app->request->Post();
         $arr=$data;
@@ -420,7 +420,7 @@ class OrderInfoController extends \yii\web\Controller
                         $order_info->pay_name = '支付宝支付';
                         $order_info->money_paid = $total_amount;
                         //再次计算金币的数量
-                        $gold_num = $total_amount * 10;
+                        $gold_num = $total_amount * 1000;
                         $order_info->gold_num = $gold_num;
                         $order_info->pay_status = 2;
                         $order_info->pay_time = time();
