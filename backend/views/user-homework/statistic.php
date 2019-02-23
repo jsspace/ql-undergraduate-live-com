@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             [
-                'attribute' => iconv('GBK', 'UTF-8', '实交次数'),
+                'attribute' => '瀹炰氦娆℃暟',
                 'value' => function($model) {
                     $sum = UserHomework::find()
                         ->where(['user_id' => $model->user_id, 'course_id' => $model->course_id, 'status' => 2])
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
-                'attribute' =>  iconv('GBK', 'UTF-8', '应交次数'),
+                'attribute' =>  '搴斾氦娆℃暟',
                 'value' => function($model) {
                     $homeworks = 0;
                     $courseModel = Course::find()

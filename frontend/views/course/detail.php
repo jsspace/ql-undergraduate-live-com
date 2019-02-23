@@ -191,7 +191,7 @@ foreach ($chapters as $key => $chapter) {
                                                    foreach ($imgs as $img){
 
                                             ?>
-                                            <img style="width: 60px; display: block" src="<?=$img ?>">
+                                            <a href="<?=$img ?>" target="_blank"><img style="width: 60px; display: block" src="<?=$img ?>"></a>
                                         <?php }}else{ $disabled = ''; if (empty($section->homework)) {$disabled = 'disabled';}?>
                                             <button <?=$disabled ?> class="zuoye_button" onclick="tips(<?=$section->id ?>, <?=$userid ?>);" >作业上传</button>
                                         <?php } ?>
@@ -335,7 +335,7 @@ foreach ($chapters as $key => $chapter) {
             section_id = sec_id;
             upload_select = '<div>\n' +
                 '<input type="file" id="fileloader"  name="file" multiple />\n' +
-                '</div>';
+                '</div><div><input style="margin-top:50px; width:80px; height:30px;" type="button" id="upload" value="上传" /></div>';
             layer.open({
                 title: '请选择要上传的作业',
                 type: 1,

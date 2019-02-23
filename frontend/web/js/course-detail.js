@@ -43,7 +43,7 @@ var courseDetail = {
 
     homeworkEvent: function () {
 
-        $('body').on('change', '#fileloader', function () {
+        $('body').on('click', '#upload', function () {
             var fileArray = document.getElementById('fileloader').files;
             var formData = new FormData();
             for (var i = 0; i < fileArray.length; i++) {
@@ -53,9 +53,10 @@ var courseDetail = {
             formData.append('_csrf-frontend', $('meta[name=csrf-token]').attr('content'));
             formData.append('count', fileArray.length);
             formData.append('section_id', section_id);
-            alert(section_id);
+            // alert(section_id);
             formData.append('course_id', $('._course-id').val());
-            console.log(fileArray)
+            // console.log(fileArray)
+            alert('aaa!');
             $.ajax({
                 url: "/course/homework",
                 type: "post",
@@ -63,9 +64,15 @@ var courseDetail = {
                 async: false,
                 contentType: false,
                 processData: false,
+                dataType: "text",
                 success: function (res) {
-
+                    alert('上传成功!');
+                    location.reload();
+                },
+                error: function (res) {
+                    alert('error');
                 }
+
             })
 
         })

@@ -90,3 +90,10 @@
 .field-course-open_course_url {
     display: none;
 }
+
+.upload_button {
+    margin-top: 50px;
+    margin-left: auto;
+    width: 80px;
+    height: 30px;
+}

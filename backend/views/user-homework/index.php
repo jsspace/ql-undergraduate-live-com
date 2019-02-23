@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'user_id',
-                'label' => iconv('GBK', 'UTF-8', 'Ñ§Éú'),
+                'label' => 'å­¦ç”Ÿ',
                 'value' => function ($model) {
                     return User::item($model->user_id);
                 },
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'course_id',
-                'label' => iconv('GBK', 'UTF-8', '¿Î³Ì'),
+                'label' => 'è¯¾ç¨‹',
                 'value' => function ($model) {
                     return Course::item($model->course_id);
                 },
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'section_id',
-                'label'=> iconv('GBK', 'UTF-8', '½Ú´Î'),
+                'label'=> 'èŠ‚æ¬¡',
                 'value' => function ($model) {
                     return CourseSection::item($model->section_id);
                 },
@@ -56,13 +56,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'pic_url',
-                'label' => iconv('GBK', 'UTF-8', 'Í¼Æ¬'),
+                'label' => 'å›¾ç‰‡',
                 'value' => function ($model) {
                    $images = '';
                    $pics = explode(';', $model->pic_url);
-                   for ($i = 0; $i < count($pics); $i++) {
-                       $images = $images.Html::img($pics[$i], ['height' => 40, 'alt' => $pics[$i]]);
-                   }
+                   $pics = array_filter($pics);
+                   foreach ($pics as $pic) {
+                        $images = $images.Html::img($pic, ['height' => 40]);
+                    }
                    return $images;
                 },
 //                'format' => ['image',['height'=>'100']],
@@ -70,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'status',
-                'label' => iconv('GBK', 'UTF-8', '×´Ì¬'),
+                'label' => 'çŠ¶æ€',
                 'value' => function ($model) {
                     return Lookup::item('homework_status', $model->status);
                 },
@@ -79,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'submit_time',
             [
                  'class' => 'yii\grid\ActionColumn',
-                 'header' => iconv('GBK', 'UTF-8', '²Ù×÷')
+                 'header' => 'æ“ä½œ'
             ],
         ],
     ]); ?>
