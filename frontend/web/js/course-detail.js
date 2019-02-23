@@ -35,9 +35,9 @@ var courseDetail = {
         $('#explain').on('click', function () {
             var src = $(this).attr('video_src');
             $('._video-layout').show();
-            $('#course-explain').hide().attr('src', '');
-            $('#course-video').show().attr('src', src);
-            $('#course-video').get(0).play();
+            $('#course-video').hide().attr('src', '');
+            $('#course-explain').show().attr('src', src);
+            $('#course-explain').get(0).play();
         })
     },
 
