@@ -10,7 +10,7 @@ $this->title = iconv('GBK', 'UTF-8', 'Éý±¾×ÊÑ¶');
 ?>
 
 <div class="main cc">
-    <div class="content">
+    <div class="information-content">
        <ul>
            <?php foreach ($informations as $information) { ?>
                <li>

@@ -444,6 +444,9 @@
 .tag-content.zuoye ul li:nth-child(6) {
     width: 25%;
 }
+.tag-content.zuoye #explain {
+    cursor: pointer;
+}
 
 .play-icon {
     padding: 5px 10px 5px 31px;

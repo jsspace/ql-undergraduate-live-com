@@ -1,86 +1,46 @@
-*{
-    margin: 0;
-    padding:0;
-}
-.wrap{
+.wrap {
     width: 600px;
-    margin: 0px auto;
-
+    margin: 0 auto;
 }
-.menu{
-    width: 600px;
-    height: 30px;
-    background: cornflowerblue;
-    position: sticky;
-    top:0px;
-}
-.menu ul li{
-    float: left;
-    list-style-type: none;
-    padding: 0 40px;
-}
-.content ul li img:hover{
-    transform: scale(1.2);/*当鼠标移动到图片上时实现放大功能*/
-}
-.content ul li{
-    height: 200px;
-    overflow: hidden;
+.information-content ul li {
     border-bottom: 1px solid lavender;
-    background: white;
-    list-style-type: none;
-    transition-duration: 0.5s;
-    margin: 10px 10px 5px 0;
-
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 100px;
 }
-.content ul li:hover{
-    background-color: lavender;
-    transition-duration: 0.5s;
+.information-content .left {
+    margin-right: 20px;
 }
-.content .left{
-    overflow: hidden;/*隐藏溢出图片内容*/
-    transition-duration: 0.5s;
-    width: 250px;
-    height:180px;
-    /*background: green;*/
-    float: left;
-    margin-right:20px;
+.right_top {
+    margin-bottom: 15px;
 }
-.content .right{
-    width:400px ;
-    float: left;
-    /*background: pink;*/
+.right_top h3 {
+    font-size: 18px;
 }
-.right_top{
-    height:60px;
+.right_bottom {
+    margin-top: 15px;
 }
-.right_bottom{
-    margin_top:50px;
-}
-.right_bottom_left span{
+.right_bottom_left span {
     color: darkgray;
     font-size: 12px;
 }
-.content_pic{
+.content_pic {
     display: block;
-    width: 250px;
-    height: 180px;
+    width: 100px;
 }
-.content_content{
-    height: 100px;
-    font-size: 20px;
-    text-overflow: ellipsis;
-}
-
-.content p {
-    width:100%;
-    font-size:16px;
-    line-height:20px;
-    height: 60px;
-    margin-bottom:40px;
+.content_content {
+    height: 40px;
     overflow: hidden;
-    display: -webkit-box;
     text-overflow: ellipsis;
-    -webkit-line-clamp:3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
-
+.information-content p {
+    font-size: 14px;
+}
+.pagination-wrap {
+    text-align: center;
+}
