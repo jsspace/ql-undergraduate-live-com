@@ -11,6 +11,7 @@ use common\models\User;
 use yii\helpers\Url;
 use backend\models\Notice;
 use backend\models\UserStudyLog;
+use backend\models\Information;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -42,6 +43,19 @@ class SiteController extends Controller
         );
 
         // 资讯
+        $informations = Information::find()
+        ->orderBy('release_time desc')
+        ->all();
+        $information_arr = array();
+        foreach ($informations as $key => $information) {
+            $information_arr[] = array(
+                'title' => $information->title,
+                'author' => $information->author,
+                'release_time' => $information->release_time,
+                'pic' =>  $information->cover_pic
+            );
+        }
+        $result['information'] = $information_arr;
 
         // 最近在学
         $get = Yii::$app->request->get();

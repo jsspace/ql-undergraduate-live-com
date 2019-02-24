@@ -10,9 +10,11 @@ use api\models\ApiSignupForm;
 use api\models\ApiChangePasswordForm;
 use backend\models\Coupon;
 use backend\models\User;
+use backend\models\GoldLog;
 use frontend\controllers\SmsController;
 use api\models\Smsdata;
 use common\controllers\ApiController;
+use common\service\GoldService;
 /**
  * AudioController implements the CRUD actions for Audio model.
  */
@@ -167,12 +169,22 @@ class UserController extends ActiveController
                 'message' => '未登录'
             );
         } else {
+            $gold = GoldLog::find()
+            ->where(['userid' => $user->id])
+            ->orderBy('operation_time desc')
+            ->one();
+            if (empty($gold)) {
+                $balance = 0;
+            } else {
+                $balance = $gold->gold_balance;
+            }
             $result = array(
                 'status' => 1,
                 'message' => '已登录',
                 'user' => array(
                     'username' => $user->username,
-                    'userid' => $user->id
+                    'userid' => $user->id,
+                    'gold' => $balance
                 )
             );
         }
@@ -183,5 +195,34 @@ class UserController extends ActiveController
         $url = sprintf(Yii::$app->params['wxpay']['jscode2session_url'], $code);
         $response_str = ApiController::http_get_data($url);
         return $response_str;
+    }
+    // 用户回答问题扣除金币
+    public function actionReduceGold() {
+        $post = Yii::$app->request->post();
+        $access_token = $post['access-token'];
+        $user = \common\models\User::findIdentityByAccessToken($access_token);
+        if (empty($user)) {
+            $result = array(
+                'status' => -1,
+                'message' => '用户不存在'
+            );
+        } else {
+            if (!empty($post['gold'])) {
+                $point = $post['gold'];
+                $user_id = $user->id;
+                $gold_service = new GoldService();
+                $gold_service->changeUserGold($point, $user_id, -1);
+                $result = array(
+                    'status' => 0,
+                    'message' => '金币扣除成功'
+                );
+            } else {
+                $result = array(
+                    'status' => -2,
+                    'message' => '金币数量不能为空'
+                );
+            }
+        }
+        return $result;
     }
 }

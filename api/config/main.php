@@ -63,7 +63,8 @@ return [
                         'POST signup' => 'signup',
                         'POST logincode' => 'logincode',
                         'POST changepassword' => 'changepassword',
-                        'GET islogin' => 'islogin'
+                        'GET islogin' => 'islogin',
+                        'POST reduce-gold' => 'reduce-gold'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
