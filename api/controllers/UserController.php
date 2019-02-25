@@ -212,9 +212,19 @@ class UserController extends ActiveController
                 $user_id = $user->id;
                 $gold_service = new GoldService();
                 $gold_service->changeUserGold($point, $user_id, -1);
+                $gold = GoldLog::find()
+                ->where(['userid' => $user->id])
+                ->orderBy('operation_time desc')
+                ->one();
+                if (empty($gold)) {
+                    $balance = 0;
+                } else {
+                    $balance = $gold->gold_balance;
+                }
                 $result = array(
                     'status' => 0,
-                    'message' => '金币扣除成功'
+                    'message' => '金币扣除成功',
+                    'gold' => $balance
                 );
             } else {
                 $result = array(
