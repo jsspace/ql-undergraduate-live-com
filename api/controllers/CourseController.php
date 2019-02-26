@@ -31,12 +31,32 @@ class CourseController extends Controller
         ->all();
         $result = array();
         foreach ($courses as $key => $course) {
+            $id_arr = explode(',', $course->teacher_id);
+            $teacher_name = '';
+            foreach ($id_arr as $key => $id) {
+                $teacher = User::getUserModel($id);
+                if ($teacher) {
+                    $teacher_name .= $teacher->username.'，';
+                }
+            }
+            $teacher_name = substr($teacher_name, 0, strlen($teacher_name)-1);
+            $classrooms = 0;
+            $chapters = $course->courseChapters;
+            foreach ($chapters as $key => $chapter) {
+                $sections = $chapter->courseSections;
+                foreach ($sections as $key => $section) {
+                    $points = $section->courseSectionPoints;
+                    $classrooms += count($points);
+                }
+            }
             $content = array(
                 'id' => $course->id,
                 'course_name' => $course->course_name,
-                'list_pic' => Url::to('@web'.$course->list_pic, true),
+                'list_pic' => $course->list_pic,
                 'discount' => $course->discount,
-                'online' => $course->online
+                'online' => $course->online,
+                'teacher' => $teacher_name,
+                'classrooms' => $classrooms
             );
             $result[] = $content;
         }
