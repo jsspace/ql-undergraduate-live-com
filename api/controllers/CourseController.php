@@ -26,7 +26,7 @@ class CourseController extends Controller
     public function actionList()
     {
         $courses = Course::find()
-        ->where(['onuse' => 1])
+        ->where(['type' => 1])
         ->with([
             'courseChapters' => function($query) {
                 $query->with(['courseSections' => function($query) {
@@ -43,9 +43,10 @@ class CourseController extends Controller
             foreach ($id_arr as $key => $id) {
                 $teacher = User::getUserModel($id);
                 if ($teacher) {
-                    $teacher_name .= $teacher->username.'，';
+                    $teacher_name = $teacher->username.','.$teacher_name;
                 }
             }
+            // 去除最后一个逗号
             $teacher_name = substr($teacher_name, 0, strlen($teacher_name)-1);
             $classrooms = 0;
             $chapters = $course->courseChapters;
@@ -72,7 +73,10 @@ class CourseController extends Controller
     public function actionDetail()
     {
         $data = Yii::$app->request->get();
-        $access_token = $data['access-token'];
+        $access_token = '';
+        if (!empty($data['access-token'])) {
+            $access_token = $data['access-token'];
+        }
         $user = \common\models\User::findIdentityByAccessToken($access_token);
         $courseid = $data['courseid'];
         $invite = 0;
@@ -90,36 +94,18 @@ class CourseController extends Controller
         }
         $courseModel = Course::find()
         ->where(['id' => $courseid])
+        ->with([
+            'courseChapters' => function($query) {
+                $query->with(['courseSections' => function($query) {
+                    $query->with('courseSectionPoints');
+                }]);
+            }
+        ])
         ->one();
         //浏览次数加1
         $courseModel->view = $courseModel->view+1;
         $courseModel->save();
         $courseDetail = array();
-        $chapters = CourseChapter::find()
-        ->where(['course_id' => $courseid])
-        ->all();
-        $sections = CourseSection::find()
-        ->all();
-        $duration = 0;
-        foreach ($chapters as $chapterKey => $chapter) {
-            $content['chapter_name'] = $chapter->name;
-            foreach ($sections as $sectionsKey => $section) {
-                if ($section->chapter_id == $chapter->id) {
-                    $duration = $duration+$section->duration;
-                    $videoType = self::getVideoType($section);
-                    $section = array(
-                        'section_id' => $section->id,
-                        'name' => $section->name,
-                        'video_type_text' => $videoType['text'],
-                        'type' => $section->type,
-                        'url' => $videoType['url'],
-                        'duration' => $section->duration,
-                    );
-                    $content['section'][] = $section;
-                }
-            }
-            $courseDetail['chapter'][] = $content;
-        }
         /* 课程详情 */
         $ismember = 0;
         $ispay = 0;
@@ -168,54 +154,6 @@ class CourseController extends Controller
             'goodat' => $teacher_model->goodat
         );
         $courseDetail['teacher'] = $teacher;
-        // 课程评价
-        /*$course_comments = CourseComent::find()
-        ->where(['course_id' => $courseid])
-        ->andWhere(['check' => 1])
-        ->orderBy('id desc')
-        ->all();
-        foreach ($course_comments as $key => $course_comment) {
-            $content = array(
-                'user_img' => Url::to('@web'.User::getUserModel($course_comment->user_id)->picture, true),
-                'user_name' => User::item($course_comment->user_id),
-                'content' => $course_comment->content,
-                'create_time' => date('Y-m-d H:i:s', $course_comment->create_time)
-            );
-            $courseDetail['course_comments'][] = $content;
-        }*/
-        //课程资料
-        /*$datas = Data::find()
-        ->where(['course_id' => $courseid])
-        ->orderBy('id desc')
-        ->all();
-        foreach ($datas as $key => $data) {
-            if ($data->url_type == 1) {
-                $url = Url::to(['data/detail', 'dataid' => $data->id]);
-            } else {
-                $url = strip_tags($data->content);
-            }
-            $content = array(
-                'url' => $url,
-                'name' => $data->name,
-                'summary' => $data->summary
-            );
-            $courseDetail['course_tasks'][] = $content;
-        }*/
-        /* 教师答疑 */
-        /*$quas = Quas::find()
-        ->where(['course_id' => $courseid])
-        ->orderBy('id desc')
-        ->andWhere(['check' => 1])
-        ->all();
-        foreach ($quas as $key => $qua) {
-            $content = array(
-                'question' => $qua->question,
-                'question_time' => date('Y-m-d H:i:s', $qua->question_time),
-                'answer' => $qua->answer,
-                'answer_time' => date('Y-m-d H:i:s', $qua->answer_time)
-            );
-            $courseDetail['course_quas'][] = $content;
-        }*/
         /* 获取前12个学员 */
         $studyids = UserStudyLog::find()
         ->select('userid')
