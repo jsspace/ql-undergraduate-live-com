@@ -27,6 +27,13 @@ class CourseController extends Controller
     {
         $courses = Course::find()
         ->where(['onuse' => 1])
+        ->with([
+            'courseChapters' => function($query) {
+                $query->with(['courseSections' => function($query) {
+                    $query->with('courseSectionPoints');
+                }]);
+            }
+        ])
         ->orderBy('create_time desc')
         ->all();
         $result = array();
