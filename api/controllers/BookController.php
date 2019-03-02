@@ -11,7 +11,7 @@ class BookController extends Controller
 {
     public function actionList() {
         $books = Book::find()
-        ->orderBy("publish_time")
+        ->orderBy("publish_time DESC")
         ->all();
         $book_arr[] = array();
         foreach ($books as $key => $book) {
@@ -54,10 +54,17 @@ class BookController extends Controller
         $order->username = $username;
         $order->phone = $phone;
         $order->address = $address;
-        $order->save();
-        return json_encode(array(
-           'code' => 0,
-           'message' => "预定成功"
-        ));
+
+        if($order->save()) {
+            return json_encode(array(
+                'code' => 0,
+                'message' => "预定成功"
+            ));
+        } else {
+            return json_encode(array(
+                'code' => -1,
+                'message' => "预定失败"
+            ));
+        }
     }
 }
