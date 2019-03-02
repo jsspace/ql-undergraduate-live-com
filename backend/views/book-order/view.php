@@ -6,13 +6,11 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\BookOrder */
 
-$this->title = $model->id;
+$this->title = $model->book_name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Book Orders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="book-order-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -35,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'book_name',
             'username',
             'phone',
+            'address'
         ],
     ]) ?>
 

@@ -127,6 +127,14 @@ return [
                         'GET wxcheckorder' => 'wxcheckorder',
                     ]
                 ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'book',
+                    'extraPatterns' => [
+                        'GET list' => 'list',
+                        'GET detail' => 'detail',
+                        'POST order' => 'order'
+                    ]
+                ]
             ],
         ],
     ],

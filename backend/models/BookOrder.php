@@ -14,6 +14,7 @@ use Yii;
  * @property string $book_name 图书名
  * @property string $username 预定人姓名
  * @property string $phone 预定人手机号
+ * @property string $address 收货地址
  */
 class BookOrder extends \yii\db\ActiveRecord
 {
@@ -33,7 +34,7 @@ class BookOrder extends \yii\db\ActiveRecord
         return [
             [['bookid', 'userid', 'book_num'], 'required'],
             [['bookid', 'userid', 'book_num'], 'integer'],
-            [['book_name', 'username', 'phone'], 'string', 'max' => 255],
+            [['book_name', 'username', 'phone', 'address'], 'string', 'max' => 255],
         ];
     }
 
@@ -50,6 +51,7 @@ class BookOrder extends \yii\db\ActiveRecord
             'book_name' => Yii::t('app', '图书名'),
             'username' => Yii::t('app', '预定人姓名'),
             'phone' => Yii::t('app', '预定人手机号'),
+            'address' => Yii::t('app', '收货地址'),
         ];
     }
 

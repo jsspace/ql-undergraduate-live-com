@@ -112,5 +112,6 @@ return [
     'Books' => '图书列表',
     'Create Book' => '创建图书',
     'Book Orders' => '图书预定列表',
-    'User Homeworks' => '课程作业'
+    'User Homeworks' => '课程作业',
+    'Update Book Order' => '更新图书订单'
 ];
