@@ -133,8 +133,6 @@ class CourseController extends Controller
             'discount' => $courseModel->discount,
             'price' => $courseModel->price,
             'home_pic' => $courseModel->home_pic,
-            'teacher' => User::item($courseModel->teacher_id),
-            'class' => $duration/60,
             'view' => $courseModel->view,
             'collection' => $courseModel->collection,
             'online' => $courseModel->online,
@@ -144,35 +142,22 @@ class CourseController extends Controller
         );
         $courseDetail['course'] = $course;
         //课程教师
-        $teacher_model = User::getUserModel($courseModel->teacher_id);
-        $teacher = array(
-            'teacher_img' => Url::to('@web'.$teacher_model->picture, true),
-            'teacher_name' => $teacher_model->username,
-            'teacher_tag' => $teacher_model->description,
-            'office' => $teacher_model->office,
-            'unit' => $teacher_model->unit,
-            'goodat' => $teacher_model->goodat
-        );
-        $courseDetail['teacher'] = $teacher;
-        /* 获取前12个学员 */
-        $studyids = UserStudyLog::find()
-        ->select('userid')
-        ->where(['courseid' => $courseid])
-        ->orderBy('start_time desc')
-        ->limit(12)
-        ->asArray()
-        ->all();
-        if (!empty($studyids)) {
-            $studyids = array_column($studyids, 'userid');
-            $studyids = array_unique($studyids);
-            foreach ($studyids as $key => $studyid) {
-                $content = array(
-                    'student_img' => Url::to('@web'.User::getUserModel($studyid)->picture, true),
-                    'student_name' => User::item($studyid)
+        $id_arr = explode(',', $courseModel->teacher_id);
+        foreach ($id_arr as $key => $id) {
+            $teacher_model = User::getUserModel($id);
+            if ($teacher_model) {
+                $teacher[] = array(
+                    'teacher_img' => $teacher_model->picture,
+                    'teacher_name' => $teacher_model->username,
+                    'teacher_tag' => $teacher_model->description,
+                    'office' => $teacher_model->office,
+                    'unit' => $teacher_model->unit,
+                    'goodat' => $teacher_model->goodat
                 );
-                $courseDetail['students'][] = $content;
             }
         }
+        
+        $courseDetail['teacher'] = $teacher;
         return  json_encode($courseDetail);
     }
     public static function getVideoType($section)
@@ -323,5 +308,8 @@ class CourseController extends Controller
         ->asArray()
         ->all();
         return json_encode($course_nodes);
+    }
+    foreach ($variable as $key => $value) {
+        # code...
     }
 }
