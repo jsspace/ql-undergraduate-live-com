@@ -7,7 +7,7 @@ use backend\models\Information;
 
 class InformationController extends Controller 
 {
-  //资讯列表
+  //资讯列表接口
   public function actionList()
   {
     $informations = Information::find()

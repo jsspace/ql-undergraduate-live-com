@@ -20,5 +20,5 @@ class MessageController extends Controller {
             );
         }
         return json_encode($message_arr);
-            }
+        }
 }
