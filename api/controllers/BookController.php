@@ -37,34 +37,65 @@ class BookController extends Controller
     }
 
     public function actionOrder() {
-        $params = Yii::$app->request->post();
-        $bookid = $params['bookid'];
-        $userid = $params['userid'];
-        $book_num = $params['book_num'];
-        $book_name = $params['book_name'];
-        $username = $params['username'];
-        $phone = $params['phone'];
-        $address = $params['address'];
-
-        $order = new BookOrder();
-        $order->bookid = $bookid;
-        $order->userid = $userid;
-        $order->book_num = $book_num;
-        $order->book_name = $book_name;
-        $order->username = $username;
-        $order->phone = $phone;
-        $order->address = $address;
-
-        if($order->save()) {
-            return json_encode(array(
-                'code' => 0,
-                'message' => "预定成功"
-            ));
-        } else {
-            return json_encode(array(
-                'code' => -1,
-                'message' => "预定失败"
-            ));
+        try {
+            $params = Yii::$app->request->post();
+            $bookid = $params['bookid'];
+            $userid = $params['userid'];
+            $book_num = $params['book_num'];
+            $book_name = $params['book_name'];
+            $username = $params['username'];
+            $phone = $params['phone'];
+            $address = $params['address'];
+        } catch(Exception $e) {  
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        } finally {
+            if (count($params) < 7) {
+                return json_encode(array(
+                    'code' => -1,
+                    'message' => "预定失败，信息不完善"
+                )); 
+            } else {
+                $order = new BookOrder();
+                $order->bookid = $bookid;
+                $order->userid = $userid;
+                $order->book_num = $book_num;
+                $order->book_name = $book_name;
+                $order->username = $username;
+                $order->phone = $phone;
+                $order->address = $address;
+        
+                if($order->save()) {
+                    return json_encode(array(
+                        'code' => 0,
+                        'message' => "预定成功"
+                    ));
+                } else {
+                    return json_encode(array(
+                        'code' => -1,
+                        'message' => "预定失败"
+                    ));
+                }
+            }
         }
+        // $order = new BookOrder();
+        // $order->bookid = $bookid;
+        // $order->userid = $userid;
+        // $order->book_num = $book_num;
+        // $order->book_name = $book_name;
+        // $order->username = $username;
+        // $order->phone = $phone;
+        // $order->address = $address;
+
+        // if($order->save()) {
+        //     return json_encode(array(
+        //         'code' => 0,
+        //         'message' => "预定成功"
+        //     ));
+        // } else {
+        //     return json_encode(array(
+        //         'code' => -1,
+        //         'message' => "预定失败"
+        //     ));
+        // }
     }
 }
