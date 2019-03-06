@@ -54,6 +54,11 @@ class UserHomework extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getCourseSection()
+    {
+        return $this->hasOne(CourseSection::className(), ['id' => 'course_id']);
+    }
+
     /**
      * @inheritdoc
      * @return UserHomeworkQuery the active query used by this AR class.
