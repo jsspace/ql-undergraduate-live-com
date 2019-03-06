@@ -92,10 +92,13 @@ return [
                         'POST update-username' => 'update-username',
                         'POST update-gender' => 'update-gender',
                         'POST update-headimg' => 'update-headimg',
+                        'POST update-alipay' => 'update-alipay',
                         'GET course-list' => 'course-list',
                         'GET order-list' => 'order-list',
                         'GET message-list' => 'message-list',
-                        'POST message-view' => 'message-view'
+                        'POST message-view' => 'message-view',
+                        'GET income-statistics' => 'income-statistics',
+                        'GET income' => 'income'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
@@ -106,7 +109,9 @@ return [
                         'GET detail' => 'detail',
                         'POST check' => 'check',
                         'GET nodes' => 'nodes',
-                        'GET all-nodes' => 'all-nodes'
+                        'GET all-nodes' => 'all-nodes',
+                        'POST open-check' => 'open-check',
+                        'GET open' => 'open'  
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
@@ -127,6 +132,14 @@ return [
                         'GET wxcheckorder' => 'wxcheckorder',
                     ]
                 ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'book',
+                    'extraPatterns' => [
+                        'GET list' => 'list',
+                        'GET detail' => 'detail',
+                        'POST order' => 'order'
+                    ]
+                ]
             ],
         ],
     ],

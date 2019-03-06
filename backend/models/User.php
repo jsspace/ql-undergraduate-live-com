@@ -36,6 +36,7 @@ use Yii;
  * @property string $bank
  * @property string $bank_username
  * @property string $bankc_card
+ * @property string $alipay_account 支付宝账号
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -107,6 +108,7 @@ class User extends \yii\db\ActiveRecord
             'bankc_card' => Yii::t('app', '银行卡帐号'),
             'access_token' => '访问token',
             'expire_at' => '过期时间',
+            'alipay_account' => Yii::t('app', '支付宝账号'),
         ];
     }
 

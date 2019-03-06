@@ -309,7 +309,75 @@ class CourseController extends Controller
         ->all();
         return json_encode($course_nodes);
     }
-    foreach ($variable as $key => $value) {
-        # code...
+
+    public function actionOpen() {
+        $courses = Course::find()
+        ->where(['onuse' => 1])
+        ->andWhere(['type' => 2])
+        ->orderBy('create_time desc')
+        ->all();
+        $result = array();
+        foreach ($courses as $key => $course) {
+            $content = array(
+                'id' => $course->id,
+                'course_name' => $course->course_name,
+                'list_pic' => $course->list_pic,
+                'intro' => $course->intro,
+                'duration' => $course->duration
+            );
+            $result[] = $content;
+        }
+        return json_encode($result);
+    }
+
+    public function actionOpenCheck() {
+        try {
+            $get = Yii::$app->request->get();
+            $access_token = $get['access-token'];
+            $user = \common\models\User::findIdentityByAccessToken($access_token);
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        } finally {
+            if (empty($user)) {
+                $result = array(
+                    'status' => 0,
+                    'message' => '请先登陆再观看课程'
+                );
+                return json_encode($result);
+            }
+            $data = Yii::$app->request->post();
+            $course_id = $data['course_id'];
+            $course = Course::find()
+            ->where(['id' => $course_id])
+            ->one();
+            if($course->price == 0) {
+                $result = array(
+                    'status' => 4,
+                    'message' => '该课程免费，可以直接观看',
+                    'url' => $course->open_course_url
+                );
+                return json_encode($result);
+            }
+            $ispay = Course::ispay($course_id, $user->id);/*判断是否已经购买,84应该为$user->id*/
+            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);//84应该为$user->id
+            $isschool = 0;
+            if (array_key_exists('school',$roles_array)) {
+                $isschool = 1;
+            }
+            if ($ispay == 1 || $isschool == 1) {
+                $result = array(
+                    'status' => 2,
+                    'message' => '用户已经购买了该课程，允许观看',
+                    'url' => $course->open_course_url
+                );
+            } else {
+                $result = array(
+                    'status' => 3,
+                    'message' => '您尚未购买该课程，请先购买后再观看',
+                    'url' => ''
+                );
+            }
+            return json_encode($result);
+        }
     }
 }

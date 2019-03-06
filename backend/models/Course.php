@@ -29,6 +29,7 @@ use Yii;
  * @property int $type 热门班级/公开课
  * @property int $open_course_url 公开课链接
  * @property string $intro 课程简介
+ * @property string $duration 课程时长
  */
 class Course extends \yii\db\ActiveRecord
 {
@@ -85,6 +86,7 @@ class Course extends \yii\db\ActiveRecord
             'type' => Yii::t('app', '热门班级/公开课'),
             'open_course_url' => Yii::t('app', '公开课链接'),
             'intro' => Yii::t('app', '课程简介'),
+            'duration' => Yii::t('app', '课程时长'),
         ];
     }
 
