@@ -12,6 +12,7 @@ use backend\models\OrderInfo;
 use yii\helpers\Url;
 use backend\models\Read;
 use backend\models\Message;
+use backend\models\Collection;
 
 class PersonalController extends ActiveController
 {
@@ -209,5 +210,50 @@ class PersonalController extends ActiveController
             'publisher' => $publisher->username
         );
         return $result;
+    }
+    //我的收藏
+    public function actionCollectionList(){
+      $data = Yii::$app->request->get();
+      $access_token = $data['access-token'];
+      $user = User::findIdentityByAccessToken($access_token);
+      $collections = Collection::find()
+        ->where(['userid' => $user->id])
+        ->all();
+        $courseid = '';
+        foreach ($collections as $key => $collection) {
+            $courseid.=$collection->courseid.',';
+        }
+        $courseid_arr = explode(',', $courseid);
+        $flist = Course::find()
+        ->where(['in', 'id', $courseid_arr])
+        ->orderBy('create_time desc')
+        ->all();
+        $favorite_arr = array();
+        foreach ($flist as $key => $f) {
+            $favorite_arr[] = array(
+                'course_name' => $f->course_name,
+                'home_pic' => $f->home_pic,
+                'price' => $f->price,
+            );
+        }
+        return json_encode($favorite_arr);
+    }
+    //宣传页
+    public function actionQrcode(){
+      $data = Yii::$app->request->get();
+      $access_token = $data['access-token'];
+      $user = User::findIdentityByAccessToken($access_token);
+      $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $user->id]);
+      $img_src = Url::to(['market/qrcode','url' => $invite_url, 'name' => $user->id.'.png']);
+      return json_encode($img_src);
+    }
+    //宣传页 分享
+    public function actionQrcodeShare(){
+      $data = Yii::$app->request->get();
+      $access_token = $data['access-token'];
+      $user = User::findIdentityByAccessToken($access_token);
+      $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $user->id]);
+      $img_src = Url::to(['market/qrcode','url' => $invite_url, 'name' => $user->id.'.png']);
+      return json_encode($img_src);
     }
 }

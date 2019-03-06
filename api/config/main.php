@@ -95,7 +95,7 @@ return [
                         'GET course-list' => 'course-list',
                         'GET order-list' => 'order-list',
                         'GET message-list' => 'message-list',
-                        'POST message-view' => 'message-view'
+                        'POST message-view' => 'message-view',
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
@@ -132,6 +132,12 @@ return [
                     'extraPatterns' => [
                         'GET list' => 'list',
                         'GET info' => 'info',
+                    ]
+                ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'message',
+                    'extraPatterns' => [
+                        'GET list' => 'list',
                     ]
                 ],
             ],

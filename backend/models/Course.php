@@ -99,7 +99,6 @@ class Course extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-
     public function getCategoryName()
    {
        return $this->hasOne(CourseCategory::className(), ['id' => 'category_name']);
