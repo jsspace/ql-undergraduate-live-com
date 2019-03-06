@@ -139,7 +139,20 @@ return [
                         'GET detail' => 'detail',
                         'POST order' => 'order'
                     ]
-                ]
+                ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'information',
+                    'extraPatterns' => [
+                        'GET list' => 'list',
+                        'GET info' => 'info',
+                    ]
+                ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'message',
+                    'extraPatterns' => [
+                        'GET list' => 'list',
+                    ]
+                ],
             ],
         ],
     ],
