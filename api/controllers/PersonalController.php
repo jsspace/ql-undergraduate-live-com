@@ -12,6 +12,8 @@ use backend\models\OrderInfo;
 use yii\helpers\Url;
 use backend\models\Read;
 use backend\models\Message;
+use backend\models\ShandongSchool;
+use backend\models\Withdraw;
 
 class PersonalController extends ActiveController
 {
@@ -32,11 +34,15 @@ class PersonalController extends ActiveController
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
+        $school = ShandongSchool::find()
+        ->where(['id' => $user->schoolid])
+        ->one();
         $result = array();
         $result['phone'] = $user->phone;
         $result['username'] = $user->username;
         $result['gender'] = $user->gender;
         $result['picture'] = Url::to('@web'.$user->picture, true);
+        $result['school'] = $school->school_name;
         return $result;
     }
     public function actionUpdateUsername()
@@ -83,6 +89,21 @@ class PersonalController extends ActiveController
         }
         return ['status' => '-1', 'msg' => '图片为空'];
     }
+
+    /**
+     * 修改支付宝账号
+     */
+    public function actionUpdateAlipay() {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $post_data = Yii::$app->request->post();
+        $alipay = $post_data['alipay_account'];
+        $user->alipay_account = $alipay;
+        $user->save();
+        return ['status' => '200'];
+    }
+
     public function actionCourseList()
     {
         $data = Yii::$app->request->get();
@@ -210,4 +231,103 @@ class PersonalController extends ActiveController
         );
         return $result;
     }
+
+    /**
+     * 个人收益明细
+     */
+    public function actionIncomeStatistics() {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $year = $data['year'];
+        $mounth = $data['mounth'];
+        $time = strtotime($year.$mounth.'00'.' '.'00:00:00');
+        $user = User::findIdentityByAccessToken($access_token);
+        $users = User::find()
+        ->where(['invite' => $user->id])
+        ->all();
+        $user_array=array();
+        foreach ($users as $key => $usersingle) {
+            $user_array[] = $usersingle->id;
+        }
+      
+        $orders = OrderInfo::find()
+        ->where(['in', 'user_id', $user_array])
+        ->andWhere(['order_status' => 1])
+        ->andWhere(['pay_status' => 2])
+        ->andWhere(['>','pay_time', $time])
+        ->all();
+
+        foreach ($orders as $key => $order) {
+            $content = array(
+                'consignee' => $order->consignee,
+                'status' => '下单',
+                'income' => $order->order_amount * 0.1,
+                'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
+            );
+            $result[] = $content;
+        }
+
+        $users = User::find()
+        ->where(['invite' => $user->id])
+        ->andWhere(['>','created_at', $time])
+        ->all();
+        $user_array=array();
+        foreach ($users as $key => $usersingle) {
+            $user_array[] = $usersingle->id;
+            $content = array(
+                'consignee' => $usersingle->username,
+                'status' => '注册',
+                'income' =>  0,
+                'pay_time' => date('Y-m-d H:i:s', $usersingle->created_at)
+            );
+            $result[] = $content;
+        }
+
+        array_multisort(array_column($result,'pay_time'),SORT_DESC,$result);
+        return json_encode($result);
+    }
+
+    /**
+     * 个人收益
+     */
+    public function actionIncome() {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $users = User::find()
+        ->where(['invite' => $user->id])
+        ->all();
+        $user_array=array();
+        foreach ($users as $key => $usersingle) {
+            $user_array[] = $usersingle->id;
+        }
+      
+        $orders = OrderInfo::find()
+        ->where(['in', 'user_id', $user_array])
+        ->andWhere(['order_status' => 1])
+        ->andWhere(['pay_status' => 2])
+        ->all();
+        
+        $income=0;
+        foreach ($orders as $key => $order) {
+            $income += $order->order_amount * 0.1;
+        }
+
+        $settlement = Withdraw::find()
+        ->where(['user_id' => $user->id])
+        ->all();
+
+        $widthincome = 0;
+        foreach ($settlement as $key => $settlementsingle) {
+            $widthincome += $settlementsingle->fee;
+        }
+
+        $result = array(
+           'income' => $income,
+           'settlement' => $widthincome
+        );
+        return json_encode($result);
+    }
+
+
 }

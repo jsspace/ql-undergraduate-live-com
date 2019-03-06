@@ -92,10 +92,13 @@ return [
                         'POST update-username' => 'update-username',
                         'POST update-gender' => 'update-gender',
                         'POST update-headimg' => 'update-headimg',
+                        'POST update-alipay' => 'update-alipay',
                         'GET course-list' => 'course-list',
                         'GET order-list' => 'order-list',
                         'GET message-list' => 'message-list',
-                        'POST message-view' => 'message-view'
+                        'POST message-view' => 'message-view',
+                        'GET income-statistics' => 'income-statistics',
+                        'GET income' => 'income'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
