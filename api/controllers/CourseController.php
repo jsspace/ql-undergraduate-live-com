@@ -133,8 +133,6 @@ class CourseController extends Controller
             'discount' => $courseModel->discount,
             'price' => $courseModel->price,
             'home_pic' => $courseModel->home_pic,
-            'teacher' => User::item($courseModel->teacher_id),
-            'class' => $duration/60,
             'view' => $courseModel->view,
             'collection' => $courseModel->collection,
             'online' => $courseModel->online,
@@ -144,35 +142,22 @@ class CourseController extends Controller
         );
         $courseDetail['course'] = $course;
         //课程教师
-        $teacher_model = User::getUserModel($courseModel->teacher_id);
-        $teacher = array(
-            'teacher_img' => Url::to('@web'.$teacher_model->picture, true),
-            'teacher_name' => $teacher_model->username,
-            'teacher_tag' => $teacher_model->description,
-            'office' => $teacher_model->office,
-            'unit' => $teacher_model->unit,
-            'goodat' => $teacher_model->goodat
-        );
-        $courseDetail['teacher'] = $teacher;
-        /* 获取前12个学员 */
-        $studyids = UserStudyLog::find()
-        ->select('userid')
-        ->where(['courseid' => $courseid])
-        ->orderBy('start_time desc')
-        ->limit(12)
-        ->asArray()
-        ->all();
-        if (!empty($studyids)) {
-            $studyids = array_column($studyids, 'userid');
-            $studyids = array_unique($studyids);
-            foreach ($studyids as $key => $studyid) {
-                $content = array(
-                    'student_img' => Url::to('@web'.User::getUserModel($studyid)->picture, true),
-                    'student_name' => User::item($studyid)
+        $id_arr = explode(',', $courseModel->teacher_id);
+        foreach ($id_arr as $key => $id) {
+            $teacher_model = User::getUserModel($id);
+            if ($teacher_model) {
+                $teacher[] = array(
+                    'teacher_img' => $teacher_model->picture,
+                    'teacher_name' => $teacher_model->username,
+                    'teacher_tag' => $teacher_model->description,
+                    'office' => $teacher_model->office,
+                    'unit' => $teacher_model->unit,
+                    'goodat' => $teacher_model->goodat
                 );
-                $courseDetail['students'][] = $content;
             }
         }
+        
+        $courseDetail['teacher'] = $teacher;
         return  json_encode($courseDetail);
     }
     public static function getVideoType($section)
@@ -323,5 +308,76 @@ class CourseController extends Controller
         ->asArray()
         ->all();
         return json_encode($course_nodes);
+    }
+
+    public function actionOpen() {
+        $courses = Course::find()
+        ->where(['onuse' => 1])
+        ->andWhere(['type' => 2])
+        ->orderBy('create_time desc')
+        ->all();
+        $result = array();
+        foreach ($courses as $key => $course) {
+            $content = array(
+                'id' => $course->id,
+                'course_name' => $course->course_name,
+                'list_pic' => $course->list_pic,
+                'intro' => $course->intro,
+                'duration' => $course->duration
+            );
+            $result[] = $content;
+        }
+        return json_encode($result);
+    }
+
+    public function actionOpenCheck() {
+        try {
+            $get = Yii::$app->request->get();
+            $access_token = $get['access-token'];
+            $user = \common\models\User::findIdentityByAccessToken($access_token);
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        } finally {
+            if (empty($user)) {
+                $result = array(
+                    'status' => 0,
+                    'message' => '请先登陆再观看课程'
+                );
+                return json_encode($result);
+            }
+            $data = Yii::$app->request->post();
+            $course_id = $data['course_id'];
+            $course = Course::find()
+            ->where(['id' => $course_id])
+            ->one();
+            if($course->price == 0) {
+                $result = array(
+                    'status' => 4,
+                    'message' => '该课程免费，可以直接观看',
+                    'url' => $course->open_course_url
+                );
+                return json_encode($result);
+            }
+            $ispay = Course::ispay($course_id, $user->id);/*判断是否已经购买,84应该为$user->id*/
+            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);//84应该为$user->id
+            $isschool = 0;
+            if (array_key_exists('school',$roles_array)) {
+                $isschool = 1;
+            }
+            if ($ispay == 1 || $isschool == 1) {
+                $result = array(
+                    'status' => 2,
+                    'message' => '用户已经购买了该课程，允许观看',
+                    'url' => $course->open_course_url
+                );
+            } else {
+                $result = array(
+                    'status' => 3,
+                    'message' => '您尚未购买该课程，请先购买后再观看',
+                    'url' => ''
+                );
+            }
+            return json_encode($result);
+        }
     }
 }

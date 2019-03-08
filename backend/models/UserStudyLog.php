@@ -58,6 +58,14 @@ class UserStudyLog extends \yii\db\ActiveRecord
     }
 
     /**
+     * 建立和知识点的对应关系
+     */
+    public function getSectionPoint()
+    {
+        $this->hasOne(CourseSectionPoints::className(), ['id' => 'pointid']);
+    }
+
+    /**
      * @inheritdoc
      * @return UserStudyLogQuery the active query used by this AR class.
      */

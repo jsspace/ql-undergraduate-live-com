@@ -40,7 +40,6 @@ AppAsset::register($this);
         <li><a href="/course/open" target="_blank"><img src="/images/hticon1b.png" />公开课</a></li>
         <li><a href="/user/info"><img src="/images/hticon1c.png" />个人资料</a></li>
         <li><a href="/about/how-to-study" target="_blank"><img src="/images/hticon1d.png" />如何上课</a></li>
-        <li><a href="/user/ask-teacher"><img src="/images/hticon1e.png" />升本咨讯</a></li>
     </ul>
     <dl class="hear-right__bar">
         <?php

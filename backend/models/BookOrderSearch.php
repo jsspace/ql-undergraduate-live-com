@@ -19,7 +19,7 @@ class BookOrderSearch extends BookOrder
     {
         return [
             [['id', 'bookid', 'userid', 'book_num'], 'integer'],
-            [['book_name', 'username', 'phone'], 'safe'],
+            [['book_name', 'username', 'phone','address'], 'safe'],
         ];
     }
 
@@ -67,7 +67,8 @@ class BookOrderSearch extends BookOrder
 
         $query->andFilterWhere(['like', 'book_name', $this->book_name])
             ->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'phone', $this->phone]);
+            ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
     }

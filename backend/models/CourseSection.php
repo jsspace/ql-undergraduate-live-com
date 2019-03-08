@@ -73,6 +73,14 @@ class CourseSection extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserHomework()
+    {
+        return $this->hasMany(UserHomework::className(), ['section_id' => 'id']);
+    }
+
+    /**
      * @inheritdoc
      * @return CourseSectionQuery the active query used by this AR class.
      */
