@@ -42,15 +42,9 @@ class UserController extends ActiveController
         $model->load($data = Yii::$app->getRequest()->getBodyParams(), '');//实例化对象
 
         if ($user = $model->signup()) {
-            //给注册学员发优惠券
-            $coupon = new Coupon();
-            $coupon->name = '新会员50元优惠券';
-            $coupon->fee = 50;
-            $coupon->user_id = $user->id;
-            $coupon->isuse = 0;
-            $coupon->start_time = date('Y-m-d H:i:s', time());
-            $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
-            $coupon->save();
+            //给注册学员金币
+            $gold_service = new GoldService();
+            $gold_service->changeUserGold(100,$user->id,4);
             //如果邀请人是学员，给邀请人添加优惠券
             if (!empty($data['invite'])) {
                 $roles_model = Yii::$app->authManager->getAssignments($data['invite']);
