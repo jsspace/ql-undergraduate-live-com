@@ -110,7 +110,7 @@ return [
                         'POST check' => 'check',
                         'GET nodes' => 'nodes',
                         'GET all-nodes' => 'all-nodes',
-                        'POST open-check' => 'open-check',
+                        'GET open-check' => 'open-check',
                         'GET open' => 'open'  
                     ]
                 ],
