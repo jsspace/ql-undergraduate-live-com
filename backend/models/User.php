@@ -37,6 +37,7 @@ use Yii;
  * @property string $bank_username
  * @property string $bankc_card
  * @property string $alipay_account 支付宝账号
+ * @property string $address 收货地址
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -61,7 +62,7 @@ class User extends \yii\db\ActiveRecord
             [['intro', 'password'], 'string'],
             [['percentage'], 'number'],
             [['username', 'auth_key'], 'string', 'max' => 32],
-            [['password_hash', 'password_reset_token', 'email', 'phone', 'picture', 'access_token'], 'string', 'max' => 255],
+            [['password_hash', 'password_reset_token', 'email', 'phone', 'picture', 'access_token', 'address'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 2000],
             [['unit', 'office', 'goodat', 'wechat_img', 'bank_username'], 'string', 'max' => 300],
             [['wechat'], 'string', 'max' => 200],
@@ -109,6 +110,7 @@ class User extends \yii\db\ActiveRecord
             'access_token' => '访问token',
             'expire_at' => '过期时间',
             'alipay_account' => Yii::t('app', '支付宝账号'),
+            'address' => Yii::t('app', '收货地址')
         ];
     }
 
