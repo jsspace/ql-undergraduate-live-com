@@ -139,6 +139,7 @@ class PersonalController extends ActiveController
         ->where(['in', 'id', $goodsid_arr])
         ->all();
         $result = array();
+        $courseList = array();
         foreach ($clist as $key => $course) {
             $teachers = explode(',', $course->teacher_id);
             $teachers = User::find()->select('username')->where(['in', 'id', $teachers])->all();
@@ -156,10 +157,11 @@ class PersonalController extends ActiveController
                 'chapters' => $chapters,     // 课程单元数
                 'teachers' => $teacher      // 授课教师
             );
-            $result[] = $content;
-            $result['course_count'] = count($clist);    // 课程数量
-            $result['study_time'] = $study_time;        // 学习时长
+            $courseList[] = $content;
         }
+        $result['couse_list'] = $courseList;
+        $result['course_count'] = count($clist);    // 课程数量
+        $result['study_time'] = $study_time;        // 学习时长
         return $result;
     }
     public function actionOrderList()
@@ -417,7 +419,7 @@ class PersonalController extends ActiveController
                     }]);
                 },
                 'teacher'
-            ])
+            ])->asArray()
             ->one();
         $result = array();
         $result['course'] = $course;

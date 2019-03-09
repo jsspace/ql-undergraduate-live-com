@@ -29,6 +29,7 @@ class UserController extends ActiveController
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
 
         if ($model->login()) {
+            $user = \common\models\User::findIdentityByAccessToken($model->login());
             return ['access_token' => $model->login()];
         } else {
             $model->validate();
