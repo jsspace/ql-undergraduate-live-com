@@ -19,7 +19,8 @@ class InformationController extends Controller
                 'title' => $information->title,
                 'author' => $information->author,
                 'release_time' => $information->release_time,
-                'pic' =>  $information->cover_pic
+                'pic' =>  $information->cover_pic,
+                'id' => $information->id
             );
         }
       return json_encode($information_arr);
