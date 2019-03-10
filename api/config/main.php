@@ -111,7 +111,8 @@ return [
                         'GET nodes' => 'nodes',
                         'GET all-nodes' => 'all-nodes',
                         'GET open-check' => 'open-check',
-                        'GET open' => 'open'  
+                        'GET open' => 'open'  ,
+                        'GET open-detail' => 'open-detail'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',

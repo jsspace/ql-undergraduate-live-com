@@ -310,6 +310,21 @@ class CourseController extends Controller
         return json_encode($course_nodes);
     }
 
+    public function actionOpenDetail() {
+        $get = Yii::$app->request->get();
+        $course_id = $get['course_id'];
+        $course = Course::find()
+        ->where(['id' => $course_id])
+        ->one();
+        $result = array(
+            'pic' => $course->list_pic,
+            'course_name' => $course->course_name,
+            'course_price' => $course->price,
+        );
+        return json_encode($result);
+        
+    }
+ 
     public function actionOpen() {
         $courses = Course::find()
         ->where(['onuse' => 1])

@@ -56,9 +56,8 @@ class PersonalController extends ActiveController
         $result['phone'] = $user->phone;
         $result['username'] = $user->username;
         $result['gender'] = $user->gender;
-        $result['picture'] = Url::to('@web'.$user->picture, true);
         $result['school'] = $school->school_name;
-        $result['picture'] = Url::to('@web/'.$user->picture, true);
+        $result['picture'] =$user->picture;
         $result['study_time'] = $study_time;
         $result['address'] = $user->address;
         return $result;
