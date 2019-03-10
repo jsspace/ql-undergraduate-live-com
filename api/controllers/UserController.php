@@ -87,6 +87,7 @@ class UserController extends ActiveController
                 ];
                 return $res;
             }
+            
         }
         $login_info = Smsdata::find()
         ->where(['phone' => $phone])
@@ -145,10 +146,9 @@ class UserController extends ActiveController
         $model->load($data = Yii::$app->getRequest()->getBodyParams(), '');//实例化对象
         if ($model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', '新密码已保存。');
-            return ['status' => '200', 'result' => '密码修改成功！'];
+            return ['status' => 0, 'result' => '密码修改成功！'];
         } else {
-            $model->validate();
-            return $model;
+          return ['status' => -1, 'msg' => '用户名或密码错误'];
         }
     }
     public function actionIslogin()
