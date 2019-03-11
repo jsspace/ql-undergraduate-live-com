@@ -223,6 +223,9 @@ class PersonalController extends ActiveController
         }
         return $result;
     }
+    /**
+     * 个人消息列表
+     */
     public function actionMessageList()
     {
         $data = Yii::$app->request->get();
@@ -396,9 +399,11 @@ class PersonalController extends ActiveController
                 'course_name' => $f->course_name,
                 'home_pic' => $f->home_pic,
                 'price' => $f->price,
+                'discount' => $f->discount,
+                'id' => $f->id
             );
         }
-        return json_encode($favorite_arr);
+        return ($favorite_arr);
     }
     //宣传页
     public function actionQrcode() {
