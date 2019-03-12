@@ -595,5 +595,31 @@ class PersonalController extends ActiveController
                     ->from('tbl_order_goods')->where(['user_id' => $user->id])->all();
         return $order_info;
     }
+    /**
+     * 获取学习时长
+     */
+    public function actionDuration(){
+      $data = Yii::$app->request->get();
+      $access_token = $data['access-token'];
+      $user = User::findIdentityByAccessToken($access_token);
+      $study_log = UserStudyLog::find()
+        ->where(['userid' => $user->id])
+        ->select('duration')
+        ->all();
+      $alltime = 0;
+      foreach ($study_log as $key => $time) {
+        $alltime += $time->duration;
+      }
+      $hour = 0;
+      $minute = $alltime % 60;
+      while(($alltime / 60) > 1){
+        $alltime = $alltime - 60;
+        $hour ++;
+      }
+      $duration = array();
+      $duration['hour']  = $hour;
+      $duration['minute'] = $minute;
+      return $duration;
+    }
 
 }
