@@ -93,12 +93,16 @@ return [
                         'POST update-gender' => 'update-gender',
                         'POST update-headimg' => 'update-headimg',
                         'POST update-alipay' => 'update-alipay',
+                        'GET get-alipay' => 'get-alipay',
                         'GET course-list' => 'course-list',
                         'GET order-list' => 'order-list',
                         'GET message-list' => 'message-list',
                         'POST message-view' => 'message-view',
                         'GET income-statistics' => 'income-statistics',
-                        'GET income' => 'income'
+                        'GET income' => 'income',
+                        'GET income-check' => 'income-check',
+                        'GET income-month' => 'income-month',
+                        'GET income-month-check' => 'income-month-check',
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
