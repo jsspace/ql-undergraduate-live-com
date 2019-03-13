@@ -113,6 +113,11 @@ class OrderInfo extends \yii\db\ActiveRecord
         return new OrderInfoQuery(get_called_class());
     }
 
+    public function getGoods()
+    {
+        return $this->hasOne(OrderGoods::className(), ['order_sn' => 'order_sn']);
+    }
+
     private static $_items = array();
     public static function item($status)
     {

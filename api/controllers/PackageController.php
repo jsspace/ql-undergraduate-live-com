@@ -51,7 +51,10 @@ class PackageController extends Controller
             $content['teacher'] = $teachers;
             $packages[] = $content;
         }
-        return json_encode($packages);
+        $lists = array();
+        $lists['packages'] = $packages;
+        $lists['status'] = 0;
+        return json_encode($lists);
     }
     
     // 套餐详情页
@@ -88,6 +91,7 @@ class PackageController extends Controller
             );
             $packageDetail['course'][] = $content;
         }
+        $packageDetail['status'] = 0;
         return json_encode($packageDetail);
     }
 }

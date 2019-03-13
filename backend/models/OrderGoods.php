@@ -87,4 +87,9 @@ class OrderGoods extends \yii\db\ActiveRecord
     {
         return new OrderGoodsQuery(get_called_class());
     }
+
+    public function getOrder()
+    {
+        return $this->hasOne(OrderInfo::className(), ['order_sn' => 'order_sn']);
+    }
 }

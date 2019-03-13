@@ -380,4 +380,54 @@ class CourseController extends Controller
             return json_encode($result);
         }
     }
+
+    /* 个人中心-我的课程$精品课-视频页接口 */
+    public function actionCourseVideo()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = '';
+        $course_id = $data['course_id'];
+        $isPay = 0;
+        if (!empty($data['access-token'])) {
+            $access_token = $data['access-token'];
+            $user = \common\models\User::findIdentityByAccessToken($access_token);
+            // 判断用户是否购买该课程
+            $isPay = Course::ispay($course_id, $user->id);
+            if ($isPay != 0) {
+                $course = Course::find()
+                    ->where(['id' => $course_id])
+                    ->with([
+                        'courseChapters' => function($query) use($user){
+                            $query->with(['courseSections' => function($query) use($user){
+                                $query->with(['courseSectionPoints' => function($query) use($user) {
+                                    $query->with(['studyLog' => function($query) use($user) {
+                                        $query->where(['userid' => $user->id]);
+                                    }]);
+                                }] );
+                            }]);
+                        },
+                        'teacher'
+                    ])->asArray()
+                    ->one();
+            }
+        } else {
+            $course = Course::find()
+                ->where(['id' => $course_id])
+                ->with([
+                    'courseChapters' => function($query) {
+                        $query->with(['courseSections' => function($query) {
+                            $query->with('courseSectionPoints');
+                        }]);
+                    },
+                    'teacher'
+                ])->asArray()
+                ->one();
+        }
+        $result = array();
+        $result['status'] = 0;
+        $result['course'] = $course;
+        $result['ispay'] = $isPay;
+        return json_encode($result);
+    }
+
 }
