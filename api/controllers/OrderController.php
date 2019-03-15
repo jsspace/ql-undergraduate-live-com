@@ -2,6 +2,8 @@
 
 namespace api\controllers;
 
+use backend\models\Book;
+use backend\models\BookOrder;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
@@ -297,7 +299,7 @@ class OrderController extends ActiveController
         $user_id = $user->id;
     
         
-        $data = Yii::$app->request->post();
+        $data = Yii::$app->request->get();
         if (empty($data['course_id'])) {
             $data = [
                 'code' => -1,
@@ -306,6 +308,17 @@ class OrderController extends ActiveController
             return $data;
         }
         $course_id = $data['course_id'];
+        $order = OrderInfo::find()->where(['user_id' => $user_id, 'course_ids' => $course_id])
+            ->andWhere(['>','invalid_time', time()])->one();
+        if (!empty($order)) {
+            $data = [
+                'code' => -1,
+                'message' => '有相关未完成订单'
+            ];
+            return $data;
+        }
+
+
         $course_models = Course::find()
         ->where(['id' => $course_id])
         ->andWhere(['onuse' => 1])
@@ -326,6 +339,7 @@ class OrderController extends ActiveController
         //添加课程订单商品
         foreach($course_models as $model) {
             $order_goods = new OrderGoods();
+            $order_goods->user_id = $user_id;
             $order_goods->order_sn = $order_sn;
             $order_goods->goods_id = $model->id;
             $order_goods->goods_name = $model->course_name;
@@ -366,6 +380,7 @@ class OrderController extends ActiveController
         $order_info->goods_amount = $goods_amount;
         $order_info->order_amount = $order_amount;
         $order_info->add_time = time();
+        $order_info->invalid_time = time() +3600 * 24 * 180;
         $order_info->course_ids = $course_id;
         $order_info->coupon_ids = '';
         $order_info->coupon_money = 0;
@@ -801,6 +816,44 @@ class OrderController extends ActiveController
     
             return json_encode($result);
         }
+    }
+
+    public function actionBookOrder()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $book_id = $data['book_id'];
+        $username = $data['username'];
+        $phone = $data['phone'];
+        $addres = $data['address'];
+
+        $user = User::findIdentityByAccessToken($access_token);
+        if (empty($user)) {
+            $result = [
+                'status' => -1,
+                'message' => '未找到用户，请尝试重新登录！'
+            ];
+            return $result;
+        }
+
+        $book_name = Book::find()->select('name')->where(['id' => $book_id])->one();
+        $book_order = new BookOrder();
+        $book_order->bookid = $book_id;
+        $book_order->userid = $user->id;
+        $book_order->book_num = 1;
+        $book_order->book_name = $book_name->name;
+        $book_order->username = $username;
+        $book_order->phone = $phone;
+        $book_order->address = $addres;
+        $book_order->order_time = time();
+        $book_order->save();
+        $data = [
+            'code' => 0,
+            'message' => '选择教材成功',
+            'info' => $book_order
+        ];
+        return $data;
+
     }
     
     public static function createOrderid()

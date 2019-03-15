@@ -599,17 +599,23 @@ class PersonalController extends ActiveController
         $result = array();
         try {
             $user = User::findIdentityByAccessToken($access_token);
+            $coll = Collection::find()->where(['userid' => $user->id, 'courseid' => $course_id])->one();
             if (empty($user)) {
                 $status = -1;
                 $result['message'] = 'user was not found!';
                 $result['status'] = $status;
                 return $result;
+            } elseif (empty($coll)) {
+                $collection = new Collection();
+                $collection->userid = $user->id;
+                $collection->courseid = $course_id;
+                $collection->save();
+                $status = 0;
+            } else {
+                $coll -> delete();
+                $status = 0;
             }
-            $collection = new Collection();
-            $collection->userid = $user->id;
-            $collection->courseid = $course_id;
-            $collection->save();
-            $status = 0;
+
         } catch (Exception $e) {
             $status = -1;
             echo 'Caught exception: ',  $e->getMessage(), "\n";

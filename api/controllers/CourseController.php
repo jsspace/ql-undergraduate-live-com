@@ -2,6 +2,8 @@
 
 namespace api\controllers;
 
+use backend\models\Book;
+use backend\models\Collection;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -110,6 +112,7 @@ class CourseController extends Controller
         $ismember = 0;
         $ispay = 0;
         $isschool = 0;
+        $iscollect = false;
         if (!empty($user)) {
             $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
             if (array_key_exists('school',$roles_array)) {
@@ -117,12 +120,16 @@ class CourseController extends Controller
             }
             $ismember = Course::ismember($courseModel->id, $user->id);
             $ispay = Course::ispay($courseModel->id, $user->id);
+            $collection = Collection::find()->where(['userid' => $user->id, 'courseid' => $courseid])->one();
+            if (!empty($collection)) {
+                $iscollect = true;
+            }
         }
         if ($courseModel->discount == 0) {
             $tag = 1; //公开课程
         } else if ($ismember == 1) {
             $tag = 2; //会员课程
-        } else if ($ispay == 1 || $isschool == 1) {
+        } else if ($ispay == 1) {
             $tag = 3; //已购买课程
         } else {
             $tag = 0; //尚未购买
@@ -138,6 +145,7 @@ class CourseController extends Controller
             'online' => $courseModel->online,
             'intro' => $courseModel->des,
             'ispay' => $tag,
+            'iscollect' => $iscollect,
             'course_type' => $courseModel->type
         );
         $courseDetail['course'] = $course;
@@ -428,6 +436,42 @@ class CourseController extends Controller
         $result['course'] = $course;
         $result['ispay'] = $isPay;
         return json_encode($result);
+    }
+
+    public function actionCourseOrder()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = '';
+        $result = array();
+        $status = 0;
+        $course_count = 1;
+        $user_info = '';
+        if (empty($data['access-token'])) {
+            $status = -1;
+            $message = 'please login first!';
+            $result['status'] = $status;
+            $result['message'] = $message;
+            return json_encode($result);
+        } else {
+            $access_token = $data['access-token'];
+            $user = \common\models\User::findIdentityByAccessToken($access_token);
+            if (!empty($user)) {
+                $user_info = User::find()->select(['username', 'phone', 'address'])->where(['id' => $user->id])
+                    ->asArray()->one();
+            }
+            $courseid = $data['course_id'];
+            $course_info = Course::find()->select(['course_name', 'list_pic', 'price', 'discount', 'category_name'])
+                ->where(['id' => $courseid])->asArray()->one();
+            $books = Book::find()->where(['category' => $course_info['category_name']])->asArray()->all();
+            $status = 0;
+            $result['status'] = $status;
+            $result['user_info'] = $user_info;
+            $result['course_info'] = $course_info;
+            $result['books'] = $books;
+            $result['course_count'] = $course_count;
+            return json_encode($result);
+        }
+
     }
 
 }
