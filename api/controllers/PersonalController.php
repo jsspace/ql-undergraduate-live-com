@@ -42,18 +42,19 @@ class PersonalController extends ActiveController
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
-        $school = ShandongSchool::find()
-        ->where(['id' => $user->schoolid])
-        ->one();
+        // $school = ShandongSchool::find()
+        // ->where(['id' => $user->schoolid])
+        // ->one();
         $study_time = UserStudyLog::find()->where(['userid' => $user->id])->sum('duration');
         $result = array();
         $result['phone'] = $user->phone;
         $result['username'] = $user->username;
         $result['gender'] = $user->gender;
-        $result['school'] = $school->school_name;
-        $result['picture'] =$user->picture;
+        $result['picture'] = $user->picture;
+        //$result['school'] = $school->school_name;
         $result['study_time'] = $study_time;
         $result['address'] = $user->address;
+        $result['alipay_account'] = $user->alipay_account;
         return $result;
     }
     public function actionUpdateUsername()
@@ -78,12 +79,14 @@ class PersonalController extends ActiveController
         $user->save();
         return ['status' => '200'];
     }
+    /**
+     * 修改头像
+     */
     public function actionUpdateHeadimg()
     {
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
-        $post_data = Yii::$app->request->post();
         $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
         $file = UploadedFile::getInstanceByName('headimg');
         if ($file) {
@@ -94,9 +97,14 @@ class PersonalController extends ActiveController
                 mkdir($img_rootPath, 0777, true);
             }
             $file->saveAs($img_rootPath . $randName);
-            $user->picture = '/'.Yii::$app->params['upload_img_dir'] . 'head_img/' . $randName;
+            $folder = 'head_img';
+            $result = QiniuUpload::uploadToQiniu($file, $img_rootPath . $randName, $folder);
+            if (!empty($result)) {
+                $user->picture = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+            }
+            @unlink($img_rootPath . $randName);
             $user->save();
-            return ['status' => '200', 'url' => Url::to('@web'.$user->picture, true)];
+            return ['status' => 0, 'url' => $user->picture];
         }
         return ['status' => '-1', 'msg' => '图片为空'];
     }
@@ -124,6 +132,20 @@ class PersonalController extends ActiveController
         return ($user->alipay_account);
     }
 
+    /**
+     * 修改收货地址，支付宝，用户名
+     */
+    public function actionChangeSet() {
+      $get = Yii::$app->request->get();
+      $access_token = $get['access-token'];
+      $data = Yii::$app->request->post();
+      $user = User::findIdentityByAccessToken($access_token);
+      $user->alipay_account = $data['alipay_account'];
+      $user->username = $data['username'];
+      $user->address = $data['address'];
+      $user->save();
+      return ['status' => 0];
+    }
     public function actionCourseList()
     {
         $data = Yii::$app->request->get();
@@ -225,6 +247,9 @@ class PersonalController extends ActiveController
         $result['order_info'] = $info;
         return $result;
     }
+    /**
+     * 个人消息列表
+     */
     public function actionMessageList()
     {
         $data = Yii::$app->request->get();
@@ -514,9 +539,11 @@ class PersonalController extends ActiveController
                 'course_name' => $f->course_name,
                 'home_pic' => $f->home_pic,
                 'price' => $f->price,
+                'discount' => $f->discount,
+                'id' => $f->id
             );
         }
-        return json_encode($favorite_arr);
+        return ($favorite_arr);
     }
     //宣传页
     public function actionQrcode() {
@@ -747,6 +774,32 @@ class PersonalController extends ActiveController
             $result['status'] = $status;
             return $result;
         }
+    }
+    /**
+     * 获取学习时长
+     */
+    public function actionDuration(){
+      $data = Yii::$app->request->get();
+      $access_token = $data['access-token'];
+      $user = User::findIdentityByAccessToken($access_token);
+      $study_log = UserStudyLog::find()
+        ->where(['userid' => $user->id])
+        ->select('duration')
+        ->all();
+      $alltime = 0;
+      foreach ($study_log as $key => $time) {
+        $alltime += $time->duration;
+      }
+      $hour = 0;
+      $minute = $alltime % 60;
+      while(($alltime / 60) > 1){
+        $alltime = $alltime - 60;
+        $hour ++;
+      }
+      $duration = array();
+      $duration['hour']  = $hour;
+      $duration['minute'] = $minute;
+      return $duration;
     }
 
 }
