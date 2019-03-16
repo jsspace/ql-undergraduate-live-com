@@ -20,8 +20,8 @@ use backend\models\Withdraw;
 use backend\models\Collection;
 use backend\models\UserStudyLog;
 use components\helpers\QiniuUpload;
-use yii\db\Query;
 use yii\base\Exception;
+use common\service\PersonalService;
 
 class PersonalController extends ActiveController
 {
@@ -50,9 +50,8 @@ class PersonalController extends ActiveController
         $result['phone'] = $user->phone;
         $result['username'] = $user->username;
         $result['gender'] = $user->gender;
-        $result['picture'] = Url::to('@web'.$user->picture, true);
         $result['school'] = $school->school_name;
-        $result['picture'] = Url::to('@web/'.$user->picture, true);
+        $result['picture'] =$user->picture;
         $result['study_time'] = $study_time;
         $result['address'] = $user->address;
         return $result;
@@ -109,11 +108,20 @@ class PersonalController extends ActiveController
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
-        $post_data = Yii::$app->request->post();
-        $alipay = $post_data['alipay_account'];
+        $alipay = $data['alipay_account'];
         $user->alipay_account = $alipay;
         $user->save();
         return ['status' => '200'];
+    }
+
+    /**
+     * 显示支付宝账号
+     */
+    public function actionGetAlipay() {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        return ($user->alipay_account);
     }
 
     public function actionCourseList()
@@ -276,9 +284,8 @@ class PersonalController extends ActiveController
     public function actionIncomeStatistics() {
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
-        $year = $data['year'];
-        $mounth = $data['mounth'];
-        $time = strtotime($year.$mounth.'00'.' '.'00:00:00');
+        $date = $data['date'];
+        $time = strtotime($date .'00:00:00');
         $user = User::findIdentityByAccessToken($access_token);
         $users = User::find()
         ->where(['invite' => $user->id])
@@ -292,11 +299,15 @@ class PersonalController extends ActiveController
         ->where(['in', 'user_id', $user_array])
         ->andWhere(['order_status' => 1])
         ->andWhere(['pay_status' => 2])
-        ->andWhere(['>','pay_time', $time])
+        ->andWhere(['>','pay_time' , $time])
         ->all();
 
         foreach ($orders as $key => $order) {
+            $userpic = User::find()
+            ->where(['id' => $order->user_id])
+            ->one();
             $content = array(
+                'pic' => $userpic->picture,
                 'consignee' => $order->consignee,
                 'status' => '下单',
                 'income' => $order->order_amount * 0.1,
@@ -313,6 +324,7 @@ class PersonalController extends ActiveController
         foreach ($users as $key => $usersingle) {
             $user_array[] = $usersingle->id;
             $content = array(
+                'pic' => $usersingle->picture,
                 'consignee' => $usersingle->username,
                 'status' => '注册',
                 'income' =>  0,
@@ -320,9 +332,66 @@ class PersonalController extends ActiveController
             );
             $result[] = $content;
         }
+             array_multisort(array_column($result,'pay_time'),SORT_DESC,$result);
+        return  ($result);
+    }
 
-        array_multisort(array_column($result,'pay_time'),SORT_DESC,$result);
-        return json_encode($result);
+     /**
+     * 个人收益按日期查询
+     */
+    public function actionIncomeCheck() {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $date = $data['date'];
+        $time = strtotime($date);
+        $user = User::findIdentityByAccessToken($access_token);
+        $users = User::find()
+        ->where(['invite' => $user->id])
+        ->all();
+        $user_array=array();
+        foreach ($users as $key => $usersingle) {
+            $user_array[] = $usersingle->id;
+        }
+      
+        $orders = OrderInfo::find()
+        ->where(['in', 'user_id', $user_array])
+        ->andWhere(['order_status' => 1])
+        ->andWhere(['pay_status' => 2])
+        ->andWhere(['>','pay_time' , $time-1])
+        ->andWhere(['<','pay_time' , $time+86400])
+        ->all();
+            foreach ($orders as $key => $order) {
+                $userpic = User::find()
+                ->where(['id' => $order->user_id])
+                ->one();
+                $content = array(
+                    'pic' => $userpic->picture,
+                    'consignee' => $order->consignee,
+                    'status' => '下单',
+                    'income' => $order->order_amount * 0.1,
+                    'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
+                );
+                $result[] = $content;
+            }
+        $users = User::find()
+        ->where(['invite' => $user->id])
+        ->andWhere(['>','created_at', $time-1])
+        ->andWhere(['<','created_at', $time+86400])
+        ->all();
+        $user_array=array();
+        foreach ($users as $key => $usersingle) {
+            $user_array[] = $usersingle->id;
+            $content = array(
+                'pic' => $usersingle->picture,
+                'consignee' => $usersingle->username,
+                'status' => '注册',
+                'income' =>  0,
+                'pay_time' => date('Y-m-d H:i:s', $usersingle->created_at)
+            );
+            $result[] = $content;
+        }
+             array_multisort(array_column($result,'pay_time'),SORT_DESC,$result);
+        return  ($result);
     }
 
     /**
@@ -364,7 +433,62 @@ class PersonalController extends ActiveController
            'income' => $income,
            'settlement' => $widthincome
         );
-        return json_encode($result);
+        return ($result);
+    }
+
+    /**
+     * 获取按月收益
+     */
+    public function actionIncomeMonth () {
+        $this_month = strtotime(date('Y-m-01', strtotime(date("Y-m-d"))));
+        $now = strtotime(date('Y-m-d'));
+        $last_month = strtotime(date('Y-m-01', (strtotime(date('Y-m')) - 1)));
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $per = new PersonalService();
+        $this_month_income = $per->countIncome($this_month,$now,$user->id);
+        $last_month_income = $per->countIncome($last_month,$this_month-1,$user->id);
+       
+        $month1 = array(
+            'month' => date('Y-m',$this_month),
+            'income' => $this_month_income,
+            'myincome' => round($this_month_income*0.1,2),
+        );
+        $result[] = $month1;
+        $month2 = array(
+            'month' => date('Y-m',$last_month),
+            'income' => $last_month_income,
+            'myincome' => round($last_month_income*0.1,2),
+        );
+        $result[] = $month2;
+        return ($result);
+    }
+
+    /**
+     * 根据传入的月份返回收益
+     */
+    public function actionIncomeMonthCheck () {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $date = strtotime($data['date']);
+        $date2 = strtotime($data['date2']);
+        $per = new PersonalService();
+        $user = User::findIdentityByAccessToken($access_token);
+        $income = $per->countIncome($date,$date2,$user->id);
+        $result1 = array(
+            'month' => date('Y-m',$date).'-'.date('Y-m',$date2),
+            'income' => $income,
+            'myincome' => round($income*0.1,2),
+        );
+        $result[] = $result1;
+        $month2 = array(
+            'month' => '',
+            'income' => '',
+            'myincome' => '',
+        );
+        $result[] = $month2;
+        return ($result);
     }
 
     //我的收藏
