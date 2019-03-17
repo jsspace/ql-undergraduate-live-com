@@ -15,6 +15,7 @@ use backend\models\AuthAssignment;
 use yii\web\UploadedFile;
 use backend\models\Withdraw;
 use yii\data\Pagination;
+use components\helpers\QiniuUpload;
 
 /**
  * TeacherController implements the CRUD actions for User model.
@@ -83,7 +84,12 @@ class TeacherController extends Controller
                     mkdir($rootPath, 0777, true);
                 }
                 $image_picture->saveAs($rootPath . $image_picture);
-                $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'teacher/' . $image_picture;
+                $folder = 'teacher';
+                $result = QiniuUpload::uploadToQiniu($image_picture, $rootPath . $randName, $folder);
+                if (!empty($result)) {
+                    $model->picture = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                    @unlink($rootPath . $randName);
+                }
             }
             if ($model->save(false)) {
                 $role = new AuthAssignment();
@@ -93,7 +99,6 @@ class TeacherController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
-             @unlink($rootPath . $image_picture);
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -121,8 +126,12 @@ class TeacherController extends Controller
                     mkdir($rootPath, 0777, true);
                 }
                 $image_picture->saveAs($rootPath . $randName);
-                $model->picture = '/'.Yii::$app->params['upload_img_dir'] . 'teacher/' . $randName;
-                @unlink(Yii::getAlias("@frontend")."/web/" . $oldpicture_path);
+                $folder = 'teacher';
+                $result = QiniuUpload::uploadToQiniu($image_picture, $rootPath . $randName, $folder);
+                if (!empty($result)) {
+                    $model->picture = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                    @unlink($rootPath . $randName);
+                }
             } else {
                 $model->picture = $oldpicture_path;
             }

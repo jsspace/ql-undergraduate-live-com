@@ -16,6 +16,7 @@ class PackageController extends Controller
     {
         $packagemodels = CoursePackage::find()
         ->where(['onuse' => 1])
+        ->orderBy('create_time desc')
         ->all();
         $packages = array();
         foreach ($packagemodels as $key => $package) {
