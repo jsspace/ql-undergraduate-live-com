@@ -69,7 +69,7 @@ class UserController extends ActiveController
        $phone = Yii::$app->request->Post('phone');
        if (empty($phone)) {
             $res = [
-                'status' => 'error',
+                'status' => '-1',
                 'message' => '电话号码不能为空',
             ];
             return $res;
@@ -82,7 +82,7 @@ class UserController extends ActiveController
             ->one();
             if (!empty($phone_exist)) {
                 $res = [
-                    'status' => 'error',
+                    'status' => '-1',
                     'message' => '手机号已注册，请直接登录',
                 ];
                 return $res;
@@ -94,7 +94,7 @@ class UserController extends ActiveController
         ->one();
         if (!empty($login_info) && $login_info->request_time > time()) {
             $res = [
-                'status' => 'error',
+                'status' => '-1',
                 'message' => '请等待' . ($login_info->request_time-time()) . 's后再试。',
             ];
             return $res;
@@ -123,13 +123,13 @@ class UserController extends ActiveController
             $login_info->request_time = time() + 30;
             $login_info->save();
             $res = [
-                'status' => 'success',
+                'status' => '0',
                 'code' => 0,
                 'message' => '短信验证码发送成功',
             ];
         } elseif ($response->Code == 'isv.BUSINESS_LIMIT_CONTROL') {
             $res = [
-                'status' => 'error',
+                'status' => '-1',
                 'code' => 1,
                 'message' => '短信验证码请求太频繁，请稍后再尝试。同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。',
             ];
