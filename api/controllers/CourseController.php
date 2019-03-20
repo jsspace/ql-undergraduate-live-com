@@ -4,6 +4,7 @@ namespace api\controllers;
 
 use backend\models\Book;
 use backend\models\Collection;
+use backend\models\CourseSectionPoints;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -208,23 +209,28 @@ class CourseController extends Controller
             );
             return json_encode($result);
         }
-        $data = Yii::$app->request->post();
+        $data = Yii::$app->request->get();
         $section_id = $data['section_id'];
         $course_id = $data['course_id'];
+        $point_id = $data['point_id'];
         $section = CourseSection::find()
         ->where(['id' => $section_id])
         ->one();
-        if (!empty($section)) {
-            if ($section->paid_free == 0) {
+
+        $point = CourseSectionPoints::find()
+            ->where(['id' => $point_id])
+            ->one();
+        if (!empty($point)) {
+            if ($point->paid_free == 0) {
                 $result = array(
                     'status' => 1,
                     'message' => '正在请求观看免费课程',
-                    'url' => $section->video_url
+                    'url' => $point->video_url
                 );
                 return json_encode($result);
             } else {
                 $auth = new Auth(Yii::$app->params['access_key'], Yii::$app->params['secret_key']);
-                $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
+                $video_url = $auth->privateDownloadUrl($point->video_url, $expires = 3600);
                 $is_member = Course::ismember($course_id, $user->id);/*判断是否是该分类下的会员*/
                 if ($is_member == 1) {
                     $result = array(
