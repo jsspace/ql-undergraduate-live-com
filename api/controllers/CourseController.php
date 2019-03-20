@@ -432,6 +432,18 @@ class CourseController extends Controller
                         'teacher'
                     ])->asArray()
                     ->one();
+            } else {
+                $course = Course::find()
+                    ->where(['id' => $course_id])
+                    ->with([
+                        'courseChapters' => function($query) {
+                            $query->with(['courseSections' => function($query) {
+                                $query->with('courseSectionPoints');
+                            }]);
+                        },
+                        'teacher'
+                    ])->asArray()
+                    ->one();
             }
         } else {
             $course = Course::find()
