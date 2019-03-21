@@ -430,7 +430,7 @@ class CourseController extends Controller
                             $query->with(['courseSections' => function($query) use($user){
                                 $query->with(['courseSectionPoints' => function($query) use($user) {
                                     $query->with(['studyLog' => function($query) use($user) {
-                                        $query->where(['userid' => $user->id]);
+                                        $query->where(['userid' => $user->id])->orderBy('id desc')->one();
                                     }]);
                                 }] );
                             }]);
