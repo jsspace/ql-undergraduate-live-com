@@ -4,6 +4,7 @@ namespace api\controllers;
 
 use backend\models\Book;
 use backend\models\Collection;
+use backend\models\CoursePackage;
 use backend\models\CourseSectionPoints;
 use Yii;
 use yii\web\Controller;
@@ -496,7 +497,6 @@ class CourseController extends Controller
             $course_info = Course::find()->select(['course_name', 'list_pic', 'price', 'discount', 'category_name'])
                 ->where(['id' => $courseid])->asArray()->one();
             $books = Book::find()->where(['category' => $course_info['category_name']])->asArray()->all();
-            $status = 0;
             $result['status'] = $status;
             $result['user_info'] = $user_info;
             $result['course_info'] = $course_info;
@@ -504,7 +504,51 @@ class CourseController extends Controller
             $result['course_count'] = $course_count;
             return json_encode($result);
         }
+    }
 
+    public function actionPackageOrder()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+
+        $result = array();
+        $status = 0;
+        $course_count = 1;
+        $user_info = '';
+
+        if (empty($access_token)) {
+            $status = -1;
+            $message = 'please login first!';
+            $result['status'] = $status;
+            $result['message'] = $message;
+            return json_encode($result);
+        } else {
+            $user = \common\models\User::findIdentityByAccessToken($access_token);
+            if (!empty($user)) {
+                $user_info = User::find()->select(['username', 'phone', 'address'])->where(['id' => $user->id])
+                    ->asArray()->one();
+            }
+            $pid = $data['pid'];
+            $course_info = CoursePackage::find()->select(['name', 'course','list_pic', 'price', 'discount'])
+                ->where(['id' => $pid])->asArray()->one();
+            $course_ids = $course_info['course'];
+            $ids_arr = explode(',', $course_ids);
+            $course_count = count($ids_arr);
+            $books = array();
+            foreach ($ids_arr as $id) {
+                $course = Course::find()->select(['course_name', 'list_pic', 'price', 'discount', 'category_name'])
+                    ->where(['id' => $id])->asArray()->one();
+                $book = Book::find()->where(['category' => $course['category_name']])->asArray()->all();
+                $books[] = $book[0];
+            }
+
+            $result['status'] = $status;
+            $result['course_info'] = $course_info;
+            $result['user_info'] = $user_info;
+            $result['books'] = $books;
+            $result['course_count'] = $course_count;
+            return json_encode($result);
+        }
     }
 
 }

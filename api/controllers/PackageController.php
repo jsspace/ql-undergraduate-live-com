@@ -61,11 +61,15 @@ class PackageController extends Controller
     // 套餐详情页
     public function actionDetail()
     {
+        $access_token = Yii::$app->request->get('access-token');
         $packageid = Yii::$app->request->get('pid');
+        $user = \common\models\User::findIdentityByAccessToken($access_token);
         $packageModel = CoursePackage::find()
         ->where(['id' => $packageid])
         ->asArray()
         ->one();
+
+        $isPay = 0;
         $packageDetail = array();
         $packageDetail['package'] = $packageModel;
         $packageDetail['course'] = array();
@@ -74,6 +78,9 @@ class PackageController extends Controller
             $course = Course::find()
             ->where(['id' => $courseid])
             ->one();
+            if (!empty($user)) {
+                $isPay = Course::ispay($courseid, $user->id);
+            }
             $chapters = $course->courseChapters;
             $classrooms = 0; //课堂学
             foreach ($chapters as $key => $chapter) {
@@ -93,6 +100,7 @@ class PackageController extends Controller
             $packageDetail['course'][] = $content;
         }
         $packageDetail['status'] = 0;
+        $packageDetail['ispay'] = $isPay;
         return json_encode($packageDetail);
     }
 }
