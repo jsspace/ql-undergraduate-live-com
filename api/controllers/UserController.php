@@ -27,9 +27,23 @@ class UserController extends ActiveController
         $model = new ApiLoginForm();
 
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
-
         if ($model->login()) {
-            return ['status' => 0, 'access_token' => $model->login()];
+            $access_token = $model->login();
+            $user = \common\models\User::findIdentityByAccessToken($access_token);
+            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
+            $role = '';
+            if (array_key_exists('student',$roles_array)) {
+                $role = 'student';
+            } else if (array_key_exists('teacher',$roles_array)) {
+                $role = 'teacher';
+            } else if (array_key_exists('marketer',$roles_array)) {
+                $role = 'marketer';
+            } else if (array_key_exists('marketer_level1',$roles_array)) {
+                $role = 'marketer_level1';
+            } else if (array_key_exists('marketer_level2',$roles_array)) {
+                $role = 'marketer_level2';
+            }
+            return ['status' => 0, 'access_token' => $access_token, 'role' => $role];
         } else {
             return ['status' => -1, 'msg' => '用户名或密码错误'];
         }
