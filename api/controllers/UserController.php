@@ -43,7 +43,7 @@ class UserController extends ActiveController
             } else if (array_key_exists('marketer_level2',$roles_array)) {
                 $role = 'marketer_level2';
             }
-            return ['status' => 0, 'access_token' => $access_token, 'role' => $role];
+            return ['status' => 0, 'access_token' => $access_token, 'role' => $role, 'userid' => $user->id];
         } else {
             return ['status' => -1, 'msg' => '用户名或密码错误'];
         }
@@ -172,7 +172,7 @@ class UserController extends ActiveController
         $user = \common\models\User::findIdentityByAccessToken($access_token);
         if (empty($user)) {
             $result = array(
-                'status' => 0,
+                'status' => -1,
                 'message' => '未登录'
             );
         } else {
@@ -186,7 +186,7 @@ class UserController extends ActiveController
                 $balance = $gold->gold_balance;
             }
             $result = array(
-                'status' => 1,
+                'status' => 0,
                 'message' => '已登录',
                 'user' => array(
                     'username' => $user->username,

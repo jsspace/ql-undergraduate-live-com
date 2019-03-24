@@ -20,7 +20,8 @@ class BookController extends Controller
                 'pic' => $book->pictrue,
                 'name' => $book->name,
                 'price' => $book->price,
-                'order_price' => $book->order_price
+                'order_price' => $book->order_price,
+                'intro' => $book->intro
             );
         }
         return json_encode($book_arry);
