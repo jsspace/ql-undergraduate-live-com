@@ -299,8 +299,7 @@ class OrderController extends ActiveController
         $type = $get['type'];
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
-    
-        
+
         $data = Yii::$app->request->get();
         if (empty($data['course_id'])) {
             $data = [

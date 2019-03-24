@@ -14,6 +14,7 @@ use backend\models\UserStudyLog;
 use backend\models\Information;
 use backend\models\CoursePackage;
 use backend\models\Book;
+use common\service\JssdkService;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -216,5 +217,11 @@ class SiteController extends Controller
             'status' => 0,
             'data' => $result
         ));
+    }
+    public function actionShareConfig() {
+        $config = Yii::$app->params;
+        $jssdk = new JssdkService($config['yslwd_appid'], $config['yslwd_secret']);
+        $signPackage = $jssdk->GetSignPackage();
+        return json_encode($signPackage);
     }
 }
