@@ -4,6 +4,7 @@ namespace api\controllers;
 use backend\models\CourseChapter;
 use backend\models\CoursePackage;
 use backend\models\GoldLog;
+use backend\models\UserHomework;
 use Yii;
 use common\models\User;
 use yii\rest\ActiveController;
@@ -641,57 +642,41 @@ class PersonalController extends ActiveController
     {
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
+        $section_id = $data['section_id'];
+        $course_id = $data['course_id'];
         $user = User::findIdentityByAccessToken($access_token);
-
-        $file_info = Yii::$app->request->post();
-        $count = $file_info['count'];
-        $section_id = $file_info['section_id'];
-        $course_id = $file_info['course_id'];
-
+        $file = UploadedFile::getInstanceByName('homeworkImg');
         $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
-        $model = new UserHomework();
-        $model->user_id = $user->id;
-        $model->course_id = $course_id;
-        $model->section_id = $section_id;
 
-        $img_rootPath .= 'user_homework/';
-        if (!file_exists($img_rootPath)) {
-            mkdir($img_rootPath, 0777, true);
+        $model = UserHomework::find()->where(['course_id' => $course_id, 'section_id' => $section_id, 'user_id' => $user->id, 'status' => 1])->one();
+        if (empty($model)) {
+            $model = new UserHomework();
+            $model->user_id = $user->id;
+            $model->course_id = $course_id;
+            $model->section_id = $section_id;
         }
-        for ($i = 0; $i < $count; $i++){
-            $file = $_FILES['file' . $i];
-            if ($file['error'] != 1) {
-                $ext = array_pop(explode('.', $file['name']));
-                $randName = time() . rand(1000, 9999) . '.' . $ext;
-
-                move_uploaded_file($file['tmp_name'], $img_rootPath . $randName);
-                $folder = 'user_homework';
-                $result = QiniuUpload::uploadToQiniu($file, $img_rootPath . $randName, $folder, $ext);
-                if (!empty($result)) {
-                    print_r(Yii::$app->params['get_source_host'].'/'.$result[0]['key']);
-                    $model->pic_url = $model->pic_url . ';' .Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
-                    @unlink($img_rootPath . $randName);
-                }else {
-                    return json_encode([
-                        'status' => 'failed',
-                        'reason' => 'uploadfailed'
-                    ]);
-                }
+        if ($file) {
+            $ext = $file->getExtension();
+            $randName = time() . rand(1000, 9999) . '.' . $ext;
+            $img_rootPath .= 'user_homework/';
+            if (!file_exists($img_rootPath)) {
+                mkdir($img_rootPath, 0777, true);
             }
+            $file->saveAs($img_rootPath . $randName);
+            $folder = 'user_homework';
+            $result = QiniuUpload::uploadToQiniu($file, $img_rootPath . $randName, $folder);
+            if (!empty($result)) {
+                $model->pic_url = $model->pic_url . Yii::$app->params['get_source_host'].'/'.$result[0]['key'] . ';';
+                $model->status = 1;
+                $model->submit_time =  date('Y-m-d H:i:s',time());
+            }
+            @unlink($img_rootPath . $randName);
+            $model->save();
+            sleep(1);
+            return ['status' => 0, 'msg' => $model->pic_url];
         }
-        $model->status = 1;
-        $model->submit_time =  date('Y-m-d H:i:s',time());
-        if ($model->save()) {
-            return json_encode([
-                'status' => 'success',
-                'reason' => '上传成功！'
-            ]);
-        }else {
-            return json_encode([
-                'status' => 'failed',
-                'reason' => 'save failed！'
-            ]);
-        }
+        return ['status' => -1, 'msg' => '图片为空'];
+
     }
 
 

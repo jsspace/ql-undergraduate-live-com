@@ -14,6 +14,7 @@ use backend\models\UserStudyLog;
 use backend\models\Information;
 use backend\models\CoursePackage;
 use backend\models\Book;
+use common\service\JssdkService;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -184,7 +185,8 @@ class SiteController extends Controller
                 'pic' => $book->pictrue,
                 'name' => $book->name,
                 'price' => $book->price,
-                'order_price' => $book->order_price
+                'order_price' => $book->order_price,
+                'intro' => $book->intro
             );
         }
         $result['books'] = $book_arr;
@@ -216,5 +218,25 @@ class SiteController extends Controller
             'status' => 0,
             'data' => $result
         ));
+    }
+    public function actionShareConfig() {
+        $get = Yii::$app->request->get();
+        $url = $get['url'];
+        $config = Yii::$app->params;
+        $jssdk = new JssdkService($config['yslwd_appid'], $config['yslwd_secret']);
+        $signPackage = $jssdk->GetSignPackage($url);
+        if ($signPackage) {
+            $result = array (
+                'status' => 0,
+                'msg' => '成功获取微信分享配置项',
+                'config' => $signPackage
+            );
+        } else {
+            $result = array (
+                'status' => -1,
+                'msg' => '获取失败'
+            );
+        }
+        return json_encode($result);
     }
 }

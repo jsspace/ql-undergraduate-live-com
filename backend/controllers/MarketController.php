@@ -61,7 +61,6 @@ class MarketController extends Controller
         if (!array_key_exists('admin',$roles_array) && $id != Yii::$app->user->id) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-        
         $marketer = User::find()
         ->where(['id' => $id])
         ->one();

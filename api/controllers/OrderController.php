@@ -288,6 +288,7 @@ class OrderController extends ActiveController
         $order_info->save(false);
         return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount, 'wallet_pay' => $wallet_pay]);
     }
+
     //确认订单接口
     public function actionConfirmOrder()
     {
@@ -295,10 +296,10 @@ class OrderController extends ActiveController
         //唯一订单号码（KB-YYYYMMDDHHIISSNNNNNNNNCC）
         $order_sn = $this->createOrderid();;
         $access_token = $get['access-token'];
+        $type = $get['type'];
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
-    
-        
+
         $data = Yii::$app->request->get();
         if (empty($data['course_id'])) {
             $data = [
@@ -310,6 +311,7 @@ class OrderController extends ActiveController
         $course_id = $data['course_id'];
         $order = OrderInfo::find()->where(['user_id' => $user_id, 'course_ids' => $course_id])
             ->andWhere(['>','invalid_time', time()])->one();
+
         if (!empty($order)) {
             $data = [
                 'code' => -1,
@@ -318,11 +320,18 @@ class OrderController extends ActiveController
             return $data;
         }
 
+        if ($type == 'course') {
+            $course_models = Course::find()
+                ->where(['id' => $course_id])
+                ->andWhere(['onuse' => 1])
+                ->all();
+        } else {
+            $course_models = CoursePackage::find()
+                ->where(['id' => $course_id])
+                ->andWhere(['onuse' => 1])
+                ->all();
+        }
 
-        $course_models = Course::find()
-        ->where(['id' => $course_id])
-        ->andWhere(['onuse' => 1])
-        ->all();
         if (empty($course_models)) {
             $data = [
                 'code' => -2,
@@ -342,11 +351,16 @@ class OrderController extends ActiveController
             $order_goods->user_id = $user_id;
             $order_goods->order_sn = $order_sn;
             $order_goods->goods_id = $model->id;
-            $order_goods->goods_name = $model->course_name;
             $order_goods->goods_number = 1;
             $order_goods->market_price = $model->price;
             $order_goods->goods_price = $model->discount;
-            $order_goods->type = 'course';
+            if ($type == 'course') {
+                $order_goods->type = $type;
+                $order_goods->goods_name = $model->course_name;
+            } else {
+                $order_goods->type = 'course_package';
+                $order_goods->goods_name = $model->name;
+            }
             $order_goods->save(false);
             $goods_amount += $model->discount;
         }
@@ -381,7 +395,12 @@ class OrderController extends ActiveController
         $order_info->order_amount = $order_amount;
         $order_info->add_time = time();
         $order_info->invalid_time = time() +3600 * 24 * 180;
-        $order_info->course_ids = $course_id;
+        if ($type == 'course') {
+            $order_info->course_ids = $course_id;
+        } else {
+            $pack = CoursePackage::find()->select('course')->where(['id' => $course_id])->one();
+            $order_info->course_ids = $pack->course;
+        }
         $order_info->coupon_ids = '';
         $order_info->coupon_money = 0;
         $order_info->bonus = 0;
@@ -393,6 +412,7 @@ class OrderController extends ActiveController
         ];
         return $data;
     }
+
     public function actionPay($coupon_id = -1, $use_coin = 0)
     {
         $get = Yii::$app->request->get();
@@ -835,22 +855,22 @@ class OrderController extends ActiveController
             ];
             return $result;
         }
-
-        $book_name = Book::find()->select('name')->where(['id' => $book_id])->one();
-        $book_order = new BookOrder();
-        $book_order->bookid = $book_id;
-        $book_order->userid = $user->id;
-        $book_order->book_num = 1;
-        $book_order->book_name = $book_name->name;
-        $book_order->username = $username;
-        $book_order->phone = $phone;
-        $book_order->address = $addres;
-        $book_order->order_time = time();
-        $book_order->save();
+        foreach ($book_id as $id) {
+            $book_name = Book::find()->select('name')->where(['id' => $id])->one();
+            $book_order = new BookOrder();
+            $book_order->bookid = $id;
+            $book_order->userid = $user->id;
+            $book_order->book_num = 1;
+            $book_order->book_name = $book_name->name;
+            $book_order->username = $username;
+            $book_order->phone = $phone;
+            $book_order->address = $addres;
+            $book_order->order_time = time();
+            $book_order->save();
+        }
         $data = [
             'code' => 0,
             'message' => '选择教材成功',
-            'info' => $book_order
         ];
         return $data;
 

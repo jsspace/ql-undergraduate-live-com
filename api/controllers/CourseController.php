@@ -4,6 +4,8 @@ namespace api\controllers;
 
 use backend\models\Book;
 use backend\models\Collection;
+use backend\models\CoursePackage;
+use backend\models\CourseSectionPoints;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -208,23 +210,28 @@ class CourseController extends Controller
             );
             return json_encode($result);
         }
-        $data = Yii::$app->request->post();
+        $data = Yii::$app->request->get();
         $section_id = $data['section_id'];
         $course_id = $data['course_id'];
+        $point_id = $data['point_id'];
         $section = CourseSection::find()
         ->where(['id' => $section_id])
         ->one();
-        if (!empty($section)) {
-            if ($section->paid_free == 0) {
+
+        $point = CourseSectionPoints::find()
+            ->where(['id' => $point_id])
+            ->one();
+        if (!empty($point)) {
+            if ($point->paid_free == 0) {
                 $result = array(
                     'status' => 1,
                     'message' => '正在请求观看免费课程',
-                    'url' => $section->video_url
+                    'url' => $point->video_url
                 );
                 return json_encode($result);
             } else {
                 $auth = new Auth(Yii::$app->params['access_key'], Yii::$app->params['secret_key']);
-                $video_url = $auth->privateDownloadUrl($section->video_url, $expires = 3600);
+                $video_url = $auth->privateDownloadUrl($point->video_url, $expires = 3600);
                 $is_member = Course::ismember($course_id, $user->id);/*判断是否是该分类下的会员*/
                 if ($is_member == 1) {
                     $result = array(
@@ -424,9 +431,21 @@ class CourseController extends Controller
                             $query->with(['courseSections' => function($query) use($user){
                                 $query->with(['courseSectionPoints' => function($query) use($user) {
                                     $query->with(['studyLog' => function($query) use($user) {
-                                        $query->where(['userid' => $user->id]);
+                                        $query->where(['userid' => $user->id])->orderBy('id desc')->one();
                                     }]);
                                 }] );
+                            }]);
+                        },
+                        'teacher'
+                    ])->asArray()
+                    ->one();
+            } else {
+                $course = Course::find()
+                    ->where(['id' => $course_id])
+                    ->with([
+                        'courseChapters' => function($query) {
+                            $query->with(['courseSections' => function($query) {
+                                $query->with('courseSectionPoints');
                             }]);
                         },
                         'teacher'
@@ -478,7 +497,6 @@ class CourseController extends Controller
             $course_info = Course::find()->select(['course_name', 'list_pic', 'price', 'discount', 'category_name'])
                 ->where(['id' => $courseid])->asArray()->one();
             $books = Book::find()->where(['category' => $course_info['category_name']])->asArray()->all();
-            $status = 0;
             $result['status'] = $status;
             $result['user_info'] = $user_info;
             $result['course_info'] = $course_info;
@@ -486,7 +504,51 @@ class CourseController extends Controller
             $result['course_count'] = $course_count;
             return json_encode($result);
         }
+    }
 
+    public function actionPackageOrder()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+
+        $result = array();
+        $status = 0;
+        $course_count = 1;
+        $user_info = '';
+
+        if (empty($access_token)) {
+            $status = -1;
+            $message = 'please login first!';
+            $result['status'] = $status;
+            $result['message'] = $message;
+            return json_encode($result);
+        } else {
+            $user = \common\models\User::findIdentityByAccessToken($access_token);
+            if (!empty($user)) {
+                $user_info = User::find()->select(['username', 'phone', 'address'])->where(['id' => $user->id])
+                    ->asArray()->one();
+            }
+            $pid = $data['pid'];
+            $course_info = CoursePackage::find()->select(['name', 'course','list_pic', 'price', 'discount'])
+                ->where(['id' => $pid])->asArray()->one();
+            $course_ids = $course_info['course'];
+            $ids_arr = explode(',', $course_ids);
+            $course_count = count($ids_arr);
+            $books = array();
+            foreach ($ids_arr as $id) {
+                $course = Course::find()->select(['course_name', 'list_pic', 'price', 'discount', 'category_name'])
+                    ->where(['id' => $id])->asArray()->one();
+                $book = Book::find()->where(['category' => $course['category_name']])->asArray()->all();
+                $books[] = $book[0];
+            }
+
+            $result['status'] = $status;
+            $result['course_info'] = $course_info;
+            $result['user_info'] = $user_info;
+            $result['books'] = $books;
+            $result['course_count'] = $course_count;
+            return json_encode($result);
+        }
     }
 
 }
