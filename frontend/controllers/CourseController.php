@@ -492,7 +492,7 @@ class CourseController extends Controller
                 $result = QiniuUpload::uploadToQiniu($file, $img_rootPath . $randName, $folder, $ext);
                 if (!empty($result)) {
                     print_r(Yii::$app->params['get_source_host'].'/'.$result[0]['key']);
-                    $model->pic_url = $model->pic_url . ';' .Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
+                    $model->pic_url = $model->pic_url .Yii::$app->params['get_source_host'].'/'.$result[0]['key'] . ';';
                     @unlink($img_rootPath . $randName);
                 }else {
                     return json_encode([
