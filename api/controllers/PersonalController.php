@@ -371,6 +371,7 @@ class PersonalController extends ActiveController
         $date = $data['date'];
         $time = strtotime($date);
         $user = User::findIdentityByAccessToken($access_token);
+        $result = array();
         $users = User::find()
         ->where(['invite' => $user->id])
         ->all();
@@ -427,29 +428,29 @@ class PersonalController extends ActiveController
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
+        // 查询邀请人是当前用户的所有用户信息
         $users = User::find()
         ->where(['invite' => $user->id])
         ->all();
+        // 将这些用户的id信息放到user_array数组中
         $user_array=array();
         foreach ($users as $key => $usersingle) {
             $user_array[] = $usersingle->id;
         }
-      
+        // 查询这些用户的所有已支付且已完成的订单信息
         $orders = OrderInfo::find()
         ->where(['in', 'user_id', $user_array])
         ->andWhere(['order_status' => 1])
         ->andWhere(['pay_status' => 2])
         ->all();
-        
+        // 总佣金income等于所有订单总额的百分之一
         $income=0;
         foreach ($orders as $key => $order) {
             $income += $order->order_amount * 0.1;
         }
-
         $settlement = Withdraw::find()
         ->where(['user_id' => $user->id])
         ->all();
-
         $widthincome = 0;
         foreach ($settlement as $key => $settlementsingle) {
             $widthincome += $settlementsingle->fee;

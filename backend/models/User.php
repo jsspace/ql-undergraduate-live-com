@@ -122,6 +122,12 @@ class User extends \yii\db\ActiveRecord
     {
         return new UserQuery(get_called_class());
     }
+
+    public function getRole()
+    {
+        return $this->hasMany(AuthAssignment::className(), ['user_id' => 'id']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
