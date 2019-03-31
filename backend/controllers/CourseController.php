@@ -137,7 +137,7 @@ class CourseController extends Controller
         $rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
         $uploadPath = $rootPath . 'ckeditor/';
         if (!file_exists($uploadPath)) {
-            mkdir($uploadPath, 0664, true);
+            mkdir($uploadPath, 0777, true);
         }
         if ($uploadedFile == null)
         {

@@ -37,10 +37,11 @@ class MarketController extends Controller
             $access_token = $data['access-token'];
             $user = User::findIdentityByAccessToken($access_token);
             if (!empty($user)) {
+                $data = Yii::$app->request->post();
                 $user_name = $data['username'];     // 用户名
                 $phone = $data['phone'];        // 电话号码
                 $password = $data['password'];  // 密码
-                $g = "/^1[34578]\d{9}$/";
+                $g = "/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/";
                 if (!preg_match($g, $phone)) {
                     $result['status'] = -1;
                     $result['message'] = '请输入正确的手机号码!';

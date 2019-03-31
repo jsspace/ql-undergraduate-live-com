@@ -158,6 +158,12 @@ return [
                         'GET list' => 'list',
                     ]
                 ],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'market',
+                    'extraPatterns' => [
+                        'POST add-marketer' => 'add-marketer',
+                    ]
+                ],
             ],
         ],
     ],
