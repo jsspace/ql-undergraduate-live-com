@@ -162,6 +162,7 @@ return [
                     'controller' => 'market',
                     'extraPatterns' => [
                         'POST add-marketer' => 'add-marketer',
+                        'GET marketer-one' => 'marketer-one',
                     ]
                 ],
             ],

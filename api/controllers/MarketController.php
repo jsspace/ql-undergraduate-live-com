@@ -72,7 +72,7 @@ class MarketController extends Controller
                     $marketer_role->item_name = $role;
                     $marketer_role->user_id = $marketer->id;
                     $marketer_role->created_at = time();
-                    $marketer_role->save();
+                    $marketer_role->save(false);
                 } else {
                     $result['status'] = -1;
                     $result['message'] = '用户创建失败，请再尝试一次！';
@@ -99,41 +99,131 @@ class MarketController extends Controller
         if (!empty($user)) {
             $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
             if (array_key_exists('marketer',$roles_array)) {
-                $market_list = User::find()->where(['invite' => $user->id])
+                $market_list = User::find()
+                    ->where(['invite' => $user->id])
                     ->with(['role' => function($query) {
                         $query->where(['item_name' => 'marketer_level1']);
-                    }])->asArray()->all();
-                foreach ($market_list as $list) {
-                    if (!empty($list['role'])){
-                        $market_lists[] = $list;
-                    }
-                }
-                $result['status'] = 0;
-                $result['list'] = $market_lists;
-                return json_encode($result);
-
+                    }])
+                    ->all();
+                $roleName = '一级代理';
             } else if (array_key_exists('marketer_level1',$roles_array)) {
-                $market_list = User::find()->where(['invite' => $user->id])
+                $market_list = User::find()
+                    ->where(['invite' => $user->id])
                     ->with(['role' => function($query) {
                         $query->where(['item_name' => 'marketer_level2']);
-                    }])->asArray()->all();
-                foreach ($market_list as $list) {
-                    if (!empty($list['role'])){
-                        $market_lists[] = $list;
-                    }
-                }
-                $result['status'] = 0;
-                $result['list'] = $market_lists;
-                return json_encode($result);
-
-            } else if (array_key_exists('marketer_level2',$roles_array)) {
-                $result['status'] = -1;
-                $result['message'] = '没有权限添加代理，也没有代理哦！';
-                return $result;
+                    }])
+                    ->all();
+                $roleName = '二级代理';
             }
+            foreach($market_list as $list) {
+                if (count($list->role)) {
+                    $market_lists[] = array (
+                        'id' => $list->id,
+                        'username' =>  $list->username,
+                        'phone' => $list->phone,
+                        'role' => $roleName
+                    );
+                }
+            }
+            $result['status'] = 0;
+            $result['list'] = $market_lists;
+            return json_encode($result);
         }
         $result['status'] = -1;
         $result['message'] = '用户未找到或登录已过期！';
+        return json_encode($result);
+    }
+
+    /* 获取代理信息 */
+    public function actionMarketerOne()
+    {
+        $data = Yii::$app->request->get();
+        $user_id = $data['userid'];
+        $marketer = User::findIdentity($user_id);
+        $result = array();
+        if (!empty($marketer)) {
+            $result['data'] = array (
+                'username' => $marketer->username,
+                'phone' => $marketer->phone
+            );
+            $result['status'] = 0;
+        } else {
+            $result['status'] = -1;
+            $result['message'] = '该用户不存在';
+        }
+        return json_encode($result);
+    }
+    
+    /* 更新代理信息 */
+    public function actionUpdateMarketer()
+    {
+        $data = Yii::$app->request->get();
+        $result = array();
+        if ($data['access-token']) {
+            $access_token = $data['access-token'];
+            $user = User::findIdentityByAccessToken($access_token);
+            if (!empty($user)) {
+                $data = Yii::$app->request->post();
+                $marketer = User::findIdentity($data['userid']);
+                if ($marketer && $marketer->invite === $user->id) {
+                    $user_name = $data['username'];     // 用户名
+                    $phone = $data['phone'];        // 电话号码
+                    $password = $data['password'];  // 密码
+                    $g = "/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/";
+                    if (!preg_match($g, $phone)) {
+                        $result['status'] = -1;
+                        $result['message'] = '请输入正确的手机号码!';
+                        return json_encode($result);
+                    }
+                    $marketer->username = $user_name;
+                    $marketer->phone = $phone;
+                    $marketer->setPassword($password);
+                    if ($marketer->save()) {
+                        $result['status'] = 0;
+                        $result['message'] = '更新成功';
+                        return json_encode($result);
+                    } else {
+                        $result['status'] = -1;
+                        $result['message'] = '更新失败，请再尝试一次！';
+                        return json_encode($result);
+                    }
+                } else {
+                    $result['status'] = -1;
+                    $result['message'] = '您没有权限操作该用户';
+                    return json_encode($result);
+                }
+            } else {
+                $result['status'] = -1;
+                $result['message'] = '用户未找到或用户登录已过期！';
+                return json_encode($result);
+            }
+        } else {
+            $result['status'] = -1;
+            $result['message'] = '参数不正确';
+            return json_encode($result);
+        }
+    }
+    /* 删除代理信息 */
+    public function actionDelSubordinate() {
+        $data = Yii::$app->request->get();
+        $user = User::findIdentityByAccessToken($data['access-token']);
+        $marketer = User::findIdentity($data['userid']);
+        if ($user && $marketer && $marketer->invite === $user->id) {
+            if ($marketer->delete()) {
+                AuthAssignment::find()
+                ->where(['user_id' => $marketer->id])
+                ->one()
+                ->delete();
+                $result['status'] = 0;
+                $result['message'] = '删除成功';
+            } else {
+                $result['status'] = -1;
+                $result['message'] = '删除失败';
+            }
+        } else {
+            $result['status'] = -1;
+            $result['message'] = '您没有权限操作该用户';
+        }
         return json_encode($result);
     }
 
