@@ -128,9 +128,13 @@ foreach ($chapters as $key => $chapter) {
                                             if ($study_log) {
                                                 $current_time = $study_log->current_time;
                                             }
-                                            $points_arr = explode(':', $point->duration);
-                                            $seconds = $points_arr[0]*60 + $points_arr[1];
-                                            $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
+                                            if (!empty($point->duration)) {
+                                                $points_arr = explode(':', $point->duration);
+                                                $seconds = $points_arr[0]*60 + $points_arr[1];
+                                                $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
+                                            } else {
+                                                $percentage = 0;
+                                            }
                                             $percentage = $percentage.'%';
                                         }
                                         ?>
