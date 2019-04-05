@@ -50,8 +50,10 @@ class CourseController extends Controller
                     $teacher_name = $teacher->username.','.$teacher_name;
                 }
             }
-            // 去除最后一个逗号
-            $teacher_name = substr($teacher_name, 0, strlen($teacher_name)-1);
+            if ($teacher_name) {
+                // 去除最后一个逗号
+                $teacher_name = substr($teacher_name, 0, strlen($teacher_name)-1);
+            }
             $classrooms = 0;
             $chapters = $course->courseChapters;
             foreach ($chapters as $key => $chapter) {
@@ -153,20 +155,22 @@ class CourseController extends Controller
         $courseDetail['course'] = $course;
         //课程教师
         $id_arr = explode(',', $courseModel->teacher_id);
-        foreach ($id_arr as $key => $id) {
-            $teacher_model = User::getUserModel($id);
-            if ($teacher_model) {
-                $teacher[] = array(
-                    'teacher_img' => $teacher_model->picture,
-                    'teacher_name' => $teacher_model->username,
-                    'teacher_tag' => $teacher_model->description,
-                    'office' => $teacher_model->office,
-                    'unit' => $teacher_model->unit,
-                    'goodat' => $teacher_model->goodat
-                );
+        $teacher = array();
+        if (count($id_arr) > 0) {
+            foreach ($id_arr as $key => $id) {
+                $teacher_model = User::getUserModel($id);
+                if ($teacher_model) {
+                    $teacher[] = array (
+                        'teacher_img' => $teacher_model->picture,
+                        'teacher_name' => $teacher_model->username,
+                        'teacher_tag' => $teacher_model->description,
+                        'office' => $teacher_model->office,
+                        'unit' => $teacher_model->unit,
+                        'goodat' => $teacher_model->goodat
+                    );
+                }
             }
         }
-        
         $courseDetail['teacher'] = $teacher;
         return  json_encode($courseDetail);
     }
@@ -427,7 +431,7 @@ class CourseController extends Controller
                 $course = Course::find()
                     ->where(['id' => $course_id])
                     ->with([
-                        'courseChapters' => function($query) use($user){
+                        'courseChapters' => function($query) use($user) {
                             $query->with(['courseSections' => function($query) use($user){
                                 $query->with(['courseSectionPoints' => function($query) use($user) {
                                     $query->with(['studyLog' => function($query) use($user) {
