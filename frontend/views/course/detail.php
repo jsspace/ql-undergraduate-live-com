@@ -130,7 +130,10 @@ foreach ($chapters as $key => $chapter) {
                                             }
                                             if (!empty($point->duration)) {
                                                 $points_arr = explode(':', $point->duration);
-                                                $seconds = $points_arr[0]*60 + $points_arr[1];
+                                                $seconds = $points_arr[0]*60;
+                                                if (!empty($points_arr[1])) {
+                                                    $seconds = $seconds + $points_arr[1];
+                                                }
                                                 $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
                                             } else {
                                                 $percentage = 0;
@@ -297,8 +300,14 @@ foreach ($chapters as $key => $chapter) {
                     foreach ($id_arr as $key => $id) {
                         $teacher = User::getUserModel($id);
                         $teacher_pictrue = '';
+                        $username = '';
+                        $description = '';
+                        $office = '';
                         if ($teacher) {
                             $teacher_pictrue = $teacher->picture;
+                            $username = $teacher->username;
+                            $description = $teacher->description;
+                            $office = $teacher->office;
                         }
                     ?>
                         <div class="teacher-item">
@@ -306,9 +315,9 @@ foreach ($chapters as $key => $chapter) {
                                 <img class="teacher-img" src="<?= $teacher_pictrue; ?>" />
                             </div>
                             <div class="right">
-                                <p class="rny1name" title="<?= $teacher->username; ?>"><?= $teacher->username; ?></p>
-                                <p title="<?= $teacher->description; ?>"><?= $teacher->description; ?></p>
-                                <p title="<?= $teacher->office; ?>"><?= $teacher->office; ?></p>
+                                <p class="rny1name" title="<?= $username; ?>"><?= $username; ?></p>
+                                <p title="<?= $description; ?>"><?= $description; ?></p>
+                                <p title="<?= $office; ?>"><?= $office; ?></p>
                             </div>
                         </div>
                 <?php } ?>
