@@ -87,7 +87,7 @@ class H5orderController extends ActiveController
             $input->SetBody(trim('课程购买订单：'.$order_sn));
             $input->SetAttach($orderInfo->order_sn);
             $input->SetOut_trade_no($order_sn);
-            $input->SetTotal_fee($weixin_pay);
+            $input->SetTotal_fee($weixin_pay * 100);
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
             //$input->SetGoods_tag("test");
@@ -100,8 +100,7 @@ class H5orderController extends ActiveController
             $config = new \WxPayConfig();
             $order = \WxPayApi::unifiedOrder($config, $input);
             $jsApiParameters = $tools->GetJsApiParameters($order);
-            print_r($jsApiParameters);
-            die();
+            return $jsApiParameters;
             //获取共享收货地址js函数参数
             //$editAddress = $tools->GetEditAddressParameters();
         } catch(Exception $e) {
