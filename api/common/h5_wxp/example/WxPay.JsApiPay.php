@@ -47,10 +47,11 @@ class JsApiPay
 	 * 
 	 * @return 用户的openid
 	 */
-	public function GetOpenid()
+	public function GetOpenid($code)
 	{
 		//通过code获得openid
-		if (!isset($_GET['code'])){
+		if (empty($code)){
+		//if (!isset($_GET['code'])){
 			//触发微信返回code码
 			$baseUrl = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 			$url = $this->_CreateOauthUrlForCode($baseUrl);
@@ -58,7 +59,7 @@ class JsApiPay
 			exit();
 		} else {
 			//获取code码，以获取openid
-		    $code = $_GET['code'];
+		    //$code = $_GET['code'];
 			$openid = $this->getOpenidFromMp($code);
 			return $openid;
 		}
@@ -113,7 +114,7 @@ class JsApiPay
 		.$config->GetMerchantId();
 
 		//设置超时
-		curl_setopt($ch, CURLOPT_TIMEOUT, $this->curl_timeout);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,FALSE);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,FALSE);

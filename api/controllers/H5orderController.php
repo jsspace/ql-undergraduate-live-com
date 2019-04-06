@@ -65,6 +65,15 @@ class H5orderController extends ActiveController
             return $data;
         }
 
+        $code = $get['code'];
+        if (empty($code)) {
+            $data = [
+                'status' => -1,
+                'message' => '参数错误'
+            ];
+            return $data;
+        }
+
         $attach = [
             'order_sn' => $orderInfo->order_sn,
         ];
@@ -72,10 +81,10 @@ class H5orderController extends ActiveController
 
         //①、获取用户openid
         try {
+
             $tools = new \JsApiPay();
-            $openId = $tools->GetOpenid();
-            print_r($openId);
-            die();
+            $openId = $tools->GetOpenid($code);
+
             //②、统一下单
             $input = new \WxPayUnifiedOrder();
             $input->SetBody(trim('课程购买订单：'.$order_sn));
@@ -92,7 +101,7 @@ class H5orderController extends ActiveController
             $input->SetTrade_type("JSAPI");
             $input->SetOpenid($openId);
             $config = new \WxPayConfig();
-            $order = WxPayApi::unifiedOrder($config, $input);
+            $order = \WxPayApi::unifiedOrder($config, $input);
             $jsApiParameters = $tools->GetJsApiParameters($order);
             print_r($jsApiParameters);
             die();
