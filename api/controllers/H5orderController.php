@@ -74,9 +74,6 @@ class H5orderController extends ActiveController
             return $data;
         }
 
-        $attach = [
-            'order_sn' => $orderInfo->order_sn,
-        ];
         $weixin_pay = number_format($orderInfo->order_amount, 2);
 
         //①、获取用户openid
@@ -88,7 +85,7 @@ class H5orderController extends ActiveController
             //②、统一下单
             $input = new \WxPayUnifiedOrder();
             $input->SetBody(trim('课程购买订单：'.$order_sn));
-            $input->SetAttach($attach);
+            $input->SetAttach($orderInfo->order_sn);
             $input->SetOut_trade_no($order_sn);
             $input->SetTotal_fee($weixin_pay);
             $input->SetTime_start(date("YmdHis"));
