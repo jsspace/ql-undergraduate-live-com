@@ -3,7 +3,6 @@
 $xcx_appid = 'wxa82b0fd068efd444';
 $xcx_secret = '5d829699b0455eb9072223bdc03e84ad';
 
-
 return [
     'adminEmail' => 'admin@example.com',
     'supportEmail' => 'support@example.com',
@@ -39,6 +38,7 @@ return [
         'alipay_public_key' => "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlsMy4YNmu5xPm/lp82k8HexDX2TwTsGcxZhpJgvg1lSKcNostKH5/q6upAY/iuNZI3YkMbF2pJdjli2Y+bSFe4TtGUnkx38aeSXKeNZ9uSvVzn6CzKQaz3NZxgoCtNnl4pONgfh3pEllfkGTzadjM/tfSBfvlvIZkxKvklDEVybcKSqfqRAu2OiAk8QjrlQ5qSymTMIgcnuMMCchOYJuGItWh7TJ8+osDJyO5X/Nw2SMVrdWN3s9MXPpee6oz0ZMEQ7QzykQR+P/FuVIMsKEjPm2bd0eKjO17cr0gFjLeRtkwy6Wzv36In8gWcTWSNycYmhxKADfuKPxkadtSj6c6wIDAQAB",
     ],
     'wxpay' => [
+        'h5_appid' => 'wxa9123996375fbbe7',
         //异步通知地址
         'notify_url' => "https://www.kaoben.top/wxnotify/index",
 

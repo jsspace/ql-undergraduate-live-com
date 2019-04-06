@@ -138,6 +138,14 @@ return [
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'h5order',
+                    'pluralize'=>false,
+                    'extraPatterns' => [
+                        'GET get-js-api-param' => 'get-js-api-param',
+                        'GET get-appid' => 'get-appid'
+                    ]
+                ],
+                ['class' => 'yii\rest\UrlRule',
                     'controller' => 'book',
                     'extraPatterns' => [
                         'GET list' => 'list',

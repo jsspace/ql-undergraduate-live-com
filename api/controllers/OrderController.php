@@ -667,14 +667,12 @@ class OrderController extends ActiveController
             $input->SetTotal_fee($orderInfo->order_amount * 100);
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
-//             $input->SetGoods_tag("test");
             //获取配置信息
             $config = Yii::$app->params['wxpay'];
             $input->SetNotify_url($config['notify_url']);
             $input->SetTrade_type("JSAPI");
             $input->SetProduct_id($orderInfo->order_sn);
             $result = $notify->GetPayUrl($input);
-//             print_r($result);die();
             if ($result['return_code'] == 'SUCCESS') {
                 if ($result['result_code'] == 'SUCCESS') {
                     $url2 = self::qrcode($result["code_url"], 'wxpay.png');
@@ -689,10 +687,7 @@ class OrderController extends ActiveController
                 error_log($return_msg);
                 return $this->render('wxpay', ['return_msg' => $return_msg]);
             }
-            
         }
-        
-        
     }
     
     public function actionWxcheckorder()
