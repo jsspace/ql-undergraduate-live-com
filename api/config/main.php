@@ -142,7 +142,8 @@ return [
                     'pluralize'=>false,
                     'extraPatterns' => [
                         'GET get-js-api-param' => 'get-js-api-param',
-                        'GET get-appid' => 'get-appid'
+                        'GET get-appid' => 'get-appid',
+                        'GET wxcheckorder' => 'wxcheckorder'
                     ]
                 ],
                 ['class' => 'yii\rest\UrlRule',
