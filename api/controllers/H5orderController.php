@@ -100,7 +100,11 @@ class H5orderController extends ActiveController
             $config = new \WxPayConfig();
             $order = \WxPayApi::unifiedOrder($config, $input);
             $jsApiParameters = $tools->GetJsApiParameters($order);
-            return $jsApiParameters;
+            $data = [
+                'status' => 0,
+                'jsApiParameters' => $jsApiParameters
+            ];
+            return $data;
             //获取共享收货地址js函数参数
             //$editAddress = $tools->GetEditAddressParameters();
         } catch(Exception $e) {
