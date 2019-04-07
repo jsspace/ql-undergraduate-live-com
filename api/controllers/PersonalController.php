@@ -565,34 +565,6 @@ class PersonalController extends ActiveController
       $img_src = Url::to(['market/qrcode','url' => $invite_url, 'name' => $user->id.'.png']);
       return json_encode($img_src);
     }
-//    /* 个人中心-我的课程-视频页接口 */
-//    public function actionCourseVideo()
-//    {
-//        $data = Yii::$app->request->get();
-//        $access_token = $data['access-token'];
-//        $course_id = $data['course_id'];
-//        $user = User::findIdentityByAccessToken($access_token);
-//        // 判断用户是否购买该课程
-//        $isPay = Course::ispay($course_id, $user->id);
-//        $course = Course::find()
-//            ->where(['id' => $course_id])
-//            ->with([
-//                'courseChapters' => function($query) use($user){
-//                    $query->with(['courseSections' => function($query) use($user){
-//                        $query->with(['courseSectionPoints' => function($query) use($user) {
-//                            $query->with(['studyLog' => function($query) use($user) {
-//                                $query->where(['userid' => $user->id]);
-//                            }]);
-//                        }] );
-//                    }]);
-//                },
-//                'teacher'
-//            ])->asArray()
-//            ->one();
-//        $result = array();
-//        $result['course'] = $course;
-//        return $result;
-//    }
 
     /* 个人中心-我的课程-课程作业接口 */
     public function actionCourseHomework()
@@ -715,16 +687,6 @@ class PersonalController extends ActiveController
         $result['gold_balance'] = $gold_balance->gold_balance;
         return $result;
     }
-
-//    public function actionOrderedList()
-//    {
-//        $data = Yii::$app->request->get();
-//        $access_token = $data['access-token'];
-//        $user = User::findIdentityByAccessToken($access_token);
-//        $order_info = (new Query())->select('tbl_order_goods.goods_name,')
-//                    ->from('tbl_order_goods')->where(['user_id' => $user->id])->all();
-//        return $order_info;
-//    }
 
     /* 课程收藏api */
     public function actionCollectionCourse()

@@ -392,7 +392,6 @@ class MarketController extends Controller
                     }
                 }
             }
-            $result['indirect'] = $indirect_income;
             $my_income = array_merge($direct_orders, $indirect_income);
             for ($i = 0; $i < count($my_income)-1; $i++) {
                 for ($j = 0; $j < count($my_income); $j++) {
@@ -416,6 +415,126 @@ class MarketController extends Controller
         } else {
             $result['status'] = -1;
             $result['message'] = '用户未找到或登录已超时！';
+            return json_encode($result);
+        }
+    }
+
+    /* 查询直接收益明细 */
+    public function actionDirectIncome()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $month = $data['month'];
+        $result = array();
+        $user = User::findIdentityByAccessToken($access_token);
+
+        if (!empty($user)) {
+            $direct_income = array();
+            $user_array = array();
+            // 1、查询直接注册的用户
+            $invite_users = User::find()->where(['invite' => $user->id])->all();
+            foreach ($invite_users as $u) {
+                $register_content = array(
+                    'pic' => $u->picture,
+                    'consignee' => $u->username,
+                    'status' => '注册',
+                    'income' =>  0,
+                    'pay_time' => date('Y-m-d H:i:s', $u->created_at)
+                );
+                $direct_income[] = $register_content;
+                $user_array[] = $u->id;
+            }
+            // 2、根据直接注册的用户查询邀请的用户下单情况并计算收益
+            $orders = OrderInfo::find()->select(['consignee', 'goods_amount', 'pay_time', 'user_id'])
+                ->where(['in', 'user_id', $user_array])
+                ->andWhere(['order_status' => 1])
+                ->andWhere(['pay_status' => 2])
+                ->all();
+            foreach ($orders as $order) {
+                $userpic = User::find()->select(['picture'])
+                    ->where(['id' => $order->user_id])
+                    ->one();
+                $order_content = array(
+                    'pic' => $userpic->picture,
+                    'consignee' => $order->consignee,
+                    'status' => '下单',
+                    'income' => round($order->goods_amount * 0.2, 2),
+                    'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
+                );
+                $direct_income[] = $order_content;
+            }
+            array_multisort(array_column($direct_income,'pay_time'),SORT_DESC, $direct_income);
+            $result['status'] = 0;
+            $result['direct_income'] = $direct_income;
+            return json_encode($result);
+        } else {
+            $result['status'] = -1;
+            $result['message'] = '用户未找到或登录已超时!';
+            return json_encode($result);
+        }
+    }
+
+    /* 查询间接收益明细 */
+    public function actionIndirectIncome()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $month = $data['month'];
+        $result = array();
+        $user = User::findIdentityByAccessToken($access_token);
+
+        if (!empty($user)) {
+            // 1、查找自己的直接下级代理
+            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
+            if (array_key_exists('marketer', $roles_array)) {
+                $marketers = User::find()->where(['invite' => $user->id])
+                    ->with(['role' => function($query) {
+                        $query->where(['item_name' => 'marketer_level1']);
+                    }])->all();
+            } elseif (array_key_exists('marketer_level1', $roles_array)) {
+                $marketers = User::find()->where(['invite' => $user->id])
+                    ->with(['role' => function($query) {
+                        $query->where(['item_name' => 'marketer_level2']);
+                    }])->all();
+            }
+            $indirect_income = array();
+            // 2、查找每个直接下级代理所邀请的学生的订单
+            foreach ($marketers as $marketer) {
+                // 查找每个下级代理所邀请的学生
+                $students = User::find()->select(['id'])
+                    ->where(['invite' => $marketer->id])->all();
+                $student_array = array();
+                foreach ($students as $student) {
+                    $student_array[] = $student->id;
+                }
+                $orders = OrderInfo::find()->select(['consignee', 'goods_amount', 'pay_time', 'user_id'])
+                    ->where(['in', 'user_id', $student_array])
+                    ->andWhere(['order_status' => 1])
+                    ->andWhere(['pay_status' => 2])
+                    ->all();
+
+                // 3、将订单信息添加到数组并计算该笔订单的间接收益
+                foreach ($orders as $order) {
+                    $userpic = User::find()->select(['picture'])
+                        ->where(['id' => $order->user_id])
+                        ->one();
+                    $order_content = array(
+                        'pic' => $userpic->picture,
+                        'consignee' => $order->consignee,
+                        'status' => '下单',
+                        'invite' => $marketer->username,
+                        'income' => $order->goods_amount*0.2*0.2,
+                        'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
+                    );
+                    $indirect_income[] = $order_content;
+                }
+            }
+            $result['status'] = 0;
+            $result['indirect_income'] = $indirect_income;
+            return json_encode($result);
+        } else {
+            $result['status'] = -1;
+            $result['message'] = '用户未找到或登录已超时!';
             return json_encode($result);
         }
     }
