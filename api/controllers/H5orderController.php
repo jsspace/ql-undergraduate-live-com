@@ -11,6 +11,7 @@ use yii\rest\ActiveController;
 
 use backend\models\OrderInfo;
 use common\models\User;
+use backend\models\OrderGoods;
 
 require_once "../common/h5_wxp/lib/WxPay.Api.php";
 require_once "../common/h5_wxp/example/WxPay.JsApiPay.php";
@@ -139,7 +140,8 @@ class H5orderController extends ActiveController
             $out_trade_no = $data["out_trade_no"];
             $input = new \WxPayOrderQuery();
             $input->SetOut_trade_no($out_trade_no);
-            $result = \WxPayApi::orderQuery($input);
+            $config = new \WxPayConfig();
+            $result = \WxPayApi::orderQuery($config, $input);
             if(array_key_exists("return_code", $result)
                 && array_key_exists("result_code", $result)
                 && $result["return_code"] == "SUCCESS"
