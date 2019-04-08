@@ -221,6 +221,7 @@ class CourseController extends Controller
         $section = CourseSection::find()
         ->where(['id' => $section_id])
         ->one();
+        $course_info = Course::find()->select(['home_pic'])->where(['id' => $course_id])->one();
 
         $point = CourseSectionPoints::find()
             ->where(['id' => $point_id])
@@ -230,7 +231,8 @@ class CourseController extends Controller
                 $result = array(
                     'status' => 1,
                     'message' => '正在请求观看免费课程',
-                    'url' => $point->video_url
+                    'url' => $point->video_url,
+                    'pic' => $course_info->home_pic
                 );
                 return json_encode($result);
             } else {
@@ -241,7 +243,8 @@ class CourseController extends Controller
                     $result = array(
                         'status' => 4,
                         'message' => '会员，允许观看',
-                        'url' => $video_url
+                        'url' => $video_url,
+                        'pic' => $course_info->home_pic
                     );
                     return json_encode($result);
                 }
@@ -255,7 +258,8 @@ class CourseController extends Controller
                     $result = array(
                         'status' => 2,
                         'message' => '用户已经购买了该课程，允许观看',
-                        'url' => $video_url
+                        'url' => $video_url,
+                        'pic' => $course_info->home_pic
                     );
                 } else {
                     $result = array(
