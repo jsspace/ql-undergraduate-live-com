@@ -116,11 +116,23 @@ class PersonalController extends ActiveController
     public function actionUpdateAlipay() {
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
+        $result = array();
         $user = User::findIdentityByAccessToken($access_token);
         $alipay = $data['alipay_account'];
+        if ($alipay =='' || $alipay == null || empty($alipay)) {
+            $result['status'] = -1;
+            $result['message'] = '支付宝账号不能为空';
+            return $result;
+        }
         $user->alipay_account = $alipay;
-        $user->save();
-        return ['status' => '200'];
+        if ($user->save()) {
+            $result['status'] = 0;
+            $result['message'] = '修改成功！';
+            return $result;
+        }
+        $result['status'] = -1;
+        $result['message'] = '保存失败，请再试一次';
+        return $result;
     }
 
     /**

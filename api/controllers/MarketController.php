@@ -249,7 +249,7 @@ class MarketController extends Controller
             $income = 0;
             $next_income = 0;
             foreach ($orders as $order) {
-                $income += $order->goods_amount;
+                $income += $order->order_amount;
             }
 
             // 2、计算间接收益（即自己的下级代理所邀请的学生购课的提成）
@@ -339,7 +339,7 @@ class MarketController extends Controller
                 $students_array[] = $student->id;
             }
             $direct_orders = OrderInfo::find()
-                ->select(["sum(goods_amount) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
+                ->select(["sum(order_amount) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
                 ->where(['in', 'user_id', $students_array])
                 ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
                 ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
@@ -360,7 +360,7 @@ class MarketController extends Controller
                         $stu_ids[] = $stu->id;
                     }
                     $orders = OrderInfo::find()
-                        ->select(["sum(goods_amount)*0.2 as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
+                        ->select(["sum(order_amount)*0.2 as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
                         ->where(['in', 'user_id', $stu_ids])
                         ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
                         ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
@@ -383,7 +383,7 @@ class MarketController extends Controller
                         $stu_ids[] = $stu->id;
                     }
                     $orders = OrderInfo::find()
-                        ->select(["sum(goods_amount*0.2) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
+                        ->select(["sum(order_amount*0.2) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
                         ->where(['in', 'user_id', $stu_ids])
                         ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
                         ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
@@ -406,7 +406,10 @@ class MarketController extends Controller
             foreach ($my_income as $key => $item) {
                 $my_income[$key]['income'] = round($my_income[$key]['income'], 2);
                 $my_income[$key]['salary'] = round($my_income[$key]['income']*0.2, 2);
-                $my_income[$key]['status'] = '未结算';
+                // 查询每个月的提成是否已经确认提现
+                $withdraw_info = Withdraw::find()
+                    ->where(['user_id' => $user->id, 'withdraw_date' => $my_income[$key]['month']])->one();
+                $my_income[$key]['status'] = !empty($withdraw_info) ? '已结算' : '未结算';
             }
             $result['status'] = 0;
             $result['direct_income'] = $direct_orders;
@@ -437,7 +440,7 @@ class MarketController extends Controller
                 $students_array[] = $student->id;
             }
             $direct_orders = OrderInfo::find()
-                ->select(["sum(goods_amount) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
+                ->select(["sum(order_amount) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
                 ->where(['in', 'user_id', $students_array])
                 ->andWhere(['>','pay_time' , strtotime($start_month)])
                 ->andWhere(['<','pay_time' , strtotime($end_month)])
@@ -460,7 +463,7 @@ class MarketController extends Controller
                         $stu_ids[] = $stu->id;
                     }
                     $orders = OrderInfo::find()
-                        ->select(["sum(goods_amount)*0.2 as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
+                        ->select(["sum(order_amount)*0.2 as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
                         ->where(['in', 'user_id', $stu_ids])
                         ->andWhere(['>=','pay_time' , strtotime($start_month)])
                         ->andWhere(['<=','pay_time' , strtotime($end_month)])
@@ -485,7 +488,7 @@ class MarketController extends Controller
                         $stu_ids[] = $stu->id;
                     }
                     $orders = OrderInfo::find()
-                        ->select(["sum(goods_amount*0.2) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
+                        ->select(["sum(order_amount*0.2) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
                         ->where(['in', 'user_id', $stu_ids])
                         ->andWhere(['>=','pay_time' , strtotime($start_month)])
                         ->andWhere(['=<','pay_time' , strtotime($end_month)])
@@ -510,6 +513,10 @@ class MarketController extends Controller
             foreach ($my_income as $key => $item) {
                 $my_income[$key]['income'] = round($my_income[$key]['income'], 2);
                 $my_income[$key]['salary'] = round($my_income[$key]['income']*0.2, 2);
+                // 查询每个月的提成是否已经确认提现
+                $withdraw_info = Withdraw::find()
+                    ->where(['user_id' => $user->id, 'withdraw_date' => $my_income[$key]['month']])->one();
+                $my_income[$key]['status'] = !empty($withdraw_info) ? '已结算' : '未结算';
             }
             $result['status'] = 0;
             $result['direct_income'] = $direct_orders;
@@ -549,7 +556,7 @@ class MarketController extends Controller
                 $user_array[] = $u->id;
             }
             // 2、根据直接注册的用户查询邀请的用户下单情况并计算收益
-            $orders = OrderInfo::find()->select(['consignee', 'goods_amount', 'pay_time', 'user_id'])
+            $orders = OrderInfo::find()->select(['consignee', 'order_amount', 'pay_time', 'user_id'])
                 ->where(['in', 'user_id', $user_array])
                 ->andWhere(['order_status' => 1])
                 ->andWhere(['pay_status' => 2])
@@ -562,7 +569,7 @@ class MarketController extends Controller
                     'pic' => $userpic->picture,
                     'consignee' => $order->consignee,
                     'status' => '下单',
-                    'income' => round($order->goods_amount * 0.2, 2),
+                    'income' => round($order->order_amount * 0.2, 2),
                     'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
                 );
                 $direct_income[] = $order_content;
@@ -607,7 +614,7 @@ class MarketController extends Controller
             foreach ($all_invite_users as $user) {
                 $user_array[] = $user->id;
             }
-            $orders = OrderInfo::find()->select(['consignee', 'goods_amount', 'pay_time', 'user_id'])
+            $orders = OrderInfo::find()->select(['consignee', 'order_amount', 'pay_time', 'user_id'])
                 ->where(['in', 'user_id', $user_array])
                 ->andWhere(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m')" => $month])
                 ->andWhere(['order_status' => 1])
@@ -621,7 +628,7 @@ class MarketController extends Controller
                     'pic' => $userpic->picture,
                     'consignee' => $order->consignee,
                     'status' => '下单',
-                    'income' => round($order->goods_amount * 0.2, 2),
+                    'income' => round($order->order_amount * 0.2, 2),
                     'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
                 );
                 $direct_income[] = $order_content;
@@ -670,7 +677,7 @@ class MarketController extends Controller
                 foreach ($students as $student) {
                     $student_array[] = $student->id;
                 }
-                $orders = OrderInfo::find()->select(['consignee', 'goods_amount', 'pay_time', 'user_id'])
+                $orders = OrderInfo::find()->select(['consignee', 'order_amount', 'pay_time', 'user_id'])
                     ->where(['in', 'user_id', $student_array])
                     ->andWhere(['order_status' => 1])
                     ->andWhere(['pay_status' => 2])
@@ -686,7 +693,7 @@ class MarketController extends Controller
                         'consignee' => $order->consignee,
                         'status' => '下单',
                         'invite' => $marketer->username,
-                        'income' => $order->goods_amount*0.2*0.2,
+                        'income' => $order->order_amount*0.2*0.2,
                         'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
                     );
                     $indirect_income[] = $order_content;
@@ -735,7 +742,7 @@ class MarketController extends Controller
                 foreach ($students as $student) {
                     $student_array[] = $student->id;
                 }
-                $orders = OrderInfo::find()->select(['consignee', 'goods_amount', 'pay_time', 'user_id'])
+                $orders = OrderInfo::find()->select(['consignee', 'order_amount', 'pay_time', 'user_id'])
                     ->where(['in', 'user_id', $student_array])
                     ->andWhere(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m')" => $month])
                     ->andWhere(['order_status' => 1])
@@ -752,7 +759,7 @@ class MarketController extends Controller
                         'consignee' => $order->consignee,
                         'status' => '下单',
                         'invite' => $marketer->username,
-                        'income' => $order->goods_amount*0.2*0.2,
+                        'income' => $order->order_amount*0.2*0.2,
                         'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
                     );
                     $indirect_income[] = $order_content;
