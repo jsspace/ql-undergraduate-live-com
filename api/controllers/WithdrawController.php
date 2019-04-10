@@ -31,6 +31,11 @@ class WithdrawController extends Controller
                 $result['message'] = '请勿重复提交！';
                 return json_encode($result);
             }
+            if ($user->alipay_account == '' || $user->alipay_account == null) {
+                $result['status'] = -1;
+                $result['message'] = '请先绑定支付宝账号！';
+                return json_encode($result);
+            }
             $user_id = $user->id;
             $fee = $data['salary'];
             $withdraw_date = $data['month'];
