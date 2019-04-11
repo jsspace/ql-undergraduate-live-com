@@ -15,8 +15,8 @@
  */
 if (!defined("AOP_SDK_WORK_DIR"))
 {
-	define("AOP_SDK_WORK_DIR", "/tmp/");
-    //define("AOP_SDK_WORK_DIR", "E:/ql-undergraduate-live-com/ql-undergraduate-live-com/common/alipay/tmp");
+//	define("AOP_SDK_WORK_DIR", "/tmp/");
+    define("AOP_SDK_WORK_DIR", "E:/ql-undergraduate-live-com/ql-undergraduate-live-com/common/alipay/tmp");
 }
 /**
  * 是否处于开发模式

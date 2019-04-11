@@ -399,6 +399,7 @@ class MarketController extends Controller
                         $my_income[$i]['income'] += $my_income[$j]['income'] ;
                         unset($my_income[$j]);
                         $my_income = array_values($my_income);
+                        $j = $j-1;
                     }
                 }
             }
@@ -506,6 +507,7 @@ class MarketController extends Controller
                         $my_income[$i]['income'] += $my_income[$j]['income'] ;
                         unset($my_income[$j]);
                         $my_income = array_values($my_income);
+                        $j = $j-1;
                     }
                 }
             }

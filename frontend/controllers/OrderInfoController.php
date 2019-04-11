@@ -839,7 +839,7 @@ class OrderInfoController extends \yii\web\Controller
                     ->andWhere(['order_status' => 1])
                     ->andWhere(['pay_status' => 0])
                     ->one();
-                
+
                     if (!empty($order_info)) {
                         if ($order_info->order_amount == $total_fee) {
                             //给邀请人发送奖励金额
@@ -869,7 +869,7 @@ class OrderInfoController extends \yii\web\Controller
                                 $invite_pay->card_id = $order_info->order_sn;
                                 $invite_pay->save(false);
                             }
-                            
+
                             OrderGoods::updateAll(['pay_status' => 2], ['order_sn' => $out_trade_no]);
                             $order_info->pay_id = $transaction_id;
                             $order_info->pay_name = '微信支付';
@@ -877,6 +877,7 @@ class OrderInfoController extends \yii\web\Controller
                             $order_info->pay_status = 2;
                             $order_info->pay_time = time();
                             $order_info->save(false);
+
                             //标记优惠券已使用
                             Coupon::updateAll(
                                 ['isuse' => 2],
@@ -1066,6 +1067,47 @@ class OrderInfoController extends \yii\web\Controller
                                 $order_info->pay_status = 2;
                                 $order_info->pay_time = time();
                                 $order_info->save(false);
+
+                                // 给邀请人以及授课教师发送消息
+                                if ($invite > 0) {
+                                    $goods = OrderGoods::find()->where(['order_sn' => $out_trade_no])->one();
+                                    if (!empty($goods)) {
+                                        $user_ids = '';
+                                        if ($goods->type == 'course') {     // 查找课程的教师
+                                            $course = Course::find()->where(['id' => $goods->goods_id])->one();
+                                            $user_ids = $course->teacher_id;
+
+                                        } else {    // 依次读取套餐中各门课程的教师
+                                            $package = CoursePackage::find()->where(['id' => $goods->goods_id])->one();
+                                            $courses = explode(',', $package->course);
+                                            $courses = array_filter($courses);
+                                            foreach ($courses as $cours) {
+                                                $cour = Course::find()->where(['id' => $cours])->one();
+                                                $user_ids = $user_ids . ',' . $cour->teacher_id;
+                                            }
+                                        }
+                                        $user_ids = $user_ids . ',' . $invite;
+                                        $message = new Message();
+                                        $message->publisher = 1;
+                                        $message->title = '系统消息：有人下单啦！';
+                                        $message->classids = $user_ids;
+                                        $message->content = "尊敬的老师、市场专员您好！ 您有学生（被邀请人）" . "在平台下单啦!  购买了"
+                                            . $goods->goods_name . ", 总金额为：" . $goods->goods_price . "(元), 您将按照比例获得提成！";
+                                        $message->status = 1;
+                                        $message->publish_time = time();
+                                        $message->save();
+
+                                        foreach (explode(',', $user_ids) as $user_id) {
+                                            $read = new Read();
+                                            $read->msg_id = $message->msg_id;
+                                            $read->userid = $user_id;
+                                            $read->status = 0;
+                                            $read->get_time = time();
+                                            $read->save();
+                                        }
+                                    }
+                                }
+
                                 //标记优惠券已使用
                                 Coupon::updateAll(
                                     ['isuse' => 2],
