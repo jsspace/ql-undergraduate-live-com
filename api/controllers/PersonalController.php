@@ -47,11 +47,14 @@ class PersonalController extends ActiveController
         // ->where(['id' => $user->schoolid])
         // ->one();
         $study_time = UserStudyLog::find()->where(['userid' => $user->id])->sum('duration');
+        // 未读消息数量
+        $read_info = Read::find()->where(['userid' => $user->id, 'status' => 0])->count();
         $result = array();
         $result['phone'] = $user->phone;
         $result['username'] = $user->username;
         $result['gender'] = $user->gender;
         $result['picture'] = $user->picture;
+        $result['message_num'] = $read_info;
         //$result['school'] = $school->school_name;
         $result['study_time'] = $study_time;
         $result['address'] = $user->address;
@@ -299,20 +302,27 @@ class PersonalController extends ActiveController
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
         $user = User::findIdentityByAccessToken($access_token);
-        $postdata = Yii::$app->request->post();
-        $read_id = $postdata['read_id'];
-        $readModel = Read::findOne($read_id);
-        $readModel->status = 1;
-        $readModel->read_time = time();
-        $readModel->save(false);
-        $message = Message::findOne($readModel->msg_id);
-        $publisher = User::findOne($message->publisher);
-        $result = array(
-            'get_time' => date('Y-m-d H:i:s',$readModel->get_time),
-            'title' => $message->title,
-            'content' => $message->content,
-            'publisher' => $publisher->username
-        );
+        $read_id = $data['read_id'];
+        $result = array();
+        if (!empty($user)) {
+            $readModel = Read::findOne($read_id);
+            $readModel->status = 1;
+            $readModel->read_time = time();
+            $readModel->save(false);
+            $message = Message::findOne($readModel->msg_id);
+            $publisher = User::findOne($message->publisher);
+            $message_info = array(
+                'get_time' => date('Y-m-d H:i:s',$readModel->get_time),
+                'title' => $message->title,
+                'content' => $message->content,
+                'publisher' => $publisher->username
+            );
+            $result['status'] = 0;
+            $result['message_info'] = $message_info;
+            return $result;
+        }
+        $result['status'] = -1;
+        $result['message'] = '用户未登录或登录已过期！';
         return $result;
     }
 
