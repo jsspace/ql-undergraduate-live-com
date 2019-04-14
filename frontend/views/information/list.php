@@ -6,7 +6,7 @@ use yii\widgets\LinkPager;
 
 AppAsset::addCss($this,'@web/css/information.css');
 
-$this->title = iconv('GBK', 'UTF-8', '升本资讯');
+$this->title = '鍗囨湰璧勮';
 ?>
 
 <div class="main cc">
@@ -19,14 +19,14 @@ $this->title = iconv('GBK', 'UTF-8', '升本资讯');
                        <div class="right_top">
                            <a href="/information/detail?information_id=<?=$information->id ?>"><h3><?=$information->title ?></h3></a>
                        </div>
-                       <div class="content_content">
+                       <!-- <div class="content_content">
                            <?=$information->content?>
-                       </div>
+                       </div> -->
                        <div class="right_bottom">
                            <div class="right_bottom_left">
-                               <span><?=iconv('GBK', 'UTF-8', '来源：') ?><?=$information->author ?></span>
-                               <span>   |   </span>
-                               <span><?=iconv('GBK', 'UTF-8', '发布时间：') ?><?=$information->release_time ?></span>
+                               <span><?=$information->author ?></span>
+                               <span> | </span>
+                               <span><?=$information->release_time ?></span>
                            </div>
                        </div>
                    </div>
@@ -38,8 +38,8 @@ $this->title = iconv('GBK', 'UTF-8', '升本资讯');
         <?php
         echo LinkPager::widget([
             'pagination' => $pages,
-            'firstPageLabel'=>iconv('GBK', 'UTF-8', '首页'),
-            'lastPageLabel'=>iconv('GBK', 'UTF-8', '尾页'),
+            'firstPageLabel'=>'棣栭〉',
+            'lastPageLabel'=>'灏鹃〉'
         ]);
         ?>
     </div>

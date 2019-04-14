@@ -34,7 +34,6 @@ $this->title = '公开课';
                             <span class="course-time"><?= date('Y-m-d H:i', $course->create_time); ?></span>
                         </a>
                         <div class="teacher-section">
-                            <!-- <img src="<?= User::getUserModel($course->teacher_id)->picture; ?>"/> -->
                             <span class="teacher-name">主讲人：<?= User::item($course->teacher_id); ?></span>
                             <span class="course-price">价格：<?= $course->discount; ?>元</span>
                         </div>

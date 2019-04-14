@@ -41,15 +41,21 @@ a:hover {
 	height: 100%;
     width: 100%;
 }
+.container-package .course-name-time {
+    display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
 .container-package .content-title {
 	font-size: 15px;
-	width: 100%;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	margin: 10px 0;
 	color: #777779;
 	text-align: left;
+	width: 72%;
+    display: inline-block;
 }
 .container-package .course-time,
 .container-package .online {
@@ -67,9 +73,6 @@ a:hover {
 	background: url(/img/online-people.png) no-repeat;
 	margin-right: 5px;
 	background-size: 100%;
-}
-.container-package .price-online {
-	margin-top: 10px;
 }
 .container-package .price {
 	color: #F01414;

@@ -574,9 +574,9 @@ class PersonalController extends ActiveController
       $data = Yii::$app->request->get();
       $access_token = $data['access-token'];
       $user = User::findIdentityByAccessToken($access_token);
-      $invite_url = 'http://www.kaoben.top'.Url::to(['site/signup','invite' => $user->id]);
+      $invite_url = 'https://mobile.kaoben.top/#/Register?invite='.$user->id;
       $img_src = Url::to(['market/qrcode','url' => $invite_url, 'name' => $user->id.'.png']);
-      return json_encode($img_src);
+      return 'https://ht.kaoben.top' . $img_src;
     }
     //宣传页 分享
     public function actionQrcodeShare() {

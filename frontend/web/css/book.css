@@ -2,9 +2,13 @@
     clear: both;
     overflow: hidden;
     width: 1200px;
-    margin: 20px auto;
+    text-align: center;
+    margin: 0 auto;
 }
-.book-content ul li {
+.book-content .list {
+    overflow: hidden;
+}
+.book-content ul.list li {
     width: 280px;
     float: left;
     margin-right: 20px;

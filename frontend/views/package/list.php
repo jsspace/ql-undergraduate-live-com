@@ -19,8 +19,10 @@ $this->title = '套餐';
                         <div class="bg"></div>
                         <img class="course-pic" src="<?= $course->list_pic; ?>"/>
                     </div>
-                    <span class="content-title"><?= $course->name; ?></span>
-                    <span class="course-time"><?= date('Y-m-d H:i', $course->create_time); ?></span>
+                    <div class="course-name-time">
+                        <span class="content-title"><?= $course->name; ?></span>
+                        <span class="course-time"><?= date('Y-m-d H:i', $course->create_time); ?></span>
+                    </div>
                 </a>
                 <div class="price-online">
                     <span class="price">￥<?= $course->discount; ?>元</span>
