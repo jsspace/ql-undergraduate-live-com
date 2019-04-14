@@ -15,6 +15,7 @@ use backend\models\Information;
 use backend\models\CoursePackage;
 use backend\models\Book;
 use common\service\JssdkService;
+use Da\QrCode\QrCode;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -238,5 +239,21 @@ class SiteController extends Controller
             );
         }
         return json_encode($result);
+    }
+    public function actionQrcode($url, $name)
+    {
+        $qrCode = (new QrCode($url))
+        ->setSize(250)
+        ->setMargin(5)
+        ->useForegroundColor(51, 153, 255);
+    
+        // now we can display the qrcode in many ways
+        // saving the result to a file:
+        $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'] . 'qrcode_img/';
+        $qrCode->writeFile($img_rootPath . $name); // writer defaults to PNG when none is specified
+        
+        // display directly to the browser 
+        header('Content-Type: '.$qrCode->getContentType());
+        echo $qrCode->writeString();
     }
 }

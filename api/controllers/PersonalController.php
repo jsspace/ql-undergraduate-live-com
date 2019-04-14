@@ -575,8 +575,8 @@ class PersonalController extends ActiveController
       $access_token = $data['access-token'];
       $user = User::findIdentityByAccessToken($access_token);
       $invite_url = 'https://mobile.kaoben.top/#/Register?invite='.$user->id;
-      $img_src = Url::to(['market/qrcode','url' => $invite_url, 'name' => $user->id.'.png']);
-      return 'https://ht.kaoben.top' . $img_src;
+      $img_src = Url::to(['site/qrcode','url' => $invite_url, 'name' => $user->id.'.png']);
+      return 'https://api.kaoben.top' . $img_src;
     }
     //宣传页 分享
     public function actionQrcodeShare() {
