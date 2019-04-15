@@ -31,7 +31,7 @@ $this->title = '公开课';
                                 <img class="course-pic" src="<?= $course->list_pic; ?>"/>
                             </div>
                             <span class="content-title"><?= $course->course_name; ?></span>
-                            <span class="course-time"><?= date('Y-m-d H:i', $course->create_time); ?></span>
+                            <!-- <span class="course-time"><?= date('Y-m-d H:i', $course->create_time); ?></span> -->
                         </a>
                         <div class="teacher-section">
                             <span class="teacher-name">主讲人：<?= User::item($course->teacher_id); ?></span>

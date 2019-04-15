@@ -21,7 +21,7 @@ $this->title = '套餐';
                     </div>
                     <div class="course-name-time">
                         <span class="content-title"><?= $course->name; ?></span>
-                        <span class="course-time"><?= date('Y-m-d H:i', $course->create_time); ?></span>
+                        <!-- <span class="course-time"><?= date('Y-m-d H:i', $course->create_time); ?></span> -->
                     </div>
                 </a>
                 <div class="price-online">
