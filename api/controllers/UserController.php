@@ -72,10 +72,12 @@ class UserController extends ActiveController
                     $coupon->save();
                 }
             }
-            return ['status' => '200', 'result' => '注册成功！'];
+            return ['status' => 0, 'result' => '注册成功！'];
         } else {
-            $model->validate();
-            return $model;
+            return [
+                'status' => -1,
+                'result' => '验证失败，请稍后再试！'
+            ];
         }
     }
     public function actionLogincode()
@@ -137,7 +139,7 @@ class UserController extends ActiveController
             $login_info->request_time = time() + 30;
             $login_info->save();
             $res = [
-                'status' => '0',
+                'status' => 0,
                 'code' => 0,
                 'message' => '短信验证码发送成功',
             ];

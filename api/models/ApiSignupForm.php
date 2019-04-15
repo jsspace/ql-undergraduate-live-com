@@ -15,6 +15,7 @@ class ApiSignupForm extends Model
     public $phone;
     public $smscode;
     public $password;
+    public $username;
     public $invite;
 
 
@@ -38,6 +39,7 @@ class ApiSignupForm extends Model
             
             ['password', 'required', 'message' => '密码不能为空'],
             ['password', 'string', 'min' => 6],
+            ['username', 'required', 'message' => '用户名不能为空'],
             ['invite', 'integer'],
         ];
     }
@@ -127,10 +129,10 @@ class ApiSignupForm extends Model
             return null;
         }
         $user = new User();
-        $user->username = '尊敬的用户';
         $user->email = '';
         $user->phone = $this->phone;
         $user->invite = $this->invite;
+        $user->username = $this->username;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->save();
