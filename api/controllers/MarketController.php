@@ -47,6 +47,13 @@ class MarketController extends Controller
                     $result['message'] = '请输入正确的手机号码!';
                     return json_encode($result);
                 }
+                // 判断重复
+                $findUser = User::find()->where(['phone' => $phone])->one();
+                if (!empty($findUser)) {
+                    $result['status'] = -1;
+                    $result['message'] = '该手机号已注册！';
+                    return json_encode($result);
+                }
                 $marketer = new User();
                 $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
                 $role = '';
@@ -388,7 +395,9 @@ class MarketController extends Controller
                         ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
                         ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
                     if (count($orders) != 0) {
-                        $indirect_income[] = $orders;
+                        foreach ($orders as $order) {
+                            $indirect_income[] = $order;
+                        }
                     }
                 }
             }
