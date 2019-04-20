@@ -447,6 +447,13 @@
 .tag-content.zuoye #explain {
     cursor: pointer;
 }
+.tag-content.qa p {
+    padding-left: 10px;
+    font-size: 14px;
+}
+.tag-content.qa img {
+    height: 150px;
+}
 
 .play-icon {
     padding: 5px 10px 5px 31px;

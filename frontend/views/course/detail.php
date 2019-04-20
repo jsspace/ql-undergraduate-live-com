@@ -287,8 +287,9 @@ foreach ($chapters as $key => $chapter) {
                     <div class="no-login">登录后可见~</div>
                 <?php } ?>
                 </div>
-                <div class="tag-content">
-                    答疑
+                <div class="tag-content qa">
+                    <p>关注公众号“都想学考本帮”，进入手机端网站进行答疑</p>
+                    <img src="/images/public-erweima.jpg" alt="">
                 </div>
             </div>
         </div>
