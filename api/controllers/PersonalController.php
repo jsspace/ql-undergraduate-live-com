@@ -243,13 +243,15 @@ class PersonalController extends ActiveController
                         'course_id' => $course->id,
                         'course_name' => $course->course_name,
                         'discount' => $course->discount,
-                        'list_pic' => $course->list_pic
+                        'list_pic' => $course->list_pic,
+                        'type' => $course->type
                     );
                     $courses[] = $content;
                 }
             }
             $info[] = array(
-                'goods_name'=> $order->goods->goods_name,
+                'id' => $order->goods->goods_id,
+                'goods_name' => $order->goods->goods_name,
                 'market_price' => $order->goods->market_price,
                 'goods_pic' => $goods_pic,
                 'type' => $order->goods->type,

@@ -72,11 +72,11 @@ class UserController extends ActiveController
                     $coupon->save();
                 }
             }
-            return ['status' => 0, 'result' => '注册成功！'];
+            return ['status' => 0, 'message' => '注册成功！'];
         } else {
             return [
                 'status' => -1,
-                'result' => '验证失败，请稍后再试！'
+                'message' => '验证失败，请稍后再试'
             ];
         }
     }
@@ -117,9 +117,13 @@ class UserController extends ActiveController
         } else {
         $code = rand(100000,999999);
         $time = date('Y m d H:i:s', time());
+        $smsTplNum = "SMS_107160031";
+        if (!empty($channel) && $channel == 'changepassword') {
+            $smsTplNum = "SMS_107160030";
+        }
         $response = SmsController::sendSms(
             "优师联考本", // 短信签名
-            "SMS_107160031", // 短信模板编号
+            $smsTplNum, // 短信模板编号
             $phone, // 短信接收者
             Array(  // 短信模板中字段的值
                 "time" => $time,
@@ -162,9 +166,9 @@ class UserController extends ActiveController
         $model->load($data = Yii::$app->getRequest()->getBodyParams(), '');//实例化对象
         if ($model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', '新密码已保存。');
-            return ['status' => 0, 'result' => '密码修改成功！'];
+            return ['status' => 0, 'message' => '密码修改成功！'];
         } else {
-          return ['status' => -1, 'msg' => '用户名或密码错误'];
+            return ['status' => -1, 'message' => '验证失败，请稍后再试'];
         }
     }
     public function actionIslogin()

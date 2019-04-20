@@ -68,8 +68,8 @@ $this->title = '如何上课';
 <div class="scan">
     <div>
         <p class="scan-title">手机学习通道</p>
-        <p class="scan-info">关注公众号“都想学考本帮”，进入维信诺小程序学习</p>
+        <p class="scan-info">关注公众号“都想学考本帮”，进入手机端网站学习</p>
     </div>
-    <img src="/images/study-scan.png" alt="">
+    <img src="/images/public-erweima.jpg" alt="">
 </div>
 
