@@ -16,6 +16,7 @@ use backend\models\Course;
 use backend\models\CoursePackage;
 use backend\models\Message;
 use backend\models\Read;
+use common\service\GoldService;
 
 require_once "../common/h5_wxp/lib/WxPay.Api.php";
 require_once "../common/h5_wxp/example/WxPay.JsApiPay.php";
@@ -208,10 +209,19 @@ class H5orderController extends ActiveController
                                         $course = Course::find()->where(['id' => $goods->goods_id])->one();
                                         $user_ids = $course->teacher_id;
 
+                                        // 给用户赠送金币
+                                        $gold_service = new GoldService();
+                                        $gold_service->changeUserGold(100,$order_info->user_id,6);
                                     } else {    // 依次读取套餐中各门课程的教师
                                         $package = CoursePackage::find()->where(['id' => $goods->goods_id])->one();
                                         $courses = explode(',', $package->course);
                                         $courses = array_filter($courses);
+
+                                        // 给用户赠送金币
+                                        $gold_num = 100 * count(explode(',', $goods->goods_id));
+                                        $gold_service = new GoldService();
+                                        $gold_service->changeUserGold($gold_num,$order_info->user_id,6);
+
                                         foreach ($courses as $cours) {
                                             $cour = Course::find()->where(['id' => $cours])->one();
                                             $user_ids = $user_ids . ',' . $cour->teacher_id;

@@ -2,6 +2,8 @@
 
 namespace api\controllers;
 
+use backend\models\Message;
+use backend\models\Read;
 use yii;
 use yii\rest\ActiveController;
 use yii\data\ActiveDataProvider;
@@ -70,6 +72,22 @@ class UserController extends ActiveController
                     $coupon->start_time = date('Y-m-d H:i:s', time());
                     $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
                     $coupon->save();
+                }
+                // 给邀请人发信息
+                $message = new Message();
+                $message->publisher = 1;
+                $message->content = $user->username . "通过你分享的二维码注册了都想学!";
+                $message->classids = $data['invite'];
+                $message->status = 1;
+                $message->publish_time = time();
+                $message->title = '系统消息: 有新人注册啦';
+                if ($message->save()) {
+                    $read = new Read();
+                    $read->msg_id = $message->msg_id;
+                    $read->userid = $data['invite'];
+                    $read->status = 0;
+                    $read->get_time = time();
+                    $read->save();
                 }
             }
             return ['status' => 0, 'message' => '注册成功！'];

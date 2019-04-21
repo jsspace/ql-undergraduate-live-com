@@ -505,6 +505,18 @@ class CourseController extends Controller
             $course_info = Course::find()->select(['course_name', 'list_pic', 'price', 'discount', 'category_name'])
                 ->where(['id' => $courseid])->asArray()->one();
             $books = Book::find()->where(['category' => $course_info['category_name']])->asArray()->all();
+            $tmp_arr = array();
+            foreach($books as $k => $v)
+            {
+                if(in_array($v['id'], $tmp_arr))   //搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
+                {
+                    unset($books[$k]); //销毁一个变量  如果$tmp_arr中已存在相同的值就删除该值
+                }
+                else {
+                    $tmp_arr[$k] = $v['id'];  //将不同的值放在该数组中保存
+                }
+            }
+
             $result['status'] = $status;
             $result['user_info'] = $user_info;
             $result['course_info'] = $course_info;
@@ -548,6 +560,17 @@ class CourseController extends Controller
                     ->where(['id' => $id])->asArray()->one();
                 $book = Book::find()->where(['category' => $course['category_name']])->asArray()->all();
                 $books[] = $book[0];
+            }
+            $tmp_arr = array();
+            foreach($books as $k => $v)
+            {
+                if(in_array($v['id'], $tmp_arr))   //搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
+                {
+                    unset($books[$k]); //销毁一个变量  如果$tmp_arr中已存在相同的值就删除该值
+                }
+                else {
+                    $tmp_arr[$k] = $v['id'];  //将不同的值放在该数组中保存
+                }
             }
 
             $result['status'] = $status;
