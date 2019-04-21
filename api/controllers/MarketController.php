@@ -475,8 +475,8 @@ class MarketController extends Controller
                     $orders = OrderInfo::find()
                         ->select(["sum(order_amount)*0.2 as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
                         ->where(['in', 'user_id', $stu_ids])
-                        ->andWhere(['>=','pay_time' , strtotime($start_month)])
-                        ->andWhere(['<=','pay_time' , strtotime($end_month)])
+                        ->andWhere(['>','pay_time' , strtotime($start_month)])
+                        ->andWhere(['<','pay_time' , strtotime($end_month)])
                         ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
                         ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
                     if (count($orders) != 0) {
@@ -500,8 +500,8 @@ class MarketController extends Controller
                     $orders = OrderInfo::find()
                         ->select(["sum(order_amount*0.2) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
                         ->where(['in', 'user_id', $stu_ids])
-                        ->andWhere(['>=','pay_time' , strtotime($start_month)])
-                        ->andWhere(['=<','pay_time' , strtotime($end_month)])
+                        ->andWhere(['>','pay_time' , strtotime($start_month)])
+                        ->andWhere(['<','pay_time' , strtotime($end_month)])
                         ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
                         ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
                     if (count($orders) != 0) {

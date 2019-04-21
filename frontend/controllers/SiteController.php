@@ -27,6 +27,8 @@ use backend\models\OrderInfo;
 use backend\models\Data;
 use backend\models\Comment;
 use backend\models\Notice;
+use backend\models\Message;
+use backend\models\Read;
 
 /**
  * Site controller
@@ -240,6 +242,22 @@ class SiteController extends Controller
                         $coupon->save();
                         // 推荐新人赠送100金币 operation_type = 2
                         $gold_service->changeUserGold(100, $invite, 2);
+                    }
+                    // 给邀请人发信息
+                    $message = new Message();
+                    $message->publisher = 1;
+                    $message->content = $user->username . "通过你分享的二维码注册了都想学!";
+                    $message->classids = $invite;
+                    $message->status = 1;
+                    $message->publish_time = time();
+                    $message->title = '系统消息: 有新人注册啦';
+                    if ($message->save()) {
+                        $read = new Read();
+                        $read->msg_id = $message->msg_id;
+                        $read->userid = $invite;
+                        $read->status = 0;
+                        $read->get_time = time();
+                        $read->save();
                     }
                 }
                 // 新人注册赠送金币 operation_type 3
