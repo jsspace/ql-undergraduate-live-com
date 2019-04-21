@@ -136,7 +136,7 @@ AppAsset::register($this);
     </div>
     <div class="footer-bottom">Copyright©2018 优师联网络培训平台 2017 浙ICP备：16003173号</div>
 </div>
-
+<script type="text/javascript" src="https://2.molinsoft.com/jsCode?publishId=5b6a8670682f12d7016835129a29205f"></script><div class="xtsitelinkstyle"><a href="http://www.webkefu.com">在线客服系统</a></div>
 <?php $this->endBody() ?>
 </body>
 </html>
