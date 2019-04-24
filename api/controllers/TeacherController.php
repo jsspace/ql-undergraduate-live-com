@@ -55,25 +55,28 @@ class TeacherController extends Controller
                 $pack_courses_arr = explode(',', $package->course);
                 $inter_arr = array_intersect($courses_arr, $pack_courses_arr);
                 $include_arr = array_values($inter_arr);    // 该数组包含了每一个套餐内所含自己课程的数组
-                // 计算每个套餐内自己课程所占的比例
-                $pack_totle_discount = 0.0;
-                $include_totle_discount = 0.0;
-                $pack_courses = Course::find()->select(['discount'])
-                    ->where(['in', 'id', $pack_courses_arr])
-                    ->all();
-                // 计算套餐内所有单门课程的售价总和
-                foreach ($pack_courses as $pack_course) {
-                    $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+
+                if (count($include_arr) != 0) {
+                    // 计算每个套餐内自己课程所占的比例
+                    $pack_totle_discount = 0.0;
+                    $include_totle_discount = 0.0;
+                    $pack_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $pack_courses_arr])
+                        ->all();
+                    // 计算套餐内所有单门课程的售价总和
+                    foreach ($pack_courses as $pack_course) {
+                        $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+                    }
+                    $include_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $include_arr])
+                        ->all();
+                    // 计算套餐内自己课程的售价总和
+                    foreach ($include_courses as $include_course) {
+                        $include_totle_discount = $include_totle_discount + $include_course->discount;
+                    }
+                    $rate = $include_totle_discount / $pack_totle_discount;
+                    $order_ids[$package->id] = $rate;
                 }
-                $include_courses = Course::find()->select(['discount'])
-                    ->where(['in', 'id', $include_arr])
-                    ->all();
-                // 计算套餐内自己课程的售价总和
-                foreach ($include_courses as $include_course) {
-                    $include_totle_discount = $include_totle_discount + $include_course->discount;
-                }
-                $rate = $include_totle_discount / $pack_totle_discount;
-                $order_ids[$package->id] = $rate;
             }
             // 查找订单信息，计算收益
             $orders = OrderGoods::find()
@@ -133,25 +136,28 @@ class TeacherController extends Controller
                 $pack_courses_arr = explode(',', $package->course);
                 $inter_arr = array_intersect($courses_arr, $pack_courses_arr);
                 $include_arr = array_values($inter_arr);    // 该数组包含了每一个套餐内所含自己课程的数组
-                // 计算每个套餐内自己课程所占的比例
-                $pack_totle_discount = 0.0;
-                $include_totle_discount = 0.0;
-                $pack_courses = Course::find()->select(['discount'])
-                    ->where(['in', 'id', $pack_courses_arr])
-                    ->all();
-                // 计算套餐内所有单门课程的售价总和
-                foreach ($pack_courses as $pack_course) {
-                    $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+
+                if (count($include_arr) != 0) {
+                    // 计算每个套餐内自己课程所占的比例
+                    $pack_totle_discount = 0.0;
+                    $include_totle_discount = 0.0;
+                    $pack_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $pack_courses_arr])
+                        ->all();
+                    // 计算套餐内所有单门课程的售价总和
+                    foreach ($pack_courses as $pack_course) {
+                        $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+                    }
+                    $include_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $include_arr])
+                        ->all();
+                    // 计算套餐内自己课程的售价总和
+                    foreach ($include_courses as $include_course) {
+                        $include_totle_discount = $include_totle_discount + $include_course->discount;
+                    }
+                    $rate = $include_totle_discount / $pack_totle_discount;
+                    $order_ids[$package->id] = $rate;
                 }
-                $include_courses = Course::find()->select(['discount'])
-                    ->where(['in', 'id', $include_arr])
-                    ->all();
-                // 计算套餐内自己课程的售价总和
-                foreach ($include_courses as $include_course) {
-                    $include_totle_discount = $include_totle_discount + $include_course->discount;
-                }
-                $rate = $include_totle_discount / $pack_totle_discount;
-                $order_ids[$package->id] = $rate;
             }
             // 查找订单信息，计算收益
             $orders = OrderGoods::find()
@@ -175,6 +181,7 @@ class TeacherController extends Controller
                     );
                 }
             }
+
             // 将月份相同的课程收益合并
             $my_income = array();
             for ($i = 0; $i < count($income_arr)-1; $i++) {
@@ -233,25 +240,28 @@ class TeacherController extends Controller
                 $pack_courses_arr = explode(',', $package->course);
                 $inter_arr = array_intersect($courses_arr, $pack_courses_arr);
                 $include_arr = array_values($inter_arr);    // 该数组包含了每一个套餐内所含自己课程的数组
-                // 计算每个套餐内自己课程所占的比例
-                $pack_totle_discount = 0.0;
-                $include_totle_discount = 0.0;
-                $pack_courses = Course::find()->select(['discount'])
-                    ->where(['in', 'id', $pack_courses_arr])
-                    ->all();
-                // 计算套餐内所有单门课程的售价总和
-                foreach ($pack_courses as $pack_course) {
-                    $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+
+                if (count($include_arr) != 0) {
+                    // 计算每个套餐内自己课程所占的比例
+                    $pack_totle_discount = 0.0;
+                    $include_totle_discount = 0.0;
+                    $pack_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $pack_courses_arr])
+                        ->all();
+                    // 计算套餐内所有单门课程的售价总和
+                    foreach ($pack_courses as $pack_course) {
+                        $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+                    }
+                    $include_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $include_arr])
+                        ->all();
+                    // 计算套餐内自己课程的售价总和
+                    foreach ($include_courses as $include_course) {
+                        $include_totle_discount = $include_totle_discount + $include_course->discount;
+                    }
+                    $rate = $include_totle_discount / $pack_totle_discount;
+                    $order_ids[$package->id] = $rate;
                 }
-                $include_courses = Course::find()->select(['discount'])
-                    ->where(['in', 'id', $include_arr])
-                    ->all();
-                // 计算套餐内自己课程的售价总和
-                foreach ($include_courses as $include_course) {
-                    $include_totle_discount = $include_totle_discount + $include_course->discount;
-                }
-                $rate = $include_totle_discount / $pack_totle_discount;
-                $order_ids[$package->id] = $rate;
             }
             // 查找订单信息，计算收益
             $orders = OrderGoods::find()
@@ -333,25 +343,27 @@ class TeacherController extends Controller
                 $pack_courses_arr = explode(',', $package->course);
                 $inter_arr = array_intersect($courses_arr, $pack_courses_arr);
                 $include_arr = array_values($inter_arr);    // 该数组包含了每一个套餐内所含自己课程的数组
-                // 计算每个套餐内自己课程所占的比例
-                $pack_totle_discount = 0.0;
-                $include_totle_discount = 0.0;
-                $pack_courses = Course::find()->select(['discount'])
-                    ->where(['in', 'id', $pack_courses_arr])
-                    ->all();
-                // 计算套餐内所有单门课程的售价总和
-                foreach ($pack_courses as $pack_course) {
-                    $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+                if (count($include_arr) != 0) {
+                    // 计算每个套餐内自己课程所占的比例
+                    $pack_totle_discount = 0.0;
+                    $include_totle_discount = 0.0;
+                    $pack_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $pack_courses_arr])
+                        ->all();
+                    // 计算套餐内所有单门课程的售价总和
+                    foreach ($pack_courses as $pack_course) {
+                        $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+                    }
+                    $include_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $include_arr])
+                        ->all();
+                    // 计算套餐内自己课程的售价总和
+                    foreach ($include_courses as $include_course) {
+                        $include_totle_discount = $include_totle_discount + $include_course->discount;
+                    }
+                    $rate = $include_totle_discount / $pack_totle_discount;
+                    $order_ids[$package->id] = $rate;
                 }
-                $include_courses = Course::find()->select(['discount'])
-                    ->where(['in', 'id', $include_arr])
-                    ->all();
-                // 计算套餐内自己课程的售价总和
-                foreach ($include_courses as $include_course) {
-                    $include_totle_discount = $include_totle_discount + $include_course->discount;
-                }
-                $rate = $include_totle_discount / $pack_totle_discount;
-                $order_ids[$package->id] = $rate;
             }
             // 查找订单信息，计算收益
             $orders = OrderGoods::find()
@@ -415,25 +427,27 @@ class TeacherController extends Controller
                 $pack_courses_arr = explode(',', $package->course);
                 $inter_arr = array_intersect($courses_arr, $pack_courses_arr);
                 $include_arr = array_values($inter_arr);    // 该数组包含了每一个套餐内所含自己课程的数组
-                // 计算每个套餐内自己课程所占的比例
-                $pack_totle_discount = 0.0;
-                $include_totle_discount = 0.0;
-                $pack_courses = Course::find()->select(['discount'])
-                    ->where(['in', 'id', $pack_courses_arr])
-                    ->all();
-                // 计算套餐内所有单门课程的售价总和
-                foreach ($pack_courses as $pack_course) {
-                    $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+                if (count($include_arr) != 0) {
+                    // 计算每个套餐内自己课程所占的比例
+                    $pack_totle_discount = 0.0;
+                    $include_totle_discount = 0.0;
+                    $pack_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $pack_courses_arr])
+                        ->all();
+                    // 计算套餐内所有单门课程的售价总和
+                    foreach ($pack_courses as $pack_course) {
+                        $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+                    }
+                    $include_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $include_arr])
+                        ->all();
+                    // 计算套餐内自己课程的售价总和
+                    foreach ($include_courses as $include_course) {
+                        $include_totle_discount = $include_totle_discount + $include_course->discount;
+                    }
+                    $rate = $include_totle_discount / $pack_totle_discount;
+                    $order_ids[$package->id] = $rate;
                 }
-                $include_courses = Course::find()->select(['discount'])
-                    ->where(['in', 'id', $include_arr])
-                    ->all();
-                // 计算套餐内自己课程的售价总和
-                foreach ($include_courses as $include_course) {
-                    $include_totle_discount = $include_totle_discount + $include_course->discount;
-                }
-                $rate = $include_totle_discount / $pack_totle_discount;
-                $order_ids[$package->id] = $rate;
             }
             // 查找订单信息，计算收益
             $orders = OrderGoods::find()
@@ -470,6 +484,69 @@ class TeacherController extends Controller
         } else {
             $result['status'] = -1;
             $result['message'] = '用户未找到或登录已过期！';
+            return json_encode($result);
+        }
+    }
+
+    public function actionTeacherClass()
+    {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $user = User::findIdentityByAccessToken($access_token);
+        $result = array();
+        if (!empty($user)) {
+            $courses = Course::find()
+                ->where(['teacher_id' => $user->getId()])
+                ->with([
+                    'courseChapters' => function($query) {
+                        $query->with(['courseSections' => function($query) {
+                            $query->with('courseSectionPoints');
+                        }]);
+                    }
+                ])
+                ->orderBy('create_time desc')
+                ->all();
+            $courseList = array();
+            foreach ($courses as $key => $course) {
+                $id_arr = explode(',', $course->teacher_id);
+                $teacher_name = '';
+                foreach ($id_arr as $key => $id) {
+                    $teacher = \backend\models\User::getUserModel($id);
+                    if ($teacher) {
+                        $teacher_name = $teacher->username.','.$teacher_name;
+                    }
+                }
+                if ($teacher_name) {
+                    // 去除最后一个逗号
+                    $teacher_name = substr($teacher_name, 0, strlen($teacher_name)-1);
+                }
+                $classrooms = 0;
+                $chapters = $course->courseChapters;
+                foreach ($chapters as $key => $chapter) {
+                    $sections = $chapter->courseSections;
+                    foreach ($sections as $key => $section) {
+                        $points = $section->courseSectionPoints;
+                        $classrooms += count($points);
+                    }
+                }
+                $content = array(
+                    'id' => $course->id,
+                    'course_name' => $course->course_name,
+                    'list_pic' => $course->list_pic,
+                    'discount' => $course->discount,
+                    'online' => $course->online,
+                    'type' => $course->type,
+                    'teacher' => $teacher_name,
+                    'classrooms' => $classrooms
+                );
+                $courseList[] = $content;
+            }
+            $result['status'] = 0;
+            $result['courseList'] = $courseList;
+            return json_encode($result);
+        } else {
+            $result['status'] = -1;
+            $result['message'] = '用户未找到或已登录超时';
             return json_encode($result);
         }
     }

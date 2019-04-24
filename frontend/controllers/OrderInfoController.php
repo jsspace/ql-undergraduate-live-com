@@ -1069,42 +1069,50 @@ class OrderInfoController extends \yii\web\Controller
                                 $order_info->save(false);
 
                                 // 给邀请人以及授课教师发送消息
-                                if ($invite > 0) {
-                                    $goods = OrderGoods::find()->where(['order_sn' => $out_trade_no])->one();
-                                    if (!empty($goods)) {
-                                        $user_ids = '';
-                                        if ($goods->type == 'course') {     // 查找课程的教师
-                                            $course = Course::find()->where(['id' => $goods->goods_id])->one();
-                                            $user_ids = $course->teacher_id;
+                                $goods = OrderGoods::find()->where(['order_sn' => $out_trade_no])->one();
+                                if (!empty($goods)) {
+                                    $user_ids = '';
+                                    if ($goods->type == 'course') {     // 查找课程的教师
+                                        $course = Course::find()->where(['id' => $goods->goods_id])->one();
+                                        $user_ids = $course->teacher_id;
 
-                                        } else {    // 依次读取套餐中各门课程的教师
-                                            $package = CoursePackage::find()->where(['id' => $goods->goods_id])->one();
-                                            $courses = explode(',', $package->course);
-                                            $courses = array_filter($courses);
-                                            foreach ($courses as $cours) {
-                                                $cour = Course::find()->where(['id' => $cours])->one();
-                                                $user_ids = $user_ids . ',' . $cour->teacher_id;
-                                            }
-                                        }
-                                        $user_ids = $user_ids . ',' . $invite;
-                                        $message = new Message();
-                                        $message->publisher = 1;
-                                        $message->title = '系统消息：有人下单啦！';
-                                        $message->classids = $user_ids;
-                                        $message->content = "尊敬的老师、市场专员您好！ 您有学生（被邀请人）" . "在平台下单啦!  购买了"
-                                            . $goods->goods_name . ", 总金额为：" . $goods->goods_price . "(元), 您将按照比例获得提成！";
-                                        $message->status = 1;
-                                        $message->publish_time = time();
-                                        $message->save();
+                                        // 给用户赠送金币
+                                        $gold_service = new GoldService();
+                                        $gold_service->changeUserGold(100,$order_info->user_id,6);
 
-                                        foreach (explode(',', $user_ids) as $user_id) {
-                                            $read = new Read();
-                                            $read->msg_id = $message->msg_id;
-                                            $read->userid = $user_id;
-                                            $read->status = 0;
-                                            $read->get_time = time();
-                                            $read->save();
+                                    } else {    // 依次读取套餐中各门课程的教师
+                                        $package = CoursePackage::find()->where(['id' => $goods->goods_id])->one();
+                                        $courses = explode(',', $package->course);
+                                        $courses = array_filter($courses);
+                                        foreach ($courses as $cours) {
+                                            $cour = Course::find()->where(['id' => $cours])->one();
+                                            $user_ids = $user_ids . ',' . $cour->teacher_id;
                                         }
+
+                                        // 给用户赠送金币
+                                        $pack_info = CoursePackage::find()->select(['course'])->where(['id' => $goods->goods_id])->one();
+                                        $gold_num = 100 * count(explode(',', $pack_info->course));
+                                        $gold_service = new GoldService();
+                                        $gold_service->changeUserGold($gold_num,$order_info->user_id,6);
+                                    }
+                                    $user_ids = $user_ids . ',' . $invite;
+                                    $message = new Message();
+                                    $message->publisher = 1;
+                                    $message->title = '系统消息：有人下单啦！';
+                                    $message->classids = $user_ids;
+                                    $message->content = "尊敬的老师、市场专员您好！ 您有学生（被邀请人）" . "在平台下单啦!  购买了"
+                                        . $goods->goods_name . ", 总金额为：" . $goods->goods_price . "(元), 您将按照比例获得提成！";
+                                    $message->status = 1;
+                                    $message->publish_time = time();
+                                    $message->save();
+
+                                    foreach (explode(',', $user_ids) as $user_id) {
+                                        $read = new Read();
+                                        $read->msg_id = $message->msg_id;
+                                        $read->userid = $user_id;
+                                        $read->status = 0;
+                                        $read->get_time = time();
+                                        $read->save();
                                     }
                                 }
 
