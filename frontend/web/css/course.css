@@ -428,6 +428,12 @@
 }
 .tag-content.zuoye ul li:nth-child(1) {
     width: 20%;
+    text-align: left;
+    display: inline;
+    line-height: 48px;
+}
+.tag-content.zuoye ul li.section-homework {
+    cursor: pointer;
 }
 .tag-content.zuoye ul li:nth-child(2) {
     width: 20%;

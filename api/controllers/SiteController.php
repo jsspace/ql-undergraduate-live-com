@@ -251,9 +251,9 @@ class SiteController extends Controller
         // saving the result to a file:
         $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'] . 'qrcode_img/';
         $qrCode->writeFile($img_rootPath . $name); // writer defaults to PNG when none is specified
-        
-        // display directly to the browser 
-        header('Content-Type: '.$qrCode->getContentType());
-        echo $qrCode->writeString();
+        echo self::base64EncodeImage($img_rootPath.$name);
+        // display directly to the browser
+        // header('Content-Type: '.$qrCode->getContentType());
+        // echo $qrCode->writeString();
     }
 }

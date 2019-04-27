@@ -130,11 +130,16 @@ foreach ($chapters as $key => $chapter) {
                                             }
                                             if (!empty($point->duration)) {
                                                 $points_arr = explode(':', $point->duration);
-                                                $seconds = $points_arr[0]*60;
+                                                
+                                                $seconds = (int)$points_arr[0]*60;
                                                 if (!empty($points_arr[1])) {
-                                                    $seconds = $seconds + $points_arr[1];
+                                                    $seconds = $seconds + (int)$points_arr[1];
                                                 }
-                                                $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
+                                                if ($seconds === 0) {
+                                                    $percentage = 0;
+                                                } else {
+                                                    $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
+                                                }
                                             } else {
                                                 $percentage = 0;
                                             }
@@ -189,8 +194,8 @@ foreach ($chapters as $key => $chapter) {
 
                     ?>
                             <ul>
-                                <li><?=$section->name ?></li>
-                                <li><?=$section->homework ?></li>
+                                <li title="<?=$section->name ?>"><?=$section->name ?></li>
+                                <li class="section-homework" data-value="<?=$section->homework ?>"><?=$section->homework ?></li>
                                 <li>
                                         <?php if ($flag and $homework_info->status!=3){ ?>
                                             <?php $imgs=explode(';', $homework_info->pic_url);

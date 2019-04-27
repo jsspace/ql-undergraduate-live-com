@@ -23,6 +23,7 @@ use backend\models\UserStudyLog;
 use components\helpers\QiniuUpload;
 use yii\base\Exception;
 use common\service\PersonalService;
+use Da\QrCode\QrCode;
 
 class PersonalController extends ActiveController
 {
@@ -576,10 +577,27 @@ class PersonalController extends ActiveController
       $data = Yii::$app->request->get();
       $access_token = $data['access-token'];
       $user = User::findIdentityByAccessToken($access_token);
-      $invite_url = 'https://mobile.kaoben.top/#/Register?invite='.$user->id;
-      $img_src = Url::to(['site/qrcode','url' => $invite_url, 'name' => $user->id.'.png']);
-      return 'https://api.kaoben.top' . $img_src;
+      $name = $user->id.'.png';
+      $invite_url = 'https://mobile.kaoben.top/Register?invite='.$user->id.'&name='.$name;
+      // $img_src = Url::to(['site/qrcode','url' => $invite_url, 'name' => $user->id.'.png']);
+      $qrCode = (new QrCode($invite_url))
+        ->setSize(250)
+        ->setMargin(5)
+        ->useForegroundColor(51, 153, 255);
+      $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'] . 'qrcode_img/';
+      $qrCode->writeFile($img_rootPath . $name); // writer defaults to PNG when none is specified
+      return self::base64EncodeImage($img_rootPath.$name);
+      //return 'https://api.kaoben.top' . $img_src;
     }
+
+    public static function base64EncodeImage ($image_file) {
+        $base64_image = '';
+        $image_info = getimagesize($image_file);
+        $image_data = fread(fopen($image_file, 'r'), filesize($image_file));
+        $base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
+        return $base64_image;
+    }
+
     //宣传页 分享
     public function actionQrcodeShare() {
       $data = Yii::$app->request->get();

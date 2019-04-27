@@ -38,7 +38,11 @@ var courseDetail = {
             $('#course-video').hide().attr('src', '');
             $('#course-explain').show().attr('src', src);
             $('#course-explain').get(0).play();
-        })
+        });
+        
+        $('.section-homework').on('click', function () {
+            layer.alert($(this).attr('data-value'));
+        });
     },
 
     homeworkEvent: function () {
