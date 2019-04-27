@@ -289,6 +289,7 @@ class OrderController extends ActiveController
         return $this->render('payok', ['order_sn' => $order_sn, 'order_amount' => $order_amount, 'wallet_pay' => $wallet_pay]);
     }
 
+
     //确认订单接口
     public function actionConfirmOrder()
     {
@@ -301,6 +302,9 @@ class OrderController extends ActiveController
         $user_id = $user->id;
 
         $data = Yii::$app->request->get();
+        $username = $data['username'];
+        $phone = $data['phone'];
+        $address = $data['address'];
         if (empty($data['course_id'])) {
             $data = [
                 'code' => -1,
@@ -401,6 +405,12 @@ class OrderController extends ActiveController
             $pack = CoursePackage::find()->select('course')->where(['id' => $course_id])->one();
             $order_info->course_ids = $pack->course;
         }
+
+        // 保存收货信息
+        $order_info->address = '用户名:' . $username . ', 手机号:' . $phone . ', 收货地址:' . $address;
+        // 保存赠送书籍
+        $order_info->gift_books = $data['gift_books'];
+
         $order_info->coupon_ids = '';
         $order_info->coupon_money = 0;
         $order_info->bonus = 0;

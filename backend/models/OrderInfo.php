@@ -37,6 +37,7 @@ use Yii;
  * @property string $coupon_money
  * @property integer $gift_coins
  * @property string $gift_books
+ * @property string $address
  */
 class OrderInfo extends \yii\db\ActiveRecord
 {
@@ -61,6 +62,7 @@ class OrderInfo extends \yii\db\ActiveRecord
             [['consignee', 'mobile', 'email'], 'string', 'max' => 60],
             [['pay_name'], 'string', 'max' => 120],
             [['coupon_ids'], 'string', 'max' => 100],
+            [['address'], 'string'],
             [['order_sn'], 'unique'],
         ];
     }
@@ -100,7 +102,8 @@ class OrderInfo extends \yii\db\ActiveRecord
             'coupon_ids' => Yii::t('app', '优惠券id'),
             'coupon_money' => Yii::t('app', '优惠券金额'),
             'gift_books' => Yii::t('app', '赠送的图书'),
-            'gift_coins' => Yii::t('app', '赠送的金币')
+            'gift_coins' => Yii::t('app', '赠送的金币'),
+            'address' => Yii::t('app', '用户收货信息'),
         ];
     }
 
