@@ -63,6 +63,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <label class="tr-title">应付款总金额</label>
                 <span class="tr-content"><?= $model->order_amount; ?></span>
             </li>
+            <li>
+                <label class="tr-title">用户收货信息</label>
+                <span class="tr-content"><?= $model->address; ?></span>
+            </li>
             <!-- <li>
                 <label class="tr-title">优惠券金额</label>
                 <span class="tr-content"><?= $model->coupon_money; ?></span>
