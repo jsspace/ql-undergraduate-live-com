@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use backend\models\Book;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -133,9 +134,14 @@ class CartController extends Controller
 
         $displayCoins = 0;
 
+        $include_pack_flag = ($post['course_package_ids'] == '');
         $course_package_ids = explode(',', $post['course_package_ids']);
         $course_package_ids = array_filter($course_package_ids);
-        $displayCoins = $displayCoins + count($course_package_ids)*400;
+        $packages = CoursePackage::find()->select(['course'])->where(['in', 'id', $course_package_ids])->all();
+        foreach ($packages as $package) {
+            $courses = explode(',', $package->course);
+            $displayCoins = $displayCoins + count($courses)*100;
+        }
 
         $course_ids = explode(',', $post['course_ids']);
         $course_ids = array_filter($course_ids);
@@ -158,6 +164,13 @@ class CartController extends Controller
         $course_package_ids = '';
         foreach($course_package_models as $model) {
             $course_package_ids .= $model->id . ',';
+        }
+
+        // 查询赠送书籍
+        if (!$include_pack_flag) {
+            $books = Book::find()->where(['like', 'name', '一本通'])->all();
+        } else {
+            $books = Book::find()->where(['in', 'category', $category_ids])->andWhere(['like', 'name', '一本通'])->all();
         }
         // $coupons = Coupon::find()
         // ->where(['user_id' => Yii::$app->user->id])
@@ -182,7 +195,9 @@ class CartController extends Controller
             'course_package_models' => $course_package_models,
             'course_package_ids' => $course_package_ids,
             'category_ids' => $category_ids,
-            'displayCoins' => $displayCoins
+            'displayCoins' => $displayCoins,
+            'books' => $books,
+            'count' => $include_pack_flag
             // 'coupons' => $coupons,
             // 'coin_balance' => $balance
         ]);

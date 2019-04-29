@@ -33,11 +33,16 @@ var courseDetail = {
 
     homeworkVideoEvent: function() {
         $('#explain').on('click', function () {
-            var src = $(this).attr('video_src');
-            $('._video-layout').show();
-            $('#course-video').hide().attr('src', '');
-            $('#course-explain').show().attr('src', src);
-            $('#course-explain').get(0).play();
+            let status = $(this).attr('status');
+            if (status === 2) {
+                var src = $(this).attr('video_src');
+                $('._video-layout').show();
+                $('#course-video').hide().attr('src', '');
+                $('#course-explain').show().attr('src', src);
+                $('#course-explain').get(0).play();
+            } else {
+                alert('作业提交并审核通过后才可观看讲解哦~');
+            }
         })
     },
 

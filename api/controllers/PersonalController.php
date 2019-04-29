@@ -708,7 +708,11 @@ class PersonalController extends ActiveController
             ])->one();
         $result = array();
         $result['gold_info'] = $gold_info;
-        $result['gold_balance'] = $gold_balance->gold_balance;
+        if(!empty($gold_balance)) {
+            $result['gold_balance'] = $gold_balance->gold_balance;
+        } else {
+            $result['gold_balance'] = 0;
+        }
         return $result;
     }
 

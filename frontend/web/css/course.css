@@ -738,3 +738,8 @@
     border: 0;
     line-height: 30px;
 }
+
+.free-video {
+    margin-left: 15px;
+    color: red;
+}
