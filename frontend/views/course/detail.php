@@ -149,6 +149,9 @@ foreach ($chapters as $key => $chapter) {
                                         <li class="point-list _net-class" data-value="<?= $point->id ?>">
                                             <div class="left">
                                                 <a href="javascript:void(0)" target="_blank" class="chapter-list-name net-class"><?=$point->name ?></a>
+                                                <?php if ($point->paid_free == 0) { ?>
+                                                    <span id="is_free" class="free-video">试看</span>
+                                                <?php } ?>
                                             </div>
                                             <div class="right">
                                                 <a href="javascript:void(0)" class="haveLearn">已学<?= $percentage ?></a>
@@ -209,7 +212,7 @@ foreach ($chapters as $key => $chapter) {
                                         <?php } ?>
                                 </li>
                                 <li>
-                                    <a id="explain" video_src="<?=$section->explain_video_url ?>">作业讲解</a>
+                                    <a id="explain" video_src="<?=$section->explain_video_url ?>" status="<?= $homework_info ? $homework_info->status : 0 ?>">作业讲解</a>
                                 </li>
                                 <li>
                                     <?php if ($homework_info) {?>

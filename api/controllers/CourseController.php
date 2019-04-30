@@ -214,6 +214,7 @@ class CourseController extends Controller
             );
             return json_encode($result);
         }
+
         $data = Yii::$app->request->get();
         $section_id = $data['section_id'];
         $course_id = $data['course_id'];
@@ -221,11 +222,21 @@ class CourseController extends Controller
         $section = CourseSection::find()
         ->where(['id' => $section_id])
         ->one();
-        $course_info = Course::find()->select(['home_pic'])->where(['id' => $course_id])->one();
+        $course_info = Course::find()->select(['home_pic', 'teacher_id'])->where(['id' => $course_id])->one();
 
         $point = CourseSectionPoints::find()
             ->where(['id' => $point_id])
             ->one();
+        // 如果是教师则直接可以看自己的课
+        if ($user->getId() == $course_info->teacher_id) {
+            $result = array(
+                'status' => 6,
+                'message' => '正在请求观看自己的课程',
+                'url' => $point->video_url,
+                'pic' => $course_info->home_pic
+            );
+            return json_encode($result);
+        }
         if (!empty($point)) {
             if ($point->paid_free == 0) {
                 $result = array(
@@ -504,7 +515,10 @@ class CourseController extends Controller
             $courseid = $data['course_id'];
             $course_info = Course::find()->select(['course_name', 'list_pic', 'price', 'discount', 'category_name'])
                 ->where(['id' => $courseid])->asArray()->one();
-            $books = Book::find()->where(['category' => $course_info['category_name']])->asArray()->all();
+            $books = Book::find()
+                ->where(['category' => $course_info['category_name']])
+                ->andWhere(['like', 'name', '一本通'])
+                ->asArray()->all();
             $tmp_arr = array();
             foreach($books as $k => $v)
             {
@@ -558,7 +572,10 @@ class CourseController extends Controller
             foreach ($ids_arr as $id) {
                 $course = Course::find()->select(['course_name', 'list_pic', 'price', 'discount', 'category_name'])
                     ->where(['id' => $id])->asArray()->one();
-                $book = Book::find()->where(['category' => $course['category_name']])->asArray()->all();
+                $book = Book::find()
+                    ->where(['category' => $course['category_name']])
+                    ->andWhere(['like', 'name', '一本通'])
+                    ->asArray()->all();
                 $books[] = $book[0];
             }
             $tmp_arr = array();

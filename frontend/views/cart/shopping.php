@@ -89,35 +89,13 @@ AppAsset::addScript($this,'@web/js/shopping.js?v='.time());
                         <span>请前往个人中心填写有效收获地址~</span>
                     </div>
                     <ul class="tab-con">
-                        <?php if (in_array("22", $category_ids) || !empty($course_package_ids)) { ?>
+                        <?php foreach ($books as $book) { ?>
                             <li class="select">
-                                <input type="checkbox" class="gift-book" value="语文" />&nbsp;&nbsp;
-                                <img src="/img/gitf-chinese.png">
-                                <p>大学语文一本通</p>
+                                <img src="<?=$book->pictrue ?>">
+                                <p><?=$book->name ?></p>
                             </li>
+
                         <?php } ?>
-                        <?php if (in_array("23", $category_ids) || !empty($course_package_ids)) { ?>
-                        <li class="select">
-                            <input type="checkbox" class="gift-book" value="数学" />&nbsp;&nbsp;
-                            <img src="/img/gift-math.png">
-                            <p>高等数学一本通</p>
-                        </li>
-                        <?php } ?>
-                        <?php if (in_array("24", $category_ids) || !empty($course_package_ids)) { ?>
-                        <li class="select">
-                            <input type="checkbox" class="gift-book" value="英语" />&nbsp;&nbsp;
-                            <img src="/img/gift-english.png">
-                            <p>英语一本通</p>
-                        </li>
-                        <?php } ?>
-                        <?php if (in_array("25", $category_ids) || !empty($course_package_ids)) { ?>
-                        <li class="select">
-                            <input type="checkbox" class="gift-book" value="计算机" />&nbsp;&nbsp;
-                            <img src="/img/gift-computer.png">
-                            <p>计算机一本通</p>
-                        </li>
-                        <?php } ?>
-                        <!-- <li>
                             <?php if (empty($coupons)) {?>
                             <div class="no-discount">暂无可使用优惠券</div>
                             <?php } else {?>
@@ -134,7 +112,7 @@ AppAsset::addScript($this,'@web/js/shopping.js?v='.time());
                         </li> -->
                     </ul>
                     <div class="tab-con tab-con-coin">
-                        <input type="checkbox" />&nbsp;&nbsp;
+<!--                        <input type="checkbox" />&nbsp;&nbsp;-->
                         <span><label><?=$displayCoins ?></label>金币</span>
                     </div>
                 </div>
