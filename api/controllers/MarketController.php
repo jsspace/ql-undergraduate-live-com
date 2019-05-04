@@ -18,6 +18,9 @@ use backend\models\OrderInfo;
 
 class MarketController extends Controller
 {
+    static $next_income = 0;
+    const INCOMEP = 0.2; // 直接收益提成
+    const INCOMENEXTP = 0.2; // 间接收益提成
     /* 过滤器实现认证 */
     public function behaviors()
     {
@@ -55,20 +58,20 @@ class MarketController extends Controller
                     return json_encode($result);
                 }
                 $marketer = new User();
-                $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
-                $role = '';
-                if (array_key_exists('marketer',$roles_array)) {
-                    $role = 'marketer_level1';
-                } else if (array_key_exists('marketer_level1',$roles_array)) {
-                    $role = 'marketer_level2';
-                } else if (array_key_exists('marketer_level2',$roles_array)) {
-                    $result['status'] = -1;
-                    $result['message'] = '没有权限进行添加代理操作！';
-                    return $result;
-                }
+                // $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
+                $role = 'marketer';
+                // if (array_key_exists('marketer',$roles_array)) {
+                //     $role = 'marketer_level1';
+                // } else if (array_key_exists('marketer_level1',$roles_array)) {
+                //     $role = 'marketer_level2';
+                // } else if (array_key_exists('marketer_level2',$roles_array)) {
+                //     $result['status'] = -1;
+                //     $result['message'] = '没有权限进行添加代理操作！';
+                //     return $result;
+                // }
                 $marketer->username = $user_name;
                 $marketer->phone = $phone;
-                if ($password == '' || empty($password) || $password == null) {
+                if (empty($password)) {
                     $marketer->setPassword('123456');
                 }
                 $marketer->setPassword($password);
@@ -104,31 +107,22 @@ class MarketController extends Controller
         $market_lists = array();
         $result = array();
         if (!empty($user)) {
-            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
-            if (array_key_exists('marketer',$roles_array)) {
-                $market_list = User::find()
-                    ->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level1']);
-                    }])
-                    ->all();
-                $roleName = '一级代理';
-            } else if (array_key_exists('marketer_level1',$roles_array)) {
-                $market_list = User::find()
-                    ->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level2']);
-                    }])
-                    ->all();
-                $roleName = '二级代理';
-            }
+            $market_list = User::find()
+            ->where(['invite' => $user->id])
+            ->with(['role' => function($query) {
+                $query->andWhere(['item_name' => 'marketer']);
+            }])
+            ->all();
+            $roleName = '下级代理';
             foreach($market_list as $list) {
-                if (count($list->role)) {
+                if (count($list->role) > 0) {
+                    $amount = self::getAllIncome($list->id);
                     $market_lists[] = array (
                         'id' => $list->id,
                         'username' =>  $list->username,
                         'phone' => $list->phone,
-                        'role' => $roleName
+                        'role' => $roleName,
+                        'income' => $amount
                     );
                 }
             }
@@ -234,7 +228,7 @@ class MarketController extends Controller
         return json_encode($result);
     }
 
-    /* 计算代理的佣金和已结算总金额 */
+    /* 计算代理的佣金和已结算总金额 @zhang */
     public function actionIncome()
     {
         $data = Yii::$app->request->get();
@@ -242,188 +236,158 @@ class MarketController extends Controller
         $result = array();
         $user = User::findIdentityByAccessToken($access_token);
         if (!empty($user)) {
-            // 1、计算直接收益（即自己邀请的学员购买课程的提成）
-            $students = User::find()->where(['invite' => $user->id])->all();
-            $student_array=array();
-            foreach ($students as $student) {
-                $student_array[] = $student->id;
+            $amount = self::getAllIncome($user->id);
+            // 3、计算已结算总金额
+             $withdraw_info = Withdraw::find()->where(['user_id' => $user->id])->all();
+             $withdraw_count = 0;
+             foreach ($withdraw_info as $item) {
+                $withdraw_count += $item->fee;
             }
+            $result = array(
+                'status' => 0,
+                'income' => $amount,
+                'settlement' => $withdraw_count
+            );
+            return json_encode($result);
+        }
+        $result = array(
+            'status' => -1,
+            'message' => '用户未找到或登录已过期！'
+        );
+        return json_encode($result);
+    }
+    // 获取总收益 @zhang
+    public static function getAllIncome($invite_id) {
+        $market_ids = self::getMarketIds($invite_id);
+        // 直接下级为空
+        if (count($market_ids) == 0) {
+            $student_ids = self::getStudentIds($invite_id);
             $orders = OrderInfo::find()
-                ->where(['in', 'user_id', $student_array])
-                ->andWhere(['order_status' => 1])
-                ->andWhere(['pay_status' => 2])
-                ->all();
+            ->where(['in', 'user_id', $student_ids])
+            ->andWhere(['order_status' => 1])
+            ->andWhere(['pay_status' => 2])
+            ->all();
             $income = 0;
-            $next_income = 0;
             foreach ($orders as $order) {
                 $income += $order->order_amount;
             }
-
-            // 2、计算间接收益（即自己的下级代理所邀请的学生购课的提成）
-            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
-            if (array_key_exists('marketer',$roles_array)) {
-                // 查找用户的直接下级
-               $marketers = User::find()->where(['invite' => $user->id])
-                   ->with(['role' => function($query) {
-                       $query->where("item_name='marketer_level1'");
-                   }])->all();
-               // 循环计算各个下级所获得的佣金
-                foreach ($marketers as $marketer) {
-                    if (!empty($marketer->role)) {
-                        $stus = User::find()->where(['invite' => $marketer->id])->all();
-                        $students_array=array();
-                        foreach ($stus as $stu) {
-                            $students_array[] = $stu->id;
-                        }
-                        $ords = OrderInfo::find()
-                            ->where(['in', 'user_id', $students_array])
-                            ->andWhere(['order_status' => 1])
-                            ->andWhere(['pay_status' => 2])
-                            ->all();
-                        foreach ($ords as $ord) {
-                            $next_income += $ord->order_amount;
-                        }
-                        $next_income = $next_income * 0.2;
-                    }
-                }
-            } else if (array_key_exists('marketer_level1',$roles_array)) {
-                // 查找用户的直接下级
-                $marketers = User::find()->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level2']);
-                    }])->all();
-                // 循环计算各个下级所获得的佣金
-                foreach ($marketers as $marketer) {
-                    if (!empty($marketer->role)) {
-                        $stus = User::find()->where(['invite' => $marketer->id])->all();
-                        $students_array=array();
-                        foreach ($stus as $stu) {
-                            $students_array[] = $stu->id;
-                        }
-                        $ords = OrderInfo::find()
-                            ->where(['in', 'user_id', $students_array])
-                            ->andWhere(['order_status' => 1])
-                            ->andWhere(['pay_status' => 2])
-                            ->all();
-                        foreach ($ords as $ord) {
-                            $next_income += $ord->order_amount;
-                        }
-                        $next_income = $next_income * 0.2;
-                    }
-                }
+            return $income * self::INCOMEP;
+        } else {
+            $student_ids = self::getStudentIds($invite_id);
+            $orders = OrderInfo::find()
+            ->where(['in', 'user_id', $student_ids])
+            ->andWhere(['order_status' => 1])
+            ->andWhere(['pay_status' => 2])
+            ->all();
+            $income = 0;
+            foreach ($orders as $order) {
+                $income += $order->order_amount;
             }
+            $income = $income * self::INCOMEP;  // 直接订单提成
 
-            // 3、计算已结算总金额
-            $withdraw_info = Withdraw::find()->where(['user_id' => $user->id])->all();
-            $withdraw_count = 0;
-            foreach ($withdraw_info as $item) {
-                $withdraw_count += $item->fee;
+            // 递归计算子代理金额的提成
+            foreach ($market_ids as $key => $market_id) {
+                $temp = self::getAllIncome($market_id);
+                $income += $temp * self::INCOMENEXTP;
             }
-
-            $income = round(($income + $next_income)*0.2, 2) ;
-            $result['status'] = 0;
-            $result['income'] = $income;
-            $result['settlement'] = round($withdraw_count, 2);
-            return json_encode($result);
+            return $income;
         }
-        $result['status'] = -1;
-        $result['message'] = '用户未找到或登录已过期！';
-        return json_encode($result);
+    }
+    
+    // 获取所有学员id @zhang
+    public static function getStudentIds($invite_id) {
+        $students = User::find()
+        ->where(['invite' => $invite_id])
+        ->with(['role' => function($query) {
+            $query->where(['item_name' => 'student']);
+        }])
+        ->all();
+        $student_ids = array();
+        foreach ($students as $student) {
+            if (count($student->role) > 0) {
+                $student_ids[] = $student->id;
+            }
+        }
+        return $student_ids;
+    }
+    // 获取直接下级id @zhang
+    public static function getMarketIds($invite_id) {
+        $market_ids = array();
+        $marketers = User::find()
+        ->where(['invite' => $invite_id])
+        ->with(['role' => function($query) {
+            $query->where(['item_name' => 'marketer']);
+        }])
+        ->all();
+        foreach ($marketers as $key => $marketer) {
+            if (count($marketer->role) > 0) {
+                $market_ids[] = $marketer->id;
+            }
+        }
+        return $market_ids;
+    }
+    // 递归计算当前用户的按月统计收益 @zhang
+    public static function getMonthIncome($id) {
+        $market_ids = self::getMarketIds($id);
+        // 直接下级为空
+        if (count($market_ids) == 0) {
+            $student_ids = self::getStudentIds($id);
+            $direct_orders = OrderInfo::find()
+            ->select(["sum(order_amount)*".self::INCOMEP." as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
+            ->where(['in', 'user_id', $student_ids])
+            ->andWhere(['order_status' => 1])
+            ->andWhere(['pay_status' => 2])
+            ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])
+            ->asArray()
+            ->all();
+            return $direct_orders;
+        } else {
+            $student_ids = self::getStudentIds($id);
+            $direct_orders = OrderInfo::find()
+            ->select(["sum(order_amount)*".self::INCOMEP." as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
+            ->where(['in', 'user_id', $student_ids])
+            ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
+            ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])
+            ->asArray()
+            ->all();
+            foreach ($market_ids as $key => $market_id) {
+                $sub_income = self::getMonthIncome($market_id); // 获取每个子代理的总收益
+                foreach ($sub_income as &$income) {
+                    $income['income'] = $income['income'] * self::INCOMENEXTP;
+                }
+                unset($income);
+                $direct_orders = array_merge($direct_orders, $sub_income);
+                for ($i = 0; $i < count($direct_orders)-1; $i++) {
+                    for ($j = $i+1; $j < count($direct_orders); $j++) {
+                        if ($direct_orders[$i]['month'] == $direct_orders[$j]['month']) {
+                            $direct_orders[$i]['income'] += $direct_orders[$j]['income'] ;
+                            unset($direct_orders[$j]);
+                            $direct_orders = array_values($direct_orders);
+                            $j = $j-1;
+                        }
+                    }
+                }
+            }
+            return $direct_orders;
+        }
     }
 
-    /* 按月统计代理的提成收益 */
-    public function actionMonthIncome()
-    {
+    // 按月统计代理的提成收益 @zhang
+    public function actionMonthIncome() {
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
         $result = array();
         $user = User::findIdentityByAccessToken($access_token);
         if (!empty($user)) {
-            // 1、按照月份计算直接收益
-            $students = User::find()->where(['invite' => $user->id])->all();
-            $students_array = array();
-            foreach ($students as $student) {
-                $students_array[] = $student->id;
-            }
-            $direct_orders = OrderInfo::find()
-                ->select(["sum(order_amount) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
-                ->where(['in', 'user_id', $students_array])
-                ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
-                ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
-
-            // 2、计算间接间接收益
-            $indirect_income = array();
-            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
-            if (array_key_exists('marketer',$roles_array)) {
-                $marketers = User::find()->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level1']);
-                    }])->all();
-                // 循环计算每个直接下级代理的收益
-                foreach ($marketers as $marketer) {
-                    $stus = User::find()->where(['invite' => $marketer->id])->all();
-                    $stu_ids = array();
-                    foreach ($stus as $stu) {
-                        $stu_ids[] = $stu->id;
-                    }
-                    $orders = OrderInfo::find()
-                        ->select(["sum(order_amount)*0.2 as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
-                        ->where(['in', 'user_id', $stu_ids])
-                        ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
-                        ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
-                    if (count($orders) != 0) {
-                        foreach ($orders as $order) {
-                            $indirect_income[] = $order;
-                        }
-                    }
-                }
-            } elseif (array_key_exists('marketer_level1', $roles_array)) {
-                $marketers = User::find()->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level2']);
-                    }])->all();
-                // 循环计算每个直接下级代理的收益
-                foreach ($marketers as $marketer) {
-                    $stus = User::find()->where(['invite' => $marketer->id])->all();
-                    $stu_ids = array();
-                    foreach ($stus as $stu) {
-                        $stu_ids[] = $stu->id;
-                    }
-                    $orders = OrderInfo::find()
-                        ->select(["sum(order_amount*0.2) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
-                        ->where(['in', 'user_id', $stu_ids])
-                        ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
-                        ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
-                    if (count($orders) != 0) {
-                        foreach ($orders as $order) {
-                            $indirect_income[] = $order;
-                        }
-                    }
-                }
-            }
-            $my_income = array_merge($direct_orders, $indirect_income);
-            for ($i = 0; $i < count($my_income)-1; $i++) {
-                for ($j = 0; $j < count($my_income); $j++) {
-                    if ($my_income[$i]['month'] == $my_income[$j]['month'] and $i != $j) {
-                        $my_income[$i]['income'] += $my_income[$j]['income'] ;
-                        unset($my_income[$j]);
-                        $my_income = array_values($my_income);
-                        $j = $j-1;
-                    }
-                }
-            }
+            $my_income = self::getMonthIncome($user->id);
             array_multisort(array_column($my_income,'month'),SORT_DESC,$my_income);
             foreach ($my_income as $key => $item) {
-                $my_income[$key]['income'] = round($my_income[$key]['income'], 2);
-                $my_income[$key]['salary'] = round($my_income[$key]['income']*0.2, 2);
                 // 查询每个月的提成是否已经确认提现
                 $withdraw_info = Withdraw::find()
-                    ->where(['user_id' => $user->id, 'withdraw_date' => $my_income[$key]['month']])->one();
+                ->where(['user_id' => $user->id, 'withdraw_date' => $my_income[$key]['month']])->one();
                 $my_income[$key]['status'] = !empty($withdraw_info) ? '已结算' : '未结算';
             }
             $result['status'] = 0;
-            $result['direct_income'] = $direct_orders;
-            $result['indirect_income'] = $indirect_income;
             $result['my_income'] = $my_income;
             return json_encode($result);
         } else {
@@ -433,159 +397,40 @@ class MarketController extends Controller
         }
     }
 
-    /* 按用户选择月份区间统计代理的提成收益 */
-    public function actionSelectMonthIncome()
-    {
-        $data = Yii::$app->request->get();
-        $access_token = $data['access-token'];
-        $start_month = $data['start_month'];
-        $end_month = $data['end_month'];
-        $result = array();
-        $user = User::findIdentityByAccessToken($access_token);
-        if (!empty($user)) {
-            // 1、按照月份计算直接收益
-            $students = User::find()->where(['invite' => $user->id])->all();
-            $students_array = array();
-            foreach ($students as $student) {
-                $students_array[] = $student->id;
-            }
-            $direct_orders = OrderInfo::find()
-                ->select(["sum(order_amount) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
-                ->where(['in', 'user_id', $students_array])
-                ->andWhere(['>','pay_time' , strtotime($start_month)])
-                ->andWhere(['<','pay_time' , strtotime($end_month)])
-                ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
-                ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
-
-            // 2、计算间接间接收益
-            $indirect_income = array();
-            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
-            if (array_key_exists('marketer',$roles_array)) {
-                $marketers = User::find()->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level1']);
-                    }])->all();
-                // 循环计算每个直接下级代理的收益
-                foreach ($marketers as $marketer) {
-                    $stus = User::find()->where(['invite' => $marketer->id])->all();
-                    $stu_ids = array();
-                    foreach ($stus as $stu) {
-                        $stu_ids[] = $stu->id;
-                    }
-                    $orders = OrderInfo::find()
-                        ->select(["sum(order_amount)*0.2 as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
-                        ->where(['in', 'user_id', $stu_ids])
-                        ->andWhere(['>','pay_time' , strtotime($start_month)])
-                        ->andWhere(['<','pay_time' , strtotime($end_month)])
-                        ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
-                        ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
-                    if (count($orders) != 0) {
-                        foreach ($orders as $order) {
-                            $indirect_income[] = $order;
-                        }
-                    }
-                }
-            } elseif (array_key_exists('marketer_level1', $roles_array)) {
-                $marketers = User::find()->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level2']);
-                    }])->all();
-                // 循环计算每个直接下级代理的收益
-                foreach ($marketers as $marketer) {
-                    $stus = User::find()->where(['invite' => $marketer->id])->all();
-                    $stu_ids = array();
-                    foreach ($stus as $stu) {
-                        $stu_ids[] = $stu->id;
-                    }
-                    $orders = OrderInfo::find()
-                        ->select(["sum(order_amount*0.2) as income, DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
-                        ->where(['in', 'user_id', $stu_ids])
-                        ->andWhere(['>','pay_time' , strtotime($start_month)])
-                        ->andWhere(['<','pay_time' , strtotime($end_month)])
-                        ->andWhere(['order_status' => 1])->andWhere(['pay_status' => 2])
-                        ->groupBy(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') DESC"])->asArray()->all();
-                    if (count($orders) != 0) {
-                        $indirect_income[] = $orders;
-                    }
-                }
-            }
-            $my_income = array_merge($direct_orders, $indirect_income);
-            for ($i = 0; $i < count($my_income)-1; $i++) {
-                for ($j = 0; $j < count($my_income); $j++) {
-                    if ($my_income[$i]['month'] == $my_income[$j]['month'] and $i != $j) {
-                        $my_income[$i]['income'] += $my_income[$j]['income'] ;
-                        unset($my_income[$j]);
-                        $my_income = array_values($my_income);
-                        $j = $j-1;
-                    }
-                }
-            }
-            array_multisort(array_column($my_income,'month'),SORT_DESC,$my_income);
-            foreach ($my_income as $key => $item) {
-                $my_income[$key]['income'] = round($my_income[$key]['income'], 2);
-                $my_income[$key]['salary'] = round($my_income[$key]['income']*0.2, 2);
-                // 查询每个月的提成是否已经确认提现
-                $withdraw_info = Withdraw::find()
-                    ->where(['user_id' => $user->id, 'withdraw_date' => $my_income[$key]['month']])->one();
-                $my_income[$key]['status'] = !empty($withdraw_info) ? '已结算' : '未结算';
-            }
-            $result['status'] = 0;
-            $result['direct_income'] = $direct_orders;
-            $result['indirect_income'] = $indirect_income;
-            $result['my_income'] = $my_income;
-            return json_encode($result);
-        } else {
-            $result['status'] = -1;
-            $result['message'] = '用户未找到或登录已超时！';
-            return json_encode($result);
-        }
-    }
-
-    /* 查询直接收益明细 */
+    /* 查询直接收益明细 @zhang*/
     public function actionDirectIncome()
     {
         $data = Yii::$app->request->get();
         $access_token = $data['access-token'];
-        $month = $data['month'];
         $result = array();
         $user = User::findIdentityByAccessToken($access_token);
-
         if (!empty($user)) {
             $direct_income = array();
             $user_array = array();
             // 1、查询直接注册的用户
-            $invite_users = User::find()->where(['invite' => $user->id])->all();
-            foreach ($invite_users as $u) {
-                $register_content = array(
-                    'pic' => $u->picture,
-                    'consignee' => $u->username,
-                    'status' => '注册',
-                    'income' =>  0,
-                    'pay_time' => date('Y-m-d H:i:s', $u->created_at)
-                );
-                $direct_income[] = $register_content;
-                $user_array[] = $u->id;
-            }
+            $student_ids = self::getStudentIds($user->id);
             // 2、根据直接注册的用户查询邀请的用户下单情况并计算收益
-            $orders = OrderInfo::find()->select(['consignee', 'order_amount', 'pay_time', 'user_id'])
-                ->where(['in', 'user_id', $user_array])
-                ->andWhere(['order_status' => 1])
-                ->andWhere(['pay_status' => 2])
-                ->all();
+            $orders = OrderInfo::find()
+            ->select(['consignee', 'order_amount', 'pay_time', 'user_id'])
+            ->where(['in', 'user_id', $student_ids])
+            ->andWhere(['order_status' => 1])
+            ->andWhere(['pay_status' => 2])
+            ->all();
             foreach ($orders as $order) {
-                $userpic = User::find()->select(['picture'])
-                    ->where(['id' => $order->user_id])
-                    ->one();
+                $userpic = User::find()
+                ->select(['picture'])
+                ->where(['id' => $order->user_id])
+                ->one();
                 $order_content = array(
                     'pic' => $userpic->picture,
                     'consignee' => $order->consignee,
-                    'status' => '下单',
-                    'income' => round($order->order_amount * 0.2, 2),
+                    'order_amount' => $order->order_amount,
+                    'income' => round($order->order_amount * self::INCOMEP, 2),
                     'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
                 );
                 $direct_income[] = $order_content;
             }
-            array_multisort(array_column($direct_income,'pay_time'),SORT_DESC, $direct_income);
+            array_multisort(array_column($direct_income, 'pay_time'),SORT_DESC, $direct_income);
             $result['status'] = 0;
             $result['direct_income'] = $direct_income;
             return json_encode($result);
@@ -596,7 +441,7 @@ class MarketController extends Controller
         }
     }
 
-    /* 按照指定月份查询直接收益明细 */
+    /* 按照指定月份查询直接收益明细 @wfzhang */
     public function actionMonthDirectIncome()
     {
         $data = Yii::$app->request->get();
@@ -609,37 +454,23 @@ class MarketController extends Controller
             $direct_income = array();
             $user_array = array();
             // 1、查询直接注册的用户
-            $invite_users = User::find()->where(['invite' => $user->id, "DATE_FORMAT(FROM_UNIXTIME(created_at, '%Y-%m-%d'), '%Y-%m')" => $month])->all();
-            foreach ($invite_users as $u) {
-                $register_content = array(
-                    'pic' => $u->picture,
-                    'consignee' => $u->username,
-                    'status' => '注册',
-                    'income' =>  0,
-                    'pay_time' => date('Y-m-d H:i:s', $u->created_at)
-                );
-                $direct_income[] = $register_content;
-            }
+            $student_ids = self::getStudentIds($user->id);
             // 2、根据直接注册的用户查询邀请的用户下单情况并计算收益
-            $all_invite_users = User::find()->select(['id'])->where(['invite' => $user->id])->all();
-            foreach ($all_invite_users as $user) {
-                $user_array[] = $user->id;
-            }
             $orders = OrderInfo::find()->select(['consignee', 'order_amount', 'pay_time', 'user_id'])
-                ->where(['in', 'user_id', $user_array])
+                ->where(['in', 'user_id', $student_ids])
                 ->andWhere(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m')" => $month])
                 ->andWhere(['order_status' => 1])
                 ->andWhere(['pay_status' => 2])
                 ->all();
             foreach ($orders as $order) {
                 $userpic = User::find()->select(['picture'])
-                    ->where(['id' => $order->user_id])
-                    ->one();
+                ->where(['id' => $order->user_id])
+                ->one();
                 $order_content = array(
                     'pic' => $userpic->picture,
                     'consignee' => $order->consignee,
-                    'status' => '下单',
-                    'income' => round($order->order_amount * 0.2, 2),
+                    'order_amount' => $order->order_amount,
+                    'income' => round($order->order_amount * self::INCOMEP, 2),
                     'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
                 );
                 $direct_income[] = $order_content;
@@ -655,7 +486,7 @@ class MarketController extends Controller
         }
     }
 
-    /* 查询间接收益明细 */
+    /* 查询间接收益明细 @wfzhang */
     public function actionIndirectIncome()
     {
         $data = Yii::$app->request->get();
@@ -666,48 +497,22 @@ class MarketController extends Controller
 
         if (!empty($user)) {
             // 1、查找自己的直接下级代理
-            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
-            if (array_key_exists('marketer', $roles_array)) {
-                $marketers = User::find()->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level1']);
-                    }])->all();
-            } elseif (array_key_exists('marketer_level1', $roles_array)) {
-                $marketers = User::find()->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level2']);
-                    }])->all();
-            }
+            $market_ids = self::getMarketIds($user->id);
             $indirect_income = array();
-            // 2、查找每个直接下级代理所邀请的学生的订单
-            foreach ($marketers as $marketer) {
-                // 查找每个下级代理所邀请的学生
-                $students = User::find()->select(['id'])
-                    ->where(['invite' => $marketer->id])->all();
-                $student_array = array();
-                foreach ($students as $student) {
-                    $student_array[] = $student->id;
-                }
-                $orders = OrderInfo::find()->select(['consignee', 'order_amount', 'pay_time', 'user_id'])
-                    ->where(['in', 'user_id', $student_array])
-                    ->andWhere(['order_status' => 1])
-                    ->andWhere(['pay_status' => 2])
-                    ->all();
-
-                // 3、将订单信息添加到数组并计算该笔订单的间接收益
-                foreach ($orders as $order) {
-                    $userpic = User::find()->select(['picture'])
-                        ->where(['id' => $order->user_id])
-                        ->one();
-                    $order_content = array(
+            foreach ($market_ids as $market_id) {
+                $userpic = User::find()
+                ->select(['picture', 'username'])
+                ->where(['id' => $market_id])
+                ->one();
+                $income = self::getAllIncome($market_id);
+                if ($income > 0) {
+                    $item = array(
                         'pic' => $userpic->picture,
-                        'consignee' => $order->consignee,
-                        'status' => '下单',
-                        'invite' => $marketer->username,
-                        'income' => $order->order_amount*0.2*0.2,
-                        'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
+                        'username' => $userpic->username,
+                        'income' => $income,
+                        'tc' => $income * self::INCOMENEXTP
                     );
-                    $indirect_income[] = $order_content;
+                    $indirect_income[] = $item;
                 }
             }
             $result['status'] = 0;
@@ -717,6 +522,40 @@ class MarketController extends Controller
             $result['status'] = -1;
             $result['message'] = '用户未找到或登录已超时!';
             return json_encode($result);
+        }
+    }
+
+    // 递归计算用户的某一个月份的统计收益 @zhang
+    public static function getOneMonthIncome($id, $month) {
+        $market_ids = self::getMarketIds($id);
+        // 直接下级为空
+        if (count($market_ids) == 0) {
+            $student_ids = self::getStudentIds($id);
+            $direct_orders = OrderInfo::find()
+            ->select(["sum(order_amount)*".self::INCOMEP." as income"])
+            ->where(['in', 'user_id', $student_ids])
+            ->andWhere(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m')" => $month])
+            ->andWhere(['order_status' => 1])
+            ->andWhere(['pay_status' => 2])
+            ->asArray()
+            ->all();
+            return $direct_orders[0]['income'];
+        } else {
+            $student_ids = self::getStudentIds($id);
+            $direct_orders = OrderInfo::find()
+            ->select(["sum(order_amount)*".self::INCOMEP." as income"])
+            ->where(['in', 'user_id', $student_ids])
+            ->andWhere(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m')" => $month])
+            ->andWhere(['order_status' => 1])
+            ->andWhere(['pay_status' => 2])
+            ->asArray()
+            ->all();
+            $income = $direct_orders[0]['income'];
+            foreach ($market_ids as $key => $market_id) {
+                $sub_income = self::getOneMonthIncome($market_id, $month); // 获取每个子代理的总收益
+                $income += $sub_income * self::INCOMENEXTP;
+            }
+            return $income;
         }
     }
 
@@ -731,47 +570,22 @@ class MarketController extends Controller
 
         if (!empty($user)) {
             // 1、查找自己的直接下级代理
-            $roles_array = Yii::$app->authManager->getRolesByUser($user->id);
-            if (array_key_exists('marketer', $roles_array)) {
-                $marketers = User::find()->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level1']);
-                    }])->all();
-            } elseif (array_key_exists('marketer_level1', $roles_array)) {
-                $marketers = User::find()->where(['invite' => $user->id])
-                    ->with(['role' => function($query) {
-                        $query->where(['item_name' => 'marketer_level2']);
-                    }])->all();
-            }
+            $market_ids = self::getMarketIds($user->id);
             $indirect_income = array();
             // 2、查找每个直接下级代理所邀请的学生的订单
-            foreach ($marketers as $marketer) {
-                // 查找每个下级代理所邀请的学生
-                $students = User::find()->select(['id'])
-                    ->where(['invite' => $marketer->id])->all();
-                $student_array = array();
-                foreach ($students as $student) {
-                    $student_array[] = $student->id;
-                }
-                $orders = OrderInfo::find()->select(['consignee', 'order_amount', 'pay_time', 'user_id'])
-                    ->where(['in', 'user_id', $student_array])
-                    ->andWhere(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m')" => $month])
-                    ->andWhere(['order_status' => 1])
-                    ->andWhere(['pay_status' => 2])
-                    ->all();
-
+            foreach ($market_ids as $market_id) {
+                $income = self::getOneMonthIncome($market_id, $month);
                 // 3、将订单信息添加到数组并计算该笔订单的间接收益
-                foreach ($orders as $order) {
-                    $userpic = User::find()->select(['picture'])
-                        ->where(['id' => $order->user_id])
-                        ->one();
+                $user = User::find()
+                ->select(['picture', 'username'])
+                ->where(['id' => $market_id])
+                ->one();
+                if ($income > 0) {
                     $order_content = array(
-                        'pic' => $userpic->picture,
-                        'consignee' => $order->consignee,
-                        'status' => '下单',
-                        'invite' => $marketer->username,
-                        'income' => $order->order_amount*0.2*0.2,
-                        'pay_time' => date('Y-m-d H:i:s', $order->pay_time)
+                        'pic' => $user->picture,
+                        'username' => $user->username,
+                        'income' => $income,
+                        'tc' => $income * self::INCOMENEXTP
                     );
                     $indirect_income[] = $order_content;
                 }
