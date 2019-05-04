@@ -1,0 +1,42 @@
+/* 按月收益统计表 */
+.market-earnings {
+	border: 1px solid #e8eaec;
+}
+.market-earnings ul {
+	overflow: hidden;
+}
+.market-earnings ul li {
+	float: left;
+	width: 25%;
+	padding: 0 8px;
+	font-size: 12px;
+}
+.market-earnings ul.title li {
+	font-weight: bold;
+	font-weight: bold;
+    background-color: #e8eaec;
+    line-height: 30px;
+    font-size: 14px;
+}
+/* 按月收益明细统计表 */
+.market-earnings.market-earnings-detail {
+	border: 0;
+}
+.market-earnings-detail .direct-income ul li {
+	width: 20%;
+}
+.market-earnings-detail ul.detail-content li {
+	line-height: 30px;
+}
+.market-earnings-detail ul li img {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
+.market-earnings-detail h5 {
+	font-weight: bold;
+    margin-bottom: 16px;
+}
+.market-earnings-detail .indirect-income {
+	margin-top: 36px;
+}
