@@ -293,15 +293,14 @@ class OrderController extends ActiveController
     //确认订单接口
     public function actionConfirmOrder()
     {
-        $get = Yii::$app->request->get();
+        $data = Yii::$app->request->get();
         //唯一订单号码（KB-YYYYMMDDHHIISSNNNNNNNNCC）
-        $order_sn = $this->createOrderid();;
-        $access_token = $get['access-token'];
-        $type = $get['type'];
+        $order_sn = $this->createOrderid();
+        $access_token = $data['access-token'];
+        $type = $data['type'];
         $user = User::findIdentityByAccessToken($access_token);
         $user_id = $user->id;
 
-        $data = Yii::$app->request->get();
         $username = $data['username'];
         $phone = $data['phone'];
         $address = $data['address'];
@@ -316,13 +315,13 @@ class OrderController extends ActiveController
         $order = OrderInfo::find()->where(['user_id' => $user_id, 'course_ids' => $course_id])
             ->andWhere(['>','invalid_time', time()])->one();
 
-        if (!empty($order)) {
-            $data = [
-                'code' => -1,
-                'message' => '有相关未完成订单'
-            ];
-            return $data;
-        }
+        // if (!empty($order)) {
+        //     $data = [
+        //         'code' => -1,
+        //         'message' => '有相关未完成订单'
+        //     ];
+        //     return $data;
+        // }
 
         if ($type == 'course') {
             $course_models = Course::find()

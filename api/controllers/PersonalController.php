@@ -221,8 +221,10 @@ class PersonalController extends ActiveController
         $user = User::findIdentityByAccessToken($access_token);
         //所有订单
         $all_orders = OrderInfo::find()
-            ->where(['user_id' => $user->id])
-            ->with('goods')->orderBy('add_time DESC')->all();
+        ->where(['user_id' => $user->id])
+        ->with('goods')
+        ->orderBy('add_time DESC')
+        ->all();
         $result = array();
         $info = array();
         foreach ($all_orders as $key => $order) {
@@ -230,38 +232,40 @@ class PersonalController extends ActiveController
             //$course_ids = substr($course_ids,0,strlen($course_ids)-1);
             $course_id_arr = explode(',', $course_ids);
             $courses = array();
-            if ($order->goods->type == 'course') {
-                $goods_pic = Course::find()->select(['home_pic', 'list_pic'])
-                    ->where(['id' => $order->goods->goods_id])->one();
-            } elseif ($order->goods->type == 'course_package') {
-                $goods_pic = CoursePackage::find()->select(['home_pic', 'list_pic'])
-                    ->where(['id' => $order->goods->goods_id])->one();
-            }
-            foreach ($course_id_arr as $key => $course_id) {
-                $course = Course::findOne($course_id);
-                if (!empty($course)) {
-                    $content = array(
-                        'course_id' => $course->id,
-                        'course_name' => $course->course_name,
-                        'discount' => $course->discount,
-                        'list_pic' => $course->list_pic,
-                        'type' => $course->type
-                    );
-                    $courses[] = $content;
+            if ($order->goods) {
+                if ($order->goods->type == 'course') {
+                    $goods_pic = Course::find()->select(['home_pic', 'list_pic'])
+                        ->where(['id' => $order->goods->goods_id])->one();
+                } elseif ($order->goods->type == 'course_package') {
+                    $goods_pic = CoursePackage::find()->select(['home_pic', 'list_pic'])
+                        ->where(['id' => $order->goods->goods_id])->one();
                 }
+                foreach ($course_id_arr as $key => $course_id) {
+                    $course = Course::findOne($course_id);
+                    if (!empty($course)) {
+                        $content = array(
+                            'course_id' => $course->id,
+                            'course_name' => $course->course_name,
+                            'discount' => $course->discount,
+                            'list_pic' => $course->list_pic,
+                            'type' => $course->type
+                        );
+                        $courses[] = $content;
+                    }
+                }
+                $info[] = array(
+                    'id' => $order->goods->goods_id,
+                    'goods_name' => $order->goods->goods_name,
+                    'market_price' => $order->goods->market_price,
+                    'goods_pic' => $goods_pic,
+                    'type' => $order->goods->type,
+                    'courses' => $courses,
+                    'add_time' => date('Y-m-d H:i:s',$order->add_time),
+                    'goods_amount' => $order->goods_amount,
+                    'order_sn' => $order->order_sn,
+                    'pay_status' => $order->pay_status
+                );
             }
-            $info[] = array(
-                'id' => $order->goods->goods_id,
-                'goods_name' => $order->goods->goods_name,
-                'market_price' => $order->goods->market_price,
-                'goods_pic' => $goods_pic,
-                'type' => $order->goods->type,
-                'courses' => $courses,
-                'add_time' => date('Y-m-d H:i:s',$order->add_time),
-                'goods_amount' => $order->goods_amount,
-                'order_sn' => $order->order_sn,
-                'pay_status' => $order->pay_status
-            );
         }
         $result['order_info'] = $info;
         return $result;
