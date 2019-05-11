@@ -25,9 +25,9 @@ $this->title = 'Signup';
 
                 <?= $form->field($model, 'password')->passwordInput(['class' => "form-control signup-input", 'placeholder' => "密码"]) ?>
 
-                <?= $form->field($model, 'cityid')->dropDownList(Cities::items('370000')) ?>
+                <!-- <?= $form->field($model, 'cityid')->dropDownList(Cities::items('370000')) ?> -->
                 
-                <div class="school-wrap">
+                <!-- <div class="school-wrap">
                     <div class="form-group field-signupform-schoolid required">
                         <label class="control-label" for="signupform-schoolid">学校</label>
                         <input type="text" id="signupform-schoolid" class="form-control signup-input schoolid" name="SignupForm[schoolid]" aria-required="true">
@@ -35,7 +35,7 @@ $this->title = 'Signup';
                         <div class="school-result _school-result"></div>
                         <p class="help-block help-block-error"></p>
                     </div>
-                </div>
+                </div> -->
 
                 <?= $form->field($model, 'phone')->textInput(['class' => "form-control signup-input phone", 'placeholder' => "手机号"]) ?>
 				
@@ -57,43 +57,43 @@ $this->title = 'Signup';
     </div>
 </div>
 <script>
-var schoolList = '';
-$('.school-input').bind('input propertychange', function() {
-    var keywords = $(this).val();
-    var cityid = $('#signupform-cityid').val();
-    var csrfToken = $("meta[name='csrf-token']").attr("content");
-    $.ajax({
-        url: "/shandong-school/get-schools",
-        type: 'post',
-        data: {
-            keywords: keywords,
-            cityid: cityid,
-            '_csrf': $('meta[name=csrf-token]').attr('content')
-        },
-        success: function (data) {
-            var result = JSON.parse(data);
-            $('._school-result').css('display','block').html(result.spanList);
-            schoolList = result.schoolList;
-        }
-    });
-});
-//失去焦点时判断指是否在学校列表里
-$(".school-input").blur(function(){
-    if ($(this).val() === '' || schoolList.indexOf($(this).val()) === -1) {
-        $('.school-wrap .help-block').html('学校不能为空');
-        $('.field-signupform-schoolid').addClass('has-error');
-        $(this).val('');
-        $('#signupform-schoolid').val('');
-    } else {
-        $('.school-wrap .help-block').html('');
-        $('.field-signupform-schoolid').removeClass('has-error');
-    }
-});
-$('.school-result').on('click', 'span', function() {
-    $('#signupform-schoolid').val($(this).attr('data-value'));
-    $('.school-input').val($(this).html());
-    $('._school-result').css('display','none');
-});
+// var schoolList = '';
+// $('.school-input').bind('input propertychange', function() {
+//     var keywords = $(this).val();
+//     var cityid = $('#signupform-cityid').val();
+//     var csrfToken = $("meta[name='csrf-token']").attr("content");
+//     $.ajax({
+//         url: "/shandong-school/get-schools",
+//         type: 'post',
+//         data: {
+//             keywords: keywords,
+//             cityid: cityid,
+//             '_csrf': $('meta[name=csrf-token]').attr('content')
+//         },
+//         success: function (data) {
+//             var result = JSON.parse(data);
+//             $('._school-result').css('display','block').html(result.spanList);
+//             schoolList = result.schoolList;
+//         }
+//     });
+// });
+// //失去焦点时判断指是否在学校列表里
+// $(".school-input").blur(function(){
+//     if ($(this).val() === '' || schoolList.indexOf($(this).val()) === -1) {
+//         $('.school-wrap .help-block').html('学校不能为空');
+//         $('.field-signupform-schoolid').addClass('has-error');
+//         $(this).val('');
+//         $('#signupform-schoolid').val('');
+//     } else {
+//         $('.school-wrap .help-block').html('');
+//         $('.field-signupform-schoolid').removeClass('has-error');
+//     }
+// });
+// $('.school-result').on('click', 'span', function() {
+//     $('#signupform-schoolid').val($(this).attr('data-value'));
+//     $('.school-input').val($(this).html());
+//     $('._school-result').css('display','none');
+// });
 $('.getlogincode').on('click', function() {
     var seconds = 60;
     if (!$(this).hasClass('disabled')) {

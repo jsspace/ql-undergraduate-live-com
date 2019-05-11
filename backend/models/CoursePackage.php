@@ -26,6 +26,7 @@ use Yii;
  * @property integer $onuse
  * @property integer $create_time
  * @property string $head_teacher
+ * @property integer $position
  */
 class CoursePackage extends \yii\db\ActiveRecord
 {
@@ -47,7 +48,7 @@ class CoursePackage extends \yii\db\ActiveRecord
             [['list_pic', 'home_pic'], 'required', 'on'=> 'create'],
             [['price', 'discount'], 'number'],
             [['des','intro'], 'string'],
-            [['view', 'collection', 'share', 'online', 'onuse', 'create_time'], 'integer'],
+            [['view', 'collection', 'share', 'online', 'onuse', 'create_time', 'position'], 'integer'],
             [['name', 'course', 'list_pic', 'home_pic'], 'string', 'max' => 255],
         ];
     }
@@ -74,6 +75,7 @@ class CoursePackage extends \yii\db\ActiveRecord
             'onuse' => Yii::t('app', '是否可用'),
             'create_time' => Yii::t('app', '套餐创建时间'),
             'head_teacher' => Yii::t('app', '班主任'),
+            'position' => Yii::t('app', '套餐排序')
         ];
     }
 

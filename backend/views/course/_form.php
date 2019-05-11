@@ -111,6 +111,8 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <!-- <?//= $form->field($model, 'create_time')->textInput() ?> -->
 
+    <?= $form->field($model, 'position')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', '保存') : Yii::t('app', '保存'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

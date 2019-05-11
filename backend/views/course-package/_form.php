@@ -98,6 +98,8 @@ AppAsset::addCss($this, '@web/css/course.css');
 
     <?= $form->field($model, 'head_teacher')->dropDownList(User::users('head_teacher')) ?>
 
+    <?= $form->field($model, 'position')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

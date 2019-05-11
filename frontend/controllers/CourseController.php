@@ -66,7 +66,7 @@ class CourseController extends Controller
                 }]);
             }
         ])
-        ->orderBy('create_time desc');
+        ->orderBy('position asc');
         $pages = new Pagination(['totalCount' => $courses->count(), 'pageSize' => '5']);
         $models = $courses->offset($pages->offset)
         ->limit($pages->limit)

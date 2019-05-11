@@ -18,15 +18,17 @@ $courses = $packageDetail['course'];
     <div class="top-package">
         <div class="package-inner">
             <div class="left-package">
-                <div class="img-package"><img src="/img/no-video.jpg"/></div>
+                <div class="img-package">
+                    <img src="<?= $package->home_pic; ?>"/>
+                </div>
                 <div class="package-mask">
-                    <p class="title"><?= $package->name ?></p>
+                    <!-- <p class="title"><?= $package->name ?></p> -->
                     <div class="package-list">
                         <p class="package-icon"><img src="/img/package-icon.png"/></p>
                         <p class="pack-t"><span class="num"><?= count($courses) ?></span>门课程</p>
-                        <?php foreach ($courses as $course) { ?>
+                        <!-- <?php foreach ($courses as $course) { ?>
                              <p class="pack-con"><?= $course->course_name; ?></p>
-                        <?php } ?>
+                        <?php } ?> -->
                     </div>
                 </div>
             </div>
@@ -46,7 +48,7 @@ $courses = $packageDetail['course'];
                 <?php
                     $isClassMember = CoursePackage::isClassMember($package->id);
                     /*是否为公开课程*/
-                    if ($course->discount == 0) { ?>
+                    if ($package->discount == 0) { ?>
                         <span class="package-ispay-tag">公开班级</span>
                     <?php }
                     /*是否已加入班级*/
@@ -55,7 +57,7 @@ $courses = $packageDetail['course'];
                     <?php } else { ?>
                         <a href="javascript:void(0)" class="package-btn btn-green quick-buy _quick-buy">立即购买</a>
                         <a href="javascript:void(0)" class="package-btn btn-red add-cart _add-cart">加入购物车</a>
-                        <p class="tips-detail">加入会员免费学（已有<?= $package->online ?>名会员加入）</p>
+                        <!-- <p class="tips-detail">加入会员免费学（已有<?= $package->online ?>名会员加入）</p> -->
                     <?php } ?>
             </div>
         </div>

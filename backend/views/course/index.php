@@ -63,7 +63,8 @@ $this->title = Yii::t('app', '课程列表');
             //'view',
             //'collection',
             //'share',
-            'online'
+            //'online',
+            'position'
             /*[
                 'attribute' => 'onuse',
                 'value'=> function ($model) {

@@ -97,6 +97,10 @@ class CoursePackageController extends Controller
                     $model->home_pic = Yii::$app->params['get_source_host'].'/'.$result[0]['key'];
                 }
                 @unlink($rootPath . $homerandName);
+                $model->view = rand(800, 1200);
+                $model->collection = rand(400, 500);
+                $model->share = rand(300, 400);
+                $model->online = rand(1000, 2000);
             }
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);

@@ -65,6 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'collection',
             'share',
             'online',
+            'position',
             [
                 'attribute' => 'onuse',
                 'value'=> $model->onuse == 1 ? '可用' : '不可用',

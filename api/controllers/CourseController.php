@@ -38,7 +38,7 @@ class CourseController extends Controller
                 }]);
             }
         ])
-        ->orderBy('create_time desc')
+        ->orderBy('position asc')
         ->all();
         $result = array();
         foreach ($courses as $key => $course) {

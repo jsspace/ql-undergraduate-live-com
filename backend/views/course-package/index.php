@@ -45,20 +45,21 @@ $this->params['breadcrumbs'][] = $this->title;
             //'collection',
             //'share',
             //'online',
-            [
-                'attribute' => 'onuse',
-                'value'=> function ($model) {
-                    return $model->onuse == 1 ? '可用':'不可用';
-                },
-                'filter' => [1=>'可用',0=>'不可用' ],
-            ],
-            [
-                'attribute' => 'head_teacher',
-                'value'=> function ($model) {
-                    return User::item($model->head_teacher);
-                },
-                'filter' => User::users('head_teacher'),
-            ],
+            // [
+            //     'attribute' => 'onuse',
+            //     'value'=> function ($model) {
+            //         return $model->onuse == 1 ? '可用':'不可用';
+            //     },
+            //     'filter' => [1=>'可用',0=>'不可用' ],
+            // ],
+            // [
+            //     'attribute' => 'head_teacher',
+            //     'value'=> function ($model) {
+            //         return User::item($model->head_teacher);
+            //     },
+            //     'filter' => User::users('head_teacher'),
+            // ],
+            'position'
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

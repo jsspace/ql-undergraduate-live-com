@@ -30,6 +30,7 @@ use Yii;
  * @property int $open_course_url 公开课链接
  * @property string $intro 课程简介
  * @property string $duration 课程时长
+ * @property string $position
  */
 class Course extends \yii\db\ActiveRecord
 {
@@ -49,7 +50,7 @@ class Course extends \yii\db\ActiveRecord
         return [
             [['course_name', 'teacher_id', 'price', 'discount', 'des', 'type', 'intro'], 'required'],
             [['list_pic'], 'required', 'on'=> 'create'],
-            [['category_name', 'view', 'collection', 'share', 'online', 'onuse', 'create_time', 'examination_time'], 'integer'],
+            [['category_name', 'view', 'collection', 'share', 'online', 'onuse', 'create_time', 'examination_time', 'position'], 'integer'],
             [['price', 'discount'], 'number'],
             [['des'], 'string'],
             [['teacher_id'], 'string', 'max' => 255],
@@ -87,6 +88,7 @@ class Course extends \yii\db\ActiveRecord
             'open_course_url' => Yii::t('app', '公开课链接'),
             'intro' => Yii::t('app', '课程简介'),
             'duration' => Yii::t('app', '课程时长'),
+            'position' => Yii::t('app', '课程排序')
         ];
     }
 

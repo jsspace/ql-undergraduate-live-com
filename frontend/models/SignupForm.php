@@ -55,8 +55,8 @@ class SignupForm extends Model
             
             ['invite', 'integer'],
 
-            ['cityid', 'required'],
-            ['schoolid', 'required']
+            // ['cityid', 'required'],
+            // ['schoolid', 'required']
         ];
     }
     
@@ -155,8 +155,8 @@ class SignupForm extends Model
         
         $user = new User();
         $user->username = $this->username;
-        $user->cityid = $this->cityid;
-        $user->schoolid = $this->schoolid;
+        // $user->cityid = $this->cityid;
+        // $user->schoolid = $this->schoolid;
         //$user->email = $this->email;
         $user->phone = $this->phone;
         $user->invite = $this->invite;

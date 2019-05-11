@@ -32,6 +32,7 @@ class PackageController extends Controller
     { 
         $packagemodels = CoursePackage::find()
         ->where(['onuse' => 1])
+        ->orderBy('position asc')
         ->all();
         return $this->render('list', ['packageLists' => $packagemodels]);
     }
