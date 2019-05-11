@@ -29,6 +29,7 @@ use backend\models\Comment;
 use backend\models\Notice;
 use backend\models\Message;
 use backend\models\Read;
+use backend\models\AdminSession;
 
 /**
  * Site controller
@@ -134,20 +135,31 @@ class SiteController extends Controller
             $username = Yii::$app->user->identity->username; //登录账号
             $ip = Yii::$app->request->userIP; //登录用户主机IP
             $token = md5(sprintf("%s&%s",$id,$ip));  //将用户ID和IP联合加密成token存入表
+
+            $adminSession = AdminSession::find()
+            ->where(['id' => $id])
+            ->one();
+
+            $sessionVal = $adminSession->session_token;
+            
+            if ($token != $sessionVal) {
+                Yii::$app->user->logout();
+                $this->error('您的账号已在别处登录',Yii::$app->urlManager->createUrl('/site/login'),3);
+            }
             
             $session = Yii::$app->session;
             $session->set(md5(sprintf("%s&%s",$id,$username)),$token);  //将token存到session变量中
             //存session token值没必要取键名为$id&$username ,目的是标识用户登录token的键，$id或$username就可以
             
             $model->insertSession($id,$token);//将token存到tbl_admin_session
-            //return $this->goHome();
-            if (strstr(Yii::$app->user->returnUrl, 'signup')) {
-                return $this->goHome();
-            } else {
-                return $this->goBack();
-            }
+            return $this->goHome();
+            // if (strstr(Yii::$app->user->returnUrl, 'signup')) {
+            //     return $this->goHome();
+            // } else {
+            //     return $this->goBack();
+            // }
         } else {
-            Yii::$app->user->setReturnUrl(Yii::$app->request->referrer);
+            //Yii::$app->user->setReturnUrl(Yii::$app->request->referrer);
             return $this->render('login', [
                 'model' => $model,
             ]);
