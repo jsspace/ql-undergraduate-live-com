@@ -60,6 +60,7 @@ class UserController extends ActiveController
             //给注册学员金币
             $gold_service = new GoldService();
             $gold_service->changeUserGold(100,$user->id,4);
+            $data_get = Yii::$app->request->get();
             //如果邀请人是学员，给邀请人添加优惠券
             if (!empty($data['invite'])) {
                 $roles_model = Yii::$app->authManager->getAssignments($data['invite']);
@@ -73,18 +74,20 @@ class UserController extends ActiveController
                     $coupon->end_time = date('Y-m-d H:i:s', time() + 3*30*24*60*60);
                     $coupon->save();
                 }
+            }
+            if ($data_get['invite'] != null && $data_get['invite'] != '') {
                 // 给邀请人发信息
                 $message = new Message();
                 $message->publisher = 1;
                 $message->content = $user->username . "通过你分享的二维码注册了都想学!";
-                $message->classids = $data['invite'];
+                $message->classids = $data_get['invite'];
                 $message->status = 1;
                 $message->publish_time = time();
                 $message->title = '系统消息: 有新人注册啦';
                 if ($message->save()) {
                     $read = new Read();
                     $read->msg_id = $message->msg_id;
-                    $read->userid = $data['invite'];
+                    $read->userid = $data_get['invite'];
                     $read->status = 0;
                     $read->get_time = time();
                     $read->save();
