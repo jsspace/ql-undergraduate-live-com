@@ -91,12 +91,6 @@ class Message extends \yii\db\ActiveRecord
             if ($insert) {
                 $this->publisher = Yii::$app->user->id;
                 $this->created_time = time();
-                $isadmin = User::isAdmin(Yii::$app->user->id);
-                if($isadmin == 1) {
-                    $this->cityid = 'all';
-                } else {
-                    $this->cityid = User::getUserModel(Yii::$app->user->id)->cityid;
-                }
             }
             return true;
         } else {

@@ -317,12 +317,12 @@ class PersonalController extends ActiveController
             $readModel->read_time = time();
             $readModel->save(false);
             $message = Message::findOne($readModel->msg_id);
-            $publisher = User::findOne($message->publisher);
+            //$publisher = User::findOne($message->publisher);
             $message_info = array(
                 'get_time' => date('Y-m-d H:i:s',$readModel->get_time),
                 'title' => $message->title,
                 'content' => $message->content,
-                'publisher' => $publisher->username
+                'publisher' => '系统消息'
             );
             $result['status'] = 0;
             $result['message_info'] = $message_info;
