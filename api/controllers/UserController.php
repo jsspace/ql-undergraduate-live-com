@@ -76,7 +76,7 @@ class UserController extends ActiveController
                 // 给邀请人发信息
                 $message = new Message();
                 $message->publisher = 1;
-                $message->content = "有新学员通过你分享的二维码注册了都想学!";
+                $message->content = '学员'.$user->phone."通过你分享的二维码注册了都想学!";
                 $message->classids = $data['invite'];
                 $message->status = 1;
                 $message->publish_time = time();
