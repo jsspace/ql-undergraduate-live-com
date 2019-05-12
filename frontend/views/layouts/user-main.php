@@ -46,7 +46,7 @@ AppAsset::register($this);
             if (Yii::$app->user->identity->picture) {
                 $avatar_url = Yii::$app->user->identity->picture;
             } else {
-                $avatar_url = '/img/default_head_img.jpg';
+                $avatar_url = '/img/default-avatar.jpg';
             }
         ?>
         <dd class="hthome"><img src="<?= $avatar_url ?>" width="60" height="60" /><span><p><a href="#"><?= Yii::$app->user->identity->username ? Yii::$app->user->identity->username : '尊敬的用户' ?></a></p><p><a href="/">官网首页</a></p></span></dd>

@@ -268,7 +268,7 @@ class User extends \yii\db\ActiveRecord
                 $this->auth_key = Yii::$app->security->generateRandomString();
                 $this->password_hash = Yii::$app->security->generatePasswordHash($this->password);
                 if (empty($this->picture)) {
-                    $this->picture = 'img/default_head_img.jpg';
+                    $this->picture = 'img/default-avatar.jpg';
                 }
                 if (empty($this->percentage)) {
                     $this->percentage = 0;

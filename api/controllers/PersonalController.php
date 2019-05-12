@@ -582,7 +582,7 @@ class PersonalController extends ActiveController
       $access_token = $data['access-token'];
       $user = User::findIdentityByAccessToken($access_token);
       $name = $user->id.'.png';
-      $invite_url = 'https://mobile.kaoben.top/Register?invite='.$user->id.'&name='.$name;
+      $invite_url = 'https://mobile.kaoben.top/RegisterNew?invite='.$user->id.'&name='.$name;
       // $img_src = Url::to(['site/qrcode','url' => $invite_url, 'name' => $user->id.'.png']);
       $qrCode = (new QrCode($invite_url))
         ->setSize(250)

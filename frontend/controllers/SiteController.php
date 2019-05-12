@@ -135,17 +135,6 @@ class SiteController extends Controller
             $username = Yii::$app->user->identity->username; //登录账号
             $ip = Yii::$app->request->userIP; //登录用户主机IP
             $token = md5(sprintf("%s&%s",$id,$ip));  //将用户ID和IP联合加密成token存入表
-
-            $adminSession = AdminSession::find()
-            ->where(['id' => $id])
-            ->one();
-
-            $sessionVal = $adminSession->session_token;
-            
-            if ($token != $sessionVal) {
-                Yii::$app->user->logout();
-                $this->error('您的账号已在别处登录',Yii::$app->urlManager->createUrl('/site/login'),3);
-            }
             
             $session = Yii::$app->session;
             $session->set(md5(sprintf("%s&%s",$id,$username)),$token);  //将token存到session变量中
