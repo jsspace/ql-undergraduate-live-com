@@ -227,16 +227,6 @@ class CourseController extends Controller
         $point = CourseSectionPoints::find()
             ->where(['id' => $point_id])
             ->one();
-        // 如果是教师则直接可以看自己的课
-        if ($user->getId() == $course_info->teacher_id) {
-            $result = array(
-                'status' => 6,
-                'message' => '正在请求观看自己的课程',
-                'url' => $point->video_url,
-                'pic' => $course_info->home_pic
-            );
-            return json_encode($result);
-        }
         if (!empty($point)) {
             if ($point->paid_free == 0) {
                 $result = array(
@@ -250,6 +240,18 @@ class CourseController extends Controller
                 $auth = new Auth(Yii::$app->params['access_key'], Yii::$app->params['secret_key']);
                 $video_url = $auth->privateDownloadUrl($point->video_url, $expires = 3600);
                 $is_member = Course::ismember($course_id, $user->id);/*判断是否是该分类下的会员*/
+
+                // 如果是教师则直接可以看自己的课
+                if ($user->getId() == $course_info->teacher_id) {
+                    $result = array(
+                        'status' => 6,
+                        'message' => '正在请求观看自己的课程',
+                        'url' => $point->video_url,
+                        'pic' => $course_info->home_pic
+                    );
+                    return json_encode($result);
+                }
+
                 if ($is_member == 1) {
                     $result = array(
                         'status' => 4,

@@ -800,4 +800,25 @@ class PersonalController extends ActiveController
       return $duration;
     }
 
+    /* 修改收货信息 */
+    public function actionUpdateAddress() {
+        $data = Yii::$app->request->get();
+        $access_token = $data['access-token'];
+        $address = $data['address'];
+        $result = array();
+        $user = User::findIdentityByAccessToken($access_token);
+        if (!empty($user)) {
+            $user->address = $address;
+            if ($user->save()) {
+                $result['status'] = 0;
+                $result['message'] = '保存成功！';
+                return $result;
+            }
+        } else {
+            $result['status'] = -1;
+            $result['message'] = '保存失败！';
+            return $result;
+        }
+    }
+
 }
