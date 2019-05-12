@@ -202,8 +202,17 @@ class TeacherController extends Controller
                 $my_income[$key]['income'] = round($my_income[$key]['income'], 4);
                 $my_income[$key]['salary'] = round($my_income[$key]['salary'], 4);
                 $withdraw_info = Withdraw::find()
-                    ->where(['user_id' => $user->id, 'withdraw_date' => $my_income[$key]['month']])->one();
-                $my_income[$key]['status'] = !empty($withdraw_info) ? '已结算' : '未结算';
+                ->where(['user_id' => $user->id, 'withdraw_date' => $my_income[$key]['month']])
+                ->one();
+                $status_text = '未结算';
+                if (!empty($withdraw_info)) {
+                    if ($withdraw_info->status === 1) {
+                        $status_text = '已结算';
+                    } else if ($withdraw_info->status === 0) {
+                        $status_text = '申请中';
+                    }
+                }
+                $my_income[$key]['status'] = $status_text;
             }
             $result['status'] = 0;
             $result['my_income'] = $my_income;
