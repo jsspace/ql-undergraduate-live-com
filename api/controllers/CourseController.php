@@ -246,7 +246,7 @@ class CourseController extends Controller
                     $result = array(
                         'status' => 6,
                         'message' => '正在请求观看自己的课程',
-                        'url' => $point->video_url,
+                        'url' => $video_url,
                         'pic' => $course_info->home_pic
                     );
                     return json_encode($result);
