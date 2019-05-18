@@ -67,7 +67,7 @@ class SiteController extends Controller
         $packageModels = CoursePackage::find()
         ->where(['onuse' => 1])
         ->limit(2)
-        ->orderBy('create_time desc')
+        ->orderBy('position asc')
         ->all();
         $packages = array();
         foreach ($packageModels as $key => $package) {
@@ -118,7 +118,7 @@ class SiteController extends Controller
             }
         ])
         ->limit(2)
-        ->orderBy('create_time desc')
+        ->orderBy('position asc')
         ->all();
         $courses = array();
         foreach ($coursesModels as $key => $course) {
