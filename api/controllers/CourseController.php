@@ -6,6 +6,8 @@ use backend\models\Book;
 use backend\models\Collection;
 use backend\models\CoursePackage;
 use backend\models\CourseSectionPoints;
+use backend\models\UserHomework;
+use components\helpers\QiniuUpload;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -599,6 +601,50 @@ class CourseController extends Controller
             $result['course_count'] = $course_count;
             return json_encode($result);
         }
+    }
+
+    /* 个人中心-我的课程-课程作业上传 new*/
+    public function actionHomeworksUpload()
+    {
+        $data = Yii::$app->request->post();
+        $access_token = $data['access-token'];
+        $section_id = $data['section_id'];
+        $course_id = $data['course_id'];
+        $file = $_FILES['file'];
+        $user = \common\models\User::findIdentityByAccessToken($access_token);
+        $img_rootPath = Yii::getAlias("@frontend")."/web/" . Yii::$app->params['upload_img_dir'];
+
+        $model = UserHomework::find()->where(['course_id' => $course_id, 'section_id' => $section_id, 'user_id' => $user->id, 'status' => 1])->one();
+        if (empty($model)) {
+            $model = new UserHomework();
+            $model->user_id = $user->id;
+            $model->course_id = $course_id;
+            $model->section_id = $section_id;
+        }
+        if ($file && $file['error'] == 0) {
+//            $ext = $file->getExtension();
+            $ext = array_pop(explode('.', $file['name']));
+            $randName = time() . rand(1000, 9999) . '.' . $ext;
+            $img_rootPath .= 'user_homework/';
+            if (!file_exists($img_rootPath)) {
+                mkdir($img_rootPath, 0777, true);
+            }
+//            $file->saveAs($img_rootPath . $randName);
+            move_uploaded_file($file['tmp_name'], $img_rootPath . $randName);
+            $folder = 'user_homework';
+            $result = QiniuUpload::uploadToQiniu($file, $img_rootPath . $randName, $folder);
+            if (!empty($result)) {
+                $model->pic_url = $model->pic_url . Yii::$app->params['get_source_host'].'/'.$result[0]['key'] . ';';
+                $model->status = 1;
+                $model->submit_time =  date('Y-m-d H:i:s',time());
+            }
+            @unlink($img_rootPath . $randName);
+            $model->save();
+            sleep(1);
+            return json_encode(['status' => 0, 'msg' => $model->pic_url]);
+        }
+        return json_encode(['status' => -1, 'msg' => '图片为空或图片出错']);
+
     }
 
 }
