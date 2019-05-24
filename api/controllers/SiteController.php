@@ -109,7 +109,7 @@ class SiteController extends Controller
         // 精品课程
         $coursesModels = Course::find()
         ->where(['type' => 1])
-        ->where(['onuse' => 1])
+        ->andWhere(['onuse' => 1])
         ->with([
             'courseChapters' => function($query) {
                 $query->with(['courseSections' => function($query) {
