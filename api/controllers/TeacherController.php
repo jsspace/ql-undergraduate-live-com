@@ -477,8 +477,12 @@ class TeacherController extends Controller
                     $userpic = User::find()->select(['picture'])
                         ->where(['id' => $order_info->user_id])
                         ->one();
+                    $user_head = '';
+                    if (!empty($userpic)) {
+                        $user_head = $userpic->picture;
+                    }
                     $income_content = array(
-                        'pic' => $userpic->picture,
+                        'pic' => $user_head,
                         'consignee' => $order_info->consignee,
                         'status' => '下单',
                         'income' => round($order_info['order_amount'] * $order_ids[$order->goods_id] * 0.2, 4),
