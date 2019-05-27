@@ -374,15 +374,16 @@ class OrderController extends ActiveController
         ->andWhere(['user_id' => $user_id])
         ->andWhere(['pay_status' => 2])
         ->count();
-        if ($invite > 0 && $order_count == 0) {
-            //被邀请会员第一次购买有优惠
-            $perc =Lookup::find()
-            ->where(['type' => 'share_course_discount'])
-            ->one();
-            $order_amount = ((100 - $perc->code) / 100.00) * $goods_amount;
-        } else {
-            $order_amount = $goods_amount;
-        }
+        // if ($invite > 0 && $order_count == 0) {
+        //     //被邀请会员第一次购买有优惠
+        //     $perc =Lookup::find()
+        //     ->where(['type' => 'share_course_discount'])
+        //     ->one();
+        //     $order_amount = ((100 - $perc->code) / 100.00) * $goods_amount;
+        // } else {
+        //     $order_amount = $goods_amount;
+        // }
+        $order_amount = $goods_amount;
         //添加订单信息
         $order_info = new OrderInfo();
         $order_info->order_sn = $order_sn;

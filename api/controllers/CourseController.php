@@ -367,7 +367,7 @@ class CourseController extends Controller
         $courses = Course::find()
         ->where(['onuse' => 1])
         ->andWhere(['type' => 2])
-        ->orderBy('create_time desc')
+        ->orderBy('position asc')
         ->all();
         $result = array();
         foreach ($courses as $key => $course) {

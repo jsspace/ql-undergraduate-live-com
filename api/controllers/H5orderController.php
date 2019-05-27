@@ -225,14 +225,14 @@ class H5orderController extends ActiveController
                                     $user_ids = $user_ids . ',' . $cour->teacher_id;
                                 }
                             }
-                            $user_info = User::find()->select(['username'])->where(['id' => $order_info->user_id])->one();
+                            $user_info = User::find()->select(['phone'])->where(['id' => $order_info->user_id])->one();
                             $user_ids = $user_ids . ',' . $invite;
                             $message = new Message();
                             $message->publisher = 1;
                             $message->title = '系统消息：有人下单啦！';
                             $message->classids = $user_ids;
                             if (!empty($user_info)) {
-                                $message->content = "您的学生" . $user_info->username . "在平台下单啦!  购买了"
+                                $message->content = "您的学生" . $user_info->phone . "在平台下单啦!  购买了"
                                     . $goods->goods_name . ", 总金额为：" . $goods->goods_price . "(元), 您将按照比例获得提成！";
                             } else {
                                 $message->content = "您有学生" . "在平台下单啦!  购买了"

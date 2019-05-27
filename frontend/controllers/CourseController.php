@@ -79,7 +79,7 @@ class CourseController extends Controller
         $courses = Course::find()
         ->where(['onuse' => 1])
         ->andWhere(['type' => 2])
-        ->orderBy('create_time desc');
+        ->orderBy('position asc');
         $pages = new Pagination(['totalCount' => $courses->count(), 'pageSize' => '12']);
         $models = $courses->offset($pages->offset)
         ->limit($pages->limit)

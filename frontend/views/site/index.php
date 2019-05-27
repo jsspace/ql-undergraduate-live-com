@@ -10,7 +10,7 @@ AppAsset::addCss($this,'@web/css/index.css');
 AppAsset::addCss($this,'@web/css/swiper.min.css');
 AppAsset::addCss($this,'@web/css/certify.css');
 
-$this->title = '首页';
+$this->title = '都想学专升本';
 
 $weekarray=array("日","一","二","三","四","五","六"); 
 
