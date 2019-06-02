@@ -146,6 +146,7 @@ class CourseController extends Controller
             'discount' => $courseModel->discount,
             'price' => $courseModel->price,
             'home_pic' => $courseModel->home_pic,
+            'list_pic' => $courseModel->list_pic,
             'view' => $courseModel->view,
             'collection' => $courseModel->collection,
             'online' => $courseModel->online,
@@ -227,15 +228,29 @@ class CourseController extends Controller
         $course_info = Course::find()->select(['home_pic', 'teacher_id'])->where(['id' => $course_id])->one();
 
         $point = CourseSectionPoints::find()
-            ->where(['id' => $point_id])
-            ->one();
+        ->where(['id' => $point_id])
+        ->one();
+
+        /* 获取学员观看日志 */
+        $study_log = UserStudyLog::find()
+        ->where(['userid' => $user->id])
+        ->andWhere(['courseid' => $course_id])
+        ->andWhere(['pointid' => $point_id])
+        ->orderBy('id desc')
+        ->one();
+        $current_time = 0;
+        if ($study_log) {
+            $current_time = $study_log->current_time;
+        }
+
         if (!empty($point)) {
             if ($point->paid_free == 0) {
                 $result = array(
                     'status' => 1,
                     'message' => '正在请求观看免费课程',
                     'url' => $point->video_url,
-                    'pic' => $course_info->home_pic
+                    'pic' => $course_info->home_pic,
+                    'current_time' => $current_time
                 );
                 return json_encode($result);
             } else {
@@ -249,7 +264,8 @@ class CourseController extends Controller
                         'status' => 6,
                         'message' => '正在请求观看自己的课程',
                         'url' => $video_url,
-                        'pic' => $course_info->home_pic
+                        'pic' => $course_info->home_pic,
+                        'current_time' => $current_time
                     );
                     return json_encode($result);
                 }
@@ -272,6 +288,7 @@ class CourseController extends Controller
                 if ($ispay == 1 || $isschool == 1) {
                     $result = array(
                         'status' => 2,
+                        'current_time' => $current_time,
                         'message' => '用户已经购买了该课程，允许观看',
                         'url' => $video_url,
                         'pic' => $course_info->home_pic
@@ -446,6 +463,7 @@ class CourseController extends Controller
             $user = \common\models\User::findIdentityByAccessToken($access_token);
             // 判断用户是否购买该课程
             $isPay = Course::ispay($course_id, $user->id);
+            $studyLog = array();
             if ($isPay != 0) {
                 $course = Course::find()
                     ->where(['id' => $course_id])
@@ -453,15 +471,56 @@ class CourseController extends Controller
                         'courseChapters' => function($query) use($user) {
                             $query->with(['courseSections' => function($query) use($user){
                                 $query->with(['courseSectionPoints' => function($query) use($user) {
-                                    $query->with(['studyLog' => function($query) use($user) {
-                                        $query->where(['userid' => $user->id])->orderBy('id desc')->one();
-                                    }]);
+                                    // $query->with(['studyLog' => function($query) use($user) {
+                                    //     $query->where(['userid' => $user->id])->orderBy('id desc')->one();
+                                    // }]);
                                 }] );
                             }]);
                         },
                         'teacher'
                     ])->asArray()
                     ->one();
+                    foreach($course['courseChapters'] as $k => $courseChapters)
+                    {
+                        foreach($courseChapters['courseSections'] as $k => $courseSections) {
+                            foreach($courseSections['courseSectionPoints'] as $k => $courseSectionPoints) {
+                                $study_log_complete = UserStudyLog::iscomplete($course_id, $courseSectionPoints['id']);
+                                /* 判断是否观看完 */
+                                if ($study_log_complete) {
+                                    $percentage = '100%';
+                                } else {
+                                    /* 获取学员观看日志 */
+                                    $study_log = UserStudyLog::find()
+                                    ->where(['userid' => $user->id])
+                                    ->andWhere(['courseid' => $course_id])
+                                    ->andWhere(['pointid' => $courseSectionPoints['id']])
+                                    ->orderBy('id desc')
+                                    ->one();
+                                    $current_time = 0;
+                                    if ($study_log) {
+                                        $current_time = $study_log->current_time;
+                                    }
+                                    if (!empty($courseSectionPoints['duration'])) {
+                                        $points_arr = explode(':', $courseSectionPoints['duration']);
+                                        
+                                        $seconds = (int)$points_arr[0]*60;
+                                        if (!empty($points_arr[1])) {
+                                            $seconds = $seconds + (int)$points_arr[1];
+                                        }
+                                        if ($seconds === 0) {
+                                            $percentage = 0;
+                                        } else {
+                                            $percentage = number_format($current_time/$seconds, 2, '.', '')*100;
+                                        }
+                                    } else {
+                                        $percentage = 0;
+                                    }
+                                    $percentage = $percentage.'%';
+                                }
+                                $studyLog[$courseChapters['id']][$courseSections['id']][$courseSectionPoints['id']] = $percentage;
+                            }
+                        }
+                    }
             } else {
                 $course = Course::find()
                     ->where(['id' => $course_id])
@@ -492,6 +551,7 @@ class CourseController extends Controller
         $result['status'] = 0;
         $result['course'] = $course;
         $result['ispay'] = $isPay;
+        $result['studyLog'] = $studyLog;
         return json_encode($result);
     }
 
@@ -646,5 +706,51 @@ class CourseController extends Controller
         return json_encode(['status' => -1, 'msg' => '图片为空或图片出错']);
 
     }
-
+    public function actionAddlog() {
+        $get = Yii::$app->request->get();
+        $access_token = $get['access-token'];
+        $user = \common\models\User::findIdentityByAccessToken($access_token);
+        $data = Yii::$app->request->post();
+        $result = array();
+        if ($user) {
+            $userid = $user->id;
+            $course_id = $data['courseId'];
+            $point_id = $data['pointId'];
+            $current_time = $data['currentTime'];
+            $point = CourseSectionPoints::find()
+            ->where(['id' => $point_id])
+            ->one();
+            $points_arr = explode(':', $point->duration);
+            $seconds = $points_arr[0]*60 + $points_arr[1];
+            $start = strtotime(date('Y-m-d 00:00:00'));
+            $end = strtotime(date('Y-m-d H:i:s'));
+            $model = UserStudyLog::find()
+            ->where(['userid' => $userid])
+            ->andWhere(['courseid' => $course_id])
+            ->andWhere(['pointid' => $point_id])
+            ->andWhere(['between', 'start_time', $start, $end])
+            ->one();
+            if (empty($model)) {
+                $model = new UserStudyLog();
+                $model->userid = $userid;
+                $model->start_time = time();
+                $model->duration = 1;
+                $model->courseid = $course_id;
+                $model->pointid = $point_id;
+            } else {
+                $model->duration = intval($model->duration)+1;
+            }
+            if ($current_time>=$seconds) {
+                $model->iscomplete = 1;
+            }
+            $model->current_time = $current_time;
+            $model->save(false);
+            $result['status'] = 2;
+            $result['msg'] = '保存成功';
+        } else {
+            $result['status'] = 0;//'游客
+            $result['msg'] = '游客';
+        }
+        return json_encode($result);
+    }
 }
