@@ -42,12 +42,14 @@ class PackageController extends Controller
                 $user = User::find()
                 ->where(['id' => $teacher])
                 ->one();
-                $model = array(
-                    'id' => $user->id,
-                    'name' => $user->username,
-                    'pic' => $user->picture
-                );
-                $teachers[] = $model;
+                if(!empty($user)) {
+                    $model = array(
+                        'id' => $user->id,
+                        'name' => $user->username,
+                        'pic' => $user->picture
+                    );
+                    $teachers[] = $model;
+                }
             }
             $content['teacher'] = $teachers;
             $packages[] = $content;
