@@ -458,12 +458,12 @@ class CourseController extends Controller
         $access_token = '';
         $course_id = $data['course_id'];
         $isPay = 0;
+        $studyLog = array();
         if (!empty($data['access-token'])) {
             $access_token = $data['access-token'];
             $user = \common\models\User::findIdentityByAccessToken($access_token);
             // 判断用户是否购买该课程
             $isPay = Course::ispay($course_id, $user->id);
-            $studyLog = array();
             if ($isPay != 0) {
                 $course = Course::find()
                     ->where(['id' => $course_id])
