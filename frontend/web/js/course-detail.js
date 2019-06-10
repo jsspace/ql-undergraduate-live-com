@@ -425,6 +425,15 @@ var courseDetail = {
                 }
             });
         })
+        $('.section-homework').on('click', function() {
+            layer.open({
+                type: 1,
+                title: '作业详情',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '240px'], //宽高
+                content: $(this).attr('data-value')
+            });
+        })
     },
     // 习题答案
     answerCtr: function () {

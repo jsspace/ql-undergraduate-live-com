@@ -453,6 +453,9 @@
 .tag-content.zuoye #explain {
     cursor: pointer;
 }
+.layui-layer-content {
+    padding: 10px;
+}
 .tag-content.qa p {
     padding-left: 10px;
     font-size: 14px;
