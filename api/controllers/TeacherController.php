@@ -22,6 +22,9 @@ use backend\models\OrderInfo;
 
 class TeacherController extends Controller
 {
+
+    const INCOMEP = 0.15; // 教师收益提成
+
     /* 过滤器实现认证 */
     public function behaviors()
     {
@@ -93,7 +96,7 @@ class TeacherController extends Controller
                     ->andWhere(['order_status' => 1])
                     ->one();
                 if (!empty($order_info)) {
-                    $income = $income + ($order_info->order_amount * $order_ids[$order->goods_id] * 0.2);
+                    $income = $income + ($order_info->order_amount * $order_ids[$order->goods_id] * self::INCOMEP);
                 }
             }
             // 3、计算已结算金额
@@ -176,8 +179,8 @@ class TeacherController extends Controller
                 if (!empty($order_info)) {
                     $income_arr[] = array(
                         'month' => $order_info['month'],
-                        'income' => $order_info['order_amount'],
-                        'salary' => $order_info['order_amount'] * $order_ids[$order->goods_id] * 0.2
+                        'income' => $order_info['order_amount'] * $order_ids[$order->goods_id],
+                        'salary' => $order_info['order_amount'] * $order_ids[$order->goods_id] * self::INCOMEP
                     );
                 }
             }
@@ -291,8 +294,8 @@ class TeacherController extends Controller
                 if (!empty($order_info)) {
                     $income_arr[] = array(
                         'month' => $order_info['month'],
-                        'income' => $order_info['order_amount'],
-                        'salary' => $order_info['order_amount'] * $order_ids[$order->goods_id] * 0.2
+                        'income' => $order_info['order_amount'] * $order_ids[$order->goods_id],
+                        'salary' => $order_info['order_amount'] * $order_ids[$order->goods_id] * self::INCOMEP
                     );
                 }
             }
@@ -396,7 +399,7 @@ class TeacherController extends Controller
                         'pic' => $userpic->picture,
                         'consignee' => $order_info->consignee,
                         'status' => '下单',
-                        'income' => round($order_info['order_amount'] * $order_ids[$order->goods_id] * 0.2, 4),
+                        'income' => round($order_info['order_amount'] * $order_ids[$order->goods_id] * self::INCOMEP, 4),
                         'pay_time' => date('Y-m-d H:i:s', $order_info->pay_time)
                     );
                     $income_detail[] = $income_content;
@@ -485,7 +488,7 @@ class TeacherController extends Controller
                         'pic' => $user_head,
                         'consignee' => $order_info->consignee,
                         'status' => '下单',
-                        'income' => round($order_info['order_amount'] * $order_ids[$order->goods_id] * 0.2, 4),
+                        'income' => round($order_info['order_amount'] * $order_ids[$order->goods_id] * self::INCOMEP, 4),
                         'pay_time' => date('Y-m-d H:i:s', $order_info->pay_time)
                     );
                     $income_detail[] = $income_content;

@@ -682,14 +682,15 @@ class CourseController extends Controller
             $model->section_id = $section_id;
         }
         if ($file && $file['error'] == 0) {
-//            $ext = $file->getExtension();
-            $ext = array_pop(explode('.', $file['name']));
+            // $ext = $file->getExtension();
+            $name = explode('.', $file['name']);
+            $ext = array_pop($name);
             $randName = time() . rand(1000, 9999) . '.' . $ext;
             $img_rootPath .= 'user_homework/';
             if (!file_exists($img_rootPath)) {
                 mkdir($img_rootPath, 0777, true);
             }
-//            $file->saveAs($img_rootPath . $randName);
+//          $file->saveAs($img_rootPath . $randName);
             move_uploaded_file($file['tmp_name'], $img_rootPath . $randName);
             $folder = 'user_homework';
             $result = QiniuUpload::uploadToQiniu($file, $img_rootPath . $randName, $folder);

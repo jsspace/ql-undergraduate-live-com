@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\User;
 use backend\models\Course;
+use backend\models\CoursePackage;
 use backend\models\TeacherSearch;
 use backend\models\OrderInfo;
 use backend\models\OrderGoods;
@@ -22,6 +23,7 @@ use components\helpers\QiniuUpload;
  */
 class TeacherController extends Controller
 {
+    const INCOMEP = 0.15; // 教师收益提成
     /**
      * @inheritdoc
      */
@@ -236,7 +238,7 @@ class TeacherController extends Controller
                     $t_total_price += $course_item->discount;
                 }
             }
-            $teacher_income += $t_total_price/$course_total_price*$order_money*0.5;
+            $teacher_income += $t_total_price/$course_total_price*$order_money*self::INCOMEP;
         }
         $teacher_total_income = round($teacher_income, 2);
         
@@ -271,6 +273,190 @@ class TeacherController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    // 按月统计收入明细
+    public function actionOrder($userid, $username) {
+        if (!empty($userid)) {
+            // 1、查找属于自己的课程
+            $order_ids = array();   // 记录自己课程（套餐）的id并记录所占比例
+            $courses_arr = array();
+            $courses = Course::find()->select(['id'])->where(['teacher_id' => $userid])->all();
+            foreach ($courses as $course) {
+                $order_ids[$course->id] = 1;
+                $courses_arr[] = $course->id;
+            }
+            // 2、查找套餐内包含自己课程的套餐
+            $packges = CoursePackage::find()->select(['id', 'course', 'discount'])->all();
+            foreach ($packges as $package) {
+                // 求数据交集，查看哪门套餐包含自己的课程
+                $pack_courses_arr = explode(',', $package->course);
+                $inter_arr = array_intersect($courses_arr, $pack_courses_arr);
+                $include_arr = array_values($inter_arr);    // 该数组包含了每一个套餐内所含自己课程的数组
+
+                if (count($include_arr) != 0) {
+                    // 计算每个套餐内自己课程所占的比例
+                    $pack_totle_discount = 0.0;
+                    $include_totle_discount = 0.0;
+                    $pack_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $pack_courses_arr])
+                        ->all();
+                    // 计算套餐内所有单门课程的售价总和
+                    foreach ($pack_courses as $pack_course) {
+                        $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+                    }
+                    $include_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $include_arr])
+                        ->all();
+                    // 计算套餐内自己课程的售价总和
+                    foreach ($include_courses as $include_course) {
+                        $include_totle_discount = $include_totle_discount + $include_course->discount;
+                    }
+                    $rate = $include_totle_discount / $pack_totle_discount;
+                    $order_ids[$package->id] = $rate;
+                }
+            }
+            // 查找订单信息，计算收益
+            $orders = OrderGoods::find()
+                ->select(['order_sn', 'goods_id'])
+                ->where(['in', 'goods_id', array_keys($order_ids)])
+                ->all();
+            $income_arr = array();
+            foreach ($orders as $order) {
+                $order_sn[] = $order->order_sn;
+                $order_info = OrderInfo::find()
+                    ->select(['consignee', 'order_amount', "DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m') as month"])
+                    ->where(['order_sn' => $order->order_sn])
+                    ->andWhere(['pay_status' => 2])
+                    ->andWhere(['order_status' => 1])
+                    ->asArray()->one();
+                if (!empty($order_info)) {
+                    $income_arr[] = array(
+                        'month' => $order_info['month'],
+                        'income' => $order_info['order_amount'] * $order_ids[$order->goods_id],
+                        'salary' => $order_info['order_amount'] * $order_ids[$order->goods_id] * self::INCOMEP
+                    );
+                }
+            }
+
+            // 将月份相同的课程收益合并
+            $my_income = array();
+            for ($i = 0; $i < count($income_arr)-1; $i++) {
+                for ($j = 0; $j < count($income_arr); $j++) {
+                    if ($income_arr[$i]['month'] == $income_arr[$j]['month'] and $i != $j) {
+                        $income_arr[$i]['income'] += $income_arr[$j]['income'] ;
+                        $income_arr[$i]['salary'] += $income_arr[$j]['salary'] ;
+                        unset($income_arr[$j]);
+                        $income_arr = array_values($income_arr);
+                        $j = $j-1;
+                    }
+                }
+            }
+            $my_income = $income_arr;
+            // 对结果按照月份降序排序
+            array_multisort(array_column($my_income,'month'),SORT_DESC,$my_income);
+            foreach ($my_income as $key => $item) {
+                $my_income[$key]['income'] = round($my_income[$key]['income'], 4);
+                $my_income[$key]['salary'] = round($my_income[$key]['salary'], 4);
+                $withdraw_info = Withdraw::find()
+                ->where(['user_id' => $userid, 'withdraw_date' => $my_income[$key]['month']])
+                ->one();
+                $status_text = '未结算';
+                if (!empty($withdraw_info)) {
+                    if ($withdraw_info->status === 1) {
+                        $status_text = '已结算';
+                    } else if ($withdraw_info->status === 0) {
+                        $status_text = '申请中';
+                    }
+                }
+                $my_income[$key]['status'] = $status_text;
+            }
+            return $this->render('order',[
+                'income' => $my_income,
+                'userid' => $userid,
+                'username' => $username
+            ]);
+        }
+    }
+    // 具体月份收益明细（直接和间接）@zhang
+    public function actionOrderDetail($userid, $month, $username) {
+        $result = array();
+        if (!empty($userid)) {
+            // 1、查找属于自己的课程
+            $order_ids = array();   // 记录自己课程（套餐）的id并记录所占比例
+            $courses_arr = array();
+            $courses = Course::find()->select(['id'])->where(['teacher_id' => $userid])->all();
+            foreach ($courses as $course) {
+                $order_ids[$course->id] = 1;
+                $courses_arr[] = $course->id;
+            }
+            // 2、查找套餐内包含自己课程的套餐
+            $packges = CoursePackage::find()->select(['id', 'course', 'discount'])->all();
+            foreach ($packges as $package) {
+                // 求数据交集，查看哪门套餐包含自己的课程
+                $pack_courses_arr = explode(',', $package->course);
+                $inter_arr = array_intersect($courses_arr, $pack_courses_arr);
+                $include_arr = array_values($inter_arr);    // 该数组包含了每一个套餐内所含自己课程的数组
+                if (count($include_arr) != 0) {
+                    // 计算每个套餐内自己课程所占的比例
+                    $pack_totle_discount = 0.0;
+                    $include_totle_discount = 0.0;
+                    $pack_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $pack_courses_arr])
+                        ->all();
+                    // 计算套餐内所有单门课程的售价总和
+                    foreach ($pack_courses as $pack_course) {
+                        $pack_totle_discount = $pack_totle_discount + $pack_course->discount;
+                    }
+                    $include_courses = Course::find()->select(['discount'])
+                        ->where(['in', 'id', $include_arr])
+                        ->all();
+                    // 计算套餐内自己课程的售价总和
+                    foreach ($include_courses as $include_course) {
+                        $include_totle_discount = $include_totle_discount + $include_course->discount;
+                    }
+                    $rate = $include_totle_discount / $pack_totle_discount;
+                    $order_ids[$package->id] = $rate;
+                }
+            }
+            // 查找订单信息，计算收益
+            $orders = OrderGoods::find()
+                ->select(['order_sn', 'goods_id'])
+                ->where(['in', 'goods_id', array_keys($order_ids)])
+                ->all();
+            $income_detail = array();
+            foreach ($orders as $order) {
+                $order_sn[] = $order->order_sn;
+                $order_info = OrderInfo::find()
+                    ->select(['consignee', 'order_amount', 'user_id', 'pay_time'])
+                    ->where(['order_sn' => $order->order_sn])
+                    ->andWhere(["DATE_FORMAT(FROM_UNIXTIME(pay_time, '%Y-%m-%d'), '%Y-%m')" => $month])
+                    ->andWhere(['pay_status' => 2])
+                    ->andWhere(['order_status' => 1])
+                    ->one();
+                if (!empty($order_info)) {
+                    $userpic = User::find()->select(['picture'])
+                        ->where(['id' => $order_info->user_id])
+                        ->one();
+                    $user_head = '';
+                    if (!empty($userpic)) {
+                        $user_head = $userpic->picture;
+                    }
+                    $income_content = array(
+                        'pic' => $user_head,
+                        'consignee' => $order_info->consignee,
+                        'order_amount' => $order_info['order_amount'],
+                        'status' => '下单',
+                        'income' => round($order_info['order_amount'] * $order_ids[$order->goods_id] * self::INCOMEP, 4),
+                        'pay_time' => date('Y-m-d H:i:s', $order_info->pay_time)
+                    );
+                    $income_detail[] = $income_content;
+                }
+            }
+            return $this->render('order-detail',[
+                'income' => $income_detail,
+                'username' => $username
+            ]);
         }
     }
 }

@@ -11,6 +11,9 @@
 	padding: 0 8px;
 	font-size: 12px;
 }
+.teacher-earnings ul li {
+	width: 20%;
+}
 .market-earnings ul.title li {
 	font-weight: bold;
 	font-weight: bold;

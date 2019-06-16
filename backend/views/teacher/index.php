@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'=>'收入统计',
                 'format'=>'raw',
                 'value' => function($model){
-                    $url = Url::to(['teacher/income-statistics', 'userid' => $model->id]);
+                    $url = Url::to(['teacher/order', 'userid' => $model->id, 'username' => $model->username]);
                     return Html::a('收入统计', $url);
                 }
             ],
